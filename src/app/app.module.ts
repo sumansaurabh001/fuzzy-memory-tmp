@@ -7,7 +7,8 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {HttpClientModule} from '@angular/common/http';
 
 import {
-  MatButtonModule, MatCardModule, MatDatepickerModule, MatDialogModule, MatIconModule, MatInputModule, MatListModule, MatMenuModule,
+  MatButtonModule, MatCardModule, MatDatepickerModule, MatDialogModule, MatExpansionModule, MatIconModule, MatInputModule, MatListModule,
+  MatMenuModule,
   MatPaginatorModule,
   MatProgressSpinnerModule, MatSelectModule,
   MatSidenavModule,
@@ -52,6 +53,7 @@ import { EditCourseLessonsComponent } from './edit-course-lessons/edit-course-le
     MatSelectModule,
     MatDatepickerModule,
     MatMomentDateModule,
+    MatExpansionModule,
     ReactiveFormsModule,
     FlexLayoutModule
   ],
