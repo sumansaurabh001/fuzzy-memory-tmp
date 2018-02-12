@@ -4,4 +4,7 @@
   min-width: 1000px;
 }
 
-
+:host ::ng-deep .mat-tab-label  {
+  text-transform: uppercase;
+  font-weight: bold;
+}
