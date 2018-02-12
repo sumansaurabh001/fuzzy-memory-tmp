@@ -20,6 +20,7 @@ import {ReactiveFormsModule} from '@angular/forms';
 import {MatMomentDateModule} from '@angular/material-moment-adapter';
 import {AppRoutingModule} from './app-routing.module';
 import { EditCourseComponent } from './edit-course/edit-course.component';
+import {FlexLayoutModule} from '@angular/flex-layout';
 
 
 @NgModule({
@@ -49,7 +50,8 @@ import { EditCourseComponent } from './edit-course/edit-course.component';
     MatSelectModule,
     MatDatepickerModule,
     MatMomentDateModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    FlexLayoutModule
   ],
   providers: [],
   bootstrap: [AppComponent]
