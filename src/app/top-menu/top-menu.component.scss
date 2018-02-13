@@ -4,9 +4,30 @@
 .top-menu {
   position: fixed;
   z-index: 2;
+  display: flex;
 
   & span {
     font-size: 16px;
     text-transform: uppercase;
   }
 }
+
+
+
+.mobile-menu {
+    display: none;
+}
+
+
+// lt-md
+@media screen and (max-width: 959px) {
+
+  .mobile-menu {
+    display: inline;
+  }
+
+  .desktop-menu {
+    display: none;
+  }
+}
+
