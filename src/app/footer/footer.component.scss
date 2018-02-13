@@ -3,9 +3,11 @@
 
 
 :host {
-  margin-top: 150px;
+  margin-top: 300px;
   background: #66bb6a;
   color: $light-primary-text;
   height: 150px;
-
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
