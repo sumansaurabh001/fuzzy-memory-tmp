@@ -1,5 +1,5 @@
-
 @import "~@angular/material/theming";
+@import "../common";
 
 .section-number {
   font-weight: bold;
@@ -50,4 +50,19 @@
 
 .add-section {
   margin-top: 10px;
+}
+
+.help-bar {
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  color: $dark-secondary-text;
+  font-size: 12px;
+  margin-right: 15px;
+  margin-top: 10px;
+  span {
+    margin-right: 2px;
+  }
+  @include mat-icon-size(17px);
 }
