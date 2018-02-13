@@ -1,4 +1,6 @@
 
+@import "common";
+
 
 ::ng-deep body {
   margin: 0;
@@ -21,6 +23,3 @@ main {
 }
 
 
-.filler {
-  flex: 1 1 auto;
-}
