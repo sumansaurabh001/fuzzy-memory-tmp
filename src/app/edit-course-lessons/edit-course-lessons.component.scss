@@ -10,7 +10,7 @@
 }
 
 .course-section {
-  margin: 25px 15px;
+  margin: 15px 15px;
   background: rgba(0, 0, 0, .03);
   padding: 30px 15px 15px 15px;
 }
@@ -31,15 +31,14 @@
   margin-top: 15px;
   display: flex;
   justify-content: flex-end;
-  color:$dark-secondary-text;
   align-items: center;
 }
 
 .section-button {
   margin-right: 10px;
     span {
-      vertical-align: middle;
       margin-right: 3px;
+      color:$dark-secondary-text;
     }
 }
 
@@ -63,7 +62,7 @@
 }
 
 .lessons-toolbar {
-  height: 30px;
+  height: 50px;
   display: flex;
   align-items: center;
   justify-content: flex-end;
@@ -74,7 +73,6 @@
     color: $dark-secondary-text;
     font-size: 12px;
     margin-right: 15px;
-    margin-top: 10px;
     span {
       margin-right: 2px;
     }
