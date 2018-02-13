@@ -1,5 +1,5 @@
 
-@import "common";
+
 
 
 ::ng-deep body {
@@ -7,15 +7,7 @@
 }
 
 
-.menu {
-  position: fixed;
-  z-index: 2;
 
-  & span {
-    font-size: 16px;
-    text-transform: uppercase;
-  }
-}
 
 
 main {

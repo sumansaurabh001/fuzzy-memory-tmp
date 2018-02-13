@@ -25,6 +25,8 @@ import {FlexLayoutModule} from '@angular/flex-layout';
 import { EditCourseLessonsComponent } from './edit-course-lessons/edit-course-lessons.component';
 import { EditLessonComponent } from './edit-lesson/edit-lesson.component';
 import { FooterComponent } from './footer/footer.component';
+import { CoursesComponent } from './courses/courses.component';
+import { TopMenuComponent } from './top-menu/top-menu.component';
 
 
 @NgModule({
@@ -33,7 +35,9 @@ import { FooterComponent } from './footer/footer.component';
     EditCourseComponent,
     EditCourseLessonsComponent,
     EditLessonComponent,
-    FooterComponent
+    FooterComponent,
+    CoursesComponent,
+    TopMenuComponent
   ],
   imports: [
     BrowserModule,
