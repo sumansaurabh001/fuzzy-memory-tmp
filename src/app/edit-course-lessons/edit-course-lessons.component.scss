@@ -8,12 +8,20 @@
 }
 
 .course-section {
-  margin: 30px 10px;
+  margin: 25px 15px;
   background: rgba(0, 0, 0, .03);
-  padding: 30px;
+  padding: 30px 15px 15px 15px;
 }
 
 
 .section-title-text {
   font-weight: normal;
+}
+
+
+.lecture-number {
+  width: 95px;
+}
+.mat-expansion-panel-header-title {
+  flex-grow: 0;
 }
