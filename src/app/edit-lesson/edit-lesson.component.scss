@@ -1,7 +1,9 @@
 
-.video-details {
+@import "../common";
 
+.video-details {
   display: flex;
+  margin-top: 20px;
   .video-text-details {
     margin-left: 20px;
   }
@@ -9,7 +11,34 @@
   img {
     height: 70px;
   }
+}
+
+.filename {
+  display: flex;
+  align-items: center;
+  .delete-lesson {
+    margin-top: 5px;
+    margin-left: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    color: $text-color;
+  }
+}
 
 
+.lesson-description {
+  margin-top: 20px;
+  width: 100%;
+}
 
+
+.lesson-actions {
+  margin-top: 30px;
+  margin-bottom: 10px;
+   display: flex;
+   align-items: flex-end;
+
+  button {
+    margin-right: 5px;
+  }
 }

@@ -8,6 +8,7 @@
 
 .menu {
   position: fixed;
+  z-index: 2;
 
   & span {
     font-size: 16px;

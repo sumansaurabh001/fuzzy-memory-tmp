@@ -11,7 +11,7 @@ import {
   MatMenuModule,
   MatPaginatorModule,
   MatProgressSpinnerModule, MatSelectModule,
-  MatSidenavModule,
+  MatSidenavModule, MatSlideToggleModule,
   MatSortModule,
   MatTableModule,
   MatTabsModule, MatToolbarModule
@@ -56,6 +56,7 @@ import { EditLessonComponent } from './edit-lesson/edit-lesson.component';
     MatDatepickerModule,
     MatMomentDateModule,
     MatExpansionModule,
+    MatSlideToggleModule,
     ReactiveFormsModule,
     FlexLayoutModule
   ],

@@ -1,4 +1,6 @@
 
+<mat-divider></mat-divider>
+
 
 <div class="video-details">
 
@@ -6,11 +8,38 @@
 
   <div class="video-text-details">
 
-    <div>02 Installing Git, Node, NPM and Choosing an IDE.mp4</div>
+    <div class="filename">
+      <span>02 Installing Git, Node, NPM and Choosing an IDE.mp4</span>
+      <mat-icon class="delete-lesson">delete</mat-icon>
+    </div>
 
     <div>04:17</div>
 
   </div>
 
+</div>
+
+<mat-form-field class="lesson-description">
+  <mat-label>Lesson Description</mat-label>
+  <textarea class="lesson-description" matInput placeholder="(Optional)"></textarea>
+</mat-form-field>
+
+<mat-slide-toggle color="primary">
+  Free Preview
+</mat-slide-toggle>
+
+
+<div class="lesson-actions">
+
+  <div class="filler"></div>
+
+  <button mat-raised-button color="warn">Unpublish</button>
+
+  <button mat-raised-button>Replace Video</button>
+
+  <button mat-raised-button color="primary" disabled>Save</button>
+
+  <button mat-raised-button color="primary">Publish Now</button>
 
 </div>
+
