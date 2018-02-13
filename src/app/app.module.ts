@@ -23,13 +23,15 @@ import {AppRoutingModule} from './app-routing.module';
 import { EditCourseComponent } from './edit-course/edit-course.component';
 import {FlexLayoutModule} from '@angular/flex-layout';
 import { EditCourseLessonsComponent } from './edit-course-lessons/edit-course-lessons.component';
+import { EditLessonComponent } from './edit-lesson/edit-lesson.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     EditCourseComponent,
-    EditCourseLessonsComponent
+    EditCourseLessonsComponent,
+    EditLessonComponent
   ],
   imports: [
     BrowserModule,
