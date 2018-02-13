@@ -1,0 +1,11 @@
+
+@import "~@angular/material/theming";
+
+
+:host {
+  margin-top: 150px;
+  background: #66bb6a;
+  color: $light-primary-text;
+  height: 150px;
+
+}
