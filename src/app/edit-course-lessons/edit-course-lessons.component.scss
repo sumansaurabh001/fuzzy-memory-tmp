@@ -25,3 +25,17 @@
 .mat-expansion-panel-header-title {
   flex-grow: 0;
 }
+
+
+.section-buttons {
+  margin-top: 15px;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+}
+
+
+.add-lesson {
+  margin-right: 10px;
+  margin-bottom: 5px;
+}
