@@ -31,6 +31,16 @@
   margin-top: 15px;
   display: flex;
   justify-content: flex-end;
+  color:$dark-secondary-text;
+  align-items: center;
+}
+
+.section-button {
+  margin-right: 10px;
+    span {
+      vertical-align: middle;
+      margin-right: 3px;
+    }
 }
 
 .add-lesson {
@@ -52,17 +62,23 @@
   margin-top: 10px;
 }
 
-.help-bar {
+.lessons-toolbar {
   height: 30px;
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  color: $dark-secondary-text;
-  font-size: 12px;
-  margin-right: 15px;
-  margin-top: 10px;
-  span {
-    margin-right: 2px;
+
+  .help {
+    display: flex;
+    align-items: center;
+    color: $dark-secondary-text;
+    font-size: 12px;
+    margin-right: 15px;
+    margin-top: 10px;
+    span {
+      margin-right: 2px;
+    }
+    @include mat-icon-size(17px);
   }
-  @include mat-icon-size(17px);
+
 }
