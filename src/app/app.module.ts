@@ -34,6 +34,7 @@ import {AngularFirestoreModule} from 'angularfire2/firestore';
 import { CourseComponent } from './course/course.component';
 import { CourseLandingPageComponent } from './course-landing-page/course-landing-page.component';
 import { EditLessonsToolbarComponent } from './edit-lessons-toolbar/edit-lessons-toolbar.component';
+import {NgxWigModule} from 'ngx-wig';
 
 
 @NgModule({
@@ -76,6 +77,7 @@ import { EditLessonsToolbarComponent } from './edit-lessons-toolbar/edit-lessons
     MatGridListModule,
     ReactiveFormsModule,
     FlexLayoutModule,
+    NgxWigModule,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFirestoreModule
   ],

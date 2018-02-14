@@ -35,12 +35,6 @@ $dark-text-color: rgba(40, 51, 54, 0.8);
 }
 
 
-.row {
-  display: flex;
-  flex-direction: row;
-}
-
-.column {
-  display: flex;
-  flex-direction: column;
+.form-label {
+  color: $dark-text-color;
 }
