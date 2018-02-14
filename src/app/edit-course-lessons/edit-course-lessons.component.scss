@@ -45,7 +45,7 @@
   font-size: 15px;
     span {
       margin-right: 3px;
-      color:$dark-secondary-text;
+      color:$dark-text-color;
     }
 }
 
@@ -61,30 +61,10 @@
   align-items: center;
   margin-top: 120px;
   margin-bottom: 10px;
-  color: $dark-secondary-text;
+  color: $dark-text-color;
 }
 
 .add-section {
   margin-top: 10px;
 }
 
-.edit-lessons-toolbar {
-  height: 50px;
-  display: flex;
-  align-items: center;
-  padding-left: 30px;
-  margin-top: 20px;
-
-  .help {
-    display: flex;
-    align-items: center;
-    color: $dark-secondary-text;
-    font-size: 12px;
-    margin-right: 15px;
-    span {
-      margin-right: 2px;
-    }
-    @include mat-icon-size(17px);
-  }
-
-}
