@@ -27,3 +27,9 @@ $dark-text-color: rgba(26,35,38,.8);
   justify-content: center;
   color: $dark-text-color;
 }
+
+.page-section {
+  display: flex;
+  justify-content: center;
+  align-content: center;
+}
