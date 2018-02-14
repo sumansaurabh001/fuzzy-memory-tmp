@@ -31,6 +31,7 @@ import { TopMenuComponent } from './top-menu/top-menu.component';
 import {AngularFireModule} from 'angularfire2';
 import { environment } from '../environments/environment';
 import {AngularFirestoreModule} from 'angularfire2/firestore';
+import { CourseComponent } from './course/course.component';
 
 
 @NgModule({
@@ -41,7 +42,8 @@ import {AngularFirestoreModule} from 'angularfire2/firestore';
     EditLessonComponent,
     FooterComponent,
     CoursesComponent,
-    TopMenuComponent
+    TopMenuComponent,
+    CourseComponent
   ],
   imports: [
     BrowserModule,
