@@ -32,6 +32,7 @@ import {AngularFireModule} from 'angularfire2';
 import { environment } from '../environments/environment';
 import {AngularFirestoreModule} from 'angularfire2/firestore';
 import { CourseComponent } from './course/course.component';
+import { CourseLandingPageComponent } from './course-landing-page/course-landing-page.component';
 
 
 @NgModule({
@@ -43,7 +44,8 @@ import { CourseComponent } from './course/course.component';
     FooterComponent,
     CoursesComponent,
     TopMenuComponent,
-    CourseComponent
+    CourseComponent,
+    CourseLandingPageComponent
   ],
   imports: [
     BrowserModule,
