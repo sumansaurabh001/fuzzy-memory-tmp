@@ -7,7 +7,8 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {HttpClientModule} from '@angular/common/http';
 
 import {
-  MatButtonModule, MatCardModule, MatDatepickerModule, MatDialogModule, MatExpansionModule, MatIconModule, MatInputModule, MatListModule,
+  MatButtonModule, MatCardModule, MatDatepickerModule, MatDialogModule, MatExpansionModule, MatGridListModule, MatIconModule,
+  MatInputModule, MatListModule,
   MatMenuModule,
   MatPaginatorModule,
   MatProgressSpinnerModule, MatSelectModule,
@@ -63,6 +64,7 @@ import { TopMenuComponent } from './top-menu/top-menu.component';
     MatMomentDateModule,
     MatExpansionModule,
     MatSlideToggleModule,
+    MatGridListModule,
     ReactiveFormsModule,
     FlexLayoutModule
   ],
