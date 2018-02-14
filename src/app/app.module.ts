@@ -28,6 +28,9 @@ import { EditLessonComponent } from './edit-lesson/edit-lesson.component';
 import { FooterComponent } from './footer/footer.component';
 import { CoursesComponent } from './courses/courses.component';
 import { TopMenuComponent } from './top-menu/top-menu.component';
+import {AngularFireModule} from 'angularfire2';
+import { environment } from '../environments/environment';
+import {AngularFirestoreModule} from 'angularfire2/firestore';
 
 
 @NgModule({
@@ -66,7 +69,9 @@ import { TopMenuComponent } from './top-menu/top-menu.component';
     MatSlideToggleModule,
     MatGridListModule,
     ReactiveFormsModule,
-    FlexLayoutModule
+    FlexLayoutModule,
+    AngularFireModule.initializeApp(environment.firebase),
+    AngularFirestoreModule
   ],
   providers: [],
   bootstrap: [AppComponent]
