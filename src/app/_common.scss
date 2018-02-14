@@ -11,7 +11,7 @@
   flex: 1 1 auto;
 }
 
-$text-color: rgba(0, 0, 0, 0.7);
+$dark-text-color: rgba(26,35,38,.8);
 
 .draggable {
   cursor: move;
@@ -19,4 +19,11 @@ $text-color: rgba(0, 0, 0, 0.7);
 
 .desktop-container {
   min-width: 1000px;
+}
+
+
+.page-title {
+    display: flex;
+  justify-content: center;
+  color: $dark-text-color;
 }
