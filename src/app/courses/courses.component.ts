@@ -24,6 +24,8 @@ export class CoursesComponent implements OnInit {
     const dialogConfig = new MatDialogConfig();
 
     dialogConfig.autoFocus = true;
+    dialogConfig.disableClose = true;
+    dialogConfig.minWidth = "500px";
 
     const dialogRef = this.dialog.open(AddCourseDialogComponent, dialogConfig);
 

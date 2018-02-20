@@ -4,7 +4,7 @@
 <h2 mat-dialog-title>Create New Course</h2>
 
 
-<mat-dialog-content [formGroup]="form">
+<mat-dialog-content [formGroup]="form" class="single-col-form">
 
   <mat-form-field>
 
@@ -15,9 +15,18 @@
   </mat-form-field>
 
 
+  <mat-form-field>
+
+    <input matInput
+           placeholder="Course Url"
+           formControlName="url">
+
+  </mat-form-field>
+
+
 </mat-dialog-content>
 
-<mat-dialog-actions>
+<mat-dialog-actions class="dialog-actions">
 
   <button class="mat-raised-button"
           (click)="close()">
@@ -26,7 +35,7 @@
 
   <button class="mat-raised-button mat-primary"
           (click)="save()">
-    Save
+    Create Course
   </button>
 
 </mat-dialog-actions>

@@ -19,6 +19,7 @@ export class AddCourseDialogComponent implements OnInit {
 
     this.form = this.fb.group({
       title: ["", Validators.required],
+      url: ["", Validators.required],
     });
   }
 
@@ -27,6 +28,8 @@ export class AddCourseDialogComponent implements OnInit {
   }
 
   save() {
+
+    console.log("Creating course:", this.form.value);
 
   }
 
