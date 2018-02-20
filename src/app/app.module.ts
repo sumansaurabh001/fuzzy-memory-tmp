@@ -37,11 +37,7 @@ import { NgxEditorModule } from 'ngx-editor';
 import { TextEditorComponent } from './text-editor/text-editor.component';
 import { AddCourseDialogComponent } from './add-course-dialog/add-course-dialog.component';
 import {ReactiveFormsModule} from '@angular/forms';
-import { StoreModule } from '@ngrx/store';
-import { reducers, metaReducers } from './reducers';
-import { StoreDevtoolsModule } from '@ngrx/store-devtools';
-import { EffectsModule } from '@ngrx/effects';
-import { AppEffects } from './app.effects';
+import {CoursesService} from './services/courses.service';
 
 
 @NgModule({
@@ -89,12 +85,11 @@ import { AppEffects } from './app.effects';
     NgxEditorModule,
     MatDialogModule,
     AngularFireModule.initializeApp(environment.firebase),
-    AngularFirestoreModule,
-    StoreModule.forRoot(reducers, { metaReducers }),
-    !environment.production ? StoreDevtoolsModule.instrument() : [],
-    EffectsModule.forRoot([AppEffects])
+    AngularFirestoreModule
   ],
-  providers: [],
+  providers: [
+    CoursesService
+  ],
   entryComponents: [AddCourseDialogComponent],
   bootstrap: [AppComponent]
 })

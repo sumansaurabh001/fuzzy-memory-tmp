@@ -4,7 +4,6 @@ import {MatDialogRef} from '@angular/material';
 import {URL_PATH_REGEX} from '../common/regex';
 
 
-
 @Component({
   selector: 'add-course-dialog',
   templateUrl: './add-course-dialog.component.html',
@@ -21,9 +20,9 @@ export class AddCourseDialogComponent implements OnInit {
   ngOnInit() {
 
     this.form = this.fb.group({
-      title: ["", [Validators.required, Validators.maxLength(60)]],
-      shortDescription: ["", [Validators.required, Validators.maxLength(105)]],
-      url: ["", [Validators.required, Validators.pattern(URL_PATH_REGEX)]],
+      title: ['', [Validators.required, Validators.maxLength(60)]],
+      shortDescription: ['', [Validators.required, Validators.maxLength(105)]],
+      url: ['', [Validators.required, Validators.pattern(URL_PATH_REGEX)]],
     });
   }
 
@@ -33,7 +32,6 @@ export class AddCourseDialogComponent implements OnInit {
 
   save() {
 
-    console.log("Creating course:", this.form.value);
 
   }
 
