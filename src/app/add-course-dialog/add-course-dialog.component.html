@@ -1,6 +1,5 @@
 
 
-
 <h2 mat-dialog-title>Create New Course</h2>
 
 
@@ -9,8 +8,29 @@
   <mat-form-field>
 
     <input matInput
-           placeholder="Course Title"
+           placeholder="Course title (max 60 chars for optimal SEO)"
+           #titleHint
+           maxLength="60"
            formControlName="title">
+
+    <mat-hint align="end" aria-live="polite">
+      {{titleHint.value.length}} / 60
+    </mat-hint>
+
+  </mat-form-field>
+
+
+  <mat-form-field>
+
+    <input matInput
+           placeholder="Short description (max 105 chars)"
+           #shortDescrHint
+           maxLength="105"
+           formControlName="shortDescription">
+
+    <mat-hint align="end" aria-live="polite">
+      {{shortDescrHint.value.length}} / 105
+    </mat-hint>
 
   </mat-form-field>
 
@@ -34,7 +54,7 @@
   </button>
 
   <button class="mat-raised-button mat-primary"
-          (click)="save()">
+          (click)="save()" [disabled]="!form.valid">
     Create Course
   </button>
 

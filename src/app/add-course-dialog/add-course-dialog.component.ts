@@ -19,6 +19,7 @@ export class AddCourseDialogComponent implements OnInit {
 
     this.form = this.fb.group({
       title: ["", Validators.required],
+      shortDescription: ["", Validators.required],
       url: ["", Validators.required],
     });
   }
