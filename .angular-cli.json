@@ -58,6 +58,9 @@
     "component": {},
     "serve": {
       "port": 4201
+    },
+    "schematics": {
+      "collection": "@ngrx/schematics"
     }
   }
 
