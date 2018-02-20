@@ -3,6 +3,7 @@ import {AngularFirestore} from 'angularfire2/firestore';
 import {Course} from '../../model/course.model';
 import {Observable} from 'rxjs/Observable';
 import {fromPromise} from 'rxjs/observable/fromPromise';
+import {first} from 'rxjs/operators';
 
 @Injectable()
 export class CoursesService {
@@ -10,10 +11,15 @@ export class CoursesService {
 
   constructor(private afs: AngularFirestore) {
 
-
-
   }
 
+
+  findAllCourses():Observable<Course[]> {
+      return this.afs.collection<Course>("courses").valueChanges()
+        .pipe(
+          first()
+        );
+  }
 
   createNewCourse(course:Course): Observable<any> {
     return fromPromise(
