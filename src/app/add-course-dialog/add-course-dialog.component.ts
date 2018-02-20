@@ -5,9 +5,6 @@ import {URL_PATH_REGEX} from '../common/regex';
 
 
 
-
-
-
 @Component({
   selector: 'add-course-dialog',
   templateUrl: './add-course-dialog.component.html',
