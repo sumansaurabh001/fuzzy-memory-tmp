@@ -18,7 +18,6 @@ import {
   MatTabsModule, MatToolbarModule
 } from '@angular/material';
 
-import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {MatMomentDateModule} from '@angular/material-moment-adapter';
 import {AppRoutingModule} from './app-routing.module';
 import { EditCourseComponent } from './edit-course/edit-course.component';
@@ -36,6 +35,7 @@ import { CourseLandingPageComponent } from './course-landing-page/course-landing
 import { EditLessonsToolbarComponent } from './edit-lessons-toolbar/edit-lessons-toolbar.component';
 import { NgxEditorModule } from 'ngx-editor';
 import { TextEditorComponent } from './text-editor/text-editor.component';
+import { AddCourseDialogComponent } from './add-course-dialog/add-course-dialog.component';
 
 
 @NgModule({
@@ -50,7 +50,8 @@ import { TextEditorComponent } from './text-editor/text-editor.component';
     CourseComponent,
     CourseLandingPageComponent,
     EditLessonsToolbarComponent,
-    TextEditorComponent
+    TextEditorComponent,
+    AddCourseDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -77,10 +78,9 @@ import { TextEditorComponent } from './text-editor/text-editor.component';
     MatExpansionModule,
     MatSlideToggleModule,
     MatGridListModule,
-    ReactiveFormsModule,
     FlexLayoutModule,
     NgxEditorModule,
-    FormsModule,
+    MatDialogModule,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFirestoreModule
   ],
