@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {MatDialogRef} from '@angular/material';
 import {URL_PATH_REGEX} from '../common/regex';
+import {CoursesService} from '../services/courses.service';
 
 
 @Component({
@@ -14,7 +15,10 @@ export class AddCourseDialogComponent implements OnInit {
   form: FormGroup;
 
   constructor(private fb: FormBuilder,
-              private dialogRef: MatDialogRef<AddCourseDialogComponent>) {
+              private dialogRef: MatDialogRef<AddCourseDialogComponent>,
+              private coursesService: CoursesService) {
+
+
   }
 
   ngOnInit() {
@@ -32,7 +36,14 @@ export class AddCourseDialogComponent implements OnInit {
 
   save() {
 
+    this.coursesService
+      .createNewCourse(this.form.value)
+      .subscribe(
+        () => this.dialogRef.close(this.form.value)
+      );
 
   }
+
+
 
 }
