@@ -4609,9 +4609,13 @@ netmask@~1.0.4:
   version "1.0.6"
   resolved "https://registry.yarnpkg.com/netmask/-/netmask-1.0.6.tgz#20297e89d86f6f6400f250d9f4f6b4c1945fcd35"
 
-ngx-wig@^1.0.3:
-  version "1.0.3"
-  resolved "https://registry.yarnpkg.com/ngx-wig/-/ngx-wig-1.0.3.tgz#e24514d8241f10c7817583f3cbbeedcf3e384b71"
+ngx-bootstrap@^2.0.2:
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/ngx-bootstrap/-/ngx-bootstrap-2.0.2.tgz#6862b2ee4764bb6cfd34c66528873d0d050c2faa"
+
+ngx-editor@3.2.1:
+  version "3.2.1"
+  resolved "https://registry.yarnpkg.com/ngx-editor/-/ngx-editor-3.2.1.tgz#3e4be88cb939c1cbe89d550b1c97c504f1d60be5"
 
 no-case@^2.2.0:
   version "2.3.2"
