@@ -28,7 +28,11 @@ export class CoursesComponent implements OnInit {
     const dialogRef = this.dialog.open(AddCourseDialogComponent, dialogConfig);
 
     dialogRef.afterClosed().subscribe(
-      url => this.router.navigate(['courses', url, 'edit']));
+      url => {
+       if (url) {
+         this.router.navigate(['courses', url, 'edit']);
+       }
+      });
   }
 
 }

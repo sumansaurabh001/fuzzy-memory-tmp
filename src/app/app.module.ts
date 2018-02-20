@@ -36,6 +36,7 @@ import { EditLessonsToolbarComponent } from './edit-lessons-toolbar/edit-lessons
 import { NgxEditorModule } from 'ngx-editor';
 import { TextEditorComponent } from './text-editor/text-editor.component';
 import { AddCourseDialogComponent } from './add-course-dialog/add-course-dialog.component';
+import {ReactiveFormsModule} from '@angular/forms';
 
 
 @NgModule({
@@ -79,12 +80,14 @@ import { AddCourseDialogComponent } from './add-course-dialog/add-course-dialog.
     MatSlideToggleModule,
     MatGridListModule,
     FlexLayoutModule,
+    ReactiveFormsModule,
     NgxEditorModule,
     MatDialogModule,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFirestoreModule
   ],
   providers: [],
+  entryComponents: [AddCourseDialogComponent],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
