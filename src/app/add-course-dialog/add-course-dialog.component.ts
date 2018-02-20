@@ -22,7 +22,6 @@ export class AddCourseDialogComponent implements OnInit {
   }
 
   ngOnInit() {
-
     this.form = this.fb.group({
       title: ['', [Validators.required, Validators.maxLength(60)]],
       shortDescription: ['', [Validators.required, Validators.maxLength(105)]],
