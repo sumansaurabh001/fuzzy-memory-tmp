@@ -1,6 +1,12 @@
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {MatDialogRef} from '@angular/material';
+import {URL_PATH_REGEX} from '../common/regex';
+
+
+
+
+
 
 @Component({
   selector: 'add-course-dialog',
@@ -18,9 +24,9 @@ export class AddCourseDialogComponent implements OnInit {
   ngOnInit() {
 
     this.form = this.fb.group({
-      title: ["", Validators.required],
-      shortDescription: ["", Validators.required],
-      url: ["", Validators.required],
+      title: ["", [Validators.required, Validators.maxLength(60)]],
+      shortDescription: ["", [Validators.required, Validators.maxLength(105)]],
+      url: ["", [Validators.required, Validators.pattern(URL_PATH_REGEX)]],
     });
   }
 

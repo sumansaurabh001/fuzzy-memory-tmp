@@ -8,12 +8,12 @@
   <mat-form-field>
 
     <input matInput
-           placeholder="Course title (max 60 chars for optimal SEO)"
+           placeholder="Course title (max 60 chars)"
            #titleHint
            maxLength="60"
            formControlName="title">
 
-    <mat-hint align="end" aria-live="polite">
+    <mat-hint align="end">
       {{titleHint.value.length}} / 60
     </mat-hint>
 
@@ -28,20 +28,20 @@
            maxLength="105"
            formControlName="shortDescription">
 
-    <mat-hint align="end" aria-live="polite">
+    <mat-hint align="end">
       {{shortDescrHint.value.length}} / 105
     </mat-hint>
 
   </mat-form-field>
 
-
   <mat-form-field>
 
     <input matInput
-           placeholder="Course Url"
+           placeholder="Course url"
            formControlName="url">
-
+    <mat-hint>Recommended: dash separated, no spaces, short and sweet url path. Example: online-marketing-course</mat-hint>
   </mat-form-field>
+
 
 
 </mat-dialog-content>
