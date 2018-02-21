@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {Observable} from 'rxjs/Observable';
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
-import {switchMap, tap} from 'rxjs/operators';
+import {finalize, switchMap, tap} from 'rxjs/operators';
 import {of} from 'rxjs/observable/of';
 
 
@@ -24,7 +24,7 @@ export class LoadingService {
       .pipe(
           tap(() => this.loadingSubject.next(true)),
           switchMap(() => obs$),
-          tap(() => this.loadingSubject.next(false)),
+          finalize(() => this.loadingSubject.next(false)),
       );
   }
 

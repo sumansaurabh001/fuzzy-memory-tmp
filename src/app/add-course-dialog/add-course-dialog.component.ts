@@ -6,6 +6,8 @@ import {CoursesService} from '../services/courses.service';
 import {Router} from '@angular/router';
 import {Course} from '../../model/course.model';
 import {LoadingService} from '../services/loading.service';
+import {catchError} from 'rxjs/operators';
+import {_throw} from 'rxjs/observable/throw';
 
 
 @Component({
@@ -48,6 +50,9 @@ export class AddCourseDialogComponent implements OnInit {
     newCourse$.subscribe(() => {
         this.router.navigate(['courses', course.url, 'edit']);
         this.dialogRef.close();
+      },
+      err => {
+        console.log('Error creating course');
       });
   }
 
