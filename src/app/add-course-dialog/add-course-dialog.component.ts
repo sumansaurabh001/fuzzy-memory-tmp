@@ -14,7 +14,10 @@ import {MessagesService} from '../services/messages.service';
   selector: 'add-course-dialog',
   templateUrl: './add-course-dialog.component.html',
   styleUrls: ['./add-course-dialog.component.scss'],
-  providers: [LoadingService]
+  providers: [
+    LoadingService,
+    MessagesService
+  ]
 })
 export class AddCourseDialogComponent implements OnInit {
 
