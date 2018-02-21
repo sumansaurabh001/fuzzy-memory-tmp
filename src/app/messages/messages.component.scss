@@ -1,5 +1,5 @@
 
-
+@import "../common";
 
 $error-text: #a94442;
 $error-background: #f2dede;
@@ -18,11 +18,17 @@ $success-text:  #246339;
 $success-border:1px solid #d0e9c6;
 
 
+.messages {
+  position: relative;
+  width: 100%;
+}
+
 
 @mixin messages-panel {
   display: flex;
   padding: 20px;
   border-radius: 4px;
+  width: 100%;
 }
 
 
@@ -52,4 +58,11 @@ $success-border:1px solid #d0e9c6;
   color: $success-text;
   border:$success-border;
   @include messages-panel;
+}
+
+.close-icon {
+  position: absolute;
+  right: 10px;
+  top:10px;
+  cursor: pointer;
 }
