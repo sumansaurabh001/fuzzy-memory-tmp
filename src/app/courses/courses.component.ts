@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {MatDialog, MatDialogConfig} from '@angular/material';
 import {AddCourseDialogComponent} from '../add-course-dialog/add-course-dialog.component';
 import {Router} from '@angular/router';
+import {CoursesService} from '../services/courses.service';
 
 @Component({
   selector: 'courses',
@@ -11,11 +12,18 @@ import {Router} from '@angular/router';
 export class CoursesComponent implements OnInit {
 
 
-  constructor(private dialog: MatDialog, private router: Router) {
+  constructor(
+    private dialog: MatDialog,
+    private router: Router,
+    private coursesService: CoursesService) {
 
   }
 
   ngOnInit() {
+
+    const courses$ = this.coursesService.findAllCourses();
+
+    courses$.subscribe(console.log);
 
   }
 

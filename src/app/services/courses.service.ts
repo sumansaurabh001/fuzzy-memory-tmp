@@ -3,7 +3,7 @@ import {AngularFirestore} from 'angularfire2/firestore';
 import {Course} from '../../model/course.model';
 import {Observable} from 'rxjs/Observable';
 import {fromPromise} from 'rxjs/observable/fromPromise';
-import {first} from 'rxjs/operators';
+import {readCollectionWithIds} from '../common/firestore-utils';
 
 @Injectable()
 export class CoursesService {
@@ -14,11 +14,8 @@ export class CoursesService {
   }
 
 
-  findAllCourses():Observable<Course[]> {
-      return this.afs.collection<Course>("courses").valueChanges()
-        .pipe(
-          first()
-        );
+  findAllCourses(): Observable<Course[]> {
+    return readCollectionWithIds<Course[]>(this.afs.collection("courses"));
   }
 
   createNewCourse(course:Course): Observable<any> {
@@ -30,3 +27,6 @@ export class CoursesService {
 
 
 }
+
+
+
