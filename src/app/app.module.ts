@@ -38,6 +38,8 @@ import { TextEditorComponent } from './text-editor/text-editor.component';
 import { AddCourseDialogComponent } from './add-course-dialog/add-course-dialog.component';
 import {ReactiveFormsModule} from '@angular/forms';
 import {CoursesService} from './services/courses.service';
+import {MessagesService} from './services/messages.service';
+import { MessagesComponent } from './messages/messages.component';
 
 
 @NgModule({
@@ -53,7 +55,8 @@ import {CoursesService} from './services/courses.service';
     CourseLandingPageComponent,
     EditLessonsToolbarComponent,
     TextEditorComponent,
-    AddCourseDialogComponent
+    AddCourseDialogComponent,
+    MessagesComponent
   ],
   imports: [
     BrowserModule,
@@ -88,7 +91,8 @@ import {CoursesService} from './services/courses.service';
     AngularFirestoreModule
   ],
   providers: [
-    CoursesService
+    CoursesService,
+    MessagesService
   ],
   entryComponents: [AddCourseDialogComponent],
   bootstrap: [AppComponent]
