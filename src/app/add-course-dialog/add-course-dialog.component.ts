@@ -6,8 +6,7 @@ import {CoursesService} from '../services/courses.service';
 import {Router} from '@angular/router';
 import {Course} from '../../model/course.model';
 import {LoadingService} from '../services/loading.service';
-import {catchError} from 'rxjs/operators';
-import {_throw} from 'rxjs/observable/throw';
+
 
 
 @Component({

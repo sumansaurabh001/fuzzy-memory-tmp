@@ -1,0 +1,55 @@
+
+
+
+$error-text: #a94442;
+$error-background: #f2dede;
+$error-border:1px solid #ebcccc;
+
+$warning-text: #8a6d3b;
+$warning-background: #fcf8e3;
+$warning-border:1px solid #faf2cc;
+
+$info-text: #31708f;
+$info-background: #d9edf7;
+$info-border:1px solid #bcdff1;
+
+$success-background: #cde7c3;
+$success-text:  #246339;
+$success-border:1px solid #d0e9c6;
+
+
+
+@mixin messages-panel {
+  display: flex;
+  padding: 20px;
+  border-radius: 4px;
+}
+
+
+.messages-error {
+  background: $error-background;
+  color: $error-text;
+  border:$error-border;
+  @include messages-panel;
+}
+
+.messages-info {
+  background: $info-background;
+  color: $info-text;
+  border:$info-border;
+  @include messages-panel;
+}
+
+.messages-warn {
+  background: $warning-background;
+  color: $warning-text;
+  border:$warning-border;
+  @include messages-panel;
+}
+
+.messages-success {
+  background: $success-background;
+  color: $success-text;
+  border:$success-border;
+  @include messages-panel;
+}
