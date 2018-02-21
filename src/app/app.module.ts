@@ -40,6 +40,8 @@ import {ReactiveFormsModule} from '@angular/forms';
 import {CoursesService} from './services/courses.service';
 import {MessagesService} from './services/messages.service';
 import { MessagesComponent } from './messages/messages.component';
+import { LoadingComponent } from './loading/loading.component';
+import {LoadingService} from './services/loading.service';
 
 
 @NgModule({
@@ -56,7 +58,8 @@ import { MessagesComponent } from './messages/messages.component';
     EditLessonsToolbarComponent,
     TextEditorComponent,
     AddCourseDialogComponent,
-    MessagesComponent
+    MessagesComponent,
+    LoadingComponent
   ],
   imports: [
     BrowserModule,
@@ -92,7 +95,8 @@ import { MessagesComponent } from './messages/messages.component';
   ],
   providers: [
     CoursesService,
-    MessagesService
+    MessagesService,
+    LoadingService
   ],
   entryComponents: [AddCourseDialogComponent],
   bootstrap: [AppComponent]

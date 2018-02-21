@@ -28,7 +28,7 @@ export class CoursesComponent implements OnInit {
     dialogConfig.disableClose = true;
     dialogConfig.minWidth = '500px';
 
-    const dialogRef = this.dialog.open(AddCourseDialogComponent, dialogConfig);
+    this.dialog.open(AddCourseDialogComponent, dialogConfig);
 
   }
 
