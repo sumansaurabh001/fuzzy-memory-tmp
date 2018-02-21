@@ -23,18 +23,9 @@ export class CoursesService {
   }
 
   createNewCourse(course:Course): Observable<any> {
-    return of('Value').pipe(
-      delay(1000),
-      tap(()=> {throw "Error creating..."})
-    );
-
-    //TODO
-  /*
     return fromPromise(
       this.afs.collection("courses").add(course)
     );
-
-    */
   }
 
 
