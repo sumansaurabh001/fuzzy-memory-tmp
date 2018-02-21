@@ -42,6 +42,7 @@ import {MessagesService} from './services/messages.service';
 import { MessagesComponent } from './messages/messages.component';
 import { LoadingComponent } from './loading/loading.component';
 import {LoadingService} from './services/loading.service';
+import { ActionButtonComponent } from './action-button/action-button.component';
 
 
 @NgModule({
@@ -59,7 +60,8 @@ import {LoadingService} from './services/loading.service';
     TextEditorComponent,
     AddCourseDialogComponent,
     MessagesComponent,
-    LoadingComponent
+    LoadingComponent,
+    ActionButtonComponent
   ],
   imports: [
     BrowserModule,
