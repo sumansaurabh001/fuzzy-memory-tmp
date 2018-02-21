@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {MessagesService} from '../services/messages.service';
 
 @Component({
   selector: 'messages',
@@ -7,9 +8,17 @@ import { Component, OnInit } from '@angular/core';
 })
 export class MessagesComponent implements OnInit {
 
-  constructor() { }
+
+
+
+  constructor(public messages: MessagesService) { }
 
   ngOnInit() {
+
+  }
+
+  clearErrors() {
+    this.messages.clear();
   }
 
 }

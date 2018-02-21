@@ -6,6 +6,7 @@ import {CoursesService} from '../services/courses.service';
 import {Router} from '@angular/router';
 import {Course} from '../../model/course.model';
 import {LoadingService} from '../services/loading.service';
+import {MessagesService} from '../services/messages.service';
 
 
 
@@ -23,7 +24,8 @@ export class AddCourseDialogComponent implements OnInit {
               private dialogRef: MatDialogRef<AddCourseDialogComponent>,
               private coursesService:CoursesService,
               private router: Router,
-              private loading: LoadingService) {
+              private loading: LoadingService,
+              private messages: MessagesService) {
 
 
   }
@@ -50,9 +52,7 @@ export class AddCourseDialogComponent implements OnInit {
         this.router.navigate(['courses', course.url, 'edit']);
         this.dialogRef.close();
       },
-      err => {
-        console.log('Error creating course');
-      });
+      err => this.messages.showError('Error creating the new course.', err));
   }
 
 

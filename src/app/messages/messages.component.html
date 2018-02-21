@@ -1,12 +1,13 @@
 
-<div class="messages">
+<div class="messages" *ngIf="(messages.errors$ | async) as errors">
 
-  <div class="messages-error">
-    <div>Could not create new course.</div>
+  <div class="messages-error" *ngIf="errors.length > 0 ">
+
+    <div *ngFor="let error of errors">{{error.text}}</div>
 
     <div class="filler"></div>
 
-      <mat-icon class="close-icon">close</mat-icon>
+      <mat-icon class="close-icon" (click)="clearErrors()">close</mat-icon>
   </div>
 
 
