@@ -1,15 +1,9 @@
-@mixin mat-icon-size($size: 24px) {
-  .mat-icon {
-    font-size: $size;
-    height: $size;
-    width: $size;
-    line-height: $size;
-  }
-}
+
 
 .filler {
   flex: 1 1 auto;
 }
+
 
 .draggable {
   cursor: move;
@@ -27,14 +21,11 @@
   margin-right: 5px;
 }
 
-.single-col-form {
-  display: flex;
-  flex-direction: column;
-}
+
 
 
 .page-title {
-    display: flex;
+  display: flex;
   justify-content: center;
 }
 
@@ -55,4 +46,3 @@
   display:flex;
   justify-content: flex-end;
 }
-
