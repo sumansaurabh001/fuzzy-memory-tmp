@@ -26,9 +26,11 @@ export class EditCourseLessonsComponent implements OnInit {
 
   deleteCourseDraft() {
 
+    console.log('Opening dialog');
+
     const config = new MatDialogConfig();
 
-    //config.autoFocus = true;
+    config.autoFocus = true;
 
     config.data = {
       title: 'Deleting Course Draft',
