@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {Course} from '../../model/course.model';
 import {MatDialog, MatDialogConfig} from '@angular/material';
@@ -9,7 +9,7 @@ import {ConfirmationDialogComponent} from '../confirmation-dialog/confirmation-d
   templateUrl: './edit-course-lessons.component.html',
   styleUrls: ['./edit-course-lessons.component.scss']
 })
-export class EditCourseLessonsComponent implements OnInit {
+export class EditCourseLessonsComponent {
 
   course:Course;
 
@@ -18,10 +18,6 @@ export class EditCourseLessonsComponent implements OnInit {
     private route: ActivatedRoute) {
 
     this.course = route.snapshot.data['course'];
-  }
-
-  ngOnInit() {
-
   }
 
   deleteCourseDraft() {
