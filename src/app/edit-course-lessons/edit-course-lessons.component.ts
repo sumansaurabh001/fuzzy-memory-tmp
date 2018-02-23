@@ -28,11 +28,11 @@ export class EditCourseLessonsComponent implements OnInit {
 
     const config = new MatDialogConfig();
 
-    config.autoFocus = true;
+    //config.autoFocus = true;
 
     config.data = {
-      title: 'Danger: Deleting Course Draft',
-      textWarning: `The whole course draft will be deleted, this operation cannot be reversed. Type the full course url ${this.course.url} in the box below to confirm:`,
+      title: 'Deleting Course Draft',
+      textWarning: `The whole course draft will be deleted, this operation cannot be reversed.`,
       confirmationCode: this.course.url
     };
 
