@@ -43,6 +43,8 @@ import { MessagesComponent } from './messages/messages.component';
 import { LoadingComponent } from './loading/loading.component';
 import {LoadingService} from './services/loading.service';
 import { ActionButtonComponent } from './action-button/action-button.component';
+import { ConfirmationDialogComponent } from './confirmation-dialog/confirmation-dialog.component';
+import {CourseResolver} from './services/course.resolver';
 
 
 @NgModule({
@@ -61,7 +63,8 @@ import { ActionButtonComponent } from './action-button/action-button.component';
     AddCourseDialogComponent,
     MessagesComponent,
     LoadingComponent,
-    ActionButtonComponent
+    ActionButtonComponent,
+    ConfirmationDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -98,9 +101,13 @@ import { ActionButtonComponent } from './action-button/action-button.component';
   providers: [
     CoursesService,
     MessagesService,
-    LoadingService
+    LoadingService,
+    CourseResolver
   ],
-  entryComponents: [AddCourseDialogComponent],
+  entryComponents: [
+    AddCourseDialogComponent,
+    ConfirmationDialogComponent
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

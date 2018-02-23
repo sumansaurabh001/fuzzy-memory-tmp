@@ -3,20 +3,24 @@ import {AngularFirestore} from 'angularfire2/firestore';
 import {Course} from '../../model/course.model';
 import {Observable} from 'rxjs/Observable';
 import {fromPromise} from 'rxjs/observable/fromPromise';
-import {readCollectionWithIds} from '../common/firestore-utils';
-import {_throw} from 'rxjs/observable/throw';
-import {timer} from 'rxjs/observable/timer';
-import {of} from 'rxjs/observable/of';
-import {delay, tap} from 'rxjs/operators';
+import {findUniqueMatchWithId, readCollectionWithIds} from '../common/firestore-utils';
+
+
+
 
 @Injectable()
 export class CoursesService {
 
+  constructor(private afs: AngularFirestore) {}
 
-  constructor(private afs: AngularFirestore) {
-
+  findCourseByUrl(courseUrl: string) {
+    return findUniqueMatchWithId(
+      this.afs.collection<Course>(
+        'courses',
+          ref => ref.where('url', '==', courseUrl)
+      )
+    );
   }
-
 
   findAllCourses(): Observable<Course[]> {
     return readCollectionWithIds<Course[]>(this.afs.collection('courses'));
@@ -27,7 +31,6 @@ export class CoursesService {
       this.afs.collection("courses").add(course)
     );
   }
-
 
 
 }

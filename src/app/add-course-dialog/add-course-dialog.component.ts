@@ -55,7 +55,7 @@ export class AddCourseDialogComponent implements OnInit {
         this.router.navigate(['courses', course.url, 'edit']);
         this.dialogRef.close();
       },
-      err => this.messages.showError('Error creating the new course.', err));
+      err => this.messages.error('Error creating the new course.', err));
   }
 
 

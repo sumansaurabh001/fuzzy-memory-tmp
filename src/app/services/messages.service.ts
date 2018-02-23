@@ -22,38 +22,38 @@ export class MessagesService {
     this.messagesSubject.next([]);
   }
 
-  showError(message:string, reason?:string) {
+  error(message:string, reason?:string) {
     if (reason) {
       console.log(`${message}, reason: ${reason}`);
     }
     this.showMessagesOfType([message], 'error');
   }
 
-  showWarn(message:string) {
+  warn(message:string) {
     this.showMessagesOfType([message], 'warn');
   }
 
-  showInfo(message:string) {
+  info(message:string) {
     this.showMessagesOfType([message], 'info');
   }
 
-  showSuccess(message:string) {
+  success(message:string) {
     this.showMessagesOfType([message], 'success');
   }
 
-  showErrors(...messages:string[]) {
+  errors(...messages:string[]) {
     this.showMessagesOfType(messages, 'error');
   }
 
-  showWarnings(...messages:string[]) {
+  warns(...messages:string[]) {
     this.showMessagesOfType(messages, 'warn');
   }
 
-  showSuccesses(...messages:string[]) {
+  successes(...messages:string[]) {
     this.showMessagesOfType(messages, 'success');
   }
 
-  showInfos(...messages:string[]) {
+  infos(...messages:string[]) {
     this.showMessagesOfType(messages, 'info');
   }
 

@@ -3,6 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import {EditCourseComponent} from './edit-course/edit-course.component';
 import {CoursesComponent} from './courses/courses.component';
 import {CourseComponent} from './course/course.component';
+import {CourseResolver} from './services/course.resolver';
 
 
 const routes: Routes = [
@@ -12,7 +13,10 @@ const routes: Routes = [
   },
   {
     path: 'courses/:id/edit',
-    component: EditCourseComponent
+    component: EditCourseComponent,
+    resolve: {
+      course: CourseResolver
+    }
   },
   {
     path:'courses',

@@ -1,4 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import {ActivatedRoute} from '@angular/router';
+import {Course} from '../../model/course.model';
+import {MatDialog, MatDialogConfig} from '@angular/material';
+import {ConfirmationDialogComponent} from '../confirmation-dialog/confirmation-dialog.component';
 
 @Component({
   selector: 'edit-course-lessons',
@@ -7,9 +11,33 @@ import { Component, OnInit } from '@angular/core';
 })
 export class EditCourseLessonsComponent implements OnInit {
 
-  constructor() { }
+  course:Course;
+
+  constructor(
+    private dialog: MatDialog,
+    private route: ActivatedRoute) {
+
+    this.course = route.snapshot.data['course'];
+  }
 
   ngOnInit() {
+
+  }
+
+  deleteCourseDraft() {
+
+    const config = new MatDialogConfig();
+
+    config.autoFocus = true;
+
+    config.data = {
+      title: 'Danger: Deleting Course Draft',
+      textWarning: `The whole course draft will be deleted, this operation cannot be reversed. Type the full course url ${this.course.url} in the box below to confirm:`,
+      confirmationCode: this.course.url
+    };
+
+    this.dialog.open(ConfirmationDialogComponent, config);
+
   }
 
 }

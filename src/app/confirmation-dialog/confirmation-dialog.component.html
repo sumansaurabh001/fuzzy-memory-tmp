@@ -1,0 +1,31 @@
+<h2 mat-dialog-title>{{title}}</h2>
+
+<mat-dialog-content>
+
+  <p>{{textWarning}}</p>
+
+  <mat-form-field>
+
+    <input matInput
+           [placeholder]="'Type ' + confirmationCode + 'to confirm.'"
+           #input>
+
+  </mat-form-field>
+
+</mat-dialog-content>
+
+<mat-dialog-actions class="dialog-actions">
+
+  <button class="mat-raised-button"
+          (click)="cancel()">
+    Close
+  </button>
+
+  <button class="mat-raised-button mat-warn"
+          (click)="confirm()" [disabled]="input.value != confirmationCode">
+    Confirm
+  </button>
+
+</mat-dialog-actions>
+
+
