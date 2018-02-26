@@ -20,6 +20,8 @@ import * as functions from 'firebase-functions';
 * */
 
 
+
+
 const admin = require('firebase-admin');
 
 admin.initializeApp(functions.config().firebase);
@@ -33,6 +35,9 @@ const db = admin.firestore();
 *
 * */
 
+
+
+/*
 export const createCourseTrigger = functions.firestore
   .document('schools/{tenantId}/courses/{courseId}')
   .onCreate(event => {
@@ -49,3 +54,4 @@ export const createCourseTrigger = functions.firestore
 
 
 
+*/

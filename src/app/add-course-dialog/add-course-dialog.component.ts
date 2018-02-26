@@ -6,8 +6,7 @@ import {CoursesService} from '../services/courses.service';
 import {Router} from '@angular/router';
 import {Course} from '../../model/course.model';
 import {MessagesService} from '../services/messages.service';
-
-
+import {filter, switchMap, tap} from 'rxjs/operators';
 
 
 @Component({
@@ -24,7 +23,7 @@ export class AddCourseDialogComponent implements OnInit {
 
   constructor(private fb: FormBuilder,
               private dialogRef: MatDialogRef<AddCourseDialogComponent>,
-              private coursesService:CoursesService,
+              private coursesService: CoursesService,
               private router: Router,
               private messages: MessagesService) {
 
@@ -48,12 +47,12 @@ export class AddCourseDialogComponent implements OnInit {
     const course = this.form.value as Course;
     course.status = 'draft';
 
-    this.coursesService.createNewCourse(course)
+   this.coursesService.createNewCourse(course)
       .subscribe(() => {
-        this.router.navigate(['courses', course.url, 'edit']);
-        this.dialogRef.close();
-      },
-      err => this.messages.error('Error creating the new course.', err));
+          this.router.navigate(['courses', course.url, 'edit']);
+          this.dialogRef.close();
+        },
+        err => this.messages.error(err));
   }
 
 

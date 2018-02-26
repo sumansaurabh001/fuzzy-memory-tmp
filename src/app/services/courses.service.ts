@@ -6,6 +6,7 @@ import {fromPromise} from 'rxjs/observable/fromPromise';
 import {findUniqueMatchWithId, readCollectionWithIds} from '../common/firestore-utils';
 import {LoadingService} from './loading.service';
 import {TenantService} from './tenant.service';
+import {filter, switchMap, tap} from 'rxjs/operators';
 
 
 
@@ -39,7 +40,15 @@ export class CoursesService {
 
   createNewCourse(course:Course): Observable<any> {
     return this.loading.showLoaderWhileBusy(
-      fromPromise(this.afs.collection(this.coursesPath).add(course))
+      this.findCourseByUrl(course.url).pipe(
+        tap(result => {
+          if (result) {
+            throw 'Please choose another course url, this one is already in use.';
+          }
+        }),
+        filter(result => !result),
+        switchMap(() => fromPromise(this.afs.collection(this.coursesPath).add(course)))
+      )
     );
   }
 
