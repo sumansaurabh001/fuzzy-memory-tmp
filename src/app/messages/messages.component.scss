@@ -1,16 +1,9 @@
 
 
-@import "../vars";
 
 $error-text: white;
-$error-background: $warn;
-$error-border:#e04748;
-
-/*
-$error-text: #a94442;
-$error-background: #f2dede;
-$error-border:1px solid #ebcccc;
-*/
+$error-background:#e04648;
+$error-border:#c24748;
 
 
 $warning-text: #8a6d3b;
@@ -31,17 +24,20 @@ $success-border:1px solid #d0e9c6;
   width: 100%;
 }
 
+.message {
+  line-height: 22px;
+}
 
 @mixin messages-panel {
-  display: flex;
-  padding: 15px;
+  padding: 20px;
+  text-rendering: optimizeLegibility;
 }
 
 
 .messages-error {
   background: $error-background;
   color: $error-text;
-  border-top: 2px solid $error-border;
+  border-top: 5px solid $error-border;
   @include messages-panel;
 }
 

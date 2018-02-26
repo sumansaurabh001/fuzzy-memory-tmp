@@ -3,7 +3,7 @@
 
   <div class="messages-error" *ngIf="errors.length > 0 ">
 
-    <div *ngFor="let error of errors">{{error.text}}</div>
+    <div *ngFor="let error of errors" class="message">{{error.text}}</div>
 
     <div class="filler"></div>
 
