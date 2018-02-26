@@ -1,0 +1,18 @@
+
+@import "../vars";
+
+.warning {
+  color: $warn;
+  font-weight: bold;
+}
+
+
+.instructions {
+  margin-top: 30px;
+  margin-bottom: 20px;
+}
+
+
+.confirmation {
+  margin-bottom: 20px;
+}

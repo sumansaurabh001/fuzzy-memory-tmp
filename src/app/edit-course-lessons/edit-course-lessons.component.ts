@@ -28,7 +28,6 @@ export class EditCourseLessonsComponent {
 
     config.data = {
       title: 'Deleting Course Draft',
-      textWarning: `The whole course draft will be deleted, this operation cannot be reversed.`,
       confirmationCode: this.course.url
     };
 
