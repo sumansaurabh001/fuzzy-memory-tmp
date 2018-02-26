@@ -1,23 +1,16 @@
 
-
-
-$error-text: white;
 $error-background:#e04648;
-$error-border:#c24748;
+$error-border-color:#c24748;
 
 
-$warning-text: #8a6d3b;
-$warning-background: #fcf8e3;
-$warning-border:1px solid #faf2cc;
+$warn-background: #efb207;
+$warn-border-color: #daa207;
 
-$info-text: #31708f;
-$info-background: #d9edf7;
-$info-border:1px solid #bcdff1;
+$info-background: #2196f3;
+$info-border-color: #138dc8;
 
-$success-background: #cde7c3;
-$success-text:  #246339;
-$success-border:1px solid #d0e9c6;
-
+$success-background: #4caf50;
+$success-border-color: #6a7d67;
 
 .messages {
   position: relative;
@@ -28,38 +21,27 @@ $success-border:1px solid #d0e9c6;
   line-height: 22px;
 }
 
-@mixin messages-panel {
+@mixin message-type($background, $border-color) {
+  color:white;
+  background: $background;
+  border-top: 5px solid $border-color;
   padding: 20px;
   text-rendering: optimizeLegibility;
 }
 
-
 .messages-error {
-  background: $error-background;
-  color: $error-text;
-  border-top: 5px solid $error-border;
-  @include messages-panel;
+  @include message-type($error-background, $error-border-color);
 }
 
 .messages-info {
-  background: $info-background;
-  color: $info-text;
-  border:$info-border;
-  @include messages-panel;
-}
+  @include message-type($info-background,  $info-border-color);}
 
 .messages-warn {
-  background: $warning-background;
-  color: $warning-text;
-  border:$warning-border;
-  @include messages-panel;
+  @include message-type($warn-background, $warn-border-color);
 }
 
 .messages-success {
-  background: $success-background;
-  color: $success-text;
-  border:$success-border;
-  @include messages-panel;
+  @include message-type($success-background,  $success-border-color);
 }
 
 .close-icon {

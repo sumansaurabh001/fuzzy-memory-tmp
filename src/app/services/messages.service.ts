@@ -7,62 +7,33 @@ import {map} from 'rxjs/operators';
 @Injectable()
 export class MessagesService {
 
-  private messagesSubject = new BehaviorSubject<UIMessage[]>([]);
+  private messagesSubject = new BehaviorSubject<UIMessage>(null);
 
-  messages$: Observable<UIMessage[]> = this.messagesSubject.asObservable();
-
-  errors$ = this.filterMessagesPerType('error');
-  warnings$ = this.filterMessagesPerType('warn');
-  infos$ = this.filterMessagesPerType('info');
-  sucesses$ = this.filterMessagesPerType('success');
+  message$: Observable<UIMessage> = this.messagesSubject.asObservable();
 
   constructor() { }
 
   clear() {
-    this.messagesSubject.next([]);
+    this.messagesSubject.next(null);
   }
 
-  error(message:string, reason?:string) {
+  error(text:string, reason?:string) {
     if (reason) {
-      console.log(`${message}, reason: ${reason}`);
+      console.log(`${text}, reason: ${reason}`);
     }
-    this.showMessagesOfType([message], 'error');
+    this.messagesSubject.next({type:'error', text});
   }
 
-  warn(message:string) {
-    this.showMessagesOfType([message], 'warn');
+  warn(text:string) {
+    this.messagesSubject.next({type:'warn', text});
   }
 
-  info(message:string) {
-    this.showMessagesOfType([message], 'info');
+  info(text:string) {
+    this.messagesSubject.next({type:'info', text});
   }
 
-  success(message:string) {
-    this.showMessagesOfType([message], 'success');
-  }
-
-  errors(...messages:string[]) {
-    this.showMessagesOfType(messages, 'error');
-  }
-
-  warns(...messages:string[]) {
-    this.showMessagesOfType(messages, 'warn');
-  }
-
-  successes(...messages:string[]) {
-    this.showMessagesOfType(messages, 'success');
-  }
-
-  infos(...messages:string[]) {
-    this.showMessagesOfType(messages, 'info');
-  }
-
-  private showMessagesOfType(messages:string[], type:string) {
-    this.messagesSubject.next(messages.map(message => {return {type, text: message}}));
-  }
-
-  private filterMessagesPerType(filteredType:string) {
-    return this.messages$.pipe(map(messages => messages.filter(msg => msg.type == filteredType)))
+  success(text:string) {
+    this.messagesSubject.next({type:'success', text});
   }
 
 }
