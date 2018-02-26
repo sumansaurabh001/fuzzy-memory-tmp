@@ -5,8 +5,8 @@ import {URL_PATH_REGEX} from '../common/regex';
 import {CoursesService} from '../services/courses.service';
 import {Router} from '@angular/router';
 import {Course} from '../../model/course.model';
-import {LoadingService} from '../services/loading.service';
 import {MessagesService} from '../services/messages.service';
+
 
 
 
@@ -15,7 +15,6 @@ import {MessagesService} from '../services/messages.service';
   templateUrl: './add-course-dialog.component.html',
   styleUrls: ['./add-course-dialog.component.scss'],
   providers: [
-    LoadingService,
     MessagesService
   ]
 })
@@ -27,7 +26,6 @@ export class AddCourseDialogComponent implements OnInit {
               private dialogRef: MatDialogRef<AddCourseDialogComponent>,
               private coursesService:CoursesService,
               private router: Router,
-              private loading: LoadingService,
               private messages: MessagesService) {
 
 
@@ -49,9 +47,8 @@ export class AddCourseDialogComponent implements OnInit {
 
     const course = this.form.value as Course;
 
-    const newCourse$ = this.loading.showLoaderWhileBusy(this.coursesService.createNewCourse(course));
-
-    newCourse$.subscribe(() => {
+    this.coursesService.createNewCourse(course)
+      .subscribe(() => {
         this.router.navigate(['courses', course.url, 'edit']);
         this.dialogRef.close();
       },

@@ -4,6 +4,7 @@ import {Course} from '../../model/course.model';
 import {Observable} from 'rxjs/Observable';
 import {fromPromise} from 'rxjs/observable/fromPromise';
 import {findUniqueMatchWithId, readCollectionWithIds} from '../common/firestore-utils';
+import {LoadingService} from './loading.service';
 
 
 
@@ -11,7 +12,11 @@ import {findUniqueMatchWithId, readCollectionWithIds} from '../common/firestore-
 @Injectable()
 export class CoursesService {
 
-  constructor(private afs: AngularFirestore) {}
+  constructor(
+    private afs: AngularFirestore,
+    private loading: LoadingService) {
+
+  }
 
   findCourseByUrl(courseUrl: string) {
     return findUniqueMatchWithId(
@@ -27,14 +32,17 @@ export class CoursesService {
   }
 
   createNewCourse(course:Course): Observable<any> {
-    return fromPromise(
-      this.afs.collection("courses").add(course)
+    return this.loading.showLoaderWhileBusy(
+      fromPromise(this.afs.collection("courses").add(course))
     );
   }
 
 
   deleteCourseDraft(courseId:string): Observable<any> {
-    return fromPromise(this.afs.collection('courses').doc(courseId).delete());
+    return this.loading.showLoaderWhileBusy(
+      fromPromise(this.afs.collection('courses').doc(courseId).delete())
+    );
+
   }
 }
 
