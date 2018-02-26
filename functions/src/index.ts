@@ -27,6 +27,12 @@ admin.initializeApp(functions.config().firebase);
 const db = admin.firestore();
 
 
+/*
+*
+*  Will not be using it, its just a demo
+*
+* */
+
 export const createCourseTrigger = functions.firestore
   .document('schools/{tenantId}/courses/{courseId}')
   .onCreate(event => {
