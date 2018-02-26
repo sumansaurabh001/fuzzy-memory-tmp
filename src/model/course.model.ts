@@ -6,4 +6,5 @@ export interface Course {
   title: string;
   shortDescription: string;
   url: string;
+  status: 'draft' | 'published'
 }

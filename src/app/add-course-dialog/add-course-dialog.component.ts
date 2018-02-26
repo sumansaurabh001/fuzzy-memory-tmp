@@ -46,6 +46,7 @@ export class AddCourseDialogComponent implements OnInit {
   save() {
 
     const course = this.form.value as Course;
+    course.status = 'draft';
 
     this.coursesService.createNewCourse(course)
       .subscribe(() => {
