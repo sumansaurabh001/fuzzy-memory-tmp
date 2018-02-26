@@ -1,8 +1,10 @@
 import { Component } from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {Course} from '../../model/course.model';
 import {MatDialog, MatDialogConfig} from '@angular/material';
 import {ConfirmationDialogComponent} from '../confirmation-dialog/confirmation-dialog.component';
+import {CoursesService} from '../services/courses.service';
+import {MessagesService} from '../services/messages.service';
 
 
 @Component({
@@ -16,7 +18,10 @@ export class EditCourseLessonsComponent {
 
   constructor(
     private dialog: MatDialog,
-    private route: ActivatedRoute) {
+    private route: ActivatedRoute,
+    private router: Router,
+    private messages: MessagesService,
+    private coursesService: CoursesService) {
 
     this.course = route.snapshot.data['course'];
   }
@@ -32,7 +37,19 @@ export class EditCourseLessonsComponent {
       confirmationCode: this.course.url
     };
 
-    this.dialog.open(ConfirmationDialogComponent, config);
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, config);
+
+    dialogRef.afterClosed().subscribe(result => {
+
+      if (result.confirmed) {
+        this.coursesService.deleteCourseDraft(this.course.id)
+          .subscribe(
+            () => this.router.navigateByUrl('/'),
+            err => this.messages.error('Error deleting course draft.')
+          );
+      }
+
+    });
 
   }
 

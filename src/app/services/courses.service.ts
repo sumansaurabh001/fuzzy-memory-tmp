@@ -33,6 +33,9 @@ export class CoursesService {
   }
 
 
+  deleteCourseDraft(courseId:string): Observable<any> {
+    return fromPromise(this.afs.collection('courses').doc(courseId).delete());
+  }
 }
 
 
