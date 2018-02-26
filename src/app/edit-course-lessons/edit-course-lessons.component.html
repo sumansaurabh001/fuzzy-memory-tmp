@@ -71,7 +71,11 @@
 </div>
 
 
-<action-button text="Delete Course Draft" color="warn" icon="delete" (click)="deleteCourseDraft()"></action-button>
+<action-button *ngIf="course?.status == 'draft'"
+               text="Delete Course Draft" color="warn"
+               icon="delete" (click)="deleteCourseDraft()">
+
+</action-button>
 
 
 
