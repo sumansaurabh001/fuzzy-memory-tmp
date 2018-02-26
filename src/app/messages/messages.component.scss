@@ -25,8 +25,16 @@ $success-border-color: #6a7d67;
   color:white;
   background: $background;
   border-top: 5px solid $border-color;
-  padding: 20px;
   text-rendering: optimizeLegibility;
+}
+
+.normal-messages {
+  padding: 20px;
+}
+
+.dialog-messages {
+  padding: 10px;
+  margin-bottom: 20px;
 }
 
 .messages-error {

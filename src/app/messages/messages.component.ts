@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {MessagesService} from '../services/messages.service';
 import {UIMessage} from '../../model/ui-message.model';
 
@@ -9,6 +9,8 @@ import {UIMessage} from '../../model/ui-message.model';
 })
 export class MessagesComponent implements OnInit {
 
+  @Input() style: 'normal' | 'dialog' = 'normal';
+
   constructor(public messages: MessagesService) { }
 
   ngOnInit() {
@@ -16,7 +18,10 @@ export class MessagesComponent implements OnInit {
   }
 
   messageType(message: UIMessage) {
-    return 'messages-' + message.type;
+    return [
+      'messages-' + message.type,
+      this.style + '-messages'
+    ];
   }
 
   clearError() {
