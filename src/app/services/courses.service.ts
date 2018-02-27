@@ -26,12 +26,11 @@ export class CoursesService {
   }
 
   findCourseByUrl(courseUrl: string) {
-    return findUniqueMatchWithId(
-      this.afs.collection<Course>(
-          this.coursesPath,
-          ref => ref.where('url', '==', courseUrl)
-      )
-    );
+
+    const courseQuery$ =  this.afs.collection<Course>(this.coursesPath, ref => ref.where('url', '==', courseUrl));
+
+    return this.loading.showLoaderWhileBusy(findUniqueMatchWithId(courseQuery$));
+
   }
 
   findAllCourses(): Observable<Course[]> {
