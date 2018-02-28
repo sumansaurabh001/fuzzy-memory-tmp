@@ -25,13 +25,3 @@ export class SaveCourseEffects {
 
 }
 
-
-/*
-   this.coursesService.createNewCourse(course)
-      .subscribe(() => {
-          this.router.navigate(['courses', course.url, 'edit']);
-          this.dialogRef.close();
-        },
-        err => this.messages.error(err));
-
-*/
