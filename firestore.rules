@@ -1,11 +1,11 @@
-
 service cloud.firestore {
   match /databases/{database}/documents {
-    match /schools/{tenant}/courses/{courseId} {
-      allow delete: if resource.data.status == 'draft';
+
+    match /schools/{tenant}/courses/{courseId}  {
+        allow read: if true;
+        allow create: if true;
+        allow delete: if resource.data.status == 'draft';
+      }
+
     }
-    match /{document=**} {
-      allow read, write;
-    }
-  }
 }
