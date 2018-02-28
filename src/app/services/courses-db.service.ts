@@ -39,7 +39,9 @@ export class CoursesDBService {
   }
 
   findAllCourses(): Observable<Course[]> {
-    return readCollectionWithIds<Course[]>(this.afs.collection(this.coursesPath));
+    return this.loading.showLoaderWhileBusy(
+      readCollectionWithIds<Course[]>(this.afs.collection(this.coursesPath))
+    );
   }
 
   createNewCourse(course:Course): Observable<Course> {

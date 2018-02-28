@@ -12,64 +12,31 @@
 
 <mat-divider></mat-divider>
 
-<h1 class="page-title"> All Courses</h1>
+<ng-template let-course>
+
+</ng-template>
+
+
+<ng-container *ngIf="courses$ | async as courses">
+
+  <div *ngIf="courses?.length > 0">
+
+    <h1 class="page-title"> All Courses</h1>
+
+    <mat-grid-list *ngFor="let course of courses;" cols="2" class="desktop-container">
+      <mat-grid-tile>
+        <course-card [course]="course"></course-card>
+      </mat-grid-tile>
+    </mat-grid-list>
+
+  </div>
+
+</ng-container>
 
 
 
 
-<mat-grid-list cols="2" class="desktop-container">
-  <mat-grid-tile>
-    <mat-card class="mat-elevation-z10 course-card">
-      <mat-card-header>
-        <mat-card-title>Angular for Beginners</mat-card-title>
-      </mat-card-header>
-      <img mat-card-image src="https://angular-academy.s3.amazonaws.com/thumbnails/angular2-for-beginners-small-v2.png">
-      <mat-card-content>
-        <p>
-          Establish a solid layer of fundamentals, learn what's under the hood of Angular.
-        </p>
-      </mat-card-content>
-      <mat-card-actions class="course-actions">
-        <button mat-button class="mat-raised-button mat-primary" routerLink="/courses/1">VIEW COURSE</button>
-        <button mat-button class="mat-raised-button mat-warn" routerLink="/courses/1/edit">EDIT</button>
-      </mat-card-actions>
-    </mat-card>
-  </mat-grid-tile>
-  <mat-grid-tile>
-    <mat-card class="mat-elevation-z10 course-card">
-      <mat-card-header>
-        <mat-card-title>The Complete Typescript Course</mat-card-title>
-      </mat-card-header>
-      <img mat-card-image src="https://angular-academy.s3.amazonaws.com/thumbnails/typescript-2-small.png">
-      <mat-card-content>
-        <p>
-          Complete Guide to Typescript From Scratch: Learn the language in-depth and use it to build a Node REST API.
-        </p>
-      </mat-card-content>
-      <mat-card-actions class="course-actions">
-        <button mat-button class="mat-raised-button mat-primary" routerLink="/courses/1">VIEW COURSE</button>
-        <button mat-button class="mat-raised-button mat-accent" routerLink="/courses/1/edit">EDIT</button>
-      </mat-card-actions>
-    </mat-card>
-  </mat-grid-tile>
-  <mat-grid-tile>
-    <mat-card class="mat-elevation-z10 course-card">
-      <mat-card-header>
-        <mat-card-title>Angular Universal Course</mat-card-title>
-      </mat-card-header>
-      <img mat-card-image
-           src="https://s3-us-west-1.amazonaws.com/angular-university/course-images/angular-universal-small.png">
-      <mat-card-content>
-        <p>
-          Use Angular on the server too! Learn Angular Server-Side Rendering.
-        </p>
-      </mat-card-content>
-      <mat-card-actions class="course-actions">
-        <button mat-button class="mat-raised-button mat-primary" routerLink="/courses/1">VIEW COURSE</button>
-        <button mat-button class="mat-raised-button mat-accent" routerLink="/courses/1/edit">EDIT</button>
-      </mat-card-actions>
-    </mat-card>
-  </mat-grid-tile>
-</mat-grid-list>
+
+
 
 

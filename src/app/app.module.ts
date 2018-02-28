@@ -47,6 +47,7 @@ import {CourseResolver} from './services/course.resolver';
 import {TenantService} from './services/tenant.service';
 import {CoursesService} from './services/courses.service';
 import {CoursesDBService} from './services/courses-db.service';
+import { CourseCardComponent } from './course-card/course-card.component';
 
 
 @NgModule({
@@ -66,7 +67,8 @@ import {CoursesDBService} from './services/courses-db.service';
     MessagesComponent,
     LoadingComponent,
     ActionButtonComponent,
-    ConfirmationDialogComponent
+    ConfirmationDialogComponent,
+    CourseCardComponent
   ],
   imports: [
     BrowserModule,

@@ -6,6 +6,7 @@ import {Course} from '../models/course.model';
 import {CoursesDBService} from './courses-db.service';
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 import {of} from 'rxjs/observable/of';
+import {MessagesService} from './messages.service';
 
 
 @Injectable()
@@ -16,8 +17,21 @@ export class CoursesService {
   courses$: Observable<Course[]> = this.subject.asObservable();
 
 
-  constructor(private coursesDB: CoursesDBService) {}
+  constructor(
+    private coursesDB: CoursesDBService,
+    private messages: MessagesService) {
 
+    this.loadAllCourses();
+
+  }
+
+
+  loadAllCourses() {
+    this.coursesDB.findAllCourses()
+      .subscribe(
+        courses => this.subject.next(courses),
+        err => this.messages.error('Could not load courses.', err));
+  }
 
   createNewCourse(course: Course): Observable<Course> {
     return this.coursesDB.createNewCourse(course)

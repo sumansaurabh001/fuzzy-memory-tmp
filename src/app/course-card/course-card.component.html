@@ -1,0 +1,15 @@
+<mat-card class="mat-elevation-z10 course-card">
+  <mat-card-header>
+    <mat-card-title>{{course.title}}</mat-card-title>
+  </mat-card-header>
+  <img mat-card-image src="https://angular-academy.s3.amazonaws.com/thumbnails/angular2-for-beginners-small-v2.png">
+  <mat-card-content>
+    <p>
+      {{course.shortDescription}}
+    </p>
+  </mat-card-content>
+  <mat-card-actions class="course-actions">
+    <button mat-button class="mat-raised-button mat-primary" [routerLink]="['courses',course.url]">VIEW COURSE</button>
+    <button mat-button class="mat-raised-button mat-accent" [routerLink]="['courses',course.url, 'edit']">EDIT</button>
+  </mat-card-actions>
+</mat-card>
