@@ -1,10 +1,9 @@
 import { Injectable } from '@angular/core';
-import {Course} from '../../model/course.model';
 import {ActivatedRouteSnapshot, Resolve, Router, RouterStateSnapshot} from '@angular/router';
 import {Observable} from 'rxjs/Observable';
 import {CoursesService} from './courses.service';
-import {catchError, tap} from 'rxjs/operators';
-import {_throw} from 'rxjs/observable/throw';
+import { tap} from 'rxjs/operators';
+import {Course} from '../models/course.model';
 
 
 

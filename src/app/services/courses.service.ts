@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
 import {AngularFirestore} from 'angularfire2/firestore';
-import {Course} from '../../model/course.model';
 import {Observable} from 'rxjs/Observable';
 import {fromPromise} from 'rxjs/observable/fromPromise';
 import {findUniqueMatchWithId, readCollectionWithIds} from '../common/firestore-utils';
 import {LoadingService} from './loading.service';
 import {TenantService} from './tenant.service';
 import {filter, switchMap, tap} from 'rxjs/operators';
+import {Course} from '../models/course.model';
 
 
 

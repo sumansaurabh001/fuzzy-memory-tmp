@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import {Course} from '../../model/course.model';
 import {MatDialog, MatDialogConfig} from '@angular/material';
 import {ConfirmationDialogComponent} from '../confirmation-dialog/confirmation-dialog.component';
 import {CoursesService} from '../services/courses.service';
 import {MessagesService} from '../services/messages.service';
+import {Course} from '../models/course.model';
 
 
 @Component({
