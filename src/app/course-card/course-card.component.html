@@ -2,7 +2,7 @@
   <mat-card-header>
     <mat-card-title>{{course?.title}}</mat-card-title>
   </mat-card-header>
-  <img mat-card-image src="https://angular-academy.s3.amazonaws.com/thumbnails/angular2-for-beginners-small-v2.png">
+  <img mat-card-image [src]="course?.cardImageUrl || '/assets/och-logo.svg'">
   <mat-card-content>
     <p>
       {{course?.shortDescription}}
