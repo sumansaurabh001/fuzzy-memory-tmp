@@ -4,9 +4,8 @@ import {MatDialogRef} from '@angular/material';
 import {URL_PATH_REGEX} from '../common/regex';
 import {MessagesService} from '../services/messages.service';
 import {Course} from '../models/course.model';
-import {Store} from '@ngrx/store';
-import {AppState} from '../reducers';
-import {AddCourse, SaveCourseDB} from '../actions/course.actions';
+import {CoursesService} from '../services/courses.service';
+import {Router} from '@angular/router';
 
 
 @Component({
@@ -23,7 +22,9 @@ export class AddCourseDialogComponent implements OnInit {
 
   constructor(private fb: FormBuilder,
               private dialogRef: MatDialogRef<AddCourseDialogComponent>,
-              private store:Store<AppState>) {
+              private router: Router,
+              private coursesService: CoursesService,
+              private messages: MessagesService) {
 
 
   }
@@ -45,7 +46,13 @@ export class AddCourseDialogComponent implements OnInit {
     const course = this.form.value as Course;
     course.status = 'draft';
 
-    this.store.dispatch( new SaveCourseDB(course));
+   this.coursesService.createNewCourse(course)
+      .subscribe(() => {
+          this.router.navigate(['courses', course.url, 'edit']);
+          this.dialogRef.close();
+        },
+        err => this.messages.error(err));
+
   }
 
 

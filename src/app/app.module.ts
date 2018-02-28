@@ -46,11 +46,6 @@ import {ActionButtonComponent} from './action-button/action-button.component';
 import {ConfirmationDialogComponent} from './confirmation-dialog/confirmation-dialog.component';
 import {CourseResolver} from './services/course.resolver';
 import {TenantService} from './services/tenant.service';
-import { StoreModule } from '@ngrx/store';
-import { reducers, metaReducers } from './reducers';
-import { StoreDevtoolsModule } from '@ngrx/store-devtools';
-import { EffectsModule } from '@ngrx/effects';
-import { SaveCourseEffects } from './effects/save-course.effects';
 
 
 @NgModule({
@@ -102,10 +97,7 @@ import { SaveCourseEffects } from './effects/save-course.effects';
     NgxEditorModule,
     MatDialogModule,
     AngularFireModule.initializeApp(environment.firebase),
-    AngularFirestoreModule,
-    StoreModule.forRoot(reducers, { metaReducers }),
-    !environment.production ? StoreDevtoolsModule.instrument() : [],
-    EffectsModule.forRoot([SaveCourseEffects])
+    AngularFirestoreModule
   ],
   providers: [
     CoursesService,

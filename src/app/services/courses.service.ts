@@ -7,6 +7,7 @@ import {LoadingService} from './loading.service';
 import {TenantService} from './tenant.service';
 import {filter, map, switchMap, tap} from 'rxjs/operators';
 import {Course} from '../models/course.model';
+import {_throw} from 'rxjs/observable/throw';
 
 
 
@@ -47,7 +48,7 @@ export class CoursesService {
         }),
         filter(result => !result),
         switchMap(() => fromPromise(this.afs.collection(this.coursesPath).add(course))),
-        map(ref => {return {...course, id: ref.id}})
+        map(ref => { _throw('test error') ; return {...course, id: ref.id}})
       )
     );
   }

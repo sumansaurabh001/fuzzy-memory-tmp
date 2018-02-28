@@ -261,26 +261,6 @@
   version "0.2.6"
   resolved "https://registry.yarnpkg.com/@firebase/webchannel-wrapper/-/webchannel-wrapper-0.2.6.tgz#a4b81ca8cdeb1acbc7923289a4a514f61b59db86"
 
-"@ngrx/effects@^5.1.0":
-  version "5.1.0"
-  resolved "https://registry.yarnpkg.com/@ngrx/effects/-/effects-5.1.0.tgz#cef84576b2d0333f19188aedfe156fd301bff70a"
-
-"@ngrx/entity@^5.1.0":
-  version "5.1.0"
-  resolved "https://registry.yarnpkg.com/@ngrx/entity/-/entity-5.1.0.tgz#27de53bd10c7f93c82d8aa1642357c65657e1459"
-
-"@ngrx/schematics@^5.1.0":
-  version "5.1.0"
-  resolved "https://registry.yarnpkg.com/@ngrx/schematics/-/schematics-5.1.0.tgz#b6c08daaf20e7ff96e044525c23818ade26a5927"
-
-"@ngrx/store-devtools@^5.1.0":
-  version "5.1.0"
-  resolved "https://registry.yarnpkg.com/@ngrx/store-devtools/-/store-devtools-5.1.0.tgz#7df8a6da652cc792000ad058ca4072a32e3629b1"
-
-"@ngrx/store@^5.1.0":
-  version "5.1.0"
-  resolved "https://registry.yarnpkg.com/@ngrx/store/-/store-5.1.0.tgz#d957131e62041deede043524fd300db9fa835d68"
-
 "@ngtools/json-schema@1.1.0", "@ngtools/json-schema@^1.1.0":
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/@ngtools/json-schema/-/json-schema-1.1.0.tgz#c3a0c544d62392acc2813a42c8a0dc6f58f86922"
