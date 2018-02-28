@@ -1,37 +1,36 @@
+<div class="desktop-container">
 
+  <div class="page-section">
 
-<div class="page-section">
-
-  <div class="new-course-button">
-    <span>Create New Course:</span>
-    <button mat-fab color="accent" (click)="addNewCourse()">
-      <mat-icon>add</mat-icon>
-    </button>
+    <div class="new-course-button">
+      <span>Create New Course:</span>
+      <button mat-fab color="accent" (click)="addNewCourse()">
+        <mat-icon>add</mat-icon>
+      </button>
+    </div>
   </div>
+
+  <mat-divider></mat-divider>
+
+  <ng-container *ngIf="courses$ | async as courses">
+
+    <div *ngIf="courses?.length > 0">
+
+      <h1 class="page-title"> All Courses</h1>
+
+      <mat-grid-list cols="2">
+        <mat-grid-tile *ngFor="let course of courses;">
+          <course-card [course]="course"></course-card>
+        </mat-grid-tile>
+      </mat-grid-list>
+
+    </div>
+
+  </ng-container>
+
 </div>
 
-<mat-divider></mat-divider>
 
-<ng-template let-course>
-
-</ng-template>
-
-
-<ng-container *ngIf="courses$ | async as courses">
-
-  <div *ngIf="courses?.length > 0">
-
-    <h1 class="page-title"> All Courses</h1>
-
-    <mat-grid-list cols="2" class="desktop-container">
-      <mat-grid-tile *ngFor="let course of courses;">
-        <course-card [course]="course"></course-card>
-      </mat-grid-tile>
-    </mat-grid-list>
-
-  </div>
-
-</ng-container>
 
 
 
