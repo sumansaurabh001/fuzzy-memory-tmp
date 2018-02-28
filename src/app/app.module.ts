@@ -46,6 +46,9 @@ import {ActionButtonComponent} from './action-button/action-button.component';
 import {ConfirmationDialogComponent} from './confirmation-dialog/confirmation-dialog.component';
 import {CourseResolver} from './services/course.resolver';
 import {TenantService} from './services/tenant.service';
+import { StoreModule } from '@ngrx/store';
+import { reducers, metaReducers } from './reducers';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
 
 @NgModule({
@@ -97,7 +100,9 @@ import {TenantService} from './services/tenant.service';
     NgxEditorModule,
     MatDialogModule,
     AngularFireModule.initializeApp(environment.firebase),
-    AngularFirestoreModule
+    AngularFirestoreModule,
+    StoreModule.forRoot(reducers, { metaReducers }),
+    !environment.production ? StoreDevtoolsModule.instrument() : []
   ],
   providers: [
     CoursesService,
