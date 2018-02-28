@@ -1,65 +1,60 @@
-import { Injectable } from '@angular/core';
-import {AngularFirestore} from 'angularfire2/firestore';
+import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs/Observable';
-import {fromPromise} from 'rxjs/observable/fromPromise';
-import {findUniqueMatchWithId, readCollectionWithIds} from '../common/firestore-utils';
-import {LoadingService} from './loading.service';
-import {TenantService} from './tenant.service';
-import {filter, map, switchMap, tap} from 'rxjs/operators';
+
+import {tap} from 'rxjs/operators';
 import {Course} from '../models/course.model';
-import {_throw} from 'rxjs/observable/throw';
-
-
+import {CoursesDBService} from './courses-db.service';
+import {BehaviorSubject} from 'rxjs/BehaviorSubject';
+import {of} from 'rxjs/observable/of';
 
 
 @Injectable()
 export class CoursesService {
 
-  private coursesPath:string;
+  private subject = new BehaviorSubject<Course[]>([]);
 
-  constructor(
-    private afs: AngularFirestore,
-    private loading: LoadingService,
-    private tenant: TenantService) {
+  courses$: Observable<Course[]> = this.subject.asObservable();
 
-    this.coursesPath = this.tenant.path('courses');
 
-  }
+  constructor(private coursesDB: CoursesDBService) {}
 
-  findCourseByUrl(courseUrl: string) {
 
-    const courseQuery$ =  this.afs.collection<Course>(this.coursesPath, ref => ref.where('url', '==', courseUrl));
-
-    return this.loading.showLoaderWhileBusy(findUniqueMatchWithId(courseQuery$));
-
-  }
-
-  findAllCourses(): Observable<Course[]> {
-    return readCollectionWithIds<Course[]>(this.afs.collection(this.coursesPath));
-  }
-
-  createNewCourse(course:Course): Observable<Course> {
-    return this.loading.showLoaderWhileBusy(
-      this.findCourseByUrl(course.url).pipe(
-        tap(result => {
-          if (result) {
-            throw 'Please choose another course url, this one is already in use.';
-          }
-        }),
-        filter(result => !result),
-        switchMap(() => fromPromise(this.afs.collection(this.coursesPath).add(course))),
-        map(ref => { _throw('test error') ; return {...course, id: ref.id}})
-      )
-    );
+  createNewCourse(course: Course): Observable<Course> {
+    return this.coursesDB.createNewCourse(course)
+      .pipe(
+        tap(course => this.addAndEmit(course))
+      );
   }
 
 
-  deleteCourseDraft(courseId:string): Observable<any> {
-    return this.loading.showLoaderWhileBusy(
-      fromPromise(this.afs.collection(this.coursesPath).doc(courseId).delete())
-    );
+  findCourseByUrl(courseUrl: string): Observable<Course> | null {
 
+    const course = this.subject.value.find(course => course.url == courseUrl);
+
+    if (course) {
+      return of(course);
+    }
+
+    return this.coursesDB.findCourseByUrl(courseUrl)
+      .pipe(
+        tap(course => this.addAndEmit(course))
+      );
   }
+
+
+  deleteCourseDraft(courseId: string): Observable<any> {
+    return this.coursesDB.deleteCourseDraft(courseId)
+      .pipe(
+        tap(() => this.subject.next(this.subject.value.filter(course => course.id !== courseId)))
+      );
+  }
+
+
+  private addAndEmit(course: Course) {
+    return this.subject.next([...this.subject.value.slice(0), course]);
+  }
+
+
 }
 
 

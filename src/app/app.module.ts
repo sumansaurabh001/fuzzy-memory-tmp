@@ -37,7 +37,6 @@ import {NgxEditorModule} from 'ngx-editor';
 import {TextEditorComponent} from './text-editor/text-editor.component';
 import {AddCourseDialogComponent} from './add-course-dialog/add-course-dialog.component';
 import {ReactiveFormsModule} from '@angular/forms';
-import {CoursesService} from './services/courses.service';
 import {MessagesService} from './services/messages.service';
 import {MessagesComponent} from './messages/messages.component';
 import {LoadingComponent} from './loading/loading.component';
@@ -46,6 +45,8 @@ import {ActionButtonComponent} from './action-button/action-button.component';
 import {ConfirmationDialogComponent} from './confirmation-dialog/confirmation-dialog.component';
 import {CourseResolver} from './services/course.resolver';
 import {TenantService} from './services/tenant.service';
+import {CoursesService} from './services/courses.service';
+import {CoursesDBService} from './services/courses-db.service';
 
 
 @NgModule({
@@ -100,11 +101,13 @@ import {TenantService} from './services/tenant.service';
     AngularFirestoreModule
   ],
   providers: [
-    CoursesService,
     MessagesService,
     LoadingService,
     CourseResolver,
-    TenantService
+    TenantService,
+    CoursesService,
+    CoursesDBService
+
   ],
   entryComponents: [
     AddCourseDialogComponent,
