@@ -6,7 +6,7 @@ import {MessagesService} from '../services/messages.service';
 import {Course} from '../models/course.model';
 import {Store} from '@ngrx/store';
 import {AppState} from '../reducers';
-import {AddCourse} from '../actions/course.actions';
+import {AddCourse, SaveCourseDB} from '../actions/course.actions';
 
 
 @Component({
@@ -45,18 +45,7 @@ export class AddCourseDialogComponent implements OnInit {
     const course = this.form.value as Course;
     course.status = 'draft';
 
-    // this.store.dispatch();
-
-
-/*
-   this.coursesService.createNewCourse(course)
-      .subscribe(() => {
-          this.router.navigate(['courses', course.url, 'edit']);
-          this.dialogRef.close();
-        },
-        err => this.messages.error(err));
-
-*/
+    this.store.dispatch( new SaveCourseDB(course));
   }
 
 

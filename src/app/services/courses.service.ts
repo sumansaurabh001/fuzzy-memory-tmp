@@ -5,7 +5,7 @@ import {fromPromise} from 'rxjs/observable/fromPromise';
 import {findUniqueMatchWithId, readCollectionWithIds} from '../common/firestore-utils';
 import {LoadingService} from './loading.service';
 import {TenantService} from './tenant.service';
-import {filter, switchMap, tap} from 'rxjs/operators';
+import {filter, map, switchMap, tap} from 'rxjs/operators';
 import {Course} from '../models/course.model';
 
 
@@ -37,7 +37,7 @@ export class CoursesService {
     return readCollectionWithIds<Course[]>(this.afs.collection(this.coursesPath));
   }
 
-  createNewCourse(course:Course): Observable<any> {
+  createNewCourse(course:Course): Observable<Course> {
     return this.loading.showLoaderWhileBusy(
       this.findCourseByUrl(course.url).pipe(
         tap(result => {
@@ -46,7 +46,8 @@ export class CoursesService {
           }
         }),
         filter(result => !result),
-        switchMap(() => fromPromise(this.afs.collection(this.coursesPath).add(course)))
+        switchMap(() => fromPromise(this.afs.collection(this.coursesPath).add(course))),
+        map(ref => {return {...course, id: ref.id}})
       )
     );
   }

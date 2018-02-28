@@ -12,7 +12,9 @@ export enum CourseActionTypes {
   UpdateCourses = '[Course] Update Courses',
   DeleteCourse = '[Course] Delete Course',
   DeleteCourses = '[Course] Delete Courses',
-  ClearCourses = '[Course] Clear Courses'
+  ClearCourses = '[Course] Clear Courses',
+
+  SaveCourseDB = '[Save Course] Save Course in DB'
 }
 
 export class LoadCourses implements Action {
@@ -73,6 +75,11 @@ export class ClearCourses implements Action {
   readonly type = CourseActionTypes.ClearCourses;
 }
 
+export class SaveCourseDB implements Action {
+  readonly type = CourseActionTypes.SaveCourseDB;
+  constructor(public payload: Course) {}
+}
+
 export type CourseActions =
  LoadCourses
  | AddCourse
@@ -83,4 +90,5 @@ export type CourseActions =
  | UpdateCourses
  | DeleteCourse
  | DeleteCourses
- | ClearCourses;
+ | ClearCourses
+ | SaveCourseDB;
