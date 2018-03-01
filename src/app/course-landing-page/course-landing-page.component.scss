@@ -12,13 +12,25 @@
 }
 
 
-.course-image {
-  max-width: 250px;
+
+.editable-image {
+  $height: 150px;
+  $width: 1.7769 * $height;
   border-radius: 4px;
   margin-bottom: 15px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-repeat: no-repeat;
+  background-image: url('https://s3-us-west-1.amazonaws.com/angular-university/course-images/security-cover-small-v2.png');
+  width: $width;
+  height: $height;
+  background-size: $width $height;
 }
 
-.edit-image {
-  display: inline;
-}
 
+
+.edit-image-control {
+  z-index: 1;
+
+}
