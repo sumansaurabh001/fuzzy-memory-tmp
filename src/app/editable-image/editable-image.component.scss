@@ -42,7 +42,7 @@ $width: 1.7769 * $height;
   height: $height;
   width: $width;
   cursor: pointer;
-  opacity: 0;
+  display: none;
 }
 
 .upload-image-button {
