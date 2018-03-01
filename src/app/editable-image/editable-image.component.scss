@@ -5,9 +5,14 @@
 $height: 150px;
 $width: 1.7769 * $height;
 
+
+.editable-image-container {
+  display: flex;
+  align-items: flex-end;
+}
+
 .editable-image {
   border-radius: 4px;
-  margin-bottom: 15px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -41,5 +46,5 @@ $width: 1.7769 * $height;
 }
 
 .upload-image-button {
-
+  margin-left: 20px;
 }
