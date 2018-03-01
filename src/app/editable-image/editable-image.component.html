@@ -11,7 +11,7 @@
     </div>
   </div>
 
-  <button mat-raised-button color="primary" [disabled]="!imageFile" class="upload-image-button">
+  <button mat-raised-button color="primary" [disabled]="!imageFile" class="upload-image-button" (click)="uploadImage()">
     Upload Image
   </button>
 

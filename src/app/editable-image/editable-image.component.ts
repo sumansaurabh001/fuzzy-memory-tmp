@@ -20,6 +20,10 @@ export class EditableImageComponent implements OnInit {
     this.imageFile = event.target.files[0];
   }
 
+  uploadImage() {
+
+  }
+
   onMouseEnter() {
     this.editMode = true;
   }
