@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, HostListener, OnInit} from '@angular/core';
 
 @Component({
   selector: 'editable-image',
@@ -7,9 +7,26 @@ import { Component, OnInit } from '@angular/core';
 })
 export class EditableImageComponent implements OnInit {
 
-  constructor() { }
+  editMode = false;
+
+  constructor() {}
 
   ngOnInit() {
+
+  }
+
+  onMouseEnter() {
+    this.editMode = true;
+  }
+
+  onMouseLeave() {
+    this.editMode = false;
+  }
+
+  stateClasses() {
+    if (this.editMode) {
+      return 'edit-mode';
+    }
   }
 
 }

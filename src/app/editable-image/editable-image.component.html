@@ -1,7 +1,10 @@
-<div class="editable-image mat-elevation-z4">
 
-  <div class="edit-image-control">
-    <span>Change Image:</span>
+
+<div class="editable-image mat-elevation-z4"
+     [ngClass]="stateClasses()"
+     (mouseenter)="onMouseEnter()" (mouseleave)="onMouseLeave()">
+
+  <div class="edit-image-control" *ngIf="editMode">
     <mat-icon>mode_edit</mat-icon>
   </div>
 
