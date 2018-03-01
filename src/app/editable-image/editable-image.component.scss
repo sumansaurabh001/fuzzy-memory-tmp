@@ -23,11 +23,11 @@
   z-index: 1;
   display: flex;
   align-items: center;
-  cursor: pointer;
   @include mat-icon-size(50px);
   color: black;
 }
 
 .edit-mode {
   opacity: 0.5;
+  cursor: pointer;
 }
