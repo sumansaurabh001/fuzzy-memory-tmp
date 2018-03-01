@@ -12,9 +12,7 @@ export class EditableImageComponent implements OnInit {
   editMode = false;
   image: File = null;
 
-  constructor(
-    private upload: FileUploadService
-  ) {
+  constructor(private upload: FileUploadService) {
 
   }
 
@@ -23,10 +21,9 @@ export class EditableImageComponent implements OnInit {
   }
 
   onFileSelected(event) {
-    this.image = event.target.files[0];
-  }
 
-  uploadImage() {
+    this.image = event.target.files[0];
+
     this.upload.uploadImage(this.image)
       .subscribe(
         event => {
