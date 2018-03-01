@@ -49,6 +49,7 @@ import {CoursesService} from './services/courses.service';
 import {CoursesDBService} from './services/courses-db.service';
 import { CourseCardComponent } from './course-card/course-card.component';
 import { EditableImageComponent } from './editable-image/editable-image.component';
+import {FileUploadService} from './services/file-upload.service';
 
 
 @NgModule({
@@ -110,7 +111,8 @@ import { EditableImageComponent } from './editable-image/editable-image.componen
     CourseResolver,
     TenantService,
     CoursesService,
-    CoursesDBService
+    CoursesDBService,
+    FileUploadService
 
   ],
   entryComponents: [

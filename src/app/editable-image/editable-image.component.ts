@@ -1,4 +1,6 @@
 import {Component, HostListener, OnInit} from '@angular/core';
+import {FileUploadService} from '../services/file-upload.service';
+import {HttpEventType} from '@angular/common/http';
 
 @Component({
   selector: 'editable-image',
@@ -8,20 +10,34 @@ import {Component, HostListener, OnInit} from '@angular/core';
 export class EditableImageComponent implements OnInit {
 
   editMode = false;
-  imageFile = null;
+  image: File = null;
 
-  constructor() { }
+  constructor(
+    private upload: FileUploadService
+  ) {
+
+  }
 
   ngOnInit() {
 
   }
 
   onFileSelected(event) {
-    this.imageFile = event.target.files[0];
+    this.image = event.target.files[0];
   }
 
   uploadImage() {
-
+    this.upload.uploadImage(this.image)
+      .subscribe(
+        event => {
+          if (event.type == HttpEventType.UploadProgress) {
+            console.log('Upload progress: ' + Math.round(event.loaded / event.total * 100));
+          }
+          else if (event.type == HttpEventType.Response) {
+            console.log('Upload completed', event);
+          }
+        }
+      );
   }
 
   onMouseEnter() {
