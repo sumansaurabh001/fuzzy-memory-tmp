@@ -8,11 +8,16 @@ import {Component, HostListener, OnInit} from '@angular/core';
 export class EditableImageComponent implements OnInit {
 
   editMode = false;
+  imageFile = null;
 
-  constructor() {}
+  constructor() { }
 
   ngOnInit() {
 
+  }
+
+  onFileSelected(event) {
+    this.imageFile = event.target.files[0];
   }
 
   onMouseEnter() {

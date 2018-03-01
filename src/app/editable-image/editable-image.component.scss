@@ -2,9 +2,10 @@
 
 @import "../mixins";
 
+$height: 150px;
+$width: 1.7769 * $height;
+
 .editable-image {
-  $height: 150px;
-  $width: 1.7769 * $height;
   border-radius: 4px;
   margin-bottom: 15px;
   display: flex;
@@ -20,7 +21,6 @@
 
 
 .edit-image-control {
-  z-index: 1;
   display: flex;
   align-items: center;
   @include mat-icon-size(50px);
@@ -30,4 +30,16 @@
 .edit-mode {
   opacity: 0.5;
   cursor: pointer;
+}
+
+.file-upload {
+  position: absolute;
+  height: $height;
+  width: $width;
+  cursor: pointer;
+  opacity: 0;
+}
+
+.upload-image-button {
+
 }
