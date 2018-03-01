@@ -48,6 +48,7 @@ import {TenantService} from './services/tenant.service';
 import {CoursesService} from './services/courses.service';
 import {CoursesDBService} from './services/courses-db.service';
 import { CourseCardComponent } from './course-card/course-card.component';
+import { EditableImageComponent } from './editable-image/editable-image.component';
 
 
 @NgModule({
@@ -68,7 +69,8 @@ import { CourseCardComponent } from './course-card/course-card.component';
     LoadingComponent,
     ActionButtonComponent,
     ConfirmationDialogComponent,
-    CourseCardComponent
+    CourseCardComponent,
+    EditableImageComponent
   ],
   imports: [
     BrowserModule,
