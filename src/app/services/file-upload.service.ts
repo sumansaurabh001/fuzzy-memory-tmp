@@ -2,7 +2,8 @@ import { Injectable } from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {TenantService} from './tenant.service';
 import {AngularFireStorage} from 'angularfire2/storage';
-import {delay, switchMap} from 'rxjs/operators';
+import {delay, delayWhen, retry, retryWhen, switchMap} from 'rxjs/operators';
+import {timer} from 'rxjs/observable/timer';
 
 
 
@@ -28,8 +29,9 @@ export class FileUploadService {
       })
       .downloadURL()
       .pipe(
-        delay(5000),
-        switchMap(() => this.storage.ref(this.imagesPath + '/thumb_' + image.name).getDownloadURL())
+        switchMap(() => this.storage.ref(this.imagesPath + '/thumb_' + image.name).getDownloadURL()),
+        delay(2000),
+        retry(3)
       );
   }
 
