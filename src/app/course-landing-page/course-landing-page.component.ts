@@ -4,6 +4,7 @@ import {Observable} from 'rxjs/Observable';
 import {map} from 'rxjs/operators';
 import {ActivatedRoute} from '@angular/router';
 import {TenantService} from '../services/tenant.service';
+import {CoursesService} from '../services/courses.service';
 
 @Component({
   selector: 'course-landing-page',
@@ -15,7 +16,8 @@ export class CourseLandingPageComponent implements OnInit {
   course$: Observable<Course>;
 
   constructor(private route: ActivatedRoute,
-              private tenant: TenantService) {
+              private tenant: TenantService,
+              private coursesService: CoursesService) {
 
     this.course$ = route.data.pipe(map(data => data['course']));
 
@@ -30,4 +32,7 @@ export class CourseLandingPageComponent implements OnInit {
   }
 
 
+  onImageUploaded(course: Course, thumbnailUrl: string) {
+    this.coursesService.updateCourse(course, {thumbnailUrl}).subscribe();
+  }
 }

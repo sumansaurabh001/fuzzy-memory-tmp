@@ -66,6 +66,15 @@ export class CoursesDBService {
     );
 
   }
+
+  updateCourse(course: Course, props: Partial<Course>): Observable<any> {
+    return this.loading.showLoaderWhileBusy(
+      fromPromise(this.afs.collection(this.coursesPath).doc(course.id).update(props))
+        .pipe(
+          map(() => {return {...course, ...props}})
+        )
+    );
+  }
 }
 
 

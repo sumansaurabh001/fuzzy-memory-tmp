@@ -1,7 +1,7 @@
 export interface Course {
   id:string;
   title: string;
-  cardImageUrl: string;
+  thumbnailUrl: string;
   shortDescription: string;
   url: string;
   status: 'draft' | 'published'

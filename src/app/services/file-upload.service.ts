@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import {AngularFireStorage} from 'angularfire2/storage';
-import {delay, delayWhen, retry, retryWhen, switchMap} from 'rxjs/operators';
+import {delay, delayWhen, retry, retryWhen, switchMap, tap} from 'rxjs/operators';
 import {timer} from 'rxjs/observable/timer';
 
 
@@ -15,7 +15,7 @@ export class FileUploadService {
 
   }
 
-  uploadFile(image:File,imagePath:string,  imageId:string) {
+  uploadImageThumbnail(image:File, imagePath:string, imageId:string) {
 
     const fileExtension =  image.name.split('.').pop(),
           uploadFileName = imageId + '.' + fileExtension,
@@ -29,8 +29,9 @@ export class FileUploadService {
       .downloadURL()
       .pipe(
         switchMap(() => this.storage.ref(thumbnailPath).getDownloadURL()),
+        tap(() => console.log('trying to get image thumbnail ...')),
         delay(2000),
-        retry(3)
+        retry(10)
       );
   }
 

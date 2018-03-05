@@ -4,6 +4,7 @@ service cloud.firestore {
     match /schools/{tenant}/courses/{courseId}  {
         allow read: if true;
         allow create: if true;
+        allow update: if true;
         allow delete: if resource.data.status == 'draft';
       }
 

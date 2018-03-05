@@ -63,10 +63,36 @@ export class CoursesService {
       );
   }
 
+  updateCourse(course: Course, props: Partial<Course>) {
+    return this.coursesDB.updateCourse(course, props)
+      .pipe(
+        tap(updated => this.updateAndEmit(updated))
+      );
+
+  }
+
 
   private addAndEmit(course: Course) {
-    return this.subject.next([...this.subject.value.slice(0), course]);
+     this.subject.next([...this.subject.value.slice(0), course]);
   }
+
+
+  private updateAndEmit(course:Course) {
+
+    console.log(course);
+
+    debugger;
+
+    const courses = this.subject.value.slice(0);
+
+    const courseIndex = courses.findIndex(el => el.id == course.id);
+
+    if (courseIndex >= 0) {
+      courses[courseIndex] = course;
+      this.subject.next(courses);
+    }
+  }
+
 
 
 }
