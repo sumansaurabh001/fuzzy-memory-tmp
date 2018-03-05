@@ -14,7 +14,7 @@ export class LoadingService {
 
   loading$: Observable<boolean> = this.loadingSubject.asObservable();
 
-  showLoaderUntilNextValue<T>(obs$: Observable<T>): Observable<T> {
+  showLoader<T>(obs$: Observable<T>): Observable<T> {
     return of(null)
       .pipe(
         tap(() => this.loadingSubject.next(true)),

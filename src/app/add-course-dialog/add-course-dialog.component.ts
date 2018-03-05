@@ -6,7 +6,6 @@ import {MessagesService} from '../services/messages.service';
 import {Course} from '../models/course.model';
 import {Router} from '@angular/router';
 import {CoursesService} from '../services/courses.service';
-import {LoadingService} from '../services/loading.service';
 
 
 @Component({
@@ -25,8 +24,7 @@ export class AddCourseDialogComponent implements OnInit {
               private dialogRef: MatDialogRef<AddCourseDialogComponent>,
               private router: Router,
               private coursesService: CoursesService,
-              private messages: MessagesService,
-              private loading: LoadingService) {
+              private messages: MessagesService) {
 
 
   }
@@ -48,9 +46,7 @@ export class AddCourseDialogComponent implements OnInit {
     const course = this.form.value as Course;
     course.status = 'draft';
 
-   const saveCourse$ = this.coursesService.createNewCourse(course);
-
-   this.loading.showLoaderUntilNextValue(saveCourse$)
+   this.coursesService.createNewCourse(course)
       .subscribe(() => {
           this.router.navigate(['courses', course.url, 'edit']);
           this.dialogRef.close();

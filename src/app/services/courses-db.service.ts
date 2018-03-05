@@ -3,11 +3,9 @@ import {AngularFirestore} from 'angularfire2/firestore';
 import {Observable} from 'rxjs/Observable';
 import {fromPromise} from 'rxjs/observable/fromPromise';
 import {findUniqueMatchWithId, readCollectionWithIds} from '../common/firestore-utils';
-import {LoadingService} from './loading.service';
 import {TenantService} from './tenant.service';
 import {filter, map, switchMap, tap} from 'rxjs/operators';
 import {Course} from '../models/course.model';
-import {_throw} from 'rxjs/observable/throw';
 
 
 @Injectable()

@@ -4,7 +4,6 @@ import {AddCourseDialogComponent} from '../add-course-dialog/add-course-dialog.c
 import {CoursesService} from '../services/courses.service';
 import {Observable} from 'rxjs/Observable';
 import {Course} from '../models/course.model';
-import {LoadingService} from '../services/loading.service';
 
 
 @Component({
@@ -18,7 +17,6 @@ export class CoursesComponent implements OnInit {
 
   constructor(
     private dialog: MatDialog,
-    private loading: LoadingService,
     private coursesService: CoursesService) {
 
   }
@@ -26,8 +24,6 @@ export class CoursesComponent implements OnInit {
   ngOnInit() {
 
     this.courses$ = this.coursesService.courses$;
-
-    this.loading.showLoaderUntilNextValue(this.coursesService.init()).subscribe();
 
   }
 

@@ -4,6 +4,7 @@ import {Course} from '../models/course.model';
 import {Observable} from 'rxjs/Observable';
 import {CoursesService} from '../services/courses.service';
 
+
 @Component({
   selector: 'edit-course',
   templateUrl: './edit-course.component.html',
@@ -22,6 +23,7 @@ export class EditCourseComponent implements OnInit {
   }
 
   ngOnInit() {
+
   }
 
 }

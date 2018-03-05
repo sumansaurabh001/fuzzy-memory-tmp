@@ -6,44 +6,41 @@ import {Course} from '../models/course.model';
 import {CoursesDBService} from './courses-db.service';
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 import {MessagesService} from './messages.service';
+import {LoadingService} from './loading.service';
 
 
 @Injectable()
 export class CoursesService {
-
-  private initialized = false;
 
   private subject = new BehaviorSubject<Course[]>([]);
 
   courses$: Observable<Course[]> = this.subject.asObservable();
 
 
-  constructor(
-    private coursesDB: CoursesDBService,
-    private messages: MessagesService) {
+  constructor(private coursesDB: CoursesDBService,
+              private messages: MessagesService,
+              private loading: LoadingService) {
+
+    this.init();
 
   }
 
 
-  init(): Observable<Course[]> {
+  private init() {
 
-    if (this.initialized) {
-      return this.courses$;
-    }
-    else {
-      return this.coursesDB.findAllCourses()
-        .pipe(
-          tap(courses => {
-            this.initialized = true;
-            this.subject.next(courses);
-          }),
-          switchMap(() => this.courses$)
-        );
-    }
+    this.loading.showLoader(this.coursesDB.findAllCourses())
+      .pipe(
+        tap(courses => this.subject.next(courses)),
+        switchMap(() => this.courses$)
+      )
+      .subscribe(
+        () => {},
+        err => this.messages.error('Could not load courses', err)
+      );
   }
 
   createNewCourse(course: Course): Observable<Course> {
-    return this.coursesDB.createNewCourse(course)
+    return this.loading.showLoader(this.coursesDB.createNewCourse(course))
       .pipe(
         tap(course => this.addAndEmit(course))
       );
@@ -63,7 +60,7 @@ export class CoursesService {
       return course$;
     }
     else {
-      return this.coursesDB.findCourseByUrl(courseUrl)
+      return this.loading.showLoader(this.coursesDB.findCourseByUrl(courseUrl))
         .pipe(
           tap(course => this.addAndEmit(course)),
           switchMap(() => course$)
@@ -72,27 +69,23 @@ export class CoursesService {
     }
   }
 
-
   deleteCourseDraft(courseId: string): Observable<any> {
-    return this.coursesDB.deleteCourseDraft(courseId)
+    return this.loading.showLoader(this.coursesDB.deleteCourseDraft(courseId))
       .pipe(
         tap(() => this.subject.next(this.subject.value.filter(course => course.id !== courseId)))
       );
   }
 
   updateCourse(course: Course, props: Partial<Course>) {
-    return this.coursesDB.updateCourse(course, props)
+    return this.loading.showLoader(this.coursesDB.updateCourse(course, props))
       .pipe(
         tap(updated => this.updateAndEmit(updated))
       );
-
   }
-
 
   private addAndEmit(course: Course) {
     this.subject.next([...this.subject.value.slice(0), course]);
   }
-
 
   private updateAndEmit(course: Course) {
 
