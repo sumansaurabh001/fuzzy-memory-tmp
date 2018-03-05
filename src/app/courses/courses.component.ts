@@ -17,8 +17,7 @@ export class CoursesComponent implements OnInit {
 
   constructor(
     private dialog: MatDialog,
-    private coursesService: CoursesService
-  ) {
+    private coursesService: CoursesService) {
 
   }
 

@@ -50,6 +50,7 @@ import {CoursesDBService} from './services/courses-db.service';
 import { CourseCardComponent } from './course-card/course-card.component';
 import { EditableImageComponent } from './editable-image/editable-image.component';
 import {FileUploadService} from './services/file-upload.service';
+import {AngularFireStorageModule} from 'angularfire2/storage';
 
 
 @NgModule({
@@ -103,7 +104,8 @@ import {FileUploadService} from './services/file-upload.service';
     NgxEditorModule,
     MatDialogModule,
     AngularFireModule.initializeApp(environment.firebase),
-    AngularFirestoreModule
+    AngularFirestoreModule,
+    AngularFireStorageModule
   ],
   providers: [
     MessagesService,

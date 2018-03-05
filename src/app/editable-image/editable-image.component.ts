@@ -24,17 +24,8 @@ export class EditableImageComponent implements OnInit {
 
     this.image = event.target.files[0];
 
-    this.upload.uploadImage(this.image)
-      .subscribe(
-        event => {
-          if (event.type == HttpEventType.UploadProgress) {
-            console.log('Upload progress: ' + Math.round(event.loaded / event.total * 100));
-          }
-          else if (event.type == HttpEventType.Response) {
-            console.log('Upload completed', event);
-          }
-        }
-      );
+    this.upload.uploadFile(this.image)
+      .subscribe(console.log);
   }
 
   onMouseEnter() {
