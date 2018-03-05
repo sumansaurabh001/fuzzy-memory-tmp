@@ -1,6 +1,7 @@
 import {Component, EventEmitter, HostListener, Input, OnInit, Output} from '@angular/core';
 import {FileUploadService} from '../services/file-upload.service';
 import {HttpEventType} from '@angular/common/http';
+import {LoadingService} from '../services/loading.service';
 
 @Component({
   selector: 'editable-image',
@@ -18,7 +19,9 @@ export class EditableImageComponent implements OnInit {
 
   @Output() imageUploaded = new EventEmitter<string>();
 
-  constructor(private upload: FileUploadService) {
+  constructor(
+    private upload: FileUploadService,
+    private loading: LoadingService) {
 
   }
 
@@ -31,7 +34,7 @@ export class EditableImageComponent implements OnInit {
     this.image = event.target.files[0];
 
     if (this.image) {
-      this.upload.uploadImageThumbnail(this.image, this.imagePath, this.imageId)
+      this.loading.showLoader(this.upload.uploadImageThumbnail(this.image, this.imagePath, this.imageId))
         .subscribe(url => this.imageUploaded.next(url));
     }
 

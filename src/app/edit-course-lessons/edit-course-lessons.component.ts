@@ -41,8 +41,8 @@ export class EditCourseLessonsComponent {
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, config);
 
     dialogRef.afterClosed()
-      .subscribe(result => {
-        if (result.confirmed) {
+      .subscribe(confirmed => {
+        if (confirmed) {
 
           this.coursesService.deleteCourseDraft(course.id)
             .subscribe(

@@ -26,13 +26,13 @@ export class ConfirmationDialogComponent  {
   }
 
   cancel() {
-    this.dialogRef.close({confirmed:false});
+    this.dialogRef.close();
 
   }
 
   confirm(userCode) {
     if (userCode == this.confirmationCode) {
-      this.dialogRef.close({confirmed:true});
+      this.dialogRef.close(true);
     }
     else {
       this.messages.error("Invalid confirmation code.");
