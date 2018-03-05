@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {Course} from '../models/course.model';
 import {Observable} from 'rxjs/Observable';
-import {map} from 'rxjs/operators';
+import {CoursesService} from '../services/courses.service';
 
 @Component({
   selector: 'edit-course',
@@ -13,8 +13,12 @@ export class EditCourseComponent implements OnInit {
 
   course$: Observable<Course>;
 
-  constructor(private route: ActivatedRoute) {
-    this.course$ = route.data.pipe(map(data => data['course']));
+  constructor(
+    private route: ActivatedRoute,
+    private coursesService: CoursesService) {
+
+    this.course$ = this.coursesService.findCourseByUrl(route.snapshot.params['courseId']);
+
   }
 
   ngOnInit() {

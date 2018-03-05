@@ -43,7 +43,6 @@ import {LoadingComponent} from './loading/loading.component';
 import {LoadingService} from './services/loading.service';
 import {ActionButtonComponent} from './action-button/action-button.component';
 import {ConfirmationDialogComponent} from './confirmation-dialog/confirmation-dialog.component';
-import {CourseResolver} from './services/course.resolver';
 import {TenantService} from './services/tenant.service';
 import {CoursesService} from './services/courses.service';
 import {CoursesDBService} from './services/courses-db.service';
@@ -110,7 +109,6 @@ import {AngularFireStorageModule} from 'angularfire2/storage';
   providers: [
     MessagesService,
     LoadingService,
-    CourseResolver,
     TenantService,
     CoursesService,
     CoursesDBService,

@@ -19,7 +19,7 @@ export class CourseLandingPageComponent implements OnInit {
               private tenant: TenantService,
               private coursesService: CoursesService) {
 
-    this.course$ = route.data.pipe(map(data => data['course']));
+    this.course$ = this.coursesService.findCourseByUrl(route.snapshot.params['courseId']);
 
   }
 

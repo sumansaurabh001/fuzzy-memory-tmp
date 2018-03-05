@@ -1,11 +1,10 @@
 import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs/Observable';
 
-import {tap} from 'rxjs/operators';
+import {map, switchMap, tap} from 'rxjs/operators';
 import {Course} from '../models/course.model';
 import {CoursesDBService} from './courses-db.service';
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
-import {of} from 'rxjs/observable/of';
 import {MessagesService} from './messages.service';
 
 
@@ -17,16 +16,15 @@ export class CoursesService {
   courses$: Observable<Course[]> = this.subject.asObservable();
 
 
-  constructor(
-    private coursesDB: CoursesDBService,
-    private messages: MessagesService) {
+  constructor(private coursesDB: CoursesDBService,
+              private messages: MessagesService) {
 
-    this.loadAllCourses();
+    this.reloadAllCourses();
 
   }
 
 
-  loadAllCourses() {
+  reloadAllCourses() {
     this.coursesDB.findAllCourses()
       .subscribe(
         courses => this.subject.next(courses),
@@ -41,18 +39,26 @@ export class CoursesService {
   }
 
 
-  findCourseByUrl(courseUrl: string): Observable<Course> | null {
+  findCourseByUrl(courseUrl: string): Observable<Course> {
 
-    const course = this.subject.value.find(course => course.url == courseUrl);
+    const loaded = this.subject.value.find(course => course.url == courseUrl);
 
-    if (course) {
-      return of(course);
-    }
-
-    return this.coursesDB.findCourseByUrl(courseUrl)
+    const course$ = this.courses$
       .pipe(
-        tap(course => this.addAndEmit(course))
+        map(courses => courses.find(course => course.url == courseUrl))
       );
+
+    if (loaded) {
+      return course$;
+    }
+    else {
+      return this.coursesDB.findCourseByUrl(courseUrl)
+        .pipe(
+          tap(course => this.addAndEmit(course)),
+          switchMap(() => course$)
+        );
+
+    }
   }
 
 
@@ -73,15 +79,11 @@ export class CoursesService {
 
 
   private addAndEmit(course: Course) {
-     this.subject.next([...this.subject.value.slice(0), course]);
+    this.subject.next([...this.subject.value.slice(0), course]);
   }
 
 
-  private updateAndEmit(course:Course) {
-
-    console.log(course);
-
-    debugger;
+  private updateAndEmit(course: Course) {
 
     const courses = this.subject.value.slice(0);
 
@@ -92,7 +94,6 @@ export class CoursesService {
       this.subject.next(courses);
     }
   }
-
 
 
 }

@@ -24,7 +24,7 @@ export class EditCourseLessonsComponent {
               private messages: MessagesService,
               private coursesService: CoursesService) {
 
-    this.course$ = route.data.pipe(map(data => data['course']));
+    this.course$ = this.coursesService.findCourseByUrl(route.snapshot.params['courseId']);
 
   }
 
