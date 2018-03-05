@@ -12,6 +12,7 @@ export class EditableImageComponent implements OnInit {
   editMode = false;
   image: File = null;
 
+  @Input() src:string;
   @Input() imagePath:string;
   @Input() imageId:string;
 

@@ -4,7 +4,9 @@
 
   <div class="section-label">Choose Image</div>
 
-  <editable-image [imagePath]="imagesPath(course)" [imageId]="course.url"
+  <editable-image [src]="course.thumbnailUrl"
+                  [imagePath]="imagesPath(course)"
+                  [imageId]="course.url"
                   (imageUploaded)="onImageUploaded(course, $event)">
 
   </editable-image>
