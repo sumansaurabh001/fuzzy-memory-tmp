@@ -1,4 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import {ActivatedRoute} from '@angular/router';
+import {Course} from '../models/course.model';
+import {Observable} from 'rxjs/Observable';
+import {map} from 'rxjs/operators';
 
 @Component({
   selector: 'edit-course',
@@ -7,7 +11,11 @@ import { Component, OnInit } from '@angular/core';
 })
 export class EditCourseComponent implements OnInit {
 
-  constructor() { }
+  course$: Observable<Course>;
+
+  constructor(private route: ActivatedRoute) {
+    this.course$ = route.data.pipe(map(data => data['course']));
+  }
 
   ngOnInit() {
   }

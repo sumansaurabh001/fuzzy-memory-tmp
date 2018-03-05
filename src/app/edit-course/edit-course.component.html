@@ -1,5 +1,5 @@
 
-<div class="course-header">
+<div class="course-header" *ngIf="(course$ | async) as course">
 
   <img class="mat-elevation-z4"
        src="https://s3-us-west-1.amazonaws.com/angular-university/course-images/security-cover-small-v2.png">

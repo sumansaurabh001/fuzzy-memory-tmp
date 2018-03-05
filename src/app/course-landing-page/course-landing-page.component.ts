@@ -1,4 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
+import {Course} from '../models/course.model';
+import {Observable} from 'rxjs/Observable';
+import {map} from 'rxjs/operators';
+import {ActivatedRoute} from '@angular/router';
+import {TenantService} from '../services/tenant.service';
 
 @Component({
   selector: 'course-landing-page',
@@ -7,9 +12,22 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CourseLandingPageComponent implements OnInit {
 
-  constructor() { }
+  course$: Observable<Course>;
+
+  constructor(private route: ActivatedRoute,
+              private tenant: TenantService) {
+
+    this.course$ = route.data.pipe(map(data => data['course']));
+
+  }
 
   ngOnInit() {
+
   }
+
+  imagesPath(course: Course) {
+    return this.tenant.id + '/' + course.url + '/thumbnail';
+  }
+
 
 }

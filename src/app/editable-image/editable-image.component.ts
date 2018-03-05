@@ -1,4 +1,4 @@
-import {Component, HostListener, OnInit} from '@angular/core';
+import {Component, HostListener, Input, OnInit} from '@angular/core';
 import {FileUploadService} from '../services/file-upload.service';
 import {HttpEventType} from '@angular/common/http';
 
@@ -12,6 +12,9 @@ export class EditableImageComponent implements OnInit {
   editMode = false;
   image: File = null;
 
+  @Input() imagePath:string;
+  @Input() imageId:string;
+
   constructor(private upload: FileUploadService) {
 
   }
@@ -24,8 +27,11 @@ export class EditableImageComponent implements OnInit {
 
     this.image = event.target.files[0];
 
-    this.upload.uploadFile(this.image)
-      .subscribe(console.log);
+    if (this.image) {
+      this.upload.uploadFile(this.image, this.imagePath, this.imageId)
+        .subscribe(console.log);
+    }
+
   }
 
   onMouseEnter() {
