@@ -19,16 +19,14 @@ export class CoursesService {
   constructor(private coursesDB: CoursesDBService,
               private messages: MessagesService) {
 
-    this.reloadAllCourses();
-
   }
 
 
-  reloadAllCourses() {
-    this.coursesDB.findAllCourses()
-      .subscribe(
-        courses => this.subject.next(courses),
-        err => this.messages.error('Could not load courses.', err));
+  reloadAllCourses(): Observable<Course[]> {
+    return this.coursesDB.findAllCourses()
+      .pipe(
+        tap(courses => this.subject.next(courses))
+      );
   }
 
   createNewCourse(course: Course): Observable<Course> {
