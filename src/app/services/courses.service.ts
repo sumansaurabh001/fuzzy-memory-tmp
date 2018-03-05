@@ -11,22 +11,35 @@ import {MessagesService} from './messages.service';
 @Injectable()
 export class CoursesService {
 
+  private initialized = false;
+
   private subject = new BehaviorSubject<Course[]>([]);
 
   courses$: Observable<Course[]> = this.subject.asObservable();
 
 
-  constructor(private coursesDB: CoursesDBService,
-              private messages: MessagesService) {
+  constructor(
+    private coursesDB: CoursesDBService,
+    private messages: MessagesService) {
 
   }
 
 
-  reloadAllCourses(): Observable<Course[]> {
-    return this.coursesDB.findAllCourses()
-      .pipe(
-        tap(courses => this.subject.next(courses))
-      );
+  init(): Observable<Course[]> {
+
+    if (this.initialized) {
+      return this.courses$;
+    }
+    else {
+      return this.coursesDB.findAllCourses()
+        .pipe(
+          tap(courses => {
+            this.initialized = true;
+            this.subject.next(courses);
+          }),
+          switchMap(() => this.courses$)
+        );
+    }
   }
 
   createNewCourse(course: Course): Observable<Course> {

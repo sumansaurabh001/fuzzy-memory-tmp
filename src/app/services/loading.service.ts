@@ -15,7 +15,7 @@ export class LoadingService {
 
   loading$: Observable<boolean> = this.loadingSubject.asObservable();
 
-  showLoaderWhileBusy<T>(obs$:Observable<T>) : Observable<T> {
+  showLoaderUntilCompleted<T>(obs$:Observable<T>) : Observable<T> {
     return of(null)
       .pipe(
           tap(() => this.loadingSubject.next(true)),
@@ -23,5 +23,16 @@ export class LoadingService {
           finalize(() => this.loadingSubject.next(false)),
       );
   }
+
+  showLoaderUntilNextValue<T>(obs$:Observable<T>) : Observable<T> {
+    return of(null)
+      .pipe(
+        tap(() => this.loadingSubject.next(true)),
+        switchMap(() => obs$),
+        tap(() => this.loadingSubject.next(false)),
+      );
+  }
+
+
 
 }

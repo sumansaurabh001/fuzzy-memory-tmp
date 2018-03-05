@@ -24,9 +24,11 @@ export class CoursesComponent implements OnInit {
   }
 
   ngOnInit() {
+
     this.courses$ = this.coursesService.courses$;
 
-    this.loading.showLoaderWhileBusy(this.coursesService.reloadAllCourses()).subscribe();
+    this.loading.showLoaderUntilNextValue(this.coursesService.init()).subscribe();
+
   }
 
   addNewCourse() {
