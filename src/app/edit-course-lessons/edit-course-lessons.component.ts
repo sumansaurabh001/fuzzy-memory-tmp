@@ -1,10 +1,12 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {MatDialog, MatDialogConfig} from '@angular/material';
 import {ConfirmationDialogComponent} from '../confirmation-dialog/confirmation-dialog.component';
 import {CoursesService} from '../services/courses.service';
 import {MessagesService} from '../services/messages.service';
 import {Course} from '../models/course.model';
+import {Observable} from 'rxjs/Observable';
+import {map, withLatestFrom} from 'rxjs/operators';
 
 
 @Component({
@@ -14,19 +16,19 @@ import {Course} from '../models/course.model';
 })
 export class EditCourseLessonsComponent {
 
-  course:Course;
+  course$: Observable<Course>;
 
-  constructor(
-    private dialog: MatDialog,
-    private route: ActivatedRoute,
-    private router: Router,
-    private messages: MessagesService,
-    private coursesService: CoursesService) {
+  constructor(private dialog: MatDialog,
+              private route: ActivatedRoute,
+              private router: Router,
+              private messages: MessagesService,
+              private coursesService: CoursesService) {
 
-    this.course = route.snapshot.data['course'];
+    this.course$ = route.data.pipe(map(data => data['course']));
+
   }
 
-  deleteCourseDraft() {
+  deleteCourseDraft(course:Course) {
 
     const config = new MatDialogConfig();
 
@@ -34,22 +36,21 @@ export class EditCourseLessonsComponent {
 
     config.data = {
       title: 'Deleting Course Draft',
-      confirmationCode: this.course.url
+      confirmationCode: course.url
     };
 
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, config);
 
-    dialogRef.afterClosed().subscribe(result => {
-
-      if (result.confirmed) {
-        this.coursesService.deleteCourseDraft(this.course.id)
-          .subscribe(
-            () => this.router.navigateByUrl('/'),
-            err => this.messages.error('Error deleting course draft.')
-          );
-      }
-
-    });
+    dialogRef.afterClosed()
+      .subscribe(result => {
+        if (result.confirmed) {
+          this.coursesService.deleteCourseDraft(course.id)
+            .subscribe(
+              () => this.router.navigateByUrl('/'),
+              err => this.messages.error('Error deleting course draft.')
+            );
+        }
+      });
 
   }
 

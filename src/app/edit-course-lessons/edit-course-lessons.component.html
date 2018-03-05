@@ -1,95 +1,92 @@
+<ng-container *ngIf="(course$ | async) as course">
+
+  <edit-lessons-toolbar>
+
+    <action-button text="Bulk Upload" icon="cloud_upload"></action-button>
+
+  </edit-lessons-toolbar>
 
 
-<edit-lessons-toolbar>
+  <div class="course-section mat-elevation-z7">
 
-  <action-button text="Bulk Upload" icon="cloud_upload"></action-button>
+    <div class="section-title">
+      <span class="section-number">Section 1:</span>
+      <span class="section-title-text">Introduction to Authentication with JWT</span>
+      <div class="filler draggable"></div>
+      <mat-icon class="drag-section draggable">drag_handle</mat-icon>
+    </div>
 
-</edit-lessons-toolbar>
+
+    <mat-expansion-panel expanded="false">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          <span class="lecture-number" fxHide.lt-lg="true">Lecture 1:</span>
+          <mat-icon>play_circle_outline</mat-icon>
+        </mat-panel-title>
+        <mat-panel-description>
+          Angular Security Course Helicopter View
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+      <edit-lesson></edit-lesson>
+    </mat-expansion-panel>
 
 
-<div class="course-section mat-elevation-z7">
+    <mat-expansion-panel expanded="false">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          <span class="lecture-number" fxHide.lt-lg="true">Lecture 2:</span>
+          <mat-icon>play_circle_outline</mat-icon>
+        </mat-panel-title>
+        <mat-panel-description>
+          The Typescript Jumpstart Ebook
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+      <edit-lesson></edit-lesson>
+    </mat-expansion-panel>
 
-  <div class="section-title">
-    <span class="section-number">Section 1:</span>
-    <span class="section-title-text">Introduction to Authentication with JWT</span>
-    <div class="filler draggable"></div>
-    <mat-icon class="drag-section draggable">drag_handle</mat-icon>
+
+    <mat-expansion-panel expanded="false">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          <span class="lecture-number" fxHide.lt-lg="true">Lecture 100:</span>
+          <mat-icon>play_circle_outline</mat-icon>
+        </mat-panel-title>
+        <mat-panel-description>
+          Installing Git, Node, NPM and Choosing an IDE
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+      <edit-lesson></edit-lesson>
+    </mat-expansion-panel>
+
+
+    <div class="bottom-toolbar">
+
+      <div class="filler"></div>
+
+      <action-button text="Add Lesson" color="accent" icon="add"></action-button>
+
+    </div>
+
+
   </div>
 
 
-  <mat-expansion-panel expanded="false">
-    <mat-expansion-panel-header>
-      <mat-panel-title>
-        <span class="lecture-number" fxHide.lt-lg="true">Lecture 1:</span>
-        <mat-icon>play_circle_outline</mat-icon>
-      </mat-panel-title>
-      <mat-panel-description>
-        Angular Security Course Helicopter View
-      </mat-panel-description>
-    </mat-expansion-panel-header>
-    <edit-lesson></edit-lesson>
-  </mat-expansion-panel>
+  <action-button *ngIf="course.status == 'draft'"
+                 text="Delete Course Draft" color="warn"
+                 icon="delete" (click)="deleteCourseDraft(course)">
+
+  </action-button>
 
 
-  <mat-expansion-panel expanded="false">
-    <mat-expansion-panel-header>
-      <mat-panel-title>
-        <span class="lecture-number" fxHide.lt-lg="true">Lecture 2:</span>
-        <mat-icon>play_circle_outline</mat-icon>
-      </mat-panel-title>
-      <mat-panel-description>
-        The Typescript Jumpstart Ebook
-      </mat-panel-description>
-    </mat-expansion-panel-header>
-   <edit-lesson></edit-lesson>
-  </mat-expansion-panel>
+  <div class="add-section-panel">
 
-
-  <mat-expansion-panel expanded="false">
-    <mat-expansion-panel-header>
-      <mat-panel-title>
-        <span class="lecture-number" fxHide.lt-lg="true">Lecture 100:</span>
-        <mat-icon>play_circle_outline</mat-icon>
-      </mat-panel-title>
-      <mat-panel-description>
-        Installing Git, Node, NPM and Choosing an IDE
-      </mat-panel-description>
-    </mat-expansion-panel-header>
-    <edit-lesson></edit-lesson>
-  </mat-expansion-panel>
-
-
-  <div class="bottom-toolbar">
-
-    <div class="filler"></div>
-
-    <action-button text="Add Lesson" color="accent" icon="add"></action-button>
-
+    <span>Add Course Section</span>
+    <button class="add-section" mat-fab color="accent">
+      <mat-icon>add</mat-icon>
+    </button>
   </div>
 
 
-</div>
-
-
-<action-button *ngIf="course?.status == 'draft'"
-               text="Delete Course Draft" color="warn"
-               icon="delete" (click)="deleteCourseDraft()">
-
-</action-button>
-
-
-
-<div class="add-section-panel">
-
-  <span>Add Course Section</span>
-  <button class="add-section" mat-fab color="accent">
-    <mat-icon>add</mat-icon>
-  </button>
-</div>
-
-
-
-
-
+</ng-container>
 
 
