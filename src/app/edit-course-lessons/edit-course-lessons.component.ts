@@ -7,6 +7,7 @@ import {MessagesService} from '../services/messages.service';
 import {Course} from '../models/course.model';
 import {Observable} from 'rxjs/Observable';
 import {map, withLatestFrom} from 'rxjs/operators';
+import {LoadingService} from '../services/loading.service';
 
 
 @Component({
@@ -22,7 +23,8 @@ export class EditCourseLessonsComponent {
               private route: ActivatedRoute,
               private router: Router,
               private messages: MessagesService,
-              private coursesService: CoursesService) {
+              private coursesService: CoursesService,
+              private loading: LoadingService) {
 
     this.course$ = this.coursesService.findCourseByUrl(route.snapshot.params['courseId']);
 
@@ -44,7 +46,8 @@ export class EditCourseLessonsComponent {
     dialogRef.afterClosed()
       .subscribe(result => {
         if (result.confirmed) {
-          this.coursesService.deleteCourseDraft(course.id)
+
+          this.loading.showLoaderUntilNextValue(this.coursesService.deleteCourseDraft(course.id))
             .subscribe(
               () => this.router.navigateByUrl('/'),
               err => this.messages.error('Error deleting course draft.')
