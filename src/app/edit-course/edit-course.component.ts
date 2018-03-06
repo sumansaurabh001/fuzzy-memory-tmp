@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {Course} from '../models/course.model';
 import {Observable} from 'rxjs/Observable';
@@ -15,6 +15,8 @@ export class EditCourseComponent implements OnInit {
 
   course$: Observable<Course>;
 
+  selectedIndex = 0;
+
   constructor(
     private route: ActivatedRoute,
     private coursesService: CoursesService) {
@@ -29,6 +31,14 @@ export class EditCourseComponent implements OnInit {
 
   imgSrc(course:Course) {
     return course.thumbnailUrl || EMPTY_IMG;
+  }
+
+  onTabChange(selectedIndex) {
+    this.selectedIndex = selectedIndex;
+  }
+
+  editCourse() {
+    this.selectedIndex = 1;
   }
 
 }

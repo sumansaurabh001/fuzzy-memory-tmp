@@ -1,8 +1,5 @@
 
 
-
-
-
 :host ::ng-deep .mat-tab-label  {
   text-transform: uppercase;
   font-weight: bold;
@@ -19,6 +16,7 @@
   }
 
   .course-title {
+    cursor: pointer;
     display: flex;
     margin-left: 30px;
     margin-top: 10px;
@@ -34,4 +32,8 @@
 
 .edit-title {
   cursor: pointer;
+}
+
+.course-image {
+  cursor:pointer;
 }
