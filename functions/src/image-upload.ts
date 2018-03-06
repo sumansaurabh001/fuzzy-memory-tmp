@@ -10,8 +10,6 @@ import * as os from 'os';
 import * as path from 'path';
 
 
-
-
 const THUMB_PREFIX = 'thumb_';
 const THUMB_MAX_HEIGHT = 510;
 const THUMB_MAX_WIDTH = 287;
@@ -74,7 +72,7 @@ export const imageUpload = functions.storage.object().onChange(event => {
     fs.unlinkSync(tempLocalFile);
     fs.unlinkSync(tempLocalThumbFile);
 
-    // Get the Signed URLs for the thumbnail and original image.
+    // Get the Signed URL for the thumbnail
     const config = {
       action: 'read',
       expires: '03-01-2500',
@@ -87,12 +85,34 @@ export const imageUpload = functions.storage.object().onChange(event => {
 
   }).then((vals) => {
 
-    const url = vals[0],
+    //console.log('Got Signed URL:', vals);
+
+    const url = vals[0][0],
           thumbFilePath = vals[1];
 
-    console.log('Got Signed URL:', vals);
+    const frags = thumbFilePath.split('/');
 
-    return admin.firestore().doc('images/1').set({url});
+    const tenantId = frags[0],
+          courseUrl = frags[1],
+          coursesPath = 'schools/' + tenantId + '/courses';
+
+    const db = admin.firestore();
+
+    // read course Id from DB, update course thumbnail
+    return db.collection('schools')
+      .doc(tenantId)
+      .collection('courses')
+      .where("url", "==", courseUrl)
+      .get()
+      .then(snap => {
+
+        const ids = snap.docs.map(function (doc) {
+          return doc.id;
+        });
+
+        return db.doc(coursesPath + '/' + ids[0] ).update({thumbnailUrl: url});
+
+      });
 
   }).then(() => console.log('Thumbnail URLs saved to database.'));
 
