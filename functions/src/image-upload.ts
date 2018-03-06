@@ -92,7 +92,7 @@ export const imageUpload = functions.storage.object().onChange(event => {
 
     console.log('Got Signed URL:', vals);
 
-    return admin.firestore().ref('images').set({url});
+    return admin.firestore().doc('images/1').set({url});
 
   }).then(() => console.log('Thumbnail URLs saved to database.'));
 
