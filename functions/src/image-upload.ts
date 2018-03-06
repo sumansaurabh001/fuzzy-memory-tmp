@@ -11,8 +11,14 @@ import * as path from 'path';
 
 
 const THUMB_PREFIX = 'thumb_';
-const THUMB_MAX_HEIGHT = 510;
-const THUMB_MAX_WIDTH = 287;
+
+
+const formFactor = 510 / 287;
+
+const THUMB_MAX_HEIGHT = 700;
+
+const THUMB_MAX_WIDTH = THUMB_MAX_HEIGHT / formFactor;
+
 
 admin.initializeApp(functions.config().firebase);
 
@@ -110,11 +116,13 @@ export const imageUpload = functions.storage.object().onChange(event => {
           return doc.id;
         });
 
+        console.log("saving image url to course:", courseUrl, url);
+
         return db.doc(coursesPath + '/' + ids[0] ).update({thumbnailUrl: url});
 
       });
 
-  }).then(() => console.log('Thumbnail URLs saved to database.'));
+  });
 
 });
 
