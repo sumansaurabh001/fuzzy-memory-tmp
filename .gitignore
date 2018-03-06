@@ -47,3 +47,4 @@ firebase-debug.log
 functions/node_modules
 functions/lib
 
+# functions/src/service-account-credentials.json
