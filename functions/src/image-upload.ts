@@ -2,11 +2,23 @@ import * as functions from 'firebase-functions';
 const admin = require('firebase-admin');
 const spawn = require('child-process-promise').spawn;
 const mkdirp = require('mkdirp-promise');
+import * as fs from 'fs';
+
+fs.readdir(__dirname, (err, files) => {
+  files.forEach(file => {
+    console.log(file);
+  });
+});
+
 const gcs = require('@google-cloud/storage')({keyFilename: __dirname + '/service-account-credentials.json'});
 
 import * as os from 'os';
 import * as path from 'path';
-import * as fs from 'fs';
+
+
+
+
+
 
 const THUMB_PREFIX = 'thumb_';
 const THUMB_MAX_HEIGHT = 510;
