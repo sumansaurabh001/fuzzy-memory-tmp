@@ -50,6 +50,7 @@ import { CourseCardComponent } from './course-card/course-card.component';
 import { EditableImageComponent } from './editable-image/editable-image.component';
 import {FileUploadService} from './services/file-upload.service';
 import {AngularFireStorageModule} from 'angularfire2/storage';
+import {CourseResolver} from './services/course.resolver';
 
 
 @NgModule({
@@ -112,7 +113,8 @@ import {AngularFireStorageModule} from 'angularfire2/storage';
     TenantService,
     CoursesService,
     CoursesDBService,
-    FileUploadService
+    FileUploadService,
+    CourseResolver
 
   ],
   entryComponents: [

@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs/Observable';
 
-import {first, map, switchMap, tap} from 'rxjs/operators';
+import {filter, first, map, switchMap, tap} from 'rxjs/operators';
 import {Course} from '../models/course.model';
 import {CoursesDBService} from './courses-db.service';
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
@@ -35,8 +35,23 @@ export class CoursesService {
         switchMap(() => this.courses$)
       )
       .subscribe(
-        () => {},
+        () => {
+        },
         err => this.messages.error('Could not load courses', err)
+      );
+  }
+
+  selectCourseById(id:string) {
+    return this.courses$
+      .pipe(
+        map(courses => courses.find(course => course.id == id))
+      );
+  }
+
+  selectCourseByUrl(url: string): Observable<Course> {
+    return this.courses$
+      .pipe(
+        map(courses => courses.find(course => course.url == url))
       );
   }
 
@@ -48,27 +63,20 @@ export class CoursesService {
   }
 
 
-  findCourseByUrl(courseUrl: string): Observable<Course> {
+  loadCourseWithUrl(courseUrl: string): Observable<Course> {
 
     const loaded = this.subject.value.find(course => course.url == courseUrl);
 
-    const course$ = this.courses$
-      .pipe(
-        map(courses => courses.find(course => course.url == courseUrl))
-      );
-
-    if (loaded) {
-      return course$;
-    }
-    else {
-      return this.loading.showLoader(this.coursesDB.findCourseByUrl(courseUrl))
+    if (!loaded) {
+      this.loading.showLoader(this.coursesDB.findCourseByUrl(courseUrl))
         .pipe(
           first(),
-          tap(course => this.addAndEmit(course)),
-          switchMap(() => course$)
-        );
-
+          tap(course => this.addAndEmit(course))
+        )
+        .subscribe();
     }
+
+    return this.selectCourseByUrl(courseUrl);
   }
 
   deleteCourseDraft(courseId: string): Observable<any> {

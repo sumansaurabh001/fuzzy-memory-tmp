@@ -19,7 +19,7 @@ export class EditCourseComponent implements OnInit {
     private route: ActivatedRoute,
     private coursesService: CoursesService) {
 
-    this.course$ = this.coursesService.findCourseByUrl(route.snapshot.params['courseId']);
+    this.course$ = this.coursesService.selectCourseByUrl(route.snapshot.params['courseUrl']);
 
   }
 

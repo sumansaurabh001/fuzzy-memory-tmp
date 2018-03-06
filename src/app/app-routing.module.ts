@@ -3,6 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import {EditCourseComponent} from './edit-course/edit-course.component';
 import {CoursesComponent} from './courses/courses.component';
 import {CourseComponent} from './course/course.component';
+import {CourseResolver} from './services/course.resolver';
 
 
 const routes: Routes = [
@@ -11,8 +12,11 @@ const routes: Routes = [
     component: CourseComponent
   },
   {
-    path: 'courses/:courseId/edit',
+    path: 'courses/:courseUrl/edit',
     component: EditCourseComponent,
+    data: {
+      course: CourseResolver
+    }
   },
   {
     path:'courses',
