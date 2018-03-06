@@ -4,18 +4,10 @@ const spawn = require('child-process-promise').spawn;
 const mkdirp = require('mkdirp-promise');
 import * as fs from 'fs';
 
-fs.readdir(__dirname, (err, files) => {
-  files.forEach(file => {
-    console.log(file);
-  });
-});
-
 const gcs = require('@google-cloud/storage')({keyFilename: __dirname + '/service-account-credentials.json'});
 
 import * as os from 'os';
 import * as path from 'path';
-
-
 
 
 
@@ -26,8 +18,7 @@ const THUMB_MAX_WIDTH = 287;
 
 admin.initializeApp(functions.config().firebase);
 
-const db = admin.firestore();
-const storage = admin.storage();
+
 
 
 export const imageUpload = functions.storage.object().onChange(event => {
@@ -83,26 +74,26 @@ export const imageUpload = functions.storage.object().onChange(event => {
     fs.unlinkSync(tempLocalFile);
     fs.unlinkSync(tempLocalThumbFile);
 
-    console.log('Saving Urls in DB...', thumbFilePath);
-
     // Get the Signed URLs for the thumbnail and original image.
     const config = {
       action: 'read',
       expires: '03-01-2500',
     };
+
     return Promise.all([
       thumbFile.getSignedUrl(config),
-      file.getSignedUrl(config),
+      Promise.resolve(thumbFilePath)
     ]);
-  }).then((results) => {
-    console.log('Got Signed URLs.');
-    const thumbResult = results[0];
-    const originalResult = results[1];
-    const thumbFileUrl = thumbResult[0];
-    const fileUrl = originalResult[0];
 
-    // Add the URLs to the Database
-    return db.ref('images').push({path: fileUrl, thumbnail: thumbFileUrl});
+  }).then((vals) => {
+
+    const url = vals[0],
+          thumbFilePath = vals[1];
+
+    console.log('Got Signed URL:', vals);
+
+    return admin.firestore().ref('images').set({url});
+
   }).then(() => console.log('Thumbnail URLs saved to database.'));
 
 });
