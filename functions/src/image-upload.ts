@@ -78,28 +78,12 @@ export const imageUpload = functions.storage.object().onChange(event => {
     fs.unlinkSync(tempLocalFile);
     fs.unlinkSync(tempLocalThumbFile);
 
-    // Get the Signed URL for the thumbnail
-    const config = {
-      action: 'read',
-      expires: '03-01-2500',
-    };
-
-    return Promise.all([
-      thumbFile.getSignedUrl(config),
-      Promise.resolve(thumbFilePath)
-    ]);
-
-  }).then((vals) => {
-
-    //console.log('Got Signed URL:', vals);
-
-    const url = vals[0][0],
-          thumbFilePath = vals[1];
 
     const frags = thumbFilePath.split('/');
 
     const tenantId = frags[0],
           courseUrl = frags[1],
+          url = "https://firebasestorage.googleapis.com/v0/b/onlinecoursehost-local-dev.appspot.com/o/" + tenantId + "%2F" + courseUrl + "%2Fthumbnail%2Fthumb_" + courseUrl + ".png?alt=media",
           coursesPath = 'schools/' + tenantId + '/courses';
 
     const db = admin.firestore();
