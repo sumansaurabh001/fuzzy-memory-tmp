@@ -4,7 +4,7 @@ import {Observable} from 'rxjs/Observable';
 import {fromPromise} from 'rxjs/observable/fromPromise';
 import {findUniqueMatchWithId, readCollectionWithIds} from '../common/firestore-utils';
 import {TenantService} from './tenant.service';
-import {filter, map, switchMap, tap} from 'rxjs/operators';
+import {filter, first, map, switchMap, tap} from 'rxjs/operators';
 import {Course} from '../models/course.model';
 
 
@@ -23,27 +23,27 @@ export class CoursesDBService {
 
     const courseQuery$ = this.afs.collection<Course>(this.coursesPath, ref => ref.where('url', '==', courseUrl));
 
-    return findUniqueMatchWithId(courseQuery$);
-
+    return findUniqueMatchWithId(courseQuery$).pipe(first());
   }
 
   findAllCourses(): Observable<Course[]> {
-    return readCollectionWithIds<Course[]>(this.afs.collection(this.coursesPath));
+    return readCollectionWithIds<Course[]>(this.afs.collection(this.coursesPath)).pipe(first());
   }
 
   createNewCourse(course: Course): Observable<Course> {
-    return this.findCourseByUrl(course.url).pipe(
-      tap(result => {
-        if (result) {
-          throw 'Please choose another course url, this one is already in use.';
-        }
-      }),
-      filter(result => !result),
-      switchMap(() => fromPromise(this.afs.collection(this.coursesPath).add(course))),
-      map(ref => {
-        return {...course, id: ref.id};
-      })
-    );
+    return this.findCourseByUrl(course.url)
+      .pipe(
+        tap(result => {
+          if (result) {
+            throw 'Please choose another course url, this one is already in use.';
+          }
+        }),
+        filter(result => !result),
+        switchMap(() => fromPromise(this.afs.collection(this.coursesPath).add(course))),
+        map(ref => {
+          return {...course, id: ref.id};
+        })
+      );
   }
 
 

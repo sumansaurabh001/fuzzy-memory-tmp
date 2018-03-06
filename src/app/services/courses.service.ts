@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs/Observable';
 
-import {map, switchMap, tap} from 'rxjs/operators';
+import {first, map, switchMap, tap} from 'rxjs/operators';
 import {Course} from '../models/course.model';
 import {CoursesDBService} from './courses-db.service';
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
@@ -30,6 +30,7 @@ export class CoursesService {
 
     this.loading.showLoader(this.coursesDB.findAllCourses())
       .pipe(
+        first(),
         tap(courses => this.subject.next(courses)),
         switchMap(() => this.courses$)
       )
@@ -62,6 +63,7 @@ export class CoursesService {
     else {
       return this.loading.showLoader(this.coursesDB.findCourseByUrl(courseUrl))
         .pipe(
+          first(),
           tap(course => this.addAndEmit(course)),
           switchMap(() => course$)
         );
