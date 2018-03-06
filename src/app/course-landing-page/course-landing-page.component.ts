@@ -31,8 +31,4 @@ export class CourseLandingPageComponent implements OnInit {
     return this.tenant.id + '/' + course.url + '/thumbnail';
   }
 
-
-  onImageUploaded(course: Course, thumbnailUrl: string) {
-    this.coursesService.updateCourse(course, {thumbnailUrl}).subscribe();
-  }
 }

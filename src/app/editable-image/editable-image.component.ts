@@ -34,8 +34,8 @@ export class EditableImageComponent implements OnInit {
     this.image = event.target.files[0];
 
     if (this.image) {
-      this.loading.showLoader(this.upload.uploadImageThumbnail(this.image, this.imagePath, this.imageId))
-        .subscribe(url => this.imageUploaded.next(url));
+      this.upload.uploadImageThumbnail(this.image, this.imagePath, this.imageId)
+        .subscribe(percent => console.log("percentage:",percent));
     }
 
   }

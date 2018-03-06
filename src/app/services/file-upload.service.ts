@@ -26,13 +26,7 @@ export class FileUploadService {
       {
         cacheControl:"max-age=2592000,public",
       })
-      .downloadURL()
-      .pipe(
-        switchMap(() => this.storage.ref(thumbnailPath).getDownloadURL()),
-        tap(() => console.log('trying to get image thumbnail ...')),
-        delay(2000),
-        retry(10)
-      );
+      .percentageChanges();
   }
 
 }
