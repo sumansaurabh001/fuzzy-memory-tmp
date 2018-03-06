@@ -2,7 +2,7 @@ import * as functions from 'firebase-functions';
 const admin = require('firebase-admin');
 const spawn = require('child-process-promise').spawn;
 const mkdirp = require('mkdirp-promise');
-const gcs = require('@google-cloud/storage')();
+const gcs = require('@google-cloud/storage')({keyFilename: 'service-account-credentials.json'});
 
 import * as os from 'os';
 import * as path from 'path';
