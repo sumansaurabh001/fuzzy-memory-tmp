@@ -1,5 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {Course} from '../models/course.model';
+import {EMPTY_IMG} from '../common/ui-constants';
 
 @Component({
   selector: 'course-card',
@@ -13,6 +14,10 @@ export class CourseCardComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
+  }
+
+  imgSrc() {
+    return this.course && this.course.thumbnailUrl ? this.course.thumbnailUrl : EMPTY_IMG;
   }
 
 }

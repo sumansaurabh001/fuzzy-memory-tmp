@@ -2,7 +2,7 @@
 <div class="course-header" *ngIf="(course$ | async) as course">
 
   <img class="mat-elevation-z4"
-       [src]="course.thumbnailUrl">
+       [src]="imgSrc(course)">
 
   <div class="course-title">
     Angular 5 Security Masterclass (with FREE E-Book)

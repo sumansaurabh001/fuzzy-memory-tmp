@@ -3,6 +3,7 @@ import {ActivatedRoute} from '@angular/router';
 import {Course} from '../models/course.model';
 import {Observable} from 'rxjs/Observable';
 import {CoursesService} from '../services/courses.service';
+import {EMPTY_IMG} from '../common/ui-constants';
 
 
 @Component({
@@ -24,6 +25,10 @@ export class EditCourseComponent implements OnInit {
 
   ngOnInit() {
 
+  }
+
+  imgSrc(course:Course) {
+    return course.thumbnailUrl || EMPTY_IMG;
   }
 
 }

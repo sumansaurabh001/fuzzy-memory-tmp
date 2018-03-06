@@ -2,6 +2,7 @@ import {Component, EventEmitter, HostListener, Input, OnInit, Output} from '@ang
 import {FileUploadService} from '../services/file-upload.service';
 import {HttpEventType} from '@angular/common/http';
 import {LoadingService} from '../services/loading.service';
+import {EMPTY_IMG} from '../common/ui-constants';
 
 @Component({
   selector: 'editable-image',
@@ -13,7 +14,7 @@ export class EditableImageComponent implements OnInit {
   editMode = false;
   image: File = null;
 
-  @Input() src:string;
+  @Input() src;
   @Input() imagePath:string;
   @Input() imageId:string;
 
@@ -52,6 +53,10 @@ export class EditableImageComponent implements OnInit {
     if (this.editMode) {
       return 'edit-mode';
     }
+  }
+
+  imgSrc() {
+    return this.src || EMPTY_IMG;
   }
 
 }

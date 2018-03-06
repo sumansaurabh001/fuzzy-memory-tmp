@@ -17,6 +17,7 @@ export class CoursesDBService {
               private tenant: TenantService) {
 
     this.coursesPath = this.tenant.path('courses');
+
   }
 
   findCourseByUrl(courseUrl: string) {

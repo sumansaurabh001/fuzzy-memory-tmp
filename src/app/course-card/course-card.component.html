@@ -3,13 +3,8 @@
     <mat-card-title>{{course?.title}}</mat-card-title>
   </mat-card-header>
 
-  <img mat-card-image [src]="course?.thumbnailUrl" *ngIf="course?.thumbnailUrl else defaultImage">
+  <img mat-card-image [src]="imgSrc()">
 
-  <ng-template #defaultImage>
-
-
-
-  </ng-template>
 
   <mat-card-content>
     <p>
