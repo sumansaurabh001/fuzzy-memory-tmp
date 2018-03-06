@@ -2,7 +2,7 @@ service firebase.storage {
   match /b/{bucket}/o {
     match /{allPaths=**} {
       allow read: if true;
-      allow write: if request.resource.size < 1 * 1024 * 1024;
+      allow write: if request.resource.size < 2 * 1024 * 1024;
     }
   }
 }
