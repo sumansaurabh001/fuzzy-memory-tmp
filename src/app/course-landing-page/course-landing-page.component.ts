@@ -13,6 +13,7 @@ import {UrlBuilderService} from '../services/url-builder.service';
   selector: 'course-landing-page',
   templateUrl: './course-landing-page.component.html',
   styleUrls: ['./course-landing-page.component.scss']
+  //providers: [MessagesService]
 })
 export class CourseLandingPageComponent implements OnInit {
 
@@ -59,6 +60,12 @@ export class CourseLandingPageComponent implements OnInit {
         () => {},
         err => this.messages.error('Could not save course.', err)
       );
+  }
+
+  onUploadCompleted() {
+
+    console.log("Processing image");
+
   }
 
 }

@@ -1,16 +1,8 @@
 
 $error-background:#e04648;
-$error-border-color:#c24748;
-
-
 $warn-background: #efb207;
-$warn-border-color: #daa207;
-
-$info-background: #2196f3;
-$info-border-color: #138dc8;
-
+$info-background: #018eff;
 $success-background: #4caf50;
-$success-border-color: #6a7d67;
 
 .messages {
   position: relative;
@@ -21,15 +13,15 @@ $success-border-color: #6a7d67;
   line-height: 22px;
 }
 
-@mixin message-type($background, $border-color) {
+@mixin message-type($background) {
   color:white;
   background: $background;
-  border-top: 5px solid $border-color;
   text-rendering: optimizeLegibility;
+  border-radius: 4px;
 }
 
 .normal-messages {
-  padding: 20px;
+  padding: 16px;
 }
 
 .dialog-messages {
@@ -38,18 +30,18 @@ $success-border-color: #6a7d67;
 }
 
 .messages-error {
-  @include message-type($error-background, $error-border-color);
+  @include message-type($error-background);
 }
 
 .messages-info {
-  @include message-type($info-background,  $info-border-color);}
+  @include message-type($info-background);}
 
 .messages-warn {
-  @include message-type($warn-background, $warn-border-color);
+  @include message-type($warn-background);
 }
 
 .messages-success {
-  @include message-type($success-background,  $success-border-color);
+  @include message-type($success-background);
 }
 
 .close-icon {

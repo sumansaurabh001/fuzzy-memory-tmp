@@ -8,11 +8,12 @@
 
 
 
-.messages-container {
+.app-messages-container {
   margin-top: 64px;
   position: fixed;
   width: 100%;
-  z-index: 2;
+  z-index: 3;
+  font-family: 'Roboto', 'Helvetica', sans-serif;
 }
 
 main {

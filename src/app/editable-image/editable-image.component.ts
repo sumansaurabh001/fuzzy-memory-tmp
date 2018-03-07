@@ -3,6 +3,11 @@ import {FileUploadService} from '../services/file-upload.service';
 import {HttpEventType} from '@angular/common/http';
 import {LoadingService} from '../services/loading.service';
 import {EMPTY_IMG} from '../common/ui-constants';
+import {concatMap, tap} from 'rxjs/operators';
+import {MessagesService} from '../services/messages.service';
+
+
+
 
 @Component({
   selector: 'editable-image',
@@ -16,11 +21,12 @@ export class EditableImageComponent implements OnInit {
   @Input() src;
   @Input() imagePath:string;
 
-  @Output() imageUploaded = new EventEmitter<string>();
+  @Output() imageUploaded = new EventEmitter();
 
   constructor(
     private upload: FileUploadService,
-    private loading: LoadingService) {
+    private loading: LoadingService,
+    private messages: MessagesService) {
 
   }
 
@@ -33,8 +39,16 @@ export class EditableImageComponent implements OnInit {
     const image = event.target.files[0];
 
     if (image) {
-      this.upload.uploadImageThumbnail(image, this.imagePath)
-        .subscribe(percent => console.log("percentage:",percent));
+      this.loading.showLoaderUntilCompleted(this.upload.uploadImageThumbnail(image, this.imagePath))
+        .pipe(
+          tap(percent => {
+            if (percent == 100) {
+              this.messages.info("Image processing ongoing ...");
+              this.imageUploaded.next();
+            }
+          })
+        )
+        .subscribe();
     }
 
   }

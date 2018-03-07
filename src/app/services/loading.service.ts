@@ -27,5 +27,15 @@ export class LoadingService {
       );
   }
 
+  showLoaderUntilCompleted<T>(obs$: Observable<T>): Observable<T> {
+    return of(null)
+      .pipe(
+        tap(() => this.loadingSubject.next(true)),
+        switchMap(() => obs$),
+        finalize(() => {
+          this.loadingSubject.next(false);
+        })
+      );
+  }
 
 }
