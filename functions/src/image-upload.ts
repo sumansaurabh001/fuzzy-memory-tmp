@@ -33,7 +33,9 @@ export const imageUpload = functions.storage.object().onChange(async event => {
     contentType = event.data.contentType,
     fileDir = path.dirname(filePath),
     fileName = path.basename(filePath),
-    thumbFilePath = path.normalize(path.join(fileDir, `${THUMB_PREFIX}${uniqueFileSuffix}-${fileName}`)),
+    fileExtension = fileName.split('.').pop(),
+    newFileName = `${THUMB_PREFIX}${uniqueFileSuffix}.${fileExtension}`,
+    thumbFilePath = path.normalize(path.join(fileDir, newFileName)),
     tempLocalFile = path.join(os.tmpdir(), filePath),
     tempLocalDir = path.dirname(tempLocalFile),
     tempLocalThumbFile = path.join(os.tmpdir(), thumbFilePath);
@@ -81,25 +83,48 @@ export const imageUpload = functions.storage.object().onChange(async event => {
   const frags = thumbFilePath.split('/');
 
   const tenantId = frags[0],
-    courseUrl = frags[1],
-    url = 'https://firebasestorage.googleapis.com/v0/b/onlinecoursehost-local-dev.appspot.com/o/' + tenantId + '%2F' + courseUrl + '%2Fthumbnail%2Fthumb_' + uniqueFileSuffix + '-' + courseUrl + '.png?alt=media',
-    coursesPath = 'schools/' + tenantId + '/courses';
+    courseUrl = frags[1];
+
+
+  const coursesDbPath = 'schools/' + tenantId + '/courses';
 
   const db = admin.firestore();
 
-  const snap = await db.collection('schools')
+  const results = await db.collection('schools')
     .doc(tenantId)
     .collection('courses')
     .where('url', '==', courseUrl)
     .get();
 
-  const ids = snap.docs.map(function (doc) {
+  const ids = results.docs.map(function (doc) {
     return doc.id;
   });
 
-  console.log('saving image url to course:', courseUrl, url);
+  const courses = results.docs.map(function (doc) {
+    return doc.data();
+  });
 
-  await db.doc(coursesPath + '/' + ids[0]).update({thumbnailUrl: url});
+  const course = courses[0],
+        courseId = ids[0];
+
+  // delete previous thumbnail to save space
+  if (course.thumbnail) {
+
+    const previousFilePath = `${tenantId}/${courseUrl}/thumbnail/${course.thumbnail}`;
+
+    console.log('deleting previous file: ', previousFilePath);
+    const previousFile = bucket.file(previousFilePath);
+
+    await previousFile.delete();
+
+  }
+
+  console.log('saving file name:', newFileName);
+
+  await db.doc(coursesDbPath + '/' + courseId).update({thumbnail: newFileName});
+
+
+
 
 });
 

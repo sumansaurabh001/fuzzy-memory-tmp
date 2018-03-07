@@ -10,7 +10,7 @@ import {LoadingService} from './loading.service';
 
 
 @Injectable()
-export class CoursesService {
+export class CoursesService { 
 
   private subject = new BehaviorSubject<Course[]>([]);
 

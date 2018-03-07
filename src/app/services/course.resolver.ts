@@ -3,7 +3,7 @@ import {CoursesService} from './courses.service';
 import {ActivatedRouteSnapshot, Resolve, Router, RouterStateSnapshot} from '@angular/router';
 import {Course} from '../models/course.model';
 import {Observable} from 'rxjs/Observable';
-import {catchError} from 'rxjs/operators';
+import {catchError, tap} from 'rxjs/operators';
 import {_throw} from 'rxjs/observable/throw';
 
 
