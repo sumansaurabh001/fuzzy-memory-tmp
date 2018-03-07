@@ -17,6 +17,7 @@ import {UrlBuilderService} from '../services/url-builder.service';
 export class CourseLandingPageComponent implements OnInit {
 
   course$: Observable<Course>;
+  longDescription$ : Observable<string>;
 
   form: FormGroup;
 
@@ -27,21 +28,25 @@ export class CourseLandingPageComponent implements OnInit {
               private messages: MessagesService,
               private ub: UrlBuilderService) {
 
-    this.course$ = this.coursesService.selectCourseByUrl(this.route.snapshot.params['courseUrl']);
 
-    this.course$
-      .subscribe(course => {
-        this.form = this.fb.group({
-          title: [course.title, Validators.required],
-          subTitle: [course.subTitle, Validators.required],
-          shortDescription: [course.shortDescription, Validators.required]
-        });
-      });
-
+    this.form = this.fb.group({
+      title: ['', Validators.required],
+      subTitle: ['', Validators.required],
+      shortDescription: ['', Validators.required],
+      longDescription: ['', []]
+    });
 
   }
 
   ngOnInit() {
+
+    const courseUrl = this.route.snapshot.params['courseUrl'];
+
+    this.course$ = this.coursesService.selectCourseByUrl(courseUrl);
+
+    this.course$.subscribe(course => this.form.patchValue(course));
+
+
 
   }
 
