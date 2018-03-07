@@ -7,6 +7,7 @@ import {CoursesService} from '../services/courses.service';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {MessagesService} from '../services/messages.service';
 import {UrlBuilderService} from '../services/url-builder.service';
+import {switchMap} from 'rxjs/operators';
 
 @Component({
   selector: 'course-landing-page',
@@ -46,7 +47,9 @@ export class CourseLandingPageComponent implements OnInit {
 
     this.course$.subscribe(course => this.form.patchValue(course));
 
-
+    this.longDescription$ = this.course$.pipe(
+      switchMap(course => this.coursesService.selectCourseDescription(course))
+    );
 
   }
 
@@ -59,7 +62,13 @@ export class CourseLandingPageComponent implements OnInit {
   }
 
   save(course:Course) {
-    this.coursesService.updateCourse(course, this.form.value)
+
+    const {title, subTitle, shortDescription, longDescription} = this.form.value;
+
+    this.coursesService.updateCourse(course, {title, subTitle, shortDescription})
+      .pipe(
+        switchMap(() => this.coursesService.saveCourseDescription(course, longDescription))
+      )
       .subscribe(
         () => {},
         err => this.messages.error('Could not save course.', err)
@@ -67,9 +76,7 @@ export class CourseLandingPageComponent implements OnInit {
   }
 
   onThumbnailUploadCompleted(course:Course) {
-
     this.coursesService.syncNewCourseThumbnail(course);
-
   }
 
 }

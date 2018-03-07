@@ -65,6 +65,10 @@ export class CoursesDBService {
         })
       );
   }
+
+  findCourseDescription(courseId: string): Observable<string> {
+    return undefined;
+  }
 }
 
 
