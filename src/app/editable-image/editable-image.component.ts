@@ -43,7 +43,7 @@ export class EditableImageComponent implements OnInit {
         .pipe(
           tap(percent => {
             if (percent == 100) {
-              this.messages.info("Image processing ongoing ...");
+              this.messages.info("The image is being processed ...");
               this.imageUploaded.next();
             }
           })
