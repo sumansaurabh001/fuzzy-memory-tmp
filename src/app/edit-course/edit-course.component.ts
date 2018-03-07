@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {Course} from '../models/course.model';
 import {Observable} from 'rxjs/Observable';
-import {CoursesService} from '../services/courses.service';
+import {ApplicationStore} from '../services/courses.service';
 import {UrlBuilderService} from '../services/url-builder.service';
 
 
@@ -19,10 +19,10 @@ export class EditCourseComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private coursesService: CoursesService,
+    private store: ApplicationStore,
     private ub: UrlBuilderService) {
 
-    this.course$ = this.coursesService.selectCourseByUrl(route.snapshot.params['courseUrl']);
+    this.course$ = this.store.selectCourseByUrl(route.snapshot.params['courseUrl']);
 
   }
 

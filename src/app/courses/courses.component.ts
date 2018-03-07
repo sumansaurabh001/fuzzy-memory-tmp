@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {MatDialog, MatDialogConfig} from '@angular/material';
 import {AddCourseDialogComponent} from '../add-course-dialog/add-course-dialog.component';
-import {CoursesService} from '../services/courses.service';
+import {ApplicationStore} from '../services/courses.service';
 import {Observable} from 'rxjs/Observable';
 import {Course} from '../models/course.model';
 
@@ -17,13 +17,13 @@ export class CoursesComponent implements OnInit {
 
   constructor(
     private dialog: MatDialog,
-    private coursesService: CoursesService) {
+    private store: ApplicationStore) {
 
   }
 
   ngOnInit() {
 
-    this.courses$ = this.coursesService.courses$;
+    this.courses$ = this.store.courses$;
 
   }
 

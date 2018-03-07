@@ -2,7 +2,7 @@ import {Component} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {MatDialog, MatDialogConfig} from '@angular/material';
 import {ConfirmationDialogComponent} from '../confirmation-dialog/confirmation-dialog.component';
-import {CoursesService} from '../services/courses.service';
+import {ApplicationStore} from '../services/courses.service';
 import {MessagesService} from '../services/messages.service';
 import {Course} from '../models/course.model';
 import {Observable} from 'rxjs/Observable';
@@ -21,9 +21,9 @@ export class EditCourseLessonsComponent {
               private route: ActivatedRoute,
               private router: Router,
               private messages: MessagesService,
-              private coursesService: CoursesService) {
+              private store: ApplicationStore) {
 
-    this.course$ = this.coursesService.selectCourseByUrl(route.snapshot.params['courseUrl']);
+    this.course$ = this.store.selectCourseByUrl(route.snapshot.params['courseUrl']);
 
   }
 
@@ -44,7 +44,7 @@ export class EditCourseLessonsComponent {
       .subscribe(confirmed => {
         if (confirmed) {
 
-          this.coursesService.deleteCourseDraft(course.id)
+          this.store.deleteCourseDraft(course.id)
             .subscribe(
               () => this.router.navigateByUrl('/'),
               err => this.messages.error('Error deleting course draft.')

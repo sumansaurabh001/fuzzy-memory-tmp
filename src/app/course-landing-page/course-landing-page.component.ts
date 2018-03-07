@@ -3,7 +3,7 @@ import {Course} from '../models/course.model';
 import {Observable} from 'rxjs/Observable';
 import {ActivatedRoute} from '@angular/router';
 import {TenantService} from '../services/tenant.service';
-import {CoursesService} from '../services/courses.service';
+import {ApplicationStore} from '../services/courses.service';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {MessagesService} from '../services/messages.service';
 import {UrlBuilderService} from '../services/url-builder.service';
@@ -24,7 +24,7 @@ export class CourseLandingPageComponent implements OnInit {
 
   constructor(private route: ActivatedRoute,
               private tenant: TenantService,
-              private coursesService: CoursesService,
+              private store: ApplicationStore,
               private fb: FormBuilder,
               private messages: MessagesService,
               private ub: UrlBuilderService) {
@@ -43,12 +43,12 @@ export class CourseLandingPageComponent implements OnInit {
 
     const courseUrl = this.route.snapshot.params['courseUrl'];
 
-    this.course$ = this.coursesService.selectCourseByUrl(courseUrl);
+    this.course$ = this.store.selectCourseByUrl(courseUrl);
 
     this.course$.subscribe(course => this.form.patchValue(course));
 
     this.longDescription$ = this.course$.pipe(
-      switchMap(course => this.coursesService.selectCourseDescription(course))
+      switchMap(course => this.store.selectCourseDescription(course))
     );
 
   }
@@ -65,9 +65,9 @@ export class CourseLandingPageComponent implements OnInit {
 
     const {title, subTitle, shortDescription, longDescription} = this.form.value;
 
-    this.coursesService.updateCourse(course, {title, subTitle, shortDescription})
+    this.store.updateCourse(course, {title, subTitle, shortDescription})
       .pipe(
-        switchMap(() => this.coursesService.saveCourseDescription(course, longDescription))
+        switchMap(() => this.store.saveCourseDescription(course, longDescription))
       )
       .subscribe(
         () => {},
@@ -76,7 +76,7 @@ export class CourseLandingPageComponent implements OnInit {
   }
 
   onThumbnailUploadCompleted(course:Course) {
-    this.coursesService.syncNewCourseThumbnail(course);
+    this.store.syncNewCourseThumbnail(course);
   }
 
 }

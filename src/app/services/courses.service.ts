@@ -12,7 +12,7 @@ export type DescriptionsMap = {[key:string]:string};
 
 
 @Injectable()
-export class CoursesService {
+export class ApplicationStore {
 
   private coursesSub = new BehaviorSubject<Course[]>([]);
   private descriptionsSub = new BehaviorSubject<DescriptionsMap>({});

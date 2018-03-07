@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {CoursesService} from './courses.service';
+import {ApplicationStore} from './courses.service';
 import {ActivatedRouteSnapshot, Resolve, Router, RouterStateSnapshot} from '@angular/router';
 import {Course} from '../models/course.model';
 import {Observable} from 'rxjs/Observable';
@@ -10,12 +10,12 @@ import {_throw} from 'rxjs/observable/throw';
 @Injectable()
 export class CourseResolver implements Resolve<Course> {
 
-  constructor(private coursesService: CoursesService, private router: Router) {
+  constructor(private store: ApplicationStore, private router: Router) {
 
   }
 
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<Course> {
-    return this.coursesService
+    return this.store
       .loadCourseWithUrl(route.params['courseUrl'])
       .pipe(
         catchError(err => {
