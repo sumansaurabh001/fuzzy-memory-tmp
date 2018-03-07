@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {ApplicationStore} from './courses.service';
+import {ApplicationStore} from '../services/application-store.service';
 import {ActivatedRouteSnapshot, Resolve, Router, RouterStateSnapshot} from '@angular/router';
 import {Course} from '../models/course.model';
 import {Observable} from 'rxjs/Observable';

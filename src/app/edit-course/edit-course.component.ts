@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {Course} from '../models/course.model';
 import {Observable} from 'rxjs/Observable';
-import {ApplicationStore} from '../services/courses.service';
+import {ApplicationStore} from '../services/application-store.service';
 import {UrlBuilderService} from '../services/url-builder.service';
 
 

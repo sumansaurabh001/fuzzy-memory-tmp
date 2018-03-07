@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {MatDialog, MatDialogConfig} from '@angular/material';
 import {AddCourseDialogComponent} from '../add-course-dialog/add-course-dialog.component';
-import {ApplicationStore} from '../services/courses.service';
+import {ApplicationStore} from '../services/application-store.service';
 import {Observable} from 'rxjs/Observable';
 import {Course} from '../models/course.model';
 

@@ -3,7 +3,7 @@ import {Course} from '../models/course.model';
 import {Observable} from 'rxjs/Observable';
 import {ActivatedRoute} from '@angular/router';
 import {TenantService} from '../services/tenant.service';
-import {ApplicationStore} from '../services/courses.service';
+import {ApplicationStore} from '../services/application-store.service';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {MessagesService} from '../services/messages.service';
 import {UrlBuilderService} from '../services/url-builder.service';

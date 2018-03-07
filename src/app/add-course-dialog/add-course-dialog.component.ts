@@ -5,7 +5,8 @@ import {URL_PATH_REGEX} from '../common/regex';
 import {MessagesService} from '../services/messages.service';
 import {Course} from '../models/course.model';
 import {Router} from '@angular/router';
-import {ApplicationStore} from '../services/courses.service';
+import {ApplicationStore} from '../services/application-store.service';
+
 
 
 @Component({

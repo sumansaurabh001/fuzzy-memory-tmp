@@ -44,7 +44,7 @@ import {LoadingService} from './services/loading.service';
 import {ActionButtonComponent} from './action-button/action-button.component';
 import {ConfirmationDialogComponent} from './confirmation-dialog/confirmation-dialog.component';
 import {TenantService} from './services/tenant.service';
-import {ApplicationStore} from './services/courses.service';
+import {ApplicationStore} from './services/application-store.service';
 import {CoursesDBService} from './services/courses-db.service';
 import { CourseCardComponent } from './course-card/course-card.component';
 import { EditableImageComponent } from './editable-image/editable-image.component';
