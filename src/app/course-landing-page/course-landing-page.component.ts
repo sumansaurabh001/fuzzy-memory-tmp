@@ -50,7 +50,7 @@ export class CourseLandingPageComponent implements OnInit {
   save(course:Course) {
     this.coursesService.updateCourse(course, this.form.value)
       .subscribe(
-        () => this.messages.info("Course Saved Successfully."),
+        () => {},
         err => this.messages.error('Could not save course.', err)
       );
   }
