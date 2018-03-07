@@ -1,7 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {Course} from '../models/course.model';
 import {Observable} from 'rxjs/Observable';
-import {map, tap} from 'rxjs/operators';
 import {ActivatedRoute} from '@angular/router';
 import {TenantService} from '../services/tenant.service';
 import {CoursesService} from '../services/courses.service';
