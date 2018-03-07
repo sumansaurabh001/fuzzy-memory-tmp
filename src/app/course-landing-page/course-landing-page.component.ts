@@ -12,8 +12,8 @@ import {UrlBuilderService} from '../services/url-builder.service';
 @Component({
   selector: 'course-landing-page',
   templateUrl: './course-landing-page.component.html',
-  styleUrls: ['./course-landing-page.component.scss']
-  //providers: [MessagesService]
+  styleUrls: ['./course-landing-page.component.scss'],
+  providers: [MessagesService]
 })
 export class CourseLandingPageComponent implements OnInit {
 
