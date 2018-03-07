@@ -1,10 +1,10 @@
 <edit-lessons-toolbar></edit-lessons-toolbar>
 
-<div class="course-landing-page mat-elevation-z5" *ngIf="(course$ | async) as course">
+<div class="course-landing-page mat-elevation-z5" *ngIf="(course$ | async) as course" [formGroup]="form">
 
   <div class="section-label">Choose Image</div>
 
-  <editable-image [src]="course.thumbnailUrl"
+  <editable-image class="course-image" [src]="course.thumbnailUrl"
                   [imagePath]="imagesPath(course)"
                   [imageId]="course.url">
 
@@ -12,17 +12,17 @@
 
   <mat-form-field>
     <mat-label>Course Title</mat-label>
-    <input matInput>
+    <input matInput formControlName="title">
   </mat-form-field>
 
   <mat-form-field>
     <mat-label>Course Subtitle</mat-label>
-    <input matInput>
+    <input matInput formControlName="subTitle">
   </mat-form-field>
 
   <mat-form-field>
     <mat-label> Short Description</mat-label>
-    <input matInput>
+    <input matInput formControlName="shortDescription">
   </mat-form-field>
 
   <div class="section-label">Long Description</div>
@@ -31,7 +31,7 @@
 
   <div class="form-buttons">
 
-    <button mat-raised-button color="primary">Save</button>
+    <button mat-raised-button color="primary" (click)="save(course)">Save</button>
 
   </div>
 

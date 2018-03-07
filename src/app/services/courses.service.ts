@@ -44,14 +44,16 @@ export class CoursesService {
   selectCourseById(id:string) {
     return this.courses$
       .pipe(
-        map(courses => courses.find(course => course.id == id))
+        map(courses => courses.find(course => course.id == id)),
+        filter(course => !!course)
       );
   }
 
   selectCourseByUrl(url: string): Observable<Course> {
     return this.courses$
       .pipe(
-        map(courses => courses.find(course => course.url == url))
+        map(courses => courses.find(course => course.url == url)),
+        filter(course => !!course)
       );
   }
 
