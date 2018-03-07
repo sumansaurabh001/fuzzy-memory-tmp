@@ -12,18 +12,49 @@
   </editable-image>
 
   <mat-form-field>
+
     <mat-label>Course Title</mat-label>
-    <input matInput formControlName="title">
+
+    <input matInput
+           placeholder="Course title (max 60 chars)"
+           #titleHint
+           maxLength="60"
+           formControlName="title">
+
+    <mat-hint align="end">
+      {{titleHint.value.length}} / 60
+    </mat-hint>
+
   </mat-form-field>
 
   <mat-form-field>
+
     <mat-label>Course Subtitle</mat-label>
-    <input matInput formControlName="subTitle">
+
+    <input matInput
+           placeholder="Course subtitle (max 105 chars)"
+           #subtitleHint
+           maxLength="105"
+           formControlName="subTitle">
+
+    <mat-hint align="end">
+      {{subtitleHint.value.length}} / 105
+    </mat-hint>
+
   </mat-form-field>
 
   <mat-form-field>
-    <mat-label> Short Description</mat-label>
-    <input matInput formControlName="shortDescription">
+
+    <input matInput
+           placeholder="Short description (max 105 chars)"
+           #shortDescrHint
+           maxLength="105"
+           formControlName="shortDescription">
+
+    <mat-hint align="end">
+      {{shortDescrHint.value.length}} / 105
+    </mat-hint>
+
   </mat-form-field>
 
   <div class="section-label">Long Description</div>
