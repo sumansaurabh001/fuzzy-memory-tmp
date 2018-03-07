@@ -19,13 +19,9 @@ export class FileUploadService {
 
     const fileExtension =  image.name.split('.').pop(),
           uploadFileName = imageId + '.' + fileExtension,
-          uploadPath = imagePath + '/' + uploadFileName,
-          thumbnailPath = imagePath + '/thumb_' + uploadFileName;
+          uploadPath = imagePath + '/' + uploadFileName;
 
-    return this.storage.upload(uploadPath, image,
-      {
-        cacheControl:"max-age=2592000,public",
-      })
+    return this.storage.upload(uploadPath, image)
       .percentageChanges();
   }
 
