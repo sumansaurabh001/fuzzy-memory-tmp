@@ -12,7 +12,6 @@ import {EMPTY_IMG} from '../common/ui-constants';
 export class EditableImageComponent implements OnInit {
 
   editMode = false;
-  image: File = null;
 
   @Input() src;
   @Input() imagePath:string;
@@ -31,10 +30,10 @@ export class EditableImageComponent implements OnInit {
 
   onFileSelected(event) {
 
-    this.image = event.target.files[0];
+    const image = event.target.files[0];
 
-    if (this.image) {
-      this.upload.uploadImageThumbnail(this.image, this.imagePath)
+    if (image) {
+      this.upload.uploadImageThumbnail(image, this.imagePath)
         .subscribe(percent => console.log("percentage:",percent));
     }
 
