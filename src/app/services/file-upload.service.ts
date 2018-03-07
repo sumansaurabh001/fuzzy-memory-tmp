@@ -15,11 +15,9 @@ export class FileUploadService {
 
   }
 
-  uploadImageThumbnail(image:File, imagePath:string, imageId:string) {
+  uploadImageThumbnail(image:File, imagePath:string) {
 
-    const fileExtension =  image.name.split('.').pop(),
-          uploadFileName = imageId + '.' + fileExtension,
-          uploadPath = imagePath + '/' + uploadFileName;
+    const uploadPath = imagePath + '/' + image.name;
 
     return this.storage.upload(uploadPath, image)
       .percentageChanges();

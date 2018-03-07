@@ -1,9 +1,9 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {Course} from '../models/course.model';
 import {Observable} from 'rxjs/Observable';
 import {CoursesService} from '../services/courses.service';
-import {EMPTY_IMG} from '../common/ui-constants';
+import {UrlBuilderService} from '../services/url-builder.service';
 
 
 @Component({
@@ -19,7 +19,8 @@ export class EditCourseComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private coursesService: CoursesService) {
+    private coursesService: CoursesService,
+    private ub: UrlBuilderService) {
 
     this.course$ = this.coursesService.selectCourseByUrl(route.snapshot.params['courseUrl']);
 
@@ -30,7 +31,7 @@ export class EditCourseComponent implements OnInit {
   }
 
   imgSrc(course:Course) {
-    return course.thumbnailUrl || EMPTY_IMG;
+    return this.ub.buildThumbailUrl(course);
   }
 
   onTabChange(selectedIndex) {

@@ -16,7 +16,6 @@ export class EditableImageComponent implements OnInit {
 
   @Input() src;
   @Input() imagePath:string;
-  @Input() imageId:string;
 
   @Output() imageUploaded = new EventEmitter<string>();
 
@@ -35,7 +34,7 @@ export class EditableImageComponent implements OnInit {
     this.image = event.target.files[0];
 
     if (this.image) {
-      this.upload.uploadImageThumbnail(this.image, this.imagePath, this.imageId)
+      this.upload.uploadImageThumbnail(this.image, this.imagePath)
         .subscribe(percent => console.log("percentage:",percent));
     }
 

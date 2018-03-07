@@ -51,6 +51,7 @@ import { EditableImageComponent } from './editable-image/editable-image.componen
 import {FileUploadService} from './services/file-upload.service';
 import {AngularFireStorageModule} from 'angularfire2/storage';
 import {CourseResolver} from './services/course.resolver';
+import {UrlBuilderService} from './services/url-builder.service';
 
 
 @NgModule({
@@ -114,7 +115,8 @@ import {CourseResolver} from './services/course.resolver';
     CoursesService,
     CoursesDBService,
     FileUploadService,
-    CourseResolver
+    CourseResolver,
+    UrlBuilderService
 
   ],
   entryComponents: [

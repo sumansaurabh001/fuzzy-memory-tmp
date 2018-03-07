@@ -7,6 +7,7 @@ import {TenantService} from '../services/tenant.service';
 import {CoursesService} from '../services/courses.service';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {MessagesService} from '../services/messages.service';
+import {UrlBuilderService} from '../services/url-builder.service';
 
 @Component({
   selector: 'course-landing-page',
@@ -23,7 +24,8 @@ export class CourseLandingPageComponent implements OnInit {
               private tenant: TenantService,
               private coursesService: CoursesService,
               private fb: FormBuilder,
-              private messages: MessagesService) {
+              private messages: MessagesService,
+              private ub: UrlBuilderService) {
 
     this.course$ = this.coursesService.selectCourseByUrl(this.route.snapshot.params['courseUrl']);
 
@@ -45,6 +47,10 @@ export class CourseLandingPageComponent implements OnInit {
 
   imagesPath(course: Course) {
     return this.tenant.id + '/' + course.url + '/thumbnail';
+  }
+
+  thumbnailUrl(course:Course) {
+    return this.ub.buildThumbailUrl(course);
   }
 
   save(course:Course) {
