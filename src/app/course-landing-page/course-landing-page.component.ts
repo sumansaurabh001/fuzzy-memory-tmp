@@ -61,9 +61,9 @@ export class CourseLandingPageComponent implements OnInit {
       );
   }
 
-  onUploadCompleted() {
+  onThumbnailUploadCompleted(course:Course) {
 
-    console.log("Processing image");
+    this.coursesService.syncNewCourseThumbnail(course);
 
   }
 

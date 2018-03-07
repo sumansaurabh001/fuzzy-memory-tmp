@@ -10,7 +10,7 @@ import {LoadingService} from './loading.service';
 
 
 @Injectable()
-export class CoursesService { 
+export class CoursesService {
 
   private subject = new BehaviorSubject<Course[]>([]);
 
@@ -41,7 +41,7 @@ export class CoursesService {
       );
   }
 
-  selectCourseById(id:string) {
+  selectCourseById(id: string) {
     return this.courses$
       .pipe(
         map(courses => courses.find(course => course.id == id)),
@@ -111,7 +111,15 @@ export class CoursesService {
     }
   }
 
-
+  syncNewCourseThumbnail(c: Course) {
+    this.coursesDB.suscribeToCourse(c.id)
+      .pipe(
+        filter(course => course.thumbnail !== c.thumbnail),
+        tap(course => this.updateAndEmit(course)),
+        first()
+      )
+      .subscribe();
+  }
 }
 
 

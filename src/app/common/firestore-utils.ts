@@ -1,9 +1,23 @@
 import {filter, first, map} from 'rxjs/operators';
 import {AngularFirestoreCollection} from 'angularfire2/firestore/collection/collection';
 import {Observable} from 'rxjs/Observable';
+import {AngularFirestoreDocument} from 'angularfire2/firestore';
 
 
 
+
+export function readDocumentWithId<T>(doc: AngularFirestoreDocument<T>): Observable<T> {
+   return <any>doc.snapshotChanges()
+     .pipe(
+       map(action => {
+
+         const id = action.payload.id,
+           data = action.payload.data();
+
+         return {...data, id};
+       })
+     )
+}
 
 
 

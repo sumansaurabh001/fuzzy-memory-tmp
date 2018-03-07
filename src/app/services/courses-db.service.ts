@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {AngularFirestore} from 'angularfire2/firestore';
 import {Observable} from 'rxjs/Observable';
 import {fromPromise} from 'rxjs/observable/fromPromise';
-import {findUniqueMatchWithId, readCollectionWithIds} from '../common/firestore-utils';
+import {findUniqueMatchWithId, readCollectionWithIds, readDocumentWithId} from '../common/firestore-utils';
 import {TenantService} from './tenant.service';
 import {filter, first, map, switchMap, tap} from 'rxjs/operators';
 import {Course} from '../models/course.model';
@@ -25,6 +25,11 @@ export class CoursesDBService {
     const courseQuery$ = this.afs.collection<Course>(this.coursesPath, ref => ref.where('url', '==', courseUrl));
 
     return findUniqueMatchWithId(courseQuery$).pipe(first());
+  }
+
+
+  suscribeToCourse(courseId: string): Observable<Course> {
+    return readDocumentWithId(this.afs.doc(this.coursesPath + '/' + courseId));
   }
 
   findAllCourses(): Observable<Course[]> {
