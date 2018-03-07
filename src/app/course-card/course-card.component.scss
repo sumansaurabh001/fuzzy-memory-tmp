@@ -10,3 +10,10 @@
   justify-content: center;
 }
 
+:host ::ng-deep .mat-card-header-text {
+  height: 54px;
+}
+
+:host ::ng-deep .mat-card-content {
+  height: 40px; 
+}
