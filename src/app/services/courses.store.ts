@@ -8,23 +8,19 @@ import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 import {MessagesService} from './messages.service';
 import {LoadingService} from './loading.service';
 import {of} from 'rxjs/observable/of';
-import {CourseSection} from '../models/course-section.model';
 
 
 export type DescriptionsMap = {[key:string]:string};
-export type CourseSectionsMap = {[key:string]:CourseSection[]};
 
 
 @Injectable()
-export class ApplicationStore {
+export class CoursesStore {
 
   private coursesSub = new BehaviorSubject<Course[]>([]);
   private descriptionsSub = new BehaviorSubject<DescriptionsMap>({});
-  private sectionsSub = new BehaviorSubject<CourseSectionsMap>({});
 
   courses$: Observable<Course[]> = this.coursesSub.asObservable();
   descriptions$ : Observable<DescriptionsMap> = this.descriptionsSub.asObservable();
-  courseSections$: Observable<CourseSectionsMap> = this.sectionsSub.asObservable();
 
   constructor(private coursesDB: CoursesDBService,
               private messages: MessagesService,
@@ -129,10 +125,6 @@ export class ApplicationStore {
       .subscribe();
   }
 
-
-
-
-
   selectCourseDescription(course: Course):Observable<string> {
 
     const descriptionsMap = this.descriptionsSub.value;
@@ -165,7 +157,6 @@ export class ApplicationStore {
     else {
       return of(newDescription);
     }
-
   }
 
   private updateAndEmitDescription(courseId:string, description:string) {
@@ -178,18 +169,6 @@ export class ApplicationStore {
 
     this.descriptionsSub.next(newDescriptions);
   }
-
-
-
-
-
-
-
-
-  selectCourseSections(courseUrl: string): Observable<CourseSection[]> {
-    return undefined;
-  }
-
 
 }
 

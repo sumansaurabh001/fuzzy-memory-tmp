@@ -34,7 +34,6 @@ import {CourseComponent} from './course/course.component';
 import {CourseLandingPageComponent} from './course-landing-page/course-landing-page.component';
 import {EditLessonsToolbarComponent} from './edit-lessons-toolbar/edit-lessons-toolbar.component';
 import {NgxEditorModule} from 'ngx-editor';
-import {TextEditorComponent} from './text-editor/text-editor.component';
 import {AddCourseDialogComponent} from './add-course-dialog/add-course-dialog.component';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {MessagesService} from './services/messages.service';
@@ -44,7 +43,7 @@ import {LoadingService} from './services/loading.service';
 import {ActionButtonComponent} from './action-button/action-button.component';
 import {ConfirmationDialogComponent} from './confirmation-dialog/confirmation-dialog.component';
 import {TenantService} from './services/tenant.service';
-import {ApplicationStore} from './services/application-store.service';
+import {CoursesStore} from './services/courses.store';
 import {CoursesDBService} from './services/courses-db.service';
 import { CourseCardComponent } from './course-card/course-card.component';
 import { EditableImageComponent } from './editable-image/editable-image.component';
@@ -52,6 +51,8 @@ import {FileUploadService} from './services/file-upload.service';
 import {AngularFireStorageModule} from 'angularfire2/storage';
 import {CourseResolver} from './services/course.resolver';
 import {UrlBuilderService} from './services/url-builder.service';
+import {LessonsStore} from './services/lessons.store';
+import {LessonsDBService} from './services/lessons-db.service';
 
 
 @NgModule({
@@ -66,7 +67,6 @@ import {UrlBuilderService} from './services/url-builder.service';
     CourseComponent,
     CourseLandingPageComponent,
     EditLessonsToolbarComponent,
-    TextEditorComponent,
     AddCourseDialogComponent,
     MessagesComponent,
     LoadingComponent,
@@ -113,8 +113,10 @@ import {UrlBuilderService} from './services/url-builder.service';
     MessagesService,
     LoadingService,
     TenantService,
-    ApplicationStore,
+    CoursesStore,
+    LessonsStore,
     CoursesDBService,
+    LessonsDBService,
     FileUploadService,
     CourseResolver,
     UrlBuilderService

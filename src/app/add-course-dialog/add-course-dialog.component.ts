@@ -5,7 +5,7 @@ import {URL_PATH_REGEX} from '../common/regex';
 import {MessagesService} from '../services/messages.service';
 import {Course} from '../models/course.model';
 import {Router} from '@angular/router';
-import {ApplicationStore} from '../services/application-store.service';
+import {CoursesStore} from '../services/courses.store';
 
 
 
@@ -24,7 +24,7 @@ export class AddCourseDialogComponent implements OnInit {
   constructor(private fb: FormBuilder,
               private dialogRef: MatDialogRef<AddCourseDialogComponent>,
               private router: Router,
-              private store: ApplicationStore,
+              private coursesStore: CoursesStore,
               private messages: MessagesService) {
 
 
@@ -47,7 +47,7 @@ export class AddCourseDialogComponent implements OnInit {
     const course = this.form.value as Course;
     course.status = 'draft';
 
-   this.store.createNewCourse(course)
+   this.coursesStore.createNewCourse(course)
       .subscribe(() => {
           this.router.navigate(['courses', course.url, 'edit']);
           this.dialogRef.close();

@@ -3,11 +3,11 @@ import {Course} from '../models/course.model';
 import {Observable} from 'rxjs/Observable';
 import {ActivatedRoute} from '@angular/router';
 import {TenantService} from '../services/tenant.service';
-import {ApplicationStore} from '../services/application-store.service';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {MessagesService} from '../services/messages.service';
 import {UrlBuilderService} from '../services/url-builder.service';
 import {switchMap, tap} from 'rxjs/operators';
+import {CoursesStore} from '../services/courses.store';
 
 @Component({
   selector: 'course-landing-page',
@@ -32,7 +32,7 @@ export class CourseLandingPageComponent implements OnInit {
 
   constructor(private route: ActivatedRoute,
               private tenant: TenantService,
-              private store: ApplicationStore,
+              private coursesStore: CoursesStore,
               private fb: FormBuilder,
               private messages: MessagesService,
               private ub: UrlBuilderService) {
@@ -50,12 +50,12 @@ export class CourseLandingPageComponent implements OnInit {
 
     const courseUrl = this.route.snapshot.params['courseUrl'];
 
-    this.course$ = this.store.selectCourseByUrl(courseUrl);
+    this.course$ = this.coursesStore.selectCourseByUrl(courseUrl);
 
     this.course$.subscribe(course => this.form.patchValue(course));
 
     this.course$.pipe(
-      switchMap(course => this.store.selectCourseDescription(course)),
+      switchMap(course => this.coursesStore.selectCourseDescription(course)),
       tap(desc => this.courseDescription = desc)
     )
     .subscribe();
@@ -76,9 +76,9 @@ export class CourseLandingPageComponent implements OnInit {
 
     const newDescription = this.courseDescription;
 
-    this.store.updateCourse(course, {title, subTitle, shortDescription})
+    this.coursesStore.updateCourse(course, {title, subTitle, shortDescription})
       .pipe(
-        switchMap(() => this.store.saveCourseDescription(course, newDescription))
+        switchMap(() => this.coursesStore.saveCourseDescription(course, newDescription))
       )
       .subscribe(
         () => {},
@@ -87,7 +87,7 @@ export class CourseLandingPageComponent implements OnInit {
   }
 
   onThumbnailUploadCompleted(course:Course) {
-    this.store.syncNewCourseThumbnail(course);
+    this.coursesStore.syncNewCourseThumbnail(course);
   }
 
 }

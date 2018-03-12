@@ -2,11 +2,12 @@ import {Component} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {MatDialog, MatDialogConfig} from '@angular/material';
 import {ConfirmationDialogComponent} from '../confirmation-dialog/confirmation-dialog.component';
-import {ApplicationStore} from '../services/application-store.service';
 import {MessagesService} from '../services/messages.service';
 import {Course} from '../models/course.model';
 import {Observable} from 'rxjs/Observable';
 import {CourseSection} from '../models/course-section.model';
+import {CoursesStore} from '../services/courses.store';
+import {LessonsStore} from '../services/lessons.store';
 
 
 @Component({
@@ -23,13 +24,14 @@ export class EditLessonsListComponent {
               private route: ActivatedRoute,
               private router: Router,
               private messages: MessagesService,
-              private store: ApplicationStore) {
+              private coursesStore: CoursesStore,
+              private lessonsStore: LessonsStore) {
 
     const courseUrl = route.snapshot.params['courseUrl'];
 
-    this.course$ = this.store.selectCourseByUrl(courseUrl);
+    this.course$ = this.coursesStore.selectCourseByUrl(courseUrl);
 
-    this.courseSections$ = this.store.selectCourseSections(courseUrl);
+    this.courseSections$ = this.lessonsStore.selectCourseSections(courseUrl);
 
   }
 
@@ -62,7 +64,7 @@ export class EditLessonsListComponent {
       .subscribe(confirmed => {
         if (confirmed) {
 
-          this.store.deleteCourseDraft(course.id)
+          this.coursesStore.deleteCourseDraft(course.id)
             .subscribe(
               () => this.router.navigateByUrl('/'),
               err => this.messages.error('Error deleting course draft.')

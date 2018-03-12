@@ -8,7 +8,7 @@
 
   <ng-container *ngIf="(courseSections$ | async) as courseSections">
 
-    <div class="course-section mat-elevation-z7" *ngFor="let section of courseSections">
+    <div class="course-section mat-elevation-z7" *ngFor="let section of courseSections; let last = last">
 
       <div class="section-title">
         <span class="section-number">Section {{section.seqNo}}:</span>
@@ -37,6 +37,11 @@
         <action-button text="Add Lesson" color="accent" icon="add" (click)="addLesson()"></action-button>
 
       </div>
+
+      <action-button *ngIf="course.status == 'draft' && last"
+                     text="Delete Course Draft" color="warn"
+                     icon="delete" (click)="deleteCourseDraft(course)">
+      </action-button>
 
     </div>
 
@@ -107,11 +112,7 @@
   </div>
 
 
-  <action-button *ngIf="course.status == 'draft'"
-                 text="Delete Course Draft" color="warn"
-                 icon="delete" (click)="deleteCourseDraft(course)">
 
-  </action-button>
 
 
   <div class="add-section-panel">
