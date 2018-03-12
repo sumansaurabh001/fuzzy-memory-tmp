@@ -9,21 +9,18 @@ export class TextEditorComponent implements OnInit {
 
   @Input() height = '300px';
 
-  @Input() placeholder;
+  @Input() placeholder:string;
 
-  toolbar = [
-    ['bold', 'italic', 'underline', 'strikeThrough'],
-    ['justifyCenter'],
-    ['paragraph', 'blockquote', 'removeBlockquote', 'horizontalLine', 'orderedList', 'unorderedList'],
-    ['link'],
-    ['code']
-  ];
+  @Input() htmlContent:string;
+
+
 
   constructor() {
 
   }
 
   ngOnInit() {
+
   }
 
 }

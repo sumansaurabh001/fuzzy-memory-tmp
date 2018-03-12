@@ -1,6 +1,6 @@
 <edit-lessons-toolbar></edit-lessons-toolbar>
 
-<div class="course-landing-page mat-elevation-z5" *ngIf="(course$ | async) as course" [formGroup]="form">
+<div class="course-landing-page mat-elevation-z5" *ngIf="(course$ | async) as course">
 
   <messages></messages>
 
@@ -11,55 +11,65 @@
 
   </editable-image>
 
-  <mat-form-field>
+  <div class="controls-form" [formGroup]="form">
+    <mat-form-field>
 
-    <mat-label>Course Title</mat-label>
+      <mat-label>Course Title</mat-label>
 
-    <input matInput
-           placeholder="Course title (max 60 chars)"
-           #titleHint
-           maxLength="60"
-           formControlName="title">
+      <input matInput
+             placeholder="Course title (max 60 chars)"
+             #titleHint
+             maxLength="60"
+             formControlName="title">
 
-    <mat-hint align="end">
-      {{titleHint.value.length}} / 60
-    </mat-hint>
+      <mat-hint align="end">
+        {{titleHint.value.length}} / 60
+      </mat-hint>
 
-  </mat-form-field>
+    </mat-form-field>
 
-  <mat-form-field>
+    <mat-form-field>
 
-    <mat-label>Course Subtitle</mat-label>
+      <mat-label>Course Subtitle</mat-label>
 
-    <input matInput
-           placeholder="Course subtitle (max 105 chars)"
-           #subtitleHint
-           maxLength="105"
-           formControlName="subTitle">
+      <input matInput
+             placeholder="Course subtitle (max 105 chars)"
+             #subtitleHint
+             maxLength="105"
+             formControlName="subTitle">
 
-    <mat-hint align="end">
-      {{subtitleHint.value.length}} / 105
-    </mat-hint>
+      <mat-hint align="end">
+        {{subtitleHint.value.length}} / 105
+      </mat-hint>
 
-  </mat-form-field>
+    </mat-form-field>
 
-  <mat-form-field>
+    <mat-form-field>
 
-    <input matInput
-           placeholder="Short description (max 98 chars)"
-           #shortDescrHint
-           maxLength="98"
-           formControlName="shortDescription">
+      <input matInput
+             placeholder="Short description (max 98 chars)"
+             #shortDescrHint
+             maxLength="98"
+             formControlName="shortDescription">
 
-    <mat-hint align="end">
-      {{shortDescrHint.value.length}} / 98
-    </mat-hint>
+      <mat-hint align="end">
+        {{shortDescrHint.value.length}} / 98
+      </mat-hint>
 
-  </mat-form-field>
+    </mat-form-field>
+
+  </div>
 
   <div class="section-label">Long Description</div>
 
-  <text-editor placeholder="Enter course description here..."></text-editor>
+  <app-ngx-editor
+    height="300px"
+    placeholder="Enter course description here..."
+    [spellcheck]="true"
+    [toolbar]="toolbar"
+    [(ngModel)]="courseDescription">
+
+  </app-ngx-editor>
 
   <div class="form-buttons">
 

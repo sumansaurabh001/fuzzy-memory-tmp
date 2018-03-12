@@ -7,7 +7,7 @@ import {ApplicationStore} from '../services/application-store.service';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {MessagesService} from '../services/messages.service';
 import {UrlBuilderService} from '../services/url-builder.service';
-import {switchMap} from 'rxjs/operators';
+import {switchMap, tap} from 'rxjs/operators';
 
 @Component({
   selector: 'course-landing-page',
@@ -18,9 +18,17 @@ import {switchMap} from 'rxjs/operators';
 export class CourseLandingPageComponent implements OnInit {
 
   course$: Observable<Course>;
-  longDescription$ : Observable<string>;
+  courseDescription : string;
 
   form: FormGroup;
+
+  toolbar = [
+    ['bold', 'italic', 'underline', 'strikeThrough'],
+    ['justifyCenter'],
+    ['paragraph', 'blockquote', 'removeBlockquote', 'horizontalLine', 'orderedList', 'unorderedList'],
+    ['link'],
+    ['code']
+  ];
 
   constructor(private route: ActivatedRoute,
               private tenant: TenantService,
@@ -33,8 +41,7 @@ export class CourseLandingPageComponent implements OnInit {
     this.form = this.fb.group({
       title: ['', Validators.required],
       subTitle: ['', Validators.required],
-      shortDescription: ['', Validators.required],
-      longDescription: ['', []]
+      shortDescription: ['', Validators.required]
     });
 
   }
@@ -47,9 +54,11 @@ export class CourseLandingPageComponent implements OnInit {
 
     this.course$.subscribe(course => this.form.patchValue(course));
 
-    this.longDescription$ = this.course$.pipe(
-      switchMap(course => this.store.selectCourseDescription(course))
-    );
+    this.course$.pipe(
+      switchMap(course => this.store.selectCourseDescription(course)),
+      tap(desc => this.courseDescription = desc)
+    )
+    .subscribe();
 
   }
 
@@ -63,11 +72,13 @@ export class CourseLandingPageComponent implements OnInit {
 
   save(course:Course) {
 
-    const {title, subTitle, shortDescription, longDescription} = this.form.value;
+    const {title, subTitle, shortDescription} = this.form.value;
+
+    const newDescription = this.courseDescription;
 
     this.store.updateCourse(course, {title, subTitle, shortDescription})
       .pipe(
-        switchMap(() => this.store.saveCourseDescription(course, longDescription))
+        switchMap(() => this.store.saveCourseDescription(course, newDescription))
       )
       .subscribe(
         () => {},

@@ -36,7 +36,7 @@ import {EditLessonsToolbarComponent} from './edit-lessons-toolbar/edit-lessons-t
 import {NgxEditorModule} from 'ngx-editor';
 import {TextEditorComponent} from './text-editor/text-editor.component';
 import {AddCourseDialogComponent} from './add-course-dialog/add-course-dialog.component';
-import {ReactiveFormsModule} from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {MessagesService} from './services/messages.service';
 import {MessagesComponent} from './messages/messages.component';
 import {LoadingComponent} from './loading/loading.component';
@@ -101,6 +101,7 @@ import {UrlBuilderService} from './services/url-builder.service';
     MatSlideToggleModule,
     MatGridListModule,
     FlexLayoutModule,
+    FormsModule,
     ReactiveFormsModule,
     NgxEditorModule,
     MatDialogModule,
