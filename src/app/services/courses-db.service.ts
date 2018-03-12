@@ -86,7 +86,7 @@ export class CoursesDBService {
   findCourseDescription(courseId: string): Observable<string> {
     return readDocumentValue<Object>(this.afs.doc(this.courseDescriptionsPath + '/' + courseId))
       .pipe(
-        map(val => val['description'])
+        map(val => val ? val['description'] : undefined)
       );
   }
 
