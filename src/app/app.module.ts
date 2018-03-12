@@ -53,6 +53,7 @@ import {CourseResolver} from './services/course.resolver';
 import {UrlBuilderService} from './services/url-builder.service';
 import {LessonsStore} from './services/lessons.store';
 import {LessonsDBService} from './services/lessons-db.service';
+import { AddSectionDialogComponent } from './add-section-dialog/add-section-dialog.component';
 
 
 @NgModule({
@@ -73,7 +74,8 @@ import {LessonsDBService} from './services/lessons-db.service';
     ActionButtonComponent,
     ConfirmationDialogComponent,
     CourseCardComponent,
-    EditableImageComponent
+    EditableImageComponent,
+    AddSectionDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -124,7 +126,8 @@ import {LessonsDBService} from './services/lessons-db.service';
   ],
   entryComponents: [
     AddCourseDialogComponent,
-    ConfirmationDialogComponent
+    ConfirmationDialogComponent,
+    AddSectionDialogComponent
   ],
   bootstrap: [AppComponent]
 })

@@ -9,6 +9,7 @@ import {CourseSection} from '../models/course-section.model';
 import {CoursesStore} from '../services/courses.store';
 import {LessonsStore} from '../services/lessons.store';
 import {first, switchMap} from 'rxjs/operators';
+import {AddSectionDialogComponent} from '../add-section-dialog/add-section-dialog.component';
 
 
 @Component({
@@ -39,6 +40,14 @@ export class EditLessonsListComponent {
   }
 
   addCourseSection() {
+
+    const dialogConfig = new MatDialogConfig();
+
+    dialogConfig.autoFocus = true;
+    dialogConfig.disableClose = true;
+    dialogConfig.minWidth = '500px';
+
+    this.dialog.open(AddSectionDialogComponent, dialogConfig);
 
   }
 
