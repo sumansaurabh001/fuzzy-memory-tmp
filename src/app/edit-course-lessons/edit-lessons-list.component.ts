@@ -6,6 +6,7 @@ import {ApplicationStore} from '../services/application-store.service';
 import {MessagesService} from '../services/messages.service';
 import {Course} from '../models/course.model';
 import {Observable} from 'rxjs/Observable';
+import {CourseSection} from '../models/course-section.model';
 
 
 @Component({
@@ -16,6 +17,7 @@ import {Observable} from 'rxjs/Observable';
 export class EditLessonsListComponent {
 
   course$: Observable<Course>;
+  courseSections$: Observable<CourseSection[]>;
 
   constructor(private dialog: MatDialog,
               private route: ActivatedRoute,
@@ -23,7 +25,11 @@ export class EditLessonsListComponent {
               private messages: MessagesService,
               private store: ApplicationStore) {
 
-    this.course$ = this.store.selectCourseByUrl(route.snapshot.params['courseUrl']);
+    const courseUrl = route.snapshot.params['courseUrl'];
+
+    this.course$ = this.store.selectCourseByUrl(courseUrl);
+
+    this.courseSections$ = this.store.selectCourseSections(courseUrl);
 
   }
 

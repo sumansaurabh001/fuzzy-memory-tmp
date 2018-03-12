@@ -6,40 +6,41 @@
 
   </edit-lessons-toolbar>
 
+  <ng-container *ngIf="(courseSections$ | async) as courseSections">
 
-  <div class="course-section mat-elevation-z7">
+    <div class="course-section mat-elevation-z7" *ngFor="let section of courseSections">
 
-    <div class="section-title">
-      <span class="section-number">Section 1:</span>
-      <span class="section-title-text">Introduction to Authentication with JWT</span>
-      <div class="filler draggable"></div>
-      <mat-icon class="drag-section draggable">drag_handle</mat-icon>
+      <div class="section-title">
+        <span class="section-number">Section {{section.seqNo}}:</span>
+        <span class="section-title-text">{{section.title}}</span>
+        <div class="filler draggable"></div>
+        <mat-icon class="drag-section draggable">drag_handle</mat-icon>
+      </div>
+
+      <mat-expansion-panel expanded="false" *ngFor="let lesson of section.lessons">
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            <span class="lecture-number" fxHide.lt-lg="true">Lecture {{lesson.seqNo}}:</span>
+            <mat-icon>play_circle_outline</mat-icon>
+          </mat-panel-title>
+          <mat-panel-description>
+            {{lesson.title}}
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+        <edit-lesson [lesson]="lesson"></edit-lesson>
+      </mat-expansion-panel>
+
+      <div class="bottom-toolbar">
+
+        <div class="filler"></div>
+
+        <action-button text="Add Lesson" color="accent" icon="add" (click)="addLesson()"></action-button>
+
+      </div>
+
     </div>
 
-
-    <mat-expansion-panel expanded="false">
-      <mat-expansion-panel-header>
-        <mat-panel-title>
-          <span class="lecture-number" fxHide.lt-lg="true">Lecture 1:</span>
-          <mat-icon>play_circle_outline</mat-icon>
-        </mat-panel-title>
-        <mat-panel-description>
-          Angular Security Course Helicopter View
-        </mat-panel-description>
-      </mat-expansion-panel-header>
-      <edit-lesson></edit-lesson>
-    </mat-expansion-panel>
-
-    <div class="bottom-toolbar">
-
-      <div class="filler"></div>
-
-      <action-button text="Add Lesson" color="accent" icon="add" (click)="addLesson()"></action-button>
-
-    </div>
-
-
-  </div>
+  </ng-container>
 
 
   <div class="course-section mat-elevation-z7">
