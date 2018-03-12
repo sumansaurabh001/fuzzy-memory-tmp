@@ -27,6 +27,18 @@ export class EditLessonsListComponent {
 
   }
 
+  addCourseSection() {
+
+  }
+
+
+  addLesson() {
+
+
+  }
+
+
+
   deleteCourseDraft(course: Course) {
 
     const config = new MatDialogConfig();
