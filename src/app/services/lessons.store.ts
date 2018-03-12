@@ -30,9 +30,36 @@ export class LessonsStore {
 
   }
 
-  selectCourseSections(courseUrl: string): Observable<CourseSection[]> {
-    return undefined;
+  selectCourseSections(courseId: string): Observable<CourseSection[]> {
+
+    const sections = this.sectionsSub.value;
+
+    if (!sections[courseId]) {
+      this.loadCourseSections(courseId, sections);
+    }
+
+    return this.courseSections$.pipe(
+      map( sections => sections[courseId])
+    );
+
   }
+
+  private loadCourseSections(courseId:string, currentSections: CourseSectionsMap) {
+    this.lessonsDB.loadCourseSectionsWithLessons(courseId)
+      .pipe(
+        tap(sections => {
+
+          const newState = {...currentSections};
+
+          newState[courseId] = sections;
+
+          this.sectionsSub.next(newState);
+
+        })
+      )
+      .subscribe();
+  }
+
 
 }
 

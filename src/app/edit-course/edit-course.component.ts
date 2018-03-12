@@ -19,10 +19,10 @@ export class EditCourseComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private lessons: CoursesStore,
+    private coursesStore: CoursesStore,
     private ub: UrlBuilderService) {
 
-    this.course$ = this.lessons.selectCourseByUrl(route.snapshot.params['courseUrl']);
+    this.course$ = this.coursesStore.selectCourseByUrl(route.snapshot.params['courseUrl']);
 
   }
 

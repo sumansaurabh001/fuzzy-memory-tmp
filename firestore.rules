@@ -7,6 +7,11 @@ service cloud.firestore {
         allow create: if true;
         allow update: if true;
         allow delete: if resource.data.status == 'draft';
+
+        match /{document=**} {
+          allow read: if true;
+          allow write: if true;
+        }
     }
 
     match /schools/{tenant}/courseDescriptions/{courseId}  {

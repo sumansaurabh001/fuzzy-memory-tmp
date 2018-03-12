@@ -8,6 +8,7 @@ import {Observable} from 'rxjs/Observable';
 import {CourseSection} from '../models/course-section.model';
 import {CoursesStore} from '../services/courses.store';
 import {LessonsStore} from '../services/lessons.store';
+import {first, switchMap} from 'rxjs/operators';
 
 
 @Component({
@@ -27,11 +28,13 @@ export class EditLessonsListComponent {
               private coursesStore: CoursesStore,
               private lessonsStore: LessonsStore) {
 
-    const courseUrl = route.snapshot.params['courseUrl'];
+    this.course$ = this.coursesStore.selectCourseByUrl(route.snapshot.params['courseUrl']);
 
-    this.course$ = this.coursesStore.selectCourseByUrl(courseUrl);
-
-    this.courseSections$ = this.lessonsStore.selectCourseSections(courseUrl);
+    this.courseSections$ =  this.course$
+      .pipe(
+        first(),
+        switchMap(course => this.lessonsStore.selectCourseSections(course.id))
+      );
 
   }
 

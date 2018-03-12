@@ -12,8 +12,8 @@ export class TenantService {
 
   }
 
-  path(fsPath) {
-    return `schools/${this.id}/${fsPath}`;
+  path(firesStorePath) {
+    return `schools/${this.id}/${firesStorePath}`;
   }
 
 }
