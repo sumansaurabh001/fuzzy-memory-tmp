@@ -58,7 +58,7 @@ export const imageUpload = functions.storage.object().onChange(async event => {
   const thumbFile = bucket.file(thumbFilePath);
   const metadata = {
     contentType: contentType,
-    cacheControl: 'public,max-age=2592000'
+    cacheControl: 'public,max-age=2592000, s-maxage=2592000'
   };
 
   // Create the temp directory where the storage file will be downloaded.
