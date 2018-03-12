@@ -9,11 +9,11 @@ import {Observable} from 'rxjs/Observable';
 
 
 @Component({
-  selector: 'edit-course-lessons',
-  templateUrl: './edit-course-lessons.component.html',
-  styleUrls: ['./edit-course-lessons.component.scss']
+  selector: 'edit-lessons-list',
+  templateUrl: './edit-lessons-list.component.html',
+  styleUrls: ['./edit-lessons-list.component.scss']
 })
-export class EditCourseLessonsComponent {
+export class EditLessonsListComponent {
 
   course$: Observable<Course>;
 
