@@ -156,7 +156,7 @@ export class ApplicationStore {
         );
     }
     else {
-      of(newDescription);
+      return of(newDescription);
     }
 
   }
