@@ -19,6 +19,13 @@ export function readDocumentWithId<T>(doc: AngularFirestoreDocument<T>): Observa
      )
 }
 
+export function readDocumentValue<T>(doc: AngularFirestoreDocument<T>): Observable<T> {
+  return <any>doc.snapshotChanges()
+    .pipe(
+      map(action => action.payload.data())
+    )
+}
+
 
 
 export function readCollectionWithIds<T>(col: AngularFirestoreCollection<T>): Observable<T> {

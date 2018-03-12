@@ -7,6 +7,7 @@ import {CoursesDBService} from './courses-db.service';
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 import {MessagesService} from './messages.service';
 import {LoadingService} from './loading.service';
+import {of} from 'rxjs/observable/of';
 
 export type DescriptionsMap = {[key:string]:string};
 
@@ -124,6 +125,7 @@ export class ApplicationStore {
       .subscribe();
   }
 
+
   selectCourseDescription(course: Course):Observable<string> {
 
     const descriptionsMap = this.descriptionsSub.value;
@@ -143,9 +145,23 @@ export class ApplicationStore {
     );
   }
 
-  saveCourseDescription(course: Course, longDescription:string) :Observable<any> {
-    return undefined;
+  saveCourseDescription(course: Course, newDescription:string) :Observable<string> {
+
+    const descriptionsMap = this.descriptionsSub.value;
+
+    if (descriptionsMap[course.id] !== newDescription) {
+      return this.loading.showLoader(this.coursesDB.saveCourseDescription(course, newDescription))
+        .pipe(
+          tap(() => this.updateAndEmitDescription(course.id, newDescription))
+        );
+    }
+    else {
+      of(newDescription);
+    }
+
   }
+
+
 
   private updateAndEmitDescription(courseId:string, description:string) {
 

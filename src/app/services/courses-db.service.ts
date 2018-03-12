@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {AngularFirestore} from 'angularfire2/firestore';
 import {Observable} from 'rxjs/Observable';
 import {fromPromise} from 'rxjs/observable/fromPromise';
-import {findUniqueMatchWithId, readCollectionWithIds, readDocumentWithId} from '../common/firestore-utils';
+import {findUniqueMatchWithId, readCollectionWithIds, readDocumentValue, readDocumentWithId} from '../common/firestore-utils';
 import {TenantService} from './tenant.service';
 import {filter, first, map, switchMap, tap} from 'rxjs/operators';
 import {Course} from '../models/course.model';
@@ -12,11 +12,13 @@ import {Course} from '../models/course.model';
 export class CoursesDBService {
 
   private coursesPath: string;
+  private courseDescriptionsPath:string;
 
   constructor(private afs: AngularFirestore,
               private tenant: TenantService) {
 
     this.coursesPath = this.tenant.path('courses');
+    this.courseDescriptionsPath = this.tenant.path('courseDescriptions');
 
   }
 
@@ -82,7 +84,19 @@ export class CoursesDBService {
   }
 
   findCourseDescription(courseId: string): Observable<string> {
-    return undefined;
+    return readDocumentValue<Object>(this.afs.doc(this.courseDescriptionsPath + '/' + courseId))
+      .pipe(
+        map(val => val['description'])
+      );
+  }
+
+  saveCourseDescription(course: Course, description: string): Observable<string> {
+    return fromPromise(this.afs.collection(this.courseDescriptionsPath).doc(course.id).set({description}))
+      .pipe(
+        map(() => {
+          return description;
+        })
+      );
   }
 }
 
