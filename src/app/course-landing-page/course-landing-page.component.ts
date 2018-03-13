@@ -10,6 +10,7 @@ import {filter, map, switchMap, tap} from 'rxjs/operators';
 import {select, Store} from '@ngrx/store';
 import {State} from '../store';
 import {selectAllCourses} from '../store/course.selectors';
+import {findCourseByUrl} from '../common/router-utils';
 
 @Component({
   selector: 'course-landing-page',
@@ -50,14 +51,7 @@ export class CourseLandingPageComponent implements OnInit {
 
   ngOnInit() {
 
-    const courseUrl = this.route.snapshot.params['courseUrl'];
-
-    this.course$ = this.store
-      .pipe(
-        select(selectAllCourses),
-        map(courses => courses.find(course => course.url == courseUrl)),
-        filter(course => !!course)
-      );
+    this.course$ = findCourseByUrl(this.store, this.route);
 
     this.course$.subscribe(course => this.form.patchValue(course));
 

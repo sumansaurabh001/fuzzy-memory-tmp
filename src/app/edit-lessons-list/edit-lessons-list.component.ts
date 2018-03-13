@@ -11,6 +11,7 @@ import {AddSectionDialogComponent} from '../add-section-dialog/add-section-dialo
 import {selectAllCourses} from '../store/course.selectors';
 import {select, Store} from '@ngrx/store';
 import {State} from '../store';
+import {findCourseByUrl} from '../common/router-utils';
 
 
 @Component({
@@ -30,13 +31,8 @@ export class EditLessonsListComponent {
               private messages: MessagesService) {
 
 
-    const courseUrl = this.route.snapshot.params['courseUrl'];
+    this.course$ = findCourseByUrl(this.store, this.route);
 
-    this.course$ = this.store
-      .pipe(
-        select(selectAllCourses),
-        map(courses => courses.find(course => course.url == courseUrl))
-      );
 
 
     /*
@@ -99,6 +95,8 @@ export class EditLessonsListComponent {
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, config);
 
     /*
+
+TODO
 
     dialogRef.afterClosed()
       .subscribe(confirmed => {

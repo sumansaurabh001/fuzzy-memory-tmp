@@ -7,6 +7,7 @@ import {selectAllCourses} from '../store/course.selectors';
 import {select, Store} from '@ngrx/store';
 import {map} from 'rxjs/operators';
 import {State} from '../store';
+import {findCourseByUrl} from '../common/router-utils';
 
 
 
@@ -26,13 +27,7 @@ export class EditCourseComponent implements OnInit {
     private store: Store<State>,
     private ub: UrlBuilderService) {
 
-    const courseUrl = this.route.snapshot.params['courseUrl'];
-
-    this.course$ = this.store
-      .pipe(
-        select(selectAllCourses),
-        map(courses => courses.find(course => course.url == courseUrl))
-      );
+    this.course$ = findCourseByUrl(this.store, this.route);
 
   }
 

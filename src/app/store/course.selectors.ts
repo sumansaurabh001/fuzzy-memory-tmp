@@ -4,7 +4,7 @@ import {
   createFeatureSelector,
   createSelector
 } from '@ngrx/store';
-import {State} from './index';
+import {selectRouterState, State} from './index';
 
 
 export const selectCoursesState = createFeatureSelector<fromCourse.State>('courses');

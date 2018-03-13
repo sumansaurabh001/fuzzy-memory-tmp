@@ -57,6 +57,7 @@ import { reducers, metaReducers } from './store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { EffectsModule } from '@ngrx/effects';
 import { CourseEffects } from './effects/course.effects';
+import {StoreRouterConnectingModule} from '@ngrx/router-store';
 
 
 @NgModule({
@@ -115,7 +116,10 @@ import { CourseEffects } from './effects/course.effects';
     AngularFireStorageModule,
     StoreModule.forRoot(reducers, { metaReducers }),
     !environment.production ? StoreDevtoolsModule.instrument() : [],
-    EffectsModule.forRoot([CourseEffects])
+    EffectsModule.forRoot([CourseEffects]),
+    StoreRouterConnectingModule.forRoot({
+      stateKey: 'router'
+    })
   ],
   providers: [
     MessagesService,
