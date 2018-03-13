@@ -12,6 +12,7 @@ import {selectAllCourses} from '../store/course.selectors';
 import {select, Store} from '@ngrx/store';
 import {State} from '../store';
 import {findCourseByUrl} from '../common/router-utils';
+import {DeleteCourse} from '../actions/course.actions';
 
 
 @Component({
@@ -94,23 +95,14 @@ export class EditLessonsListComponent {
 
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, config);
 
-    /*
-
-TODO
-
     dialogRef.afterClosed()
       .subscribe(confirmed => {
         if (confirmed) {
-
-          this.coursesStore.deleteCourseDraft(course.id)
-            .subscribe(
-              () => this.router.navigateByUrl('/'),
-              err => this.messages.error('Error deleting course draft.')
-            );
+          this.store.dispatch(new DeleteCourse({id:course.id}));
         }
       });
 
-      */
+
 
   }
 
