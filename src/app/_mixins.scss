@@ -9,4 +9,15 @@
 }
 
 
+@mixin single-col-dialog {
+  mat-dialog-content {
+    margin-top: 30px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  mat-form-field {
+    margin-bottom: 20px;
+  }
+}
 
