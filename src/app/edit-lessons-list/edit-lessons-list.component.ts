@@ -33,7 +33,7 @@ export class EditLessonsListComponent {
 
     this.courseSections$ =  this.course$
       .pipe(
-        first(), //TODO
+        first(),
         switchMap(course => this.lessonsStore.selectCourseSections(course.id))
       );
 
