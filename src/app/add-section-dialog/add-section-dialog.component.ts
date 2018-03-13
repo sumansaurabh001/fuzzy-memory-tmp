@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
+import {MatDialogRef} from '@angular/material';
 
 @Component({
   selector: 'add-section-dialog',
@@ -7,9 +8,20 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AddSectionDialogComponent implements OnInit {
 
-  constructor() { }
+  constructor(private dialogRef: MatDialogRef<AddSectionDialogComponent>) {
+
+  }
 
   ngOnInit() {
+
+  }
+
+  close() {
+    this.dialogRef.close();
+  }
+
+  save(title:string) {
+      this.dialogRef.close({title});
   }
 
 }
