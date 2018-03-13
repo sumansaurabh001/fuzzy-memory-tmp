@@ -3,8 +3,10 @@ import {MatDialog, MatDialogConfig} from '@angular/material';
 import {AddCourseDialogComponent} from '../add-course-dialog/add-course-dialog.component';
 import {Observable} from 'rxjs/Observable';
 import {Course} from '../models/course.model';
-import {CoursesStore} from '../services/courses.store';
-
+import {select, Store} from '@ngrx/store';
+import {State} from '../store';
+import {selectAllCourses} from '../store/course.selectors';
+import {FetchAllDbCourses} from '../actions/course.actions';
 
 @Component({
   selector: 'courses',
@@ -17,13 +19,13 @@ export class CoursesComponent implements OnInit {
 
   constructor(
     private dialog: MatDialog,
-    private coursesStore: CoursesStore) {
+    private store: Store<State>) {
 
   }
 
   ngOnInit() {
 
-    this.courses$ = this.coursesStore.courses$;
+    this.courses$ = this.store.pipe(select(selectAllCourses));
 
   }
 

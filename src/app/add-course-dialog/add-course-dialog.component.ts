@@ -5,7 +5,11 @@ import {URL_PATH_REGEX} from '../common/regex';
 import {MessagesService} from '../services/messages.service';
 import {Course} from '../models/course.model';
 import {Router} from '@angular/router';
-import {CoursesStore} from '../services/courses.store';
+import {Store} from '@ngrx/store';
+import {State} from '../store';
+import {AddCourse} from '../actions/course.actions';
+import {CoursesDBService} from '../services/courses-db.service';
+import {LoadingService} from '../services/loading.service';
 
 
 
@@ -24,7 +28,9 @@ export class AddCourseDialogComponent implements OnInit {
   constructor(private fb: FormBuilder,
               private dialogRef: MatDialogRef<AddCourseDialogComponent>,
               private router: Router,
-              private coursesStore: CoursesStore,
+              private store: Store<State>,
+              private loading: LoadingService,
+              private coursesDB: CoursesDBService,
               private messages: MessagesService) {
 
 
@@ -47,8 +53,11 @@ export class AddCourseDialogComponent implements OnInit {
     const course = this.form.value as Course;
     course.status = 'draft';
 
-   this.coursesStore.createNewCourse(course)
+    this.loading.showLoader(this.coursesDB.createNewCourse(course))
       .subscribe(() => {
+
+          this.store.dispatch(new AddCourse({course}));
+
           this.router.navigate(['courses', course.url, 'edit']);
           this.dialogRef.close();
         },

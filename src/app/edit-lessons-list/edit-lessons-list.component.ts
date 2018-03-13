@@ -6,10 +6,11 @@ import {MessagesService} from '../services/messages.service';
 import {Course} from '../models/course.model';
 import {Observable} from 'rxjs/Observable';
 import {CourseSection} from '../models/course-section.model';
-import {CoursesStore} from '../services/courses.store';
-import {LessonsStore} from '../services/lessons.store';
-import {concatMap, filter, first, switchMap} from 'rxjs/operators';
+import {concatMap, filter, first, map, switchMap} from 'rxjs/operators';
 import {AddSectionDialogComponent} from '../add-section-dialog/add-section-dialog.component';
+import {selectAllCourses} from '../store/course.selectors';
+import {select, Store} from '@ngrx/store';
+import {State} from '../store';
 
 
 @Component({
@@ -25,17 +26,30 @@ export class EditLessonsListComponent {
   constructor(private dialog: MatDialog,
               private route: ActivatedRoute,
               private router: Router,
-              private messages: MessagesService,
-              private coursesStore: CoursesStore,
-              private lessonsStore: LessonsStore) {
+              private store: Store<State>,
+              private messages: MessagesService) {
 
-    this.course$ = this.coursesStore.selectCourseByUrl(route.snapshot.params['courseUrl']);
+
+    const courseUrl = this.route.snapshot.params['courseUrl'];
+
+    this.course$ = this.store
+      .pipe(
+        select(selectAllCourses),
+        map(courses => courses.find(course => course.url == courseUrl))
+      );
+
+
+    /*
+
+    TODO
 
     this.courseSections$ =  this.course$
       .pipe(
         first(),
         switchMap(course => this.lessonsStore.selectCourseSections(course.id))
       );
+
+    */
 
   }
 
@@ -49,12 +63,18 @@ export class EditLessonsListComponent {
 
     const dialogRef = this.dialog.open(AddSectionDialogComponent, dialogConfig);
 
+    /*
+
+    TODO
+
     dialogRef.afterClosed()
       .pipe(
         filter(result => !!result),
         concatMap(result => this.lessonsStore.createNewSection(course, result.title))
       )
       .subscribe();
+
+      */
 
   }
 
@@ -78,6 +98,8 @@ export class EditLessonsListComponent {
 
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, config);
 
+    /*
+
     dialogRef.afterClosed()
       .subscribe(confirmed => {
         if (confirmed) {
@@ -89,6 +111,8 @@ export class EditLessonsListComponent {
             );
         }
       });
+
+      */
 
   }
 

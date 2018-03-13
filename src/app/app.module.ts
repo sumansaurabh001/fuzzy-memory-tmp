@@ -43,7 +43,6 @@ import {LoadingService} from './services/loading.service';
 import {ActionButtonComponent} from './action-button/action-button.component';
 import {ConfirmationDialogComponent} from './confirmation-dialog/confirmation-dialog.component';
 import {TenantService} from './services/tenant.service';
-import {CoursesStore} from './services/courses.store';
 import {CoursesDBService} from './services/courses-db.service';
 import { CourseCardComponent } from './course-card/course-card.component';
 import { EditableImageComponent } from './editable-image/editable-image.component';
@@ -51,9 +50,13 @@ import {FileUploadService} from './services/file-upload.service';
 import {AngularFireStorageModule} from 'angularfire2/storage';
 import {CourseResolver} from './services/course.resolver';
 import {UrlBuilderService} from './services/url-builder.service';
-import {LessonsStore} from './services/lessons.store';
 import {LessonsDBService} from './services/lessons-db.service';
 import { AddSectionDialogComponent } from './add-section-dialog/add-section-dialog.component';
+import { StoreModule } from '@ngrx/store';
+import { reducers, metaReducers } from './store';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { EffectsModule } from '@ngrx/effects';
+import { CourseEffects } from './effects/course.effects';
 
 
 @NgModule({
@@ -109,14 +112,15 @@ import { AddSectionDialogComponent } from './add-section-dialog/add-section-dial
     MatDialogModule,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFirestoreModule,
-    AngularFireStorageModule
+    AngularFireStorageModule,
+    StoreModule.forRoot(reducers, { metaReducers }),
+    !environment.production ? StoreDevtoolsModule.instrument() : [],
+    EffectsModule.forRoot([CourseEffects])
   ],
   providers: [
     MessagesService,
     LoadingService,
     TenantService,
-    CoursesStore,
-    LessonsStore,
     CoursesDBService,
     LessonsDBService,
     FileUploadService,

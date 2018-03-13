@@ -3,7 +3,11 @@ import {ActivatedRoute} from '@angular/router';
 import {Course} from '../models/course.model';
 import {Observable} from 'rxjs/Observable';
 import {UrlBuilderService} from '../services/url-builder.service';
-import {CoursesStore} from '../services/courses.store';
+import {selectAllCourses} from '../store/course.selectors';
+import {select, Store} from '@ngrx/store';
+import {map} from 'rxjs/operators';
+import {State} from '../store';
+
 
 
 @Component({
@@ -19,10 +23,16 @@ export class EditCourseComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private coursesStore: CoursesStore,
+    private store: Store<State>,
     private ub: UrlBuilderService) {
 
-    this.course$ = this.coursesStore.selectCourseByUrl(route.snapshot.params['courseUrl']);
+    const courseUrl = this.route.snapshot.params['courseUrl'];
+
+    this.course$ = this.store
+      .pipe(
+        select(selectAllCourses),
+        map(courses => courses.find(course => course.url == courseUrl))
+      );
 
   }
 

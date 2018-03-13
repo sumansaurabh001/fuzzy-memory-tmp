@@ -6,8 +6,10 @@ import {TenantService} from '../services/tenant.service';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {MessagesService} from '../services/messages.service';
 import {UrlBuilderService} from '../services/url-builder.service';
-import {switchMap, tap} from 'rxjs/operators';
-import {CoursesStore} from '../services/courses.store';
+import {filter, map, switchMap, tap} from 'rxjs/operators';
+import {select, Store} from '@ngrx/store';
+import {State} from '../store';
+import {selectAllCourses} from '../store/course.selectors';
 
 @Component({
   selector: 'course-landing-page',
@@ -32,7 +34,7 @@ export class CourseLandingPageComponent implements OnInit {
 
   constructor(private route: ActivatedRoute,
               private tenant: TenantService,
-              private coursesStore: CoursesStore,
+              private store: Store<State>,
               private fb: FormBuilder,
               private messages: MessagesService,
               private ub: UrlBuilderService) {
@@ -50,15 +52,28 @@ export class CourseLandingPageComponent implements OnInit {
 
     const courseUrl = this.route.snapshot.params['courseUrl'];
 
-    this.course$ = this.coursesStore.selectCourseByUrl(courseUrl);
+    this.course$ = this.store
+      .pipe(
+        select(selectAllCourses),
+        map(courses => courses.find(course => course.url == courseUrl)),
+        filter(course => !!course)
+      );
 
     this.course$.subscribe(course => this.form.patchValue(course));
+
+
+    /*
+
+    TODO
 
     this.course$.pipe(
       switchMap(course => this.coursesStore.selectCourseDescription(course)),
       tap(desc => this.courseDescription = desc)
     )
     .subscribe();
+
+
+    */
 
   }
 
@@ -76,6 +91,10 @@ export class CourseLandingPageComponent implements OnInit {
 
     const newDescription = this.courseDescription;
 
+    /*
+
+    TODO
+
     this.coursesStore.updateCourse(course, {title, subTitle, shortDescription})
       .pipe(
         switchMap(() => this.coursesStore.saveCourseDescription(course, newDescription))
@@ -84,10 +103,11 @@ export class CourseLandingPageComponent implements OnInit {
         () => {},
         err => this.messages.error('Could not save course.', err)
       );
+      */
   }
 
   onThumbnailUploadCompleted(course:Course) {
-    this.coursesStore.syncNewCourseThumbnail(course);
+    //TODO this.coursesStore.syncNewCourseThumbnail(course);
   }
 
 }
