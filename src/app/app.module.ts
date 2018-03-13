@@ -22,7 +22,7 @@ import {MatMomentDateModule} from '@angular/material-moment-adapter';
 import {AppRoutingModule} from './app-routing.module';
 import {EditCourseComponent} from './edit-course/edit-course.component';
 import {FlexLayoutModule} from '@angular/flex-layout';
-import {EditLessonsListComponent} from './edit-course-lessons/edit-lessons-list.component';
+import {EditLessonsListComponent} from './edit-lessons-list/edit-lessons-list.component';
 import {EditLessonComponent} from './edit-lesson/edit-lesson.component';
 import {FooterComponent} from './footer/footer.component';
 import {CoursesComponent} from './courses/courses.component';

@@ -4,6 +4,11 @@
 
     <action-button text="Bulk Upload" icon="cloud_upload"></action-button>
 
+    <action-button *ngIf="course.status == 'draft'"
+                   text="Delete Course Draft" color="secondary"
+                   icon="delete" (click)="deleteCourseDraft(course)">
+    </action-button>
+
   </edit-lessons-toolbar>
 
   <ng-container *ngIf="(courseSections$ | async) as courseSections">
@@ -12,7 +17,7 @@
 
       <div class="section-title">
         <span class="section-number">Section {{section.seqNo}}: </span>
-        <span class="section-title-text">{{section.title}}</span>
+        <span class="section-title-text"> {{section.title}}</span>
         <div class="filler draggable"></div>
         <mat-icon class="drag-section draggable">drag_handle</mat-icon>
       </div>
@@ -37,11 +42,6 @@
         <action-button text="Add Lesson" color="accent" icon="add" (click)="addLesson()"></action-button>
 
       </div>
-
-      <action-button *ngIf="course.status == 'draft' && last"
-                     text="Delete Course Draft" color="warn"
-                     icon="delete" (click)="deleteCourseDraft(course)">
-      </action-button>
 
     </div>
 
@@ -118,7 +118,7 @@
   <div class="add-section-panel">
 
     <span>Add Course Section</span>
-    <button class="add-section" mat-fab color="accent" (click)="addCourseSection()">
+    <button class="add-section" mat-fab color="accent" (click)="addCourseSection(course)">
       <mat-icon>add</mat-icon>
     </button>
   </div>

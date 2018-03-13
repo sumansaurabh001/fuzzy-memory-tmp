@@ -61,6 +61,30 @@ export class LessonsStore {
   }
 
 
+  createNewSection(course: Course, title:string): Observable<any> {
+    return this.loading.showLoader(this.lessonsDB.addNewCourseSection(course, title))
+      .pipe(
+        tap(section => this.addSectionAndEmit(course, section))
+      );
+  }
+
+  addSectionAndEmit(course:Course, section:CourseSection) {
+
+    const newState = {...this.sectionsSub.value};
+
+    if (!newState[course.id]) {
+      newState[section.id] = [section];
+    }
+    else {
+
+      const courseSections = newState[course.id].slice(0);
+
+      courseSections[course.id].push(section);
+    }
+
+    this.sectionsSub.next(newState);
+  }
+
 }
 
 

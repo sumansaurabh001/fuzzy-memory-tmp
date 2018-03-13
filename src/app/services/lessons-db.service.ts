@@ -3,9 +3,11 @@ import {AngularFirestore} from 'angularfire2/firestore';
 import {Observable} from 'rxjs/Observable';
 import {TenantService} from './tenant.service';
 import {CourseSection} from '../models/course-section.model';
-import {readCollectionWithIds} from '../common/firestore-utils';
-import {concatMap, map} from 'rxjs/operators';
+import {findLastBySeqNo, findUniqueMatchWithId, readCollectionWithIds} from '../common/firestore-utils';
+import {concatMap, first, map} from 'rxjs/operators';
 import {Lesson} from '../models/lesson.model';
+import {Course} from '../models/course.model';
+import {fromPromise} from 'rxjs/observable/fromPromise';
 
 
 @Injectable()
@@ -41,6 +43,36 @@ export class LessonsDBService {
         })
     );
   }
+
+
+  addNewCourseSection(course: Course, title: string):Observable<CourseSection> {
+    return findLastBySeqNo<CourseSection>(this.afs, this.sectionsPath(course))
+      .pipe(
+        concatMap(lastSection => {
+
+          const newSection: any = {
+            title,
+            seqNo: lastSection ? (lastSection.seqNo + 1) : 1
+          };
+
+          const addSectionAsync = this.afs.collection(this.sectionsPath(course))
+            .add(newSection)
+            .then(ref => {return {id:ref.id, ...newSection}});
+
+          return fromPromise(addSectionAsync);
+        })
+      );
+  }
+
+
+
+
+
+  private sectionsPath(course:Course) {
+    return this.tenant.path(`courses/${course.id}/sections`);
+  }
+
+
 }
 
 

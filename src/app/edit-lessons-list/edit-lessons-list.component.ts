@@ -8,7 +8,7 @@ import {Observable} from 'rxjs/Observable';
 import {CourseSection} from '../models/course-section.model';
 import {CoursesStore} from '../services/courses.store';
 import {LessonsStore} from '../services/lessons.store';
-import {first, switchMap} from 'rxjs/operators';
+import {concatMap, filter, first, switchMap} from 'rxjs/operators';
 import {AddSectionDialogComponent} from '../add-section-dialog/add-section-dialog.component';
 
 
@@ -33,13 +33,13 @@ export class EditLessonsListComponent {
 
     this.courseSections$ =  this.course$
       .pipe(
-        first(),
+        first(), //TODO
         switchMap(course => this.lessonsStore.selectCourseSections(course.id))
       );
 
   }
 
-  addCourseSection() {
+  addCourseSection(course:Course) {
 
     const dialogConfig = new MatDialogConfig();
 
@@ -47,7 +47,14 @@ export class EditLessonsListComponent {
     dialogConfig.disableClose = true;
     dialogConfig.minWidth = '500px';
 
-    this.dialog.open(AddSectionDialogComponent, dialogConfig);
+    const dialogRef = this.dialog.open(AddSectionDialogComponent, dialogConfig);
+
+    dialogRef.afterClosed()
+      .pipe(
+        filter(result => !!result),
+        concatMap(result => this.lessonsStore.createNewSection(course, result.title))
+      )
+      .subscribe();
 
   }
 
@@ -56,7 +63,6 @@ export class EditLessonsListComponent {
 
 
   }
-
 
 
   deleteCourseDraft(course: Course) {

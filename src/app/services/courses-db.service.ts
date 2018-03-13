@@ -2,7 +2,10 @@ import {Injectable} from '@angular/core';
 import {AngularFirestore} from 'angularfire2/firestore';
 import {Observable} from 'rxjs/Observable';
 import {fromPromise} from 'rxjs/observable/fromPromise';
-import {findUniqueMatchWithId, readCollectionWithIds, readDocumentValue, readDocumentWithId} from '../common/firestore-utils';
+import {
+  findLastBySeqNo, findUniqueMatchWithId, readCollectionWithIds, readDocumentValue,
+  readDocumentWithId
+} from '../common/firestore-utils';
 import {TenantService} from './tenant.service';
 import {filter, first, map, switchMap, tap} from 'rxjs/operators';
 import {Course} from '../models/course.model';
@@ -47,12 +50,12 @@ export class CoursesDBService {
           }
         }),
         filter(result => !result),
-        switchMap(() => this.findLastCourse()),
+        switchMap(() => findLastBySeqNo<Course>(this.afs, this.coursesPath)),
         switchMap(lastCourse => {
 
           const newCourse = {
             ...course,
-            seqNo: lastCourse ? (lastCourse.seqNo + 1) : 0
+            seqNo: lastCourse ? (lastCourse.seqNo + 1) : 1
           };
 
           return fromPromise(this.afs.collection(this.coursesPath).add(newCourse));
@@ -62,13 +65,6 @@ export class CoursesDBService {
         })
       );
   }
-
-  findLastCourse():Observable<Course> {
-    const courseQuery$ = this.afs.collection<Course>(this.coursesPath, ref => ref.orderBy('seqNo', 'desc').limit(1));
-
-    return findUniqueMatchWithId(courseQuery$).pipe(first());
-  }
-
 
   deleteCourseDraft(courseId: string): Observable<any> {
     return fromPromise(this.afs.collection(this.coursesPath).doc(courseId).delete());
