@@ -1,13 +1,14 @@
 import {Injectable} from '@angular/core';
 import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot} from '@angular/router';
 import {Observable} from 'rxjs/Observable';
-import {LoadCourseDetail} from '../store/course.actions';
-import {filter, first, map, tap} from 'rxjs/operators';
+import {EditCourse, LoadCourse} from '../store/course.actions';
+import {first, map, tap} from 'rxjs/operators';
 import {select, Store} from '@ngrx/store';
 import {CoursesDBService} from './courses-db.service';
 import {State} from '../store';
-import {selectAllCourses} from '../store/course.selectors';
-import {of} from 'rxjs/observable/of';
+import {selectAllCoursesAndDescriptions} from '../store/selectors';
+import {LoadCourseDescription} from '../store/description.actions';
+import {Course} from '../models/course.model';
 
 
 @Injectable()
@@ -25,19 +26,35 @@ export class EditCourseGuard implements CanActivate {
 
      return this.store
       .pipe(
-        select(selectAllCourses),
-        tap(courses => {
+        select(selectAllCoursesAndDescriptions),
+        tap( selection => {
 
-          const course = courses.find(course => course.url === courseUrl);
+          const course = this.findCourseByUrl(<any>selection[0], courseUrl),
+                descriptions = <Object> selection[1];
 
           if (!course) {
-            this.store.dispatch(new LoadCourseDetail({courseUrl}));
+            this.store.dispatch(new LoadCourse({courseUrl}));
+          }
+          else {
+            this.store.dispatch(new EditCourse({editedCourseId: course.id}));
           }
 
+          if (course && !descriptions[course.id]) {
+            this.store.dispatch(new LoadCourseDescription({courseId: course.id}));
+          }
+
+
+
         }),
-        map(course => !!course),
+        map(selection => !!this.findCourseByUrl(<any>selection[0], courseUrl)),
         first()
       );
   }
 
+  private findCourseByUrl(courses:Course[], url:string) {
+    return courses.find(course => course.url === url);
+
+  }
+
 }
+

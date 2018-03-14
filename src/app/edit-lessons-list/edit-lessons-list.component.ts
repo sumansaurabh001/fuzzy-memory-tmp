@@ -8,7 +8,7 @@ import {Observable} from 'rxjs/Observable';
 import {CourseSection} from '../models/course-section.model';
 import {concatMap, filter, first, map, switchMap} from 'rxjs/operators';
 import {AddSectionDialogComponent} from '../add-section-dialog/add-section-dialog.component';
-import {selectAllCourses, selectEditedCourse} from '../store/course.selectors';
+import {selectAllCourses, selectEditedCourse} from '../store/selectors';
 import {select, Store} from '@ngrx/store';
 import {State} from '../store';
 import {DeleteCourse} from '../store/course.actions';

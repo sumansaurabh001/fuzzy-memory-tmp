@@ -5,7 +5,7 @@ import {Observable} from 'rxjs/Observable';
 import {Course} from '../models/course.model';
 import {select, Store} from '@ngrx/store';
 import {State} from '../store';
-import {selectAllCourses} from '../store/course.selectors';
+import {selectAllCourses} from '../store/selectors';
 
 @Component({
   selector: 'courses',

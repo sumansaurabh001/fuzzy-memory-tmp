@@ -3,7 +3,7 @@ import {Observable} from 'rxjs/Observable';
 import {Injectable} from '@angular/core';
 import {select, Store} from '@ngrx/store';
 import {State} from '../store';
-import {selectAllCourses} from '../store/course.selectors';
+import {selectAllCourses} from '../store/selectors';
 import {filter, first, map, tap} from 'rxjs/operators';
 import {LoadCourseSummaries} from '../store/course.actions';
 

@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {Actions, Effect, ofType} from '@ngrx/effects';
-import {AddCourse, CourseActionTypes, DeleteCourse, LoadCourseSummaries, LoadCourses} from '../store/course.actions';
+import {AddCourse, CourseActionTypes, DeleteCourse, LoadCourseSummaries, LoadCourses, LoadCourse} from '../store/course.actions';
 import {concatMap, catchError, tap, map} from 'rxjs/operators';
 import {CoursesDBService} from '../services/courses-db.service';
 import {LoadingService} from '../services/loading.service';
@@ -8,6 +8,7 @@ import {MessagesService} from '../services/messages.service';
 import {of} from 'rxjs/observable/of';
 import {_throw} from 'rxjs/observable/throw';
 import {Router} from '@angular/router';
+import {DescriptionActionTypes, LoadCourseDescription} from '../store/description.actions';
 
 
 @Injectable()
@@ -34,6 +35,29 @@ export class CourseEffects {
     })
   );
 
+
+  @Effect() loadCourse$ = this.actions$.pipe(
+    ofType<LoadCourse>(CourseActionTypes.LoadCourse),
+    concatMap(action => this.loading.showLoader(this.coursesDB.findCourseByUrl(action.payload.courseUrl))),
+    map(course => new AddCourse({course})),
+    catchError(err => {
+      this.messages.error(err);
+      return _throw(err);
+    })
+
+  );
+
+/*
+  @Effect() loadCourseDescription$ = this.actions$.pipe(
+    ofType<LoadCourse>(DescriptionActionTypes.LoadCourseDescription),
+    catchError(err => {
+      this.messages.error(err);
+      return _throw(err);
+    })
+
+  );
+
+  */
 
   constructor(private actions$: Actions,
               private coursesDB: CoursesDBService,

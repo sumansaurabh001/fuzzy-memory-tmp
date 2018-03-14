@@ -22,10 +22,7 @@ export function reducer(
 
   switch (action.type) {
     case CourseActionTypes.EditCourse: {
-
-      const newState = adapter.addOne(action.payload.course, state);
-      newState.editedCourseId = action.payload.course.id;
-      return newState;
+      return {...state, editedCourseId: action.payload.editedCourseId};
     }
     case CourseActionTypes.AddCourse: {
       return adapter.addOne(action.payload.course, state);

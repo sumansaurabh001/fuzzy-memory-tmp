@@ -3,7 +3,7 @@ import {ActivatedRoute} from '@angular/router';
 import {Course} from '../models/course.model';
 import {Observable} from 'rxjs/Observable';
 import {UrlBuilderService} from '../services/url-builder.service';
-import {selectAllCourses, selectEditedCourse} from '../store/course.selectors';
+import {selectAllCourses, selectEditedCourse} from '../store/selectors';
 import {select, Store} from '@ngrx/store';
 import {map} from 'rxjs/operators';
 import {State} from '../store';

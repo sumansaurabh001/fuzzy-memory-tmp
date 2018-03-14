@@ -7,5 +7,4 @@ export interface Course {
   subTitle:string;
   shortDescription: string;
   thumbnail: string;
-  longDescription?:string;
 }
