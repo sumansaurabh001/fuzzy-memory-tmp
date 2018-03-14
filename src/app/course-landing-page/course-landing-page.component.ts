@@ -11,7 +11,7 @@ import {select, Store} from '@ngrx/store';
 import {State} from '../store';
 import {selectAllCourses, selectEditedCourse} from '../store/course.selectors';
 import {CoursesDBService} from '../services/courses-db.service';
-import {UpdateCourse} from '../actions/course.actions';
+import {UpdateCourse} from '../store/course.actions';
 
 @Component({
   selector: 'course-landing-page',

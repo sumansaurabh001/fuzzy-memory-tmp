@@ -11,7 +11,7 @@ import {AddSectionDialogComponent} from '../add-section-dialog/add-section-dialo
 import {selectAllCourses, selectEditedCourse} from '../store/course.selectors';
 import {select, Store} from '@ngrx/store';
 import {State} from '../store';
-import {DeleteCourse} from '../actions/course.actions';
+import {DeleteCourse} from '../store/course.actions';
 
 
 @Component({

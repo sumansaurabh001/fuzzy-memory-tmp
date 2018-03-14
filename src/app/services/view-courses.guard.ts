@@ -5,7 +5,7 @@ import {select, Store} from '@ngrx/store';
 import {State} from '../store';
 import {selectAllCourses} from '../store/course.selectors';
 import {filter, first, map, tap} from 'rxjs/operators';
-import {LoadCourseSummaries} from '../actions/course.actions';
+import {LoadCourseSummaries} from '../store/course.actions';
 
 
 

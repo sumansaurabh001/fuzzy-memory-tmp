@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot} from '@angular/router';
 import {Observable} from 'rxjs/Observable';
-import {LoadCourseDetail} from '../actions/course.actions';
+import {LoadCourseDetail} from '../store/course.actions';
 import {filter, first, map, tap} from 'rxjs/operators';
 import {select, Store} from '@ngrx/store';
 import {CoursesDBService} from './courses-db.service';

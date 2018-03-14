@@ -1,6 +1,9 @@
 import { EntityState, EntityAdapter, createEntityAdapter } from '@ngrx/entity';
 import { Course } from '../models/course.model';
-import { CourseActions, CourseActionTypes } from '../actions/course.actions';
+import { CourseActions, CourseActionTypes } from './course.actions';
+
+
+
 
 export interface State extends EntityState<Course> {
   editedCourseId: string;
