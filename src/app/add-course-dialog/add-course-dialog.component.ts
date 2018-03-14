@@ -54,7 +54,7 @@ export class AddCourseDialogComponent implements OnInit {
     course.status = 'draft';
 
     this.loading.showLoader(this.coursesDB.createNewCourse(course))
-      .subscribe(() => {
+      .subscribe(course => {
 
           this.store.dispatch(new AddCourse({course}));
 
