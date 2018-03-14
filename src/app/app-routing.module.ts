@@ -4,6 +4,7 @@ import {EditCourseComponent} from './edit-course/edit-course.component';
 import {CoursesComponent} from './courses/courses.component';
 import {CourseComponent} from './course/course.component';
 import {EditCourseGuard} from './services/edit-course.guard';
+import {ViewCoursesGuard} from './services/view-courses.guard';
 
 
 const routes: Routes = [
@@ -18,7 +19,8 @@ const routes: Routes = [
   },
   {
     path:'courses',
-    component: CoursesComponent
+    component: CoursesComponent,
+    canActivate: [ViewCoursesGuard]
   },
   {
     path: "**",

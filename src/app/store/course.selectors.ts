@@ -22,3 +22,4 @@ export const selectEditedCourse = createSelector(
   selectCoursesState,
   state => state.entities[state.editedCourseId]
 );
+

@@ -58,6 +58,7 @@ import { EffectsModule } from '@ngrx/effects';
 import { CourseEffects } from './effects/course.effects';
 import {StoreRouterConnectingModule} from '@ngrx/router-store';
 import {EditCourseGuard} from './services/edit-course.guard';
+import {ViewCoursesGuard} from './services/view-courses.guard';
 
 
 @NgModule({
@@ -128,6 +129,7 @@ import {EditCourseGuard} from './services/edit-course.guard';
     CoursesDBService,
     LessonsDBService,
     FileUploadService,
+    ViewCoursesGuard,
     EditCourseGuard,
     UrlBuilderService
 

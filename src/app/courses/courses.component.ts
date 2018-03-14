@@ -6,7 +6,6 @@ import {Course} from '../models/course.model';
 import {select, Store} from '@ngrx/store';
 import {State} from '../store';
 import {selectAllCourses} from '../store/course.selectors';
-import {FetchAllDbCourses} from '../actions/course.actions';
 
 @Component({
   selector: 'courses',
