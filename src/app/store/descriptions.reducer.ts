@@ -1,4 +1,4 @@
-import { Action } from '@ngrx/store';
+
 import {DescriptionActions, DescriptionActionTypes} from './description.actions';
 
 
@@ -10,16 +10,19 @@ export const initialState: State = {
 
 };
 
+
 export function reducer(state = initialState, action: DescriptionActions): State {
 
   switch (action.type) {
 
-    case DescriptionActionTypes.AddCourseDescription:
+    case DescriptionActionTypes.SaveDescription:
+    case DescriptionActionTypes.AddDescription:  {
 
       const newState = {};
-      newState[action.payload.courseId] = action.payload.description;
+      newState[action.payload.id] = action.payload.description;
 
       return {...state, ...newState};
+    }
 
     default:
       return state;

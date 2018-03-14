@@ -6,12 +6,13 @@ import {TenantService} from '../services/tenant.service';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {MessagesService} from '../services/messages.service';
 import {UrlBuilderService} from '../services/url-builder.service';
-import {filter, first, map, switchMap, tap} from 'rxjs/operators';
+import {filter, first, tap} from 'rxjs/operators';
 import {select, Store} from '@ngrx/store';
 import {State} from '../store';
-import {selectAllCourses, selectEditedCourse, selectEditedCourseDescription} from '../store/selectors';
+import { selectEditedCourse, selectEditedCourseDescription} from '../store/selectors';
 import {CoursesDBService} from '../services/courses-db.service';
-import {UpdateCourse} from '../store/course.actions';
+import { UpdateCourse} from '../store/course.actions';
+import {AddDescription, SaveDescription} from '../store/description.actions';
 
 @Component({
   selector: 'course-landing-page',
@@ -73,25 +74,19 @@ export class CourseLandingPageComponent implements OnInit {
     return this.ub.buildThumbailUrl(course);
   }
 
-  save(course: Course) {
+  save(courseId:string) {
 
-    const {title, subTitle, shortDescription} = this.form.value;
+    const description = this.courseDescription;
 
-    const newDescription = this.courseDescription;
+    const course = {
+      id: courseId,
+      changes: {...this.form.value}
+    };
 
-    /*
+    this.store.dispatch(new UpdateCourse({course}));
 
-    TODO
+    this.store.dispatch(new SaveDescription({id: courseId, description}));
 
-    this.coursesStore.updateCourse(course, {title, subTitle, shortDescription})
-      .pipe(
-        switchMap(() => this.coursesStore.saveCourseDescription(course, newDescription))
-      )
-      .subscribe(
-        () => {},
-        err => this.messages.error('Could not save course.', err)
-      );
-      */
   }
 
   onThumbnailUploadCompleted(course: Course) {

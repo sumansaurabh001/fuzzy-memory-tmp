@@ -59,6 +59,8 @@ import { CourseEffects } from './store/course.effects';
 import {StoreRouterConnectingModule} from '@ngrx/router-store';
 import {EditCourseGuard} from './services/edit-course.guard';
 import {ViewCoursesGuard} from './services/view-courses.guard';
+import {DescriptionEffects} from './store/description.effects';
+import {DescriptionsDbService} from './services/descriptions-db.service';
 
 
 @NgModule({
@@ -117,7 +119,10 @@ import {ViewCoursesGuard} from './services/view-courses.guard';
     AngularFireStorageModule,
     StoreModule.forRoot(reducers, { metaReducers }),
     !environment.production ? StoreDevtoolsModule.instrument() : [],
-    EffectsModule.forRoot([CourseEffects]),
+    EffectsModule.forRoot([
+      CourseEffects,
+      DescriptionEffects
+    ]),
     StoreRouterConnectingModule.forRoot({
       stateKey: 'router'
     })
@@ -127,6 +132,7 @@ import {ViewCoursesGuard} from './services/view-courses.guard';
     LoadingService,
     TenantService,
     CoursesDBService,
+    DescriptionsDbService,
     LessonsDBService,
     FileUploadService,
     ViewCoursesGuard,

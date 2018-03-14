@@ -7,7 +7,7 @@ import {select, Store} from '@ngrx/store';
 import {CoursesDBService} from './courses-db.service';
 import {State} from '../store';
 import {selectAllCoursesAndDescriptions} from '../store/selectors';
-import {LoadCourseDescription} from '../store/description.actions';
+import {LoadDescription} from '../store/description.actions';
 import {Course} from '../models/course.model';
 
 
@@ -40,7 +40,7 @@ export class EditCourseGuard implements CanActivate {
           }
 
           if (course && !descriptions[course.id]) {
-            this.store.dispatch(new LoadCourseDescription({courseId: course.id}));
+            this.store.dispatch(new LoadDescription({id: course.id}));
           }
 
         }),

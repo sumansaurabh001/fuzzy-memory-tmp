@@ -18,6 +18,8 @@ export enum CourseActionTypes {
   ClearCourses = '[Course] Clear Courses'
 }
 
+
+
 export class LoadCourse implements Action {
 
   readonly type = CourseActionTypes.LoadCourse;
@@ -112,7 +114,7 @@ export class ClearCourses implements Action {
 }
 
 export type CourseActions =
-  LoadCourseSummaries
+   LoadCourseSummaries
   | EditCourse
   | LoadCourses
   | AddCourse

@@ -15,13 +15,11 @@ import {Course} from '../models/course.model';
 export class CoursesDBService {
 
   private coursesPath: string;
-  private descriptions:string;
 
   constructor(private afs: AngularFirestore,
               private tenant: TenantService) {
 
     this.coursesPath = this.tenant.path('courses');
-    this.descriptions = this.tenant.path('descriptions');
 
   }
 
@@ -70,30 +68,10 @@ export class CoursesDBService {
     return fromPromise(this.afs.collection(this.coursesPath).doc(courseId).delete());
   }
 
-  updateCourse(course: Course, props: Partial<Course>): Observable<any> {
-    return fromPromise(this.afs.collection(this.coursesPath).doc(course.id).update(props))
-      .pipe(
-        map(() => {
-          return {...course, ...props};
-        })
-      );
+  saveCourse(courseId: any, props: Partial<Course>): Observable<any> {
+    return fromPromise(this.afs.collection(this.coursesPath).doc(courseId).update(props));
   }
 
-  findCourseDescription(courseId: string): Observable<string> {
-    return readDocumentValue<Object>(this.afs.doc(this.descriptions + '/' + courseId))
-      .pipe(
-        map(val => val ? val['description'] : undefined)
-      );
-  }
-
-  saveCourseDescription(course: Course, description: string): Observable<string> {
-    return fromPromise(this.afs.collection(this.descriptions).doc(course.id).set({description}))
-      .pipe(
-        map(() => {
-          return description;
-        })
-      );
-  }
 }
 
 
