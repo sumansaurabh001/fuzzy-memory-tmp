@@ -48,7 +48,6 @@ import { CourseCardComponent } from './course-card/course-card.component';
 import { EditableImageComponent } from './editable-image/editable-image.component';
 import {FileUploadService} from './services/file-upload.service';
 import {AngularFireStorageModule} from 'angularfire2/storage';
-import {CourseResolver} from './services/course.resolver';
 import {UrlBuilderService} from './services/url-builder.service';
 import {LessonsDBService} from './services/lessons-db.service';
 import { AddSectionDialogComponent } from './add-section-dialog/add-section-dialog.component';
@@ -58,6 +57,7 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { EffectsModule } from '@ngrx/effects';
 import { CourseEffects } from './effects/course.effects';
 import {StoreRouterConnectingModule} from '@ngrx/router-store';
+import {EditCourseGuard} from './services/edit-course.guard';
 
 
 @NgModule({
@@ -128,7 +128,7 @@ import {StoreRouterConnectingModule} from '@ngrx/router-store';
     CoursesDBService,
     LessonsDBService,
     FileUploadService,
-    CourseResolver,
+    EditCourseGuard,
     UrlBuilderService
 
   ],

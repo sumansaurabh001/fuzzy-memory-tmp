@@ -3,7 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import {EditCourseComponent} from './edit-course/edit-course.component';
 import {CoursesComponent} from './courses/courses.component';
 import {CourseComponent} from './course/course.component';
-import {CourseResolver} from './services/course.resolver';
+import {EditCourseGuard} from './services/edit-course.guard';
 
 
 const routes: Routes = [
@@ -14,9 +14,7 @@ const routes: Routes = [
   {
     path: 'courses/:courseUrl/edit',
     component: EditCourseComponent,
-    data: {
-      course: CourseResolver
-    }
+    canActivate:[EditCourseGuard]
   },
   {
     path:'courses',

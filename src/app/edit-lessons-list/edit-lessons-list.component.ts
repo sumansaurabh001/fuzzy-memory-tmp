@@ -8,10 +8,9 @@ import {Observable} from 'rxjs/Observable';
 import {CourseSection} from '../models/course-section.model';
 import {concatMap, filter, first, map, switchMap} from 'rxjs/operators';
 import {AddSectionDialogComponent} from '../add-section-dialog/add-section-dialog.component';
-import {selectAllCourses} from '../store/course.selectors';
+import {selectAllCourses, selectEditedCourse} from '../store/course.selectors';
 import {select, Store} from '@ngrx/store';
 import {State} from '../store';
-import {findCourseByUrl} from '../common/router-utils';
 import {DeleteCourse} from '../actions/course.actions';
 
 
@@ -32,7 +31,7 @@ export class EditLessonsListComponent {
               private messages: MessagesService) {
 
 
-    this.course$ = findCourseByUrl(this.store, this.route);
+    this.course$ = this.store.pipe(select(selectEditedCourse));
 
 
 

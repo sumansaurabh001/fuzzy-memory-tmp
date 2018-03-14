@@ -9,8 +9,7 @@ import {UrlBuilderService} from '../services/url-builder.service';
 import {filter, first, map, switchMap, tap} from 'rxjs/operators';
 import {select, Store} from '@ngrx/store';
 import {State} from '../store';
-import {selectAllCourses} from '../store/course.selectors';
-import {findCourseByUrl} from '../common/router-utils';
+import {selectAllCourses, selectEditedCourse} from '../store/course.selectors';
 import {CoursesDBService} from '../services/courses-db.service';
 import {UpdateCourse} from '../actions/course.actions';
 
@@ -54,23 +53,13 @@ export class CourseLandingPageComponent implements OnInit {
 
   ngOnInit() {
 
-    this.course$ = findCourseByUrl(this.store, this.route);
+    this.course$ = this.store.pipe(select(selectEditedCourse));
 
     this.course$.subscribe(course => this.form.patchValue(course));
 
 
-    /*
+    // TODO load course description
 
-    TODO
-
-    this.course$.pipe(
-      switchMap(course => this.coursesStore.selectCourseDescription(course)),
-      tap(desc => this.courseDescription = desc)
-    )
-    .subscribe();
-
-
-    */
 
   }
 

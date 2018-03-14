@@ -18,3 +18,7 @@ export const selectAllCourses = createSelector(selectCoursesState, fromCourse.se
 export const selectTotalCourses = createSelector(selectCoursesState, fromCourse.selectTotal);
 
 
+export const selectEditedCourse = createSelector(
+  selectCoursesState,
+  state => state.entities[state.editedCourseId]
+);
