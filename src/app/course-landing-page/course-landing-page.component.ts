@@ -9,7 +9,7 @@ import {UrlBuilderService} from '../services/url-builder.service';
 import {filter, first, map, switchMap, tap} from 'rxjs/operators';
 import {select, Store} from '@ngrx/store';
 import {State} from '../store';
-import {selectAllCourses, selectEditedCourse} from '../store/selectors';
+import {selectAllCourses, selectEditedCourse, selectEditedCourseDescription} from '../store/selectors';
 import {CoursesDBService} from '../services/courses-db.service';
 import {UpdateCourse} from '../store/course.actions';
 
@@ -57,9 +57,11 @@ export class CourseLandingPageComponent implements OnInit {
 
     this.course$.subscribe(course => this.form.patchValue(course));
 
-
-    // TODO load course description
-
+    this.store
+      .pipe(
+        select(selectEditedCourseDescription)
+      )
+      .subscribe(descr => this.courseDescription = descr);
 
   }
 
@@ -103,11 +105,11 @@ export class CourseLandingPageComponent implements OnInit {
         tap(course => {
 
           const update = {
-            id:course.id,
+            id: course.id,
             changes: {
               thumbnail: course.thumbnail
             }
-          }
+          };
 
           this.store.dispatch(new UpdateCourse({course: update}));
 

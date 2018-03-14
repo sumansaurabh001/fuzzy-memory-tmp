@@ -14,7 +14,7 @@ service cloud.firestore {
         }
     }
 
-    match /schools/{tenant}/courseDescriptions/{courseId}  {
+    match /schools/{tenant}/descriptions/{courseId}  {
         allow read: if true;
         allow write: if true;
     }

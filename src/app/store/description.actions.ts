@@ -1,7 +1,8 @@
 import { Action } from '@ngrx/store';
 
 export enum DescriptionActionTypes {
-  LoadCourseDescription = '[Description] Load course Description Action'
+  LoadCourseDescription = '[Description] Load Course Description Action',
+  AddCourseDescription = '[Description] Add Course Description Action'
 }
 
 export class LoadCourseDescription implements Action {
@@ -13,6 +14,16 @@ export class LoadCourseDescription implements Action {
   }
 }
 
-export type DescriptionActions = LoadCourseDescription;
+export class AddCourseDescription implements Action {
+
+  readonly type = DescriptionActionTypes.AddCourseDescription;
+
+  constructor(public payload: {courseId:string, description:string}) {
+
+  }
+}
+
+
+export type DescriptionActions = LoadCourseDescription | AddCourseDescription;
 
 

@@ -9,6 +9,7 @@ import {of} from 'rxjs/observable/of';
 import {_throw} from 'rxjs/observable/throw';
 import {Router} from '@angular/router';
 import {DescriptionActionTypes, LoadCourseDescription} from '../store/description.actions';
+import {AddCourseDescription} from './description.actions';
 
 
 @Injectable()
@@ -47,9 +48,14 @@ export class CourseEffects {
 
   );
 
-/*
+
   @Effect() loadCourseDescription$ = this.actions$.pipe(
-    ofType<LoadCourse>(DescriptionActionTypes.LoadCourseDescription),
+    ofType<LoadCourseDescription>(DescriptionActionTypes.LoadCourseDescription),
+    concatMap(
+      action => this.coursesDB.findCourseDescription(action.payload.courseId),
+      (action, description) => {return {courseId: action.payload.courseId, description}}
+    ),
+    map(payload => new AddCourseDescription(payload)),
     catchError(err => {
       this.messages.error(err);
       return _throw(err);
@@ -57,7 +63,7 @@ export class CourseEffects {
 
   );
 
-  */
+
 
   constructor(private actions$: Actions,
               private coursesDB: CoursesDBService,
