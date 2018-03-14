@@ -6,11 +6,13 @@ import {TenantService} from '../services/tenant.service';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {MessagesService} from '../services/messages.service';
 import {UrlBuilderService} from '../services/url-builder.service';
-import {filter, map, switchMap, tap} from 'rxjs/operators';
+import {filter, first, map, switchMap, tap} from 'rxjs/operators';
 import {select, Store} from '@ngrx/store';
 import {State} from '../store';
 import {selectAllCourses} from '../store/course.selectors';
 import {findCourseByUrl} from '../common/router-utils';
+import {CoursesDBService} from '../services/courses-db.service';
+import {UpdateCourse} from '../actions/course.actions';
 
 @Component({
   selector: 'course-landing-page',
@@ -21,7 +23,7 @@ import {findCourseByUrl} from '../common/router-utils';
 export class CourseLandingPageComponent implements OnInit {
 
   course$: Observable<Course>;
-  courseDescription : string;
+  courseDescription: string;
 
   form: FormGroup;
 
@@ -38,7 +40,8 @@ export class CourseLandingPageComponent implements OnInit {
               private store: Store<State>,
               private fb: FormBuilder,
               private messages: MessagesService,
-              private ub: UrlBuilderService) {
+              private ub: UrlBuilderService,
+              private coursesDB: CoursesDBService) {
 
 
     this.form = this.fb.group({
@@ -75,11 +78,11 @@ export class CourseLandingPageComponent implements OnInit {
     return this.tenant.id + '/' + course.url + '/thumbnail';
   }
 
-  thumbnailUrl(course:Course) {
+  thumbnailUrl(course: Course) {
     return this.ub.buildThumbailUrl(course);
   }
 
-  save(course:Course) {
+  save(course: Course) {
 
     const {title, subTitle, shortDescription} = this.form.value;
 
@@ -100,8 +103,35 @@ export class CourseLandingPageComponent implements OnInit {
       */
   }
 
-  onThumbnailUploadCompleted(course:Course) {
-    //TODO this.coursesStore.syncNewCourseThumbnail(course);
+  onThumbnailUploadCompleted(course: Course) {
+
+    const currentThumbnail = course.thumbnail;
+
+    this.coursesDB.suscribeToCourse(course.id)
+      .pipe(
+        filter(course => course.thumbnail !== currentThumbnail),
+        first(),
+        tap(course => {
+
+          const update = {
+            id:course.id,
+            changes: {
+              thumbnail: course.thumbnail
+            }
+          }
+
+          this.store.dispatch(new UpdateCourse({course: update}));
+
+        })
+      )
+      .subscribe();
   }
 
 }
+
+
+
+
+
+
+
