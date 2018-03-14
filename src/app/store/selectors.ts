@@ -45,5 +45,5 @@ export const selectInitialCoursesLoaded = createSelector(
 export const selectEditedCourseDescription = createSelector(
   selectDescriptionsState,
   selectEditedCourse,
-  (descriptions, course) => descriptions[course.id]
+  (descriptions, course) =>  descriptions[course.id]
 );
