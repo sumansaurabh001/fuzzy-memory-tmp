@@ -23,7 +23,7 @@ import {AddDescription, SaveDescription} from '../store/description.actions';
 export class CourseLandingPageComponent implements OnInit {
 
   course$: Observable<Course>;
-  courseDescription: string;
+  courseDescription = '';
 
   form: FormGroup;
 
@@ -54,9 +54,15 @@ export class CourseLandingPageComponent implements OnInit {
 
   ngOnInit() {
 
-    this.course$ = this.store.pipe(select(selectEditedCourse));
+    this.course$ = this.store.pipe(
+      select(selectEditedCourse)
+    );
 
-    this.course$.subscribe(course => this.form.patchValue(course));
+    this.course$.subscribe(course => {
+      if (course) {
+        this.form.patchValue(course)
+      }
+    });
 
     this.store
       .pipe(
@@ -76,7 +82,7 @@ export class CourseLandingPageComponent implements OnInit {
 
   save(courseId:string) {
 
-    const description = this.courseDescription;
+    const description = this.courseDescription || '';
 
     const course = {
       id: courseId,

@@ -31,21 +31,9 @@ export class EditLessonsListComponent {
               private messages: MessagesService) {
 
 
-    this.course$ = this.store.pipe(select(selectEditedCourse));
-
-
-
-    /*
-
-    TODO
-
-    this.courseSections$ =  this.course$
-      .pipe(
-        first(),
-        switchMap(course => this.lessonsStore.selectCourseSections(course.id))
-      );
-
-    */
+    this.course$ = this.store.pipe(
+      select(selectEditedCourse)
+    );
 
   }
 
@@ -59,25 +47,15 @@ export class EditLessonsListComponent {
 
     const dialogRef = this.dialog.open(AddSectionDialogComponent, dialogConfig);
 
-    /*
-
-    TODO
-
+    // TODO
     dialogRef.afterClosed()
-      .pipe(
-        filter(result => !!result),
-        concatMap(result => this.lessonsStore.createNewSection(course, result.title))
-      )
       .subscribe();
-
-      */
-
   }
 
 
   addLesson() {
 
-
+    //TODO
   }
 
 
@@ -98,6 +76,7 @@ export class EditLessonsListComponent {
       .subscribe(confirmed => {
         if (confirmed) {
           this.store.dispatch(new DeleteCourse({id:course.id}));
+          this.router.navigateByUrl('/courses');
         }
       });
 

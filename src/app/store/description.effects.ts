@@ -12,7 +12,8 @@ import {DescriptionsDbService} from '../services/descriptions-db.service';
 @Injectable()
 export class DescriptionEffects {
 
-  @Effect() loadDescription$ = this.actions$
+  @Effect()
+  loadDescription$ = this.actions$
     .pipe(
       ofType<LoadDescription>(DescriptionActionTypes.LoadDescription),
       concatMap(
@@ -28,7 +29,8 @@ export class DescriptionEffects {
       })
     );
 
-  @Effect({dispatch: false}) saveDescription$ = this.actions$
+  @Effect({dispatch: false})
+  saveDescription$ = this.actions$
     .pipe(
       ofType<SaveDescription>(DescriptionActionTypes.SaveDescription),
       concatMap(action => this.descriptionsDB.saveDescription(action.payload.id, action.payload.description))
