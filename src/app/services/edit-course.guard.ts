@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot} from '@angular/router';
 import {Observable} from 'rxjs/Observable';
 import {EditCourse, LoadCourse} from '../store/course.actions';
-import {first, map, tap} from 'rxjs/operators';
+import {filter, first, map, tap} from 'rxjs/operators';
 import {select, Store} from '@ngrx/store';
 import {CoursesDBService} from './courses-db.service';
 import {State} from '../store';
@@ -43,10 +43,9 @@ export class EditCourseGuard implements CanActivate {
             this.store.dispatch(new LoadCourseDescription({courseId: course.id}));
           }
 
-
-
         }),
         map(selection => !!this.findCourseByUrl(<any>selection[0], courseUrl)),
+        filter(course => !!course),
         first()
       );
   }

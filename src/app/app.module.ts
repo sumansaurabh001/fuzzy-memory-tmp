@@ -55,7 +55,7 @@ import { StoreModule } from '@ngrx/store';
 import { reducers, metaReducers } from './store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { EffectsModule } from '@ngrx/effects';
-import { CourseEffects } from './effects/course.effects';
+import { CourseEffects } from './store/course.effects';
 import {StoreRouterConnectingModule} from '@ngrx/router-store';
 import {EditCourseGuard} from './services/edit-course.guard';
 import {ViewCoursesGuard} from './services/view-courses.guard';

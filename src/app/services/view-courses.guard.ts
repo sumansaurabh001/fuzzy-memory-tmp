@@ -3,7 +3,7 @@ import {Observable} from 'rxjs/Observable';
 import {Injectable} from '@angular/core';
 import {select, Store} from '@ngrx/store';
 import {State} from '../store';
-import {selectAllCourses} from '../store/selectors';
+import {selectAllCourses, selectInitialCoursesLoaded} from '../store/selectors';
 import {filter, first, map, tap} from 'rxjs/operators';
 import {LoadCourseSummaries} from '../store/course.actions';
 
@@ -19,13 +19,13 @@ export class ViewCoursesGuard implements CanActivate {
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean>  {
     return this.store
       .pipe(
-        select(selectAllCourses),
-        tap(courses => {
-          if (courses.length == 0) {
+        select(selectInitialCoursesLoaded),
+        tap(initialCoursesLoaded => {
+          if (!initialCoursesLoaded) {
             this.store.dispatch(new LoadCourseSummaries());
           }
         }),
-        map(courses => !!courses),
+        filter(initialCoursesLoaded => initialCoursesLoaded),
         first()
       );
   }

@@ -35,6 +35,10 @@ export const selectEditedCourse = createSelector(
 );
 
 
+export const selectInitialCoursesLoaded = createSelector(
+  selectCoursesState,
+  state => state.initialCoursesLoaded
+);
 
 
 
