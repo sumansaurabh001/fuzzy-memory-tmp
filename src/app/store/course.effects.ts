@@ -14,7 +14,7 @@ import { UpdateCourse} from './course.actions';
 export class CourseEffects {
 
   @Effect()
-  addCourse$ = this.actions$
+  loadCourses$ = this.actions$
     .pipe(
       ofType<AddCourse>(CourseActionTypes.LoadCourseSummaries),
       concatMap(() => this.loading.showLoader(this.coursesDB.findAllCourses())),
