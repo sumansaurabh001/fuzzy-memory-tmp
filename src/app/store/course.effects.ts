@@ -13,17 +13,6 @@ import { UpdateCourse} from './course.actions';
 @Injectable()
 export class CourseEffects {
 
-  @Effect()
-  loadCourses$ = this.actions$
-    .pipe(
-      ofType<AddCourse>(CourseActionTypes.LoadCourseSummaries),
-      concatMap(() => this.loading.showLoader(this.coursesDB.findAllCourses())),
-      map(courses => new LoadCourses({courses})),
-      catchError(err => {
-        this.messages.error(err);
-        return _throw(err);
-      })
-    );
 
   @Effect({dispatch: false})
   deleteCourse$ = this.actions$

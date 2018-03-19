@@ -3,7 +3,6 @@ import {Update} from '@ngrx/entity';
 import {Course} from '../models/course.model';
 
 export enum CourseActionTypes {
-  LoadCourseSummaries = '[Course]  Load Course Summaries',
   LoadCourse = '[Course]  Load Course',
   EditCourse = '[Course] Editing Course',
   LoadCourses = '[Course] Load Courses',
@@ -27,12 +26,6 @@ export class LoadCourse implements Action {
   constructor(public payload: {courseUrl:string}) {
 
   }
-}
-
-export class LoadCourseSummaries implements Action {
-
-  readonly type = CourseActionTypes.LoadCourseSummaries;
-
 }
 
 
@@ -114,8 +107,7 @@ export class ClearCourses implements Action {
 }
 
 export type CourseActions =
-   LoadCourseSummaries
-  | EditCourse
+   EditCourse
   | LoadCourses
   | AddCourse
   | UpsertCourse
