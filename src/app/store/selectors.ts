@@ -48,8 +48,17 @@ export const selectEditedCourse = createSelector(
 export const selectEditedCourseDescription = createSelector(
   selectDescriptionsState,
   selectEditedCourse,
-  (descriptions, course) =>  course ? descriptions[course.id] : ''
+  (descriptions, editedCourse) =>  editedCourse ? descriptions[editedCourse.id] : ''
 );
+
+
+export const isEditedCourseDescriptionLoaded = createSelector(
+  selectDescriptionsState,
+  selectEditedCourse,
+  (descriptions, editedCourse) =>  editedCourse ? (editedCourse.id in descriptions) : false
+);
+
+
 
 
 export const selectEditedCourseSections = createSelector(
@@ -59,3 +68,9 @@ export const selectEditedCourseSections = createSelector(
 );
 
 
+
+export const isEditedSectionsLoaded = createSelector(
+  selectSectionsState,
+  selectEditedCourse,
+  (state, editedCourse) =>  editedCourse ? (editedCourse.id in state.loadedCourses): false
+);

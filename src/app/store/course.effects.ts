@@ -11,7 +11,10 @@ import {State} from './index';
 import {select, Store} from '@ngrx/store';
 import {DescriptionsDbService} from '../services/descriptions-db.service';
 import {AddDescription} from './description.actions';
-import {selectEditedCourse, selectEditedCourseDescription, selectEditedCourseSections} from './selectors';
+import {
+  isEditedCourseDescriptionLoaded, isEditedSectionsLoaded, selectEditedCourse, selectEditedCourseDescription,
+  selectEditedCourseSections
+} from './selectors';
 import {LessonsDBService} from '../services/lessons-db.service';
 import {AddCourseSections} from './course-section.actions';
 
@@ -23,8 +26,8 @@ export class CourseEffects {
   loadCourseDescriptionIfNeeded$ = this.actions$
     .pipe(
       ofType<EditCourse>(CourseActionTypes.EditCourse),
-      withLatestFrom(this.store.pipe(select(selectEditedCourseDescription))),
-      filter(([action, editedCourseDescr]) => !editedCourseDescr),
+      withLatestFrom(this.store.pipe(select(isEditedCourseDescriptionLoaded))),
+      filter(([action, loaded]) => !loaded),
       concatMap(
         ([action]) => this.loading.showLoader(this.descriptionsDB.findCourseDescription(action.payload.courseId)),
         ([action], description) => new AddDescription({id: action.payload.courseId, description})
@@ -35,11 +38,12 @@ export class CourseEffects {
   loadSectionsIfNeeded$ = this.actions$
     .pipe(
       ofType<EditCourse>(CourseActionTypes.EditCourse),
-      withLatestFrom(this.store.pipe(select(selectEditedCourseSections))),
-      filter(([action, sections]) => sections.length == 0),
+      withLatestFrom(this.store.pipe(select(isEditedSectionsLoaded))),
+      filter(([action, loaded]) => !loaded),
       concatMap(
-        ([action]) => this.loading.showLoader(this.lessonsDB.loadCourseSections(action.payload.courseId))),
-      map(courseSections => new AddCourseSections({courseSections}))
+        ([action]) => this.loading.showLoader(this.lessonsDB.loadCourseSections(action.payload.courseId)),
+        ([action], courseSections) => new AddCourseSections({courseSections, courseId: action.payload.courseId})
+      ),
     );
 
 

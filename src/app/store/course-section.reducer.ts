@@ -4,7 +4,7 @@ import { CourseSectionActions, CourseSectionActionTypes } from './course-section
 
 
 export interface State extends EntityState<CourseSection> {
-
+  loadedCourses: {[key:string]:boolean}
 }
 
 
@@ -12,7 +12,7 @@ export const adapter: EntityAdapter<CourseSection> = createEntityAdapter<CourseS
 
 
 export const initialState: State = adapter.getInitialState({
-
+ loadedCourses: {}
 });
 
 
@@ -30,7 +30,12 @@ export function reducer(
     }
 
     case CourseSectionActionTypes.AddCourseSections: {
-      return adapter.addMany(action.payload.courseSections, state);
+
+      const newState = adapter.addMany(action.payload.courseSections, state);
+
+      newState.loadedCourses[action.payload.courseId] = true;
+
+      return newState;
     }
 
     case CourseSectionActionTypes.UpsertCourseSections: {

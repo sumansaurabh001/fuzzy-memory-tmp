@@ -36,7 +36,7 @@ export class UpsertCourseSection implements Action {
 export class AddCourseSections implements Action {
   readonly type = CourseSectionActionTypes.AddCourseSections;
 
-  constructor(public payload: { courseSections: CourseSection[] }) {}
+  constructor(public payload: { courseSections: CourseSection[], courseId:string }) {}
 }
 
 export class UpsertCourseSections implements Action {

@@ -23,25 +23,8 @@ export class LessonsDBService {
 
     const coursePath = this.tenant.path(`courses/${courseId}`);
 
-    const courseSections$ = readCollectionWithIds<CourseSection[]>(this.afs.collection(coursePath + '/sections', ref => ref.orderBy('seqNo')));
+    return readCollectionWithIds<CourseSection[]>(this.afs.collection(coursePath + '/sections', ref => ref.orderBy('seqNo')));
 
-    const courseLessons$ = readCollectionWithIds<Lesson[]>(this.afs.collection(coursePath + '/lessons', ref => ref.orderBy('seqNo')));
-
-    return courseSections$.pipe(
-      concatMap(
-        () => courseLessons$,
-        (sections: CourseSection[], lessons) => {
-
-          const lessonsPerSection = lessons.reduce((result, lesson) => result[lesson.sectionId] = lesson, {});
-
-          return sections.map(section => {
-            //TODO section.lessons = lessonsPerSection[section.id];
-            return section;
-
-          });
-
-        })
-    );
   }
 
 
