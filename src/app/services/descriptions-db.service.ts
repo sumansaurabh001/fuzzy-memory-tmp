@@ -19,15 +19,15 @@ export class DescriptionsDbService {
 
   }
 
-  findCourseDescription(courseId: string): Observable<string> {
-    return readDocumentValue<Object>(this.afs.doc(this.descriptionsPath + '/' + courseId))
+  findCourseDescription(courseUrl: string): Observable<string> {
+    return readDocumentValue<Object>(this.afs.doc(this.descriptionsPath + '/' + courseUrl))
       .pipe(
         map(val => val ? val['description'] : undefined)
       );
   }
 
-  saveDescription(id:string, description: string): Observable<string> {
-    return fromPromise(this.afs.collection(this.descriptionsPath).doc(id).set({description}))
+  saveDescription(courseUrl:string, description: string): Observable<string> {
+    return fromPromise(this.afs.collection(this.descriptionsPath).doc(courseUrl).set({description}))
       .pipe(
         map(() => {
           return description;

@@ -35,7 +35,7 @@ export class LessonsDBService {
           const lessonsPerSection = lessons.reduce((result, lesson) => result[lesson.sectionId] = lesson, {});
 
           return sections.map(section => {
-            section.lessons = lessonsPerSection[section.id];
+            //TODO section.lessons = lessonsPerSection[section.id];
             return section;
 
           });

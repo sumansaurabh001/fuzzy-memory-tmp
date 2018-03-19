@@ -5,7 +5,7 @@ import {Observable} from 'rxjs/Observable';
 import {UrlBuilderService} from '../services/url-builder.service';
 import {selectAllCourses, selectEditedCourse} from '../store/selectors';
 import {select, Store} from '@ngrx/store';
-import {map} from 'rxjs/operators';
+import {map, tap} from 'rxjs/operators';
 import {State} from '../store';
 
 
@@ -26,11 +26,14 @@ export class EditCourseComponent implements OnInit {
     private store: Store<State>,
     private ub: UrlBuilderService) {
 
-    this.course$ = this.store.pipe(select(selectEditedCourse));
+
 
   }
 
   ngOnInit() {
+
+    this.course$ = this.store.pipe(select(selectEditedCourse));
+
 
   }
 

@@ -80,18 +80,18 @@ export class CourseLandingPageComponent implements OnInit {
     return this.ub.buildThumbailUrl(course);
   }
 
-  save(courseId:string) {
+  save(courseUrl:string) {
 
     const description = this.courseDescription || '';
 
     const course = {
-      id: courseId,
+      id: courseUrl,
       changes: {...this.form.value}
     };
 
     this.store.dispatch(new UpdateCourse({course}));
 
-    this.store.dispatch(new SaveDescription({id: courseId, description}));
+    this.store.dispatch(new SaveDescription({id: courseUrl, description}));
 
   }
 

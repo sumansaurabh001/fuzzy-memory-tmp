@@ -11,6 +11,8 @@ export const selectCoursesState = createFeatureSelector<fromCourse.State>('cours
 
 export const selectDescriptionsState = createFeatureSelector<fromCourse.State>('descriptions');
 
+export const selectCourseSectionsState = createFeatureSelector<fromCourse.State>('sections');
+
 
 
 export const selectCourseIds = createSelector(selectCoursesState, fromCourse.selectIds);
@@ -22,16 +24,13 @@ export const selectAllCourses = createSelector(selectCoursesState, fromCourse.se
 export const selectTotalCourses = createSelector(selectCoursesState, fromCourse.selectTotal);
 
 
-export const selectAllCoursesAndDescriptions = createSelector(
-  selectAllCourses,
-  selectDescriptionsState,
-  (courses,descriptions) => [courses, descriptions]
-);
+
 
 
 export const selectEditedCourse = createSelector(
   selectCoursesState,
-  state => state.entities[state.editedCourseId]
+  selectAllCourses,
+  (state, courses) => courses.find(course => course.url === state.editedCourseUrl)
 );
 
 
@@ -40,10 +39,10 @@ export const selectInitialCoursesLoaded = createSelector(
   state => state.initialCoursesLoaded
 );
 
-
-
 export const selectEditedCourseDescription = createSelector(
   selectDescriptionsState,
   selectEditedCourse,
-  (descriptions, course) =>  course ? descriptions[course.id] : ''
+  (descriptions, course) =>  course ? descriptions[course.url] : ''
 );
+
+

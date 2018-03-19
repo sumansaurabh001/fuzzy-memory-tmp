@@ -6,15 +6,15 @@ import { CourseActions, CourseActionTypes } from './course.actions';
 
 
 export interface State extends EntityState<Course> {
-  editedCourseId: string;
   initialCoursesLoaded:boolean;
+  editedCourseUrl: string;
 }
 
 export const adapter: EntityAdapter<Course> = createEntityAdapter<Course>();
 
 export const initialState: State = adapter.getInitialState({
-  editedCourseId: undefined,
-  initialCoursesLoaded:false
+  initialCoursesLoaded:false,
+  editedCourseUrl: undefined
 });
 
 export function reducer(
@@ -24,7 +24,7 @@ export function reducer(
 
   switch (action.type) {
     case CourseActionTypes.EditCourse: {
-      return {...state, editedCourseId: action.payload.editedCourseId};
+      return {...state, editedCourseUrl: action.payload.courseUrl};
     }
     case CourseActionTypes.AddCourse: {
       return adapter.addOne(action.payload.course, state);
