@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Actions, Effect, ofType} from '@ngrx/effects';
-import {AddCourse, CourseActionTypes, DeleteCourse, LoadCourses, LoadCourse} from '../store/course.actions';
-import {concatMap, catchError, tap, map} from 'rxjs/operators';
+import { CourseActionTypes, DeleteCourse} from '../store/course.actions';
+import {concatMap, catchError} from 'rxjs/operators';
 import {CoursesDBService} from '../services/courses-db.service';
 import {LoadingService} from '../services/loading.service';
 import {MessagesService} from '../services/messages.service';
@@ -25,20 +25,6 @@ export class CourseEffects {
       })
     );
 
-
-  @Effect()
-  loadCourse$ = this.actions$
-    .pipe(
-      ofType<LoadCourse>(CourseActionTypes.LoadCourse),
-      concatMap(action => this.loading.showLoader(this.coursesDB.findCourseByUrl(action.payload.courseUrl))),
-      map(course => new AddCourse({course})),
-      catchError(err => {
-        this.messages.error(err);
-        return _throw(err);
-      })
-    );
-
-
   @Effect({dispatch:false})
   saveCourse$ = this.actions$
     .pipe(
@@ -51,8 +37,7 @@ export class CourseEffects {
   constructor(private actions$: Actions,
               private coursesDB: CoursesDBService,
               private loading: LoadingService,
-              private messages: MessagesService,
-              private router: Router) {
+              private messages: MessagesService) {
 
   }
 
