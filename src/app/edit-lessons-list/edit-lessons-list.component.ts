@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {MatDialog, MatDialogConfig} from '@angular/material';
 import {ConfirmationDialogComponent} from '../confirmation-dialog/confirmation-dialog.component';
@@ -8,7 +8,7 @@ import {Observable} from 'rxjs/Observable';
 import {CourseSection} from '../models/course-section.model';
 import {concatMap, filter, first, map, switchMap} from 'rxjs/operators';
 import {AddSectionDialogComponent} from '../add-section-dialog/add-section-dialog.component';
-import {selectAllCourses, selectEditedCourse} from '../store/selectors';
+import {selectAllCourses, selectEditedCourse, selectEditedCourseSections} from '../store/selectors';
 import {select, Store} from '@ngrx/store';
 import {State} from '../store';
 import {DeleteCourse} from '../store/course.actions';
@@ -19,7 +19,7 @@ import {DeleteCourse} from '../store/course.actions';
   templateUrl: './edit-lessons-list.component.html',
   styleUrls: ['./edit-lessons-list.component.scss']
 })
-export class EditLessonsListComponent {
+export class EditLessonsListComponent implements OnInit {
 
   course$: Observable<Course>;
   courseSections$: Observable<CourseSection[]>;
@@ -27,17 +27,21 @@ export class EditLessonsListComponent {
   constructor(private dialog: MatDialog,
               private route: ActivatedRoute,
               private router: Router,
-              private store: Store<State>,
-              private messages: MessagesService) {
-
-
-    this.course$ = this.store.pipe(
-      select(selectEditedCourse)
-    );
+              private store: Store<State>) {
 
   }
 
-  addCourseSection(course:Course) {
+
+  ngOnInit() {
+
+    this.course$ = this.store.pipe(select(selectEditedCourse));
+
+    this.courseSections$ = this.store.pipe(select(selectEditedCourseSections));
+
+  }
+
+
+  addCourseSection(course: Course) {
 
     const dialogConfig = new MatDialogConfig();
 
@@ -75,11 +79,10 @@ export class EditLessonsListComponent {
     dialogRef.afterClosed()
       .subscribe(confirmed => {
         if (confirmed) {
-          this.store.dispatch(new DeleteCourse({id:course.id}));
+          this.store.dispatch(new DeleteCourse({id: course.id}));
           this.router.navigateByUrl('/courses');
         }
       });
-
 
 
   }

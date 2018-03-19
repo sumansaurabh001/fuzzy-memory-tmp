@@ -19,7 +19,7 @@ export class LessonsDBService {
   }
 
 
-  loadCourseSectionsWithLessons(courseId: string): Observable<CourseSection[]> {
+  loadCourseSections(courseId: string): Observable<CourseSection[]> {
 
     const coursePath = this.tenant.path(`courses/${courseId}`);
 

@@ -11,39 +11,36 @@ import {State} from './index';
 import {select, Store} from '@ngrx/store';
 import {DescriptionsDbService} from '../services/descriptions-db.service';
 import {AddDescription} from './description.actions';
-import {selectEditedCourse, selectEditedCourseDescription} from './selectors';
-
-
+import {selectEditedCourse, selectEditedCourseDescription, selectEditedCourseSections} from './selectors';
+import {LessonsDBService} from '../services/lessons-db.service';
+import {AddCourseSections} from './course-section.actions';
 
 
 @Injectable()
 export class CourseEffects {
 
   @Effect()
-  loadCourseIfNeeded$ = this.actions$
-    .pipe(
-      ofType<EditCourse>(CourseActionTypes.EditCourse),
-      withLatestFrom(this.store.pipe(select(selectEditedCourse))),
-      filter(([action, editedCourse]) =>  !editedCourse),
-      concatMap(
-        ([action]) => this.loading.showLoader(this.coursesDB.findCourseByUrl(action.payload.courseUrl))
-      ),
-      map(course => new AddCourse({course}))
-    );
-
-
-  @Effect()
   loadCourseDescriptionIfNeeded$ = this.actions$
     .pipe(
       ofType<EditCourse>(CourseActionTypes.EditCourse),
       withLatestFrom(this.store.pipe(select(selectEditedCourseDescription))),
-      filter(([action, editedCourseDescr]) =>  !editedCourseDescr),
+      filter(([action, editedCourseDescr]) => !editedCourseDescr),
       concatMap(
-        ([action]) => this.loading.showLoader(this.descriptionsDB.findCourseDescription(action.payload.courseUrl)),
-        ([action], description) => new AddDescription({id:action.payload.courseUrl, description})
+        ([action]) => this.loading.showLoader(this.descriptionsDB.findCourseDescription(action.payload.courseId)),
+        ([action], description) => new AddDescription({id: action.payload.courseId, description})
       )
     );
 
+  @Effect()
+  loadSectionsIfNeeded$ = this.actions$
+    .pipe(
+      ofType<EditCourse>(CourseActionTypes.EditCourse),
+      withLatestFrom(this.store.pipe(select(selectEditedCourseSections))),
+      filter(([action, sections]) => sections.length == 0),
+      concatMap(
+        ([action]) => this.loading.showLoader(this.lessonsDB.loadCourseSections(action.payload.courseId))),
+      map(courseSections => new AddCourseSections({courseSections}))
+    );
 
 
   @Effect({dispatch: false})
@@ -58,8 +55,7 @@ export class CourseEffects {
     );
 
 
-
-  @Effect({dispatch:false})
+  @Effect({dispatch: false})
   saveCourse$ = this.actions$
     .pipe(
       ofType<UpdateCourse>(CourseActionTypes.UpdateCourse),
@@ -67,17 +63,15 @@ export class CourseEffects {
     );
 
 
-
   constructor(private actions$: Actions,
               private coursesDB: CoursesDBService,
               private descriptionsDB: DescriptionsDbService,
+              private lessonsDB: LessonsDBService,
               private store: Store<State>,
               private loading: LoadingService,
               private messages: MessagesService) {
 
   }
-
-
 
 
 }

@@ -4,6 +4,8 @@ import {
   createFeatureSelector,
   createSelector
 } from '@ngrx/store';
+import * as fromSection from './course-section.reducer';
+
 
 
 
@@ -11,7 +13,7 @@ export const selectCoursesState = createFeatureSelector<fromCourse.State>('cours
 
 export const selectDescriptionsState = createFeatureSelector<fromCourse.State>('descriptions');
 
-export const selectCourseSectionsState = createFeatureSelector<fromCourse.State>('sections');
+export const selectSectionsState = createFeatureSelector<fromSection.State>('sections');
 
 
 
@@ -26,12 +28,8 @@ export const selectTotalCourses = createSelector(selectCoursesState, fromCourse.
 
 
 
+export const selectAllSections = createSelector(selectSectionsState, fromSection.selectAll);
 
-export const selectEditedCourse = createSelector(
-  selectCoursesState,
-  selectAllCourses,
-  (state, courses) => courses.find(course => course.url === state.editedCourseUrl)
-);
 
 
 export const selectInitialCoursesLoaded = createSelector(
@@ -39,10 +37,25 @@ export const selectInitialCoursesLoaded = createSelector(
   state => state.initialCoursesLoaded
 );
 
+
+export const selectEditedCourse = createSelector(
+  selectCoursesState,
+  selectAllCourses,
+  (state, courses) => courses.find(course => course.id === state.editedCourseId)
+);
+
+
 export const selectEditedCourseDescription = createSelector(
   selectDescriptionsState,
   selectEditedCourse,
-  (descriptions, course) =>  course ? descriptions[course.url] : ''
+  (descriptions, course) =>  course ? descriptions[course.id] : ''
+);
+
+
+export const selectEditedCourseSections = createSelector(
+  selectAllSections,
+  selectEditedCourse,
+  (sections, course) =>  course ? sections.filter(section => section.courseId === course.id) : []
 );
 
 

@@ -31,7 +31,23 @@ export class EditCourseGuard implements CanActivate {
      return this.store
       .pipe(
         select(selectAllCourses),
-        tap(() => this.store.dispatch(new EditCourse({courseUrl}))),
+        tap(courses => {
+
+          const course = this.findCourseByUrl(courses, courseUrl);
+
+          // if course is not loaded, load it before continuing
+          if (course) {
+            this.store.dispatch(new EditCourse({courseId: course.id}));
+          }
+          else {
+            this.loading.showLoader(this.coursesDB.findCourseByUrl(courseUrl))
+              .pipe(
+                tap(course => this.store.dispatch(new AddCourse({course})))
+              )
+              .subscribe();
+          }
+
+        }),
         map(courseDetails => !!this.findCourseByUrl(courseDetails, courseUrl)),
         filter(isCourseLoaded => isCourseLoaded)
       );

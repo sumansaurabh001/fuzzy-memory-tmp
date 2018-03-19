@@ -33,7 +33,7 @@ export class EditCourse implements Action {
 
   readonly type = CourseActionTypes.EditCourse;
 
-  constructor(public payload: { courseUrl: string }) {
+  constructor(public payload: { courseId: string }) {
 
   }
 
