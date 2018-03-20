@@ -88,11 +88,13 @@ export class LessonsDBService {
       );
   }
 
-
   deleteSection(course: Course, section: CourseSection): Observable<any> {
     return fromPromise(this.afs.collection(this.sectionsPath(course)).doc(section.id).delete());
   }
 
+  deleteLesson(course: Course, lesson:Lesson): Observable<any> {
+    return fromPromise(this.afs.collection(this.lessonsPath(course)).doc(lesson.id).delete());
+  }
 
   private findLastLessonInSection(course:Course, section:CourseSection): Observable<Lesson> {
 
