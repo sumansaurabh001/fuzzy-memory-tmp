@@ -63,6 +63,7 @@ import {DescriptionsDbService} from './services/descriptions-db.service';
 import {CustomRouterStateSerializer} from './common/router-store-serializer';
 import { AddLessonDialogComponent } from './add-lesson-dialog/add-lesson-dialog.component';
 import {DangerDialogComponent} from './danger-dialog/danger-dialog.component';
+import { ConfirmationDialogComponent } from './confirmation-dialog/confirmation-dialog.component';
 
 
 @NgModule({
@@ -85,7 +86,8 @@ import {DangerDialogComponent} from './danger-dialog/danger-dialog.component';
     CourseCardComponent,
     EditableImageComponent,
     AddSectionDialogComponent,
-    AddLessonDialogComponent
+    AddLessonDialogComponent,
+    ConfirmationDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -148,7 +150,8 @@ import {DangerDialogComponent} from './danger-dialog/danger-dialog.component';
     AddCourseDialogComponent,
     DangerDialogComponent,
     AddSectionDialogComponent,
-    AddLessonDialogComponent
+    AddLessonDialogComponent,
+    ConfirmationDialogComponent
   ],
   bootstrap: [AppComponent]
 })
