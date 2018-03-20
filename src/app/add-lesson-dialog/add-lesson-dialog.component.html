@@ -1,4 +1,4 @@
-<h2 mat-dialog-title>New Course Section</h2>
+<h2 mat-dialog-title>Create New Lesson</h2>
 
 <messages></messages>
 
@@ -9,7 +9,7 @@
   <mat-form-field>
 
     <input matInput
-           placeholder="Section Title (max 100 chars)"
+           placeholder="Lesson Title (max 100 chars)"
            #title
            maxLength="100">
 
@@ -30,7 +30,7 @@
 
   <button class="mat-raised-button mat-primary"
           (click)="save(title.value)" [disabled]="!title.value">
-    Create Section
+    Create Lesson
   </button>
 
 </mat-dialog-actions>

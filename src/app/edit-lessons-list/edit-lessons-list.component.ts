@@ -15,6 +15,7 @@ import {DeleteCourse} from '../store/course.actions';
 import {AddCourseSection, DeleteCourseSection} from '../store/course-section.actions';
 import {LessonsDBService} from '../services/lessons-db.service';
 import {LoadingService} from '../services/loading.service';
+import {AddLessonDialogComponent} from '../add-lesson-dialog/add-lesson-dialog.component';
 
 
 @Component({
@@ -71,10 +72,18 @@ export class EditLessonsListComponent implements OnInit {
   }
 
 
+  addLesson(course:Course, section:CourseSection) {
 
-  addLesson() {
 
-    //TODO
+    const dialogConfig = new MatDialogConfig();
+
+    dialogConfig.autoFocus = true;
+    dialogConfig.disableClose = true;
+    dialogConfig.minWidth = '500px';
+    dialogConfig.data = {course, section};
+
+    const dialogRef = this.dialog.open(AddLessonDialogComponent, dialogConfig);
+
   }
 
 

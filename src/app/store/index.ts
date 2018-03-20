@@ -10,6 +10,7 @@ import {RouterReducerState} from '@ngrx/router-store/src/router_store_module';
 import * as fromDescriptions from './descriptions.reducer';
 import * as fromCourseSection from './course-section.reducer';
 import {storeFreeze} from 'ngrx-store-freeze';
+import * as fromLesson from '../reducers/lesson.reducer';
 
 
 export interface State {
@@ -17,6 +18,7 @@ export interface State {
   router: RouterReducerState;
   descriptions: fromDescriptions.State;
   sections: fromCourseSection.State;
+  lessons: fromLesson.State;
 
 }
 
@@ -24,7 +26,8 @@ export const reducers: ActionReducerMap<State> = {
   courses: fromCourse.reducer,
   router: routerReducer,
   descriptions: fromDescriptions.reducer,
-  sections: fromCourseSection.reducer
+  sections: fromCourseSection.reducer,
+  lessons: fromLesson.reducer
 };
 
 

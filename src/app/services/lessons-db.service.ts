@@ -32,17 +32,22 @@ export class LessonsDBService {
   addNewSection(course: Course, title: string):Observable<CourseSection> {
     return findLastBySeqNo<CourseSection>(this.afs, this.sectionsPath(course))
       .pipe(
-        concatMap(lastSection => {
+        concatMap(last => {
 
           const newSection: any = {
             title,
-            courseId: course.id,
-            seqNo: lastSection ? (lastSection.seqNo + 1) : 1
+            seqNo: last ? (last.seqNo + 1) : 1
           };
 
           const addSectionAsync = this.afs.collection(this.sectionsPath(course))
             .add(newSection)
-            .then(ref => {return {id:ref.id, ...newSection}});
+            .then(ref => {
+              return {
+                id:ref.id,
+                courseId: course.id,
+                ...newSection
+              }
+            });
 
           return fromPromise(addSectionAsync);
         })
@@ -50,13 +55,51 @@ export class LessonsDBService {
   }
 
 
-  private sectionsPath(course:Course) {
-    return this.tenant.path(`courses/${course.id}/sections`);
+  addNewLesson(course: Course, section: CourseSection, title: string): Observable<Lesson> {
+    return this.findLastLessonInSection(course, section)
+      .pipe(
+        concatMap(last => {
+
+          const newLesson: any = {
+            title,
+            seqNo: last ? (last.seqNo + 1) : 1,
+            sectionId: section.id
+          };
+
+          const addLessonAsync = this.afs.collection(this.lessonsPath(course))
+            .add(newLesson)
+            .then(ref => {
+              return {
+                id:ref.id,
+                ...newLesson
+              }
+            });
+
+          return fromPromise(addLessonAsync);
+        })
+      );
   }
 
 
   deleteSection(course: Course, section: CourseSection): Observable<any> {
     return fromPromise(this.afs.collection(this.sectionsPath(course)).doc(section.id).delete());
+  }
+
+
+  private findLastLessonInSection(course:Course, section:CourseSection): Observable<Lesson> {
+
+    const query$ = this.afs.collection<Lesson>(this.lessonsPath(course), ref => ref.where('sectionId', '==', section.id).orderBy('seqNo', 'desc').limit(1));
+
+    return findUniqueMatchWithId(query$).pipe(first());
+  }
+
+
+  private sectionsPath(course:Course) {
+    return this.tenant.path(`courses/${course.id}/sections`);
+  }
+
+  private lessonsPath(course:Course) {
+    return this.tenant.path(`courses/${course.id}/lessons`);
   }
 
 

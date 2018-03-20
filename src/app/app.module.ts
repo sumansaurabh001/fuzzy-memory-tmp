@@ -62,6 +62,7 @@ import {ViewCoursesGuard} from './services/view-courses.guard';
 import {DescriptionEffects} from './store/description.effects';
 import {DescriptionsDbService} from './services/descriptions-db.service';
 import {CustomRouterStateSerializer} from './common/router-store-serializer';
+import { AddLessonDialogComponent } from './add-lesson-dialog/add-lesson-dialog.component';
 
 
 @NgModule({
@@ -83,7 +84,8 @@ import {CustomRouterStateSerializer} from './common/router-store-serializer';
     ConfirmationDialogComponent,
     CourseCardComponent,
     EditableImageComponent,
-    AddSectionDialogComponent
+    AddSectionDialogComponent,
+    AddLessonDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -145,7 +147,8 @@ import {CustomRouterStateSerializer} from './common/router-store-serializer';
   entryComponents: [
     AddCourseDialogComponent,
     ConfirmationDialogComponent,
-    AddSectionDialogComponent
+    AddSectionDialogComponent,
+    AddLessonDialogComponent
   ],
   bootstrap: [AppComponent]
 })
