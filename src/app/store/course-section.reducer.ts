@@ -31,7 +31,12 @@ export function reducer(
 
     case CourseSectionActionTypes.AddCourseSections: {
 
-      const newState = adapter.addMany(action.payload.courseSections, state);
+      const sections = adapter.addMany(action.payload.courseSections, state);
+
+      const newState = {
+        ...sections,
+        loadedCourses: {...state.loadedCourses}
+      };
 
       newState.loadedCourses[action.payload.courseId] = true;
 

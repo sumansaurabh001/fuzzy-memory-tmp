@@ -56,11 +56,12 @@ import { reducers, metaReducers } from './store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { EffectsModule } from '@ngrx/effects';
 import { CourseEffects } from './store/course.effects';
-import {StoreRouterConnectingModule} from '@ngrx/router-store';
+import {RouterStateSerializer, StoreRouterConnectingModule} from '@ngrx/router-store';
 import {EditCourseGuard} from './services/edit-course.guard';
 import {ViewCoursesGuard} from './services/view-courses.guard';
 import {DescriptionEffects} from './store/description.effects';
 import {DescriptionsDbService} from './services/descriptions-db.service';
+import {CustomRouterStateSerializer} from './common/router-store-serializer';
 
 
 @NgModule({
@@ -137,7 +138,8 @@ import {DescriptionsDbService} from './services/descriptions-db.service';
     FileUploadService,
     ViewCoursesGuard,
     EditCourseGuard,
-    UrlBuilderService
+    UrlBuilderService,
+    { provide: RouterStateSerializer, useClass: CustomRouterStateSerializer },
 
   ],
   entryComponents: [

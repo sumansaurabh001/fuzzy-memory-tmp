@@ -9,6 +9,7 @@ import {routerReducer} from '@ngrx/router-store';
 import {RouterReducerState} from '@ngrx/router-store/src/router_store_module';
 import * as fromDescriptions from './descriptions.reducer';
 import * as fromCourseSection from './course-section.reducer';
+import {storeFreeze} from 'ngrx-store-freeze';
 
 
 export interface State {
@@ -27,7 +28,7 @@ export const reducers: ActionReducerMap<State> = {
 };
 
 
-export const metaReducers: MetaReducer<State>[] = !environment.production ? [] : [];
+export const metaReducers: MetaReducer<State>[] = !environment.production ? [storeFreeze] : [];
 
 
 
