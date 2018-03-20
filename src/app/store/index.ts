@@ -10,7 +10,7 @@ import {RouterReducerState} from '@ngrx/router-store/src/router_store_module';
 import * as fromDescriptions from './descriptions.reducer';
 import * as fromCourseSection from './course-section.reducer';
 import {storeFreeze} from 'ngrx-store-freeze';
-import * as fromLesson from '../reducers/lesson.reducer';
+import * as fromLesson from './lesson.reducer';
 
 
 export interface State {

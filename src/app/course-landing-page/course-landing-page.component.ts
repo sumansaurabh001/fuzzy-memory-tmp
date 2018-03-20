@@ -9,7 +9,7 @@ import {UrlBuilderService} from '../services/url-builder.service';
 import {filter, first, tap} from 'rxjs/operators';
 import {select, Store} from '@ngrx/store';
 import {State} from '../store';
-import { selectEditedCourse, selectEditedCourseDescription} from '../store/selectors';
+import { selectEditedCourseSummary, selectEditedCourseDescription} from '../store/selectors';
 import {CoursesDBService} from '../services/courses-db.service';
 import { UpdateCourse} from '../store/course.actions';
 import {AddDescription, SaveDescription} from '../store/description.actions';
@@ -55,7 +55,7 @@ export class CourseLandingPageComponent implements OnInit {
   ngOnInit() {
 
     this.course$ = this.store.pipe(
-      select(selectEditedCourse)
+      select(selectEditedCourseSummary)
     );
 
     this.course$.subscribe(course => {

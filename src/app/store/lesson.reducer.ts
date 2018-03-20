@@ -1,6 +1,6 @@
 import { EntityState, EntityAdapter, createEntityAdapter } from '@ngrx/entity';
 import { Lesson } from '../models/lesson.model';
-import { LessonActions, LessonActionTypes } from '../actions/lesson.actions';
+import { LessonActions, LessonActionTypes } from './lesson.actions';
 
 export interface State extends EntityState<Lesson> {
   // additional entities state properties

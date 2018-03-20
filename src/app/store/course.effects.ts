@@ -12,7 +12,7 @@ import {select, Store} from '@ngrx/store';
 import {DescriptionsDbService} from '../services/descriptions-db.service';
 import {AddDescription} from './description.actions';
 import {
-  isEditedCourseDescriptionLoaded, isEditedSectionsLoaded, selectEditedCourse, selectEditedCourseDescription,
+  isEditedCourseDescriptionLoaded, isEditedSectionsLoaded, selectEditedCourseSummary, selectEditedCourseDescription,
   selectEditedCourseSections
 } from './selectors';
 import {LessonsDBService} from '../services/lessons-db.service';

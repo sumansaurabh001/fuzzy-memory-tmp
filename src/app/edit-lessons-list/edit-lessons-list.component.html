@@ -11,47 +11,44 @@
 
   </edit-lessons-toolbar>
 
-  <ng-container *ngIf="(courseSections$ | async) as courseSections">
 
-    <div class="course-section mat-elevation-z7" *ngFor="let section of courseSections; let last = last">
+  <div class="course-section mat-elevation-z7" *ngFor="let section of course.sections; let last = last">
 
-      <div class="section-title">
-        <span class="section-number">Section {{section.seqNo}}: </span>
-        <span class="section-title-text"> {{section.title}}</span>
-        <div class="filler draggable"></div>
-        <mat-icon class="drag-section draggable">drag_handle</mat-icon>
-      </div>
+    <div class="section-title">
+      <span class="section-number">Section {{section.seqNo}}: </span>
+      <span class="section-title-text"> {{section.title}}</span>
+      <div class="filler draggable"></div>
+      <mat-icon class="drag-section draggable">drag_handle</mat-icon>
+    </div>
 
-      <mat-expansion-panel expanded="false" *ngFor="let lesson of section.lessons">
-        <mat-expansion-panel-header>
-          <mat-panel-title>
-            <span class="lecture-number" fxHide.lt-lg="true">Lecture {{lesson.seqNo}}:</span>
-            <mat-icon>play_circle_outline</mat-icon>
-          </mat-panel-title>
-          <mat-panel-description>
-            {{lesson.title}}
-          </mat-panel-description>
-        </mat-expansion-panel-header>
-        <edit-lesson [lesson]="lesson"></edit-lesson>
-      </mat-expansion-panel>
+    <mat-expansion-panel expanded="false" *ngFor="let lesson of section.lessons">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          <span class="lecture-number" fxHide.lt-lg="true">Lecture {{lesson.seqNo}}:</span>
+          <mat-icon>play_circle_outline</mat-icon>
+        </mat-panel-title>
+        <mat-panel-description>
+          {{lesson.title}}
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+      <edit-lesson [lesson]="lesson"></edit-lesson>
+    </mat-expansion-panel>
 
-      <div class="bottom-toolbar">
+    <div class="bottom-toolbar">
 
-        <action-button
-              color="accent" icon="delete" color="secondary" (click)="deleteSection(course, section)"
-              title="Delete empty section">
+      <action-button
+        color="accent" icon="delete" color="secondary" (click)="deleteSection(course, section)"
+        title="Delete empty section">
 
-        </action-button>
+      </action-button>
 
-        <div class="filler"></div>
+      <div class="filler"></div>
 
-        <action-button text="Add Lesson" color="accent" icon="add" (click)="addLesson(course, section)"></action-button>
-
-      </div>
+      <action-button text="Add Lesson" color="accent" icon="add" (click)="addLesson(course, section)"></action-button>
 
     </div>
 
-  </ng-container>
+  </div>
 
 
   <div class="course-section mat-elevation-z7">
@@ -116,9 +113,6 @@
 
 
   </div>
-
-
-
 
 
   <div class="add-section-panel">

@@ -6,13 +6,12 @@ import {MessagesService} from '../services/messages.service';
 import {Course} from '../models/course.model';
 import {Observable} from 'rxjs/Observable';
 import {CourseSection} from '../models/course-section.model';
-import {concatMap, filter, first, map, switchMap, tap} from 'rxjs/operators';
 import {AddSectionDialogComponent} from '../add-section-dialog/add-section-dialog.component';
-import {selectAllCourses, selectEditedCourse, selectEditedCourseSections} from '../store/selectors';
+import {selectEditedCourseDetail, selectEditedCourseSummary} from '../store/selectors';
 import {select, Store} from '@ngrx/store';
 import {State} from '../store';
 import {DeleteCourse} from '../store/course.actions';
-import {AddCourseSection, DeleteCourseSection} from '../store/course-section.actions';
+import { DeleteCourseSection} from '../store/course-section.actions';
 import {LessonsDBService} from '../services/lessons-db.service';
 import {LoadingService} from '../services/loading.service';
 import {AddLessonDialogComponent} from '../add-lesson-dialog/add-lesson-dialog.component';
@@ -26,7 +25,6 @@ import {AddLessonDialogComponent} from '../add-lesson-dialog/add-lesson-dialog.c
 export class EditLessonsListComponent implements OnInit {
 
   course$: Observable<Course>;
-  courseSections$: Observable<CourseSection[]>;
 
   constructor(private dialog: MatDialog,
               private route: ActivatedRoute,
@@ -41,9 +39,7 @@ export class EditLessonsListComponent implements OnInit {
 
   ngOnInit() {
 
-    this.course$ = this.store.pipe(select(selectEditedCourse));
-
-    this.courseSections$ = this.store.pipe(select(selectEditedCourseSections));
+    this.course$ = this.store.pipe(select(selectEditedCourseDetail));
 
   }
 

@@ -8,7 +8,8 @@ import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
 import {Course} from '../models/course.model';
 import {Store} from '@ngrx/store';
 import {CourseSection} from '../models/course-section.model';
-import {AddLesson} from '../actions/lesson.actions';
+import {AddLesson} from '../store/lesson.actions';
+
 
 @Component({
   selector: 'add-lesson-dialog',

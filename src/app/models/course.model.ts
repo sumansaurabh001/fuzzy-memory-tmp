@@ -1,3 +1,5 @@
+import {CourseSection} from './course-section.model';
+
 export interface Course {
   id:string;
   url: string;
@@ -7,4 +9,5 @@ export interface Course {
   subTitle:string;
   shortDescription: string;
   thumbnail: string;
+  sections?: CourseSection[]
 }
