@@ -41,7 +41,6 @@ import {MessagesComponent} from './messages/messages.component';
 import {LoadingComponent} from './loading/loading.component';
 import {LoadingService} from './services/loading.service';
 import {ActionButtonComponent} from './action-button/action-button.component';
-import {ConfirmationDialogComponent} from './confirmation-dialog/confirmation-dialog.component';
 import {TenantService} from './services/tenant.service';
 import {CoursesDBService} from './services/courses-db.service';
 import { CourseCardComponent } from './course-card/course-card.component';
@@ -63,6 +62,7 @@ import {DescriptionEffects} from './store/description.effects';
 import {DescriptionsDbService} from './services/descriptions-db.service';
 import {CustomRouterStateSerializer} from './common/router-store-serializer';
 import { AddLessonDialogComponent } from './add-lesson-dialog/add-lesson-dialog.component';
+import {DangerDialogComponent} from './danger-dialog/danger-dialog.component';
 
 
 @NgModule({
@@ -81,7 +81,7 @@ import { AddLessonDialogComponent } from './add-lesson-dialog/add-lesson-dialog.
     MessagesComponent,
     LoadingComponent,
     ActionButtonComponent,
-    ConfirmationDialogComponent,
+    DangerDialogComponent,
     CourseCardComponent,
     EditableImageComponent,
     AddSectionDialogComponent,
@@ -146,7 +146,7 @@ import { AddLessonDialogComponent } from './add-lesson-dialog/add-lesson-dialog.
   ],
   entryComponents: [
     AddCourseDialogComponent,
-    ConfirmationDialogComponent,
+    DangerDialogComponent,
     AddSectionDialogComponent,
     AddLessonDialogComponent
   ],

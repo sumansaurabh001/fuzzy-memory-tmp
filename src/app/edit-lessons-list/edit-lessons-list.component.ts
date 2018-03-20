@@ -1,7 +1,6 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {MAT_DIALOG_DATA, MatDialog, MatDialogConfig} from '@angular/material';
-import {ConfirmationDialogComponent} from '../confirmation-dialog/confirmation-dialog.component';
 import {MessagesService} from '../services/messages.service';
 import {Course} from '../models/course.model';
 import {Observable} from 'rxjs/Observable';
@@ -15,6 +14,7 @@ import { DeleteCourseSection} from '../store/course-section.actions';
 import {LessonsDBService} from '../services/lessons-db.service';
 import {LoadingService} from '../services/loading.service';
 import {AddLessonDialogComponent} from '../add-lesson-dialog/add-lesson-dialog.component';
+import {DangerDialogComponent} from '../danger-dialog/danger-dialog.component';
 
 
 @Component({
@@ -94,7 +94,7 @@ export class EditLessonsListComponent implements OnInit {
       confirmationCode: course.url
     };
 
-    const dialogRef = this.dialog.open(ConfirmationDialogComponent, config);
+    const dialogRef = this.dialog.open(DangerDialogComponent, config);
 
     dialogRef.afterClosed()
       .subscribe(confirmed => {
