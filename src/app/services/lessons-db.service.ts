@@ -28,6 +28,14 @@ export class LessonsDBService {
 
   }
 
+  loadCourseLessons(courseId: string): Observable<Lesson[]> {
+
+    const coursePath = this.tenant.path(`courses/${courseId}`);
+
+    return readCollectionWithIds<Lesson[]>(this.afs.collection(coursePath + '/lessons', ref => ref.orderBy('seqNo')));
+
+  }
+
 
   addNewSection(course: Course, title: string):Observable<CourseSection> {
     return findLastBySeqNo<CourseSection>(this.afs, this.sectionsPath(course))

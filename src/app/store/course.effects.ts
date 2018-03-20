@@ -13,10 +13,11 @@ import {DescriptionsDbService} from '../services/descriptions-db.service';
 import {AddDescription} from './description.actions';
 import {
   isEditedCourseDescriptionLoaded, isEditedSectionsLoaded, selectEditedCourseSummary, selectEditedCourseDescription,
-  selectEditedCourseSections
+  selectEditedCourseSections, isEditedLessonsLoaded
 } from './selectors';
 import {LessonsDBService} from '../services/lessons-db.service';
 import {AddCourseSections} from './course-section.actions';
+import {AddLessons} from './lesson.actions';
 
 
 @Injectable()
@@ -43,6 +44,18 @@ export class CourseEffects {
       concatMap(
         ([action]) => this.loading.showLoader(this.lessonsDB.loadCourseSections(action.payload.courseId)),
         ([action], courseSections) => new AddCourseSections({courseSections, courseId: action.payload.courseId})
+      ),
+    );
+
+  @Effect()
+  loadLessonsIfNeeded$ = this.actions$
+    .pipe(
+      ofType<EditCourse>(CourseActionTypes.EditCourse),
+      withLatestFrom(this.store.pipe(select(isEditedLessonsLoaded))),
+      filter(([action, loaded]) => !loaded),
+      concatMap(
+        ([action]) => this.loading.showLoader(this.lessonsDB.loadCourseLessons(action.payload.courseId)),
+        ([action], lessons) => new AddLessons({lessons, courseId: action.payload.courseId})
       ),
     );
 

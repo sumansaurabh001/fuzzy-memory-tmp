@@ -90,7 +90,7 @@ export class EditLessonsListComponent implements OnInit {
     config.autoFocus = true;
 
     config.data = {
-      title: 'Deleting Course Draft',
+      title: 'Delete Course Draft',
       confirmationCode: course.url
     };
 

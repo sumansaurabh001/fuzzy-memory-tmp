@@ -36,7 +36,7 @@ export class UpsertLesson implements Action {
 export class AddLessons implements Action {
   readonly type = LessonActionTypes.AddLessons;
 
-  constructor(public payload: { lessons: Lesson[] }) {}
+  constructor(public payload: { lessons: Lesson[],  courseId:string  }) {}
 }
 
 export class UpsertLessons implements Action {

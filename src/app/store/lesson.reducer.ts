@@ -3,13 +3,13 @@ import { Lesson } from '../models/lesson.model';
 import { LessonActions, LessonActionTypes } from './lesson.actions';
 
 export interface State extends EntityState<Lesson> {
-  // additional entities state properties
+  loadedCourses: {[key:string]:boolean}
 }
 
 export const adapter: EntityAdapter<Lesson> = createEntityAdapter<Lesson>();
 
 export const initialState: State = adapter.getInitialState({
-  // additional entity state properties
+  loadedCourses: {}
 });
 
 export function reducer(
@@ -26,7 +26,17 @@ export function reducer(
     }
 
     case LessonActionTypes.AddLessons: {
-      return adapter.addMany(action.payload.lessons, state);
+
+      const lessons = adapter.addMany(action.payload.lessons, state);
+
+      const newState = {
+        ...lessons,
+        loadedCourses: {...state.loadedCourses}
+      };
+
+      newState.loadedCourses[action.payload.courseId] = true;
+
+      return newState;
     }
 
     case LessonActionTypes.UpsertLessons: {

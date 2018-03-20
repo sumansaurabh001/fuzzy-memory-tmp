@@ -108,6 +108,13 @@ export const isEditedSectionsLoaded = createSelector(
 );
 
 
+export const isEditedLessonsLoaded = createSelector(
+  selectEditedCourseSummary,
+  selectLessonsState,
+  (editedCourse, lessonsState) =>  editedCourse? (editedCourse.id in lessonsState.loadedCourses) : false
+);
+
+
 export const isEditedCourseDescriptionLoaded = createSelector(
   selectDescriptionsState,
   selectEditedCourseSummary,
