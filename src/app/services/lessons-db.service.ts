@@ -28,7 +28,7 @@ export class LessonsDBService {
   }
 
 
-  addNewCourseSection(course: Course, title: string):Observable<CourseSection> {
+  addNewSection(course: Course, title: string):Observable<CourseSection> {
     return findLastBySeqNo<CourseSection>(this.afs, this.sectionsPath(course))
       .pipe(
         concatMap(lastSection => {
