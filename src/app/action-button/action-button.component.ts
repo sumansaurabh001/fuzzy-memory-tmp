@@ -7,7 +7,8 @@ import {Component, EventEmitter, Input, OnInit} from '@angular/core';
 })
 export class ActionButtonComponent {
 
-  @Input() text = '';
+  @Input() text;
+  @Input() title;
   @Input() color = 'primary';
   @Input() icon = 'help';
 

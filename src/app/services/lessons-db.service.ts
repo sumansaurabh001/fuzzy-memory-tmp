@@ -23,7 +23,8 @@ export class LessonsDBService {
 
     const coursePath = this.tenant.path(`courses/${courseId}`);
 
-    return readCollectionWithIds<CourseSection[]>(this.afs.collection(coursePath + '/sections', ref => ref.orderBy('seqNo')));
+    return readCollectionWithIds<CourseSection[]>(this.afs.collection(coursePath + '/sections', ref => ref.orderBy('seqNo')))
+      .map(sections => sections.map(section => {return {...section, courseId}}));
 
   }
 
@@ -35,6 +36,7 @@ export class LessonsDBService {
 
           const newSection: any = {
             title,
+            courseId: course.id,
             seqNo: lastSection ? (lastSection.seqNo + 1) : 1
           };
 
@@ -48,11 +50,13 @@ export class LessonsDBService {
   }
 
 
-
-
-
   private sectionsPath(course:Course) {
     return this.tenant.path(`courses/${course.id}/sections`);
+  }
+
+
+  deleteSection(course: Course, section: CourseSection): Observable<any> {
+    return fromPromise(this.afs.collection(this.sectionsPath(course)).doc(section.id).delete());
   }
 
 

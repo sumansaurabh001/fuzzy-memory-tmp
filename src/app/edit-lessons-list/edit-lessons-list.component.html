@@ -37,9 +37,15 @@
 
       <div class="bottom-toolbar">
 
+        <action-button
+              color="accent" icon="delete" color="secondary" (click)="deleteSection(course, section)"
+              title="Delete empty section">
+
+        </action-button>
+
         <div class="filler"></div>
 
-        <action-button text="Add Lesson" color="accent" icon="add" (click)="addLesson()"></action-button>
+        <action-button text="Add Lesson" color="accent" icon="add" (click)="addLesson(course,section)"></action-button>
 
       </div>
 
@@ -118,7 +124,7 @@
   <div class="add-section-panel">
 
     <span>Add Course Section</span>
-    <button class="add-section" mat-fab color="accent" (click)="addCourseSection(course)">
+    <button class="add-section" mat-fab color="accent" (click)="addSection(course)">
       <mat-icon>add</mat-icon>
     </button>
   </div>

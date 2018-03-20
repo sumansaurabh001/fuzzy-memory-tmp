@@ -12,7 +12,9 @@ import {selectAllCourses, selectEditedCourse, selectEditedCourseSections} from '
 import {select, Store} from '@ngrx/store';
 import {State} from '../store';
 import {DeleteCourse} from '../store/course.actions';
-import {AddCourseSection} from '../store/course-section.actions';
+import {AddCourseSection, DeleteCourseSection} from '../store/course-section.actions';
+import {LessonsDBService} from '../services/lessons-db.service';
+import {LoadingService} from '../services/loading.service';
 
 
 @Component({
@@ -27,6 +29,9 @@ export class EditLessonsListComponent implements OnInit {
 
   constructor(private dialog: MatDialog,
               private route: ActivatedRoute,
+              private messages: MessagesService,
+              private lessonsDB: LessonsDBService,
+              private loading: LoadingService,
               private router: Router,
               private store: Store<State>) {
 
@@ -42,7 +47,7 @@ export class EditLessonsListComponent implements OnInit {
   }
 
 
-  addCourseSection(course: Course) {
+  addSection(course: Course) {
 
     const dialogConfig = new MatDialogConfig();
 
@@ -53,6 +58,16 @@ export class EditLessonsListComponent implements OnInit {
 
     const dialogRef = this.dialog.open(AddSectionDialogComponent, dialogConfig);
 
+  }
+
+
+  deleteSection(course: Course, section: CourseSection) {
+
+   this.loading.showLoader(this.lessonsDB.deleteSection(course, section))
+      .subscribe(
+        () => this.store.dispatch(new DeleteCourseSection({id:section.id})),
+        err => this.messages.error('Could not delete course section.', err)
+      );
   }
 
 

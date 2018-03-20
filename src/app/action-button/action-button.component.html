@@ -1,7 +1,7 @@
 
 
-<span>{{text}}:</span>
-<button mat-mini-fab [color]="color">
+<span>{{text}}<span *ngIf="text">:</span></span>
+<button mat-mini-fab [color]="color" [title]="title ? title:text">
   <mat-icon>{{icon}}</mat-icon>
 </button>
 
