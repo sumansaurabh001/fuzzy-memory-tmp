@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
 import {Lesson} from '../models/lesson.model';
 import {State} from '../store';
 import {Store} from '@ngrx/store';
@@ -17,7 +17,7 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
   templateUrl: './edit-lesson.component.html',
   styleUrls: ['./edit-lesson.component.scss']
 })
-export class EditLessonComponent implements OnInit {
+export class EditLessonComponent implements OnInit, OnChanges {
 
   @Input() course:Course;
   @Input() lesson: Lesson;
@@ -32,15 +32,23 @@ export class EditLessonComponent implements OnInit {
     private fb: FormBuilder
   ) {
 
-  }
-
-  ngOnInit() {
     this.form = this.fb.group({
       title: ['', [Validators.required, Validators.maxLength(60)]],
       description: ['', [Validators.required, Validators.maxLength(105)]],
       free: [false, [Validators.required]],
 
     });
+
+  }
+
+  ngOnInit() {
+
+  }
+
+  ngOnChanges(changes:SimpleChanges) {
+    if (changes['lesson']) {
+      this.form.patchValue(changes['lesson'].currentValue);
+    }
   }
 
   isDraft() {
