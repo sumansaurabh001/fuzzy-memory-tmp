@@ -49,6 +49,7 @@ export class EditLessonComponent implements OnInit, OnChanges {
 
   ngOnInit() {
 
+
   }
 
   ngOnChanges(changes:SimpleChanges) {
