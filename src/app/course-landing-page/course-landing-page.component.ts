@@ -13,6 +13,7 @@ import { selectEditedCourse, selectEditedCourseDescription} from '../store/selec
 import {CoursesDBService} from '../services/courses-db.service';
 import { UpdateCourse} from '../store/course.actions';
 import {AddDescription, SaveDescription} from '../store/description.actions';
+import {defaultHtmlEditorConfig} from '../common/html-editor.config';
 
 @Component({
   selector: 'course-landing-page',
@@ -28,13 +29,7 @@ export class CourseLandingPageComponent implements OnInit {
 
   form: FormGroup;
 
-  toolbar = [
-    ['bold', 'italic', 'underline', 'strikeThrough'],
-    ['justifyCenter'],
-    ['paragraph', 'blockquote', 'removeBlockquote', 'horizontalLine', 'orderedList', 'unorderedList'],
-    ['link'],
-    ['code']
-  ];
+  toolbar = defaultHtmlEditorConfig;
 
   constructor(private route: ActivatedRoute,
               private tenant: TenantService,

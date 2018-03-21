@@ -12,6 +12,7 @@ import {ConfirmationDialogComponent} from '../confirmation-dialog/confirmation-d
 import {concatMap, filter, tap} from 'rxjs/operators';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {UpdateCourse} from '../store/course.actions';
+import {defaultHtmlEditorConfig} from '../common/html-editor.config';
 
 @Component({
   selector: 'edit-lesson',
@@ -25,6 +26,9 @@ export class EditLessonComponent implements OnInit, OnChanges {
   @Input() lesson: Lesson;
 
   form: FormGroup;
+
+  lessonDescription:string;
+  toolbar = defaultHtmlEditorConfig;
 
   constructor(
     private dialog: MatDialog,

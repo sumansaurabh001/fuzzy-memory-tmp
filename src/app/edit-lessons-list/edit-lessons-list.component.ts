@@ -127,13 +127,17 @@ export class EditLessonsListComponent implements OnInit {
 
   }
 
-  emptyCourseStyles(course:Course): string[] {
+  emptyCourseCss(course:Course): string[] {
     if (course.sections.length == 0) {
       return ['mat-elevation-z7', 'empty-course'];
     }
     else {
       return [];
     }
+  }
+
+  expandedCss(expanded:boolean) {
+    return expanded ? 'lesson-expanded': null;
   }
 
 
