@@ -18,7 +18,8 @@ import {SaveDescription} from '../store/description.actions';
 @Component({
   selector: 'edit-lesson',
   templateUrl: './edit-lesson.component.html',
-  styleUrls: ['./edit-lesson.component.scss']
+  styleUrls: ['./edit-lesson.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class EditLessonComponent implements OnInit, OnChanges {
 
