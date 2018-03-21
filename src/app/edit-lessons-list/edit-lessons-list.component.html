@@ -1,6 +1,6 @@
 <ng-container *ngIf="(course$ | async) as course">
 
-  <edit-lessons-toolbar>
+  <edit-lessons-toolbar *ngIf="isCourseLoaded$ | async">
 
     <action-button text="Bulk Upload" icon="cloud_upload"></action-button>
 
@@ -51,7 +51,7 @@
   </div>
 
 
-  <div class="add-section-panel" [ngClass]="emptyCourseStyles(course)">
+  <div class="add-section-panel" [ngClass]="emptyCourseStyles(course)" *ngIf="isCourseLoaded$ | async">
 
     <span>Add Course Section</span>
     <button class="add-section" mat-fab color="accent" (click)="addSection(course)">

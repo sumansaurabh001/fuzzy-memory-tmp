@@ -6,7 +6,7 @@ import {Course} from '../models/course.model';
 import {Observable} from 'rxjs/Observable';
 import {CourseSection} from '../models/course-section.model';
 import {AddSectionDialogComponent} from '../add-section-dialog/add-section-dialog.component';
-import {selectEditedCourseDetail, selectEditedCourseSummary} from '../store/selectors';
+import {selectEditedCourseDetail, selectEditedCourse, isEditedCourseLoaded} from '../store/selectors';
 import {select, Store} from '@ngrx/store';
 import {State} from '../store';
 import {DeleteCourse} from '../store/course.actions';
@@ -30,6 +30,8 @@ export class EditLessonsListComponent implements OnInit {
 
   course$: Observable<Course>;
 
+  isCourseLoaded$: Observable<boolean>;
+
   constructor(private dialog: MatDialog,
               private route: ActivatedRoute,
               private messages: MessagesService,
@@ -43,10 +45,9 @@ export class EditLessonsListComponent implements OnInit {
 
   ngOnInit() {
 
-    this.course$ = this.store
-      .pipe(
-        select(selectEditedCourseDetail)
-      );
+    this.course$ = this.store.pipe(select(selectEditedCourseDetail));
+
+    this.isCourseLoaded$ = this.store.pipe(select(isEditedCourseLoaded));
 
   }
 

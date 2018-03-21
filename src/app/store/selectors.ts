@@ -42,7 +42,7 @@ export const selectInitialCoursesLoaded = createSelector(
 );
 
 
-export const selectEditedCourseSummary = createSelector(
+export const selectEditedCourse = createSelector(
   selectCoursesState,
   selectAllCourses,
   (state, courses) => courses.find(course => course.id === state.editedCourseId)
@@ -51,7 +51,7 @@ export const selectEditedCourseSummary = createSelector(
 
 export const selectEditedCourseDescription = createSelector(
   selectDescriptionsState,
-  selectEditedCourseSummary,
+  selectEditedCourse,
   (descriptions, editedCourse) =>  editedCourse ? descriptions[editedCourse.id] : ''
 );
 
@@ -59,7 +59,7 @@ export const selectEditedCourseDescription = createSelector(
 
 export const selectEditedCourseSections = createSelector(
   selectAllSections,
-  selectEditedCourseSummary,
+  selectEditedCourse,
   (sections, course) =>  course ? sections.filter(section => section.courseId === course.id) : []
 );
 
@@ -79,7 +79,7 @@ export const selectEditedCourseLessons = createSelector(
 
 
 export const selectEditedCourseDetail = createSelector(
-  selectEditedCourseSummary,
+  selectEditedCourse,
   selectEditedCourseSections,
   selectEditedCourseLessons,
   (summary, editedSections, editedLessons) => {
@@ -103,13 +103,13 @@ export const selectEditedCourseDetail = createSelector(
 
 export const isEditedSectionsLoaded = createSelector(
   selectSectionsState,
-  selectEditedCourseSummary,
+  selectEditedCourse,
   (state, editedCourse) =>  editedCourse ? (editedCourse.id in state.loadedCourses): false
 );
 
 
 export const isEditedLessonsLoaded = createSelector(
-  selectEditedCourseSummary,
+  selectEditedCourse,
   selectLessonsState,
   (editedCourse, lessonsState) =>  editedCourse? (editedCourse.id in lessonsState.loadedCourses) : false
 );
@@ -117,9 +117,15 @@ export const isEditedLessonsLoaded = createSelector(
 
 export const isEditedCourseDescriptionLoaded = createSelector(
   selectDescriptionsState,
-  selectEditedCourseSummary,
+  selectEditedCourse,
   (descriptions, editedCourse) =>  editedCourse ? (editedCourse.id in descriptions) : false
 );
 
 
 
+export const isEditedCourseLoaded = createSelector(
+  selectEditedCourse,
+  selectSectionsState,
+  selectLessonsState,
+  (course, sectionsState, lessonsState) => sectionsState.loadedCourses[course.id] && lessonsState.loadedCourses[course.id]
+);
