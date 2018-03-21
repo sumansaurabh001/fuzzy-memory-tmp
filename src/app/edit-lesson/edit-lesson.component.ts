@@ -13,12 +13,12 @@ import {concatMap, filter, tap} from 'rxjs/operators';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {UpdateCourse} from '../store/course.actions';
 import {defaultHtmlEditorConfig} from '../common/html-editor.config';
+import {SaveDescription} from '../store/description.actions';
 
 @Component({
   selector: 'edit-lesson',
   templateUrl: './edit-lesson.component.html',
-  styleUrls: ['./edit-lesson.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  styleUrls: ['./edit-lesson.component.scss']
 })
 export class EditLessonComponent implements OnInit, OnChanges {
 
@@ -73,6 +73,10 @@ export class EditLessonComponent implements OnInit, OnChanges {
     };
 
     this.store.dispatch(new UpdateLesson({lesson, courseId: this.course.id}));
+
+    const description = this.lessonDescription || '';
+
+    this.store.dispatch(new SaveDescription({id: this.lesson.id, description}));
   }
 
 

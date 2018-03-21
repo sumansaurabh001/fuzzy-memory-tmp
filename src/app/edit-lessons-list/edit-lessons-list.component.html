@@ -22,6 +22,7 @@
     </div>
 
     <mat-expansion-panel #panel expanded="false" *ngFor="let lesson of section.lessons" [ngClass]="expandedCss(panel.expanded)">
+
       <mat-expansion-panel-header>
         <mat-panel-title>
           <span class="lecture-number" fxHide.lt-lg="true">Lecture {{lesson.seqNo}}:</span>
@@ -31,7 +32,9 @@
           {{lesson.title}}
         </mat-panel-description>
       </mat-expansion-panel-header>
+
       <edit-lesson [course]="course" [lesson]="lesson"></edit-lesson>
+
     </mat-expansion-panel>
 
     <div class="bottom-toolbar">

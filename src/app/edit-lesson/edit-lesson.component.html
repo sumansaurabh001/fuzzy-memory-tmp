@@ -29,19 +29,18 @@
     Free Preview
   </mat-slide-toggle>
 
-  <div class="section-label">Lesson Description</div>
-
-  <app-ngx-editor
-    height="80px"
-    placeholder="(Optional)"
-    [spellcheck]="true"
-    [toolbar]="toolbar"
-    [(ngModel)]="lessonDescription">
-
-  </app-ngx-editor>
-
 </div>
 
+<div class="section-label">Lesson Description</div>
+
+<app-ngx-editor
+  height="50px"
+  placeholder="(Optional)"
+  [spellcheck]="true"
+  [toolbar]="toolbar"
+  [(ngModel)]="lessonDescription">
+
+</app-ngx-editor>
 
 <div class="lesson-actions">
 
