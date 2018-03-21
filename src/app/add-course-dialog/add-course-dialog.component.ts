@@ -57,7 +57,7 @@ export class AddCourseDialogComponent implements OnInit {
 
           this.store.dispatch(new AddCourse({course}));
 
-          this.router.navigate(['courses', course.url, 'edit']);
+          this.router.navigate(['courses', course.seqNo, 'edit']);
           this.dialogRef.close();
         },
         err => this.messages.error(err));

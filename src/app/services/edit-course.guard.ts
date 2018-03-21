@@ -26,21 +26,21 @@ export class EditCourseGuard implements CanActivate {
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
 
-    const courseUrl = route.paramMap.get('courseUrl');
+    const courseSeqNo = parseInt(route.paramMap.get('courseSeqNo'));
 
      return this.store
       .pipe(
         select(selectAllCourses),
         tap(courses => {
 
-          const course = this.findCourseByUrl(courses, courseUrl);
+          const course = this.findCourseBySeqNo(courses, courseSeqNo);
 
           // if course is not loaded, load it before continuing
           if (course) {
             this.store.dispatch(new EditCourse({courseId: course.id}));
           }
           else {
-            this.loading.showLoader(this.coursesDB.findCourseByUrl(courseUrl))
+            this.loading.showLoader(this.coursesDB.findCourseBySeqNo(courseSeqNo))
               .pipe(
                 tap(course => this.store.dispatch(new AddCourse({course})))
               )
@@ -48,13 +48,13 @@ export class EditCourseGuard implements CanActivate {
           }
 
         }),
-        map(courseDetails => !!this.findCourseByUrl(courseDetails, courseUrl)),
+        map(courseDetails => !!this.findCourseBySeqNo(courseDetails, courseSeqNo)),
         filter(isCourseLoaded => isCourseLoaded)
       );
   }
 
-  private findCourseByUrl(courses:Course[], url:string) {
-    return courses.find(course => course.url === url);
+  private findCourseBySeqNo(courses:Course[], seqNo:number) {
+    return courses.find(course => course.seqNo == seqNo);
 
   }
 

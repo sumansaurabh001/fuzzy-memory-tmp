@@ -13,7 +13,7 @@ const routes: Routes = [
     component: CourseComponent
   },
   {
-    path: 'courses/:courseUrl/edit',
+    path: 'courses/:courseSeqNo/edit',
     component: EditCourseComponent,
     canActivate:[EditCourseGuard]
   },

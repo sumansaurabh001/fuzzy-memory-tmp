@@ -69,7 +69,7 @@ export class EditLessonsListComponent implements OnInit {
 
     config.data = {
       title: 'Delete Course Section',
-      confirmationText: 'Are you sure you want to delete this section?'
+      confirmationText: 'Are you sure you want to delete this Section?'
     };
 
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, config);
@@ -107,23 +107,22 @@ export class EditLessonsListComponent implements OnInit {
 
     config.data = {
       title: 'Delete Course Draft',
-      confirmationCode: course.url
+      confirmationText: 'Are you sure you want to delete this Course Draft?'
     };
 
-    const dialogRef = this.dialog.open(DangerDialogComponent, config);
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, config);
 
     dialogRef.afterClosed()
-      .subscribe(confirmed => {
-        if (confirmed) {
+      .subscribe(result => {
+        if (result.confirm) {
           this.store.dispatch(new DeleteCourse({id: course.id}));
           this.router.navigateByUrl('/courses');
         }
       });
 
-
   }
 
-  isEmptyCourse(course:Course): string[] {
+  emptyCourseStyles(course:Course): string[] {
     if (course.sections.length == 0) {
       return ['mat-elevation-z7', 'empty-course'];
     }

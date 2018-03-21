@@ -31,6 +31,13 @@ export class CoursesDBService {
   }
 
 
+  findCourseBySeqNo(seqNo: number) {
+
+    const courseQuery$ = this.afs.collection<Course>(this.coursesPath, ref => ref.where('seqNo', '==', seqNo));
+
+    return findUniqueMatchWithId(courseQuery$).pipe(first());
+  }
+
   suscribeToCourse(courseId: string): Observable<Course> {
     return readDocumentWithId(this.afs.doc(this.coursesPath + '/' + courseId));
   }
@@ -40,26 +47,19 @@ export class CoursesDBService {
   }
 
   createNewCourse(course: Course): Observable<Course> {
-    return this.findCourseByUrl(course.url)
+
+    const newCourse = {...course};
+
+    return findLastBySeqNo<Course>(this.afs, this.coursesPath)
       .pipe(
-        tap(result => {
-          if (result) {
-            throw 'Please choose another course url, this one is already in use.';
-          }
-        }),
-        filter(result => !result),
-        switchMap(() => findLastBySeqNo<Course>(this.afs, this.coursesPath)),
         switchMap(lastCourse => {
 
-          const newCourse = {
-            ...course,
-            seqNo: lastCourse ? (lastCourse.seqNo + 1) : 1
-          };
+          newCourse.seqNo = lastCourse ? (lastCourse.seqNo + 1) : 1;
 
           return fromPromise(this.afs.collection(this.coursesPath).add(newCourse));
         }),
         map(ref => {
-          return {...course, id: ref.id};
+          return {...newCourse, id: ref.id};
         })
       );
   }

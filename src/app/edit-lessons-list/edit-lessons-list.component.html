@@ -4,7 +4,7 @@
 
     <action-button text="Bulk Upload" icon="cloud_upload"></action-button>
 
-    <action-button *ngIf="course.status == 'draft'"
+    <action-button *ngIf="course.status == 'draft' && course.sections.length == 0"
                    text="Delete Course Draft" color="secondary"
                    icon="delete" (click)="deleteCourseDraft(course)">
     </action-button>
@@ -51,7 +51,7 @@
   </div>
 
 
-  <div class="add-section-panel" [ngClass]="isEmptyCourse(course)">
+  <div class="add-section-panel" [ngClass]="emptyCourseStyles(course)">
 
     <span>Add Course Section</span>
     <button class="add-section" mat-fab color="accent" (click)="addSection(course)">
