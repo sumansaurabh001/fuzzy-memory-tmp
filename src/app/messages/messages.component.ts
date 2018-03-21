@@ -1,6 +1,6 @@
 import {ChangeDetectionStrategy, Component, Input, OnInit} from '@angular/core';
 import {MessagesService} from '../services/messages.service';
-import {UIMessage} from '../../model/ui-message.model';
+import {UIMessage} from './ui-message.model';
 
 @Component({
   selector: 'messages',

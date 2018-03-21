@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import {Observable} from 'rxjs/Observable';
-import {UIMessage} from '../../model/ui-message.model';
+import {UIMessage} from '../messages/ui-message.model';
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 import {map} from 'rxjs/operators';
 
