@@ -25,10 +25,14 @@
     <input matInput placeholder="Lesson Title" formControlName="title">
   </mat-form-field>
 
+  <mat-slide-toggle color="primary" formControlName="free">
+    Free Preview
+  </mat-slide-toggle>
+
   <div class="section-label">Lesson Description</div>
 
   <app-ngx-editor
-    height="300px"
+    height="80px"
     placeholder="(Optional)"
     [spellcheck]="true"
     [toolbar]="toolbar"
@@ -36,9 +40,6 @@
 
   </app-ngx-editor>
 
-  <mat-slide-toggle color="primary" formControlName="free">
-    Free Preview
-  </mat-slide-toggle>
 </div>
 
 
