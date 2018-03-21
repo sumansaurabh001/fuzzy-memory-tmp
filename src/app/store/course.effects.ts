@@ -17,7 +17,7 @@ import {
 } from './selectors';
 import {LessonsDBService} from '../services/lessons-db.service';
 import {AddCourseSections} from './course-section.actions';
-import {AddLessons} from './lesson.actions';
+import {AddLessons, LessonActionTypes, UpdateLesson} from './lesson.actions';
 
 
 @Injectable()
@@ -77,6 +77,13 @@ export class CourseEffects {
     .pipe(
       ofType<UpdateCourse>(CourseActionTypes.UpdateCourse),
       concatMap(action => this.loading.showLoader(this.coursesDB.saveCourse(action.payload.course.id, action.payload.course.changes))),
+    );
+
+  @Effect({dispatch: false})
+  saveLesson$ = this.actions$
+    .pipe(
+      ofType<UpdateLesson>(LessonActionTypes.UpdateLesson),
+      concatMap(action => this.loading.showLoader(this.lessonsDB.saveLesson(action.payload.courseId, action.payload.lesson))),
     );
 
 

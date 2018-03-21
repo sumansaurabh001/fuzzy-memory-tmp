@@ -5,12 +5,13 @@ import {Store} from '@ngrx/store';
 import {LessonsDBService} from '../services/lessons-db.service';
 import {Course} from '../models/course.model';
 import {LoadingService} from '../services/loading.service';
-import {DeleteLesson} from '../store/lesson.actions';
+import {DeleteLesson, UpdateLesson} from '../store/lesson.actions';
 import {DangerDialogComponent} from '../danger-dialog/danger-dialog.component';
 import {MatDialog, MatDialogConfig} from '@angular/material';
 import {ConfirmationDialogComponent} from '../confirmation-dialog/confirmation-dialog.component';
 import {concatMap, filter, tap} from 'rxjs/operators';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {UpdateCourse} from '../store/course.actions';
 
 @Component({
   selector: 'edit-lesson',
@@ -61,7 +62,12 @@ export class EditLessonComponent implements OnInit, OnChanges {
 
 
   saveLesson() {
+    const lesson = {
+      id: this.lesson.id,
+      changes: {...this.form.value}
+    };
 
+    this.store.dispatch(new UpdateLesson({lesson, courseId: this.course.id}));
   }
 
 
@@ -81,7 +87,7 @@ export class EditLessonComponent implements OnInit, OnChanges {
     dialogRef.afterClosed()
       .pipe(
         filter(result => result.confirm),
-        concatMap(() => this.loading.showLoader(this.lessonsDB.deleteLesson(this.course, this.lesson))),
+        concatMap(() => this.loading.showLoader(this.lessonsDB.deleteLesson(this.course.id, this.lesson.id))),
         tap(() => this.store.dispatch(new DeleteLesson({id: this.lesson.id})))
       )
       .subscribe();

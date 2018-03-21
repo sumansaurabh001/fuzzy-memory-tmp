@@ -77,7 +77,7 @@ export class EditLessonsListComponent implements OnInit {
     dialogRef.afterClosed()
       .pipe(
         filter(result => result.confirm),
-        concatMap(() => this.loading.showLoader(this.lessonsDB.deleteSection(course, section))),
+        concatMap(() => this.loading.showLoader(this.lessonsDB.deleteSection(course.id, section.id))),
         tap(() => this.store.dispatch(new DeleteCourseSection({id:section.id})))
       )
       .subscribe();

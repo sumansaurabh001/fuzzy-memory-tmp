@@ -1,6 +1,7 @@
 import { Action } from '@ngrx/store';
 import { Update } from '@ngrx/entity';
 import { Lesson } from '../models/lesson.model';
+import {UpdateStr} from '@ngrx/entity/src/models';
 
 export enum LessonActionTypes {
   LoadLessons = '[Lesson] Load Lessons',
@@ -48,7 +49,7 @@ export class UpsertLessons implements Action {
 export class UpdateLesson implements Action {
   readonly type = LessonActionTypes.UpdateLesson;
 
-  constructor(public payload: { lesson: Update<Lesson> }) {}
+  constructor(public payload: { lesson: UpdateStr<Lesson>, courseId:string }) {}
 }
 
 export class UpdateLessons implements Action {

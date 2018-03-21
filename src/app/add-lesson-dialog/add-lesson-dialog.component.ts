@@ -44,7 +44,7 @@ export class AddLessonDialogComponent {
 
   save(title: string) {
 
-    this.loading.showLoader(this.lessonsDB.addNewLesson(this.course, this.section, title))
+    this.loading.showLoader(this.lessonsDB.addNewLesson(this.course.id, this.section.id, title))
       .subscribe(
         lesson => {
           this.store.dispatch(new AddLesson({lesson}));
