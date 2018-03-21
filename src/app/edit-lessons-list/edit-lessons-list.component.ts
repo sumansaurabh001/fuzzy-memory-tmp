@@ -15,6 +15,9 @@ import {LessonsDBService} from '../services/lessons-db.service';
 import {LoadingService} from '../services/loading.service';
 import {AddLessonDialogComponent} from '../add-lesson-dialog/add-lesson-dialog.component';
 import {DangerDialogComponent} from '../danger-dialog/danger-dialog.component';
+import {concatMap, filter, tap} from 'rxjs/operators';
+import {DeleteLesson} from '../store/lesson.actions';
+import {ConfirmationDialogComponent} from '../confirmation-dialog/confirmation-dialog.component';
 
 
 @Component({
@@ -60,11 +63,24 @@ export class EditLessonsListComponent implements OnInit {
 
   deleteSection(course: Course, section: CourseSection) {
 
-   this.loading.showLoader(this.lessonsDB.deleteSection(course, section))
-      .subscribe(
-        () => this.store.dispatch(new DeleteCourseSection({id:section.id})),
-        err => this.messages.error('Could not delete course section.', err)
-      );
+    const config = new MatDialogConfig();
+
+    config.autoFocus = true;
+
+    config.data = {
+      title: 'Delete Course Section',
+      confirmationText: 'Are you sure you want to delete this section?'
+    };
+
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, config);
+
+    dialogRef.afterClosed()
+      .pipe(
+        filter(result => result.confirm),
+        concatMap(() => this.loading.showLoader(this.lessonsDB.deleteSection(course, section))),
+        tap(() => this.store.dispatch(new DeleteCourseSection({id:section.id})))
+      )
+      .subscribe();
   }
 
 
