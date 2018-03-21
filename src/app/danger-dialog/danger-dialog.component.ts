@@ -1,4 +1,4 @@
-import {Component, Inject, Input, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, Component, Inject, Input, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
 import {MessagesService} from '../services/messages.service';
 
@@ -6,6 +6,7 @@ import {MessagesService} from '../services/messages.service';
   selector: 'danger-dialog',
   templateUrl: './danger-dialog.component.html',
   styleUrls: ['./danger-dialog.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
     MessagesService
   ]

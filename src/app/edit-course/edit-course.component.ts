@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {Course} from '../models/course.model';
 import {Observable} from 'rxjs/Observable';
@@ -13,7 +13,8 @@ import {State} from '../store';
 @Component({
   selector: 'edit-course',
   templateUrl: './edit-course.component.html',
-  styleUrls: ['./edit-course.component.scss']
+  styleUrls: ['./edit-course.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class EditCourseComponent implements OnInit {
 

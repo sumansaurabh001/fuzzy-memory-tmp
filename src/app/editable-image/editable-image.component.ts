@@ -1,4 +1,4 @@
-import {Component, EventEmitter, HostListener, Input, OnInit, Output} from '@angular/core';
+import {ChangeDetectionStrategy, Component, EventEmitter, HostListener, Input, OnInit, Output} from '@angular/core';
 import {FileUploadService} from '../services/file-upload.service';
 import {HttpEventType} from '@angular/common/http';
 import {LoadingService} from '../services/loading.service';
@@ -12,7 +12,8 @@ import {MessagesService} from '../services/messages.service';
 @Component({
   selector: 'editable-image',
   templateUrl: './editable-image.component.html',
-  styleUrls: ['./editable-image.component.scss']
+  styleUrls: ['./editable-image.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class EditableImageComponent implements OnInit {
 

@@ -1,11 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
 import {LoadingService} from '../services/loading.service';
 import {Observable} from 'rxjs/Observable';
 
 @Component({
   selector: 'loading',
   templateUrl: './loading.component.html',
-  styleUrls: ['./loading.component.scss']
+  styleUrls: ['./loading.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class LoadingComponent implements OnInit {
 

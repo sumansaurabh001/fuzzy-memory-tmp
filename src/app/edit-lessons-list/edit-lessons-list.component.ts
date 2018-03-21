@@ -1,4 +1,4 @@
-import {Component, Inject, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, Component, Inject, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {MAT_DIALOG_DATA, MatDialog, MatDialogConfig} from '@angular/material';
 import {MessagesService} from '../services/messages.service';
@@ -23,7 +23,8 @@ import {ConfirmationDialogComponent} from '../confirmation-dialog/confirmation-d
 @Component({
   selector: 'edit-lessons-list',
   templateUrl: './edit-lessons-list.component.html',
-  styleUrls: ['./edit-lessons-list.component.scss']
+  styleUrls: ['./edit-lessons-list.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class EditLessonsListComponent implements OnInit {
 

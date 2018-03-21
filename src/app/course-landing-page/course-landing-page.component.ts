@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
 import {Course} from '../models/course.model';
 import {Observable} from 'rxjs/Observable';
 import {ActivatedRoute} from '@angular/router';
@@ -18,6 +18,7 @@ import {AddDescription, SaveDescription} from '../store/description.actions';
   selector: 'course-landing-page',
   templateUrl: './course-landing-page.component.html',
   styleUrls: ['./course-landing-page.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [MessagesService]
 })
 export class CourseLandingPageComponent implements OnInit {

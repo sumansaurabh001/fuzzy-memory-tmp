@@ -1,4 +1,4 @@
-import {Component, Inject, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
 import {AddCourse} from '../store/course.actions';
 import {LoadingService} from '../services/loading.service';
@@ -13,6 +13,7 @@ import {Course} from '../models/course.model';
   selector: 'add-section-dialog',
   templateUrl: './add-section-dialog.component.html',
   styleUrls: ['./add-section-dialog.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
     MessagesService
   ]

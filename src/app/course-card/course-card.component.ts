@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, Component, Input, OnInit} from '@angular/core';
 import {Course} from '../models/course.model';
 import {EMPTY_IMG} from '../common/ui-constants';
 import {UrlBuilderService} from '../services/url-builder.service';
@@ -6,7 +6,8 @@ import {UrlBuilderService} from '../services/url-builder.service';
 @Component({
   selector: 'course-card',
   templateUrl: './course-card.component.html',
-  styleUrls: ['./course-card.component.scss']
+  styleUrls: ['./course-card.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CourseCardComponent implements OnInit {
 

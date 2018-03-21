@@ -1,4 +1,4 @@
-import {Component, Inject, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, Component, Inject, OnInit} from '@angular/core';
 import {LoadingService} from '../services/loading.service';
 import {MessagesService} from '../services/messages.service';
 import {AddSectionDialogComponent} from '../add-section-dialog/add-section-dialog.component';
@@ -15,6 +15,7 @@ import {AddLesson} from '../store/lesson.actions';
   selector: 'add-lesson-dialog',
   templateUrl: './add-lesson-dialog.component.html',
   styleUrls: ['./add-lesson-dialog.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
     MessagesService
   ]
