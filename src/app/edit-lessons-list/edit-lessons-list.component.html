@@ -38,7 +38,7 @@
 
       <action-button
         color="accent" icon="delete" color="secondary" (click)="deleteSection(course, section)"
-        title="Delete empty section">
+        title="Delete empty section" *ngIf="section.lessons.length == 0">
 
       </action-button>
 
