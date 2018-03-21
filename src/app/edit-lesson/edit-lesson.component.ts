@@ -1,4 +1,4 @@
-import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
+import {ChangeDetectionStrategy, Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
 import {Lesson} from '../models/lesson.model';
 import {State} from '../store';
 import {Store} from '@ngrx/store';
@@ -16,7 +16,8 @@ import {UpdateCourse} from '../store/course.actions';
 @Component({
   selector: 'edit-lesson',
   templateUrl: './edit-lesson.component.html',
-  styleUrls: ['./edit-lesson.component.scss']
+  styleUrls: ['./edit-lesson.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class EditLessonComponent implements OnInit, OnChanges {
 
