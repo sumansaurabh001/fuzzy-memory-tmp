@@ -1,10 +1,10 @@
-
 <mat-divider></mat-divider>
 
 
 <div class="video-details">
 
-  <img src="https://i.ytimg.com/vi/vEWWYNbSjNk/hqdefault.jpg?sqp=-oaymwEZCPYBEIoBSFXyq4qpAwsIARUAAIhCGAFwAQ==&rs=AOn4CLCykyzSucDyKjC4ma9zcOPZ6SY30A">
+  <img
+    src="https://i.ytimg.com/vi/vEWWYNbSjNk/hqdefault.jpg?sqp=-oaymwEZCPYBEIoBSFXyq4qpAwsIARUAAIhCGAFwAQ==&rs=AOn4CLCykyzSucDyKjC4ma9zcOPZ6SY30A">
 
   <div class="video-text-details">
 
@@ -19,34 +19,40 @@
 
 </div>
 
-<mat-form-field class="lesson-description">
-  <mat-label>Lesson Title</mat-label>
-  <input matInput placeholder="Lesson Title">
-</mat-form-field>
+<div [formGroup]="form">
+  <mat-form-field class="lesson-description">
+    <mat-label>Lesson Title</mat-label>
+    <input matInput placeholder="Lesson Title" formControlName="title">
+  </mat-form-field>
 
-<mat-form-field class="lesson-description">
-  <mat-label>Lesson Description</mat-label>
-  <textarea class="lesson-description" matInput placeholder="(Optional)"></textarea>
-</mat-form-field>
+  <mat-form-field class="lesson-description">
+    <mat-label>Lesson Description</mat-label>
+    <textarea class="lesson-description" matInput placeholder="(Optional)" formControlName="description"></textarea>
+  </mat-form-field>
 
-<mat-slide-toggle color="primary">
-  Free Preview
-</mat-slide-toggle>
+  <mat-slide-toggle color="primary" formControlName="free">
+    Free Preview
+  </mat-slide-toggle>
+</div>
 
 
 <div class="lesson-actions">
 
+  <action-button
+    color="accent" icon="delete" color="secondary" (click)="deleteLesson()"
+    title="Delete lesson" *ngIf="isDraft">
+
+  </action-button>
+
   <div class="filler"></div>
 
-  <button mat-raised-button color="warn" (click)="deleteLesson()">Delete</button>
+  <button mat-raised-button color="warn" *ngIf="isPublished()">Unpublish</button>
 
-  <button mat-raised-button color="warn">Unpublish</button>
+  <button mat-raised-button *ngIf="lesson?.fileName">Replace Video</button>
 
-  <button mat-raised-button>Replace Video</button>
+  <button mat-raised-button color="secondary" (click)="saveLesson()">Save</button>
 
-  <button mat-raised-button color="primary" disabled>Save</button>
-
-  <button mat-raised-button color="primary">Publish Now</button>
+  <button mat-raised-button color="primary" *ngIf="isDraft()">Publish Now</button>
 
 </div>
 

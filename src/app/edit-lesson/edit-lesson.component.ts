@@ -10,6 +10,7 @@ import {DangerDialogComponent} from '../danger-dialog/danger-dialog.component';
 import {MatDialog, MatDialogConfig} from '@angular/material';
 import {ConfirmationDialogComponent} from '../confirmation-dialog/confirmation-dialog.component';
 import {concatMap, filter, tap} from 'rxjs/operators';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 
 @Component({
   selector: 'edit-lesson',
@@ -21,18 +22,41 @@ export class EditLessonComponent implements OnInit {
   @Input() course:Course;
   @Input() lesson: Lesson;
 
+  form: FormGroup;
+
   constructor(
     private dialog: MatDialog,
     private store: Store<State>,
     private loading: LoadingService,
-    private lessonsDB: LessonsDBService
+    private lessonsDB: LessonsDBService,
+    private fb: FormBuilder
   ) {
 
   }
 
   ngOnInit() {
+    this.form = this.fb.group({
+      title: ['', [Validators.required, Validators.maxLength(60)]],
+      description: ['', [Validators.required, Validators.maxLength(105)]],
+      free: [false, [Validators.required]],
+
+    });
+  }
+
+  isDraft() {
+    return this.lesson && this.lesson.status === 'draft';
 
   }
+
+  isPublished() {
+    return this.lesson && this.lesson.status === 'published';
+  }
+
+
+  saveLesson() {
+
+  }
+
 
   deleteLesson() {
 
