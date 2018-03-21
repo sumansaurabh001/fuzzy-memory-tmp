@@ -83,34 +83,21 @@ export const imageUpload = functions.storage.object().onChange(async event => {
   const frags = thumbFilePath.split('/');
 
   const tenantId = frags[0],
-    courseUrl = frags[1];
+    courseId = frags[1];
 
 
   const coursesDbPath = 'schools/' + tenantId + '/courses';
 
   const db = admin.firestore();
 
-  const results = await db.collection('schools')
-    .doc(tenantId)
-    .collection('courses')
-    .where('url', '==', courseUrl)
-    .get();
+  const results = await db.doc(`${coursesDbPath}/${courseId}`).get();
 
-  const ids = results.docs.map(function (doc) {
-    return doc.id;
-  });
-
-  const courses = results.docs.map(function (doc) {
-    return doc.data();
-  });
-
-  const course = courses[0],
-        courseId = ids[0];
+  const course = results.data();
 
   // delete previous thumbnail to save space
-  if (course.thumbnail) {
+  if (course && course.thumbnail) {
 
-    const previousFilePath = `${tenantId}/${courseUrl}/thumbnail/${course.thumbnail}`;
+    const previousFilePath = `${tenantId}/${courseId}/thumbnail/${course.thumbnail}`;
 
     console.log('deleting previous file: ', previousFilePath);
     const previousFile = bucket.file(previousFilePath);

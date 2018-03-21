@@ -13,7 +13,7 @@ export class UrlBuilderService {
   buildThumbailUrl(course: Course) {
     if (course && course.thumbnail) {
       return 'https://firebasestorage.googleapis.com/v0/b/onlinecoursehost-local-dev.appspot.com/o/'
-        + this.tenant.id + '%2F' + course.url + '%2Fthumbnail%2F' + course.thumbnail + '?alt=media';
+        + this.tenant.id + '%2F' + course.id + '%2Fthumbnail%2F' + course.thumbnail + '?alt=media';
     }
     else {
       return EMPTY_IMG;

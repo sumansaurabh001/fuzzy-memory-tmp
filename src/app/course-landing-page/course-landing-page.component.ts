@@ -73,7 +73,7 @@ export class CourseLandingPageComponent implements OnInit {
   }
 
   imagesPath(course: Course) {
-    return this.tenant.id + '/' + course.url + '/thumbnail';
+    return this.tenant.id + '/' + course.id + '/thumbnail';
   }
 
   thumbnailUrl(course: Course) {
