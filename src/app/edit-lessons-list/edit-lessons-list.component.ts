@@ -43,7 +43,10 @@ export class EditLessonsListComponent implements OnInit {
 
   ngOnInit() {
 
-    this.course$ = this.store.pipe(select(selectEditedCourseDetail));
+    this.course$ = this.store
+      .pipe(
+        select(selectEditedCourseDetail)
+      );
 
   }
 
