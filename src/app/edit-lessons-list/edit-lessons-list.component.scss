@@ -1,5 +1,5 @@
 
-
+@import "../vars";
 
 .section-number {
   font-weight: bold;
@@ -55,9 +55,15 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin-top: 120px;
-  margin-bottom: 10px;
+  margin: 30px 10px 10px 10px;
+
+  &.empty-course {
+    background: $secondary-light;
+    min-height: 350px;
+  }
 }
+
+
 
 .add-section {
   margin-top: 10px;

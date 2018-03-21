@@ -51,7 +51,7 @@
   </div>
 
 
-  <div class="add-section-panel">
+  <div class="add-section-panel" [ngClass]="isEmptyCourse(course)">
 
     <span>Add Course Section</span>
     <button class="add-section" mat-fab color="accent" (click)="addSection(course)">

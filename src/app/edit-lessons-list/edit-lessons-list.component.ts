@@ -123,4 +123,14 @@ export class EditLessonsListComponent implements OnInit {
 
   }
 
+  isEmptyCourse(course:Course): string[] {
+    if (course.sections.length == 0) {
+      return ['mat-elevation-z7', 'empty-course'];
+    }
+    else {
+      return [];
+    }
+  }
+
+
 }
