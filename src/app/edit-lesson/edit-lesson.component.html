@@ -58,7 +58,9 @@
 
   <button mat-raised-button color="secondary" (click)="saveLesson()">Save</button>
 
-  <button mat-raised-button color="primary" *ngIf="isDraft()">Publish Now</button>
+  <button mat-raised-button color="primary" *ngIf="isDraft()">Upload Video</button>
+
+  <button mat-raised-button color="primary" *ngIf="isReady()">Publish Now</button>
 
 </div>
 

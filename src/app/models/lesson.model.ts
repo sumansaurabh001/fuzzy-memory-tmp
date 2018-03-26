@@ -1,6 +1,6 @@
 export interface Lesson {
   id:string;
-  status:  'draft' | 'published';
+  status:  'draft' | 'ready' |  'published';
   sectionId:string;
   seqNo:string;
   title:string;

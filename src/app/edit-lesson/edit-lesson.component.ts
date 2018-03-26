@@ -63,6 +63,10 @@ export class EditLessonComponent implements OnInit, OnChanges {
 
   }
 
+  isReady() {
+    return this.lesson && this.lesson.status === 'ready';
+  }
+
   isPublished() {
     return this.lesson && this.lesson.status === 'published';
   }
