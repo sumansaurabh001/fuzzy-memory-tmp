@@ -21,7 +21,9 @@
       <mat-icon class="drag-section draggable">drag_handle</mat-icon>
     </div>
 
-    <mat-expansion-panel #panel expanded="false" *ngFor="let lesson of section.lessons" [ngClass]="expandedCss(panel.expanded)">
+    <mat-expansion-panel #panel expanded="false"
+                         *ngFor="let lesson of section.lessons; trackBy: trackByLessonId"
+                         [ngClass]="expandedCss(panel.expanded)">
 
       <mat-expansion-panel-header>
         <mat-panel-title>

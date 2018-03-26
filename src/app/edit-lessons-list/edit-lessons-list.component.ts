@@ -18,6 +18,7 @@ import {DangerDialogComponent} from '../danger-dialog/danger-dialog.component';
 import {concatMap, filter, tap} from 'rxjs/operators';
 import {DeleteLesson} from '../store/lesson.actions';
 import {ConfirmationDialogComponent} from '../confirmation-dialog/confirmation-dialog.component';
+import {Lesson} from '../models/lesson.model';
 
 
 @Component({
@@ -31,6 +32,8 @@ export class EditLessonsListComponent implements OnInit {
   course$: Observable<Course>;
 
   isCourseLoaded$: Observable<boolean>;
+
+  expandedLessons:{[key:string]:boolean} = {};
 
   constructor(private dialog: MatDialog,
               private route: ActivatedRoute,
@@ -138,6 +141,10 @@ export class EditLessonsListComponent implements OnInit {
 
   expandedCss(expanded:boolean) {
     return expanded ? 'lesson-expanded': null;
+  }
+
+  trackByLessonId(index, item:Lesson) {
+    return item.id;
   }
 
 
