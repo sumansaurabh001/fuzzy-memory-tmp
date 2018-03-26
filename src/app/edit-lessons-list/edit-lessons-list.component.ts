@@ -10,7 +10,7 @@ import {selectEditedCourseDetail, selectEditedCourse, isEditedCourseLoaded} from
 import {select, Store} from '@ngrx/store';
 import {State} from '../store';
 import {DeleteCourse} from '../store/course.actions';
-import { DeleteCourseSection} from '../store/course-section.actions';
+import {DeleteCourseSection} from '../store/course-section.actions';
 import {LessonsDBService} from '../services/lessons-db.service';
 import {LoadingService} from '../services/loading.service';
 import {AddLessonDialogComponent} from '../add-lesson-dialog/add-lesson-dialog.component';
@@ -33,7 +33,7 @@ export class EditLessonsListComponent implements OnInit {
 
   isCourseLoaded$: Observable<boolean>;
 
-  expandedLessons:{[key:string]:boolean} = {};
+  expandedLessons: { [key: string]: boolean } = {};
 
   constructor(private dialog: MatDialog,
               private route: ActivatedRoute,
@@ -86,13 +86,13 @@ export class EditLessonsListComponent implements OnInit {
       .pipe(
         filter(result => result.confirm),
         concatMap(() => this.loading.showLoader(this.lessonsDB.deleteSection(course.id, section.id))),
-        tap(() => this.store.dispatch(new DeleteCourseSection({id:section.id})))
+        tap(() => this.store.dispatch(new DeleteCourseSection({id: section.id})))
       )
       .subscribe();
   }
 
 
-  addLesson(course:Course, section:CourseSection) {
+  addLesson(course: Course, section: CourseSection) {
 
 
     const dialogConfig = new MatDialogConfig();
@@ -130,7 +130,7 @@ export class EditLessonsListComponent implements OnInit {
 
   }
 
-  emptyCourseCss(course:Course): string[] {
+  emptyCourseCss(course: Course): string[] {
     if (course.sections.length == 0) {
       return ['mat-elevation-z7', 'empty-course'];
     }
@@ -139,12 +139,20 @@ export class EditLessonsListComponent implements OnInit {
     }
   }
 
-  expandedCss(expanded:boolean) {
-    return expanded ? 'lesson-expanded': null;
+  expandedCss(expanded: boolean) {
+    return expanded ? 'lesson-expanded' : null;
   }
 
-  trackByLessonId(index, item:Lesson) {
+  trackByLessonId(index, item: Lesson) {
     return item.id;
+  }
+
+  isExpanded(lesson: Lesson) {
+    return this.expandedLessons[lesson.id];
+  }
+
+  onExpandLesson(lesson: Lesson, expanded) {
+    this.expandedLessons[lesson.id] = expanded;
   }
 
 
