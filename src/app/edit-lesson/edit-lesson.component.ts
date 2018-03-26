@@ -14,6 +14,7 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {UpdateCourse} from '../store/course.actions';
 import {defaultHtmlEditorConfig} from '../common/html-editor.config';
 import {SaveDescription} from '../store/description.actions';
+import {FileUploadService} from '../services/file-upload.service';
 
 @Component({
   selector: 'edit-lesson',
@@ -36,8 +37,8 @@ export class EditLessonComponent implements OnInit, OnChanges {
     private store: Store<State>,
     private loading: LoadingService,
     private lessonsDB: LessonsDBService,
-    private fb: FormBuilder
-  ) {
+    private fb: FormBuilder,
+    private upload: FileUploadService) {
 
     this.form = this.fb.group({
       title: ['', [Validators.required, Validators.maxLength(60)]],
@@ -108,5 +109,23 @@ export class EditLessonComponent implements OnInit, OnChanges {
       .subscribe();
 
   }
+
+  onFileSelected(event) {
+
+    const video = event.target.files[0];
+
+    if (video) {
+      (this.upload.uploadVideo(this.course.id, video))
+        .pipe(
+          tap(percent => {
+            console.log(percent);
+          })
+        )
+        .subscribe();
+    }
+
+  }
+
+
 
 }
