@@ -46,3 +46,15 @@
 .file-upload {
   display: none;
 }
+
+
+.upload-progress {
+  margin-top: 5px;
+  display: flex;
+  justify-items: center;
+  align-items: center;
+
+  span {
+    margin-left: 8px;
+  }
+}

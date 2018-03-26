@@ -15,6 +15,7 @@ import {UpdateCourse} from '../store/course.actions';
 import {defaultHtmlEditorConfig} from '../common/html-editor.config';
 import {SaveDescription} from '../store/description.actions';
 import {FileUploadService} from '../services/file-upload.service';
+import {Observable} from 'rxjs/Observable';
 
 @Component({
   selector: 'edit-lesson',
@@ -31,6 +32,8 @@ export class EditLessonComponent implements OnInit, OnChanges {
 
   lessonDescription:string;
   toolbar = defaultHtmlEditorConfig;
+
+  percentageUpload$ : Observable<number>;
 
   constructor(
     private dialog: MatDialog,
@@ -115,13 +118,14 @@ export class EditLessonComponent implements OnInit, OnChanges {
     const video = event.target.files[0];
 
     if (video) {
-      (this.upload.uploadVideo(this.course.id, video))
+
+      this.percentageUpload$ = this.upload.uploadVideo(this.course.id, video)
         .pipe(
-          tap(percent => {
+          tap( percent => {
             console.log(percent);
+
           })
-        )
-        .subscribe();
+        );
     }
 
   }

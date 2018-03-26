@@ -15,6 +15,14 @@
 
     <div>04:17</div>
 
+    <div class="upload-progress" *ngIf="(percentageUpload$ | async) as percentage">
+
+      <mat-progress-bar mode="determinate" [value]="percentage"></mat-progress-bar>
+
+      <span>{{percentage / 100 | percent}}</span>
+
+    </div>
+
   </div>
 
 </div>
@@ -42,7 +50,8 @@
 
 </app-ngx-editor>
 
-<input class="file-upload" type="file" (change)="onFileSelected($event)" accept="video/mp4,video/x-m4v,video/*" #fileUpload>
+<input class="file-upload" type="file" (change)="onFileSelected($event)" accept="video/mp4,video/x-m4v,video/*"
+       #fileUpload>
 
 <div class="lesson-actions">
 
