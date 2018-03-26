@@ -2,13 +2,15 @@ service firebase.storage {
   match /b/{bucket}/o {
 
     match /{tenantId} {
-      allow read: if true;
 
-      match /{courseId}/thumbnail {
+
+      match /{courseId}/thumbnail/{allPaths=**} {
+        allow read: if true;
         allow write: if request.resource.size < 2 * 1024 * 1024;
       }
 
-      match /{courseId}/videos {
+      match /{courseId}/videos/{allPaths=**} {
+        allow read: if true;
         allow write: if request.resource.size < 500 * 1024 * 1024;
       }
     }
