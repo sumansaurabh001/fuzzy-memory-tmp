@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {ChangeDetectionStrategy, Component, EventEmitter, HostBinding, Input, OnInit, Output, ViewChild} from '@angular/core';
 import {EMPTY_IMG} from '../common/ui-constants';
 
 
@@ -14,11 +14,22 @@ export class FileUploadComponent implements OnInit {
 
   @Input() src;
   @Input() imagePath: string;
-  @Input() height;
-  @Input() width;
+
+  @Input()
+  @HostBinding('style.height')
+  height;
+
+  @Input()
+  @HostBinding('style.width')
+  width;
+
+
   @Input() accept;
 
   @Output() fileSelected = new EventEmitter();
+
+  @ViewChild("fileUpload")
+  fileUpload: HTMLInputElement;
 
 
   constructor() {
@@ -28,6 +39,8 @@ export class FileUploadComponent implements OnInit {
   ngOnInit() {
 
   }
+
+
 
   onMouseEnter() {
     this.editMode = true;
@@ -43,7 +56,14 @@ export class FileUploadComponent implements OnInit {
     }
   }
 
-  styles() {
+  containerStyles() {
+    return {
+      height: this.height,
+      width: this.width
+    };
+  }
+
+  editableImageStyles() {
     return {
       'background-image': 'url(' + this.imgSrc() + ')',
       height: this.height,
@@ -63,6 +83,10 @@ export class FileUploadComponent implements OnInit {
 
   imgSrc() {
     return this.src || EMPTY_IMG;
+  }
+
+  open() {
+    this.fileUpload.click();
   }
 
 }

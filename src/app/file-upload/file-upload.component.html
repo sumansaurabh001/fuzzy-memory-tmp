@@ -1,8 +1,10 @@
-<div class="file-upload-container" (click)="fileUpload.click()">
 
-  <div class="editable-image mat-elevation-z4"
+
+<div class="file-upload-container" (click)="fileUpload.click()" [ngStyle]="containerStyles()">
+
+  <div class="editable-image"
        [ngClass]="stateClasses()"
-       [ngStyle]="styles()"
+       [ngStyle]="editableImageStyles()"
        (mouseenter)="onMouseEnter()" (mouseleave)="onMouseLeave()">
 
     <input class="file-upload" type="file" [ngStyle]="fileUploadStyles()"
