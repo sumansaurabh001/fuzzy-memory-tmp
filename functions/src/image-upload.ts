@@ -1,6 +1,6 @@
 import * as functions from 'firebase-functions';
 
-const admin = require('firebase-admin');
+
 const spawn = require('child-process-promise').spawn;
 const mkdirp = require('mkdirp-promise');
 import * as fs from 'fs';
@@ -10,6 +10,7 @@ const gcs = require('@google-cloud/storage')({keyFilename: __dirname + '/service
 
 import * as os from 'os';
 import * as path from 'path';
+import {db} from './init-db';
 
 
 const THUMB_PREFIX = 'thumb_';
@@ -22,7 +23,6 @@ const THUMB_MAX_HEIGHT = 700;
 const THUMB_MAX_WIDTH = THUMB_MAX_HEIGHT / formFactor;
 
 
-admin.initializeApp(functions.config().firebase);
 
 
 export const imageUpload = functions.storage.object().onChange(async event => {
@@ -87,8 +87,6 @@ export const imageUpload = functions.storage.object().onChange(async event => {
 
 
   const coursesDbPath = 'schools/' + tenantId + '/courses';
-
-  const db = admin.firestore();
 
   const results = await db.doc(`${coursesDbPath}/${courseId}`).get();
 
