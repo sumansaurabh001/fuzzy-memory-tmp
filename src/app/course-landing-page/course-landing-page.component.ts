@@ -73,7 +73,7 @@ export class CourseLandingPageComponent implements OnInit {
   }
 
   thumbnailUrl(course: Course) {
-    return this.ub.buildThumbailUrl(course);
+    return this.ub.buildCourseThumbailUrl(course);
   }
 
   save(courseId:string) {

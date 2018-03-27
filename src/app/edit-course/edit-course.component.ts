@@ -39,7 +39,7 @@ export class EditCourseComponent implements OnInit {
   }
 
   imgSrc(course:Course) {
-    return this.ub.buildThumbailUrl(course);
+    return this.ub.buildCourseThumbailUrl(course);
   }
 
   onTabChange(selectedIndex) {

@@ -19,7 +19,7 @@ export class CourseCardComponent implements OnInit {
   }
 
   imgSrc() {
-    return this.ub.buildThumbailUrl(this.course);
+    return this.ub.buildCourseThumbailUrl(this.course);
   }
 
 }

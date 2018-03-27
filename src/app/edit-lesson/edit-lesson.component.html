@@ -3,8 +3,7 @@
 
 <div class="video-details" *ngIf="lesson">
 
-  <img
-    src="https://i.ytimg.com/vi/vEWWYNbSjNk/hqdefault.jpg?sqp=-oaymwEZCPYBEIoBSFXyq4qpAwsIARUAAIhCGAFwAQ==&rs=AOn4CLCykyzSucDyKjC4ma9zcOPZ6SY30A">
+  <img class="lesson-thumbnail mat-elevation-z2" [src]="videoThumbnailPath()" (click)="fileUpload.click()">
 
   <div class="video-text-details">
 
@@ -16,7 +15,7 @@
 
     <div class="upload-progress" *ngIf="(percentageUpload$ | async) as percentage">
 
-      <mat-progress-bar mode="determinate" [value]="percentage"></mat-progress-bar>
+      <mat-progress-bar minlength="200" maxlength="200" mode="determinate" [value]="percentage"></mat-progress-bar>
 
       <span>{{percentage / 100 | percent}}</span>
 

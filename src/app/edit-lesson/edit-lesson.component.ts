@@ -18,6 +18,8 @@ import {FileUploadService} from '../services/file-upload.service';
 import {Observable} from 'rxjs/Observable';
 
 import leftPad = require('left-pad');
+import {EMPTY_IMG} from '../common/ui-constants';
+import {UrlBuilderService} from '../services/url-builder.service';
 
 
 @Component({
@@ -28,23 +30,23 @@ import leftPad = require('left-pad');
 })
 export class EditLessonComponent implements OnInit, OnChanges {
 
-  @Input() course:Course;
+  @Input() course: Course;
   @Input() lesson: Lesson;
 
   form: FormGroup;
 
-  lessonDescription:string;
+  lessonDescription: string;
   toolbar = defaultHtmlEditorConfig;
 
-  percentageUpload$ : Observable<number>;
+  percentageUpload$: Observable<number>;
 
-  constructor(
-    private dialog: MatDialog,
-    private store: Store<State>,
-    private loading: LoadingService,
-    private lessonsDB: LessonsDBService,
-    private fb: FormBuilder,
-    private upload: FileUploadService) {
+  constructor(private dialog: MatDialog,
+              private store: Store<State>,
+              private loading: LoadingService,
+              private lessonsDB: LessonsDBService,
+              private fb: FormBuilder,
+              private upload: FileUploadService,
+              private ub: UrlBuilderService) {
 
     this.form = this.fb.group({
       title: ['', [Validators.required, Validators.maxLength(60)]],
@@ -59,7 +61,7 @@ export class EditLessonComponent implements OnInit, OnChanges {
 
   }
 
-  ngOnChanges(changes:SimpleChanges) {
+  ngOnChanges(changes: SimpleChanges) {
     if (changes['lesson']) {
       this.form.patchValue(changes['lesson'].currentValue);
     }
@@ -124,7 +126,7 @@ export class EditLessonComponent implements OnInit, OnChanges {
 
       this.percentageUpload$ = this.upload.uploadVideo(this.course.id, this.lesson.id, video)
         .pipe(
-          tap( percent => {
+          tap(percent => {
 
             //TODO
 
@@ -134,11 +136,15 @@ export class EditLessonComponent implements OnInit, OnChanges {
 
   }
 
+  videoThumbnailPath() {
+    return this.ub.buildLessonThumbailUrl(this.course, this.lesson);
+  }
 
-  extractFileName(name:string) {
+
+  extractFileName(name: string) {
 
     if (!name) {
-      return "";
+      return '';
     }
 
     const index = name.indexOf('-');
@@ -147,20 +153,18 @@ export class EditLessonComponent implements OnInit, OnChanges {
   }
 
 
-
-  durationInMinutes(duration:number) {
+  durationInMinutes(duration: number) {
 
     if (!duration) {
-      return "";
+      return '';
     }
 
-    const minutes = Math.floor( duration / 60),
-          seconds = duration % 60;
+    const minutes = Math.floor(duration / 60),
+      seconds = duration % 60;
 
     return leftPad(minutes, 2, '0') + ':' + leftPad(seconds, 2, '0');
 
   }
-
 
 
 }
