@@ -1,12 +1,5 @@
-import {ChangeDetectionStrategy, Component, EventEmitter, HostListener, Input, OnInit, Output} from '@angular/core';
-import {FileUploadService} from '../services/file-upload.service';
-import {HttpEventType} from '@angular/common/http';
-import {LoadingService} from '../services/loading.service';
+import {ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {EMPTY_IMG} from '../common/ui-constants';
-import {concatMap, tap} from 'rxjs/operators';
-import {MessagesService} from '../services/messages.service';
-
-
 
 
 @Component({
@@ -19,38 +12,21 @@ export class EditableImageComponent implements OnInit {
 
   editMode = false;
 
+
   @Input() src;
-  @Input() imagePath:string;
+  @Input() imagePath: string;
+  @Input() height;
+  @Input() width;
+  @Input() accept;
 
-  @Output() imageUploaded = new EventEmitter();
+  @Output() fileSelected = new EventEmitter();
 
-  constructor(
-    private upload: FileUploadService,
-    private loading: LoadingService,
-    private messages: MessagesService) {
+
+  constructor() {
 
   }
 
   ngOnInit() {
-
-  }
-
-  onFileSelected(event) {
-
-    const image = event.target.files[0];
-
-    if (image) {
-      this.loading.showLoaderUntilCompleted(this.upload.uploadImageThumbnail(image, this.imagePath))
-        .pipe(
-          tap(percent => {
-            if (percent == 100) {
-              this.messages.info("The image is being processed ...");
-              this.imageUploaded.next();
-            }
-          })
-        )
-        .subscribe();
-    }
 
   }
 
@@ -66,6 +42,24 @@ export class EditableImageComponent implements OnInit {
     if (this.editMode) {
       return 'edit-mode';
     }
+  }
+
+  styles() {
+    return {
+      'background-image': 'url(' + this.imgSrc() + ')',
+      height: this.height,
+      width: this.width,
+      'background-size': this.width + ' ' + this.height
+    };
+
+  }
+
+  onFileSelected($event) {
+    this.fileSelected.next($event);
+  }
+
+  fileUploadStyles() {
+
   }
 
   imgSrc() {

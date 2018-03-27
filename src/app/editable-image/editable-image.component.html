@@ -1,15 +1,17 @@
-<div class="editable-image-container">
+<div class="editable-image-container" (click)="fileUpload.click()">
 
   <div class="editable-image mat-elevation-z4"
        [ngClass]="stateClasses()"
-       [ngStyle]="{'background-image': 'url(' + imgSrc() + ')'}"
-       (mouseenter)="onMouseEnter()" (mouseleave)="onMouseLeave()" (click)="fileUpload.click()">
+       [ngStyle]="styles()"
+       (mouseenter)="onMouseEnter()" (mouseleave)="onMouseLeave()">
 
-    <input class="file-upload" type="file" (change)="onFileSelected($event)" accept="image/*" #fileUpload>
+    <input class="file-upload" type="file" [ngStyle]="fileUploadStyles()"
+           (change)="onFileSelected($event)" [accept]="accept" #fileUpload>
 
     <div class="edit-image-control" *ngIf="editMode">
       <mat-icon>mode_edit</mat-icon>
     </div>
+
   </div>
 
 </div>

@@ -14,6 +14,8 @@ import {CoursesDBService} from '../services/courses-db.service';
 import { UpdateCourse} from '../store/course.actions';
 import {AddDescription, SaveDescription} from '../store/description.actions';
 import {defaultHtmlEditorConfig} from '../common/html-editor.config';
+import {FileUploadService} from '../services/file-upload.service';
+import {LoadingService} from '../services/loading.service';
 
 @Component({
   selector: 'course-landing-page',
@@ -37,7 +39,9 @@ export class CourseLandingPageComponent implements OnInit {
               private fb: FormBuilder,
               private messages: MessagesService,
               private ub: UrlBuilderService,
-              private coursesDB: CoursesDBService) {
+              private coursesDB: CoursesDBService,
+              private upload: FileUploadService,
+              private loading: LoadingService) {
 
 
     this.form = this.fb.group({
@@ -88,6 +92,25 @@ export class CourseLandingPageComponent implements OnInit {
     this.store.dispatch(new UpdateCourse({course}));
 
     this.store.dispatch(new SaveDescription({id: courseId, description}));
+
+  }
+
+  onFileSelected(course: Course, event) {
+
+    const image = event.target.files[0];
+
+    if (image) {
+      this.loading.showLoaderUntilCompleted(this.upload.uploadImageThumbnail(image, this.imagesPath(course)))
+        .pipe(
+          tap(percent => {
+            if (percent == 100) {
+              this.messages.info("The image is being processed ...");
+              this.onThumbnailUploadCompleted(course);
+            }
+          })
+        )
+        .subscribe();
+    }
 
   }
 

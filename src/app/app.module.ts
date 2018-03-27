@@ -44,7 +44,6 @@ import {ActionButtonComponent} from './action-button/action-button.component';
 import {TenantService} from './services/tenant.service';
 import {CoursesDBService} from './services/courses-db.service';
 import { CourseCardComponent } from './course-card/course-card.component';
-import { EditableImageComponent } from './editable-image/editable-image.component';
 import {FileUploadService} from './services/file-upload.service';
 import {AngularFireStorageModule} from 'angularfire2/storage';
 import {UrlBuilderService} from './services/url-builder.service';
@@ -64,6 +63,7 @@ import {CustomRouterStateSerializer} from './common/router-store-serializer';
 import { AddLessonDialogComponent } from './add-lesson-dialog/add-lesson-dialog.component';
 import {DangerDialogComponent} from './danger-dialog/danger-dialog.component';
 import { ConfirmationDialogComponent } from './confirmation-dialog/confirmation-dialog.component';
+import {EditableImageComponent} from './editable-image/editable-image.component';
 
 
 @NgModule({
@@ -84,10 +84,10 @@ import { ConfirmationDialogComponent } from './confirmation-dialog/confirmation-
     ActionButtonComponent,
     DangerDialogComponent,
     CourseCardComponent,
-    EditableImageComponent,
     AddSectionDialogComponent,
     AddLessonDialogComponent,
-    ConfirmationDialogComponent
+    ConfirmationDialogComponent,
+    EditableImageComponent
   ],
   imports: [
     BrowserModule,

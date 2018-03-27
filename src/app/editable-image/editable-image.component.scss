@@ -2,10 +2,6 @@
 
 @import "../mixins";
 
-$height: 150px;
-$width: 1.7769 * $height;
-
-
 .editable-image-container {
   display: flex;
   align-items: flex-end;
@@ -17,9 +13,6 @@ $width: 1.7769 * $height;
   justify-content: center;
   align-items: center;
   background-repeat: no-repeat;
-  width: $width;
-  height: $height;
-  background-size: $width $height;
 }
 
 
@@ -36,14 +29,9 @@ $width: 1.7769 * $height;
   cursor: pointer;
 }
 
+
 .file-upload {
   position: absolute;
-  height: $height;
-  width: $width;
   cursor: pointer;
   display: none;
-}
-
-.upload-image-button {
-  margin-left: 20px;
 }
