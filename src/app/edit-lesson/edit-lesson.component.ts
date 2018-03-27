@@ -150,6 +150,10 @@ export class EditLessonComponent implements OnInit, OnChanges {
 
   durationInMinutes(duration:number) {
 
+    if (!duration) {
+      return "";
+    }
+
     const minutes = Math.floor( duration / 60),
           seconds = duration % 60;
 

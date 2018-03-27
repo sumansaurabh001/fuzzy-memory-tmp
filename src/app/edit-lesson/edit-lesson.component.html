@@ -8,9 +8,8 @@
 
   <div class="video-text-details">
 
-    <div class="filename">
+    <div class="filename" *ngIf="lesson.videoFileName">
       <span>{{extractFileName(lesson.videoFileName)}}</span>
-      <mat-icon class="delete-lesson">delete</mat-icon>
     </div>
 
     <div>{{durationInMinutes(lesson.videoDuration)}}</div>
