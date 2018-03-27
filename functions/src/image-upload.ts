@@ -97,18 +97,13 @@ export const imageUpload = functions.storage.object().onChange(async event => {
 
     const previousFilePath = `${tenantId}/${courseId}/thumbnail/${course.thumbnail}`;
 
-    console.log('deleting previous file: ', previousFilePath);
     const previousFile = bucket.file(previousFilePath);
 
     await previousFile.delete();
 
   }
 
-  console.log('saving file name:', newFileName);
-
   await db.doc(coursesDbPath + '/' + courseId).update({thumbnail: newFileName});
-
-
 
 
 });

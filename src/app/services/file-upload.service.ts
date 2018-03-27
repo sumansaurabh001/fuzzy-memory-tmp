@@ -25,11 +25,11 @@ export class FileUploadService {
   }
 
 
-  uploadVideo(courseId: string, video: File): Observable<any> {
+  uploadVideo(courseId: string, lessonId:string, video: File): Observable<any> {
 
     const prefix = shortid.generate();
 
-    const uploadPath = `${this.tenant.id}/${courseId}/videos/${prefix}-${video.name}`;
+    const uploadPath = `${this.tenant.id}/${courseId}/videos/${lessonId}/${prefix}-${video.name}`;
 
     return this.storage.upload(uploadPath, video)
       .percentageChanges();

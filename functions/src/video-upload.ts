@@ -9,6 +9,7 @@ const gcs = require('@google-cloud/storage')({keyFilename: __dirname + '/service
 import * as os from 'os';
 import * as path from 'path';
 import {listDirectory, promisifyCommand} from './utils';
+import {db} from './init-db';
 
 
 const ffmpeg = require('fluent-ffmpeg');
@@ -55,18 +56,16 @@ export const videoUpload = functions.storage.object().onChange(async event => {
   // Download file from bucket
   await file.download({destination: localVideoFilePath});
 
-  const  localThumbnailFileName = `${THUMB_PREFIX}${uniqueFileSuffix}.png`;
+  const  thumbnailFileName = `${THUMB_PREFIX}${uniqueFileSuffix}.png`;
 
-  await extractVideoThumbnail(localVideoFilePath, localTempDir, localThumbnailFileName);
+  await extractVideoThumbnail(localVideoFilePath, localTempDir, thumbnailFileName);
 
   const videoDuration = await getVideoDuration(localVideoFilePath);
 
-  console.log('video duration:', videoDuration);
-
   listDirectory(localTempDir);
 
-  const localThumbnailFilePath = path.join(localTempDir, localThumbnailFileName),
-        thumbnailBucketPath = path.join(videoBucketDirectory, localThumbnailFileName);
+  const localThumbnailFilePath = path.join(localTempDir, thumbnailFileName),
+        thumbnailBucketPath = path.join(videoBucketDirectory, thumbnailFileName);
 
   const metadata = {
     contentType: 'img/png',
@@ -84,39 +83,41 @@ export const videoUpload = functions.storage.object().onChange(async event => {
 
 
 
-  /*
 
-  const frags = thumbFilePath.split('/');
+
+  const frags = videoBucketFullPath.split('/');
 
   const tenantId = frags[0],
-    courseId = frags[1];
+    courseId = frags[1],
+    lessonId = frags[3];
+
+  const lessonDbPath = 'schools/' + tenantId + '/courses/' + courseId + '/lessons/' + lessonId;
+
+  const results = await db.doc(lessonDbPath).get();
+
+  const lesson = results.data();
+
+  console.log("lesson data:", lesson);
 
 
-  const coursesDbPath = 'schools/' + tenantId + '/courses';
+  // delete previous video and lesson thumbnail to save space
+  if (lesson && lesson.videoFileName) {
 
-  const db = admin.firestore();
+    const previousVideoFilePath = `${tenantId}/${courseId}/videos/${lessonId}/${lesson.videoFileName}`;
 
-  const results = await db.doc(`${coursesDbPath}/${courseId}`).get();
+    const previousVideoFile = bucket.file(previousVideoFilePath);
 
-  const course = results.data();
+    await previousVideoFile.delete();
 
-  // delete previous thumbnail to save space
-  if (course && course.thumbnail) {
+    const previousVideoThumbnailPath = `${tenantId}/${courseId}/videos/${lessonId}/${lesson.thumbnail}`;
 
-    const previousFilePath = `${tenantId}/${courseId}/thumbnail/${course.thumbnail}`;
+    const previousVideoThumbnailFile = bucket.file(previousVideoThumbnailPath);
 
-    console.log('deleting previous file: ', previousFilePath);
-    const previousFile = bucket.file(previousFilePath);
-
-    await previousFile.delete();
+    await previousVideoThumbnailFile.delete();
 
   }
 
-  console.log('saving file name:', newFileName);
-
-  await db.doc(coursesDbPath + '/' + courseId).update({thumbnail: newFileName});
-
-*/
+  await db.doc(lessonDbPath).update({thumbnail: thumbnailFileName, videoFileName});
 
 });
 

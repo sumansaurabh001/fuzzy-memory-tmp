@@ -119,7 +119,7 @@ export class EditLessonComponent implements OnInit, OnChanges {
 
     if (video) {
 
-      this.percentageUpload$ = this.upload.uploadVideo(this.course.id, video)
+      this.percentageUpload$ = this.upload.uploadVideo(this.course.id, this.lesson.id, video)
         .pipe(
           tap( percent => {
 
