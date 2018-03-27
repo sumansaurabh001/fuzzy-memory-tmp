@@ -8,8 +8,7 @@ const ffmpeg = require('fluent-ffmpeg');
 const ffmpeg_static = require('ffmpeg-static');
 
 
-const {promisify} = require('util');
-
+const promisify = require('util.promisify');
 
 const ffprobeAsync = promisify(ffmpeg.ffprobe);
 
@@ -25,6 +24,9 @@ async function promisifyCommand(command) {
       });
   });
 }
+
+
+
 
 
 async function videoThumbnail() {
@@ -68,13 +70,10 @@ async function runImageMagick() {
 
 }
 
-console.log("FFMPEG binaries", ffmpeg_static.path);
-
-
 //listDirectory(ffmpeg_static.path);
 
 
-videoThumbnail();
+//videoThumbnail();
 
-// videoLength();
+videoLength();
 

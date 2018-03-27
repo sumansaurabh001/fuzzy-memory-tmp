@@ -11,11 +11,16 @@ import * as path from 'path';
 import {listDirectory, promisifyCommand} from './utils';
 
 
-
 const ffmpeg = require('fluent-ffmpeg');
 const ffmpeg_static = require('ffmpeg-static');
 const ffprobe = require('@ffprobe-installer/ffprobe');
 
+const promisify = require('util.promisify');
+
+
+
+
+const ffprobeAsync = promisify(ffmpeg.ffprobe);
 
 const THUMB_PREFIX = 'thumb_';
 
@@ -52,8 +57,11 @@ export const videoUpload = functions.storage.object().onChange(async event => {
 
   const  localThumbnailFileName = `${THUMB_PREFIX}${uniqueFileSuffix}.png`;
 
-  // extract thumbnail from video
-  await videoThumbnail(localVideoFilePath, localTempDir, localThumbnailFileName);
+  await extractVideoThumbnail(localVideoFilePath, localTempDir, localThumbnailFileName);
+
+  const videoDuration = await getVideoDuration(localVideoFilePath);
+
+  console.log('video duration:', videoDuration);
 
   listDirectory(localTempDir);
 
@@ -114,7 +122,7 @@ export const videoUpload = functions.storage.object().onChange(async event => {
 
 
 
-async function videoThumbnail(videoPath:string, thumbnailPath:string, thumbnailName:string) {
+async function extractVideoThumbnail(videoPath:string, thumbnailPath:string, thumbnailName:string) {
 
   const command = ffmpeg(videoPath)
     .setFfmpegPath(ffmpeg_static.path)
@@ -130,5 +138,11 @@ async function videoThumbnail(videoPath:string, thumbnailPath:string, thumbnailN
   return promisifyCommand(command);
 }
 
+async function getVideoDuration(videoPath:string) {
 
+  const metadata = await ffprobeAsync(videoPath);
+
+  return metadata.format.duration;
+
+}
 
