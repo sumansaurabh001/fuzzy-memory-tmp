@@ -63,7 +63,7 @@ import {CustomRouterStateSerializer} from './common/router-store-serializer';
 import { AddLessonDialogComponent } from './add-lesson-dialog/add-lesson-dialog.component';
 import {DangerDialogComponent} from './danger-dialog/danger-dialog.component';
 import { ConfirmationDialogComponent } from './confirmation-dialog/confirmation-dialog.component';
-import {EditableImageComponent} from './editable-image/editable-image.component';
+import {FileUploadComponent} from './file-upload/file-upload.component';
 
 
 @NgModule({
@@ -87,7 +87,7 @@ import {EditableImageComponent} from './editable-image/editable-image.component'
     AddSectionDialogComponent,
     AddLessonDialogComponent,
     ConfirmationDialogComponent,
-    EditableImageComponent
+    FileUploadComponent
   ],
   imports: [
     BrowserModule,

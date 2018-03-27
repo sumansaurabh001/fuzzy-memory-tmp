@@ -6,12 +6,12 @@
 
   <div class="section-label">Choose Image</div>
 
-  <editable-image class="course-image" [src]="thumbnailUrl(course)"
+  <file-upload class="course-image" [src]="thumbnailUrl(course)"
       height="150px" width="267px" accept="image/*" (fileSelected)="onFileSelected(course, $event)" >
 
 
 
-  </editable-image>
+  </file-upload>
 
   <div class="controls-form" [formGroup]="form">
     <mat-form-field>

@@ -3,15 +3,14 @@ import {EMPTY_IMG} from '../common/ui-constants';
 
 
 @Component({
-  selector: 'editable-image',
-  templateUrl: './editable-image.component.html',
-  styleUrls: ['./editable-image.component.scss'],
+  selector: 'file-upload',
+  templateUrl: './file-upload.component.html',
+  styleUrls: ['./file-upload.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class EditableImageComponent implements OnInit {
+export class FileUploadComponent implements OnInit {
 
   editMode = false;
-
 
   @Input() src;
   @Input() imagePath: string;
