@@ -60,7 +60,7 @@ export const videoUpload = functions.storage.object().onChange(async event => {
 
   await extractVideoThumbnail(localVideoFilePath, localTempDir, thumbnailFileName);
 
-  const videoDuration = await getVideoDuration(localVideoFilePath);
+  const videoDuration = Math.round(await getVideoDuration(localVideoFilePath));
 
   listDirectory(localTempDir);
 
@@ -79,11 +79,6 @@ export const videoUpload = functions.storage.object().onChange(async event => {
   fs.unlinkSync(localVideoFilePath);
   fs.unlinkSync(localThumbnailFilePath);
 
-  console.log("video thumbnail generated ...");
-
-
-
-
 
   const frags = videoBucketFullPath.split('/');
 
@@ -96,9 +91,6 @@ export const videoUpload = functions.storage.object().onChange(async event => {
   const results = await db.doc(lessonDbPath).get();
 
   const lesson = results.data();
-
-  console.log("lesson data:", lesson);
-
 
   // delete previous video and lesson thumbnail to save space
   if (lesson && lesson.videoFileName) {
@@ -117,7 +109,11 @@ export const videoUpload = functions.storage.object().onChange(async event => {
 
   }
 
-  await db.doc(lessonDbPath).update({thumbnail: thumbnailFileName, videoFileName});
+  await db.doc(lessonDbPath).update({
+    thumbnail: thumbnailFileName,
+    videoFileName,
+    videoDuration
+  });
 
 });
 

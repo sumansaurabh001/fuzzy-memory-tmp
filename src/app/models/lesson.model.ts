@@ -5,6 +5,7 @@ export interface Lesson {
   seqNo:string;
   title:string;
   videoFileName:string;
+  videoDuration:number;
   thumbnail: string;
   duration:number;
   free: boolean;
