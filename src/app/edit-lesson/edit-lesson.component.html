@@ -1,7 +1,7 @@
 <mat-divider></mat-divider>
 
 
-<div class="video-details">
+<div class="video-details" *ngIf="lesson">
 
   <img
     src="https://i.ytimg.com/vi/vEWWYNbSjNk/hqdefault.jpg?sqp=-oaymwEZCPYBEIoBSFXyq4qpAwsIARUAAIhCGAFwAQ==&rs=AOn4CLCykyzSucDyKjC4ma9zcOPZ6SY30A">
@@ -9,11 +9,11 @@
   <div class="video-text-details">
 
     <div class="filename">
-      <span>02 Installing Git, Node, NPM and Choosing an IDE.mp4</span>
+      <span>{{extractFileName(lesson.videoFileName)}}</span>
       <mat-icon class="delete-lesson">delete</mat-icon>
     </div>
 
-    <div>04:17</div>
+    <div>{{durationInMinutes(lesson.videoDuration)}}</div>
 
     <div class="upload-progress" *ngIf="(percentageUpload$ | async) as percentage">
 
@@ -65,13 +65,13 @@
 
   <button mat-raised-button color="warn" *ngIf="isPublished()">Unpublish</button>
 
-  <button mat-raised-button *ngIf="lesson?.videoFileName">Replace Video</button>
+  <button mat-raised-button *ngIf="lesson?.videoFileName" (click)="fileUpload.click()">Replace Video</button>
 
   <button mat-raised-button color="secondary" (click)="saveLesson()">Save</button>
 
-  <button mat-raised-button color="accent" *ngIf="isDraft()" (click)="fileUpload.click()">Upload Video</button>
+  <button mat-raised-button color="accent" *ngIf="!isReady()" (click)="fileUpload.click()">Upload Video</button>
 
-  <button mat-raised-button color="primary" *ngIf="isReady()">Publish Now</button>
+  <button mat-raised-button color="accent" *ngIf="isReady()">Publish Now</button>
 
 </div>
 

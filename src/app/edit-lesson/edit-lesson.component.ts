@@ -17,6 +17,9 @@ import {SaveDescription} from '../store/description.actions';
 import {FileUploadService} from '../services/file-upload.service';
 import {Observable} from 'rxjs/Observable';
 
+import leftPad = require('left-pad');
+
+
 @Component({
   selector: 'edit-lesson',
   templateUrl: './edit-lesson.component.html',
@@ -68,7 +71,7 @@ export class EditLessonComponent implements OnInit, OnChanges {
   }
 
   isReady() {
-    return this.lesson && this.lesson.status === 'ready';
+    return this.lesson && this.lesson.videoFileName;
   }
 
   isPublished() {
@@ -128,6 +131,29 @@ export class EditLessonComponent implements OnInit, OnChanges {
           })
         );
     }
+
+  }
+
+
+  extractFileName(name:string) {
+
+    if (!name) {
+      return "";
+    }
+
+    const index = name.indexOf('-');
+
+    return name.slice(index + 1);
+  }
+
+
+
+  durationInMinutes(duration:number) {
+
+    const minutes = Math.floor( duration / 60),
+          seconds = duration % 60;
+
+    return leftPad(minutes, 2, '0') + ':' + leftPad(seconds, 2, '0');
 
   }
 
