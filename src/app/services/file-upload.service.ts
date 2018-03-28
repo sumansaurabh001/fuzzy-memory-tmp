@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import {AngularFireStorage} from 'angularfire2/storage';
 import {Observable} from 'rxjs/Observable';
-import * as shortid from 'shortid';
 import {TenantService} from './tenant.service';
+import {generateId} from '../common/unique-id-generator';
 
 
 @Injectable()
@@ -27,7 +27,7 @@ export class FileUploadService {
 
   uploadVideo(courseId: string, lessonId:string, video: File): Observable<any> {
 
-    const prefix = shortid.generate();
+    const prefix = generateId();
 
     const uploadPath = `${this.tenant.id}/${courseId}/videos/${lessonId}/${prefix}-${video.name}`;
 

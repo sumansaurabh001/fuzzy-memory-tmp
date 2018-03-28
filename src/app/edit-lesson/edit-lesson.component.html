@@ -16,9 +16,11 @@
 
     <div>{{durationInMinutes(lesson?.videoDuration)}}</div>
 
+    <div class="filler"></div>
+
     <div *ngIf="(percentageUpload$ | async) as percentage">
 
-      <div class="upload-progress" *ngIf="percentage < 100">
+      <div class="upload-progress">
 
         <span>{{percentage / 100 | percent}}</span>
 
@@ -28,7 +30,14 @@
 
     </div>
 
-    <div class="processing-status" *ngIf="isProcessing()">PROCESSING (should finish soon)</div>
+    <div *ngIf="isProcessing() && !uploadOngoing">
+      <span class="status-ongoing">PROCESSING</span>
+      <span>(should finish soon)</span>
+    </div>
+
+    <div *ngIf="isError()">
+      <span class="status-error">PROCESSING FAILED</span>
+      </div>
 
   </div>
 

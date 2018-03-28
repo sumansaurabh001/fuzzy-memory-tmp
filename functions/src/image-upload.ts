@@ -6,6 +6,9 @@ const mkdirp = require('mkdirp-promise');
 import * as fs from 'fs';
 import * as shortid from 'shortid';
 
+// use $ and @ instead of - and _
+shortid.characters('0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ$@');
+
 const gcs = require('@google-cloud/storage')({keyFilename: __dirname + '/service-account-credentials.json'});
 
 import * as os from 'os';

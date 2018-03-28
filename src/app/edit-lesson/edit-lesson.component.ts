@@ -42,6 +42,8 @@ export class EditLessonComponent implements OnInit, OnChanges {
 
   percentageUpload$: Observable<number>;
 
+  uploadOngoing = false;
+
   constructor(private dialog: MatDialog,
               private store: Store<State>,
               private loading: LoadingService,
@@ -84,6 +86,10 @@ export class EditLessonComponent implements OnInit, OnChanges {
 
   isProcessing() {
     return this.lesson && this.lesson.status === 'processing';
+  }
+
+  isError() {
+    return this.lesson && this.lesson.status === 'error';
   }
 
   saveLesson() {
@@ -130,6 +136,8 @@ export class EditLessonComponent implements OnInit, OnChanges {
 
     if (video) {
 
+      this.uploadOngoing = true;
+
       this.percentageUpload$ = this.upload.uploadVideo(this.course.id, this.lesson.id, video);
 
       this.percentageUpload$
@@ -137,6 +145,8 @@ export class EditLessonComponent implements OnInit, OnChanges {
           noop,
           noop,
           () => {
+
+            this.uploadOngoing = false;
 
             const update: UpdateStr<Lesson> = {
               id: this.lesson.id,
