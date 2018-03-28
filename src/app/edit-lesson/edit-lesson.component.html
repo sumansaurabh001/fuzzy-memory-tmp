@@ -20,15 +20,22 @@
 
     <div *ngIf="(percentageUpload$ | async) as percentage">
 
-      <div class="upload-progress">
+      <div class="upload-progress-container">
 
-        <span>{{percentage / 100 | percent}}</span>
+        <div class="upload-progress">
 
-        <mat-progress-bar class="file-upload-progress"  mode="determinate" [value]="percentage"></mat-progress-bar>
+          <span>{{percentage / 100 | percent}}</span>
+
+          <mat-progress-bar class="file-upload-progress"  mode="determinate" [value]="percentage"></mat-progress-bar>
+
+        </div>
+
+        <mat-icon class="cancel-upload" title="Cancel upload">delete_forever</mat-icon>
 
       </div>
 
     </div>
+
 
     <div *ngIf="isProcessing() && !uploadOngoing">
       <span class="status-ongoing">PROCESSING</span>

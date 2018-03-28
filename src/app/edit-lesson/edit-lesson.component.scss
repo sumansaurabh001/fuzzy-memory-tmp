@@ -52,6 +52,14 @@
 }
 
 
+.upload-progress-container {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+
+}
+
+
 .upload-progress {
   display: flex;
   flex-direction: column;
@@ -61,6 +69,12 @@
   span {
     margin-left: 8px;
   }
+}
+
+.cancel-upload {
+  cursor:pointer;
+  display: inline;
+  margin-left: 5px;
 }
 
 
