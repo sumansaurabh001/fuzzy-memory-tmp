@@ -19,13 +19,9 @@ const ffprobe = require('@ffprobe-installer/ffprobe');
 const promisify = require('util.promisify');
 
 
-
-
 const ffprobeAsync = promisify(ffmpeg.ffprobe);
 
 const THUMB_PREFIX = 'thumb_';
-
-
 
 
 export const videoUpload = functions.storage.object().onChange(async event => {
@@ -39,46 +35,7 @@ export const videoUpload = functions.storage.object().onChange(async event => {
     return null;
   }
 
-  const uniqueFileSuffix = shortid.generate();
-
-  const videoBucketFullPath = event.data.name,
-    videoBucketDirectory = path.dirname(videoBucketFullPath),
-    videoFileName = path.basename(videoBucketFullPath),
-    localVideoFilePath = path.join(os.tmpdir(), videoBucketFullPath),
-    localTempDir = path.dirname(localVideoFilePath);
-
-  const bucket = gcs.bucket(event.data.bucket);
-  const file = bucket.file(videoBucketFullPath);
-
-  // Create the temp directory where the video file will be downloaded.
-  await mkdirp(localTempDir);
-
-  // Download file from bucket
-  await file.download({destination: localVideoFilePath});
-
-  const  thumbnailFileName = `${THUMB_PREFIX}${uniqueFileSuffix}.png`;
-
-  await extractVideoThumbnail(localVideoFilePath, localTempDir, thumbnailFileName);
-
-  const videoDuration = Math.round(await getVideoDuration(localVideoFilePath));
-
-  listDirectory(localTempDir);
-
-  const localThumbnailFilePath = path.join(localTempDir, thumbnailFileName),
-        thumbnailBucketPath = path.join(videoBucketDirectory, thumbnailFileName);
-
-  const metadata = {
-    contentType: 'img/png',
-    cacheControl: 'public,max-age=2592000, s-maxage=2592000'
-  };
-
-  // Uploading the Video Thumbnail
-  await bucket.upload(localThumbnailFilePath, {destination: thumbnailBucketPath, metadata: metadata});
-
-  // Once the image has been uploaded delete the local files to free up disk space.
-  fs.unlinkSync(localVideoFilePath);
-  fs.unlinkSync(localThumbnailFilePath);
-
+  const videoBucketFullPath = event.data.name;
 
   const frags = videoBucketFullPath.split('/');
 
@@ -92,34 +49,84 @@ export const videoUpload = functions.storage.object().onChange(async event => {
 
   const lesson = results.data();
 
-  // delete previous video and lesson thumbnail to save space
-  if (lesson && lesson.videoFileName) {
+  try {
 
-    const previousVideoFilePath = `${tenantId}/${courseId}/videos/${lessonId}/${lesson.videoFileName}`;
+    const uniqueFileSuffix = shortid.generate();
 
-    const previousVideoFile = bucket.file(previousVideoFilePath);
+    const  videoBucketDirectory = path.dirname(videoBucketFullPath),
+      videoFileName = path.basename(videoBucketFullPath),
+      localVideoFilePath = path.join(os.tmpdir(), videoBucketFullPath),
+      localTempDir = path.dirname(localVideoFilePath);
 
-    await previousVideoFile.delete();
+    const bucket = gcs.bucket(event.data.bucket);
+    const file = bucket.file(videoBucketFullPath);
 
-    const previousVideoThumbnailPath = `${tenantId}/${courseId}/videos/${lessonId}/${lesson.thumbnail}`;
+    // Create the temp directory where the video file will be downloaded.
+    await mkdirp(localTempDir);
 
-    const previousVideoThumbnailFile = bucket.file(previousVideoThumbnailPath);
+    // Download file from bucket
+    await file.download({destination: localVideoFilePath});
 
-    await previousVideoThumbnailFile.delete();
+    const thumbnailFileName = `${THUMB_PREFIX}${uniqueFileSuffix}.png`;
+
+    await extractVideoThumbnail(localVideoFilePath, localTempDir, thumbnailFileName);
+
+    const videoDuration = Math.round(await getVideoDuration(localVideoFilePath));
+
+    const localThumbnailFilePath = path.join(localTempDir, thumbnailFileName),
+      thumbnailBucketPath = path.join(videoBucketDirectory, thumbnailFileName);
+
+    const metadata = {
+      contentType: 'img/png',
+      cacheControl: 'public,max-age=2592000, s-maxage=2592000'
+    };
+
+    // Uploading the Video Thumbnail
+    await bucket.upload(localThumbnailFilePath, {destination: thumbnailBucketPath, metadata: metadata});
+
+    // Once the image has been uploaded delete the local files to free up disk space.
+    fs.unlinkSync(localVideoFilePath);
+    fs.unlinkSync(localThumbnailFilePath);
+
+    // delete previous video and lesson thumbnail to save space
+    if (lesson && lesson.videoFileName) {
+
+      const previousVideoFilePath = `${tenantId}/${courseId}/videos/${lessonId}/${lesson.videoFileName}`;
+
+      const previousVideoFile = bucket.file(previousVideoFilePath);
+
+      await previousVideoFile.delete();
+
+      const previousVideoThumbnailPath = `${tenantId}/${courseId}/videos/${lessonId}/${lesson.thumbnail}`;
+
+      const previousVideoThumbnailFile = bucket.file(previousVideoThumbnailPath);
+
+      await previousVideoThumbnailFile.delete();
+
+    }
+
+    await db.doc(lessonDbPath).update({
+      thumbnail: thumbnailFileName,
+      videoFileName,
+      videoDuration,
+      status:"ready"
+    });
+
+  }
+  catch (err) {
+
+    console.error("Video processing failed:", err);
+    await db.doc(lessonDbPath).update({
+      status:"failed"
+    });
 
   }
 
-  await db.doc(lessonDbPath).update({
-    thumbnail: thumbnailFileName,
-    videoFileName,
-    videoDuration
-  });
 
 });
 
 
-
-async function extractVideoThumbnail(videoPath:string, thumbnailPath:string, thumbnailName:string) {
+async function extractVideoThumbnail(videoPath: string, thumbnailPath: string, thumbnailName: string) {
 
   const command = ffmpeg(videoPath)
     .setFfmpegPath(ffmpeg_static.path)
@@ -135,7 +142,7 @@ async function extractVideoThumbnail(videoPath:string, thumbnailPath:string, thu
   return promisifyCommand(command);
 }
 
-async function getVideoDuration(videoPath:string) {
+async function getVideoDuration(videoPath: string) {
 
   const metadata = await ffprobeAsync(videoPath);
 
