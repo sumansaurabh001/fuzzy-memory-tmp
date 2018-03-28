@@ -1,7 +1,7 @@
 <mat-divider></mat-divider>
 
 
-<div class="video-details" *ngIf="lesson">
+<div class="video-details">
 
   <file-upload #fileUpload class="lesson-thumbnail mat-elevation-z2" [src]="videoThumbnailPath()"
                height="70px" width="124px" accept="video/*" (fileSelected)="onFileSelected($event)" >
@@ -10,11 +10,11 @@
 
   <div class="video-text-details">
 
-    <div class="filename" *ngIf="lesson.videoFileName">
-      <span>{{extractFileName(lesson.videoFileName)}}</span>
+    <div class="filename" *ngIf="lesson?.videoFileName">
+      <span>{{extractFileName(lesson?.videoFileName)}}</span>
     </div>
 
-    <div>{{durationInMinutes(lesson.videoDuration)}}</div>
+    <div>{{durationInMinutes(lesson?.videoDuration)}}</div>
 
     <div class="upload-progress" *ngIf="(percentageUpload$ | async) as percentage">
 

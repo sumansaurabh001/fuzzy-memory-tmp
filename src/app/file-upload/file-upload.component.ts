@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, EventEmitter, HostBinding, Input, OnInit, Output, ViewChild} from '@angular/core';
+import {ChangeDetectionStrategy, Component, ElementRef, EventEmitter, HostBinding, Input, OnInit, Output, ViewChild} from '@angular/core';
 import {EMPTY_IMG} from '../common/ui-constants';
 
 
@@ -29,7 +29,7 @@ export class FileUploadComponent implements OnInit {
   @Output() fileSelected = new EventEmitter();
 
   @ViewChild("fileUpload")
-  fileUpload: HTMLInputElement;
+  fileUpload : ElementRef;
 
 
   constructor() {
@@ -86,7 +86,7 @@ export class FileUploadComponent implements OnInit {
   }
 
   open() {
-    this.fileUpload.click();
+    this.fileUpload.nativeElement.click();
   }
 
 }
