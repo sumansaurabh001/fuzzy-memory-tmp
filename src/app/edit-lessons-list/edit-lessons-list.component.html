@@ -22,13 +22,13 @@
     </div>
 
     <mat-expansion-panel class="lesson-item" #panel [expanded]="isExpanded(lesson)"
-                         *ngFor="let lesson of section.lessons; trackBy: trackByLessonId"
+                         *ngFor="let lesson of section.lessons; trackBy: trackByLessonId; let index = index"
                          [ngClass]="expandedCss(panel.expanded)"
                          (expandedChange)="onExpandLesson(lesson, $event)">
 
       <mat-expansion-panel-header>
         <mat-panel-title>
-          <span class="lecture-number" fxHide.lt-lg="true">Lecture {{lesson.seqNo}}:</span>
+          <span class="lecture-number">Lecture {{index + 1}}:</span>
           <mat-icon>play_circle_outline</mat-icon>
         </mat-panel-title>
         <mat-panel-description>
