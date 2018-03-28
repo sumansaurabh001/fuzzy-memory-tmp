@@ -156,10 +156,33 @@ export class EditLessonComponent implements OnInit, OnChanges {
             };
 
             this.store.dispatch(new UpdateLesson({lesson: update, courseId: this.course.id}));
+
+            this.onVideoUploadCompleted();
           }
         );
 
     }
+
+  }
+
+  onVideoUploadCompleted() {
+
+    this.lessonsDB.suscribeToLesson(this.course.id, this.lesson.id)
+      .pipe(
+        filter(lesson => lesson.status !== 'processing'),
+        first(),
+        tap(lesson => {
+
+          const update: UpdateStr<Lesson> = {
+            id: lesson.id,
+            changes: lesson
+          };
+
+          this.store.dispatch(new UpdateLesson({lesson: update, courseId: this.course.id}));
+
+        })
+      )
+      .subscribe();
 
   }
 

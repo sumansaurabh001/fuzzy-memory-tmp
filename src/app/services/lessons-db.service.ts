@@ -3,7 +3,7 @@ import {AngularFirestore} from 'angularfire2/firestore';
 import {Observable} from 'rxjs/Observable';
 import {TenantService} from './tenant.service';
 import {CourseSection} from '../models/course-section.model';
-import {findLastBySeqNo, findUniqueMatchWithId, readCollectionWithIds} from '../common/firestore-utils';
+import {findLastBySeqNo, findUniqueMatchWithId, readCollectionWithIds, readDocumentWithId} from '../common/firestore-utils';
 import {concatMap, first, map} from 'rxjs/operators';
 import {Lesson} from '../models/lesson.model';
 import {Course} from '../models/course.model';
@@ -108,6 +108,11 @@ export class LessonsDBService {
     const query$ = this.afs.collection<Lesson>(this.lessonsPath(courseId), ref => ref.where('sectionId', '==', sectionId).orderBy('seqNo', 'desc').limit(1));
 
     return findUniqueMatchWithId(query$).pipe(first());
+  }
+
+
+  suscribeToLesson(courseId: string, lessonId:string): Observable<Lesson> {
+    return readDocumentWithId(this.afs.doc(this.lessonsPath(courseId) + '/' + lessonId));
   }
 
 
