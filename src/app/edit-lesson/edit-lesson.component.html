@@ -16,13 +16,17 @@
 
     <div>{{durationInMinutes(lesson?.videoDuration)}}</div>
 
-    <div class="upload-progress" *ngIf="(percentageUpload$ | async) as percentage">
+    <div *ngIf="(percentageUpload$ | async) as percentage">
 
-      <span>{{percentage / 100 | percent}}</span>
+      <div class="upload-progress" *ngIf="percentage < 100">
 
-      <mat-progress-bar class="file-upload-progress"  mode="determinate" [value]="percentage"></mat-progress-bar>
+        <span>{{percentage / 100 | percent}}</span>
 
+        <mat-progress-bar class="file-upload-progress"  mode="determinate" [value]="percentage"></mat-progress-bar>
 
+      </div>
+
+      <div class="processing-status" *ngIf="percentage == 100">PROCESSING...</div>
 
     </div>
 
