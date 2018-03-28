@@ -30,14 +30,14 @@
 
         </div>
 
-        <mat-icon class="cancel-upload" title="Cancel upload">delete_forever</mat-icon>
+        <mat-icon class="cancel-upload" title="Cancel upload" (click)="cancelUpload()">delete_forever</mat-icon>
 
       </div>
 
     </div>
 
 
-    <div *ngIf="isProcessing() && !uploadOngoing">
+    <div *ngIf="isProcessing()">
       <span class="status-ongoing">PROCESSING</span>
       <span>(should finish soon)</span>
     </div>

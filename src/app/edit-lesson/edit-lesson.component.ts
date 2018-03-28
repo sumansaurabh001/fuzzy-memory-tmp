@@ -22,6 +22,7 @@ import {EMPTY_IMG} from '../common/ui-constants';
 import {UrlBuilderService} from '../services/url-builder.service';
 import {UpdateStr} from '@ngrx/entity/src/models';
 import {noop} from 'rxjs/util/noop';
+import {AngularFireUploadTask} from 'angularfire2/storage/task';
 
 
 @Component({
@@ -40,9 +41,9 @@ export class EditLessonComponent implements OnInit, OnChanges {
   lessonDescription: string;
   toolbar = defaultHtmlEditorConfig;
 
-  percentageUpload$: Observable<number>;
+  uploadTask: AngularFireUploadTask;
 
-  uploadOngoing = false;
+  percentageUpload$: Observable<number>;
 
   constructor(private dialog: MatDialog,
               private store: Store<State>,
@@ -136,17 +137,15 @@ export class EditLessonComponent implements OnInit, OnChanges {
 
     if (video) {
 
-      this.uploadOngoing = true;
+      this.uploadTask = this.upload.uploadVideo(this.course.id, this.lesson.id, video);
 
-      this.percentageUpload$ = this.upload.uploadVideo(this.course.id, this.lesson.id, video);
+      this.percentageUpload$ = this.uploadTask.percentageChanges();
 
       this.percentageUpload$
         .subscribe(
           noop,
           noop,
           () => {
-
-            this.uploadOngoing = false;
 
             const update: UpdateStr<Lesson> = {
               id: this.lesson.id,
@@ -171,18 +170,20 @@ export class EditLessonComponent implements OnInit, OnChanges {
       .pipe(
         filter(lesson => lesson.status !== 'processing'),
         first(),
-        tap(lesson => {
-
-          const update: UpdateStr<Lesson> = {
-            id: lesson.id,
-            changes: lesson
-          };
-
-          this.store.dispatch(new UpdateLesson({lesson: update, courseId: this.course.id}));
-
-        })
+        tap(lesson => this.dispatchLessonChanges(lesson))
       )
       .subscribe();
+
+  }
+
+  cancelUpload() {
+
+    this.uploadTask.cancel();
+
+    this.uploadTask = undefined;
+    this.percentageUpload$ = undefined;
+
+    this.dispatchLessonChanges({status: 'draft'});
 
   }
 
@@ -190,6 +191,16 @@ export class EditLessonComponent implements OnInit, OnChanges {
     return this.ub.buildLessonThumbailUrl(this.course, this.lesson);
   }
 
+  private dispatchLessonChanges(changes: Partial<Lesson>) {
+
+    const update: UpdateStr<Lesson> = {
+      id: this.lesson.id,
+      changes
+    };
+
+    this.store.dispatch(new UpdateLesson({lesson: update, courseId: this.course.id}));
+
+  }
 
   extractFileName(name: string) {
 

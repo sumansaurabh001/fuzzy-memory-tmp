@@ -3,6 +3,7 @@ import {AngularFireStorage} from 'angularfire2/storage';
 import {Observable} from 'rxjs/Observable';
 import {TenantService} from './tenant.service';
 import {generateId} from '../common/unique-id-generator';
+import {AngularFireUploadTask} from 'angularfire2/storage/task';
 
 
 @Injectable()
@@ -25,14 +26,13 @@ export class FileUploadService {
   }
 
 
-  uploadVideo(courseId: string, lessonId:string, video: File): Observable<any> {
+  uploadVideo(courseId: string, lessonId:string, video: File): AngularFireUploadTask {
 
     const prefix = generateId();
 
     const uploadPath = `${this.tenant.id}/${courseId}/videos/${lessonId}/${prefix}-${video.name}`;
 
-    return this.storage.upload(uploadPath, video)
-      .percentageChanges();
+    return this.storage.upload(uploadPath, video);
 
   }
 }
