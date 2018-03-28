@@ -83,7 +83,7 @@ export class CourseEffects {
   saveLesson$ = this.actions$
     .pipe(
       ofType<UpdateLesson>(LessonActionTypes.UpdateLesson),
-      concatMap(action => this.loading.showLoader(this.lessonsDB.saveLesson(action.payload.courseId, action.payload.lesson))),
+      concatMap(action => this.lessonsDB.saveLesson(action.payload.courseId, action.payload.lesson)),
     );
 
 

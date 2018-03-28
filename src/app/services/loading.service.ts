@@ -1,10 +1,11 @@
 import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs/Observable';
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
-import {catchError, filter, finalize, map, switchMap, tap} from 'rxjs/operators';
+import {catchError, delay, filter, finalize, map, switchMap, tap} from 'rxjs/operators';
 import {of} from 'rxjs/observable/of';
 import {NavigationEnd, NavigationStart, Router} from '@angular/router';
 import {_throw} from 'rxjs/observable/throw';
+import {timeout} from 'rxjs/operator/timeout';
 
 
 @Injectable()
@@ -37,5 +38,17 @@ export class LoadingService {
         })
       );
   }
+
+
+  /*
+  *
+  * useful for giving the user some visual feedback, in situations where the operation is either too fast or is being performed in the background
+  *
+  * */
+
+  showLoading(delayMs = 300) {
+    return this.showLoader(of(null).pipe(delay(delayMs)));
+  }
+
 
 }

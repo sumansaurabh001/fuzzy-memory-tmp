@@ -9,7 +9,7 @@ import {DeleteLesson, UpdateLesson} from '../store/lesson.actions';
 import {DangerDialogComponent} from '../danger-dialog/danger-dialog.component';
 import {MatDialog, MatDialogConfig} from '@angular/material';
 import {ConfirmationDialogComponent} from '../confirmation-dialog/confirmation-dialog.component';
-import {concatMap, filter, tap} from 'rxjs/operators';
+import {concatMap, filter, first, tap} from 'rxjs/operators';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {UpdateCourse} from '../store/course.actions';
 import {defaultHtmlEditorConfig} from '../common/html-editor.config';
@@ -20,6 +20,8 @@ import {Observable} from 'rxjs/Observable';
 import leftPad = require('left-pad');
 import {EMPTY_IMG} from '../common/ui-constants';
 import {UrlBuilderService} from '../services/url-builder.service';
+import {UpdateStr} from '@ngrx/entity/src/models';
+import {noop} from 'rxjs/util/noop';
 
 
 @Component({
@@ -80,6 +82,9 @@ export class EditLessonComponent implements OnInit, OnChanges {
     return this.lesson && this.lesson.status === 'published';
   }
 
+  isProcessing() {
+    return this.lesson && this.lesson.status === 'processing';
+  }
 
   saveLesson() {
     const lesson = {
@@ -92,8 +97,9 @@ export class EditLessonComponent implements OnInit, OnChanges {
     const description = this.lessonDescription || '';
 
     this.store.dispatch(new SaveDescription({id: this.lesson.id, description}));
-  }
 
+    this.loading.showLoading().subscribe();
+  }
 
   deleteLesson() {
 
@@ -124,14 +130,25 @@ export class EditLessonComponent implements OnInit, OnChanges {
 
     if (video) {
 
-      this.percentageUpload$ = this.upload.uploadVideo(this.course.id, this.lesson.id, video)
-        .pipe(
-          tap(percent => {
+      this.percentageUpload$ = this.upload.uploadVideo(this.course.id, this.lesson.id, video);
 
-            //TODO
+      this.percentageUpload$
+        .subscribe(
+          noop,
+          noop,
+          () => {
 
-          })
+            const update: UpdateStr<Lesson> = {
+              id: this.lesson.id,
+              changes: {
+                status: 'processing'
+              }
+            };
+
+            this.store.dispatch(new UpdateLesson({lesson: update, courseId: this.course.id}));
+          }
         );
+
     }
 
   }
