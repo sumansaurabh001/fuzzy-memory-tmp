@@ -32,6 +32,7 @@
           <mat-icon>play_circle_outline</mat-icon>
         </mat-panel-title>
         <mat-panel-description>
+        <button class="add-content" mat-raised-button color="primary" *ngIf="!lesson.thumbnail">Add Content</button>
           {{lesson.title}}
         </mat-panel-description>
       </mat-expansion-panel-header>
