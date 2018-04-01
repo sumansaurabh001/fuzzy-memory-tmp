@@ -75,7 +75,9 @@
 
     <button mat-raised-button color="basic" (click)="save(course.id)">Save</button>
 
-    <button mat-raised-button color="accent">Edit Layout</button>
+    <button mat-raised-button color="accent" [routerLink]="['/courses', course.seqNo]" [queryParams]="{editMode:true}">
+      Edit Layout
+    </button>
 
   </div>
 
