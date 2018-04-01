@@ -12,7 +12,7 @@ const gcs = require('@google-cloud/storage')({keyFilename: __dirname + '/service
 import * as os from 'os';
 import * as path from 'path';
 import {listDirectory, promisifyCommand} from './utils';
-import {db} from './init-db';
+import {db} from './init';
 
 
 const ffmpeg = require('fluent-ffmpeg');
@@ -60,6 +60,7 @@ export const videoUpload = functions.storage.object().onChange(async event => {
       videoFileName = path.basename(videoBucketFullPath),
       localVideoFilePath = path.join(os.tmpdir(), videoBucketFullPath),
       localTempDir = path.dirname(localVideoFilePath);
+
 
     const bucket = gcs.bucket(event.data.bucket);
     const file = bucket.file(videoBucketFullPath);

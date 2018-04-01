@@ -13,7 +13,7 @@ const gcs = require('@google-cloud/storage')({keyFilename: __dirname + '/service
 
 import * as os from 'os';
 import * as path from 'path';
-import {db} from './init-db';
+import {db} from './init';
 
 
 const THUMB_PREFIX = 'thumb_';

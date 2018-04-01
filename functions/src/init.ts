@@ -9,3 +9,5 @@ admin.initializeApp(functions.config().firebase);
 
 
 export const db = admin.firestore();
+
+export const storage = admin.storage();
