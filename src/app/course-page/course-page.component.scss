@@ -23,6 +23,7 @@
 
 .title-extra-info {
   display: flex;
+  font-size: 16px;
   align-items: center;
   padding-left: 10px;
 
@@ -50,12 +51,12 @@ text-align: center;
 
 
 .course-title {
-  font-size: 46px;
+  font-size: 48px;
   font-weight: bold;
 }
 
 .course-subtitle {
-  font-size: 20px;
+  font-size: 18px;
 }
 
 .action-buttons {
@@ -64,19 +65,19 @@ text-align: center;
   justify-content: center;
   button {
     line-height: 18px;
-    height: 85px;
+    height: 80px;
     margin-right: 8px;
-    @include mat-icon-size(40px);
+    @include mat-icon-size(32px);
 
     .first-line {
-      padding: 0 8px;
-      font-size: 25px;
+      padding: 0 4px;
+      font-size: 23px;
       display: flex;
       align-items: center;
     }
 
     .second-line {
-      font-size: 17px;
+      font-size: 16px;
     }
 
   }
