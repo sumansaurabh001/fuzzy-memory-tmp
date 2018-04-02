@@ -45,6 +45,9 @@ export class EditLessonComponent implements OnInit, OnChanges {
 
   percentageUpload$: Observable<number>;
 
+  lessonEditMode = false;
+
+
   constructor(private dialog: MatDialog,
               private store: Store<AppState>,
               private loading: LoadingService,
@@ -225,6 +228,10 @@ export class EditLessonComponent implements OnInit, OnChanges {
 
     return leftPad(minutes, 2, '0') + ':' + leftPad(seconds, 2, '0');
 
+  }
+
+  toggleEditLesson() {
+    this.lessonEditMode = !this.lessonEditMode;
   }
 
 

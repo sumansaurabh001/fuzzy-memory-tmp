@@ -4,7 +4,7 @@
 <div class="video-details">
 
   <file-upload #fileUpload class="lesson-thumbnail mat-elevation-z2" [src]="videoThumbnailPath()"
-               height="70px" width="124px" accept="video/*" (fileSelected)="onFileSelected($event)" >
+               height="70px" width="124px" accept="video/*" (fileSelected)="onFileSelected($event)">
 
   </file-upload>
 
@@ -26,7 +26,7 @@
 
           <span>{{percentage / 100 | percent}}</span>
 
-          <mat-progress-bar class="file-upload-progress"  mode="determinate" [value]="percentage"></mat-progress-bar>
+          <mat-progress-bar class="file-upload-progress" mode="determinate" [value]="percentage"></mat-progress-bar>
 
         </div>
 
@@ -44,7 +44,7 @@
 
     <div *ngIf="isError()">
       <span class="status-error">PROCESSING FAILED</span>
-      </div>
+    </div>
 
   </div>
 
@@ -62,9 +62,19 @@
 
 </div>
 
-<div class="section-label">Lesson Description</div>
+<div class="edit-lesson-descr" (click)="toggleEditLesson()">
 
-<app-ngx-editor
+  <div>Edit Lesson Description (Optional):</div>
+
+  <mat-icon class="edit-descr-btn"  *ngIf="!lessonEditMode">expand_more</mat-icon>
+  <mat-icon class="edit-descr-btn" *ngIf="lessonEditMode">expand_less</mat-icon>
+
+</div>
+
+
+
+
+<app-ngx-editor *ngIf="lessonEditMode"
   height="50px"
   placeholder="(Optional)"
   [spellcheck]="true"
@@ -73,25 +83,26 @@
 
 </app-ngx-editor>
 
-<div class="lesson-actions">
+  <div class="lesson-actions">
 
-  <action-button
-    color="accent" icon="delete" color="secondary" (click)="deleteLesson()"
-    title="Delete lesson" *ngIf="isDraft">
+    <action-button
+      color="accent" icon="delete" color="secondary" (click)="deleteLesson()"
+      title="Delete lesson" *ngIf="isDraft">
 
-  </action-button>
+    </action-button>
 
-  <div class="filler"></div>
+    <div class="filler"></div>
 
-  <button mat-raised-button color="warn" *ngIf="isPublished()">Unpublish</button>
+    <button mat-raised-button color="warn" *ngIf="isPublished()">Unpublish</button>
 
-  <button mat-raised-button color="basic" *ngIf="lesson?.videoFileName" (click)="fileUpload.open()">Replace Video</button>
+    <button mat-raised-button color="basic" *ngIf="lesson?.videoFileName" (click)="fileUpload.open()">Replace Video
+    </button>
 
-  <button mat-raised-button color="basic" (click)="saveLesson()">Save</button>
+    <button mat-raised-button color="basic" (click)="saveLesson()">Save</button>
 
-  <button mat-raised-button color="accent" *ngIf="!isReady()" (click)="fileUpload.open()">Upload Video</button>
+    <button mat-raised-button color="accent" *ngIf="!isReady()" (click)="fileUpload.open()">Upload Video</button>
 
-  <button mat-raised-button color="accent" *ngIf="isReady()">Publish Now</button>
+    <button mat-raised-button color="accent" *ngIf="isReady()">Publish Now</button>
 
-</div>
+  </div>
 
