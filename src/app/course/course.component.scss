@@ -1,4 +1,6 @@
 
+@import "../mixins";
+
 .course-container {
   margin-top: 120px;
   width: 1000px;
@@ -61,11 +63,13 @@ text-align: center;
   justify-content: center;
   button {
     line-height: 18px;
-    height: 70px;
-    margin-right: 10px;
+    height: 85px;
+    margin-right: 8px;
+    @include mat-icon-size(40px);
 
     .first-line {
-      font-size: 20px;
+      padding: 0 8px;
+      font-size: 25px;
       display: flex;
       align-items: center;
     }
@@ -79,7 +83,7 @@ text-align: center;
 }
 
 .prices {
-  margin: 50px 0 20px 0;
+  margin: 80px 0 20px 0;
 }
 
 .course-price {
@@ -113,6 +117,6 @@ text-align: center;
 
 .course-body {
   max-width: 1000px;
-  padding-top: 30px;
+  padding-top: 50px;
 }
 
