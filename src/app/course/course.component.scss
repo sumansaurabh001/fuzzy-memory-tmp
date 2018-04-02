@@ -13,9 +13,19 @@
 
 .course-titles {
   max-width: 800px;
-  color: rgba(0, 0, 0, 0.87);
+  color: rgba(42, 48, 46, 0.87);
   padding-bottom: 50px;
   padding-top: 50px;
+}
+
+.title-extra-info {
+  display: flex;
+  align-items: center;
+  padding-left: 10px;
+
+  .duration {
+    margin-left: 10px;
+  }
 }
 
 
@@ -69,7 +79,7 @@ text-align: center;
 }
 
 .prices {
-  margin: 20px 0;
+  margin: 50px 0 20px 0;
 }
 
 .course-price {
