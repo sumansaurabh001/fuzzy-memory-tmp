@@ -33,13 +33,13 @@
       <mat-label>Course Subtitle</mat-label>
 
       <input matInput
-             placeholder="Course subtitle (max 105 chars)"
+             placeholder="Course subtitle (max 125 chars)"
              #subtitleHint
-             maxLength="105"
+             maxLength="125"
              formControlName="subTitle">
 
       <mat-hint align="end">
-        {{subtitleHint.value.length}} / 105
+        {{subtitleHint.value.length}} / 125
       </mat-hint>
 
     </mat-form-field>
@@ -75,8 +75,8 @@
 
     <button mat-raised-button color="basic" (click)="save(course.id)">Save</button>
 
-    <button mat-raised-button color="accent" [routerLink]="['/courses', course.seqNo]" [queryParams]="{editMode:true}">
-      Edit Layout
+    <button mat-raised-button color="accent" [routerLink]="['/courses', course.seqNo]">
+      Preview Course
     </button>
 
   </div>

@@ -1,5 +1,5 @@
 
-<ng-container *ngIf="(course$ | async) as course">
+<div class="course-container mat-elevation-z10" *ngIf="(course$ | async) as course">
 
   <div class="course-header">
 
@@ -9,65 +9,31 @@
 
       <h2>{{course.subTitle}}</h2>
 
-      <div>
-        <span>Created by: Angular University</span>
-      </div>
-
     </div>
 
-    <div class="course-enroll-card mat-elevation-z9">
+    <div class="course-enroll-card">
 
-      <img class="course-thumbnail" [src]="thumbnailUrl(course)">
+      <img class="course-thumbnail mat-elevation-z9" [src]="thumbnailUrl(course)">
 
       <div class="prices">
-        <span class="course-price">$10.99</span>
+        <span class="course-price">Price: $10.99</span>
         <span class="course-original-price">$199</span>
         <span class="discount">94% Off</span>
       </div>
 
       <div class="action-buttons">
 
-        <button mat-raised-button color="accent">Take This Course</button>
-
-        <button mat-raised-button color="primary">
-          Subscribe Now - Access All Courses
+        <button mat-raised-button color="accent">
+          <mat-icon>play_circle_filled</mat-icon>
+          <div>Take This Course</div>
+          <div>Lifetime Access</div>
         </button>
 
-      </div>
-
-      <div class="course-includes">
-
-        <div class="includes-label">Includes:</div>
-
-        <div class="includes-item">
-          <mat-icon>video_cam</mat-icon>
-          <span>7 hours on-demand video</span>
-        </div>
-
-        <div class="includes-item">
-          <mat-icon>tv</mat-icon>
-          <span>7 hours on-demand video</span>
-        </div>
-
-        <div class="includes-item">
-          <mat-icon>video_cam</mat-icon>
-          <span>127 videos</span>
-        </div>
-
-        <div class="includes-item">
-          <mat-icon>video_cam</mat-icon>
-          <span>Lifetime Access</span>
-        </div>
-
-        <div class="includes-item">
-          <mat-icon>hourglass_full</mat-icon>
-          <span>Lifetime Access</span>
-        </div>
-
-        <div class="includes-item">
-          <mat-icon>phone_iphone</mat-icon>
-          <span>Watch on mobile or TV</span>
-        </div>
+        <button mat-raised-button color="primary">
+          <mat-icon>play_circle_filled</mat-icon>
+          <div>Subscribe Now</div>
+          <div>Access All Courses</div>
+        </button>
 
       </div>
 
@@ -83,5 +49,5 @@
 
   </div>
 
-</ng-container>
+</div>
 
