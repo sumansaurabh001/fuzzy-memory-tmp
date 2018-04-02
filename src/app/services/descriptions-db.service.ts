@@ -4,7 +4,7 @@ import {AngularFirestore} from 'angularfire2/firestore';
 import {fromPromise} from 'rxjs/observable/fromPromise';
 import {Observable} from 'rxjs/Observable';
 import {readDocumentValue} from '../common/firestore-utils';
-import {map} from 'rxjs/operators';
+import {first, map} from 'rxjs/operators';
 
 
 @Injectable()
@@ -22,7 +22,8 @@ export class DescriptionsDbService {
   findCourseDescription(courseUrl: string): Observable<string> {
     return readDocumentValue<Object>(this.afs.doc(this.descriptionsPath + '/' + courseUrl))
       .pipe(
-        map(val => val ? val['description'] : undefined)
+        map(val => val ? val['description'] : undefined),
+        first()
       );
   }
 
