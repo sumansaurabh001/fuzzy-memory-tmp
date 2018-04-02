@@ -1437,6 +1437,10 @@ codelyzer@^4.0.1:
     source-map "^0.5.6"
     sprintf-js "^1.0.3"
 
+codemirror@^5.36.0:
+  version "5.36.0"
+  resolved "https://registry.yarnpkg.com/codemirror/-/codemirror-5.36.0.tgz#1172ad9dc298056c06e0b34e5ccd23825ca15b40"
+
 collection-visit@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/collection-visit/-/collection-visit-1.0.0.tgz#4bc0373c164bc3291b4d368c829cf1a80a59dca0"
@@ -4655,9 +4659,11 @@ ngx-bootstrap@^2.0.2:
   version "2.0.2"
   resolved "https://registry.yarnpkg.com/ngx-bootstrap/-/ngx-bootstrap-2.0.2.tgz#6862b2ee4764bb6cfd34c66528873d0d050c2faa"
 
-ngx-editor@3.2.1:
-  version "3.2.1"
-  resolved "https://registry.yarnpkg.com/ngx-editor/-/ngx-editor-3.2.1.tgz#3e4be88cb939c1cbe89d550b1c97c504f1d60be5"
+ngx-editor@v3.3.0-rc.13:
+  version "3.3.0-rc.13"
+  resolved "https://registry.yarnpkg.com/ngx-editor/-/ngx-editor-3.3.0-rc.13.tgz#49e69f7754eb9fa9f02d4748b0755a204f5558e7"
+  dependencies:
+    tslib "^1.7.1"
 
 no-case@^2.2.0:
   version "2.3.2"

@@ -64,10 +64,12 @@
 
   <app-ngx-editor
     height="500px"
+    minHeight="500px"
     placeholder="Enter course description here..."
     [spellcheck]="true"
     [toolbar]="toolbar"
-    [(ngModel)]="courseDescription">
+    [(ngModel)]="courseDescription"
+    resizer="stack">
 
   </app-ngx-editor>
 
