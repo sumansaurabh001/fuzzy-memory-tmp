@@ -89,7 +89,13 @@ export const selectEditedCourseDetail = createSelector(
     const sectionsWithLessons = editedSections.map(section => {
           return {
             ...section,
-            lessons: editedLessons.filter(lesson => lesson.sectionId === section.id)
+            lessons: editedLessons
+              .filter(lesson => lesson.sectionId === section.id)
+              .map(lesson => {
+                return {
+                  ...lesson,
+                  description: descriptions[lesson.id]
+                }})
           }
     });
 

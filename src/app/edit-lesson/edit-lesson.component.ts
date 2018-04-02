@@ -72,6 +72,7 @@ export class EditLessonComponent implements OnInit, OnChanges {
   ngOnChanges(changes: SimpleChanges) {
     if (changes['lesson']) {
       this.form.patchValue(changes['lesson'].currentValue);
+      this.lessonDescription = changes['lesson'].currentValue.description;
     }
   }
 

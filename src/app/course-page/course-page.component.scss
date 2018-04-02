@@ -133,10 +133,9 @@ text-align: center;
 .course-body {
   max-width: 1000px;
   padding-top: 50px;
-  color: $dark-text;
   ::ng-deep b  {
-    font-size: 22px;
-    color:#333a34;
+    color:black;
+    font-weight: 700;
   }
 }
 
