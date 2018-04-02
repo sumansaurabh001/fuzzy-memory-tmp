@@ -47,7 +47,8 @@ export class CourseLandingPageComponent implements OnInit {
     this.form = this.fb.group({
       title: ['', Validators.required],
       subTitle: ['', Validators.required],
-      shortDescription: ['', Validators.required]
+      shortDescription: ['', Validators.required],
+      downloadAllowed: [true, [Validators.required]]
     });
 
   }

@@ -11,4 +11,5 @@ export interface Course {
   thumbnail: string;
   sections?: CourseSection[],
   longDescription?:string;
+  downloadAllowed: boolean;
 }
