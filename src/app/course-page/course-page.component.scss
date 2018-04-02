@@ -39,6 +39,17 @@ text-align: center;
 }
 
 
+.course-title-container {
+  display: flex;
+  align-items: center;
+  @include mat-icon-size(25px);
+  .title-icon {
+    align-items: flex-start;
+    margin-right: 8px;
+  }
+}
+
+
 
 
 .course-title {
