@@ -102,7 +102,7 @@ export const selectActiveCourseDetail = createSelector(
     const courseWithSections: Course = {
       ...courseSummary,
       sections: sectionsWithLessons,
-      longDescription: descriptions[courseSummary.id]
+      longDescription: courseSummary? descriptions[courseSummary.id] : undefined
 
     };
 
@@ -137,5 +137,5 @@ export const isActiveCourseLoaded = createSelector(
   selectActiveCourse,
   selectSectionsState,
   selectLessonsState,
-  (course, sectionsState, lessonsState) => sectionsState.loadedCourses[course.id] && lessonsState.loadedCourses[course.id]
+  (course, sectionsState, lessonsState) => course ? sectionsState.loadedCourses[course.id] && lessonsState.loadedCourses[course.id]: false
 );

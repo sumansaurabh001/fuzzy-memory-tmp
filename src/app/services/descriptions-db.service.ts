@@ -27,8 +27,8 @@ export class DescriptionsDbService {
       );
   }
 
-  saveDescription(courseUrl:string, description: string): Observable<string> {
-    return fromPromise(this.afs.collection(this.descriptionsPath).doc(courseUrl).set({description}))
+  saveDescription(id:string, description: string): Observable<string> {
+    return fromPromise(this.afs.collection(this.descriptionsPath).doc(id).set({description}))
       .pipe(
         map(() => {
           return description;
