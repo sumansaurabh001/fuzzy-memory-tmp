@@ -1,5 +1,10 @@
 
+@import '../vars';
+
 :host {
   margin-left: 15px;
 }
 
+.button-text {
+  color: $dark-text;
+}
