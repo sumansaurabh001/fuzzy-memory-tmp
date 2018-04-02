@@ -21,16 +21,7 @@
   padding-top: 50px;
 }
 
-.title-extra-info {
-  display: flex;
-  font-size: 16px;
-  align-items: center;
-  padding-left: 10px;
 
-  .duration {
-    margin-left: 10px;
-  }
-}
 
 
 .thumbnail-container {
@@ -51,12 +42,23 @@ text-align: center;
 
 
 .course-title {
-  font-size: 48px;
+  font-size: 45px;
   font-weight: bold;
 }
 
 .course-subtitle {
-  font-size: 18px;
+  font-size: 20px;
+}
+
+.title-extra-info {
+  display: flex;
+  font-size: 14px;
+  align-items: center;
+  padding-left: 10px;
+
+  .duration {
+    margin-left: 10px;
+  }
 }
 
 .action-buttons {
