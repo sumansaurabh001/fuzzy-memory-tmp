@@ -1,6 +1,6 @@
 
 
-
+@import "vars";
 
 ::ng-deep body {
   margin: 0;
@@ -13,7 +13,6 @@
   position: fixed;
   width: 100%;
   z-index: 3;
-  font-family: 'Roboto', 'Helvetica', sans-serif;
 }
 
 main {
@@ -22,3 +21,6 @@ main {
 }
 
 
+:host-context(body) {
+  font-family: 'Roboto', 'Helvetica', sans-serif;
+}

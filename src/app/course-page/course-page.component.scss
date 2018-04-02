@@ -50,12 +50,12 @@ text-align: center;
 
 
 .course-title {
-  font-size: 45px;
+  font-size: 46px;
   font-weight: bold;
 }
 
 .course-subtitle {
-  font-size: 24px;
+  font-size: 20px;
 }
 
 .action-buttons {
@@ -84,7 +84,7 @@ text-align: center;
 }
 
 .prices {
-  margin: 80px 0 20px 0;
+  margin: 50px 0 20px 0;
 }
 
 .course-price {
@@ -119,5 +119,9 @@ text-align: center;
 .course-body {
   max-width: 1000px;
   padding-top: 50px;
+  ::ng-deep b  {
+    font-weight: bold;
+    font-size: 20px;
+  }
 }
 

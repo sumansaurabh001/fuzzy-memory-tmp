@@ -1,5 +1,7 @@
 
 @import "../vars";
+@import "../mixins";
+
 
 .course-landing-page {
   display: flex;
@@ -28,11 +30,10 @@
 
 
 :host app-ngx-editor ::ng-deep {
-
   color:$dark-text;
-
   b {
     color: black;
     font-weight: bold;
+    font-size: 20px;
   }
 }
