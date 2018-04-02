@@ -6,7 +6,7 @@ import {MessagesService} from '../services/messages.service';
 import {Course} from '../models/course.model';
 import {Router} from '@angular/router';
 import {Store} from '@ngrx/store';
-import {State} from '../store';
+import {AppState} from '../store';
 import {AddCourse} from '../store/course.actions';
 import {CoursesDBService} from '../services/courses-db.service';
 import {LoadingService} from '../services/loading.service';
@@ -29,7 +29,7 @@ export class AddCourseDialogComponent implements OnInit {
   constructor(private fb: FormBuilder,
               private dialogRef: MatDialogRef<AddCourseDialogComponent>,
               private router: Router,
-              private store: Store<State>,
+              private store: Store<AppState>,
               private loading: LoadingService,
               private coursesDB: CoursesDBService,
               private messages: MessagesService) {

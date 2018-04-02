@@ -1,4 +1,10 @@
 import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
+import {select, Store} from '@ngrx/store';
+import {AppState} from '../store';
+import {Course} from '../models/course.model';
+import {Observable} from 'rxjs/Observable';
+import {selectEditedCourse} from '../store/selectors';
+import {UrlBuilderService} from '../services/url-builder.service';
 
 @Component({
   selector: 'course',
@@ -8,9 +14,23 @@ import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
 })
 export class CourseComponent implements OnInit {
 
-  constructor() { }
+  course$: Observable<Course>;
+
+  constructor(private store: Store<AppState>, private ub: UrlBuilderService) {
+
+
+
+  }
 
   ngOnInit() {
+
+    this.course$ = this.store.pipe(select(selectEditedCourse));
+
   }
+
+  thumbnailUrl(course: Course) {
+    return this.ub.buildCourseThumbailUrl(course);
+  }
+
 
 }

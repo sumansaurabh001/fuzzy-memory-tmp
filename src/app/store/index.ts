@@ -13,7 +13,7 @@ import {storeFreeze} from 'ngrx-store-freeze';
 import * as fromLesson from './lesson.reducer';
 
 
-export interface State {
+export interface AppState {
   courses: fromCourse.State;
   router: RouterReducerState;
   descriptions: fromDescriptions.State;
@@ -22,7 +22,7 @@ export interface State {
 
 }
 
-export const reducers: ActionReducerMap<State> = {
+export const reducers: ActionReducerMap<AppState> = {
   courses: fromCourse.reducer,
   router: routerReducer,
   descriptions: fromDescriptions.reducer,
@@ -31,7 +31,7 @@ export const reducers: ActionReducerMap<State> = {
 };
 
 
-export const metaReducers: MetaReducer<State>[] = !environment.production ? [storeFreeze] : [];
+export const metaReducers: MetaReducer<AppState>[] = !environment.production ? [storeFreeze] : [];
 
 
 

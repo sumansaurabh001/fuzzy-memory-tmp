@@ -8,7 +8,7 @@ import {CourseSection} from '../models/course-section.model';
 import {AddSectionDialogComponent} from '../add-section-dialog/add-section-dialog.component';
 import {selectEditedCourseDetail, selectEditedCourse, isEditedCourseLoaded} from '../store/selectors';
 import {select, Store} from '@ngrx/store';
-import {State} from '../store';
+import {AppState} from '../store';
 import {DeleteCourse} from '../store/course.actions';
 import {DeleteCourseSection} from '../store/course-section.actions';
 import {LessonsDBService} from '../services/lessons-db.service';
@@ -41,7 +41,7 @@ export class EditLessonsListComponent implements OnInit {
               private lessonsDB: LessonsDBService,
               private loading: LoadingService,
               private router: Router,
-              private store: Store<State>) {
+              private store: Store<AppState>) {
 
   }
 

@@ -1,8 +1,81 @@
 
+<ng-container *ngIf="(course$ | async) as course">
 
-<img style="width:280px" src="assets/och-logo.svg">
+  <div class="course-header">
+
+    <div class="course-titles">
+
+      <div class="course-title">{{course.title}}</div>
+
+      <h2>{{course.subTitle}}</h2>
+
+      <div>
+        <span>Created by: Angular University</span>
+      </div>
+
+    </div>
+
+    <div class="course-enroll-card mat-elevation-z9">
+
+      <img class="course-thumbnail" [src]="thumbnailUrl(course)">
+
+      <div class="prices">
+        <span class="course-price">$10.99</span>
+        <span class="course-original-price">$199</span>
+        <span class="discount">94% Off</span>
+      </div>
+
+      <div class="action-buttons">
+
+        <button mat-raised-button color="accent">Take This Course</button>
+
+        <button mat-raised-button color="primary">
+          Subscribe Now - Access All Courses
+        </button>
+
+      </div>
+
+      <div class="course-includes">
+
+        <div class="includes-label">Includes:</div>
+
+        <div class="includes-item">
+          <mat-icon>video_cam</mat-icon>
+          <span>7 hours on-demand video</span>
+        </div>
+
+        <div class="includes-item">
+          <mat-icon>tv</mat-icon>
+          <span>7 hours on-demand video</span>
+        </div>
+
+        <div class="includes-item">
+          <mat-icon>video_cam</mat-icon>
+          <span>127 videos</span>
+        </div>
+
+        <div class="includes-item">
+          <mat-icon>video_cam</mat-icon>
+          <span>Lifetime Access</span>
+        </div>
+
+        <div class="includes-item">
+          <mat-icon>hourglass_full</mat-icon>
+          <span>Lifetime Access</span>
+        </div>
+
+        <div class="includes-item">
+          <mat-icon>phone_iphone</mat-icon>
+          <span>Watch on mobile or TV</span>
+        </div>
+
+      </div>
 
 
+    </div>
+
+  </div>
 
 
-<video controls src="https://firebasestorage.googleapis.com/v0/b/onlinecoursehost-local-dev.appspot.com/o/test%2F04%20Angular%20Universal%20Pre-Rendering%20with%20renderModuleFactory.mp4?alt=media&token=ec458fac-c66d-4e43-8620-8b0a09bd5701"></video>
+</ng-container>
+

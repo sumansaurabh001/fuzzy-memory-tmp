@@ -4,7 +4,7 @@ import {AddCourseDialogComponent} from '../add-course-dialog/add-course-dialog.c
 import {Observable} from 'rxjs/Observable';
 import {Course} from '../models/course.model';
 import {select, Store} from '@ngrx/store';
-import {State} from '../store';
+import {AppState} from '../store';
 import {selectAllCourses} from '../store/selectors';
 
 @Component({
@@ -19,7 +19,7 @@ export class CoursesComponent implements OnInit {
 
   constructor(
     private dialog: MatDialog,
-    private store: Store<State>) {
+    private store: Store<AppState>) {
 
   }
 

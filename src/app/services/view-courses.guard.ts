@@ -2,7 +2,7 @@ import {ActivatedRouteSnapshot, CanActivate, RouterStateSnapshot} from '@angular
 import {Observable} from 'rxjs/Observable';
 import {Injectable} from '@angular/core';
 import {select, Store} from '@ngrx/store';
-import {State} from '../store';
+import {AppState} from '../store';
 import {selectAllCourses, selectInitialCoursesLoaded} from '../store/selectors';
 import {filter, first, map, tap} from 'rxjs/operators';
 import {LoadCourses} from '../store/course.actions';
@@ -13,7 +13,7 @@ import {LoadingService} from './loading.service';
 @Injectable()
 export class ViewCoursesGuard implements CanActivate {
 
-  constructor(private store: Store<State>,
+  constructor(private store: Store<AppState>,
               private loading: LoadingService,
               private coursesDB: CoursesDBService) {
 

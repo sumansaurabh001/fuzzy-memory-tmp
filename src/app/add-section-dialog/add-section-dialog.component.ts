@@ -4,7 +4,7 @@ import {AddCourse} from '../store/course.actions';
 import {LoadingService} from '../services/loading.service';
 import {LessonsDBService} from '../services/lessons-db.service';
 import {AddCourseSection} from '../store/course-section.actions';
-import {State} from '../store';
+import {AppState} from '../store';
 import {Store} from '@ngrx/store';
 import {MessagesService} from '../services/messages.service';
 import {Course} from '../models/course.model';
@@ -26,7 +26,7 @@ export class AddSectionDialogComponent implements OnInit {
               @Inject(MAT_DIALOG_DATA) data,
               private loading: LoadingService,
               private lessonsDB: LessonsDBService,
-              private store: Store<State>,
+              private store: Store<AppState>,
               private messages: MessagesService) {
 
     this.course = data.course;

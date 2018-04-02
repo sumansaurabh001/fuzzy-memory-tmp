@@ -2,7 +2,7 @@ import {ChangeDetectionStrategy, Component, Inject, OnInit} from '@angular/core'
 import {LoadingService} from '../services/loading.service';
 import {MessagesService} from '../services/messages.service';
 import {AddSectionDialogComponent} from '../add-section-dialog/add-section-dialog.component';
-import {State} from '../store';
+import {AppState} from '../store';
 import {LessonsDBService} from '../services/lessons-db.service';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
 import {Course} from '../models/course.model';
@@ -29,7 +29,7 @@ export class AddLessonDialogComponent {
               @Inject(MAT_DIALOG_DATA) data,
               private loading: LoadingService,
               private lessonsDB: LessonsDBService,
-              private store: Store<State>,
+              private store: Store<AppState>,
               private messages: MessagesService) {
 
     this.course = data.course;

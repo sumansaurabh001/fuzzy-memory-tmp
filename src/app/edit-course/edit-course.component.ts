@@ -6,7 +6,7 @@ import {UrlBuilderService} from '../services/url-builder.service';
 import {selectAllCourses, selectEditedCourse} from '../store/selectors';
 import {select, Store} from '@ngrx/store';
 import {map, tap} from 'rxjs/operators';
-import {State} from '../store';
+import {AppState} from '../store';
 
 
 
@@ -24,7 +24,7 @@ export class EditCourseComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private store: Store<State>,
+    private store: Store<AppState>,
     private ub: UrlBuilderService) {
 
 

@@ -9,8 +9,9 @@ import {ViewCoursesGuard} from './services/view-courses.guard';
 
 const routes: Routes = [
   {
-    path: 'courses/:id',
-    component: CourseComponent
+    path: 'courses/:courseSeqNo',
+    component: CourseComponent,
+    canActivate:[EditCourseGuard]
   },
   {
     path: 'courses/:courseSeqNo/edit',

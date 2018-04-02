@@ -7,7 +7,7 @@ import {LoadingService} from '../services/loading.service';
 import {MessagesService} from '../services/messages.service';
 import {_throw} from 'rxjs/observable/throw';
 import {AddCourse, EditCourse, UpdateCourse} from './course.actions';
-import {State} from './index';
+import {AppState} from './index';
 import {select, Store} from '@ngrx/store';
 import {DescriptionsDbService} from '../services/descriptions-db.service';
 import {AddDescription} from './description.actions';
@@ -91,7 +91,7 @@ export class CourseEffects {
               private coursesDB: CoursesDBService,
               private descriptionsDB: DescriptionsDbService,
               private lessonsDB: LessonsDBService,
-              private store: Store<State>,
+              private store: Store<AppState>,
               private loading: LoadingService,
               private messages: MessagesService) {
 

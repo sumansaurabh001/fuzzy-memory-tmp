@@ -1,6 +1,6 @@
 import {ChangeDetectionStrategy, Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
 import {Lesson} from '../models/lesson.model';
-import {State} from '../store';
+import {AppState} from '../store';
 import {Store} from '@ngrx/store';
 import {LessonsDBService} from '../services/lessons-db.service';
 import {Course} from '../models/course.model';
@@ -46,7 +46,7 @@ export class EditLessonComponent implements OnInit, OnChanges {
   percentageUpload$: Observable<number>;
 
   constructor(private dialog: MatDialog,
-              private store: Store<State>,
+              private store: Store<AppState>,
               private loading: LoadingService,
               private lessonsDB: LessonsDBService,
               private fb: FormBuilder,

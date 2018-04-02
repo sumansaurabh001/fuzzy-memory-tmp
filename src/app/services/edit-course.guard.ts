@@ -5,7 +5,7 @@ import {AddCourse, EditCourse} from '../store/course.actions';
 import {filter, first, map, tap} from 'rxjs/operators';
 import {select, Store} from '@ngrx/store';
 import {CoursesDBService} from './courses-db.service';
-import {State} from '../store';
+import {AppState} from '../store';
 import {selectAllCourses} from '../store/selectors';
 import {Course} from '../models/course.model';
 import {LoadingService} from './loading.service';
@@ -19,7 +19,7 @@ export class EditCourseGuard implements CanActivate {
     private coursesDB: CoursesDBService,
     private descriptionsDB: DescriptionsDbService,
     private router: Router,
-    private store: Store<State>,
+    private store: Store<AppState>,
     private loading: LoadingService) {
 
   }

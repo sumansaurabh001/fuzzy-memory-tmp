@@ -8,7 +8,7 @@ import {MessagesService} from '../services/messages.service';
 import {UrlBuilderService} from '../services/url-builder.service';
 import {filter, first, tap} from 'rxjs/operators';
 import {select, Store} from '@ngrx/store';
-import {State} from '../store';
+import {AppState} from '../store';
 import { selectEditedCourse, selectEditedCourseDescription} from '../store/selectors';
 import {CoursesDBService} from '../services/courses-db.service';
 import { UpdateCourse} from '../store/course.actions';
@@ -35,7 +35,7 @@ export class CourseLandingPageComponent implements OnInit {
 
   constructor(private route: ActivatedRoute,
               private tenant: TenantService,
-              private store: Store<State>,
+              private store: Store<AppState>,
               private fb: FormBuilder,
               private messages: MessagesService,
               private ub: UrlBuilderService,
