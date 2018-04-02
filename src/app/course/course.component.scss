@@ -3,6 +3,9 @@
   margin-top: 120px;
   width: 1000px;
   padding: 10px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 
@@ -11,18 +14,22 @@
 .course-titles {
   max-width: 800px;
   color: rgba(0, 0, 0, 0.87);
-  margin: 0 auto;
   padding-bottom: 50px;
   padding-top: 50px;
 }
 
+
+.thumbnail-container {
+  display: flex;
+  justify-content: center;
+}
+
+
 .course-enroll-card {
-  width: 400px;
-  margin: 0 auto;
+text-align: center;
 }
 
 .course-thumbnail {
-  max-width: 400px;
   border-radius: 4px;
 }
 
@@ -43,17 +50,26 @@
   align-items: center;
   justify-content: center;
   button {
-    margin-right: 10px;
-    font-size: 18px;
     line-height: 18px;
-    height: 50px;
+    height: 70px;
+    margin-right: 10px;
+
+    .first-line {
+      font-size: 20px;
+      display: flex;
+      align-items: center;
+    }
+
+    .second-line {
+      font-size: 17px;
+    }
+
   }
 
 }
 
 .prices {
   margin: 20px 0;
-  text-align: center;
 }
 
 .course-price {
@@ -87,7 +103,6 @@
 
 .course-body {
   max-width: 1000px;
-  margin: 0 auto;
   padding-top: 30px;
 }
 

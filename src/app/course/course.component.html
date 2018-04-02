@@ -11,9 +11,13 @@
 
     </div>
 
-    <div class="course-enroll-card">
-
+    <div class="thumbnail-container">
       <img class="course-thumbnail mat-elevation-z9" [src]="thumbnailUrl(course)">
+    </div>
+
+
+
+    <div class="course-enroll-card">
 
       <div class="prices">
         <span class="course-price">Price: $10.99</span>
@@ -24,15 +28,19 @@
       <div class="action-buttons">
 
         <button mat-raised-button color="accent">
-          <mat-icon>play_circle_filled</mat-icon>
-          <div>Take This Course</div>
-          <div>Lifetime Access</div>
+          <div class="first-line">
+            <mat-icon>play_circle_filled</mat-icon>
+            <div>Take This Course</div>
+          </div>
+          <div class="second-line">Lifetime Access</div>
         </button>
 
         <button mat-raised-button color="primary">
-          <mat-icon>play_circle_filled</mat-icon>
-          <div>Subscribe Now</div>
-          <div>Access All Courses</div>
+          <div class="first-line">
+            <mat-icon>play_circle_filled</mat-icon>
+            <div>Subscribe Now</div>
+          </div>
+          <div class="second-line">Access All Courses</div>
         </button>
 
       </div>
