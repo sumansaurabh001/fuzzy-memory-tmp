@@ -6,6 +6,7 @@ import {
 } from '@ngrx/store';
 import * as fromSection from './course-section.reducer';
 import * as fromLesson from './lesson.reducer';
+import {Course} from '../models/course.model';
 
 
 
@@ -82,7 +83,8 @@ export const selectEditedCourseDetail = createSelector(
   selectEditedCourse,
   selectEditedCourseSections,
   selectEditedCourseLessons,
-  (summary, editedSections, editedLessons) => {
+  selectDescriptionsState,
+  (courseSummary, editedSections, editedLessons, descriptions) => {
 
     const sectionsWithLessons = editedSections.map(section => {
           return {
@@ -91,9 +93,11 @@ export const selectEditedCourseDetail = createSelector(
           }
     });
 
-    const courseWithSections = {
-      ...summary,
-      sections: sectionsWithLessons
+    const courseWithSections: Course = {
+      ...courseSummary,
+      sections: sectionsWithLessons,
+      longDescription: descriptions[courseSummary.id]
+
     };
 
     return courseWithSections;

@@ -3,7 +3,7 @@ import {select, Store} from '@ngrx/store';
 import {AppState} from '../store';
 import {Course} from '../models/course.model';
 import {Observable} from 'rxjs/Observable';
-import {selectEditedCourse} from '../store/selectors';
+import {selectEditedCourse, selectEditedCourseDetail} from '../store/selectors';
 import {UrlBuilderService} from '../services/url-builder.service';
 
 @Component({
@@ -24,7 +24,7 @@ export class CourseComponent implements OnInit {
 
   ngOnInit() {
 
-    this.course$ = this.store.pipe(select(selectEditedCourse));
+    this.course$ = this.store.pipe(select(selectEditedCourseDetail));
 
   }
 
