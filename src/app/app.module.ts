@@ -30,7 +30,7 @@ import {TopMenuComponent} from './top-menu/top-menu.component';
 import {AngularFireModule} from 'angularfire2';
 import {environment} from '../environments/environment';
 import {AngularFirestoreModule} from 'angularfire2/firestore';
-import {CourseComponent} from './course/course.component';
+import {CoursePageComponent} from './course-page/course-page.component';
 import {CourseLandingPageComponent} from './course-landing-page/course-landing-page.component';
 import {EditLessonsToolbarComponent} from './edit-lessons-toolbar/edit-lessons-toolbar.component';
 import {NgxEditorModule} from 'ngx-editor';
@@ -75,7 +75,7 @@ import {FileUploadComponent} from './file-upload/file-upload.component';
     FooterComponent,
     CoursesComponent,
     TopMenuComponent,
-    CourseComponent,
+    CoursePageComponent,
     CourseLandingPageComponent,
     EditLessonsToolbarComponent,
     AddCourseDialogComponent,

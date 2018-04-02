@@ -8,11 +8,11 @@ import {UrlBuilderService} from '../services/url-builder.service';
 
 @Component({
   selector: 'course',
-  templateUrl: './course.component.html',
-  styleUrls: ['./course.component.scss'],
+  templateUrl: './course-page.component.html',
+  styleUrls: ['./course-page.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class CourseComponent implements OnInit {
+export class CoursePageComponent implements OnInit {
 
   course$: Observable<Course>;
 

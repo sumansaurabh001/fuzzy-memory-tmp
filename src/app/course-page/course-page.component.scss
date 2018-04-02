@@ -1,5 +1,6 @@
 
 @import "../mixins";
+@import "../vars";
 
 .course-container {
   margin-top: 120px;
@@ -15,7 +16,7 @@
 
 .course-titles {
   max-width: 800px;
-  color: rgba(42, 48, 46, 0.87);
+  color: $dark-text;
   padding-bottom: 50px;
   padding-top: 50px;
 }

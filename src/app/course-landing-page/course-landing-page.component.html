@@ -75,11 +75,11 @@
 
   <div class="form-buttons">
 
-    <button mat-raised-button color="basic" (click)="save(course.id)">Save</button>
-
-    <button mat-raised-button color="accent" [routerLink]="['/courses', course.seqNo]">
+    <button mat-raised-button color="primary" [routerLink]="['/courses', course.seqNo]">
       Preview Course
     </button>
+
+    <button mat-raised-button color="accent" (click)="save(course.id)">Save</button>
 
   </div>
 

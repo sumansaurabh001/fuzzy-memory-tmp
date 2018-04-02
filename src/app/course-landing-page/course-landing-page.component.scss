@@ -1,4 +1,6 @@
 
+@import "../vars";
+
 .course-landing-page {
   display: flex;
   max-width: 1000px;
@@ -22,4 +24,15 @@
 
 .form-buttons button {
   margin-left: 10px;
+}
+
+
+:host app-ngx-editor ::ng-deep {
+
+  color:$dark-text;
+
+  b {
+    color: black;
+    font-weight: bold;
+  }
 }
