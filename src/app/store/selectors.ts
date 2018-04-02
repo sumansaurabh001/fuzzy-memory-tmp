@@ -50,10 +50,10 @@ export const selectActiveCourse = createSelector(
 );
 
 
-export const selectEditedCourseDescription = createSelector(
+export const selectActiveCourseDescription = createSelector(
   selectDescriptionsState,
   selectActiveCourse,
-  (descriptions, editedCourse) =>  editedCourse ? descriptions[editedCourse.id] : ''
+  (descriptions, course) =>  course ? descriptions[course.id] : ''
 );
 
 
@@ -65,7 +65,7 @@ export const selectActiveCourseSections = createSelector(
 );
 
 
-export const selectEditedCourseSectionIds = createSelector(
+export const selectActiveCourseSectionIds = createSelector(
   selectActiveCourseSections,
   sections => sections.map(section => section.id)
 );
@@ -74,7 +74,7 @@ export const selectEditedCourseSectionIds = createSelector(
 
 export const selectActiveCourseLessons = createSelector(
   selectAllLessons,
-  selectEditedCourseSectionIds,
+  selectActiveCourseSectionIds,
   (lessons, sectionIds) => lessons.filter(lesson => sectionIds.includes(lesson.sectionId))
 );
 
@@ -84,12 +84,12 @@ export const selectActiveCourseDetail = createSelector(
   selectActiveCourseSections,
   selectActiveCourseLessons,
   selectDescriptionsState,
-  (courseSummary, editedSections, editedLessons, descriptions) => {
+  (courseSummary, sections, lessons, descriptions) => {
 
-    const sectionsWithLessons = editedSections.map(section => {
+    const sectionsWithLessons = sections.map(section => {
           return {
             ...section,
-            lessons: editedLessons
+            lessons: lessons
               .filter(lesson => lesson.sectionId === section.id)
               .map(lesson => {
                 return {
@@ -111,29 +111,29 @@ export const selectActiveCourseDetail = createSelector(
 );
 
 
-export const isEditedSectionsLoaded = createSelector(
+export const isActiveCourseSectionsLoaded = createSelector(
   selectSectionsState,
   selectActiveCourse,
-  (state, editedCourse) =>  editedCourse ? (editedCourse.id in state.loadedCourses): false
+  (state, course) =>  course ? (course.id in state.loadedCourses): false
 );
 
 
-export const isEditedLessonsLoaded = createSelector(
+export const isActiveCourseLessonsLoaded = createSelector(
   selectActiveCourse,
   selectLessonsState,
-  (editedCourse, lessonsState) =>  editedCourse? (editedCourse.id in lessonsState.loadedCourses) : false
+  (course, lessonsState) =>  course? (course.id in lessonsState.loadedCourses) : false
 );
 
 
-export const isEditedCourseDescriptionLoaded = createSelector(
+export const isActiveCourseDescriptionLoaded = createSelector(
   selectDescriptionsState,
   selectActiveCourse,
-  (descriptions, editedCourse) =>  editedCourse ? (editedCourse.id in descriptions) : false
+  (descriptions, course) =>  course ? (course.id in descriptions) : false
 );
 
 
 
-export const isEditedCourseLoaded = createSelector(
+export const isActiveCourseLoaded = createSelector(
   selectActiveCourse,
   selectSectionsState,
   selectLessonsState,

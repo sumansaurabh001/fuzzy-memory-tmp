@@ -12,8 +12,8 @@ import {select, Store} from '@ngrx/store';
 import {DescriptionsDbService} from '../services/descriptions-db.service';
 import {AddDescription} from './description.actions';
 import {
-  isEditedCourseDescriptionLoaded, isEditedSectionsLoaded, selectActiveCourse, selectEditedCourseDescription,
-  selectActiveCourseSections, isEditedLessonsLoaded
+  isActiveCourseDescriptionLoaded, isActiveCourseSectionsLoaded, selectActiveCourse, selectActiveCourseDescription,
+  selectActiveCourseSections, isActiveCourseLessonsLoaded
 } from './selectors';
 import {LessonsDBService} from '../services/lessons-db.service';
 import {AddCourseSections} from './course-section.actions';
@@ -27,7 +27,7 @@ export class CourseEffects {
   loadCourseDescriptionIfNeeded$ = this.actions$
     .pipe(
       ofType<LoadCourseDetail>(CourseActionTypes.LoadCourseDetail),
-      withLatestFrom(this.store.pipe(select(isEditedCourseDescriptionLoaded))),
+      withLatestFrom(this.store.pipe(select(isActiveCourseDescriptionLoaded))),
       filter(([action, loaded]) => !loaded),
       concatMap(
         ([action]) => this.loading.showLoader(this.descriptionsDB.findCourseDescription(action.payload.courseId)),
@@ -39,7 +39,7 @@ export class CourseEffects {
   loadSectionsIfNeeded$ = this.actions$
     .pipe(
       ofType<LoadCourseDetail>(CourseActionTypes.LoadCourseDetail),
-      withLatestFrom(this.store.pipe(select(isEditedSectionsLoaded))),
+      withLatestFrom(this.store.pipe(select(isActiveCourseSectionsLoaded))),
       filter(([action, loaded]) => !loaded),
       concatMap(
         ([action]) => this.loading.showLoader(this.lessonsDB.loadCourseSections(action.payload.courseId)),
@@ -51,7 +51,7 @@ export class CourseEffects {
   loadLessonsIfNeeded$ = this.actions$
     .pipe(
       ofType<LoadCourseDetail>(CourseActionTypes.LoadCourseDetail),
-      withLatestFrom(this.store.pipe(select(isEditedLessonsLoaded))),
+      withLatestFrom(this.store.pipe(select(isActiveCourseLessonsLoaded))),
       filter(([action, loaded]) => !loaded),
       concatMap(
         ([action]) => this.loading.showLoader(this.lessonsDB.loadCourseLessons(action.payload.courseId)),

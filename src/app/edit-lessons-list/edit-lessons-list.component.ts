@@ -6,7 +6,7 @@ import {Course} from '../models/course.model';
 import {Observable} from 'rxjs/Observable';
 import {CourseSection} from '../models/course-section.model';
 import {AddSectionDialogComponent} from '../add-section-dialog/add-section-dialog.component';
-import {selectActiveCourseDetail, selectActiveCourse, isEditedCourseLoaded} from '../store/selectors';
+import {selectActiveCourseDetail, selectActiveCourse, isActiveCourseLoaded} from '../store/selectors';
 import {select, Store} from '@ngrx/store';
 import {AppState} from '../store';
 import {DeleteCourse} from '../store/course.actions';
@@ -50,7 +50,7 @@ export class EditLessonsListComponent implements OnInit {
 
     this.course$ = this.store.pipe(select(selectActiveCourseDetail));
 
-    this.isCourseLoaded$ = this.store.pipe(select(isEditedCourseLoaded));
+    this.isCourseLoaded$ = this.store.pipe(select(isActiveCourseLoaded));
 
   }
 

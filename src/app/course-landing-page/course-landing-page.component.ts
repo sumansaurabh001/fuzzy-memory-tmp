@@ -9,7 +9,7 @@ import {UrlBuilderService} from '../services/url-builder.service';
 import {filter, first, tap} from 'rxjs/operators';
 import {select, Store} from '@ngrx/store';
 import {AppState} from '../store';
-import {selectActiveCourse, selectEditedCourseDescription, selectActiveCourseDetail} from '../store/selectors';
+import {selectActiveCourse, selectActiveCourseDescription, selectActiveCourseDetail} from '../store/selectors';
 import {CoursesDBService} from '../services/courses-db.service';
 import { UpdateCourse} from '../store/course.actions';
 import {AddDescription, SaveDescription} from '../store/description.actions';
