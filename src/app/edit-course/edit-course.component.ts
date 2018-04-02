@@ -3,7 +3,7 @@ import {ActivatedRoute} from '@angular/router';
 import {Course} from '../models/course.model';
 import {Observable} from 'rxjs/Observable';
 import {UrlBuilderService} from '../services/url-builder.service';
-import {selectAllCourses, selectEditedCourse} from '../store/selectors';
+import {selectAllCourses, selectActiveCourse} from '../store/selectors';
 import {select, Store} from '@ngrx/store';
 import {map, tap} from 'rxjs/operators';
 import {AppState} from '../store';
@@ -33,7 +33,7 @@ export class EditCourseComponent implements OnInit {
 
   ngOnInit() {
 
-    this.course$ = this.store.pipe(select(selectEditedCourse));
+    this.course$ = this.store.pipe(select(selectActiveCourse));
 
 
   }

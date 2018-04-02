@@ -4,7 +4,7 @@ import {Course} from '../models/course.model';
 
 export enum CourseActionTypes {
   LoadCourse = '[Course]  Load Course',
-  EditCourse = '[Course] Editing Course',
+  LoadCourseDetail = '[Course] Load Course Detail',
   LoadCourses = '[Course] Load Courses',
   AddCourse = '[Course] Add Course',
   UpsertCourse = '[Course] Upsert Course',
@@ -29,9 +29,9 @@ export class LoadCourse implements Action {
 }
 
 
-export class EditCourse implements Action {
+export class LoadCourseDetail implements Action {
 
-  readonly type = CourseActionTypes.EditCourse;
+  readonly type = CourseActionTypes.LoadCourseDetail;
 
   constructor(public payload: { courseId: string }) {
 
@@ -107,7 +107,7 @@ export class ClearCourses implements Action {
 }
 
 export type CourseActions =
-   EditCourse
+   LoadCourseDetail
   | LoadCourses
   | AddCourse
   | UpsertCourse

@@ -3,7 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import {EditCourseComponent} from './edit-course/edit-course.component';
 import {CoursesComponent} from './courses/courses.component';
 import {CoursePageComponent} from './course-page/course-page.component';
-import {EditCourseGuard} from './services/edit-course.guard';
+import {LoadCourseDetailGuard} from './services/load-course-detail.guard';
 import {ViewCoursesGuard} from './services/view-courses.guard';
 
 
@@ -11,12 +11,12 @@ const routes: Routes = [
   {
     path: 'courses/:courseSeqNo',
     component: CoursePageComponent,
-    canActivate:[EditCourseGuard]
+    canActivate:[LoadCourseDetailGuard]
   },
   {
     path: 'courses/:courseSeqNo/edit',
     component: EditCourseComponent,
-    canActivate:[EditCourseGuard]
+    canActivate:[LoadCourseDetailGuard]
   },
   {
     path:'courses',

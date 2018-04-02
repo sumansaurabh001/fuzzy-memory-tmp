@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot} from '@angular/router';
 import {Observable} from 'rxjs/Observable';
-import {AddCourse, EditCourse} from '../store/course.actions';
+import {AddCourse, LoadCourseDetail} from '../store/course.actions';
 import {filter, first, map, tap} from 'rxjs/operators';
 import {select, Store} from '@ngrx/store';
 import {CoursesDBService} from './courses-db.service';
@@ -13,7 +13,7 @@ import {DescriptionsDbService} from './descriptions-db.service';
 
 
 @Injectable()
-export class EditCourseGuard implements CanActivate {
+export class LoadCourseDetailGuard implements CanActivate {
 
   constructor(
     private coursesDB: CoursesDBService,
@@ -37,7 +37,7 @@ export class EditCourseGuard implements CanActivate {
 
           // if course is not loaded, load it before continuing
           if (course) {
-            this.store.dispatch(new EditCourse({courseId: course.id}));
+            this.store.dispatch(new LoadCourseDetail({courseId: course.id}));
           }
           else {
             this.loading.showLoader(this.coursesDB.findCourseBySeqNo(courseSeqNo))

@@ -55,7 +55,7 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { EffectsModule } from '@ngrx/effects';
 import { CourseEffects } from './store/course.effects';
 import {RouterStateSerializer, StoreRouterConnectingModule} from '@ngrx/router-store';
-import {EditCourseGuard} from './services/edit-course.guard';
+import {LoadCourseDetailGuard} from './services/load-course-detail.guard';
 import {ViewCoursesGuard} from './services/view-courses.guard';
 import {DescriptionEffects} from './store/description.effects';
 import {DescriptionsDbService} from './services/descriptions-db.service';
@@ -142,7 +142,7 @@ import {FileUploadComponent} from './file-upload/file-upload.component';
     LessonsDBService,
     FileUploadService,
     ViewCoursesGuard,
-    EditCourseGuard,
+    LoadCourseDetailGuard,
     UrlBuilderService,
     { provide: RouterStateSerializer, useClass: CustomRouterStateSerializer },
 

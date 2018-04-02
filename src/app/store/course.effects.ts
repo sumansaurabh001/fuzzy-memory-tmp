@@ -6,14 +6,14 @@ import {CoursesDBService} from '../services/courses-db.service';
 import {LoadingService} from '../services/loading.service';
 import {MessagesService} from '../services/messages.service';
 import {_throw} from 'rxjs/observable/throw';
-import {AddCourse, EditCourse, UpdateCourse} from './course.actions';
+import {AddCourse, LoadCourseDetail, UpdateCourse} from './course.actions';
 import {AppState} from './index';
 import {select, Store} from '@ngrx/store';
 import {DescriptionsDbService} from '../services/descriptions-db.service';
 import {AddDescription} from './description.actions';
 import {
-  isEditedCourseDescriptionLoaded, isEditedSectionsLoaded, selectEditedCourse, selectEditedCourseDescription,
-  selectEditedCourseSections, isEditedLessonsLoaded
+  isEditedCourseDescriptionLoaded, isEditedSectionsLoaded, selectActiveCourse, selectEditedCourseDescription,
+  selectActiveCourseSections, isEditedLessonsLoaded
 } from './selectors';
 import {LessonsDBService} from '../services/lessons-db.service';
 import {AddCourseSections} from './course-section.actions';
@@ -26,7 +26,7 @@ export class CourseEffects {
   @Effect()
   loadCourseDescriptionIfNeeded$ = this.actions$
     .pipe(
-      ofType<EditCourse>(CourseActionTypes.EditCourse),
+      ofType<LoadCourseDetail>(CourseActionTypes.LoadCourseDetail),
       withLatestFrom(this.store.pipe(select(isEditedCourseDescriptionLoaded))),
       filter(([action, loaded]) => !loaded),
       concatMap(
@@ -38,7 +38,7 @@ export class CourseEffects {
   @Effect()
   loadSectionsIfNeeded$ = this.actions$
     .pipe(
-      ofType<EditCourse>(CourseActionTypes.EditCourse),
+      ofType<LoadCourseDetail>(CourseActionTypes.LoadCourseDetail),
       withLatestFrom(this.store.pipe(select(isEditedSectionsLoaded))),
       filter(([action, loaded]) => !loaded),
       concatMap(
@@ -50,7 +50,7 @@ export class CourseEffects {
   @Effect()
   loadLessonsIfNeeded$ = this.actions$
     .pipe(
-      ofType<EditCourse>(CourseActionTypes.EditCourse),
+      ofType<LoadCourseDetail>(CourseActionTypes.LoadCourseDetail),
       withLatestFrom(this.store.pipe(select(isEditedLessonsLoaded))),
       filter(([action, loaded]) => !loaded),
       concatMap(
