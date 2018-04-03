@@ -23,4 +23,6 @@ main {
 
 :host-context(body) {
   font-family: 'Roboto', 'Helvetica', sans-serif;
+  color:rgba(26,35,38,.8);
+  -webkit-font-smoothing: antialiased;
 }

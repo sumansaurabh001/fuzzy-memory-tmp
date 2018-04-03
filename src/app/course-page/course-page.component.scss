@@ -137,9 +137,9 @@ text-align: center;
 .course-body {
   max-width: 1000px;
   padding-top: 50px;
+  color: $text;
   ::ng-deep b  {
-    color:black;
-    font-weight: 700;
+    color:$dark-text;
   }
 }
 
