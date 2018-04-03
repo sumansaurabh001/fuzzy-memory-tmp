@@ -57,7 +57,7 @@ export class EditLessonComponent implements OnInit, OnChanges {
 
 
     this.form = this.fb.group({
-      title: ['', [Validators.required, Validators.maxLength(60)]],
+      title: ['', [Validators.maxLength(60)]],
       free: [false, [Validators.required]],
 
     });

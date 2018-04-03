@@ -1,4 +1,6 @@
 
+@import "../vars";
+
 .course-section {
   margin-bottom: 30px;
 }
@@ -22,6 +24,32 @@
   align-items: flex-start;
   width: 100%;
   margin-right: 15px;
+  font-size: 20px;
 }
 
 
+.lesson-row {
+  display: flex;
+  align-items: center;
+  min-height: 48px;
+  border-top: 1px solid rgba(0,0,0,.12);
+  color:$text;
+}
+
+:host::ng-deep .mat-expansion-panel-body {
+  padding:  10px 0;
+}
+
+
+.lesson-icon {
+  margin-left: 25px;
+  flex: 0 0 35px;
+}
+
+.lesson-number {
+  flex: 0 0 30px;
+}
+
+.lesson-viewed {
+  margin-right: 25px;
+}

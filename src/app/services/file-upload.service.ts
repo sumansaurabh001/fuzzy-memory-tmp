@@ -32,7 +32,7 @@ export class FileUploadService {
 
     const uploadPath = `${this.tenant.id}/${courseId}/videos/${lessonId}/${prefix}-${video.name}`;
 
-    return this.storage.upload(uploadPath, video);
+    return this.storage.upload(uploadPath, video, {cacheControl: 'public,max-age=25920000, s-maxage=25920000'});
 
   }
 }

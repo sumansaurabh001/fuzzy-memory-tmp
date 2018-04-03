@@ -7,7 +7,8 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {HttpClientModule} from '@angular/common/http';
 
 import {
-  MatButtonModule, MatCardModule, MatDatepickerModule, MatDialogModule, MatExpansionModule, MatGridListModule, MatIconModule,
+  MatButtonModule, MatCardModule, MatCheckboxModule, MatDatepickerModule, MatDialogModule, MatExpansionModule, MatGridListModule,
+  MatIconModule,
   MatInputModule, MatListModule,
   MatMenuModule,
   MatPaginatorModule, MatProgressBarModule,
@@ -123,6 +124,7 @@ import { CollapsibleTriggerComponent } from './collapsible-trigger/collapsible-t
     MatProgressBarModule,
     MatSlideToggleModule,
     MatGridListModule,
+    MatCheckboxModule,
     FlexLayoutModule,
     FormsModule,
     ReactiveFormsModule,
