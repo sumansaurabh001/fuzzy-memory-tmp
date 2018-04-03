@@ -72,43 +72,12 @@ export const selectActiveCourseSectionIds = createSelector(
 
 
 
-export const selectActiveCourseLessons = createSelector(
+export const selectActiveCourseAllLessons = createSelector(
   selectAllLessons,
   selectActiveCourseSectionIds,
   (lessons, sectionIds) => lessons.filter(lesson => sectionIds.includes(lesson.sectionId))
 );
 
-
-export const selectActiveCourseDetail = createSelector(
-  selectActiveCourse,
-  selectActiveCourseSections,
-  selectActiveCourseLessons,
-  selectDescriptionsState,
-  (courseSummary, sections, lessons, descriptions) => {
-
-    const sectionsWithLessons = sections.map(section => {
-          return {
-            ...section,
-            lessons: lessons
-              .filter(lesson => lesson.sectionId === section.id)
-              .map(lesson => {
-                return {
-                  ...lesson,
-                  description: descriptions[lesson.id]
-                }})
-          }
-    });
-
-    const courseWithSections: Course = {
-      ...courseSummary,
-      sections: sectionsWithLessons,
-      longDescription: courseSummary? descriptions[courseSummary.id] : undefined
-
-    };
-
-    return courseWithSections;
-  }
-);
 
 
 export const isActiveCourseSectionsLoaded = createSelector(

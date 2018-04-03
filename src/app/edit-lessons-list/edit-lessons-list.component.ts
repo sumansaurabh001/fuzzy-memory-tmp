@@ -6,7 +6,7 @@ import {Course} from '../models/course.model';
 import {Observable} from 'rxjs/Observable';
 import {CourseSection} from '../models/course-section.model';
 import {AddSectionDialogComponent} from '../add-section-dialog/add-section-dialog.component';
-import {selectActiveCourseDetail, selectActiveCourse, isActiveCourseLoaded} from '../store/selectors';
+import { selectActiveCourse, isActiveCourseLoaded, selectActiveCourseSections} from '../store/selectors';
 import {select, Store} from '@ngrx/store';
 import {AppState} from '../store';
 import {DeleteCourse} from '../store/course.actions';
@@ -31,9 +31,9 @@ export class EditLessonsListComponent implements OnInit {
 
   course$: Observable<Course>;
 
-  isCourseLoaded$: Observable<boolean>;
+  sections$: Observable<CourseSection[]>;
 
-  expandedLessons: { [key: string]: boolean } = {};
+  isCourseLoaded$: Observable<boolean>;
 
   constructor(private dialog: MatDialog,
               private route: ActivatedRoute,
@@ -48,7 +48,9 @@ export class EditLessonsListComponent implements OnInit {
 
   ngOnInit() {
 
-    this.course$ = this.store.pipe(select(selectActiveCourseDetail));
+    this.course$ = this.store.pipe(select(selectActiveCourse));
+
+    this.sections$ = this.store.pipe(select(selectActiveCourseSections));
 
     this.isCourseLoaded$ = this.store.pipe(select(isActiveCourseLoaded));
 
@@ -67,45 +69,6 @@ export class EditLessonsListComponent implements OnInit {
     const dialogRef = this.dialog.open(AddSectionDialogComponent, dialogConfig);
 
   }
-
-
-  deleteSection(course: Course, section: CourseSection) {
-
-    const config = new MatDialogConfig();
-
-    config.autoFocus = true;
-
-    config.data = {
-      title: 'Delete Course Section',
-      confirmationText: 'Are you sure you want to delete this Section?'
-    };
-
-    const dialogRef = this.dialog.open(ConfirmationDialogComponent, config);
-
-    dialogRef.afterClosed()
-      .pipe(
-        filter(result => result.confirm),
-        concatMap(() => this.loading.showLoader(this.lessonsDB.deleteSection(course.id, section.id))),
-        tap(() => this.store.dispatch(new DeleteCourseSection({id: section.id})))
-      )
-      .subscribe();
-  }
-
-
-  addLesson(course: Course, section: CourseSection) {
-
-
-    const dialogConfig = new MatDialogConfig();
-
-    dialogConfig.autoFocus = true;
-    dialogConfig.disableClose = true;
-    dialogConfig.minWidth = '500px';
-    dialogConfig.data = {course, section};
-
-    const dialogRef = this.dialog.open(AddLessonDialogComponent, dialogConfig);
-
-  }
-
 
   deleteCourseDraft(course: Course) {
 
@@ -130,8 +93,8 @@ export class EditLessonsListComponent implements OnInit {
 
   }
 
-  emptyCourseCss(course: Course): string[] {
-    if (course.sections.length == 0) {
+  emptyCourseCss(course: Course, sections): string[] {
+    if (sections.length == 0) {
       return ['mat-elevation-z7', 'empty-course'];
     }
     else {
@@ -139,21 +102,7 @@ export class EditLessonsListComponent implements OnInit {
     }
   }
 
-  expandedCss(expanded: boolean) {
-    return expanded ? 'lesson-expanded' : null;
-  }
 
-  trackByLessonId(index, item: Lesson) {
-    return item.id;
-  }
-
-  isExpanded(lesson: Lesson) {
-    return this.expandedLessons[lesson.id];
-  }
-
-  onExpandLesson(lesson: Lesson, expanded) {
-    this.expandedLessons[lesson.id] = expanded;
-  }
 
 
 }

@@ -9,7 +9,7 @@ import {UrlBuilderService} from '../services/url-builder.service';
 import {filter, first, tap} from 'rxjs/operators';
 import {select, Store} from '@ngrx/store';
 import {AppState} from '../store';
-import {selectActiveCourse, selectActiveCourseDescription, selectActiveCourseDetail} from '../store/selectors';
+import {selectActiveCourse, selectActiveCourseDescription} from '../store/selectors';
 import {CoursesDBService} from '../services/courses-db.service';
 import { UpdateCourse} from '../store/course.actions';
 import {AddDescription, SaveDescription} from '../store/description.actions';
@@ -21,7 +21,6 @@ import {LoadingService} from '../services/loading.service';
   selector: 'course-landing-page',
   templateUrl: './course-landing-page.component.html',
   styleUrls: ['./course-landing-page.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [MessagesService]
 })
 export class CourseLandingPageComponent implements OnInit {
@@ -56,7 +55,7 @@ export class CourseLandingPageComponent implements OnInit {
   ngOnInit() {
 
     this.course$ = this.store.pipe(
-      select(selectActiveCourseDetail)
+      select(selectActiveCourse)
     );
 
     this.course$.subscribe(course => {
@@ -65,8 +64,11 @@ export class CourseLandingPageComponent implements OnInit {
       }
     });
 
-    this.course$.subscribe(course => this.courseDescription = course.longDescription);
-
+    this.store
+      .pipe(
+        select(selectActiveCourseDescription)
+      )
+      .subscribe(description => this.courseDescription = description);
   }
 
   imagesPath(course: Course) {

@@ -2,41 +2,11 @@
 @import "../vars";
 
 
-.section-number {
-  font-weight: bold;
-}
 
-.section-title {
-  margin-bottom: 20px;
-  display: flex;
-}
 
-.drag-section {
-  margin-right: 10px;
-}
 
-.course-section {
-  margin: 15px 15px 80px 15px;
-  background: rgba(0, 0, 0, .03);
-  padding: 30px 15px 15px 15px;
-}
 
-.section-title-text {
-  font-weight: normal;
-}
 
-.lecture-number {
-  width: 95px;
-}
-
-.bottom-toolbar {
-  display: flex;
-  margin-top: 20px;
-}
-
-.mat-expansion-panel-header-title {
-  flex-grow: 0;
-}
 
 .section-button {
   margin-right: 10px;
@@ -70,9 +40,3 @@
   margin-top: 10px;
 }
 
-.add-content {
-  height: 25px;
-  font-size: 12px;
-  line-height: 12px;
-  margin-right: 5px;
-}

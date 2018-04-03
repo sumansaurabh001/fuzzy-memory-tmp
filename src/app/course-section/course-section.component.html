@@ -1,0 +1,48 @@
+<div class="course-section mat-elevation-z7">
+
+  <div class="section-title">
+    <span class="section-number">Section {{section.seqNo}}: </span>
+    <span class="section-title-text"> {{section.title}}</span>
+    <div class="filler draggable"></div>
+    <mat-icon class="drag-section draggable">drag_handle</mat-icon>
+  </div>
+
+    <mat-expansion-panel *ngFor="let lesson of (lessons$ | async); trackBy: trackByLessonId; let index = index"
+                         class="lesson-item"
+                         #panel
+                         [expanded]="isExpanded(lesson)"
+                         [ngClass]="expandedCss(panel.expanded)"
+                         (expandedChange)="onExpandLesson(lesson, $event)">
+
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          <span class="lecture-number">Lecture {{index + 1}}:</span>
+          <mat-icon>play_circle_outline</mat-icon>
+        </mat-panel-title>
+        <mat-panel-description>
+          <button class="add-content" mat-raised-button color="primary" *ngIf="!lesson.thumbnail">Add Content</button>
+          {{lesson.title}}
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+
+      <edit-lesson [course]="course" [lesson]="lesson"></edit-lesson>
+
+    </mat-expansion-panel>
+
+    <div class="bottom-toolbar">
+
+      <action-button
+        color="accent" icon="delete" color="secondary" (click)="deleteSection(course, section)"
+        title="Delete empty section" *ngIf="(lessons$ | async)?.length == 0">
+
+      </action-button>
+
+      <div class="filler"></div>
+
+      <action-button text="Add Lesson" color="accent" icon="add" (click)="addLesson(course, section)"></action-button>
+
+    </div>
+
+
+
+</div>

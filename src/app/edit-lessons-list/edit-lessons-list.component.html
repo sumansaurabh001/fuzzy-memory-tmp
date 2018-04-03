@@ -1,71 +1,33 @@
 <ng-container *ngIf="(course$ | async) as course">
 
-  <edit-lessons-toolbar *ngIf="isCourseLoaded$ | async">
+  <ng-container *ngIf="(sections$ | async) as sections">
 
-    <action-button text="Bulk Upload" icon="cloud_upload"></action-button>
+    <edit-lessons-toolbar *ngIf="isCourseLoaded$ | async">
 
-    <action-button *ngIf="course.status == 'draft' && course.sections.length == 0"
-                   text="Delete Course Draft" color="secondary"
-                   icon="delete" (click)="deleteCourseDraft(course)">
-    </action-button>
+      <action-button text="Bulk Upload" icon="cloud_upload"></action-button>
 
-  </edit-lessons-toolbar>
-
-
-  <div class="course-section mat-elevation-z7" *ngFor="let section of course.sections">
-
-    <div class="section-title">
-      <span class="section-number">Section {{section.seqNo}}: </span>
-      <span class="section-title-text"> {{section.title}}</span>
-      <div class="filler draggable"></div>
-      <mat-icon class="drag-section draggable">drag_handle</mat-icon>
-    </div>
-
-    <mat-expansion-panel class="lesson-item" #panel [expanded]="isExpanded(lesson)"
-                         *ngFor="let lesson of section.lessons; trackBy: trackByLessonId; let index = index"
-                         [ngClass]="expandedCss(panel.expanded)"
-                         (expandedChange)="onExpandLesson(lesson, $event)">
-
-      <mat-expansion-panel-header>
-        <mat-panel-title>
-          <span class="lecture-number">Lecture {{index + 1}}:</span>
-          <mat-icon>play_circle_outline</mat-icon>
-        </mat-panel-title>
-        <mat-panel-description>
-        <button class="add-content" mat-raised-button color="primary" *ngIf="!lesson.thumbnail">Add Content</button>
-          {{lesson.title}}
-        </mat-panel-description>
-      </mat-expansion-panel-header>
-
-      <edit-lesson [course]="course" [lesson]="lesson"></edit-lesson>
-
-    </mat-expansion-panel>
-
-    <div class="bottom-toolbar">
-
-      <action-button
-        color="accent" icon="delete" color="secondary" (click)="deleteSection(course, section)"
-        title="Delete empty section" *ngIf="section.lessons.length == 0">
-
+      <action-button *ngIf="course.status == 'draft' && sections?.length == 0"
+                     text="Delete Course Draft" color="secondary"
+                     icon="delete" (click)="deleteCourseDraft(course)">
       </action-button>
 
-      <div class="filler"></div>
+    </edit-lessons-toolbar>
 
-      <action-button text="Add Lesson" color="accent" icon="add" (click)="addLesson(course, section)"></action-button>
+    <ng-container *ngFor="let section of sections">
 
+      <course-section [course]="course" [section]="section"></course-section>
+
+    </ng-container>
+
+    <div class="add-section-panel" [ngClass]="emptyCourseCss(course, sections)" *ngIf="isCourseLoaded$ | async">
+
+      <span>Add Course Section</span>
+      <button class="add-section" mat-fab color="accent" (click)="addSection(course)">
+        <mat-icon>add</mat-icon>
+      </button>
     </div>
 
-  </div>
-
-
-  <div class="add-section-panel" [ngClass]="emptyCourseCss(course)" *ngIf="isCourseLoaded$ | async">
-
-    <span>Add Course Section</span>
-    <button class="add-section" mat-fab color="accent" (click)="addSection(course)">
-      <mat-icon>add</mat-icon>
-    </button>
-  </div>
-
+  </ng-container>
 
 </ng-container>
 

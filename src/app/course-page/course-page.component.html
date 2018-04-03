@@ -64,8 +64,8 @@
 
   <div class="course-body">
 
-    <div [innerHtml]="course.longDescription"></div>
-
+    <div [innerHtml]="courseDescription$ | async"></div>
+    long
 
   </div>
 

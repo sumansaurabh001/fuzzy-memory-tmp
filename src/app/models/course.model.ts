@@ -9,7 +9,5 @@ export interface Course {
   subTitle:string;
   shortDescription: string;
   thumbnail: string;
-  sections?: CourseSection[],
-  longDescription?:string;
   downloadAllowed: boolean;
 }

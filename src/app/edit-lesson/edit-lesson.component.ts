@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
+import {ChangeDetectionStrategy, Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges} from '@angular/core';
 import {Lesson} from '../models/lesson.model';
 import {AppState} from '../store';
 import {Store} from '@ngrx/store';
@@ -28,8 +28,7 @@ import {AngularFireUploadTask} from 'angularfire2/storage/task';
 @Component({
   selector: 'edit-lesson',
   templateUrl: './edit-lesson.component.html',
-  styleUrls: ['./edit-lesson.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  styleUrls: ['./edit-lesson.component.scss']
 })
 export class EditLessonComponent implements OnInit, OnChanges {
 
@@ -56,6 +55,7 @@ export class EditLessonComponent implements OnInit, OnChanges {
               private fb: FormBuilder,
               private upload: FileUploadService,
               private ub: UrlBuilderService) {
+
 
     this.form = this.fb.group({
       title: ['', [Validators.required, Validators.maxLength(60)]],
@@ -170,6 +170,8 @@ export class EditLessonComponent implements OnInit, OnChanges {
   }
 
   onVideoUploadCompleted() {
+
+    this.percentageUpload$ = undefined;
 
     this.lessonsDB.suscribeToLesson(this.course.id, this.lesson.id)
       .pipe(

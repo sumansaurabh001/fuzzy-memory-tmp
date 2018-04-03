@@ -5,6 +5,5 @@ export interface CourseSection {
   courseId: string;
   seqNo: number;
   title: string;
-  lessons?: Lesson[];
 }
 
