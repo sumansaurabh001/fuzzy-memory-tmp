@@ -59,7 +59,7 @@ export function reducer(
       return adapter.removeMany(action.payload.ids, state);
     }
 
-    case LessonActionTypes.LoadLessons: {
+    case LessonActionTypes.AddAllLessons: {
       return adapter.addAll(action.payload.lessons, state);
     }
 

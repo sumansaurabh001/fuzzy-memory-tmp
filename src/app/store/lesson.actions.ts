@@ -4,7 +4,7 @@ import { Lesson } from '../models/lesson.model';
 import {UpdateStr} from '@ngrx/entity/src/models';
 
 export enum LessonActionTypes {
-  LoadLessons = '[Lesson] Load Lessons',
+  AddAllLessons = '[Lesson] Load Lessons',
   AddLesson = '[Lesson] Add Lesson',
   UpsertLesson = '[Lesson] Upsert Lesson',
   AddLessons = '[Lesson] Add Lessons',
@@ -17,7 +17,7 @@ export enum LessonActionTypes {
 }
 
 export class LoadLessons implements Action {
-  readonly type = LessonActionTypes.LoadLessons;
+  readonly type = LessonActionTypes.AddAllLessons;
 
   constructor(public payload: { lessons: Lesson[] }) {}
 }

@@ -13,7 +13,7 @@ import {concatMap, filter, first, tap} from 'rxjs/operators';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {UpdateCourse} from '../store/course.actions';
 import {defaultHtmlEditorConfig} from '../common/html-editor.config';
-import {SaveDescription} from '../store/description.actions';
+import {LoadDescription, SaveDescription} from '../store/description.actions';
 import {FileUploadService} from '../services/file-upload.service';
 import {Observable} from 'rxjs/Observable';
 
@@ -233,6 +233,10 @@ export class EditLessonComponent implements OnInit, OnChanges {
   }
 
   toggleEditLesson() {
+    if (!this.descriptionOpenedOnce) {
+      this.descriptionOpenedOnce = true;
+      this.store.dispatch(new LoadDescription(this.lesson.id));
+    }
     this.editDescriptionExpanded = !this.editDescriptionExpanded;
   }
 
