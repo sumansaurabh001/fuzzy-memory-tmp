@@ -10,7 +10,7 @@ import {AddCourse, LoadCourseDetail, UpdateCourse} from './course.actions';
 import {AppState} from './index';
 import {select, Store} from '@ngrx/store';
 import {DescriptionsDbService} from '../services/descriptions-db.service';
-import {AddDescription} from './description.actions';
+import {AddDescription, LoadDescription} from './description.actions';
 import {
   isActiveCourseDescriptionLoaded, isActiveCourseSectionsLoaded, selectActiveCourse, selectActiveCourseDescription,
   selectActiveCourseSections, isActiveCourseLessonsLoaded, selectDescriptionsState
@@ -20,6 +20,8 @@ import {AddCourseSections} from './course-section.actions';
 import {AddLessons, LessonActionTypes, UpdateLesson} from './lesson.actions';
 
 
+
+
 @Injectable()
 export class CourseEffects {
 
@@ -27,12 +29,7 @@ export class CourseEffects {
   loadCourseDescriptionIfNeeded$ = this.actions$
     .pipe(
       ofType<LoadCourseDetail>(CourseActionTypes.LoadCourseDetail),
-      withLatestFrom(this.store.pipe(select(selectDescriptionsState))),
-      filter(([action, descriptions]) => !(action.payload.courseId in descriptions)),
-      concatMap(
-        ([action]) => this.loading.showLoader(this.descriptionsDB.loadDescription(action.payload.courseId)),
-        ([action], description) => new AddDescription({id: action.payload.courseId, description})
-      )
+      map(action => new LoadDescription(action.payload.courseId))
     );
 
   @Effect()
@@ -89,7 +86,6 @@ export class CourseEffects {
 
   constructor(private actions$: Actions,
               private coursesDB: CoursesDBService,
-              private descriptionsDB: DescriptionsDbService,
               private lessonsDB: LessonsDBService,
               private store: Store<AppState>,
               private loading: LoadingService,
