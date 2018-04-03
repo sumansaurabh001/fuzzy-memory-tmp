@@ -4,7 +4,6 @@ export interface Lesson {
   sectionId:string;
   seqNo:string;
   title:string;
-  description?:string;
   videoFileName:string;
   videoDuration:number;
   thumbnail: string;

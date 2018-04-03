@@ -1,7 +1,7 @@
 import {ChangeDetectionStrategy, Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges} from '@angular/core';
 import {Lesson} from '../models/lesson.model';
 import {AppState} from '../store';
-import {Store} from '@ngrx/store';
+import {select, Store} from '@ngrx/store';
 import {LessonsDBService} from '../services/lessons-db.service';
 import {Course} from '../models/course.model';
 import {LoadingService} from '../services/loading.service';
@@ -9,7 +9,7 @@ import {DeleteLesson, UpdateLesson} from '../store/lesson.actions';
 import {DangerDialogComponent} from '../danger-dialog/danger-dialog.component';
 import {MatDialog, MatDialogConfig} from '@angular/material';
 import {ConfirmationDialogComponent} from '../confirmation-dialog/confirmation-dialog.component';
-import {concatMap, filter, first, tap} from 'rxjs/operators';
+import {concatMap, filter, first, map, tap} from 'rxjs/operators';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {UpdateCourse} from '../store/course.actions';
 import {defaultHtmlEditorConfig} from '../common/html-editor.config';
@@ -23,6 +23,7 @@ import {UrlBuilderService} from '../services/url-builder.service';
 import {UpdateStr} from '@ngrx/entity/src/models';
 import {noop} from 'rxjs/util/noop';
 import {AngularFireUploadTask} from 'angularfire2/storage/task';
+import {selectDescriptionsState} from '../store/selectors';
 
 
 @Component({
@@ -67,13 +68,18 @@ export class EditLessonComponent implements OnInit, OnChanges {
 
   ngOnInit() {
 
+    this.store.pipe(
+      select(selectDescriptionsState),
+      map(descriptions => descriptions[this.lesson.id]),
+      tap(description => this.lessonDescription = description)
+    )
+    .subscribe();
 
   }
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes['lesson']) {
       this.form.patchValue(changes['lesson'].currentValue);
-      this.lessonDescription = changes['lesson'].currentValue.description;
     }
   }
 
