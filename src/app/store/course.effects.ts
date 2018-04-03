@@ -13,7 +13,7 @@ import {DescriptionsDbService} from '../services/descriptions-db.service';
 import {AddDescription} from './description.actions';
 import {
   isActiveCourseDescriptionLoaded, isActiveCourseSectionsLoaded, selectActiveCourse, selectActiveCourseDescription,
-  selectActiveCourseSections, isActiveCourseLessonsLoaded
+  selectActiveCourseSections, isActiveCourseLessonsLoaded, selectDescriptionsState
 } from './selectors';
 import {LessonsDBService} from '../services/lessons-db.service';
 import {AddCourseSections} from './course-section.actions';
@@ -27,10 +27,10 @@ export class CourseEffects {
   loadCourseDescriptionIfNeeded$ = this.actions$
     .pipe(
       ofType<LoadCourseDetail>(CourseActionTypes.LoadCourseDetail),
-      withLatestFrom(this.store.pipe(select(isActiveCourseDescriptionLoaded))),
-      filter(([action, loaded]) => !loaded),
+      withLatestFrom(this.store.pipe(select(selectDescriptionsState))),
+      filter(([action, descriptions]) => !(action.payload.courseId in descriptions)),
       concatMap(
-        ([action]) => this.loading.showLoader(this.descriptionsDB.findCourseDescription(action.payload.courseId)),
+        ([action]) => this.loading.showLoader(this.descriptionsDB.loadDescription(action.payload.courseId)),
         ([action], description) => new AddDescription({id: action.payload.courseId, description})
       )
     );

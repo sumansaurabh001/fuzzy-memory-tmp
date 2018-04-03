@@ -66,13 +66,13 @@
 
   <div>Edit Lesson Description (Optional):</div>
 
-  <mat-icon class="edit-descr-btn"  *ngIf="!lessonEditMode">expand_more</mat-icon>
-  <mat-icon class="edit-descr-btn" *ngIf="lessonEditMode">expand_less</mat-icon>
+  <mat-icon class="edit-descr-btn"  *ngIf="!editDescriptionExpanded">expand_more</mat-icon>
+  <mat-icon class="edit-descr-btn" *ngIf="editDescriptionExpanded">expand_less</mat-icon>
 
 </div>
 
 
-<app-ngx-editor class="text-editor" *ngIf="lessonEditMode"
+<app-ngx-editor class="text-editor" *ngIf="editDescriptionExpanded"
   height="50px"
   placeholder="(Optional)"
   [spellcheck]="true"

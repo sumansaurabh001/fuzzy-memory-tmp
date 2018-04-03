@@ -3,16 +3,16 @@ import { Update } from '@ngrx/entity';
 import { CourseSection } from '../models/course-section.model';
 
 export enum CourseSectionActionTypes {
-  LoadCourseSections = '[CourseSection] Load CourseSections',
-  AddCourseSection = '[CourseSection] Add CourseSection',
+  LoadCourseSections = '[CourseSection] Load Course Sections',
+  AddCourseSection = '[CourseSection] Add Course Section',
   UpsertCourseSection = '[CourseSection] Upsert CourseSection',
-  AddCourseSections = '[CourseSection] Add CourseSections',
-  UpsertCourseSections = '[CourseSection] Upsert CourseSections',
-  UpdateCourseSection = '[CourseSection] Update CourseSection',
-  UpdateCourseSections = '[CourseSection] Update CourseSections',
-  DeleteCourseSection = '[CourseSection] Delete CourseSection',
-  DeleteCourseSections = '[CourseSection] Delete CourseSections',
-  ClearCourseSections = '[CourseSection] Clear CourseSections'
+  AddCourseSections = '[CourseSection] Add Course Sections',
+  UpsertCourseSections = '[CourseSection] Upsert Course Sections',
+  UpdateCourseSection = '[CourseSection] Update Course Section',
+  UpdateCourseSections = '[CourseSection] Update Course Sections',
+  DeleteCourseSection = '[CourseSection] Delete Course Section',
+  DeleteCourseSections = '[CourseSection] Delete Course Sections',
+  ClearCourseSections = '[CourseSection] Clear Course Sections'
 }
 
 export class LoadCourseSections implements Action {
