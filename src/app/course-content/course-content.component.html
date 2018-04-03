@@ -1,14 +1,18 @@
 
+<mat-expansion-panel class="course-section" *ngFor="let section of sections; let index = index">
 
-<div class="course-section" *ngFor="let section of sections">
+  <mat-expansion-panel-header collapsedHeight="90px" expandedHeight="130px">
+    <mat-panel-title>
+      <div class="section-header">
+          <div class="section-number">Section: {{index + 1}}</div>
+          <div class="section-title">{{section.title}}</div>
+      </div>
+    </mat-panel-title>
+    <mat-panel-description>
+      <div class="section-data">
+        <span>Completed: 0/12</span>
+      </div>
+    </mat-panel-description>
+  </mat-expansion-panel-header>
 
-  <div class="first-line">
-    <span>Section {{section.seqNo}}:</span>
-    <div class="filler"></div>
-
-    <span>Completed: 0/12</span>
-  </div>
-
-  <div class="section-title">{{section.title}}</div>
-
-</div>
+</mat-expansion-panel>
