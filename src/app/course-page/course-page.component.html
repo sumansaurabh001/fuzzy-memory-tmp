@@ -61,7 +61,12 @@
 
   </div>
 
-  <div class="course-description" [innerHtml]="courseDescription$ | async"></div>
+  <div class="course-description description-text" [innerHtml]="courseDescription$ | async"></div>
+
+  <collapsible-trigger class="show-more" label="Show More"
+                       #showMore [ngClass]="{'hide-show-more':showMore?.expanded}" (toggle)="toggleShowMore()">
+
+  </collapsible-trigger>
 
 </div>
 

@@ -24,7 +24,7 @@ export class CollapsibleTriggerComponent implements OnInit {
 
   togglePanel() {
     this.expanded = !this.expanded;
-    this.toggle.next();
+    this.toggle.next(this.expanded);
   }
 
 }

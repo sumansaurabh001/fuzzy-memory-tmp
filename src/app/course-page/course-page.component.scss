@@ -5,7 +5,7 @@
 .course-container {
   margin-top: 120px;
   width: 1000px;
-  padding: 10px 25px;
+  padding: 10px 25px 40px 10px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -138,8 +138,11 @@ text-align: center;
 }
 
 .course-description {
-  max-width: 1000px;
   padding-top: 50px;
+}
+
+.description-text {
+  max-width: 1000px;
   color: $text;
   ::ng-deep b  {
     color:$dark-text;
@@ -148,4 +151,15 @@ text-align: center;
 
 .lessons-section {
   margin-top: 100px;
+}
+
+.show-more {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  margin-top: 40px;
+  color: #2e6791;
+}
+.hide-show-more {
+  display: none;
 }

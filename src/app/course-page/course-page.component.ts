@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
+import {AfterViewInit, ChangeDetectionStrategy, Component, OnInit, ViewChild} from '@angular/core';
 import {select, Store} from '@ngrx/store';
 import {AppState} from '../store';
 import {Course} from '../models/course.model';
@@ -10,12 +10,17 @@ import {
 import {UrlBuilderService} from '../services/url-builder.service';
 import {Lesson} from '../models/lesson.model';
 import {CourseSection} from '../models/course-section.model';
+import {filter, map, startWith, tap, withLatestFrom} from 'rxjs/operators';
+import {BehaviorSubject} from 'rxjs/BehaviorSubject';
+import {CollapsibleTriggerComponent} from '../collapsible-trigger/collapsible-trigger.component';
+
+const DESCRIPTION_MAX_LENGTH = 1500;
+
 
 @Component({
   selector: 'course',
   templateUrl: './course-page.component.html',
-  styleUrls: ['./course-page.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  styleUrls: ['./course-page.component.scss']
 })
 export class CoursePageComponent implements OnInit {
 
@@ -27,6 +32,8 @@ export class CoursePageComponent implements OnInit {
 
   lessons$ : Observable<Lesson[]>;
 
+  showFullDescription = false;
+
 
   constructor(private store: Store<AppState>, private ub: UrlBuilderService) {
 
@@ -36,16 +43,35 @@ export class CoursePageComponent implements OnInit {
 
     this.course$ = this.store.pipe(select(selectActiveCourse));
 
-    this.courseDescription$ = this.store.pipe(select(selectActiveCourseDescription));
-
     this.sections$ = this.store.pipe(select(selectActiveCourseSections));
 
     this.lessons$ = this.store.pipe(select(selectActiveCourseAllLessons));
 
+    this.courseDescription$ = this.selectDescription();
+
+  }
+
+  selectDescription() {
+    return this.store
+      .pipe(
+        select(selectActiveCourseDescription),
+        filter(description => !!description),
+        map( description => {
+
+          return this.showFullDescription ? description : description.slice(0, description.indexOf('>', DESCRIPTION_MAX_LENGTH));
+
+        })
+      );
   }
 
   thumbnailUrl(course: Course) {
     return this.ub.buildCourseThumbailUrl(course);
+  }
+
+  toggleShowMore() {
+    this.showFullDescription = true;
+    this.courseDescription$ = this.selectDescription();
+
   }
 
 
