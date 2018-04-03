@@ -66,6 +66,8 @@ import { ConfirmationDialogComponent } from './confirmation-dialog/confirmation-
 import {FileUploadComponent} from './file-upload/file-upload.component';
 import { CourseSectionComponent } from './course-section/course-section.component';
 import {CourseContentComponent} from './course-content/course-content.component';
+import { CollapsiblePanelComponent } from './collapsible-panel/collapsible-panel.component';
+import { CollapsibleTriggerComponent } from './collapsible-trigger/collapsible-trigger.component';
 
 
 @NgModule({
@@ -91,7 +93,9 @@ import {CourseContentComponent} from './course-content/course-content.component'
     ConfirmationDialogComponent,
     FileUploadComponent,
     CourseSectionComponent,
-    CourseContentComponent
+    CourseContentComponent,
+    CollapsiblePanelComponent,
+    CollapsibleTriggerComponent
   ],
   imports: [
     BrowserModule,

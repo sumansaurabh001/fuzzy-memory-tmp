@@ -1,7 +1,14 @@
 
 
-<div class="course-section">
+<div class="course-section" *ngFor="let section of sections">
 
+  <div class="first-line">
+    <span>Section {{section.seqNo}}:</span>
+    <div class="filler"></div>
 
+    <span>Completed: 0/12</span>
+  </div>
+
+  <div class="section-title">{{section.title}}</div>
 
 </div>

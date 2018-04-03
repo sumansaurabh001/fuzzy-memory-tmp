@@ -62,45 +62,47 @@
 
 </div>
 
-<div class="edit-lesson-descr noselect" (click)="toggleEditLesson()">
 
-  <div>Edit Lesson Description (Optional):</div>
+<collapsible-trigger class="edit-lesson-descr"
+                     label="Edit Lesson Description (Optional):"
+                     #trigger
+                     (toggle)="toggleEditLesson()">
 
-  <mat-icon class="edit-descr-btn"  *ngIf="!editDescriptionExpanded">expand_more</mat-icon>
-  <mat-icon class="edit-descr-btn" *ngIf="editDescriptionExpanded">expand_less</mat-icon>
+</collapsible-trigger>
+
+<collapsible-panel [trigger]="trigger">
+
+  <app-ngx-editor class="text-editor"
+                  height="50px"
+                  placeholder="(Optional)"
+                  [spellcheck]="true"
+                  [toolbar]="toolbar"
+                  [(ngModel)]="lessonDescription">
+
+  </app-ngx-editor>
+
+</collapsible-panel>
+
+<div class="lesson-actions">
+
+  <action-button
+    color="accent" icon="delete" color="secondary" (click)="deleteLesson()"
+    title="Delete lesson" *ngIf="isDraft">
+
+  </action-button>
+
+  <div class="filler"></div>
+
+  <button mat-raised-button color="warn" *ngIf="isPublished()">Unpublish</button>
+
+  <button mat-raised-button color="basic" *ngIf="lesson?.videoFileName" (click)="fileUpload.open()">Replace Video
+  </button>
+
+  <button mat-raised-button color="basic" (click)="saveLesson()">Save</button>
+
+  <button mat-raised-button color="accent" *ngIf="!isReady()" (click)="fileUpload.open()">Upload Video</button>
+
+  <button mat-raised-button color="accent" *ngIf="isReady()">Publish Now</button>
 
 </div>
-
-
-<app-ngx-editor class="text-editor" *ngIf="editDescriptionExpanded"
-  height="50px"
-  placeholder="(Optional)"
-  [spellcheck]="true"
-  [toolbar]="toolbar"
-  [(ngModel)]="lessonDescription">
-
-</app-ngx-editor>
-
-  <div class="lesson-actions">
-
-    <action-button
-      color="accent" icon="delete" color="secondary" (click)="deleteLesson()"
-      title="Delete lesson" *ngIf="isDraft">
-
-    </action-button>
-
-    <div class="filler"></div>
-
-    <button mat-raised-button color="warn" *ngIf="isPublished()">Unpublish</button>
-
-    <button mat-raised-button color="basic" *ngIf="lesson?.videoFileName" (click)="fileUpload.open()">Replace Video
-    </button>
-
-    <button mat-raised-button color="basic" (click)="saveLesson()">Save</button>
-
-    <button mat-raised-button color="accent" *ngIf="!isReady()" (click)="fileUpload.open()">Upload Video</button>
-
-    <button mat-raised-button color="accent" *ngIf="isReady()">Publish Now</button>
-
-  </div>
 

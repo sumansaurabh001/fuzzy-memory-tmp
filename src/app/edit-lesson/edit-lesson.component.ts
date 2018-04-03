@@ -45,8 +45,6 @@ export class EditLessonComponent implements OnInit, OnChanges {
 
   percentageUpload$: Observable<number>;
 
-  editDescriptionExpanded = false;
-
   descriptionOpenedOnce = false;
 
   constructor(private dialog: MatDialog,
@@ -245,7 +243,6 @@ export class EditLessonComponent implements OnInit, OnChanges {
       this.descriptionOpenedOnce = true;
       this.store.dispatch(new LoadDescription(this.lesson.id));
     }
-    this.editDescriptionExpanded = !this.editDescriptionExpanded;
   }
 
 
