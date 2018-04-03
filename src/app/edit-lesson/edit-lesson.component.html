@@ -14,7 +14,7 @@
       <span>{{extractFileName(lesson?.videoFileName)}}</span>
     </div>
 
-    <div>{{durationInMinutes(lesson?.videoDuration)}}</div>
+    <div>{{lesson?.videoDuration | duration}}</div>
 
     <div class="filler"></div>
 

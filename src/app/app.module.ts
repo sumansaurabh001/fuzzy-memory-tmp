@@ -69,6 +69,7 @@ import { CourseSectionComponent } from './course-section/course-section.componen
 import {CourseContentComponent} from './course-content/course-content.component';
 import { CollapsiblePanelComponent } from './collapsible-panel/collapsible-panel.component';
 import { CollapsibleTriggerComponent } from './collapsible-trigger/collapsible-trigger.component';
+import { DurationPipe } from './common/duration.pipe';
 
 
 @NgModule({
@@ -96,7 +97,8 @@ import { CollapsibleTriggerComponent } from './collapsible-trigger/collapsible-t
     CourseSectionComponent,
     CourseContentComponent,
     CollapsiblePanelComponent,
-    CollapsibleTriggerComponent
+    CollapsibleTriggerComponent,
+    DurationPipe
   ],
   imports: [
     BrowserModule,

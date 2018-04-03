@@ -16,9 +16,6 @@ import {defaultHtmlEditorConfig} from '../common/html-editor.config';
 import {LoadDescription, SaveDescription} from '../store/description.actions';
 import {FileUploadService} from '../services/file-upload.service';
 import {Observable} from 'rxjs/Observable';
-
-import leftPad = require('left-pad');
-import {EMPTY_IMG} from '../common/ui-constants';
 import {UrlBuilderService} from '../services/url-builder.service';
 import {UpdateStr} from '@ngrx/entity/src/models';
 import {noop} from 'rxjs/util/noop';
@@ -222,20 +219,6 @@ export class EditLessonComponent implements OnInit, OnChanges {
     const index = name.indexOf('-');
 
     return name.slice(index + 1);
-  }
-
-
-  durationInMinutes(duration: number) {
-
-    if (!duration) {
-      return '';
-    }
-
-    const minutes = Math.floor(duration / 60),
-      seconds = duration % 60;
-
-    return leftPad(minutes, 2, '0') + ':' + leftPad(seconds, 2, '0');
-
   }
 
   toggleEditLesson() {

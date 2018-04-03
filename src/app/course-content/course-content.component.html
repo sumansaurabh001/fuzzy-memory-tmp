@@ -32,8 +32,13 @@
 
     <div class="filler"></div>
 
+    <div class="lesson-pro">
+      <mat-icon class="pro-icon" *ngIf="!lesson.free" title="This is premium lesson">local_parking</mat-icon>
+    </div>
+
     <div class="lesson-duration">
 
+      {{lesson.videoDuration | duration}}
     </div>
 
     <div class="lesson-viewed">
