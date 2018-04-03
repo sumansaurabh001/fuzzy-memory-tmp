@@ -30,9 +30,8 @@
 
 
 :host app-ngx-editor ::ng-deep {
-  color:$dark-text;
+  color:$text;
   b {
-    color: black;
-    font-weight: bold;
+    color:$dark-text;
   }
 }
