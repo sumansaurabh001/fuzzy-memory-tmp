@@ -63,7 +63,9 @@
 
   <div class="course-description" [innerHtml]="courseDescription$ | async"></div>
 
-  <lessons-list></lessons-list>
-
 </div>
+
+<h1 class="page-title lessons-section"> All Course Lessons</h1>
+
+<course-content [sections]="sections$ | async" [lessons]="lessons$ | async"></course-content>
 

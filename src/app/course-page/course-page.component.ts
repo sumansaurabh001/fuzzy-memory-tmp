@@ -3,8 +3,13 @@ import {select, Store} from '@ngrx/store';
 import {AppState} from '../store';
 import {Course} from '../models/course.model';
 import {Observable} from 'rxjs/Observable';
-import {selectActiveCourse, selectActiveCourseDescription} from '../store/selectors';
+import {
+  selectActiveCourse, selectActiveCourseAllLessons, selectActiveCourseDescription,
+  selectActiveCourseSections
+} from '../store/selectors';
 import {UrlBuilderService} from '../services/url-builder.service';
+import {Lesson} from '../models/lesson.model';
+import {CourseSection} from '../models/course-section.model';
 
 @Component({
   selector: 'course',
@@ -18,7 +23,9 @@ export class CoursePageComponent implements OnInit {
 
   courseDescription$: Observable<string>;
 
+  sections$: Observable<CourseSection[]>;
 
+  lessons$ : Observable<Lesson[]>;
 
 
   constructor(private store: Store<AppState>, private ub: UrlBuilderService) {
@@ -30,6 +37,10 @@ export class CoursePageComponent implements OnInit {
     this.course$ = this.store.pipe(select(selectActiveCourse));
 
     this.courseDescription$ = this.store.pipe(select(selectActiveCourseDescription));
+
+    this.sections$ = this.store.pipe(select(selectActiveCourseSections));
+
+    this.lessons$ = this.store.pipe(select(selectActiveCourseAllLessons));
 
   }
 

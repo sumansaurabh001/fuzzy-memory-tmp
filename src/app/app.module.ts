@@ -65,7 +65,7 @@ import {DangerDialogComponent} from './danger-dialog/danger-dialog.component';
 import { ConfirmationDialogComponent } from './confirmation-dialog/confirmation-dialog.component';
 import {FileUploadComponent} from './file-upload/file-upload.component';
 import { CourseSectionComponent } from './course-section/course-section.component';
-import { LessonsListComponent } from './lessons-list/lessons-list.component';
+import {CourseContentComponent} from './course-content/course-content.component';
 
 
 @NgModule({
@@ -91,7 +91,7 @@ import { LessonsListComponent } from './lessons-list/lessons-list.component';
     ConfirmationDialogComponent,
     FileUploadComponent,
     CourseSectionComponent,
-    LessonsListComponent
+    CourseContentComponent
   ],
   imports: [
     BrowserModule,
