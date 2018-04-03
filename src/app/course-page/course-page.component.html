@@ -41,7 +41,7 @@
 
         <button mat-raised-button color="accent">
           <div class="first-line">
-            <mat-icon>play_circle_filled</mat-icon>
+            <mat-icon class="play-icon">play_circle_filled</mat-icon>
             <div>Take This Course</div>
           </div>
           <div class="second-line">Lifetime Access</div>
@@ -61,13 +61,9 @@
 
   </div>
 
+  <div class="course-description" [innerHtml]="courseDescription$ | async"></div>
 
-  <div class="course-body">
-
-    <div [innerHtml]="courseDescription$ | async"></div>
-    long
-
-  </div>
+  <lessons-list></lessons-list>
 
 </div>
 

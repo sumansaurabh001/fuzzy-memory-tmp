@@ -19,6 +19,8 @@ export class CoursePageComponent implements OnInit {
   courseDescription$: Observable<string>;
 
 
+
+
   constructor(private store: Store<AppState>, private ub: UrlBuilderService) {
 
   }
