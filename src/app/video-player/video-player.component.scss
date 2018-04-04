@@ -1,4 +1,7 @@
 
+@import "../mixins";
+@import "../vars";
+
 
 .video-container {
   width: 100%;
@@ -7,9 +10,23 @@
   flex-direction: column;
   justify-content: center;
   background: black;
+  position: relative;
 }
 
 
 .video {
   width: 100%;
+}
+
+.play-btn-container {
+  position: absolute;
+  left: 50%;
+  -webkit-transform: translateX(-50%);
+  transform: translateX(-50%);
+  @include mat-icon-size(150px);
+}
+
+.play-icon-button {
+  cursor: pointer;
+  color: $text;
 }
