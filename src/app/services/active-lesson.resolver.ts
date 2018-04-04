@@ -20,8 +20,6 @@ export class ActiveLessonResolver implements Resolve<Lesson> {
 
     const lessonSeqNo = route.paramMap.get('lessonSeqNo');
 
-    console.log("calling resolver");
-
     return this.store
       .pipe(
         select(selectActiveCourseAllLessons),

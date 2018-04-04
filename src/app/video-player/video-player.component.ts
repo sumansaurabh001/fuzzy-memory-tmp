@@ -1,11 +1,12 @@
-import {Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
-import {fadeInOut} from '../common/fade-in-out';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
+import {fadeInOut, fadeOut} from '../common/fade-in-out';
 
 @Component({
   selector: 'video-player',
   templateUrl: './video-player.component.html',
   styleUrls: ['./video-player.component.scss'],
-  animations: [fadeInOut]
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  animations: [fadeOut]
 })
 export class VideoPlayerComponent implements OnInit {
 
@@ -16,12 +17,14 @@ export class VideoPlayerComponent implements OnInit {
   @ViewChild('video')
   videoElement: ElementRef;
 
-
-  videoHover = false;
-
   videoPlaying = false;
 
-  constructor() { }
+  buttonDelayOn = false;
+
+
+  constructor(private cd: ChangeDetectorRef) {
+
+  }
 
   ngOnInit() {
 
@@ -33,12 +36,23 @@ export class VideoPlayerComponent implements OnInit {
 
   play() {
     this.videoPlaying = true;
+    this.triggerButtonDelay();
     this.video.play();
   }
 
   pause() {
     this.videoPlaying = false;
+    this.triggerButtonDelay();
     this.video.pause();
+  }
+
+  triggerButtonDelay() {
+    this.buttonDelayOn = true;
+    setTimeout(() => {
+      this.buttonDelayOn = false;
+      this.cd.markForCheck();
+    }, 200);
+
   }
 
   toggle() {
@@ -51,11 +65,12 @@ export class VideoPlayerComponent implements OnInit {
   }
 
   isPlayButtonVisible() {
-    return this.videoHover && !this.videoPlaying;
+    return this.videoPlaying && this.buttonDelayOn;
   }
 
   isPauseButtonVisible() {
-    return this.videoHover && this.videoPlaying;
+    console.log(!this.videoPlaying && this.buttonDelayOn);
+    return !this.videoPlaying && this.buttonDelayOn;
   }
 
 
