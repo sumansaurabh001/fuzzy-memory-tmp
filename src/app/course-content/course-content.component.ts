@@ -44,4 +44,10 @@ export class CourseContentComponent implements OnInit, OnChanges {
     return this.lessons.filter(lesson => lesson.sectionId == section.id);
   }
 
+  onLessonViewedClicked(event, lesson) {
+
+    event.stopPropagation();
+
+  }
+
 }
