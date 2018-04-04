@@ -56,6 +56,9 @@ export class CoursesDBService {
 
           newCourse.seqNo = lastCourse ? (lastCourse.seqNo + 1) : 1;
 
+          // initially the course url is the seqNo, it will be overwritten at publication time
+          newCourse.url = '' + newCourse.seqNo;
+
           return fromPromise(this.afs.collection(this.coursesPath).add(newCourse));
         }),
         map(ref => {

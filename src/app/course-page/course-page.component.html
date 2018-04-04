@@ -69,10 +69,19 @@
 
 </div>
 
-<h1 class="page-title lessons-section">Course Content</h1>
+<ng-container *ngIf="(sections$ | async) as sections">
 
-<course-content
-  [course]="course$ | async"
-  [sections]="sections$ | async"
-  [lessons]="lessons$ | async"></course-content>
+  <ng-container *ngIf="sections.length > 0">
+
+    <h1 class="page-title lessons-section">Course Content</h1>
+
+    <course-content
+      [course]="course$ | async"
+      [sections]="sections"
+      [lessons]="lessons$ | async"></course-content>
+
+  </ng-container>
+
+</ng-container>
+
 

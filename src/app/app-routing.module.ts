@@ -10,21 +10,21 @@ import {LoadCourseDetailResolver} from './services/load-course-detail.resolver';
 
 const routes: Routes = [
   {
-    path: 'courses/:courseSeqNo',
+    path: 'courses/:courseUrl',
     component: CoursePageComponent,
     resolve: {
       course: LoadCourseDetailResolver
     }
   },
   {
-    path: 'courses/:courseSeqNo/lessons/:lessonSeqNo',
+    path: 'courses/:courseUrl/lessons/:lessonSeqNo',
     component: WatchCourseComponent,
     resolve: {
       course: LoadCourseDetailResolver
     }
   },
   {
-    path: 'courses/:courseSeqNo/edit',
+    path: 'courses/:courseUrl/edit',
     component: EditCourseComponent,
     resolve: {
       course: LoadCourseDetailResolver

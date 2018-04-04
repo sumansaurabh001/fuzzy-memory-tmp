@@ -6,7 +6,8 @@
 
       <action-button text="Bulk Upload" icon="cloud_upload"></action-button>
 
-      <action-button *ngIf="sections.length > 0" text="Preview Course" icon="remove_red_eye" color="basic" [routerLink]="['/courses', course.seqNo]"></action-button>
+      <action-button *ngIf="sections.length > 0" text="Preview Course" icon="remove_red_eye" color="basic"
+                     [routerLink]="['/courses', course.url]"></action-button>
 
       <action-button *ngIf="course.status == 'draft' && sections?.length == 0"
                      text="Delete Course Draft" color="secondary"

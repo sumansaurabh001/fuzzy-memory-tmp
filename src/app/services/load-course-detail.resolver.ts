@@ -28,21 +28,21 @@ export class LoadCourseDetailResolver implements Resolve<Course> {
 
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<Course> {
 
-    const courseSeqNo = parseInt(route.paramMap.get('courseSeqNo'));
+    const courseUrl = route.paramMap.get('courseUrl');
 
     return this.store
       .pipe(
         select(selectAllCourses),
         tap(courses => {
 
-          const course = this.findCourseBySeqNo(courses, courseSeqNo);
+          const course = this.findCourseByUrl(courses, courseUrl);
 
           // if course is not loaded, load it before continuing
           if (course) {
             this.store.dispatch(new LoadCourseDetail({courseId: course.id}));
           }
           else {
-            this.loading.showLoader(this.coursesDB.findCourseBySeqNo(courseSeqNo))
+            this.loading.showLoader(this.coursesDB.findCourseByUrl(courseUrl))
               .pipe(
                 tap(course => this.store.dispatch(new AddCourse({course})))
               )
@@ -50,15 +50,15 @@ export class LoadCourseDetailResolver implements Resolve<Course> {
           }
 
         }),
-        map(courses => this.findCourseBySeqNo(courses, courseSeqNo)),
+        map(courses => this.findCourseByUrl(courses, courseUrl)),
         filter(course => !!course),
         first()
       );
 
   }
 
-  private findCourseBySeqNo(courses:Course[], seqNo:number) {
-    return courses.find(course => course.seqNo == seqNo);
+  private findCourseByUrl(courses:Course[], url:string) {
+    return courses.find(course => course.url == url);
 
   }
 
