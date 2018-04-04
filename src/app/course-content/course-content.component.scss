@@ -34,6 +34,12 @@
   min-height: 48px;
   border-top: 1px solid rgba(0,0,0,.12);
   color:$text;
+  cursor: pointer;
+}
+
+.lesson-row:hover {
+  background: #f2f3f5;
+  border-top-color: #f2f3f5;
 }
 
 :host::ng-deep .mat-expansion-panel-body {
