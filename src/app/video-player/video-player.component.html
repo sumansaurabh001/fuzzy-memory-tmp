@@ -1,10 +1,19 @@
 
 <div class="video-container">
 
+  <div class="top-buttons">
+
+    <mat-icon class="control close">close</mat-icon>
+
+    <div class="filler"></div>
+
+    <mat-icon class="control">exit_to_app</mat-icon>
+
+  </div>
+
   <video #video class="video" [src]="url" (click)="toggle()">
 
   </video>
-
 
   <div class="video-btn-container" [@fadeOut] *ngIf="isPlayButtonVisible()" (click)="play()">
     <mat-icon class="noselect">play_circle_filled</mat-icon>
@@ -12,6 +21,46 @@
 
   <div class="video-btn-container" [@fadeOut] *ngIf="isPauseButtonVisible()" (click)="pause()">
     <mat-icon class="noselect">pause_circle_filled</mat-icon>
+  </div>
+
+  <div class="filler"></div>
+
+  <div class="bottom-buttons">
+
+    <div class="progress-bat-container">
+      <mat-progress-bar class="video-progress" mode="determinate" [value]="50"></mat-progress-bar>
+
+      <span class="progress-label">0:50 / 4:50</span>
+
+    </div>
+
+    <div class="video-controls-container">
+
+      <div class="play-controls">
+
+        <mat-icon class="control">play_arrow</mat-icon>
+
+        <mat-icon class="control">replay_10</mat-icon>
+
+        <mat-icon class="control">forward_10</mat-icon>
+
+      </div>
+
+      <div class="other-controls">
+
+        <mat-icon class="control">closed_caption</mat-icon>
+
+        <mat-icon class="control">settings</mat-icon>
+
+        <mat-icon class="control">volume_up</mat-icon>
+
+        <mat-icon class="control">fullscreen</mat-icon>
+
+      </div>
+
+
+    </div>
+
   </div>
 
 </div>

@@ -8,23 +8,77 @@
   height: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: center;
   background: black;
   position: relative;
 }
 
+.top-buttons {
+  display: flex;
+  padding-top: 30px;
+}
+
+.control {
+  cursor: pointer;
+  color: white;
+}
+
+.close {
+  font-size: 25px;
+  margin-left: 30px;
+}
+
 
 .video {
+  position: absolute;
   width: 100%;
+  top: 50%;
+  -webkit-transform: translateY(-50%);
+  transform: translateY(-50%);
+
 }
 
 .video-btn-container {
   position: absolute;
   left: 50%;
-  -webkit-transform: translateX(-50%);
-  transform: translateX(-50%);
+  top:50%;
+  -webkit-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
   @include mat-icon-size(150px);
   cursor: pointer;
   color: $text;
+}
+
+.bottom-buttons {
+  display: flex;
+  flex-direction: column;
+  color: white;
+}
+
+.progress-bat-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.progress-label {
+  flex-basis: 130px;
+  text-align: center;
+  font-weight: bold;
+}
+
+.video-controls-container {
+
+  .control {
+    font-size: 40px;
+  }
+
+
+}
+
+.play-controls {
+}
+
+
+.other-controls {
 }
 
