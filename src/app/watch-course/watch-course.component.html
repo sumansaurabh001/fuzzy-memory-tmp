@@ -1,16 +1,24 @@
 
 <div class="watch-course" *ngIf="(course$| async) as course">
 
-  <course-content class="playlist"
-                  [playlistMode]="true"
-                  [course]="course"
-                  [sections]="sections$ | async"
-                  [lessons]="lessons$ | async"></course-content>
+    <div class="content-container">
 
-  <ng-container *ngIf="(activeLesson$ | async) as lesson">
+      <course-content class="playlist"
+                      [playlistMode]="true"
+                      [course]="course"
+                      [sections]="sections$ | async"
+                      [lessons]="lessons$ | async"></course-content>
 
-    <video-player class="lesson-video" [url]="ub.buildLessonVideoUrl(course, lesson)"></video-player>
+      <div class="video-panel" *ngIf="(activeLesson$ | async) as lesson">
 
-  </ng-container>
+        <!--video-player class="lesson-video" [url]="ub.buildLessonVideoUrl(course, lesson)"></video-player-->
+
+      </div>
+
+    </div>
+
+
+
+
 
 </div>
