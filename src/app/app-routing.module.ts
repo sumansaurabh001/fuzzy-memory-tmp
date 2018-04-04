@@ -3,20 +3,32 @@ import { Routes, RouterModule } from '@angular/router';
 import {EditCourseComponent} from './edit-course/edit-course.component';
 import {CoursesComponent} from './courses/courses.component';
 import {CoursePageComponent} from './course-page/course-page.component';
-import {LoadCourseDetailGuard} from './services/load-course-detail.guard';
 import {ViewCoursesGuard} from './services/view-courses.guard';
+import {WatchCourseComponent} from './watch-course/watch-course.component';
+import {LoadCourseDetailResolver} from './services/load-course-detail.resolver';
 
 
 const routes: Routes = [
   {
     path: 'courses/:courseSeqNo',
     component: CoursePageComponent,
-    canActivate:[LoadCourseDetailGuard]
+    resolve: {
+      course: LoadCourseDetailResolver
+    }
+  },
+  {
+    path: 'courses/:courseSeqNo/lessons/:lessonSeqNo',
+    component: WatchCourseComponent,
+    resolve: {
+      course: LoadCourseDetailResolver
+    }
   },
   {
     path: 'courses/:courseSeqNo/edit',
     component: EditCourseComponent,
-    canActivate:[LoadCourseDetailGuard]
+    resolve: {
+      course: LoadCourseDetailResolver
+    }
   },
   {
     path:'courses',

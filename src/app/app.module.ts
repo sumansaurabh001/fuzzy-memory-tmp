@@ -56,7 +56,6 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { EffectsModule } from '@ngrx/effects';
 import { CourseEffects } from './store/course.effects';
 import {RouterStateSerializer, StoreRouterConnectingModule} from '@ngrx/router-store';
-import {LoadCourseDetailGuard} from './services/load-course-detail.guard';
 import {ViewCoursesGuard} from './services/view-courses.guard';
 import {DescriptionEffects} from './store/description.effects';
 import {DescriptionsDbService} from './services/descriptions-db.service';
@@ -70,6 +69,8 @@ import {CourseContentComponent} from './course-content/course-content.component'
 import { CollapsiblePanelComponent } from './collapsible-panel/collapsible-panel.component';
 import { CollapsibleTriggerComponent } from './collapsible-trigger/collapsible-trigger.component';
 import { DurationPipe } from './common/duration.pipe';
+import { WatchCourseComponent } from './watch-course/watch-course.component';
+import {LoadCourseDetailResolver} from './services/load-course-detail.resolver';
 
 
 @NgModule({
@@ -98,7 +99,8 @@ import { DurationPipe } from './common/duration.pipe';
     CourseContentComponent,
     CollapsiblePanelComponent,
     CollapsibleTriggerComponent,
-    DurationPipe
+    DurationPipe,
+    WatchCourseComponent
   ],
   imports: [
     BrowserModule,
@@ -154,7 +156,7 @@ import { DurationPipe } from './common/duration.pipe';
     LessonsDBService,
     FileUploadService,
     ViewCoursesGuard,
-    LoadCourseDetailGuard,
+    LoadCourseDetailResolver,
     UrlBuilderService,
     { provide: RouterStateSerializer, useClass: CustomRouterStateSerializer },
 

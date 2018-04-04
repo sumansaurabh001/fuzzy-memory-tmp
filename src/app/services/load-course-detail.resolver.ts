@@ -1,19 +1,21 @@
 import {Injectable} from '@angular/core';
-import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot} from '@angular/router';
+import {ActivatedRouteSnapshot, Resolve, Router, RouterStateSnapshot} from '@angular/router';
+import {Course} from '../models/course.model';
 import {Observable} from 'rxjs/Observable';
 import {AddCourse, LoadCourseDetail} from '../store/course.actions';
 import {filter, first, map, tap} from 'rxjs/operators';
-import {select, Store} from '@ngrx/store';
-import {CoursesDBService} from './courses-db.service';
-import {AppState} from '../store';
 import {selectAllCourses} from '../store/selectors';
-import {Course} from '../models/course.model';
-import {LoadingService} from './loading.service';
+import {select, Store} from '@ngrx/store';
 import {DescriptionsDbService} from './descriptions-db.service';
+import {LoadingService} from './loading.service';
+import {AppState} from '../store';
+import {CoursesDBService} from './courses-db.service';
+
 
 
 @Injectable()
-export class LoadCourseDetailGuard implements CanActivate {
+export class LoadCourseDetailResolver implements Resolve<Course> {
+
 
   constructor(
     private coursesDB: CoursesDBService,
@@ -24,11 +26,11 @@ export class LoadCourseDetailGuard implements CanActivate {
 
   }
 
-  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
+  resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<Course> {
 
     const courseSeqNo = parseInt(route.paramMap.get('courseSeqNo'));
 
-     return this.store
+    return this.store
       .pipe(
         select(selectAllCourses),
         tap(courses => {
@@ -48,9 +50,11 @@ export class LoadCourseDetailGuard implements CanActivate {
           }
 
         }),
-        map(courseDetails => !!this.findCourseBySeqNo(courseDetails, courseSeqNo)),
-        filter(isCourseLoaded => isCourseLoaded)
+        map(courses => this.findCourseBySeqNo(courses, courseSeqNo)),
+        filter(course => !!course),
+        first()
       );
+
   }
 
   private findCourseBySeqNo(courses:Course[], seqNo:number) {
@@ -58,5 +62,7 @@ export class LoadCourseDetailGuard implements CanActivate {
 
   }
 
-}
 
+
+
+}
