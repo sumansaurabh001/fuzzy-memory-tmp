@@ -80,6 +80,13 @@ export const selectActiveCourseAllLessons = createSelector(
 
 
 
+export const selectActiveLesson = createSelector(
+  selectLessonsState,
+  selectActiveCourseAllLessons,
+  (lessonsState, activeCourseLessons) => activeCourseLessons.find(lesson => lesson.id === lessonsState.activeLessonId)
+);
+
+
 export const isActiveCourseSectionsLoaded = createSelector(
   selectSectionsState,
   selectActiveCourse,

@@ -1,17 +1,20 @@
 import { Component, OnInit } from '@angular/core';
 import {Course} from '../models/course.model';
 import {Observable} from 'rxjs/Observable';
-import {selectActiveCourse, selectActiveCourseAllLessons, selectActiveCourseSections} from '../store/selectors';
+import {selectActiveCourse, selectActiveCourseAllLessons, selectActiveCourseSections, selectActiveLesson} from '../store/selectors';
 import {select, Store} from '@ngrx/store';
 import {CourseSection} from '../models/course-section.model';
 import {Lesson} from '../models/lesson.model';
 import {AppState} from '../store';
+import {ActivatedRoute} from '@angular/router';
+
 
 
 @Component({
   selector: 'watch-course',
   templateUrl: './watch-course.component.html',
-  styleUrls: ['./watch-course.component.scss']
+  styleUrls: ['./watch-course.component.scss'],
+
 })
 export class WatchCourseComponent implements OnInit {
 
@@ -21,8 +24,10 @@ export class WatchCourseComponent implements OnInit {
 
   lessons$ : Observable<Lesson[]>;
 
+  activeLesson$: Observable<Lesson>;
 
-  constructor(private store: Store<AppState>) {
+
+  constructor(private store: Store<AppState>, private route: ActivatedRoute) {
 
   }
 
@@ -34,6 +39,8 @@ export class WatchCourseComponent implements OnInit {
     this.sections$ = this.store.pipe(select(selectActiveCourseSections));
 
     this.lessons$ = this.store.pipe(select(selectActiveCourseAllLessons));
+
+    this.activeLesson$ =  this.store.pipe(select(selectActiveLesson));
 
   }
 

@@ -4,6 +4,7 @@ import { Lesson } from '../models/lesson.model';
 import {UpdateStr} from '@ngrx/entity/src/models';
 
 export enum LessonActionTypes {
+  WatchLesson = '[Lesson] Watch Lesson',
   AddAllLessons = '[Lesson] Load Lessons',
   AddLesson = '[Lesson] Add Lesson',
   UpsertLesson = '[Lesson] Upsert Lesson',
@@ -14,6 +15,13 @@ export enum LessonActionTypes {
   DeleteLesson = '[Lesson] Delete Lesson',
   DeleteLessons = '[Lesson] Delete Lessons',
   ClearLessons = '[Lesson] Clear Lessons'
+}
+
+export class WatchLesson implements Action {
+  readonly type = LessonActionTypes.WatchLesson;
+
+  constructor(public payload: {lessonId: string}) {}
+
 }
 
 export class LoadLessons implements Action {
@@ -75,7 +83,8 @@ export class ClearLessons implements Action {
 }
 
 export type LessonActions =
- LoadLessons
+  WatchLesson
+ | LoadLessons
  | AddLesson
  | UpsertLesson
  | AddLessons

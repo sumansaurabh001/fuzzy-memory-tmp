@@ -3,13 +3,15 @@ import { Lesson } from '../models/lesson.model';
 import { LessonActions, LessonActionTypes } from './lesson.actions';
 
 export interface State extends EntityState<Lesson> {
-  loadedCourses: {[key:string]:boolean}
+  loadedCourses: {[key:string]:boolean},
+  activeLessonId: string;
 }
 
 export const adapter: EntityAdapter<Lesson> = createEntityAdapter<Lesson>();
 
 export const initialState: State = adapter.getInitialState({
-  loadedCourses: {}
+  loadedCourses: {},
+  activeLessonId: undefined
 });
 
 export function reducer(
@@ -17,6 +19,12 @@ export function reducer(
   action: LessonActions
 ): State {
   switch (action.type) {
+    case LessonActionTypes.WatchLesson: {
+       return {
+         ...state,
+         activeLessonId: action.payload.lessonId
+       }
+    }
     case LessonActionTypes.AddLesson: {
       return adapter.addOne(action.payload.lesson, state);
     }
