@@ -73,6 +73,7 @@ import { WatchCourseComponent } from './watch-course/watch-course.component';
 import {LoadCourseDetailResolver} from './services/load-course-detail.resolver';
 
 
+
 @NgModule({
   declarations: [
     AppComponent,

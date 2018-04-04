@@ -20,7 +20,6 @@
 
       </div>
 
-
     </div>
 
     <div class="thumbnail-container">
@@ -72,5 +71,8 @@
 
 <h1 class="page-title lessons-section">Course Content</h1>
 
-<course-content [sections]="sections$ | async" [lessons]="lessons$ | async"></course-content>
+<course-content
+  [course]="course$ | async"
+  [sections]="sections$ | async"
+  [lessons]="lessons$ | async"></course-content>
 

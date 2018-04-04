@@ -15,8 +15,8 @@
     </mat-panel-description>
   </mat-expansion-panel-header>
 
-
-  <div class="lesson-row mat-row" *ngFor="let lesson of sectionLessons(section)">
+  <div class="lesson-row mat-row" *ngFor="let lesson of sectionLessons(section)"
+       [routerLink]="['/courses', course.seqNo, 'lessons', lesson.seqNo]">
 
     <div class="lesson-icon">
       <mat-icon>play_circle_outline</mat-icon>

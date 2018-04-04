@@ -2,6 +2,7 @@ import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core'
 import {Lesson} from '../models/lesson.model';
 import {CourseSection} from '../models/course-section.model';
 import {MatTableDataSource} from '@angular/material';
+import {Course} from '../models/course.model';
 
 @Component({
   selector: 'course-content',
@@ -9,6 +10,9 @@ import {MatTableDataSource} from '@angular/material';
   styleUrls: ['./course-content.component.scss']
 })
 export class CourseContentComponent implements OnInit, OnChanges {
+
+  @Input()
+  course: Course;
 
   @Input()
   sections: CourseSection[];
