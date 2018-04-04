@@ -1,9 +1,11 @@
 import {Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
+import {fadeInOut} from '../common/fade-in-out';
 
 @Component({
   selector: 'video-player',
   templateUrl: './video-player.component.html',
-  styleUrls: ['./video-player.component.scss']
+  styleUrls: ['./video-player.component.scss'],
+  animations: [fadeInOut]
 })
 export class VideoPlayerComponent implements OnInit {
 

@@ -6,11 +6,11 @@
   </video>
 
 
-  <div class="video-btn-container" *ngIf="isPlayButtonVisible()" (click)="play()">
+  <div class="video-btn-container" [@fadeInOut] *ngIf="isPlayButtonVisible()" (click)="play()">
     <mat-icon class="noselect">play_circle_filled</mat-icon>
   </div>
 
-  <div class="video-btn-container" *ngIf="isPauseButtonVisible()" (click)="pause()">
+  <div class="video-btn-container" [@fadeInOut] *ngIf="isPauseButtonVisible()" (click)="pause()">
     <mat-icon class="noselect">pause_circle_filled</mat-icon>
   </div>
 
