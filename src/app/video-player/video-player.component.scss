@@ -18,15 +18,13 @@
   width: 100%;
 }
 
-.play-btn-container {
+.video-btn-container {
   position: absolute;
   left: 50%;
   -webkit-transform: translateX(-50%);
   transform: translateX(-50%);
   @include mat-icon-size(150px);
-}
-
-.play-icon-button {
   cursor: pointer;
   color: $text;
 }
+

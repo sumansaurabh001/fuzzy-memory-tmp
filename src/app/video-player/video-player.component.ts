@@ -17,6 +17,8 @@ export class VideoPlayerComponent implements OnInit {
 
   videoHover = false;
 
+  videoPlaying = false;
+
   constructor() { }
 
   ngOnInit() {
@@ -28,7 +30,31 @@ export class VideoPlayerComponent implements OnInit {
   }
 
   play() {
+    this.videoPlaying = true;
     this.video.play();
   }
+
+  pause() {
+    this.videoPlaying = false;
+    this.video.pause();
+  }
+
+  toggle() {
+    if (this.videoPlaying) {
+      this.pause();
+    }
+    else {
+      this.play();
+    }
+  }
+
+  isPlayButtonVisible() {
+    return this.videoHover && !this.videoPlaying;
+  }
+
+  isPauseButtonVisible() {
+    return this.videoHover && this.videoPlaying;
+  }
+
 
 }

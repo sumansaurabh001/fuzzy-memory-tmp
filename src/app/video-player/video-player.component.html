@@ -1,16 +1,18 @@
 
 <div class="video-container" (mouseenter)="videoHover = true" (mouseleave)="videoHover = false">
 
-  <video #video class="video" [src]="url" (click)="play()">
+  <video #video class="video" [src]="url" (click)="toggle()">
 
   </video>
 
 
-  <div class="play-btn-container" *ngIf="videoHover" (click)="play()">
-    <mat-icon class="play-icon-button noselect">play_circle_filled</mat-icon>
+  <div class="video-btn-container" *ngIf="isPlayButtonVisible()" (click)="play()">
+    <mat-icon class="noselect">play_circle_filled</mat-icon>
   </div>
 
-
+  <div class="video-btn-container" *ngIf="isPauseButtonVisible()" (click)="pause()">
+    <mat-icon class="noselect">pause_circle_filled</mat-icon>
+  </div>
 
 </div>
 
