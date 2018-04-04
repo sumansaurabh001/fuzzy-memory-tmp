@@ -32,7 +32,7 @@
 
     <div class="filler"></div>
 
-    <div class="lesson-pro">
+    <div class="lesson-pro" *ngIf="!playlistMode">
       <mat-icon class="pro-icon" *ngIf="!lesson.free" title="This is a Premium lesson">local_parking</mat-icon>
     </div>
 

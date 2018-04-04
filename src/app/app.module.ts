@@ -72,6 +72,7 @@ import { DurationPipe } from './common/duration.pipe';
 import { WatchCourseComponent } from './watch-course/watch-course.component';
 import {LoadCourseDetailResolver} from './services/load-course-detail.resolver';
 import {ActiveLessonResolver} from './services/active-lesson.resolver';
+import { VideoPlayerComponent } from './video-player/video-player.component';
 
 
 
@@ -102,7 +103,8 @@ import {ActiveLessonResolver} from './services/active-lesson.resolver';
     CollapsiblePanelComponent,
     CollapsibleTriggerComponent,
     DurationPipe,
-    WatchCourseComponent
+    WatchCourseComponent,
+    VideoPlayerComponent
   ],
   imports: [
     BrowserModule,

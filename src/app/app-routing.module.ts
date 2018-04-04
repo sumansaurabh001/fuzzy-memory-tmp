@@ -22,7 +22,7 @@ const routes: Routes = [
     component: WatchCourseComponent,
     resolve: {
       course: LoadCourseDetailResolver,
-      //activeLesson: ActiveLessonResolver
+      activeLesson: ActiveLessonResolver
     }
   },
   {

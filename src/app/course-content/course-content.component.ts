@@ -12,6 +12,9 @@ import {Course} from '../models/course.model';
 export class CourseContentComponent implements OnInit, OnChanges {
 
   @Input()
+  playlistMode = false;
+
+  @Input()
   course: Course;
 
   @Input()

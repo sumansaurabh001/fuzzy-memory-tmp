@@ -7,6 +7,7 @@ import {CourseSection} from '../models/course-section.model';
 import {Lesson} from '../models/lesson.model';
 import {AppState} from '../store';
 import {ActivatedRoute} from '@angular/router';
+import {UrlBuilderService} from '../services/url-builder.service';
 
 
 
@@ -27,7 +28,7 @@ export class WatchCourseComponent implements OnInit {
   activeLesson$: Observable<Lesson>;
 
 
-  constructor(private store: Store<AppState>, private route: ActivatedRoute) {
+  constructor(private store: Store<AppState>, public ub: UrlBuilderService) {
 
   }
 

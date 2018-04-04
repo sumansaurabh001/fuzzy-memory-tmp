@@ -1,12 +1,16 @@
 
-<div class="watch-course">
+<div class="watch-course" *ngIf="(course$| async) as course">
 
   <course-content class="playlist"
-                  [course]="course$ | async"
+                  [playlistMode]="true"
+                  [course]="course"
                   [sections]="sections$ | async"
                   [lessons]="lessons$ | async"></course-content>
 
+  <ng-container *ngIf="(activeLesson$ | async) as lesson">
 
+    <video-player class="lesson-video" [url]="ub.buildLessonVideoUrl(course, lesson)"></video-player>
 
+  </ng-container>
 
 </div>
