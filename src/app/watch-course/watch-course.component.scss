@@ -20,13 +20,12 @@
 .playlist {
   padding: 20px 10px;
   min-width: 450px;
-  flex-basis: 500px;
+  flex-basis: 450px;
   overflow-y: scroll;
 }
 
 
 .video-panel {
   flex-grow: 1;
-  border: 3px solid red;
   box-sizing: border-box;
 }
