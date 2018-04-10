@@ -17,6 +17,9 @@ export class VideoPlayerComponent implements OnInit {
   url:string;
 
   @Input()
+  videoDuration: number;
+
+  @Input()
   fullSize = false;
 
   @ViewChild('video')
@@ -113,13 +116,19 @@ export class VideoPlayerComponent implements OnInit {
   }
 
   replay10() {
-
     this.video.currentTime -= 10;
-
   }
 
   forward10() {
     this.video.currentTime += 10;
+  }
+
+  currentTime() {
+    return this.video.currentTime;
+  }
+
+  currentPercentage() {
+    return Math.round(this.currentTime() / this.video.duration * 100);
   }
 
 

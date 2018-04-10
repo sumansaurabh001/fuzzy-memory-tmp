@@ -30,9 +30,10 @@
   <div class="bottom-buttons">
 
     <div class="progress-bat-container">
-      <mat-progress-bar class="video-progress" mode="determinate" [value]="50"></mat-progress-bar>
 
-      <span class="progress-label">0:50 / 4:50</span>
+      <mat-progress-bar class="video-progress" mode="determinate" [value]="currentPercentage()"></mat-progress-bar>
+
+      <span class="progress-label">{{(currentTime() | duration) || '0:00'}} / {{videoDuration | duration}}</span>
 
     </div>
 

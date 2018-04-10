@@ -18,6 +18,7 @@
         <video-player
             class="lesson-video"
             [url]="ub.buildLessonVideoUrl(course, lesson)"
+            [videoDuration]="lesson.videoDuration"
             (close)="toggleLeftMenu()"
             (open)="toggleLeftMenu()"
             (exit)="onExit(course)">

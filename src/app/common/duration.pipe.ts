@@ -12,9 +12,9 @@ export class DurationPipe implements PipeTransform {
     }
 
     const minutes = Math.floor(duration / 60),
-      seconds = duration % 60;
+      seconds = Math.floor(duration % 60);
 
-    return leftPad(minutes, 2, '0') + ':' + leftPad(seconds, 2, '0');
+    return minutes + ':' + leftPad(seconds, 2, '0');
 
   }
 
