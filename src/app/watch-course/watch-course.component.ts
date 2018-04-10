@@ -32,6 +32,8 @@ export class WatchCourseComponent implements OnInit {
 
   activeLesson$: Observable<Lesson>;
 
+  leftMenuOpened = true;
+
 
   constructor(private store: Store<AppState>, public ub: UrlBuilderService) {
 
@@ -52,6 +54,10 @@ export class WatchCourseComponent implements OnInit {
 
     this.activeLesson$ =  this.store.pipe(select(selectActiveLesson));
 
+  }
+
+  toggleLeftMenu() {
+    this.leftMenuOpened = !this.leftMenuOpened;
   }
 
 

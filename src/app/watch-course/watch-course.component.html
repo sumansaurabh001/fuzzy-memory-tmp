@@ -8,13 +8,20 @@
                       [course]="course"
                       [sections]="sections$ | async"
                       [lessons]="lessons$ | async"
-                      [activeLesson]="activeLesson$ | async">
+                      [activeLesson]="activeLesson$ | async"
+                      *ngIf="leftMenuOpened">
 
       </course-content>
 
       <div class="video-panel" *ngIf="(activeLesson$ | async) as lesson">
 
-        <video-player class="lesson-video" [url]="ub.buildLessonVideoUrl(course, lesson)"></video-player>
+        <video-player
+            class="lesson-video"
+            [url]="ub.buildLessonVideoUrl(course, lesson)"
+            (close)="toggleLeftMenu()"
+            (open)="toggleLeftMenu()">
+
+        </video-player>
 
       </div>
 

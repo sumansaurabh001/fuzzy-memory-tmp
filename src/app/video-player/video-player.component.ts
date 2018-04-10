@@ -1,4 +1,7 @@
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
+import {
+  ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, OnInit, Output,
+  ViewChild
+} from '@angular/core';
 import {fadeInOut, fadeOut} from '../common/fade-in-out';
 
 @Component({
@@ -10,9 +13,11 @@ import {fadeInOut, fadeOut} from '../common/fade-in-out';
 })
 export class VideoPlayerComponent implements OnInit {
 
-
   @Input()
   url:string;
+
+  @Input()
+  fullSize = false;
 
   @ViewChild('video')
   videoElement: ElementRef;
@@ -22,6 +27,12 @@ export class VideoPlayerComponent implements OnInit {
   buttonDelayOn = false;
 
   hoveringTimeout;
+
+  @Output()
+  close = new EventEmitter();
+
+  @Output()
+  open = new EventEmitter();
 
 
   constructor(private cd: ChangeDetectorRef) {
@@ -74,18 +85,24 @@ export class VideoPlayerComponent implements OnInit {
     return !this.videoPlaying && this.buttonDelayOn;
   }
 
-  onMouseHover() {
+  onMouseMove() {
     if (!this.hoveringTimeout) {
       this.hoveringTimeout = setTimeout(() => {
         this.hoveringTimeout = undefined;
         this.cd.markForCheck();
-      }, 3000);
+      }, 4000);
 
     }
   }
 
   closeMenu() {
+    this.close.next();
+    this.fullSize = true;
+  }
 
+  openMenu() {
+    this.open.next();
+    this.fullSize = false;
   }
 
 

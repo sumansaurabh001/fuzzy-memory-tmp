@@ -1,9 +1,11 @@
 
-<div class="video-container" (mouseover)="onMouseHover()">
+<div class="video-container" (mousemove)="onMouseMove()">
 
-  <div class="top-buttons" [@fadeOut] *ngIf="hoveringTimeout">
+  <div class="top-buttons" *ngIf="hoveringTimeout">
 
-    <mat-icon class="control close" title="Close Left Menu" (click)="closeMenu()">close</mat-icon>
+    <mat-icon class="control close"  title="Close Left Menu" (click)="closeMenu()" *ngIf="!fullSize">close</mat-icon>
+
+    <mat-icon class="control open"  title="Open Left Menu" (click)="openMenu()" *ngIf="fullSize">menu</mat-icon>
 
     <div class="filler"></div>
 

@@ -15,6 +15,7 @@
 .top-buttons {
   display: flex;
   padding-top: 30px;
+  z-index: 1;
 }
 
 .control {
@@ -28,7 +29,7 @@
 
 }
 
-.close {
+.close, .open {
   font-size: 25px;
   margin-left: 30px;
 }
