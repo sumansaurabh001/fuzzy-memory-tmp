@@ -40,6 +40,8 @@ export class VideoPlayerComponent implements OnInit {
   @Output()
   exit = new EventEmitter();
 
+  playInterval;
+
 
   constructor(private cd: ChangeDetectorRef) {
 
@@ -57,12 +59,15 @@ export class VideoPlayerComponent implements OnInit {
     this.videoPlaying = true;
     this.triggerButtonDelay();
     this.video.play();
+    this.playInterval = setInterval(() => this.cd.markForCheck(), 1000);
   }
 
   pause() {
     this.videoPlaying = false;
     this.triggerButtonDelay();
     this.video.pause();
+    clearInterval(this.playInterval);
+    this.playInterval = undefined;
   }
 
   triggerButtonDelay() {
