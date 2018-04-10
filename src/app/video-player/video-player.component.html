@@ -32,7 +32,7 @@
 
   <div class="filler"></div>
 
-  <div class="bottom-buttons" *ngIf="hoveringTimeout" [@fadeIn]>
+  <div class="bottom-buttons">
 
     <div class="progress-bar-container">
 
@@ -51,6 +51,12 @@
         <mat-icon class="control" (click)="pause()" *ngIf="this.videoPlaying">pause</mat-icon>
 
         <mat-icon class="control" (click)="replay10()">replay_10</mat-icon>
+
+        <div class="speed-control">
+
+          1.0x
+
+        </div>
 
         <mat-icon class="control" (click)="forward10()">forward_10</mat-icon>
 
