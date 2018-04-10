@@ -56,9 +56,9 @@
 
         <div class="volume-controls">
 
-          <mat-icon class="control volume-icon" *ngIf="volumeOn" (click)="toggleVolume()">volume_up</mat-icon>
+          <mat-icon class="control volume-icon" *ngIf="volumeOn" (click)="setVolumeOff()">volume_up</mat-icon>
 
-          <mat-icon class="control volume-icon" *ngIf="!volumeOn" (click)="toggleVolume()">volume_off</mat-icon>
+          <mat-icon class="control volume-icon" *ngIf="!volumeOn" (click)="setVolumeOn()">volume_off</mat-icon>
 
           <mat-slider color="primary" class="volume-slider"></mat-slider>
 

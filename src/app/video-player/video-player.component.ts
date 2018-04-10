@@ -48,6 +48,8 @@ export class VideoPlayerComponent implements OnInit, AfterViewInit {
 
   volumeOn = true;
 
+  lastVolume: number;
+
 
   constructor(
     private cd: ChangeDetectorRef,
@@ -163,9 +165,23 @@ export class VideoPlayerComponent implements OnInit, AfterViewInit {
     return Math.round(this.currentTime() / this.video.duration * 100);
   }
 
-  toggleVolume() {
-    this.volumeOn = !this.volumeOn;
+  setVolumeOff() {
+    this.volumeOn = false;
+    this.lastVolume = this.video.volume;
     this.video.volume = 0;
   }
 
+  setVolumeOn() {
+    this.volumeOn = true;
+    this.video.volume = this.lastVolume;
+
+  }
+
 }
+
+
+
+
+
+
+
