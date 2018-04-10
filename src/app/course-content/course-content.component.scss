@@ -85,11 +85,30 @@
 }
 
 
-.lesson-row.active-lesson::ng-deep {
-  background: #007791;
+$active-row-background: #05677d;
+
+
+
+.lesson-row.active-lesson {
+  background: $active-row-background;
   color:white;
+
+  .lesson-icon {
+    color:white;
+  }
+
+  ::ng-deep .lesson-viewed .mat-checkbox-frame {
+    border-color: white;
+  }
+
 }
 
+
+.lesson-row.active-lesson:hover {
+  background: $active-row-background;
+  border-top-color: $active-row-background;
+  color:white;
+}
 
 
 
