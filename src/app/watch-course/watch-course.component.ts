@@ -9,7 +9,6 @@ import {select, Store} from '@ngrx/store';
 import {CourseSection} from '../models/course-section.model';
 import {Lesson} from '../models/lesson.model';
 import {AppState} from '../store';
-import {ActivatedRoute} from '@angular/router';
 import {UrlBuilderService} from '../services/url-builder.service';
 
 
@@ -17,7 +16,7 @@ import {UrlBuilderService} from '../services/url-builder.service';
 @Component({
   selector: 'watch-course',
   templateUrl: './watch-course.component.html',
-  styleUrls: ['./watch-course.component.scss'],
+  styleUrls: ['./watch-course.component.scss']
 
 })
 export class WatchCourseComponent implements OnInit {
