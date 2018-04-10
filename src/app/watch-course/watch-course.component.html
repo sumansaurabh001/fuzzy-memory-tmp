@@ -7,7 +7,10 @@
                       [playlistMode]="true"
                       [course]="course"
                       [sections]="sections$ | async"
-                      [lessons]="lessons$ | async"></course-content>
+                      [lessons]="lessons$ | async"
+                      [activeLesson]="activeLesson$ | async">
+
+      </course-content>
 
       <div class="video-panel" *ngIf="(activeLesson$ | async) as lesson">
 

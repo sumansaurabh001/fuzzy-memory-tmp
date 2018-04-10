@@ -9,7 +9,7 @@ import {Course} from '../models/course.model';
   templateUrl: './course-content.component.html',
   styleUrls: ['./course-content.component.scss']
 })
-export class CourseContentComponent implements OnInit, OnChanges {
+export class CourseContentComponent implements OnInit {
 
   @Input()
   playlistMode = false;
@@ -23,9 +23,9 @@ export class CourseContentComponent implements OnInit, OnChanges {
   @Input()
   lessons: Lesson[];
 
-  dataSource = new MatTableDataSource([]);
+  @Input()
+  activeLesson: Lesson;
 
-  displayedColumns = ["lessonIcon", "lessonNumber", "description", "duration", "lessonViewed"];
 
   constructor() { }
 
@@ -33,21 +33,22 @@ export class CourseContentComponent implements OnInit, OnChanges {
 
   }
 
-  ngOnChanges(changes:SimpleChanges) {
-    if (changes['lessons']) {
-      this.dataSource.data = changes['lessons'].currentValue;
-    }
-  }
-
 
   sectionLessons(section: CourseSection) {
     return this.lessons.filter(lesson => lesson.sectionId == section.id);
   }
 
+
+
   onLessonViewedClicked(event, lesson) {
-
     event.stopPropagation();
-
   }
+
+
+  lessonClasses(lesson: Lesson) {
+    return lesson && this.activeLesson && (lesson.id == this.activeLesson.id) ? 'active-lesson': undefined;
+  }
+
+
 
 }

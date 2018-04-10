@@ -6,8 +6,6 @@ import {
 } from '@ngrx/store';
 import * as fromSection from './course-section.reducer';
 import * as fromLesson from './lesson.reducer';
-import {Course} from '../models/course.model';
-
 
 
 export const selectCoursesState = createFeatureSelector<fromCourse.State>('courses');
@@ -85,6 +83,17 @@ export const selectActiveLesson = createSelector(
   selectActiveCourseAllLessons,
   (lessonsState, activeCourseLessons) => activeCourseLessons.find(lesson => lesson.id === lessonsState.activeLessonId)
 );
+
+
+
+export const selectActiveSection = createSelector(
+  selectSectionsState,
+  selectActiveLesson,
+  (sections, activeLesson) => sections[activeLesson.sectionId]
+);
+
+
+
 
 
 export const isActiveCourseSectionsLoaded = createSelector(

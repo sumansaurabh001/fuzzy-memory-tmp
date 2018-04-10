@@ -18,7 +18,7 @@ const routes: Routes = [
     }
   },
   {
-    path: 'courses/:courseUrl/lessons/:lessonSeqNo',
+    path: 'courses/:courseUrl/:sectionSeqNo/lessons/:lessonSeqNo',
     component: WatchCourseComponent,
     resolve: {
       course: LoadCourseDetailResolver,
