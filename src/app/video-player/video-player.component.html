@@ -36,17 +36,20 @@
 
     </div>
 
-    <div class="video-controls-container">
+    <div class="video-controls-container noselect">
 
       <div class="play-controls">
 
-        <mat-icon class="control">play_arrow</mat-icon>
+        <mat-icon class="control" (click)="play()" *ngIf="!this.videoPlaying">play_arrow</mat-icon>
+        <mat-icon class="control" (click)="pause()" *ngIf="this.videoPlaying">pause</mat-icon>
 
         <mat-icon class="control">replay_10</mat-icon>
 
         <mat-icon class="control">forward_10</mat-icon>
 
       </div>
+
+      <div class="filler"></div>
 
       <div class="other-controls">
 
