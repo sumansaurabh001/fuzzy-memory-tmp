@@ -43,7 +43,7 @@
   top:50%;
   -webkit-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%);
-  @include mat-icon-size(150px);
+  @include mat-icon-size(100px);
   cursor: pointer;
   color: $text;
 }
