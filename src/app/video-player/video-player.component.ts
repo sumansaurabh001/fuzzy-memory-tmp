@@ -3,7 +3,7 @@ import {
   ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, OnInit, Output,
   ViewChild
 } from '@angular/core';
-import {fadeInOut, fadeOut} from '../common/fade-in-out';
+import {fadeIn, fadeInOut, fadeOut} from '../common/fade-in-out';
 import {EventManager} from '@angular/platform-browser';
 import {MatSliderChange} from '@angular/material';
 
@@ -12,7 +12,7 @@ import {MatSliderChange} from '@angular/material';
   templateUrl: './video-player.component.html',
   styleUrls: ['./video-player.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  animations: [fadeOut]
+  animations: [fadeOut, fadeIn]
 })
 export class VideoPlayerComponent implements OnInit, AfterViewInit {
 

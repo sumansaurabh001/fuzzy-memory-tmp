@@ -1,7 +1,7 @@
 
 <div class="video-container" (mousemove)="onMouseMove()">
 
-  <div class="top-buttons" *ngIf="hoveringTimeout">
+  <div class="top-buttons" *ngIf="hoveringTimeout" [@fadeIn]>
 
     <mat-icon class="control close"  title="Close Left Menu" (click)="closeMenu()" *ngIf="!fullSize">close</mat-icon>
 
@@ -32,7 +32,7 @@
 
   <div class="filler"></div>
 
-  <div class="bottom-buttons">
+  <div class="bottom-buttons" *ngIf="hoveringTimeout" [@fadeIn]>
 
     <div class="progress-bar-container">
 
