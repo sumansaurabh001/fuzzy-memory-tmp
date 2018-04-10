@@ -41,11 +41,12 @@
       <div class="play-controls">
 
         <mat-icon class="control" (click)="play()" *ngIf="!this.videoPlaying">play_arrow</mat-icon>
+
         <mat-icon class="control" (click)="pause()" *ngIf="this.videoPlaying">pause</mat-icon>
 
-        <mat-icon class="control">replay_10</mat-icon>
+        <mat-icon class="control" (click)="replay10()">replay_10</mat-icon>
 
-        <mat-icon class="control">forward_10</mat-icon>
+        <mat-icon class="control" (click)="forward10()">forward_10</mat-icon>
 
       </div>
 

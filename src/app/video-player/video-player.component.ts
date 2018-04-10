@@ -112,5 +112,15 @@ export class VideoPlayerComponent implements OnInit {
     this.exit.next();
   }
 
+  replay10() {
+
+    this.video.currentTime -= 10;
+
+  }
+
+  forward10() {
+    this.video.currentTime += 10;
+  }
+
 
 }
