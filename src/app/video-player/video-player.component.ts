@@ -16,7 +16,7 @@ import {EventManager} from '@angular/platform-browser';
 export class VideoPlayerComponent implements OnInit, AfterViewInit {
 
   @Input()
-  url:string;
+  url: string;
 
   @Input()
   videoDuration: number;
@@ -50,23 +50,34 @@ export class VideoPlayerComponent implements OnInit, AfterViewInit {
 
   lastVolume: number;
 
+  fullScreen = false;
 
-  constructor(
-    private cd: ChangeDetectorRef,
-    private eventManager: EventManager) {
+
+  constructor(private cd: ChangeDetectorRef,
+              private eventManager: EventManager) {
 
   }
 
   ngOnInit() {
 
-    this.eventManager.addGlobalEventListener("window",'keyup', evt => {
+    this.eventManager.addGlobalEventListener('window', 'keyup', evt => {
       if (evt.keyCode == 32) {
         this.toggle();
         this.cd.markForCheck();
-
+      }
+      else if (evt.keyCode == 27 && this.fullScreen) {
+        this.toggleFullScreen();
+        this.cd.markForCheck();
       }
     });
 
+
+    if (document.addEventListener) {
+      document.addEventListener('webkitfullscreenchange', this.onFullScreenChange.bind(this), false);
+      document.addEventListener('mozfullscreenchange', this.onFullScreenChange.bind(this), false);
+      document.addEventListener('fullscreenchange', this.onFullScreenChange.bind(this), false);
+      document.addEventListener('MSFullscreenChange', this.onFullScreenChange.bind(this), false);
+    }
   }
 
   ngAfterViewInit() {
@@ -176,6 +187,58 @@ export class VideoPlayerComponent implements OnInit, AfterViewInit {
     this.video.volume = this.lastVolume;
 
   }
+
+  toggleFullScreen() {
+    if (this.fullScreen) {
+      this.exitFullScreen();
+    }
+    else {
+      this.enterFullScreen();
+    }
+  }
+
+
+  enterFullScreen() {
+
+    const doc: any = document;
+    const El: any = Element;
+
+    if ((doc.fullScreenElement && doc.fullScreenElement !== null) ||
+      (!doc.mozFullScreen && !doc.webkitIsFullScreen)) {
+      if (doc.documentElement.requestFullScreen) {
+        doc.documentElement.requestFullScreen();
+      } else if (doc.documentElement.mozRequestFullScreen) {
+        doc.documentElement.mozRequestFullScreen();
+      } else if (doc.documentElement.webkitRequestFullScreen) {
+        doc.documentElement.webkitRequestFullScreen(El.ALLOW_KEYBOARD_INPUT);
+      }
+    }
+  }
+
+  exitFullScreen() {
+
+    const doc: any = document;
+
+    if (doc.cancelFullScreen) {
+      doc.cancelFullScreen();
+    } else if (doc.mozCancelFullScreen) {
+      doc.mozCancelFullScreen();
+    } else if (doc.webkitCancelFullScreen) {
+      doc.webkitCancelFullScreen();
+    }
+  }
+
+
+  onFullScreenChange() {
+
+    const doc: any = document;
+
+    this.fullScreen = !this.fullScreen;
+
+    this.cd.markForCheck();
+
+  }
+
 
 }
 

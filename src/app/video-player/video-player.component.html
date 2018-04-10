@@ -74,7 +74,9 @@
 
         <mat-icon class="control">settings</mat-icon>
 
-        <mat-icon class="control">fullscreen</mat-icon>
+        <mat-icon class="control" *ngIf="!fullScreen" (click)="enterFullScreen()">fullscreen</mat-icon>
+
+        <mat-icon class="control" *ngIf="fullScreen" (click)="exitFullScreen()">fullscreen_exit</mat-icon>
 
       </div>
 
