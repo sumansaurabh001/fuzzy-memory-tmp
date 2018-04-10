@@ -34,6 +34,9 @@ export class VideoPlayerComponent implements OnInit {
   @Output()
   open = new EventEmitter();
 
+  @Output()
+  exit = new EventEmitter();
+
 
   constructor(private cd: ChangeDetectorRef) {
 
@@ -103,6 +106,10 @@ export class VideoPlayerComponent implements OnInit {
   openMenu() {
     this.open.next();
     this.fullSize = false;
+  }
+
+  onExit() {
+    this.exit.next();
   }
 
 

@@ -10,6 +10,7 @@ import {CourseSection} from '../models/course-section.model';
 import {Lesson} from '../models/lesson.model';
 import {AppState} from '../store';
 import {UrlBuilderService} from '../services/url-builder.service';
+import {Router} from '@angular/router';
 
 
 
@@ -34,7 +35,10 @@ export class WatchCourseComponent implements OnInit {
   leftMenuOpened = true;
 
 
-  constructor(private store: Store<AppState>, public ub: UrlBuilderService) {
+  constructor(
+    private store: Store<AppState>,
+    public ub: UrlBuilderService,
+    private router:Router) {
 
   }
 
@@ -57,6 +61,10 @@ export class WatchCourseComponent implements OnInit {
 
   toggleLeftMenu() {
     this.leftMenuOpened = !this.leftMenuOpened;
+  }
+
+  onExit(course:Course) {
+    this.router.navigate(['/courses', course.url]);
   }
 
 
