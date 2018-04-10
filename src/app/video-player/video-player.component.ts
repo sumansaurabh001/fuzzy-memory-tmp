@@ -69,7 +69,6 @@ export class VideoPlayerComponent implements OnInit {
   }
 
   isPauseButtonVisible() {
-    console.log(!this.videoPlaying && this.buttonDelayOn);
     return !this.videoPlaying && this.buttonDelayOn;
   }
 

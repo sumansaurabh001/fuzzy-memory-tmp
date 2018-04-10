@@ -85,7 +85,7 @@
 }
 
 
-.lesson-row.active-lesson {
+.lesson-row.active-lesson::ng-deep {
   background: #007791;
   color:white;
 }
