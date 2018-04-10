@@ -84,7 +84,7 @@
 }
 
 .video-controls-container {
-  padding: 10px 20px;
+  padding: 5px 20px;
   display: flex;
 
   .play-controls {
@@ -109,15 +109,17 @@
         background-color: white;
       }
 
-      min-width: 70px;
+      min-width: 90px;
     }
 
   }
 
   .other-controls {
+    display: flex;
+    align-items: center;
     @include mat-icon-size(35px);
     .control {
-      margin-right: 5px;
+      margin-right: 10px;
     }
   }
 

@@ -5,6 +5,7 @@ import {
 } from '@angular/core';
 import {fadeInOut, fadeOut} from '../common/fade-in-out';
 import {EventManager} from '@angular/platform-browser';
+import {MatSliderChange} from '@angular/material';
 
 @Component({
   selector: 'video-player',
@@ -45,6 +46,8 @@ export class VideoPlayerComponent implements OnInit, AfterViewInit {
   buffering = false;
 
   playInterval;
+
+  volumePercentage = 100;
 
   volumeOn = true;
 
@@ -89,6 +92,7 @@ export class VideoPlayerComponent implements OnInit, AfterViewInit {
       this.buffering = false;
       this.cd.markForCheck();
     };
+
   }
 
   get video(): HTMLVideoElement {
@@ -185,6 +189,22 @@ export class VideoPlayerComponent implements OnInit, AfterViewInit {
   setVolumeOn() {
     this.volumeOn = true;
     this.video.volume = this.lastVolume;
+
+  }
+
+  onVolumeChange(change: MatSliderChange) {
+
+    const volumePercentage = change.value;
+
+    if (volumePercentage == 0) {
+      this.setVolumeOff();
+    }
+    else {
+      this.volumeOn = true;
+    }
+
+    this.volumePercentage = volumePercentage;
+    this.video.volume = this.volumePercentage / 100;
 
   }
 

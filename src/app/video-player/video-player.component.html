@@ -60,7 +60,7 @@
 
           <mat-icon class="control volume-icon" *ngIf="!volumeOn" (click)="setVolumeOn()">volume_off</mat-icon>
 
-          <mat-slider color="primary" class="volume-slider"></mat-slider>
+          <mat-slider color="primary" class="volume-slider" (input)="onVolumeChange($event)" [value]="volumePercentage"></mat-slider>
 
         </div>
 
