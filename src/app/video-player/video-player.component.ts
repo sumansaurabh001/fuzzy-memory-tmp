@@ -21,6 +21,8 @@ export class VideoPlayerComponent implements OnInit {
 
   buttonDelayOn = false;
 
+  hoveringTimeout;
+
 
   constructor(private cd: ChangeDetectorRef) {
 
@@ -70,6 +72,20 @@ export class VideoPlayerComponent implements OnInit {
 
   isPauseButtonVisible() {
     return !this.videoPlaying && this.buttonDelayOn;
+  }
+
+  onMouseHover() {
+    if (!this.hoveringTimeout) {
+      this.hoveringTimeout = setTimeout(() => {
+        this.hoveringTimeout = undefined;
+        this.cd.markForCheck();
+      }, 3000);
+
+    }
+  }
+
+  closeMenu() {
+
   }
 
 

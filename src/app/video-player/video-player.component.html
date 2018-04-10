@@ -1,9 +1,9 @@
 
-<div class="video-container">
+<div class="video-container" (mouseover)="onMouseHover()">
 
-  <div class="top-buttons">
+  <div class="top-buttons" [@fadeOut] *ngIf="hoveringTimeout">
 
-    <mat-icon class="control close" title="Close Left Menu">close</mat-icon>
+    <mat-icon class="control close" title="Close Left Menu" (click)="closeMenu()">close</mat-icon>
 
     <div class="filler"></div>
 
