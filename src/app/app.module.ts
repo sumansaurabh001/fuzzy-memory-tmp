@@ -13,7 +13,7 @@ import {
   MatMenuModule,
   MatPaginatorModule, MatProgressBarModule,
   MatProgressSpinnerModule, MatSelectModule,
-  MatSidenavModule, MatSlideToggleModule,
+  MatSidenavModule, MatSliderModule, MatSlideToggleModule,
   MatSortModule,
   MatTableModule,
   MatTabsModule, MatToolbarModule
@@ -131,6 +131,7 @@ import { VideoPlayerComponent } from './video-player/video-player.component';
     MatExpansionModule,
     MatProgressBarModule,
     MatSlideToggleModule,
+    MatSliderModule,
     MatGridListModule,
     MatCheckboxModule,
     FlexLayoutModule,

@@ -34,7 +34,7 @@
 
   <div class="bottom-buttons">
 
-    <div class="progress-bat-container">
+    <div class="progress-bar-container">
 
       <mat-progress-bar class="video-progress" mode="determinate" [value]="currentPercentage()"></mat-progress-bar>
 
@@ -54,6 +54,16 @@
 
         <mat-icon class="control" (click)="forward10()">forward_10</mat-icon>
 
+        <div class="volume-controls">
+
+          <mat-icon class="control volume-icon" *ngIf="volumeOn" (click)="toggleVolume()">volume_up</mat-icon>
+
+          <mat-icon class="control volume-icon" *ngIf="!volumeOn" (click)="toggleVolume()">volume_off</mat-icon>
+
+          <mat-slider color="primary" class="volume-slider"></mat-slider>
+
+        </div>
+
       </div>
 
       <div class="filler"></div>
@@ -63,8 +73,6 @@
         <mat-icon class="control">closed_caption</mat-icon>
 
         <mat-icon class="control">settings</mat-icon>
-
-        <mat-icon class="control">volume_up</mat-icon>
 
         <mat-icon class="control">fullscreen</mat-icon>
 
