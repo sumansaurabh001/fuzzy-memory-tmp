@@ -1,4 +1,5 @@
 import {
+  AfterViewInit,
   ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, OnInit, Output,
   ViewChild
 } from '@angular/core';
@@ -11,7 +12,7 @@ import {fadeInOut, fadeOut} from '../common/fade-in-out';
   changeDetection: ChangeDetectionStrategy.OnPush,
   animations: [fadeOut]
 })
-export class VideoPlayerComponent implements OnInit {
+export class VideoPlayerComponent implements OnInit, AfterViewInit {
 
   @Input()
   url:string;
@@ -40,6 +41,8 @@ export class VideoPlayerComponent implements OnInit {
   @Output()
   exit = new EventEmitter();
 
+  buffering = false;
+
   playInterval;
 
 
@@ -49,6 +52,17 @@ export class VideoPlayerComponent implements OnInit {
 
   ngOnInit() {
 
+  }
+
+  ngAfterViewInit() {
+    this.video.onwaiting = () => {
+      this.buffering = true;
+      this.cd.markForCheck();
+    };
+    this.video.onplaying = () => {
+      this.buffering = false;
+      this.cd.markForCheck();
+    };
   }
 
   get video(): HTMLVideoElement {

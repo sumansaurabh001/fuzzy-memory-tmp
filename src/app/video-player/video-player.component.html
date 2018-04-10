@@ -17,6 +17,11 @@
 
   </video>
 
+  <div class="video-btn-container loading" *ngIf="buffering">
+    <mat-spinner></mat-spinner>
+  </div>
+
+
   <div class="video-btn-container" [@fadeOut] *ngIf="isPlayButtonVisible()" (click)="play()">
     <mat-icon class="noselect">play_circle_filled</mat-icon>
   </div>
