@@ -4,6 +4,7 @@ import {
   ViewChild
 } from '@angular/core';
 import {fadeInOut, fadeOut} from '../common/fade-in-out';
+import {EventManager} from '@angular/platform-browser';
 
 @Component({
   selector: 'video-player',
@@ -46,11 +47,21 @@ export class VideoPlayerComponent implements OnInit, AfterViewInit {
   playInterval;
 
 
-  constructor(private cd: ChangeDetectorRef) {
+  constructor(
+    private cd: ChangeDetectorRef,
+    private eventManager: EventManager) {
 
   }
 
   ngOnInit() {
+
+    this.eventManager.addGlobalEventListener("window",'keyup', evt => {
+      if (evt.keyCode == 32) {
+        this.toggle();
+        this.cd.markForCheck();
+
+      }
+    });
 
   }
 
