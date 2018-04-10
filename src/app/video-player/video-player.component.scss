@@ -93,6 +93,9 @@
 
   .other-controls {
     @include mat-icon-size(35px);
+    .control {
+      margin-right: 5px;
+    }
   }
 
 
