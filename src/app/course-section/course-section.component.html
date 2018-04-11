@@ -2,7 +2,7 @@
 
   <div class="section-title" (mouseenter)="toggleHeaderButtons()" (mouseleave)="toggleHeaderButtons()">
     <span class="section-number">Section {{section.seqNo}}: </span>
-    <span class="section-title-text"> {{section.title}}</span>
+    <span class="section-title-text" (click)="editSectionTitle(course,section)"> {{section.title}}</span>
 
     <div class="edit-button-container" *ngIf="headerButtonsVisible" [@fadeIn] (click)="editSectionTitle(course,section)">
       <mat-icon>edit</mat-icon>
