@@ -5,7 +5,7 @@ import {
 } from '@angular/core';
 import {fadeIn, fadeInOut, fadeOut} from '../common/fade-in-out';
 import {EventManager} from '@angular/platform-browser';
-import {MatSliderChange} from '@angular/material';
+import {MatProgressBar, MatSliderChange} from '@angular/material';
 
 @Component({
   selector: 'video-player',
@@ -27,6 +27,9 @@ export class VideoPlayerComponent implements OnInit, AfterViewInit {
 
   @ViewChild('video')
   videoElement: ElementRef;
+
+  @ViewChild('progressBar', {read: ElementRef})
+  progressBar: ElementRef;
 
   videoPlaying = false;
 
@@ -266,6 +269,18 @@ export class VideoPlayerComponent implements OnInit, AfterViewInit {
   setVideoSpeed(speed:number) {
     this.currentSpeed = speed;
     this.video.playbackRate = this.currentSpeed;
+  }
+
+  jumpToTimestamp(event: MouseEvent) {
+
+    const progressBar = this.progressBar.nativeElement;
+
+    const progressBarTotalWidth = progressBar.offsetWidth,
+          clickedAt = event.clientX - progressBar.getBoundingClientRect().left;
+
+    const fractionClicked = clickedAt / progressBarTotalWidth;
+
+    this.video.currentTime = fractionClicked * this.video.duration;
   }
 
 

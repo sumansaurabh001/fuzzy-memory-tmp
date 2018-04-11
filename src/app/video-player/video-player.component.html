@@ -36,7 +36,13 @@
 
     <div class="progress-bar-container">
 
-      <mat-progress-bar class="video-progress" mode="determinate" [value]="currentPercentage()"></mat-progress-bar>
+      <mat-progress-bar #progressBar
+        class="video-progress"
+        mode="determinate"
+        (click)="jumpToTimestamp( $event)"
+        [value]="currentPercentage()">
+
+      </mat-progress-bar>
 
       <span class="progress-label">{{(currentTime() | duration) || '0:00'}} / {{videoDuration | duration}}</span>
 
