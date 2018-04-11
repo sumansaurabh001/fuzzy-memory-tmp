@@ -5,7 +5,12 @@
 
       <div class="playlist" *ngIf="leftMenuOpened">
 
-        <mat-slide-toggle color="primary" class="autoplay">Autoplay</mat-slide-toggle>
+        <mat-slide-toggle
+          color="primary"
+          class="autoplay"
+          [(ngModel)]="autoPlay"
+          (change)="onAutoPlayChange()"
+        >Autoplay</mat-slide-toggle>
 
         <course-content
           [playlistMode]="true"

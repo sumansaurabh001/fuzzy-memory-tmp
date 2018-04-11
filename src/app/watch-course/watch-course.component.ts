@@ -34,6 +34,8 @@ export class WatchCourseComponent implements OnInit {
 
   leftMenuOpened = true;
 
+  autoPlay = true;
+
 
   constructor(
     private store: Store<AppState>,
@@ -44,6 +46,12 @@ export class WatchCourseComponent implements OnInit {
 
 
   ngOnInit() {
+
+    const storedAutoplay = localStorage.getItem('autoPlay');
+
+    if (storedAutoplay) {
+      this.autoPlay = JSON.parse(storedAutoplay);
+    }
 
     this.course$ = this.store.pipe(select(selectActiveCourse));
 
@@ -65,6 +73,10 @@ export class WatchCourseComponent implements OnInit {
 
   onExit(course:Course) {
     this.router.navigate(['/courses', course.url]);
+  }
+
+  onAutoPlayChange() {
+    localStorage.setItem('autoPlay', JSON.stringify(this.autoPlay));
   }
 
 
