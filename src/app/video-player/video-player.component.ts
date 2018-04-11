@@ -55,6 +55,10 @@ export class VideoPlayerComponent implements OnInit, AfterViewInit {
 
   fullScreen = false;
 
+  currentSpeed = 1;
+
+  videoSpeedItems = [0.9, 1.0, 1.25, 1.5, 2];
+
 
   constructor(private cd: ChangeDetectorRef,
               private eventManager: EventManager) {
@@ -257,6 +261,11 @@ export class VideoPlayerComponent implements OnInit, AfterViewInit {
 
     this.cd.markForCheck();
 
+  }
+
+  setVideoSpeed(speed:number) {
+    this.currentSpeed = speed;
+    this.video.playbackRate = this.currentSpeed;
   }
 
 

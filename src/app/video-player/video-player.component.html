@@ -52,11 +52,14 @@
 
         <mat-icon class="control" (click)="replay10()">replay_10</mat-icon>
 
-        <div class="speed-control">
-
-          1.0x
-
+        <div class="speed-control" [matMenuTriggerFor]="speedMenu" >
+          {{currentSpeed | number:'1.1-2'}}x
         </div>
+
+        <mat-menu yPosition="above" #speedMenu>
+          <button mat-menu-item *ngFor="let speed of videoSpeedItems" (click)="setVideoSpeed(speed)">{{speed}}x</button>
+        </mat-menu>
+
 
         <mat-icon class="control" (click)="forward10()">forward_10</mat-icon>
 
