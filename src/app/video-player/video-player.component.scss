@@ -93,16 +93,16 @@
     .control {
       margin-right: 5px;
     }
-    @include mat-icon-size(45px);
+    @include mat-icon-size(40px);
 
     .speed-control {
       background: white;
       color: black;
-      padding: 2px 8px;
+      padding: 1px 4px;
       cursor: pointer;
       margin: 0 3px;
       border-radius: 4px;
-      font-size: 15px;
+      font-size: 13px;
       min-width: 38px;
       text-align: center;
     }
@@ -129,9 +129,9 @@
   .other-controls {
     display: flex;
     align-items: center;
-    @include mat-icon-size(35px);
+    @include mat-icon-size(50px);
     .control {
-      margin-right: 10px;
+      margin-left: 10px;
     }
   }
 
