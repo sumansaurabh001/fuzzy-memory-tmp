@@ -3,15 +3,22 @@
 
     <div class="content-container">
 
-      <course-content class="playlist"
-                      [playlistMode]="true"
-                      [course]="course"
-                      [sections]="sections$ | async"
-                      [lessons]="lessons$ | async"
-                      [activeLesson]="activeLesson$ | async"
-                      *ngIf="leftMenuOpened">
+      <div class="playlist" *ngIf="leftMenuOpened">
 
-      </course-content>
+        <mat-slide-toggle color="primary" class="autoplay">Autoplay</mat-slide-toggle>
+
+        <course-content
+          [playlistMode]="true"
+          [course]="course"
+          [sections]="sections$ | async"
+          [lessons]="lessons$ | async"
+          [activeLesson]="activeLesson$ | async">
+
+        </course-content>
+
+      </div>
+
+
 
       <div class="video-panel" *ngIf="(activeLesson$ | async) as lesson">
 
