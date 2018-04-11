@@ -32,11 +32,10 @@ export class CourseSectionComponent implements OnInit {
 
   headerButtonsVisible = false;
 
-  constructor(
-    private dialog: MatDialog,
-    private lessonsDB: LessonsDBService,
-    private loading: LoadingService,
-    private store: Store<AppState>) {
+  constructor(private dialog: MatDialog,
+              private lessonsDB: LessonsDBService,
+              private loading: LoadingService,
+              private store: Store<AppState>) {
 
   }
 
@@ -44,8 +43,8 @@ export class CourseSectionComponent implements OnInit {
 
     this.lessons$ = this.store.pipe(
       select(selectActiveCourseAllLessons),
-      map(lessons => lessons.filter(lesson => lesson.sectionId == this.section.id ))
-      );
+      map(lessons => lessons.filter(lesson => lesson.sectionId == this.section.id))
+    );
 
   }
 
@@ -103,8 +102,11 @@ export class CourseSectionComponent implements OnInit {
   }
 
   toggleHeaderButtons() {
-    console.log('topggling');
     this.headerButtonsVisible = !this.headerButtonsVisible;
-}
+  }
+
+  editSectionTitle() {
+
+  }
 
 }
