@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {Course} from '../models/course.model';
 import {Observable} from 'rxjs/Observable';
 import {
@@ -11,7 +11,10 @@ import {Lesson} from '../models/lesson.model';
 import {AppState} from '../store';
 import {UrlBuilderService} from '../services/url-builder.service';
 import {Router} from '@angular/router';
-
+import {map, tap, withLatestFrom} from 'rxjs/operators';
+import {sortLessonsBySectionAndSeqNo, sortSectionsBySeqNo} from '../common/sort-model';
+import {WatchLesson} from '../store/lesson.actions';
+import {VideoPlayerComponent} from '../video-player/video-player.component';
 
 
 @Component({
@@ -22,11 +25,14 @@ import {Router} from '@angular/router';
 })
 export class WatchCourseComponent implements OnInit {
 
+  @ViewChild(VideoPlayerComponent)
+  videoPlayer: VideoPlayerComponent;
+
   course$: Observable<Course>;
 
   sections$: Observable<CourseSection[]>;
 
-  lessons$ : Observable<Lesson[]>;
+  lessons$: Observable<Lesson[]>;
 
   activeSection$: Observable<CourseSection>;
 
@@ -36,11 +42,12 @@ export class WatchCourseComponent implements OnInit {
 
   autoPlay = true;
 
+  initialLessonLoaded = false;
 
-  constructor(
-    private store: Store<AppState>,
-    public ub: UrlBuilderService,
-    private router:Router) {
+
+  constructor(private store: Store<AppState>,
+              public ub: UrlBuilderService,
+              private router: Router) {
 
   }
 
@@ -57,13 +64,27 @@ export class WatchCourseComponent implements OnInit {
 
     this.sections$ = this.store.pipe(select(selectActiveCourseSections));
 
-    this.lessons$ = this.store.pipe(select(selectActiveCourseAllLessons));
-
-    this.lessons$ = this.store.pipe(select(selectActiveCourseAllLessons));
+    this.lessons$ = this.store
+      .pipe(
+        select(selectActiveCourseAllLessons),
+        withLatestFrom(this.store.pipe(select(selectActiveCourseSections), map(sortSectionsBySeqNo))),
+        map(([lessons, sections]) => sortLessonsBySectionAndSeqNo(lessons, sections))
+      );
 
     this.activeSection$ = this.store.pipe(select(selectActiveSection));
 
-    this.activeLesson$ =  this.store.pipe(select(selectActiveLesson));
+    this.activeLesson$ = this.store.pipe(
+      select(selectActiveLesson),
+      tap(() => {
+
+        if (!this.initialLessonLoaded) {
+          this.initialLessonLoaded = true;
+        }
+        else if (this.autoPlay && this.videoPlayer) {
+          setTimeout(() => this.videoPlayer.play());
+        }
+      })
+    );
 
   }
 
@@ -71,12 +92,28 @@ export class WatchCourseComponent implements OnInit {
     this.leftMenuOpened = !this.leftMenuOpened;
   }
 
-  onExit(course:Course) {
+  onExit(course: Course) {
     this.router.navigate(['/courses', course.url]);
   }
 
   onAutoPlayChange() {
     localStorage.setItem('autoPlay', JSON.stringify(this.autoPlay));
+  }
+
+  onVideoEnded(sortedLessons: Lesson[], activeLesson: Lesson) {
+
+    if (this.autoPlay) {
+
+      const index = sortedLessons.indexOf(activeLesson);
+
+      if (index < sortedLessons.length - 1) {
+
+        const nextLesson = sortedLessons[index + 1];
+
+        this.store.dispatch(new WatchLesson({lessonId: nextLesson.id}));
+      }
+
+    }
   }
 
 

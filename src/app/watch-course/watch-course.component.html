@@ -1,44 +1,49 @@
-
 <div class="watch-course" *ngIf="(course$| async) as course">
 
-    <div class="content-container">
+  <div class="content-container" *ngIf="(lessons$ | async) as lessons">
 
-      <div class="playlist" *ngIf="leftMenuOpened">
+    <div class="playlist" *ngIf="leftMenuOpened">
 
-        <mat-slide-toggle
-          color="primary"
-          class="autoplay"
-          [(ngModel)]="autoPlay"
-          (change)="onAutoPlayChange()"
-        >Autoplay</mat-slide-toggle>
+      <mat-slide-toggle
+        color="primary"
+        class="autoplay"
+        [(ngModel)]="autoPlay"
+        (change)="onAutoPlayChange()">
+        Autoplay
+      </mat-slide-toggle>
 
-        <course-content
-          [playlistMode]="true"
-          [course]="course"
-          [sections]="sections$ | async"
-          [lessons]="lessons$ | async"
-          [activeLesson]="activeLesson$ | async">
+      <ng-container *ngIf="(activeLesson$ | async) as activeLesson">
 
-        </course-content>
+          <course-content
+            [playlistMode]="true"
+            [course]="course"
+            [sections]="sections$ | async"
+            [lessons]="lessons"
+            [activeLesson]="activeLesson">
 
-      </div>
+          </course-content>
 
-
-
-      <div class="video-panel" *ngIf="(activeLesson$ | async) as lesson">
-
-        <video-player
-            class="lesson-video"
-            [url]="ub.buildLessonVideoUrl(course, lesson)"
-            [videoDuration]="lesson.videoDuration"
-            (close)="toggleLeftMenu()"
-            (open)="toggleLeftMenu()"
-            (exit)="onExit(course)">
-
-        </video-player>
-
-      </div>
+      </ng-container>
 
     </div>
+
+
+    <div class="video-panel" *ngIf="(activeLesson$ | async) as activeLesson">
+
+      <video-player
+        #videoPlayer
+        class="lesson-video"
+        [url]="ub.buildLessonVideoUrl(course, activeLesson)"
+        [videoDuration]="activeLesson.videoDuration"
+        (close)="toggleLeftMenu()"
+        (open)="toggleLeftMenu()"
+        (exit)="onExit(course)"
+        (videoEnded)="onVideoEnded(lessons, activeLesson)">
+
+      </video-player>
+
+    </div>
+
+  </div>
 
 </div>

@@ -2,7 +2,7 @@ export interface Lesson {
   id:string;
   status:  'draft'  | 'processing' | 'error' | 'ready' |  'published';
   sectionId:string;
-  seqNo:string;
+  seqNo:number;
   title:string;
   videoFileName:string;
   videoDuration:number;

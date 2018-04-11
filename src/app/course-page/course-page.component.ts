@@ -13,6 +13,7 @@ import {CourseSection} from '../models/course-section.model';
 import {filter, map, startWith, tap, withLatestFrom} from 'rxjs/operators';
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 import {CollapsibleTriggerComponent} from '../collapsible-trigger/collapsible-trigger.component';
+import {sortSectionsBySeqNo} from '../common/sort-model';
 
 const DESCRIPTION_MAX_LENGTH = 1500;
 
@@ -30,7 +31,7 @@ export class CoursePageComponent implements OnInit {
 
   sections$: Observable<CourseSection[]>;
 
-  lessons$ : Observable<Lesson[]>;
+  lessons$: Observable<Lesson[]>;
 
   showFullDescription = false;
 
@@ -43,7 +44,11 @@ export class CoursePageComponent implements OnInit {
 
     this.course$ = this.store.pipe(select(selectActiveCourse));
 
-    this.sections$ = this.store.pipe(select(selectActiveCourseSections));
+    this.sections$ = this.store
+      .pipe(
+        select(selectActiveCourseSections),
+        map(sortSectionsBySeqNo)
+      );
 
     this.lessons$ = this.store.pipe(select(selectActiveCourseAllLessons));
 
@@ -56,7 +61,7 @@ export class CoursePageComponent implements OnInit {
       .pipe(
         select(selectActiveCourseDescription),
         filter(description => !!description),
-        map( description => {
+        map(description => {
 
           return this.showFullDescription ? description : description.slice(0, description.indexOf('>', DESCRIPTION_MAX_LENGTH));
 

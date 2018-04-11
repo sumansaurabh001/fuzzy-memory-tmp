@@ -20,7 +20,7 @@ export class ActiveLessonResolver implements Resolve<Lesson> {
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<Lesson> {
 
     const sectionSeqNo = parseInt(route.paramMap.get('sectionSeqNo')),
-          lessonSeqNo = route.paramMap.get('lessonSeqNo');
+          lessonSeqNo = parseInt(route.paramMap.get('lessonSeqNo'));
 
     return this.store
       .pipe(

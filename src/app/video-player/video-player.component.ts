@@ -46,6 +46,9 @@ export class VideoPlayerComponent implements OnInit, AfterViewInit, OnChanges {
   @Output()
   exit = new EventEmitter();
 
+  @Output()
+  videoEnded = new EventEmitter();
+
   buffering = false;
 
   playInterval;
@@ -97,13 +100,20 @@ export class VideoPlayerComponent implements OnInit, AfterViewInit, OnChanges {
   }
 
   ngAfterViewInit() {
+
     this.video.onwaiting = () => {
       this.buffering = true;
       this.cd.markForCheck();
     };
+
     this.video.onplaying = () => {
       this.buffering = false;
       this.cd.markForCheck();
+    };
+
+
+    this.video.onended = () => {
+      this.videoEnded.next();
     };
 
   }
