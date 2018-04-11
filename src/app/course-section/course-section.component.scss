@@ -53,6 +53,11 @@
   margin-right: 5px;
 }
 
+::ng-deep .add-content.mat-raised-button {
+  padding: 0 8px;
+}
+
+
 .add-lesson {
   margin-right: 5px;
   margin-bottom: 1px;
