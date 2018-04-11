@@ -1,6 +1,6 @@
 import {
   AfterViewInit,
-  ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, OnInit, Output,
+  ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges,
   ViewChild
 } from '@angular/core';
 import {fadeIn, fadeInOut, fadeOut} from '../common/fade-in-out';
@@ -14,7 +14,7 @@ import {MatProgressBar, MatSliderChange} from '@angular/material';
   changeDetection: ChangeDetectionStrategy.OnPush,
   animations: [fadeOut, fadeIn, fadeInOut]
 })
-export class VideoPlayerComponent implements OnInit, AfterViewInit {
+export class VideoPlayerComponent implements OnInit, AfterViewInit, OnChanges {
 
   @Input()
   url: string;
@@ -90,6 +90,12 @@ export class VideoPlayerComponent implements OnInit, AfterViewInit {
     }
   }
 
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['url'] && !changes['url'].firstChange) {
+      this.reset();
+    }
+  }
+
   ngAfterViewInit() {
     this.video.onwaiting = () => {
       this.buffering = true;
@@ -100,6 +106,18 @@ export class VideoPlayerComponent implements OnInit, AfterViewInit {
       this.cd.markForCheck();
     };
 
+  }
+
+  reset() {
+    this.videoPlaying = false;
+    this.buttonDelayOn = false;
+    this.hoveringTimeout = 0;
+    this.buffering = false;
+    this.playInterval = undefined;
+    this.volumePercentage = 100;
+    this.volumeOn = true;
+    this.lastVolume = undefined;
+    this.currentSpeed = 1;
   }
 
   get video(): HTMLVideoElement {
@@ -148,13 +166,16 @@ export class VideoPlayerComponent implements OnInit, AfterViewInit {
   }
 
   onMouseMove() {
-    if (!this.hoveringTimeout) {
-      this.hoveringTimeout = setTimeout(() => {
-        this.hoveringTimeout = undefined;
-        this.cd.markForCheck();
-      }, 4000);
 
+    if (this.hoveringTimeout) {
+      clearTimeout(this.hoveringTimeout);
     }
+
+    this.hoveringTimeout = setTimeout(() => {
+      this.hoveringTimeout = undefined;
+      this.cd.markForCheck();
+    }, 4000);
+
   }
 
   closeMenu() {
