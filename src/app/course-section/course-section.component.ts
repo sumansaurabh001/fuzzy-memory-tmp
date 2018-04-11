@@ -13,11 +13,13 @@ import {select, Store} from '@ngrx/store';
 import {AppState} from '../store';
 import {Observable} from 'rxjs/Observable';
 import {selectActiveCourseAllLessons} from '../store/selectors';
+import {fadeIn} from '../common/fade-in-out';
 
 @Component({
   selector: 'course-section',
   templateUrl: './course-section.component.html',
-  styleUrls: ['./course-section.component.scss']
+  styleUrls: ['./course-section.component.scss'],
+  animations: [fadeIn]
 })
 export class CourseSectionComponent implements OnInit {
 
@@ -27,6 +29,8 @@ export class CourseSectionComponent implements OnInit {
   lessons$: Observable<Lesson[]>;
 
   expandedLessons: { [key: string]: boolean } = {};
+
+  headerButtonsVisible = false;
 
   constructor(
     private dialog: MatDialog,
@@ -97,5 +101,10 @@ export class CourseSectionComponent implements OnInit {
   onExpandLesson(lesson: Lesson, expanded) {
     this.expandedLessons[lesson.id] = expanded;
   }
+
+  toggleHeaderButtons() {
+    console.log('topggling');
+    this.headerButtonsVisible = !this.headerButtonsVisible;
+}
 
 }

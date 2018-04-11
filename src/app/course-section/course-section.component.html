@@ -1,10 +1,10 @@
 <div class="course-section mat-elevation-z7">
 
-  <div class="section-title">
+  <div class="section-title" (mouseenter)="toggleHeaderButtons()" (mouseleave)="toggleHeaderButtons()">
     <span class="section-number">Section {{section.seqNo}}: </span>
     <span class="section-title-text"> {{section.title}}</span>
     <div class="filler draggable"></div>
-    <mat-icon class="drag-section draggable">drag_handle</mat-icon>
+    <mat-icon class="drag-section draggable" *ngIf="headerButtonsVisible" [@fadeIn]>drag_handle</mat-icon>
   </div>
 
     <mat-expansion-panel *ngFor="let lesson of (lessons$ | async); trackBy: trackByLessonId; let index = index"
