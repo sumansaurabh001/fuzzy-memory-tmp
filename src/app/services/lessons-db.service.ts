@@ -64,6 +64,10 @@ export class LessonsDBService {
       );
   }
 
+  saveSection(courseId: string, sectionId:string, update: UpdateStr<CourseSection>): Observable<any> {
+    return fromPromise(this.afs.collection(this.sectionsPath(courseId)).doc(update.id).update(update.changes));
+  }
+
 
   addNewLesson(courseId: string, sectionId: string, title: string): Observable<Lesson> {
     return this.findLastLessonInSection(courseId, sectionId)

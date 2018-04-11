@@ -14,6 +14,7 @@ import {AppState} from '../store';
 import {Observable} from 'rxjs/Observable';
 import {selectActiveCourseAllLessons} from '../store/selectors';
 import {fadeIn} from '../common/fade-in-out';
+import {EditSectionDialogComponent} from '../edit-section-dialog/edit-section-dialog.component';
 
 @Component({
   selector: 'course-section',
@@ -105,8 +106,15 @@ export class CourseSectionComponent implements OnInit {
     this.headerButtonsVisible = !this.headerButtonsVisible;
   }
 
-  editSectionTitle() {
+  editSectionTitle(course: Course, section: CourseSection) {
+    const dialogConfig = new MatDialogConfig();
 
+    dialogConfig.autoFocus = true;
+    dialogConfig.disableClose = true;
+    dialogConfig.minWidth = '500px';
+    dialogConfig.data = {course, section};
+
+    const dialogRef = this.dialog.open(EditSectionDialogComponent, dialogConfig);
   }
 
 }

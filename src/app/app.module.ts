@@ -73,6 +73,7 @@ import { WatchCourseComponent } from './watch-course/watch-course.component';
 import {LoadCourseDetailResolver} from './services/load-course-detail.resolver';
 import {ActiveLessonResolver} from './services/active-lesson.resolver';
 import { VideoPlayerComponent } from './video-player/video-player.component';
+import {EditSectionDialogComponent} from './edit-section-dialog/edit-section-dialog.component';
 
 
 
@@ -96,6 +97,7 @@ import { VideoPlayerComponent } from './video-player/video-player.component';
     CourseCardComponent,
     AddSectionDialogComponent,
     AddLessonDialogComponent,
+    EditSectionDialogComponent,
     ConfirmationDialogComponent,
     FileUploadComponent,
     CourseSectionComponent,
@@ -172,7 +174,8 @@ import { VideoPlayerComponent } from './video-player/video-player.component';
     DangerDialogComponent,
     AddSectionDialogComponent,
     AddLessonDialogComponent,
-    ConfirmationDialogComponent
+    ConfirmationDialogComponent,
+    EditSectionDialogComponent
   ],
   bootstrap: [AppComponent]
 })

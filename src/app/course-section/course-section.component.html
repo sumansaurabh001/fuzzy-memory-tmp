@@ -4,7 +4,7 @@
     <span class="section-number">Section {{section.seqNo}}: </span>
     <span class="section-title-text"> {{section.title}}</span>
 
-    <div class="edit-button-container" *ngIf="headerButtonsVisible" [@fadeIn] (click)="editSectionTitle()">
+    <div class="edit-button-container" *ngIf="headerButtonsVisible" [@fadeIn] (click)="editSectionTitle(course,section)">
       <mat-icon>edit</mat-icon>
     </div>
 

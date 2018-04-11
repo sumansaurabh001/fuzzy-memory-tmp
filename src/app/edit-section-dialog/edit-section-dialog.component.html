@@ -1,0 +1,39 @@
+<h2 mat-dialog-title>Edit Section Title</h2>
+
+<messages></messages>
+
+<loading></loading>
+
+<mat-dialog-content>
+
+  <mat-form-field>
+
+    <input matInput
+           placeholder="Section Title (max 100 chars)"
+           #title
+           maxLength="100"
+           [(ngModel)]="titleText">
+
+    <mat-hint align="end">
+      {{title.value.length}} / 100
+    </mat-hint>
+
+  </mat-form-field>
+
+</mat-dialog-content>
+
+<mat-dialog-actions class="dialog-actions">
+
+  <button class="mat-raised-button"
+          (click)="close()">
+    Close
+  </button>
+
+  <button class="mat-raised-button mat-primary"
+          (click)="save(title.value)" [disabled]="!title.value">
+    Save
+  </button>
+
+</mat-dialog-actions>
+
+
