@@ -8,6 +8,10 @@
 .course-actions {
   display:flex;
   justify-content: center;
+
+  button {
+    margin-right: 5px;
+  }
 }
 
 :host ::ng-deep .mat-card-header-text {
@@ -15,5 +19,5 @@
 }
 
 :host ::ng-deep .mat-card-content {
-  height: 40px; 
+  height: 40px;
 }

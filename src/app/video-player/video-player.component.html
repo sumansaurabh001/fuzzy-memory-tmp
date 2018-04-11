@@ -3,13 +3,21 @@
 
   <div class="top-buttons" *ngIf="hoveringTimeout" [@fadeIn]>
 
-    <mat-icon class="control close"  title="Close Left Menu" (click)="closeMenu()" *ngIf="!fullSize">close</mat-icon>
+    <div class="close" (click)="closeMenu()" *ngIf="!fullSize">
+      <mat-icon class="control" title="Close Left Menu">close</mat-icon>
+    </div>
 
-    <mat-icon class="control open"  title="Open Left Menu" (click)="openMenu()" *ngIf="fullSize">menu</mat-icon>
+    <div class="top-button-container open" (click)="openMenu()" *ngIf="fullSize">
+      <mat-icon class="control"  title="Open Left Menu" >menu</mat-icon>
+    </div>
+
 
     <div class="filler"></div>
 
-    <mat-icon class="control exit" title="Exit to Course Screen" (click)="onExit()">exit_to_app</mat-icon>
+    <div class="top-button-container" (click)="onExit()">
+      <mat-icon class="control exit" title="Exit to Course Screen">exit_to_app</mat-icon>
+    </div>
+
 
   </div>
 
@@ -36,7 +44,7 @@
 
     <div class="progress-bar-container">
 
-      <mat-progress-bar #progressBar
+      <mat-progress-bar #progressBar height="20px"
         class="video-progress"
         mode="determinate"
         (click)="jumpToTimestamp( $event)"

@@ -1,11 +1,11 @@
 
-@import "~@angular/material/theming";
 
+@import '../vars';
 
 :host {
   margin-top: 300px;
-  background: #66bb6a;
-  color: $light-primary-text;
+  background: $text;
+  color: white;
   height: 150px;
   display: flex;
   justify-content: center;
