@@ -12,7 +12,7 @@ import {MatProgressBar, MatSliderChange} from '@angular/material';
   templateUrl: './video-player.component.html',
   styleUrls: ['./video-player.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  animations: [fadeOut, fadeIn]
+  animations: [fadeOut, fadeIn, fadeInOut]
 })
 export class VideoPlayerComponent implements OnInit, AfterViewInit {
 
