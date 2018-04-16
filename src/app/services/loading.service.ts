@@ -51,4 +51,13 @@ export class LoadingService {
   }
 
 
+  loadingOn() {
+    this.loadingSubject.next(true);
+  }
+
+  loadingOff() {
+    this.loadingSubject.next(false);
+  }
+
+
 }

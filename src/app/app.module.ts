@@ -74,6 +74,8 @@ import {LoadCourseDetailResolver} from './services/load-course-detail.resolver';
 import {ActiveLessonResolver} from './services/active-lesson.resolver';
 import { VideoPlayerComponent } from './video-player/video-player.component';
 import {EditSectionDialogComponent} from './edit-section-dialog/edit-section-dialog.component';
+import { LoginComponent } from './login/login.component';
+import {AngularFireAuthModule} from 'angularfire2/auth';
 
 
 
@@ -106,7 +108,8 @@ import {EditSectionDialogComponent} from './edit-section-dialog/edit-section-dia
     CollapsibleTriggerComponent,
     DurationPipe,
     WatchCourseComponent,
-    VideoPlayerComponent
+    VideoPlayerComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
@@ -143,6 +146,7 @@ import {EditSectionDialogComponent} from './edit-section-dialog/edit-section-dia
     MatDialogModule,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFirestoreModule,
+    AngularFireAuthModule,
     AngularFireStorageModule,
     StoreModule.forRoot(reducers, { metaReducers }),
     !environment.production ? StoreDevtoolsModule.instrument() : [],

@@ -7,6 +7,7 @@ import {ViewCoursesGuard} from './services/view-courses.guard';
 import {WatchCourseComponent} from './watch-course/watch-course.component';
 import {LoadCourseDetailResolver} from './services/load-course-detail.resolver';
 import {ActiveLessonResolver} from './services/active-lesson.resolver';
+import {LoginComponent} from './login/login.component';
 
 
 const routes: Routes = [
@@ -36,6 +37,10 @@ const routes: Routes = [
     path:'courses',
     component: CoursesComponent,
     canActivate: [ViewCoursesGuard]
+  },
+  {
+    path: 'login',
+    component: LoginComponent
   },
   {
     path: "**",
