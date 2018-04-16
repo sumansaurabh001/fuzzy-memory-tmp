@@ -26,7 +26,6 @@ export class LoginComponent implements OnInit, OnDestroy {
     try {
 
       const uiConfig = {
-        //signInSuccessUrl: 'http://localhost:4201/courses',
         signInOptions: [
           // Leave the lines as is for the providers you want to offer your users.
           firebase.auth.GoogleAuthProvider.PROVIDER_ID,
@@ -36,7 +35,9 @@ export class LoginComponent implements OnInit, OnDestroy {
           firebase.auth.EmailAuthProvider.PROVIDER_ID
         ],
         callbacks: {
+
           signInSuccessWithAuthResult: (authResult, redirectUrl) => {
+
             const user = authResult.user;
             const credential = authResult.credential;
             const isNewUser = authResult.additionalUserInfo.isNewUser;
