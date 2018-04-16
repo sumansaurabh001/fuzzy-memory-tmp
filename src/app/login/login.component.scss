@@ -18,7 +18,9 @@
 
 
 ::ng-deep .mdl-shadow--2dp  {
+  margin-top: 200px;
   box-shadow: none;
+  background-color: #fafafa;
 }
 
 ::ng-deep .firebaseui-info-bar  {

@@ -21,15 +21,6 @@ export class LoginComponent implements OnInit, OnDestroy {
   ngOnInit() {
 
 
-    this.afAuth.auth.getRedirectResult()
-      .then(result => {
-
-        console.log("");
-
-      })
-      .catch(err => console.log("Authentication failed, reason:", err));
-
-
     this.loading.loadingOn();
 
     try {
