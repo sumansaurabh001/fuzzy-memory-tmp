@@ -8,6 +8,7 @@ import {WatchCourseComponent} from './watch-course/watch-course.component';
 import {LoadCourseDetailResolver} from './services/load-course-detail.resolver';
 import {ActiveLessonResolver} from './services/active-lesson.resolver';
 import {LoginComponent} from './login/login.component';
+import {AnonymousOnlyGuard} from './services/anonymous-only.guard';
 
 
 const routes: Routes = [
@@ -40,7 +41,8 @@ const routes: Routes = [
   },
   {
     path: 'login',
-    component: LoginComponent
+    component: LoginComponent,
+    canActivate: [AnonymousOnlyGuard]
   },
   {
     path: "**",

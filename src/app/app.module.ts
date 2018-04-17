@@ -78,6 +78,7 @@ import { LoginComponent } from './login/login.component';
 import {AngularFireAuthModule} from 'angularfire2/auth';
 import {TenantsDBService} from './services/tenants-db.service';
 import {AuthEffects} from './store/auth.effects';
+import {AnonymousOnlyGuard} from './services/anonymous-only.guard';
 
 
 
@@ -171,6 +172,7 @@ import {AuthEffects} from './store/auth.effects';
     TenantsDBService,
     FileUploadService,
     ViewCoursesGuard,
+    AnonymousOnlyGuard,
     LoadCourseDetailResolver,
     ActiveLessonResolver,
     UrlBuilderService,

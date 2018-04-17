@@ -7,6 +7,7 @@ import {TenantsDBService} from '../services/tenants-db.service';
 import {AppState} from '../store';
 import {Store} from '@ngrx/store';
 import {Login} from '../store/auth.actions';
+import {Router} from '@angular/router';
 
 
 @Component({
@@ -24,7 +25,8 @@ export class LoginComponent implements OnInit, OnDestroy {
     public afAuth: AngularFireAuth,
     private tenantsDB: TenantsDBService,
     private loading: LoadingService,
-    private store: Store<AppState>) {
+    private store: Store<AppState>,
+    private router: Router) {
 
     const hostName = document.location.hostname;
 
@@ -33,7 +35,6 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-
 
     this.loading.loadingOn();
 
@@ -67,6 +68,8 @@ export class LoginComponent implements OnInit, OnDestroy {
                 .subscribe(tenant => {
 
                   this.store.dispatch(new Login(tenant));
+
+                  this.router.navigateByUrl('/courses');
 
                 });
             }
