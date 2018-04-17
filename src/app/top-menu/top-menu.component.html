@@ -44,7 +44,8 @@
   <span class="filler"></span>
 
   <a mat-button class="desktop-menu" routerLink="/login" *ngIf="isLoggedOut$ | async">
-    <span>Sign in</span>
+    <mat-icon>account_circle</mat-icon>
+    <span>Login</span>
   </a>
 
   <img class="user-avatar" [src]="pictureUrl$ | async" *ngIf="isLoggedIn$ | async">
