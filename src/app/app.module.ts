@@ -78,6 +78,7 @@ import {AngularFireAuthModule} from 'angularfire2/auth';
 import {TenantsDBService} from './services/tenants-db.service';
 import {AuthEffects} from './store/auth.effects';
 import {ViewCoursesResolver} from './services/view-courses.resolver';
+import {PlatformGuard} from './services/platform.guard';
 
 
 
@@ -169,6 +170,7 @@ import {ViewCoursesResolver} from './services/view-courses.resolver';
     DescriptionsDbService,
     LessonsDBService,
     TenantsDBService,
+    PlatformGuard,
     FileUploadService,
     ViewCoursesResolver,
     LoadCourseDetailResolver,

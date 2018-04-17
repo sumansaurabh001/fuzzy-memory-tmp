@@ -8,6 +8,7 @@ import {LoadCourseDetailResolver} from './services/load-course-detail.resolver';
 import {ActiveLessonResolver} from './services/active-lesson.resolver';
 import {LoginComponent} from './login/login.component';
 import {ViewCoursesResolver} from './services/view-courses.resolver';
+import {PlatformGuard} from './services/platform.guard';
 
 const routes: Routes = [
   {
@@ -15,7 +16,8 @@ const routes: Routes = [
     component: CoursePageComponent,
     resolve: {
       course: LoadCourseDetailResolver
-    }
+    },
+    canActivate: [PlatformGuard]
   },
   {
     path: 'courses/:courseUrl/:sectionSeqNo/lessons/:lessonSeqNo',
@@ -23,21 +25,24 @@ const routes: Routes = [
     resolve: {
       course: LoadCourseDetailResolver,
       activeLesson: ActiveLessonResolver
-    }
+    },
+    canActivate: [PlatformGuard]
   },
   {
     path: 'courses/:courseUrl/edit',
     component: EditCourseComponent,
     resolve: {
       course: LoadCourseDetailResolver
-    }
+    },
+    canActivate: [PlatformGuard]
   },
   {
     path:'courses',
     component: CoursesComponent,
     resolve: {
       courses: ViewCoursesResolver
-    }
+    },
+    canActivate: [PlatformGuard]
   },
   {
     path: 'login',

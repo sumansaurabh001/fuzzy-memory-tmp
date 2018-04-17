@@ -14,12 +14,10 @@ import {Course} from '../models/course.model';
 @Injectable()
 export class CoursesDBService {
 
-  private coursesPath: string;
-
   constructor(private afs: AngularFirestore,
               private tenant: TenantService) {
 
-    this.coursesPath = this.tenant.path('courses');
+
 
   }
 
@@ -73,6 +71,10 @@ export class CoursesDBService {
 
   saveCourse(courseId: any, props: Partial<Course>): Observable<any> {
     return fromPromise(this.afs.collection(this.coursesPath).doc(courseId).update(props));
+  }
+
+  private get coursesPath() {
+    return this.tenant.path('courses');
   }
 
 }

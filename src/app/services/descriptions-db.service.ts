@@ -10,12 +10,9 @@ import {first, map} from 'rxjs/operators';
 @Injectable()
 export class DescriptionsDbService {
 
-  private descriptionsPath:string;
-
   constructor(private afs: AngularFirestore,
               private tenant: TenantService) {
 
-    this.descriptionsPath = this.tenant.path('descriptions');
 
   }
 
@@ -34,6 +31,10 @@ export class DescriptionsDbService {
           return description;
         })
       );
+  }
+
+  private get descriptionsPath() {
+    return this.tenant.path('descriptions');
   }
 
 }
