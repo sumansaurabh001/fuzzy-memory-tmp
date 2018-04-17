@@ -1,17 +1,18 @@
-import {ActivatedRouteSnapshot, CanActivate, RouterStateSnapshot} from '@angular/router';
+import {ActivatedRouteSnapshot, CanActivate, Resolve, RouterStateSnapshot} from '@angular/router';
 import {Observable} from 'rxjs/Observable';
 import {Injectable} from '@angular/core';
 import {select, Store} from '@ngrx/store';
 import {AppState} from '../store';
-import {selectAllCourses, selectInitialCoursesLoaded} from '../store/selectors';
-import {filter, first, map, tap} from 'rxjs/operators';
+import {selectActiveCourseSections, selectAllCourses, selectInitialCoursesLoaded} from '../store/selectors';
+import {filter, first, map, tap, withLatestFrom} from 'rxjs/operators';
 import {LoadCourses} from '../store/course.actions';
 import {CoursesDBService} from './courses-db.service';
 import {LoadingService} from './loading.service';
+import {Course} from '../models/course.model';
 
 
 @Injectable()
-export class ViewCoursesGuard implements CanActivate {
+export class ViewCoursesResolver implements Resolve<Course[]> {
 
   constructor(private store: Store<AppState>,
               private loading: LoadingService,
@@ -19,7 +20,7 @@ export class ViewCoursesGuard implements CanActivate {
 
   }
 
-  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
+  resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<Course[]>{
     return this.store
       .pipe(
         select(selectInitialCoursesLoaded),
@@ -34,9 +35,12 @@ export class ViewCoursesGuard implements CanActivate {
           }
         }),
         filter(initialCoursesLoaded => initialCoursesLoaded),
+        withLatestFrom(this.store.pipe(select(selectAllCourses))),
+        map(([initialCoursesLoaded, courses]) => courses),
         first()
       );
   }
+
 
 
 }

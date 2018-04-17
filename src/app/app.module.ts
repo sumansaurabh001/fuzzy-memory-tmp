@@ -56,7 +56,6 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { EffectsModule } from '@ngrx/effects';
 import { CourseEffects } from './store/course.effects';
 import {RouterStateSerializer, StoreRouterConnectingModule} from '@ngrx/router-store';
-import {ViewCoursesGuard} from './services/view-courses.guard';
 import {DescriptionEffects} from './store/description.effects';
 import {DescriptionsDbService} from './services/descriptions-db.service';
 import {CustomRouterStateSerializer} from './common/router-store-serializer';
@@ -78,7 +77,7 @@ import { LoginComponent } from './login/login.component';
 import {AngularFireAuthModule} from 'angularfire2/auth';
 import {TenantsDBService} from './services/tenants-db.service';
 import {AuthEffects} from './store/auth.effects';
-import {AnonymousOnlyGuard} from './services/anonymous-only.guard';
+import {ViewCoursesResolver} from './services/view-courses.resolver';
 
 
 
@@ -171,8 +170,7 @@ import {AnonymousOnlyGuard} from './services/anonymous-only.guard';
     LessonsDBService,
     TenantsDBService,
     FileUploadService,
-    ViewCoursesGuard,
-    AnonymousOnlyGuard,
+    ViewCoursesResolver,
     LoadCourseDetailResolver,
     ActiveLessonResolver,
     UrlBuilderService,

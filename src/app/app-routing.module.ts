@@ -3,13 +3,11 @@ import { Routes, RouterModule } from '@angular/router';
 import {EditCourseComponent} from './edit-course/edit-course.component';
 import {CoursesComponent} from './courses/courses.component';
 import {CoursePageComponent} from './course-page/course-page.component';
-import {ViewCoursesGuard} from './services/view-courses.guard';
 import {WatchCourseComponent} from './watch-course/watch-course.component';
 import {LoadCourseDetailResolver} from './services/load-course-detail.resolver';
 import {ActiveLessonResolver} from './services/active-lesson.resolver';
 import {LoginComponent} from './login/login.component';
-import {AnonymousOnlyGuard} from './services/anonymous-only.guard';
-
+import {ViewCoursesResolver} from './services/view-courses.resolver';
 
 const routes: Routes = [
   {
@@ -37,12 +35,13 @@ const routes: Routes = [
   {
     path:'courses',
     component: CoursesComponent,
-    canActivate: [ViewCoursesGuard]
+    resolve: {
+      courses: ViewCoursesResolver
+    }
   },
   {
     path: 'login',
-    component: LoginComponent,
-    canActivate: [AnonymousOnlyGuard]
+    component: LoginComponent
   },
   {
     path: "**",
