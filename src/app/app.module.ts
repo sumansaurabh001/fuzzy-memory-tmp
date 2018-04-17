@@ -76,6 +76,8 @@ import { VideoPlayerComponent } from './video-player/video-player.component';
 import {EditSectionDialogComponent} from './edit-section-dialog/edit-section-dialog.component';
 import { LoginComponent } from './login/login.component';
 import {AngularFireAuthModule} from 'angularfire2/auth';
+import {TenantsDBService} from './services/tenants-db.service';
+import {AuthEffects} from './store/auth.effects';
 
 
 
@@ -152,7 +154,8 @@ import {AngularFireAuthModule} from 'angularfire2/auth';
     !environment.production ? StoreDevtoolsModule.instrument() : [],
     EffectsModule.forRoot([
       CourseEffects,
-      DescriptionEffects
+      DescriptionEffects,
+      AuthEffects
     ]),
     StoreRouterConnectingModule.forRoot({
       stateKey: 'router'
@@ -165,6 +168,7 @@ import {AngularFireAuthModule} from 'angularfire2/auth';
     CoursesDBService,
     DescriptionsDbService,
     LessonsDBService,
+    TenantsDBService,
     FileUploadService,
     ViewCoursesGuard,
     LoadCourseDetailResolver,

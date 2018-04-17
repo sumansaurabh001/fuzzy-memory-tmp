@@ -11,6 +11,7 @@ import * as fromDescriptions from './descriptions.reducer';
 import * as fromCourseSection from './course-section.reducer';
 import {storeFreeze} from 'ngrx-store-freeze';
 import * as fromLesson from './lesson.reducer';
+import {authReducer, AuthState} from './auth.reducer';
 
 
 export interface AppState {
@@ -19,6 +20,7 @@ export interface AppState {
   descriptions: fromDescriptions.State;
   sections: fromCourseSection.State;
   lessons: fromLesson.State;
+  auth: AuthState;
 
 }
 
@@ -27,7 +29,8 @@ export const reducers: ActionReducerMap<AppState> = {
   router: routerReducer,
   descriptions: fromDescriptions.reducer,
   sections: fromCourseSection.reducer,
-  lessons: fromLesson.reducer
+  lessons: fromLesson.reducer,
+  auth: authReducer
 };
 
 

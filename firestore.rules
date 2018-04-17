@@ -2,6 +2,14 @@ service cloud.firestore {
 
   match /databases/{database}/documents {
 
+    match /tenants/{uid} {
+
+      allow read: if request.auth.uid == uid;
+
+      // from the UI, only allow creation of new (and still free) tenants
+      allow create: if request.auth.uid != null && request.resource.data.status == 'new';
+    }
+
     match /schools/{tenant}/courses/{courseId}  {
         allow read: if true;
         allow create: if true;

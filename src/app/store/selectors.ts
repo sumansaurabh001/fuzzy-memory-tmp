@@ -6,6 +6,7 @@ import {
 } from '@ngrx/store';
 import * as fromSection from './course-section.reducer';
 import * as fromLesson from './lesson.reducer';
+import {AuthState} from './auth.reducer';
 
 
 export const selectCoursesState = createFeatureSelector<fromCourse.State>('courses');
@@ -16,6 +17,7 @@ export const selectSectionsState = createFeatureSelector<fromSection.State>('sec
 
 export const selectLessonsState = createFeatureSelector<fromLesson.State>('lessons');
 
+export const authState = createFeatureSelector<AuthState>('auth');
 
 
 export const selectCourseIds = createSelector(selectCoursesState, fromCourse.selectIds);
@@ -123,4 +125,22 @@ export const isActiveCourseLoaded = createSelector(
   selectSectionsState,
   selectLessonsState,
   (course, sectionsState, lessonsState) => course ? sectionsState.loadedCourses[course.id] && lessonsState.loadedCourses[course.id]: false
+);
+
+
+
+export const isLoggedIn = createSelector(
+  authState,
+  auth => auth.isLoggedIn
+);
+
+
+export const isLoggedOut = createSelector(
+  isLoggedIn,
+  loggedIn => !loggedIn
+);
+
+export const userPictureUrl = createSelector(
+  authState,
+  auth => auth.user ? auth.user.pictureUrl : undefined
 );

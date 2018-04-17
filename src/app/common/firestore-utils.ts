@@ -10,6 +10,10 @@ export function readDocumentWithId<T>(doc: AngularFirestoreDocument<T>): Observa
     .pipe(
       map(action => {
 
+        if (!action.payload.exists) {
+          return undefined;
+        }
+
         const id = action.payload.id,
           data = action.payload.data();
 

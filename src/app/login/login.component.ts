@@ -3,6 +3,10 @@ import {AngularFireAuth} from 'angularfire2/auth';
 import * as firebase from 'firebase/app';
 import * as firebaseui from 'firebaseui';
 import {LoadingService} from '../services/loading.service';
+import {TenantsDBService} from '../services/tenants-db.service';
+import {AppState} from '../store';
+import {Store} from '@ngrx/store';
+import {Login} from '../store/auth.actions';
 
 
 @Component({
@@ -14,7 +18,17 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   ui: firebaseui.auth.AuthUI;
 
-  constructor(public afAuth: AngularFireAuth, private loading: LoadingService) {
+  isPlatformSite:boolean;
+
+  constructor(
+    public afAuth: AngularFireAuth,
+    private tenantsDB: TenantsDBService,
+    private loading: LoadingService,
+    private store: Store<AppState>) {
+
+    const hostName = document.location.hostname;
+
+    this.isPlatformSite = hostName.includes('onlinecoursehost');
 
   }
 
@@ -27,28 +41,36 @@ export class LoginComponent implements OnInit, OnDestroy {
 
       const uiConfig = {
         signInOptions: [
-          // Leave the lines as is for the providers you want to offer your users.
           firebase.auth.GoogleAuthProvider.PROVIDER_ID,
           firebase.auth.FacebookAuthProvider.PROVIDER_ID,
           firebase.auth.TwitterAuthProvider.PROVIDER_ID,
-          //firebase.auth.GithubAuthProvider.PROVIDER_ID,
           firebase.auth.EmailAuthProvider.PROVIDER_ID
         ],
         callbacks: {
 
-          signInSuccessWithAuthResult: (authResult, redirectUrl) => {
+          signInSuccessWithAuthResult: (result) => {
 
-            const user = authResult.user;
-            const credential = authResult.credential;
-            const isNewUser = authResult.additionalUserInfo.isNewUser;
-            const providerId = authResult.additionalUserInfo.providerId;
-            const operationType = authResult.operationType;
+            const user = result.user;
+            const credential = result.credential;
+            const isNewUser = result.additionalUserInfo.isNewUser;
+            const providerId = result.additionalUserInfo.providerId;
+            const operationType = result.operationType;
 
-            console.log(authResult);
+            const email = result.additionalUserInfo.profile.email,
+                  picture = result.additionalUserInfo.profile.picture,
+                  token = result.credential.accessToken;
 
-            // Do something with the returned AuthResult.
-            // Return type determines whether we continue the redirect automatically
-            // or whether we leave that to developer to handle.
+            if (this.isPlatformSite) {
+
+              this.tenantsDB
+                .createTenantIfNeeded(email, picture)
+                .subscribe(tenant => {
+
+                  this.store.dispatch(new Login(tenant));
+
+                });
+            }
+
             return false;
           },
           uiShown: () => {
