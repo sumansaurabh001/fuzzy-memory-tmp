@@ -40,6 +40,7 @@ export class TopMenuComponent implements OnInit {
     this.afAuth.auth.signOut();
     this.store.dispatch(new Logout());
     this.router.navigateByUrl('/courses');
+    window.location.reload();
   }
 
 }
