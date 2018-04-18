@@ -28,8 +28,9 @@ export class PlatformGuard implements CanActivate {
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean>  {
 
-    const hostname = document.location.hostname,
-          isPlatformSite = hostname.includes('app.onlinecoursehost');
+    const hostname = document.location.hostname;
+
+    const isPlatformSite = hostname.includes('app.onlinecoursehost');
 
     return this.afAuth.authState
       .pipe(

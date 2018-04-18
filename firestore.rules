@@ -8,8 +8,7 @@ service cloud.firestore {
 
     match /tenants/{uid} {
 
-      // only authenticated tenants can read their own data
-      allow read: if request.auth.uid == uid;
+      allow read: if true;
 
       // from the UI, only allow creation of new (and still free) tenants
       allow create: if request.auth.uid != null && request.resource.data.status == 'new';

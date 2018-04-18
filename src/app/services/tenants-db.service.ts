@@ -1,12 +1,13 @@
 import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs/Observable';
 import {AngularFirestore} from 'angularfire2/firestore';
-import {concatMap, first, withLatestFrom} from 'rxjs/operators';
-import {findUniqueMatchWithId, readDocumentWithId} from '../common/firestore-utils';
+import {concatMap, first, map, tap, withLatestFrom} from 'rxjs/operators';
+import {findLastBySeqNo, findUniqueMatchWithId, readDocumentWithId} from '../common/firestore-utils';
 
 import {of} from 'rxjs/observable/of';
 import {AngularFireAuth} from 'angularfire2/auth';
 import {User} from '../models/user.model';
+import {Tenant} from '../models/tenant.model';
 
 
 @Injectable()
@@ -20,26 +21,31 @@ export class TenantsDBService {
 
   createTenantIfNeeded(email: string, pictureUrl: string): Observable<User> {
 
+    debugger;
+
     return this.findTenantByUid()
       .pipe(
-        withLatestFrom(this.afAuth.authState),
-        concatMap(([tenant, authState]) => {
+        withLatestFrom(this.afAuth.authState, this.findLastTenantSeqNo()),
+        concatMap(([tenant, authState, seqNo]) => {
+
+          debugger;
 
           if (tenant) {
             return of(tenant);
           }
           else {
 
-            const newTenant = {email, pictureUrl, id: authState.uid, status: 'new'};
+            const newTenant = {
+              id: authState.uid,
+              seqNo,
+              email,
+              pictureUrl,
+              status: 'new'
+            };
 
             return this.afs.doc(`tenants/${authState.uid}`)
               .set(newTenant)
-              .then(() => {
-                return {
-                  ...newTenant,
-                  isTenant: true
-                };
-              });
+              .then(() => newTenant);
           }
         })
       );
@@ -48,10 +54,25 @@ export class TenantsDBService {
   findTenantByUid(): Observable<User> {
     return this.afAuth.authState
       .pipe(
-        concatMap(authState => readDocumentWithId(this.afs.doc('tenants/' + authState.uid)))
+        concatMap(authState => {
+
+          debugger;
+
+          return readDocumentWithId(this.afs.doc('tenants/' + authState.uid));
+        })
       );
+  }
 
+  findLastTenantSeqNo() : Observable<number> {
+    return findLastBySeqNo<Tenant>(this.afs, "tenants")
+      .pipe(
+        map(last => {
 
+          debugger;
+
+          return last ? last.seqNo + 1 : 4200;
+        })
+      );
   }
 
 }
