@@ -63,8 +63,8 @@ export class LoginComponent implements OnInit, OnDestroy {
 
             if (this.isPlatformSite) {
 
-              this.tenantsDB
-                .createTenantIfNeeded(email, picture)
+              this.loading.showLoader(this.tenantsDB
+                .createTenantIfNeeded(email, picture))
                 .subscribe(tenant => {
 
                   this.store.dispatch(new Login(tenant));

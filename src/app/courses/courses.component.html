@@ -14,7 +14,7 @@
 
   <ng-container *ngIf="courses$ | async as courses">
 
-    <div *ngIf="courses?.length > 0">
+    <div *ngIf="courses?.length > 0; else noCourses">
 
       <h1 class="page-title"> All Courses</h1>
 
@@ -25,6 +25,16 @@
       </mat-grid-list>
 
     </div>
+
+    <ng-template #noCourses>
+
+      <div class="no-courses mat-elevation-z7">
+
+        <span>No courses yet, let's create one.</span>
+
+      </div>
+
+    </ng-template>
 
   </ng-container>
 

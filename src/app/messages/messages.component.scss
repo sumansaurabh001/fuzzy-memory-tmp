@@ -1,8 +1,4 @@
 
-$error-background:#e04648;
-$warn-background: #efb207;
-$info-background: #018eff;
-$success-background: #4caf50;
 
 .messages {
   position: relative;
@@ -13,11 +9,12 @@ $success-background: #4caf50;
   line-height: 22px;
 }
 
-@mixin message-type($background) {
+@mixin message() {
   color:white;
-  background: $background;
   text-rendering: optimizeLegibility;
   border-radius: 4px;
+  border-style: solid;
+  border-width: 1px;
 }
 
 .normal-messages {
@@ -30,18 +27,31 @@ $success-background: #4caf50;
 }
 
 .messages-error {
-  @include message-type($error-background);
+  @include message();
+  color: #a94442;
+  background-color: #f2dede;
+  border-color: #ebccd1;
 }
 
 .messages-info {
-  @include message-type($info-background);}
+  @include message();
+  color: #31708f;
+  background-color: #d9edf7;
+  border-color: #bce8f1;
+}
 
 .messages-warn {
-  @include message-type($warn-background);
+  @include message();
+  color: #8a6d3b;
+  background-color: #fcf8e3;
+  border-color: #faebcc;
 }
 
 .messages-success {
-  @include message-type($success-background);
+  @include message();
+  color: #3c763d;
+  background-color: #dff0d8;
+  border-color: #d6e9c6;
 }
 
 .close-icon {
