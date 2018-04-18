@@ -2,29 +2,52 @@ service cloud.firestore {
 
   match /databases/{database}/documents {
 
+    function isTenant(tenantId) {
+        return request.auth.uid == tenantId && exists(/databases/$(database)/documents/tenants/$(request.auth.uid));
+    }
+
     match /tenants/{uid} {
 
+      // only authenticated tenants can read their own data
       allow read: if request.auth.uid == uid;
 
       // from the UI, only allow creation of new (and still free) tenants
       allow create: if request.auth.uid != null && request.resource.data.status == 'new';
+
     }
 
-    match /schools/{tenant}/courses/{courseId}  {
-        allow read: if true;
-        allow create: if true;
-        allow update: if true;
-        allow delete: if resource.data.status == 'draft';
+    match /schools/{tenantId}/courses/{courseId}  {
 
+        // all course data is public
+        allow read: if true;
+
+        // only tenants can modify course data - and only their own courses
+        allow write: if isTenant(tenantId);
+
+        // for sections and lessons
         match /{document=**} {
+
+          // everything is public
           allow read: if true;
-          allow write: if true;
+
+          // but only tenants can udpate or delete sections or lessons
+          allow write, delete: if isTenant(tenantId);
+
         }
+
+        // tenants can only delete draft courses, to avoid accidents
+        allow delete: if isTenant() && resource.data.status == 'draft';
+
     }
 
-    match /schools/{tenant}/descriptions/{courseId}  {
+    match /schools/{tenantId}/descriptions/{courseId}  {
+
+        // all text descriptions are public info
         allow read: if true;
-        allow write: if true;
+
+        // only tenants can edit descriptions
+        allow write, delete: if isTenant(tenantId);
+
     }
 
   }
