@@ -45,6 +45,8 @@ export class PlatformGuard implements CanActivate {
 
     const isPlatformSite = hostname.includes('app.onlinecoursehost');
 
+    debugger;
+
     return this.afAuth.authState
       .pipe(
         concatMap(auth => {

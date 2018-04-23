@@ -7,7 +7,7 @@
 
 <mat-sidenav-container fullscreen>
 
-  <top-menu>* *ngIf="(branding$ | async)"</top-menu>
+  <top-menu *ngIf="(branding$ | async)"></top-menu>
 
   <div class="app-messages-container">
     <messages></messages>
