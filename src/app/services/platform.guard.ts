@@ -11,6 +11,17 @@ import {isLoggedIn} from '../store/selectors';
 import {TenantsDBService} from './tenants-db.service';
 import {LoadingService} from './loading.service';
 
+/*
+*
+*  This guard has a couple of functions:
+*
+*   - it determines the tenant at application startup time,
+*      which will determine which courses and lessons will be shown to the user.
+*
+*   - it loads the tenant branding styles
+*
+* */
+
 
 @Injectable()
 export class PlatformGuard implements CanActivate {

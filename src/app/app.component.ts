@@ -2,6 +2,7 @@ import {ChangeDetectionStrategy, Component, OnInit, ViewChild} from '@angular/co
 import {MatSidenavContent} from '@angular/material';
 import {NavigationEnd, Router} from '@angular/router';
 import {filter, tap} from 'rxjs/operators';
+import {DomSanitizer} from '@angular/platform-browser';
 
 @Component({
   selector: 'app-root',
@@ -11,7 +12,9 @@ import {filter, tap} from 'rxjs/operators';
 })
 export class AppComponent implements OnInit {
 
-  constructor(private router:Router) {
+  constructor(
+    private router:Router,
+    private sanitizer: DomSanitizer) {
 
   }
 
@@ -31,6 +34,21 @@ export class AppComponent implements OnInit {
     if (main) {
       main.scrollTo(0,0);
     }
+  }
+
+  brandStyles() {
+
+    const test = `
+      <style>
+
+        .theme .mat-toolbar.mat-primary {
+          background: red;        
+        }
+
+      </style>`;
+
+      return this.sanitizer.bypassSecurityTrustHtml(test);
+
   }
 
 
