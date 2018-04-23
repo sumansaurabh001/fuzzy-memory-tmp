@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {Actions, Effect, ofType} from '@ngrx/effects';
-import {concatMap, filter, withLatestFrom} from 'rxjs/operators';
+import {catchError, concatMap, filter, withLatestFrom} from 'rxjs/operators';
 import {DescriptionActionTypes} from '../store/description.actions';
 import {AddDescription, LoadDescription, SaveDescription} from './description.actions';
 import {DescriptionsDbService} from '../services/descriptions-db.service';
@@ -9,6 +9,8 @@ import {select, Store} from '@ngrx/store';
 import {selectDescriptionsState} from './selectors';
 import {AppState} from './index';
 import {LoadingService} from '../services/loading.service';
+import {MessagesService} from '../services/messages.service';
+import {_throw} from 'rxjs/observable/throw';
 
 
 @Injectable()
@@ -23,7 +25,11 @@ export class DescriptionEffects {
       concatMap(
         ([action]) => this.loading.showLoader(this.descriptionsDB.loadDescription(action.descriptionId)),
         ([action], description) => new AddDescription({id: action.descriptionId, description})
-      )
+      ),
+      catchError(err => {
+        this.messages.error('Could not load description.');
+        return _throw(err);
+      })
     );
 
 
@@ -32,14 +38,19 @@ export class DescriptionEffects {
   saveDescription$ = this.actions$
     .pipe(
       ofType<SaveDescription>(DescriptionActionTypes.SaveDescription),
-      concatMap(action => this.descriptionsDB.saveDescription(action.payload.id, action.payload.description))
+      concatMap(action => this.descriptionsDB.saveDescription(action.payload.id, action.payload.description)),
+      catchError(err => {
+        this.messages.error('Could not save description.');
+        return _throw(err);
+      })
     );
 
 
   constructor(private actions$: Actions,
               private store : Store<AppState>,
               private loading: LoadingService,
-              private descriptionsDB: DescriptionsDbService) {
+              private descriptionsDB: DescriptionsDbService,
+              private messages: MessagesService) {
 
   }
 

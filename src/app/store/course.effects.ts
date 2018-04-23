@@ -29,7 +29,11 @@ export class CourseEffects {
   loadCourseDescriptionIfNeeded$ = this.actions$
     .pipe(
       ofType<LoadCourseDetail>(CourseActionTypes.LoadCourseDetail),
-      map(action => new LoadDescription(action.payload.courseId))
+      map(action => new LoadDescription(action.payload.courseId)),
+      catchError(err => {
+        this.messages.error('Could not load course description.');
+        return _throw(err);
+      })
     );
 
   @Effect()
@@ -42,6 +46,10 @@ export class CourseEffects {
         ([action]) => this.loading.showLoader(this.lessonsDB.loadCourseSections(action.payload.courseId)),
         ([action], courseSections) => new AddCourseSections({courseSections, courseId: action.payload.courseId})
       ),
+      catchError(err => {
+        this.messages.error('Could not load sections.');
+        return _throw(err);
+      })
     );
 
   @Effect()
@@ -54,6 +62,10 @@ export class CourseEffects {
         ([action]) => this.loading.showLoader(this.lessonsDB.loadCourseLessons(action.payload.courseId)),
         ([action], lessons) => new AddLessons({lessons, courseId: action.payload.courseId})
       ),
+      catchError(err => {
+        this.messages.error('Could not load lessons.');
+        return _throw(err);
+      })
     );
 
 
@@ -63,7 +75,7 @@ export class CourseEffects {
       ofType<DeleteCourse>(CourseActionTypes.DeleteCourse),
       concatMap(action => this.loading.showLoader(this.coursesDB.deleteCourseDraft(action.payload.id))),
       catchError(err => {
-        this.messages.error('Could not delete the course draft', err);
+        this.messages.error('Could not delete the course draft.', err);
         return _throw(err);
       })
     );
@@ -74,6 +86,10 @@ export class CourseEffects {
     .pipe(
       ofType<UpdateCourse>(CourseActionTypes.UpdateCourse),
       concatMap(action => this.loading.showLoader(this.coursesDB.saveCourse(action.payload.course.id, action.payload.course.changes))),
+      catchError(err => {
+        this.messages.error('Could not save course.');
+        return _throw(err);
+      })
     );
 
   @Effect({dispatch: false})
@@ -81,6 +97,10 @@ export class CourseEffects {
     .pipe(
       ofType<UpdateLesson>(LessonActionTypes.UpdateLesson),
       concatMap(action => this.lessonsDB.saveLesson(action.payload.courseId, action.payload.lesson)),
+      catchError(err => {
+        this.messages.error('Could not save lesson.');
+        return _throw(err);
+      })
     );
 
 
