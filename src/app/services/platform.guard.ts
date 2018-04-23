@@ -11,7 +11,10 @@ import {isLoggedIn} from '../store/selectors';
 import {TenantsDBService} from './tenants-db.service';
 import {LoadingService} from './loading.service';
 import {SetBrandColors} from '../store/branding.actions';
-import {DEFAULT_SCHOOL_ACCENT_COLOR, DEFAULT_SCHOOL_PRIMARY_COLOR} from '../common/ui-constants';
+import {
+  DEFAULT_SCHOOL_ACCENT_COLOR, DEFAULT_SCHOOL_PRIMARY_COLOR, PLATFORM_ACCENT_COLOR,
+  PLATFORM_PRIMARY_COLOR
+} from '../common/ui-constants';
 
 /*
 *
@@ -114,7 +117,7 @@ export class PlatformGuard implements CanActivate {
   }
 
   setPlatformBrandColors() {
-    this.store.dispatch(new SetBrandColors({primaryColor: DEFAULT_SCHOOL_PRIMARY_COLOR, accentColor: DEFAULT_SCHOOL_ACCENT_COLOR}));
+    this.store.dispatch(new SetBrandColors({primaryColor: PLATFORM_PRIMARY_COLOR, accentColor: PLATFORM_ACCENT_COLOR}));
   }
 
 
