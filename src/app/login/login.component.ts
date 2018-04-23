@@ -7,7 +7,7 @@ import {TenantsDBService} from '../services/tenants-db.service';
 import {AppState} from '../store';
 import {Store} from '@ngrx/store';
 import {Login} from '../store/auth.actions';
-import {Router} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 
 
 @Component({
@@ -21,16 +21,23 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   isPlatformSite:boolean;
 
+  isEmailAndPassword:boolean;
+
   constructor(
     public afAuth: AngularFireAuth,
     private tenantsDB: TenantsDBService,
     private loading: LoadingService,
     private store: Store<AppState>,
-    private router: Router) {
+    private router: Router,
+    private route: ActivatedRoute) {
 
     const hostName = document.location.hostname;
 
     this.isPlatformSite = hostName.includes('app.onlinecoursehost');
+
+    this.isEmailAndPassword = !!route.snapshot.queryParamMap.get("mode");
+
+    console.log("isEmailAndPassword", this.isEmailAndPassword);
 
   }
 
@@ -41,6 +48,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     try {
 
       const uiConfig = {
+
         signInOptions: [
           firebase.auth.GoogleAuthProvider.PROVIDER_ID,
           firebase.auth.FacebookAuthProvider.PROVIDER_ID,
@@ -51,20 +59,19 @@ export class LoginComponent implements OnInit, OnDestroy {
 
           signInSuccessWithAuthResult: (result) => {
 
-            const user = result.user;
-            const credential = result.credential;
-            const isNewUser = result.additionalUserInfo.isNewUser;
-            const providerId = result.additionalUserInfo.providerId;
-            const operationType = result.operationType;
+            const email = result.user.email,
+                  displayName = result.user.displayName;
 
-            const email = result.additionalUserInfo.profile.email,
-                  picture = result.additionalUserInfo.profile.picture,
-                  token = result.credential.accessToken;
+            let picture;
+
+            if (result.additionalUserInfo && result.additionalUserInfo.profile) {
+              picture = result.additionalUserInfo.profile.picture;
+            }
 
             if (this.isPlatformSite) {
 
               this.loading.showLoader(this.tenantsDB
-                .createTenantIfNeeded(email, picture))
+                .createTenantIfNeeded(email, picture, displayName))
                 .subscribe(tenant => {
 
                   this.store.dispatch(new Login(tenant));

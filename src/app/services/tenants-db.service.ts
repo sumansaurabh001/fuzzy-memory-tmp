@@ -21,8 +21,7 @@ export class TenantsDBService {
 
   }
 
-  createTenantIfNeeded(email: string, pictureUrl: string): Observable<Tenant> {
-
+  createTenantIfNeeded(email: string, pictureUrl: string = null, displayName:string = null): Observable<Tenant> {
     return this.findTenantByUid()
       .pipe(
         withLatestFrom(this.afAuth.authState, this.findLastTenantSeqNo()),
@@ -42,7 +41,8 @@ export class TenantsDBService {
               seqNo,
               email,
               pictureUrl,
-              status: 'new'
+              status: 'new',
+              displayName
             };
 
             return this.afs.doc(`tenants/${authState.uid}`)

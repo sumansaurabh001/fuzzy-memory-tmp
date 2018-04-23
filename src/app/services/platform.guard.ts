@@ -73,6 +73,9 @@ export class PlatformGuard implements CanActivate {
           if (tenant) {
             this.tenant.id = tenant.id;
           }
+          else {
+            this.router.navigate(['/login']);
+          }
         }),
         map(tenant => !!tenant)
       );

@@ -48,7 +48,7 @@
     <span>Login</span>
   </a>
 
-  <img class="user-avatar" [src]="pictureUrl$ | async" *ngIf="isLoggedIn$ | async">
+  <img class="user-avatar" [src]="pictureUrl$ | async" *ngIf="pictureUrl$ | async">
 
   <a mat-button class="desktop-menu" *ngIf="isLoggedIn$ | async" (click)="logout()">
     <mat-icon>exit_to_app</mat-icon>
