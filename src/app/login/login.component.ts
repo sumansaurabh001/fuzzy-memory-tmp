@@ -30,7 +30,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 
     const hostName = document.location.hostname;
 
-    this.isPlatformSite = hostName.includes('onlinecoursehost');
+    this.isPlatformSite = hostName.includes('app.onlinecoursehost');
 
   }
 

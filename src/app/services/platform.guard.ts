@@ -34,14 +34,12 @@ export class PlatformGuard implements CanActivate {
 
     return this.afAuth.authState
       .pipe(
-        tap(auth => {
-          if (isPlatformSite && !auth) {
-            this.router.navigateByUrl('/login');
-          }
-        }),
         concatMap(auth => {
-
-          if (isPlatformSite) {
+          if (isPlatformSite && !auth) {
+            this.router.navigate(['/login']);
+            return of(undefined);
+          }
+          else if (isPlatformSite) {
             return this.loading.showLoader(this.tenantDB.findTenantByUid());
           }
           else {
@@ -51,10 +49,12 @@ export class PlatformGuard implements CanActivate {
           }
 
         }),
-        map(tenant => tenant.id),
-        tap(tenantId => this.tenant.id = tenantId),
-        map(tenantId => !!tenantId),
-        filter(tenantFound => tenantFound)
+        tap(tenant => {
+          if (tenant) {
+            this.tenant.id = tenant.id;
+          }
+        }),
+        map(tenant => !!tenant)
       );
   }
 
