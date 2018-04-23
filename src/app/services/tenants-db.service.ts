@@ -8,6 +8,7 @@ import {of} from 'rxjs/observable/of';
 import {AngularFireAuth} from 'angularfire2/auth';
 import {User} from '../models/user.model';
 import {Tenant} from '../models/tenant.model';
+import {Lesson} from '../models/lesson.model';
 
 
 @Injectable()
@@ -19,7 +20,7 @@ export class TenantsDBService {
 
   }
 
-  createTenantIfNeeded(email: string, pictureUrl: string): Observable<User> {
+  createTenantIfNeeded(email: string, pictureUrl: string): Observable<Tenant> {
 
     return this.findTenantByUid()
       .pipe(
@@ -51,7 +52,7 @@ export class TenantsDBService {
       );
   }
 
-  findTenantByUid(): Observable<User> {
+  findTenantByUid(): Observable<Tenant> {
     return this.afAuth.authState
       .pipe(
         concatMap(authState => {
@@ -73,4 +74,21 @@ export class TenantsDBService {
       );
   }
 
+  findTenantBySubdomain(subDomainSeqNo: number): Observable<Tenant> {
+
+    const query$ = this.afs
+      .collection<Tenant>('tenants', ref => ref.where('seqNo', '==', subDomainSeqNo).limit(1));
+
+    return findUniqueMatchWithId(query$).pipe(first());
+  }
+
+
 }
+
+
+
+
+
+
+
+

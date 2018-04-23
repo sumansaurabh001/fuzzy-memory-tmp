@@ -35,20 +35,39 @@ export class PlatformGuard implements CanActivate {
     return this.afAuth.authState
       .pipe(
         concatMap(auth => {
+
+          // in the platform site, we always need the tenant to login in order to show the courses
           if (isPlatformSite && !auth) {
             this.router.navigate(['/login']);
             return of(undefined);
           }
+          // if the tenant is logged in to the platform site, get the tenantId
           else if (isPlatformSite) {
             return this.loading.showLoader(this.tenantDB.findTenantByUid());
           }
           else {
 
-            //TODO - not platform site, get the tenantId from DB in /hosts (lookup by hostname)
+            const subDomainRegex = /^(.*).onlinecoursehost/;
+
+            const matches = hostname.match(subDomainRegex);
+
+            if (matches.length == 2) {
+
+              const subDomain = matches[1];
+
+              return this.loading.showLoader(this.tenantDB.findTenantBySubdomain(parseInt(subDomain)));
+
+            }
+            else {
+
+              // TODO this is the custom domain case
+
+            }
 
           }
 
         }),
+        // setting the tenant id is necessary before showing any courses
         tap(tenant => {
           if (tenant) {
             this.tenant.id = tenant.id;
