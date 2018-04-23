@@ -9,6 +9,7 @@ import {AngularFireAuth} from 'angularfire2/auth';
 import {User} from '../models/user.model';
 import {Tenant} from '../models/tenant.model';
 import {Lesson} from '../models/lesson.model';
+import {AngularFirestoreCollection} from 'angularfire2/firestore/collection/collection';
 
 
 @Injectable()
@@ -74,11 +75,21 @@ export class TenantsDBService {
       );
   }
 
-  findTenantBySubdomain(subDomainSeqNo: number): Observable<Tenant> {
+  findTenantBySubdomain(subDomain: string): Observable<Tenant> {
 
-    const query$ = this.afs
-      .collection<Tenant>('tenants', ref => ref.where('seqNo', '==', subDomainSeqNo).limit(1));
+    const seqNo = parseInt(subDomain);
 
+    let query$: AngularFirestoreCollection<Tenant>;
+
+    if (!isNaN(seqNo)) {
+      query$ = this.afs
+        .collection<Tenant>('tenants', ref => ref.where('seqNo', '==', seqNo).limit(1));
+    }
+    else {
+      query$ = this.afs
+        .collection<Tenant>('tenants', ref => ref.where('subDomain', '==', subDomain).limit(1));
+
+    }
     return findUniqueMatchWithId(query$).pipe(first());
   }
 

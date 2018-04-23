@@ -47,6 +47,7 @@ export class PlatformGuard implements CanActivate {
           }
           else {
 
+            // checking if this a tenant subdomain
             const subDomainRegex = /^(.*).onlinecoursehost/;
 
             const matches = hostname.match(subDomainRegex);
@@ -55,7 +56,7 @@ export class PlatformGuard implements CanActivate {
 
               const subDomain = matches[1];
 
-              return this.loading.showLoader(this.tenantDB.findTenantBySubdomain(parseInt(subDomain)));
+              return this.loading.showLoader(this.tenantDB.findTenantBySubdomain(subDomain));
 
             }
             else {
