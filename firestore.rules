@@ -13,6 +13,9 @@ service cloud.firestore {
       // from the UI, only allow creation of new (and still free) tenants
       allow create: if request.auth.uid != null && request.resource.data.status == 'new';
 
+      // only the tenant can modify its own data
+      allow update: if isTenant(uid);
+
     }
 
     match /schools/{tenantId}/courses/{courseId}  {
