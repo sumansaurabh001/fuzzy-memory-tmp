@@ -7,6 +7,7 @@ import {
 import * as fromSection from './course-section.reducer';
 import * as fromLesson from './lesson.reducer';
 import {AuthState} from './auth.reducer';
+import {BrandingState} from '../branding/branding.reducer';
 
 
 export const selectCoursesState = createFeatureSelector<fromCourse.State>('courses');
@@ -18,6 +19,9 @@ export const selectSectionsState = createFeatureSelector<fromSection.State>('sec
 export const selectLessonsState = createFeatureSelector<fromLesson.State>('lessons');
 
 export const authState = createFeatureSelector<AuthState>('auth');
+
+export const brandingState = createFeatureSelector<BrandingState>('branding');
+
 
 
 export const selectCourseIds = createSelector(selectCoursesState, fromCourse.selectIds);

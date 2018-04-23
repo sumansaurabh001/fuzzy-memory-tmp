@@ -37,8 +37,6 @@ export class LoginComponent implements OnInit, OnDestroy {
 
     this.isEmailAndPassword = !!route.snapshot.queryParamMap.get("mode");
 
-    console.log("isEmailAndPassword", this.isEmailAndPassword);
-
   }
 
   ngOnInit() {

@@ -10,6 +10,7 @@ import {User} from '../models/user.model';
 import {Tenant} from '../models/tenant.model';
 import {Lesson} from '../models/lesson.model';
 import {AngularFirestoreCollection} from 'angularfire2/firestore/collection/collection';
+import {DEFAULT_SCHOOL_ACCENT_COLOR, DEFAULT_SCHOOL_PRIMARY_COLOR} from '../common/ui-constants';
 
 
 @Injectable()
@@ -42,7 +43,11 @@ export class TenantsDBService {
               email,
               pictureUrl,
               status: 'new',
-              displayName
+              displayName,
+              //default brand colors
+              primaryColor: DEFAULT_SCHOOL_PRIMARY_COLOR,
+              accentColor: DEFAULT_SCHOOL_ACCENT_COLOR
+
             };
 
             return this.afs.doc(`tenants/${authState.uid}`)

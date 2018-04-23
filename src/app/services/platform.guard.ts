@@ -10,13 +10,15 @@ import {concatMap, filter, map, tap, withLatestFrom} from 'rxjs/operators';
 import {isLoggedIn} from '../store/selectors';
 import {TenantsDBService} from './tenants-db.service';
 import {LoadingService} from './loading.service';
+import {SetBrandColors} from '../store/branding.actions';
+import {DEFAULT_SCHOOL_ACCENT_COLOR, DEFAULT_SCHOOL_PRIMARY_COLOR} from '../common/ui-constants';
 
 /*
 *
-*  This guard has a couple of functions:
+*  This guard has a couple of very important functions, without which the website can't function:
 *
 *   - it determines the tenant at application startup time,
-*      which will determine which courses and lessons will be shown to the user.
+*      which will determine which courses and lessons will be shown to the user (as this is a multi-tenant app)
 *
 *   - it loads the tenant branding styles
 *
@@ -50,12 +52,15 @@ export class PlatformGuard implements CanActivate {
           // in the platform site, we always need the tenant to login in order to show the courses
           if (isPlatformSite && !auth) {
             this.router.navigate(['/login']);
+            this.setPlatformBrandColors();
             return of(undefined);
           }
-          // if the tenant is logged in to the platform site, get the tenantId
+          // if the tenant is logged in to the platform site, get the tenantId from DB
           else if (isPlatformSite) {
+            this.setPlatformBrandColors();
             return this.loading.showLoader(this.tenantDB.findTenantByUid());
           }
+          // if its not the platform site, then it must be a subdomain or a custom domain - find the tenant
           else {
 
             // checking if this a tenant subdomain
@@ -67,7 +72,17 @@ export class PlatformGuard implements CanActivate {
 
               const subDomain = matches[1];
 
-              return this.loading.showLoader(this.tenantDB.findTenantBySubdomain(subDomain));
+              return this.loading.showLoader(
+                this.tenantDB.findTenantBySubdomain(subDomain)
+                  .pipe(
+                    tap(tenant => {
+                      if (tenant) {
+                        // theme the page using the tenant brand colors
+                        this.store.dispatch(new SetBrandColors({primaryColor: tenant.primaryColor, accentColor: tenant.accentColor}));
+                      }
+                    })
+                  )
+              );
 
             }
             else {
@@ -79,17 +94,26 @@ export class PlatformGuard implements CanActivate {
           }
 
         }),
-        // setting the tenant id is necessary before showing any courses
+
         tap(tenant => {
-          if (tenant) {
-            this.tenant.id = tenant.id;
-          }
-          else {
+
+          // this should not happen (it's just in case)
+          if (!tenant) {
             this.router.navigate(['/login']);
+            this.setPlatformBrandColors();
           }
+
+          // setting the tenant id globally (determines what courses get loaded)
+          this.tenant.id = tenant.id;
+
         }),
         map(tenant => !!tenant)
       );
   }
+
+  setPlatformBrandColors() {
+    this.store.dispatch(new SetBrandColors({primaryColor: DEFAULT_SCHOOL_PRIMARY_COLOR, accentColor: DEFAULT_SCHOOL_ACCENT_COLOR}));
+  }
+
 
 }

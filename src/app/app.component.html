@@ -1,9 +1,13 @@
 
-<div [innerHTML]="brandStyles()"></div>
+<ng-container *ngIf="(branding$ | async) as branding">
+
+  <div [innerHTML]="brandStyles(branding)"></div>
+
+</ng-container>
 
 <mat-sidenav-container fullscreen>
 
-  <top-menu></top-menu>
+  <top-menu>* *ngIf="(branding$ | async)"</top-menu>
 
   <div class="app-messages-container">
     <messages></messages>
@@ -20,6 +24,11 @@
   <loading></loading>
 
 </mat-sidenav-container>
+
+
+
+
+
 
 
 
