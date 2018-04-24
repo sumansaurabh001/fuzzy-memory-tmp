@@ -37,9 +37,16 @@
     <span>Courses</span>
   </a>
 
-  <a mat-button class="desktop-menu">
+  <a mat-button class="desktop-menu" [matMenuTriggerFor]="adminMenu">
     <span>Admin</span>
   </a>
+
+  <mat-menu class="dropdown-menu" #adminMenu [overlapTrigger]="false">
+    <button mat-menu-item>My Account</button>
+    <mat-divider></mat-divider>
+    <button mat-menu-item>Branding</button>
+    <button mat-menu-item>Pricing</button>
+  </mat-menu>
 
   <span class="filler"></span>
 
