@@ -79,6 +79,7 @@ import {TenantsDBService} from './services/tenants-db.service';
 import {AuthEffects} from './store/auth.effects';
 import {ViewCoursesResolver} from './services/view-courses.resolver';
 import {PlatformGuard} from './services/platform.guard';
+import {PlatformEffects} from './store/platform.effects';
 
 
 @NgModule({
@@ -155,7 +156,8 @@ import {PlatformGuard} from './services/platform.guard';
     EffectsModule.forRoot([
       CourseEffects,
       DescriptionEffects,
-      AuthEffects
+      AuthEffects,
+      PlatformEffects
     ]),
     StoreRouterConnectingModule.forRoot({
       stateKey: 'router'

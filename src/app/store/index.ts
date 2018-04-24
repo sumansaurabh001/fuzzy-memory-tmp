@@ -15,6 +15,7 @@ import {authReducer, AuthState} from './auth.reducer';
 import {platformReducer, PlatformState} from './platform.reducer';
 
 
+
 export interface AppState {
   courses: fromCourse.State;
   router: RouterReducerState;
@@ -23,8 +24,9 @@ export interface AppState {
   lessons: fromLesson.State;
   auth: AuthState;
   platform: PlatformState;
-
 }
+
+
 
 export const reducers: ActionReducerMap<AppState> = {
   courses: fromCourse.reducer,
@@ -37,7 +39,9 @@ export const reducers: ActionReducerMap<AppState> = {
 };
 
 
+
 export const metaReducers: MetaReducer<AppState>[] = !environment.production ? [storeFreeze] : [];
+
 
 
 

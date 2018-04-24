@@ -5,10 +5,9 @@ import {MessagesService} from '../../services/messages.service';
 import {AppState} from '../../store';
 import {select, Store} from '@ngrx/store';
 import {checkIfPlatformSite} from '../../common/platform-utils';
-import {getTenant} from '../../store/selectors';
+import {getTenant, platformState} from '../../store/selectors';
 import {tap} from 'rxjs/operators';
-import {SaveBrandColors} from '../store/branding.actions';
-import {SetTheme} from '../../store/platform.actions';
+import {SaveTheme, SetTheme} from '../../store/platform.actions';
 
 
 const isHexColorRegex  = /^#[0-9A-F]{6}$/i;
@@ -48,7 +47,8 @@ export class BrandingComponent implements OnInit {
           this.primaryColor = tenant.primaryColor;
           this.accentColor = tenant.accentColor;
         })
-      );
+      )
+      .subscribe();
 
   }
 
@@ -75,13 +75,18 @@ export class BrandingComponent implements OnInit {
       return;
     }
 
-    const payload = {primaryColor: this.primaryColor, accentColor: this.accentColor};
+    const payload = {
+      primaryColor: this.primaryColor,
+      accentColor: this.accentColor
+    };
 
     if (!checkIfPlatformSite()) {
       this.store.dispatch(new SetTheme(payload));
     }
 
-    this.store.dispatch(new SaveBrandColors(payload));
+    this.store.dispatch(new SaveTheme(payload));
+
+    this.messages.success('New theme saved successfully.');
 
   }
 

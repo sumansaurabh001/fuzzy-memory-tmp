@@ -11,6 +11,7 @@ import {Tenant} from '../models/tenant.model';
 import {Lesson} from '../models/lesson.model';
 import {AngularFirestoreCollection} from 'angularfire2/firestore/collection/collection';
 import {DEFAULT_SCHOOL_ACCENT_COLOR, DEFAULT_SCHOOL_PRIMARY_COLOR} from '../common/ui-constants';
+import {fromPromise} from 'rxjs/observable/fromPromise';
 
 
 @Injectable()
@@ -98,6 +99,12 @@ export class TenantsDBService {
     return findUniqueMatchWithId(query$).pipe(first());
   }
 
+
+  saveTheme(tenantId: string, primaryColor:string, accentColor:string) : Observable<any> {
+
+    return fromPromise(this.afs.collection('tenants').doc(tenantId).update({primaryColor, accentColor}));
+
+  }
 
 }
 
