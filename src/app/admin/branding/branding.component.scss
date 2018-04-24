@@ -1,4 +1,3 @@
-
 @import "../../mixins";
 
 .branding {
@@ -11,11 +10,29 @@
     padding: 16px;
   }
 }
+.color-field {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
 
 
+.color-sample {
+  height: 30px;
+  width: 30px;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-right: 20px;
+}
 
 .branding-form {
-  @include single-col-form;
+
+  margin-left: 10px;
+  @include single-col-form();
+
+  .color-field:first-child {
+     margin-top: 10px;
+  }
 }
 
 .branding-actions {

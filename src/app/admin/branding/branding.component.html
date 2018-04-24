@@ -6,17 +6,33 @@
     <mat-toolbar color="primary">Brand Colors</mat-toolbar>
 
     <mat-card-content>
+
       <form class="branding-form">
 
-        <mat-form-field>
-          <mat-label>Brand Primary Color:</mat-label>
-          <input matInput placeholder="Choose your brand primary color">
-        </mat-form-field>
+        <div class="color-field">
 
-        <mat-form-field>
-          <mat-label>Brand Accent Color:</mat-label>
-          <input matInput placeholder="Choose your brand accent color">
-        </mat-form-field>
+          <div class="color-sample mat-elevation-z3" [style.background]="primaryColor" (click)="openPrimaryPicker()"></div>
+
+          <mat-form-field>
+            <mat-label>Brand Primary Color:</mat-label>
+            <input matInput [(colorPicker)]="primaryColor" [(ngModel)]="primaryColor" name="primaryColor" #primaryPicker
+                   cpPosition="bottom" [placeholder]="'Example: ' + primaryColor">
+          </mat-form-field>
+
+        </div>
+
+
+        <div class="color-field">
+
+          <div class="color-sample mat-elevation-z3" [style.background]="accentColor" (click)="openAccentPicker()"></div>
+
+          <mat-form-field>
+            <mat-label>Brand Accent Color:</mat-label>
+            <input matInput [(colorPicker)]="accentColor" cpPosition="bottom"  [(ngModel)]="accentColor" name="accentColor" #accentPicker
+                   [placeholder]="'Example: ' + accentColor">
+          </mat-form-field>
+
+        </div>
 
       </form>
 
@@ -25,8 +41,7 @@
 
     <div class="branding-actions">
 
-      <button mat-button>Cancel</button>
-      <button mat-raised-button color="primary">Save</button>
+      <button mat-raised-button color="primary" (click)="saveBrandColors()">Save</button>
 
     </div>
 

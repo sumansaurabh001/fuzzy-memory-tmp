@@ -4739,6 +4739,10 @@ ngx-bootstrap@^2.0.2:
   version "2.0.2"
   resolved "https://registry.yarnpkg.com/ngx-bootstrap/-/ngx-bootstrap-2.0.2.tgz#6862b2ee4764bb6cfd34c66528873d0d050c2faa"
 
+ngx-color-picker@^5.3.8:
+  version "5.3.8"
+  resolved "https://registry.yarnpkg.com/ngx-color-picker/-/ngx-color-picker-5.3.8.tgz#dd19767d9808a817471b57b3772082827a6ddb96"
+
 ngx-editor@v3.3.0-rc.13:
   version "3.3.0-rc.13"
   resolved "https://registry.yarnpkg.com/ngx-editor/-/ngx-editor-3.3.0-rc.13.tgz#49e69f7754eb9fa9f02d4748b0755a204f5558e7"

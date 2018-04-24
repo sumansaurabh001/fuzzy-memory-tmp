@@ -3,7 +3,9 @@ import { CommonModule } from '@angular/common';
 
 import { AdminRoutingModule } from './admin-routing.module';
 import { BrandingComponent } from './branding/branding.component';
-import {MatButtonModule, MatCardModule, MatInputModule, MatToolbarModule} from '@angular/material';
+import {MatButtonModule, MatCardModule, MatIconModule, MatInputModule, MatToolbarModule} from '@angular/material';
+import {ColorPickerModule} from 'ngx-color-picker';
+import {FormsModule} from '@angular/forms';
 
 
 
@@ -14,7 +16,10 @@ import {MatButtonModule, MatCardModule, MatInputModule, MatToolbarModule} from '
     MatCardModule,
     MatInputModule,
     MatToolbarModule,
-    MatButtonModule
+    MatButtonModule,
+    ColorPickerModule,
+    MatIconModule,
+    FormsModule
   ],
   declarations: [BrandingComponent]
 })
