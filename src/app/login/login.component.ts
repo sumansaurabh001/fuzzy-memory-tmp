@@ -8,6 +8,9 @@ import {AppState} from '../store';
 import {Store} from '@ngrx/store';
 import {Login} from '../store/auth.actions';
 import {ActivatedRoute, Router} from '@angular/router';
+import {checkIfPlatformSite} from '../common/platform-utils';
+import {SetBrandColors} from '../store/branding.actions';
+import {PLATFORM_ACCENT_COLOR, PLATFORM_PRIMARY_COLOR} from '../common/ui-constants';
 
 
 @Component({
@@ -33,7 +36,11 @@ export class LoginComponent implements OnInit, OnDestroy {
 
     const hostName = document.location.hostname;
 
-    this.isPlatformSite = hostName.includes('app.onlinecoursehost');
+    this.isPlatformSite = checkIfPlatformSite();
+
+    if (this.isPlatformSite) {
+      this.store.dispatch(new SetBrandColors({primaryColor: PLATFORM_PRIMARY_COLOR, accentColor: PLATFORM_ACCENT_COLOR}));
+    }
 
     this.isEmailAndPassword = !!route.snapshot.queryParamMap.get("mode");
 

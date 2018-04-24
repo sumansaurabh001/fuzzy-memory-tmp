@@ -15,7 +15,7 @@ export const initialState: BrandingState = {
 export function brandingReducer(state = initialState, action: BrandingActions): BrandingState {
   switch (action.type) {
 
-    case BrandingActionTypes.SetBrandColorsAction:
+    case BrandingActionTypes.SetBrandColors:
       return {
         ...state,
         primaryColor: action.payload.primaryColor,

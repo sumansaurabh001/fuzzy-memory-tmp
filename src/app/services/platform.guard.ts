@@ -15,6 +15,7 @@ import {
   DEFAULT_SCHOOL_ACCENT_COLOR, DEFAULT_SCHOOL_PRIMARY_COLOR, PLATFORM_ACCENT_COLOR,
   PLATFORM_PRIMARY_COLOR
 } from '../common/ui-constants';
+import {checkIfPlatformSite, getPlatformSubdomain} from '../common/platform-utils';
 
 /*
 *
@@ -32,78 +33,66 @@ import {
 export class PlatformGuard implements CanActivate {
 
 
-  constructor(
-    private tenant: TenantService,
-    private tenantDB: TenantsDBService,
-    private afAuth: AngularFireAuth,
-    private store: Store<AppState>,
-    private router: Router,
-    private loading: LoadingService) {
+  constructor(private tenant: TenantService,
+              private tenantDB: TenantsDBService,
+              private afAuth: AngularFireAuth,
+              private store: Store<AppState>,
+              private router: Router,
+              private loading: LoadingService) {
 
   }
 
-  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean>  {
+  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
 
-    const hostname = document.location.hostname;
-
-    const isPlatformSite = hostname.includes('app.onlinecoursehost');
+    const isPlatformSite = checkIfPlatformSite(),
+      subDomain = getPlatformSubdomain();
 
     return this.afAuth.authState
       .pipe(
+
+        // get the tenant Id and brand styles
         concatMap(auth => {
 
-          // in the platform site, we always need the tenant to login in order to show the courses
+          // platform site main app, logged out
           if (isPlatformSite && !auth) {
             this.router.navigate(['/login']);
             this.setPlatformBrandColors();
             return of(undefined);
           }
-          // if the tenant is logged in to the platform site, get the tenantId from DB
+
+          // platform site main app, logged in
           else if (isPlatformSite) {
             this.setPlatformBrandColors();
             return this.loading.showLoader(this.tenantDB.findTenantByUid());
           }
-          // if its not the platform site, then it must be a subdomain or a custom domain - find the tenant
+
+          // platform site subdomain
+          else if (subDomain) {
+            return this.loading.showLoader(
+              this.tenantDB.findTenantBySubdomain(subDomain)
+                .pipe(
+                  tap(tenant => {
+                    if (tenant) {
+                      // theme the page using the tenant brand colors
+                      this.store.dispatch(new SetBrandColors({primaryColor: tenant.primaryColor, accentColor: tenant.accentColor}));
+                    }
+                  })
+                )
+            );
+          }
+
+          //TODO custom domain case
           else {
 
-            // checking if this a tenant subdomain
-            const subDomainRegex = /^(.*).onlinecoursehost/;
-
-            const matches = hostname.match(subDomainRegex);
-
-            if (matches.length == 2) {
-
-              const subDomain = matches[1];
-
-              return this.loading.showLoader(
-                this.tenantDB.findTenantBySubdomain(subDomain)
-                  .pipe(
-                    tap(tenant => {
-                      if (tenant) {
-                        // theme the page using the tenant brand colors
-                        this.store.dispatch(new SetBrandColors({primaryColor: tenant.primaryColor, accentColor: tenant.accentColor}));
-                      }
-                    })
-                  )
-              );
-
-            }
-            else {
-
-              // TODO this is the custom domain case
-
-            }
-
           }
+
 
         }),
 
         tap(tenant => {
 
-          // this should not happen (it's just in case)
           if (!tenant) {
-            this.router.navigate(['/login']);
-            this.setPlatformBrandColors();
+            return;
           }
 
           // setting the tenant id globally (determines what courses get loaded)
