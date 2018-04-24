@@ -1,5 +1,6 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import leftPad = require('left-pad');
+
+const leftPad = require('left-pad');
 
 @Pipe({
   name: 'duration'
