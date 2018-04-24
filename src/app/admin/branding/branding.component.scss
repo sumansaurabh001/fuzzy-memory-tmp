@@ -1,4 +1,23 @@
 
+@import "../../mixins";
+
 .branding {
   margin-top: 150px;
+}
+
+.brand-colors {
+  padding: 0;
+  & mat-card-content {
+    padding: 16px;
+  }
+}
+
+
+
+.branding-form {
+  @include single-col-form;
+}
+
+.branding-actions {
+  @include form-card-actions;
 }

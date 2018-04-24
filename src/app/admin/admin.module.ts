@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import { AdminRoutingModule } from './admin-routing.module';
 import { BrandingComponent } from './branding/branding.component';
-import {MatCardModule, MatInputModule, MatToolbarModule} from '@angular/material';
+import {MatButtonModule, MatCardModule, MatInputModule, MatToolbarModule} from '@angular/material';
 
 
 
@@ -13,7 +13,8 @@ import {MatCardModule, MatInputModule, MatToolbarModule} from '@angular/material
     AdminRoutingModule,
     MatCardModule,
     MatInputModule,
-    MatToolbarModule
+    MatToolbarModule,
+    MatButtonModule
   ],
   declarations: [BrandingComponent]
 })

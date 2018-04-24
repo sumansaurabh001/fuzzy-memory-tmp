@@ -66,6 +66,10 @@ export class AppComponent implements OnInit {
         .theme .mat-toolbar.mat-primary {
           background: ${branding.primaryColor};        
         }
+        
+        .theme .mat-raised-button.mat-primary, .theme .mat-fab.mat-primary, .theme .mat-mini-fab.mat-primary {
+          background-color: ${branding.primaryColor};
+        }
 
       </style>`;
 

@@ -22,3 +22,20 @@
 }
 
 
+
+@mixin single-col-form {
+  display: flex;
+  flex-direction: column;
+}
+
+@mixin form-card-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-right: 20px;
+  padding-bottom: 10px;
+  button {
+    margin-left: 5px;
+    text-transform: uppercase;
+  }
+}
+
