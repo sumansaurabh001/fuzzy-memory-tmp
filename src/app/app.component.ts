@@ -60,6 +60,10 @@ export class AppComponent implements OnInit {
 
   brandStyles(branding: BrandingState) {
 
+    const RGB = branding.primaryColor;
+
+    const sliderColor ='rgba('+parseInt(RGB.substring(1,3),16)+','+parseInt(RGB.substring(3,5),16)+','+parseInt(RGB.substring(5,7),16)+',0.5)';
+
     const test = `
       <style>
 
@@ -67,9 +71,21 @@ export class AppComponent implements OnInit {
           background: ${branding.primaryColor};        
         }
         
-        .theme .mat-raised-button.mat-primary, .theme .mat-fab.mat-primary, .theme .mat-mini-fab.mat-primary {
+        .theme .mat-raised-button.mat-primary:not([disabled]), 
+        .theme .mat-fab.mat-primary:not([disabled]), 
+        .theme .mat-mini-fab.mat-primary:not([disabled]) { 
           background-color: ${branding.primaryColor};
         }
+        
+        .theme .mat-slide-toggle.mat-primary.mat-checked:not(.mat-disabled) .mat-slide-toggle-bar {
+          background-color: ${sliderColor};
+        }
+        
+        .theme .mat-slide-toggle.mat-primary.mat-checked:not(.mat-disabled) .mat-slide-toggle-thumb {
+          background-color: ${branding.primaryColor};          
+        }
+        
+        
 
       </style>`;
 

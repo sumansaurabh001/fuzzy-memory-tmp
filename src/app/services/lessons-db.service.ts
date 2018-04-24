@@ -78,7 +78,9 @@ export class LessonsDBService {
             title,
             seqNo: last ? (last.seqNo + 1) : 1,
             sectionId,
-            status: 'draft'
+            status: 'draft',
+            free:false
+
           };
 
           const addLessonAsync = this.afs.collection(this.lessonsPath(courseId))
