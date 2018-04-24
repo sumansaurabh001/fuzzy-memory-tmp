@@ -12,7 +12,7 @@ import * as fromCourseSection from './course-section.reducer';
 import {storeFreeze} from 'ngrx-store-freeze';
 import * as fromLesson from './lesson.reducer';
 import {authReducer, AuthState} from './auth.reducer';
-import {brandingReducer, BrandingState} from '../branding/branding.reducer';
+import {brandingReducer, BrandingState} from './branding.reducer';
 
 
 export interface AppState {

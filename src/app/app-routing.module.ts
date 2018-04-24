@@ -49,6 +49,11 @@ const routes: Routes = [
     component: LoginComponent
   },
   {
+    path: 'admin',
+    loadChildren: './admin/admin.module#AdminModule',
+    canActivate: [PlatformGuard]
+  },
+  {
     path: "**",
     redirectTo: '/courses'
   }

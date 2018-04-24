@@ -7,7 +7,7 @@ import {select, Store} from '@ngrx/store';
 import {AppState} from './store';
 import {Observable} from 'rxjs/Observable';
 import {brandingState} from './store/selectors';
-import {BrandingState} from './branding/branding.reducer';
+import {BrandingState} from './store/branding.reducer';
 import {LoadingService} from './services/loading.service';
 
 @Component({

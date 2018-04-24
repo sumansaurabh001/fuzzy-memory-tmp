@@ -7,7 +7,7 @@ import {
 import * as fromSection from './course-section.reducer';
 import * as fromLesson from './lesson.reducer';
 import {AuthState} from './auth.reducer';
-import {BrandingState} from '../branding/branding.reducer';
+import {BrandingState} from './branding.reducer';
 
 
 export const selectCoursesState = createFeatureSelector<fromCourse.State>('courses');
