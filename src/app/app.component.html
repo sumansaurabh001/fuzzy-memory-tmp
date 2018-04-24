@@ -1,5 +1,5 @@
 
-<ng-container *ngIf="(branding$ | async) as branding">
+<ng-container *ngIf="(settings$ | async) as branding">
 
   <div [innerHTML]="brandStyles(branding)"></div>
 
@@ -7,7 +7,7 @@
 
 <mat-sidenav-container fullscreen>
 
-  <top-menu *ngIf="(branding$ | async)"></top-menu>
+  <top-menu *ngIf="(settings$ | async)"></top-menu>
 
   <div class="app-messages-container">
     <messages></messages>

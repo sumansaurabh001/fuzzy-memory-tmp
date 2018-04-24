@@ -10,12 +10,12 @@ import {concatMap, filter, map, tap, withLatestFrom} from 'rxjs/operators';
 import {isLoggedIn} from '../store/selectors';
 import {TenantsDBService} from './tenants-db.service';
 import {LoadingService} from './loading.service';
-import {SetBrandColors} from '../store/branding.actions';
 import {
   DEFAULT_SCHOOL_ACCENT_COLOR, DEFAULT_SCHOOL_PRIMARY_COLOR, PLATFORM_ACCENT_COLOR,
   PLATFORM_PRIMARY_COLOR
 } from '../common/ui-constants';
 import {checkIfPlatformSite, getPlatformSubdomain} from '../common/platform-utils';
+import {SetTheme} from '../store/platform.actions';
 
 /*
 *
@@ -74,7 +74,7 @@ export class PlatformGuard implements CanActivate {
                   tap(tenant => {
                     if (tenant) {
                       // theme the page using the tenant brand colors
-                      this.store.dispatch(new SetBrandColors({primaryColor: tenant.primaryColor, accentColor: tenant.accentColor}));
+                      this.store.dispatch(new SetTheme({primaryColor: tenant.primaryColor, accentColor: tenant.accentColor}));
                     }
                   })
                 )
@@ -104,7 +104,7 @@ export class PlatformGuard implements CanActivate {
   }
 
   setPlatformBrandColors() {
-    this.store.dispatch(new SetBrandColors({primaryColor: PLATFORM_PRIMARY_COLOR, accentColor: PLATFORM_ACCENT_COLOR}));
+    this.store.dispatch(new SetTheme({primaryColor: PLATFORM_PRIMARY_COLOR, accentColor: PLATFORM_ACCENT_COLOR}));
   }
 
 

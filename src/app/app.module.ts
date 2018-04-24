@@ -81,7 +81,6 @@ import {ViewCoursesResolver} from './services/view-courses.resolver';
 import {PlatformGuard} from './services/platform.guard';
 
 
-
 @NgModule({
   declarations: [
     AppComponent,

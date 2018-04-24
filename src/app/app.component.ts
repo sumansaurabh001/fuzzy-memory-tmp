@@ -6,9 +6,9 @@ import {DomSanitizer} from '@angular/platform-browser';
 import {select, Store} from '@ngrx/store';
 import {AppState} from './store';
 import {Observable} from 'rxjs/Observable';
-import {brandingState} from './store/selectors';
-import {BrandingState} from './store/branding.reducer';
+import {platformState} from './store/selectors';
 import {LoadingService} from './services/loading.service';
+import {PlatformState} from './store/platform.reducer';
 
 @Component({
   selector: 'app-root',
@@ -18,7 +18,7 @@ import {LoadingService} from './services/loading.service';
 })
 export class AppComponent implements OnInit {
 
-  branding$: Observable<BrandingState>;
+  settings$: Observable<PlatformState>;
 
   constructor(
     private router:Router,
@@ -39,10 +39,10 @@ export class AppComponent implements OnInit {
       )
       .subscribe();
 
-    this.branding$ = this.store
+    this.settings$ = this.store
       .pipe(
-        select(brandingState),
-        filter(branding => !!branding.primaryColor)
+        select(platformState),
+        filter(platformSettings => !!platformSettings.primaryColor)
       );
 
   }
@@ -58,13 +58,14 @@ export class AppComponent implements OnInit {
   }
 
 
-  brandStyles(branding: BrandingState) {
+  brandStyles(branding: PlatformState) {
 
     const RGB = branding.primaryColor;
 
     const sliderColor ='rgba('+parseInt(RGB.substring(1,3),16)+','+parseInt(RGB.substring(3,5),16)+','+parseInt(RGB.substring(5,7),16)+',0.5)';
 
     const test = `
+
       <style>
 
         .theme .mat-toolbar.mat-primary {
@@ -84,8 +85,6 @@ export class AppComponent implements OnInit {
         .theme .mat-slide-toggle.mat-primary.mat-checked:not(.mat-disabled) .mat-slide-toggle-thumb {
           background-color: ${branding.primaryColor};          
         }
-        
-        
 
       </style>`;
 

@@ -1,21 +1,22 @@
 import { Action } from '@ngrx/store';
-import {BrandingActions, BrandingActionTypes} from '../store/branding.actions';
+import {PlatformActions, PlatformActionTypes} from './platform.actions';
 
 
-export interface BrandingState {
+
+export interface PlatformState {
   primaryColor: string;
   accentColor:string;
 }
 
-export const initialState: BrandingState = {
+export const initialState: PlatformState = {
   primaryColor: undefined,
   accentColor: undefined
 };
 
-export function brandingReducer(state = initialState, action: BrandingActions): BrandingState {
+export function platformReducer(state = initialState, action: PlatformActions): PlatformState {
   switch (action.type) {
 
-    case BrandingActionTypes.SetBrandColors:
+    case PlatformActionTypes.SetTheme:
       return {
         ...state,
         primaryColor: action.payload.primaryColor,

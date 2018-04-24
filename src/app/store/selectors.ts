@@ -7,7 +7,8 @@ import {
 import * as fromSection from './course-section.reducer';
 import * as fromLesson from './lesson.reducer';
 import {AuthState} from './auth.reducer';
-import {BrandingState} from './branding.reducer';
+import {Tenant} from '../models/tenant.model';
+import {PlatformState} from './platform.reducer';
 
 
 export const selectCoursesState = createFeatureSelector<fromCourse.State>('courses');
@@ -20,7 +21,7 @@ export const selectLessonsState = createFeatureSelector<fromLesson.State>('lesso
 
 export const authState = createFeatureSelector<AuthState>('auth');
 
-export const brandingState = createFeatureSelector<BrandingState>('branding');
+export const platformState = createFeatureSelector<PlatformState>('platform');
 
 
 
@@ -147,4 +148,10 @@ export const isLoggedOut = createSelector(
 export const userPictureUrl = createSelector(
   authState,
   auth => auth.user ? auth.user.pictureUrl : undefined
+);
+
+
+export const getTenant = createSelector(
+  authState,
+  auth => <Tenant>auth.user
 );
