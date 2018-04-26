@@ -9,8 +9,8 @@ import {Store} from '@ngrx/store';
 import {Login} from '../store/auth.actions';
 import {ActivatedRoute, Router} from '@angular/router';
 import {checkIfPlatformSite} from '../common/platform-utils';
-import {PLATFORM_ACCENT_COLOR, PLATFORM_PRIMARY_COLOR} from '../common/ui-constants';
-import {SetTheme} from '../store/platform.actions';
+import {ONLINECOURSEHOST_ACCENT_COLOR, ONLINECOURSEHOST_PRIMARY_COLOR} from '../common/ui-constants';
+import {ThemeChanged} from '../store/platform.actions';
 
 
 @Component({
@@ -39,7 +39,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     this.isPlatformSite = checkIfPlatformSite();
 
     if (this.isPlatformSite) {
-      this.store.dispatch(new SetTheme({primaryColor: PLATFORM_PRIMARY_COLOR, accentColor: PLATFORM_ACCENT_COLOR}));
+      this.store.dispatch(new ThemeChanged({primaryColor: ONLINECOURSEHOST_PRIMARY_COLOR, accentColor: ONLINECOURSEHOST_ACCENT_COLOR}));
     }
 
     this.isEmailAndPassword = !!route.snapshot.queryParamMap.get("mode");

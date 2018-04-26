@@ -16,7 +16,7 @@ export const initialState: PlatformState = {
 export function platformReducer(state = initialState, action: PlatformActions): PlatformState {
   switch (action.type) {
 
-    case PlatformActionTypes.SetTheme:
+    case PlatformActionTypes.ThemeChanged:
       return {
         ...state,
         primaryColor: action.payload.primaryColor,

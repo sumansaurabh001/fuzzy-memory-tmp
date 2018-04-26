@@ -7,7 +7,7 @@ import {select, Store} from '@ngrx/store';
 import {checkIfPlatformSite} from '../../common/platform-utils';
 import {getTenant, platformState} from '../../store/selectors';
 import {tap} from 'rxjs/operators';
-import {SaveTheme, SetTheme} from '../../store/platform.actions';
+import {SaveTheme, ThemeChanged} from '../../store/platform.actions';
 
 
 const isHexColorRegex  = /^#[0-9A-F]{6}$/i;
@@ -81,7 +81,7 @@ export class BrandingComponent implements OnInit {
     };
 
     if (!checkIfPlatformSite()) {
-      this.store.dispatch(new SetTheme(payload));
+      this.store.dispatch(new ThemeChanged(payload));
     }
 
     this.store.dispatch(new SaveTheme(payload));

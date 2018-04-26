@@ -4743,6 +4743,10 @@ ngx-color-picker@^5.3.8:
   version "5.3.8"
   resolved "https://registry.yarnpkg.com/ngx-color-picker/-/ngx-color-picker-5.3.8.tgz#dd19767d9808a817471b57b3772082827a6ddb96"
 
+ngx-cookie-service@^1.0.10:
+  version "1.0.10"
+  resolved "https://registry.yarnpkg.com/ngx-cookie-service/-/ngx-cookie-service-1.0.10.tgz#dc17ff4f1a0224cf3b0c7a7f52bff2b798396e3d"
+
 ngx-editor@v3.3.0-rc.13:
   version "3.3.0-rc.13"
   resolved "https://registry.yarnpkg.com/ngx-editor/-/ngx-editor-3.3.0-rc.13.tgz#49e69f7754eb9fa9f02d4748b0755a204f5558e7"

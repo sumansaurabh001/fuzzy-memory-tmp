@@ -80,6 +80,7 @@ import {AuthEffects} from './store/auth.effects';
 import {ViewCoursesResolver} from './services/view-courses.resolver';
 import {PlatformGuard} from './services/platform.guard';
 import {PlatformEffects} from './store/platform.effects';
+import {CookieService} from 'ngx-cookie-service';
 
 
 @NgModule({
@@ -177,7 +178,8 @@ import {PlatformEffects} from './store/platform.effects';
     LoadCourseDetailResolver,
     ActiveLessonResolver,
     UrlBuilderService,
-    { provide: RouterStateSerializer, useClass: CustomRouterStateSerializer },
+    CookieService,
+    { provide: RouterStateSerializer, useClass: CustomRouterStateSerializer }
 
   ],
   entryComponents: [

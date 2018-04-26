@@ -1,17 +1,18 @@
 import { Action } from '@ngrx/store';
+import {Theme} from '../models/theme.model';
 
 
 export enum PlatformActionTypes {
-  SetTheme = '[SetTheme] Action',
+  ThemeChanged = '[ThemeChanged] Action',
   SaveTheme = '[SaveTheme] Action'
 }
 
 
-export class SetTheme implements Action {
+export class ThemeChanged implements Action {
 
-  readonly type = PlatformActionTypes.SetTheme;
+  readonly type = PlatformActionTypes.ThemeChanged;
 
-  constructor(public payload: {primaryColor:string, accentColor:string}) {}
+  constructor(public payload: Theme) {}
 
 }
 
@@ -21,9 +22,9 @@ export class SaveTheme implements Action {
 
   readonly type = PlatformActionTypes.SaveTheme;
 
-  constructor(public payload: {primaryColor:string, accentColor:string}) {}
+  constructor(public payload: Theme) {}
 
 }
 
 
-export type PlatformActions = SetTheme | SaveTheme;
+export type PlatformActions = ThemeChanged | SaveTheme;
