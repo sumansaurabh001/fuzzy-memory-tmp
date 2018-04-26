@@ -24,7 +24,7 @@ import {SetTheme} from '../store/platform.actions';
 *   - it determines the tenant at application startup time,
 *      which will determine which courses and lessons will be shown to the user (as this is a multi-tenant app)
 *
-*   - it loads the tenant branding styles
+*   - it loads the tenant branding styles, without which we cannot even display the site to the user
 *
 * */
 
@@ -50,35 +50,23 @@ export class PlatformGuard implements CanActivate {
     return this.afAuth.authState
       .pipe(
 
-        // get the tenant Id and brand styles
+        // get the tenant
         concatMap(auth => {
 
           // platform site main app, logged out
           if (isPlatformSite && !auth) {
             this.router.navigate(['/login']);
-            this.setPlatformBrandColors();
             return of(undefined);
           }
 
           // platform site main app, logged in
           else if (isPlatformSite) {
-            this.setPlatformBrandColors();
             return this.loading.showLoader(this.tenantDB.findTenantByUid());
           }
 
           // platform site subdomain
           else if (subDomain) {
-            return this.loading.showLoader(
-              this.tenantDB.findTenantBySubdomain(subDomain)
-                .pipe(
-                  tap(tenant => {
-                    if (tenant) {
-                      // theme the page using the tenant brand colors
-                      this.store.dispatch(new SetTheme({primaryColor: tenant.primaryColor, accentColor: tenant.accentColor}));
-                    }
-                  })
-                )
-            );
+            return this.loading.showLoader(this.tenantDB.findTenantBySubdomain(subDomain));
           }
 
           //TODO custom domain case
@@ -86,9 +74,9 @@ export class PlatformGuard implements CanActivate {
 
           }
 
-
         }),
 
+        // save the tenant Id
         tap(tenant => {
 
           if (!tenant) {
@@ -99,6 +87,21 @@ export class PlatformGuard implements CanActivate {
           this.tenant.id = tenant.id;
 
         }),
+
+        // set the brand theme
+        tap(tenant => {
+
+          // the platform site always uses the OnlineCourseHost.com brand colors
+          if(isPlatformSite) {
+            this.setPlatformBrandColors();
+          }
+          // if on a subdomain or custom domain, use the tenant brand colors
+          else if (tenant) {
+            this.store.dispatch(new SetTheme({primaryColor: tenant.primaryColor, accentColor: tenant.accentColor}));
+          }
+
+        }),
+
         map(tenant => !!tenant)
       );
   }
