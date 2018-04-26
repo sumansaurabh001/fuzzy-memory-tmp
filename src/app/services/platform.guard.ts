@@ -16,6 +16,7 @@ import {
 } from '../common/ui-constants';
 import {checkIfPlatformSite, getPlatformSubdomain} from '../common/platform-utils';
 import {SetTheme} from '../store/platform.actions';
+import {Tenant} from '../models/tenant.model';
 
 /*
 *
@@ -53,7 +54,7 @@ export class PlatformGuard implements CanActivate {
         // get the tenant
         concatMap(auth => {
 
-          // platform site main app, logged out
+          // platform site main app, logged out: no tenant
           if (isPlatformSite && !auth) {
             this.router.navigate(['/login']);
             return of(undefined);
@@ -76,28 +77,13 @@ export class PlatformGuard implements CanActivate {
 
         }),
 
-        // save the tenant Id
         tap(tenant => {
 
-          if (!tenant) {
-            return;
-          }
+          this.setTheme(tenant);
 
           // setting the tenant id globally (determines what courses get loaded)
-          this.tenant.id = tenant.id;
-
-        }),
-
-        // set the brand theme
-        tap(tenant => {
-
-          // the platform site always uses the OnlineCourseHost.com brand colors
-          if(isPlatformSite) {
-            this.setPlatformBrandColors();
-          }
-          // if on a subdomain or custom domain, use the tenant brand colors
-          else if (tenant) {
-            this.store.dispatch(new SetTheme({primaryColor: tenant.primaryColor, accentColor: tenant.accentColor}));
+          if (tenant) {
+            this.tenant.id = tenant.id;
           }
 
         }),
@@ -105,6 +91,17 @@ export class PlatformGuard implements CanActivate {
         map(tenant => !!tenant)
       );
   }
+
+
+  setTheme(tenant: Tenant) {
+    if(checkIfPlatformSite()) {
+      this.setPlatformBrandColors();
+    }
+    else if (tenant) {
+      this.store.dispatch(new SetTheme({primaryColor: tenant.primaryColor, accentColor: tenant.accentColor}));
+    }
+  }
+
 
   setPlatformBrandColors() {
     this.store.dispatch(new SetTheme({primaryColor: PLATFORM_PRIMARY_COLOR, accentColor: PLATFORM_ACCENT_COLOR}));
