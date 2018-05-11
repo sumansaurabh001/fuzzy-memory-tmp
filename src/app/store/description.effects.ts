@@ -10,7 +10,7 @@ import {selectDescriptionsState} from './selectors';
 import {AppState} from './index';
 import {LoadingService} from '../services/loading.service';
 import {MessagesService} from '../services/messages.service';
-import {_throw} from 'rxjs/observable/throw';
+import {throwError as _throw} from 'rxjs';
 
 
 @Injectable()

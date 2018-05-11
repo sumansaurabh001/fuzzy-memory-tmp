@@ -1,7 +1,7 @@
 import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {Course} from '../models/course.model';
-import {Observable} from 'rxjs/Observable';
+import {Observable} from 'rxjs';
 import {UrlBuilderService} from '../services/url-builder.service';
 import {selectAllCourses, selectActiveCourse} from '../store/selectors';
 import {select, Store} from '@ngrx/store';

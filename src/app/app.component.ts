@@ -5,7 +5,7 @@ import {filter, tap} from 'rxjs/operators';
 import {DomSanitizer} from '@angular/platform-browser';
 import {select, Store} from '@ngrx/store';
 import {AppState} from './store';
-import {Observable} from 'rxjs/Observable';
+import {Observable} from 'rxjs';
 import {platformState} from './store/selectors';
 import {LoadingService} from './services/loading.service';
 import {PlatformState} from './store/platform.reducer';

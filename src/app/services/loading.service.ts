@@ -1,11 +1,8 @@
 import {Injectable} from '@angular/core';
-import {Observable} from 'rxjs/Observable';
-import {BehaviorSubject} from 'rxjs/BehaviorSubject';
+import {Observable, BehaviorSubject, of, throwError as _throw} from 'rxjs';
 import {catchError, delay, filter, finalize, map, switchMap, tap} from 'rxjs/operators';
-import {of} from 'rxjs/observable/of';
 import {NavigationEnd, NavigationStart, Router} from '@angular/router';
-import {_throw} from 'rxjs/observable/throw';
-import {timeout} from 'rxjs/operator/timeout';
+
 
 
 @Injectable()

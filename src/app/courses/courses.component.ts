@@ -1,7 +1,7 @@
 import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
 import {MatDialog, MatDialogConfig} from '@angular/material';
 import {AddCourseDialogComponent} from '../add-course-dialog/add-course-dialog.component';
-import {Observable} from 'rxjs/Observable';
+import {Observable} from 'rxjs';
 import {Course} from '../models/course.model';
 import {select, Store} from '@ngrx/store';
 import {AppState} from '../store';

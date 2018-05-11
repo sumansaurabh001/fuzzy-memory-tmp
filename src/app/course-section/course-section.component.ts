@@ -11,7 +11,7 @@ import {LoadingService} from '../services/loading.service';
 import {LessonsDBService} from '../services/lessons-db.service';
 import {select, Store} from '@ngrx/store';
 import {AppState} from '../store';
-import {Observable} from 'rxjs/Observable';
+import {Observable} from 'rxjs';
 import {selectActiveCourseAllLessons} from '../store/selectors';
 import {fadeIn} from '../common/fade-in-out';
 import {EditSectionDialogComponent} from '../edit-section-dialog/edit-section-dialog.component';

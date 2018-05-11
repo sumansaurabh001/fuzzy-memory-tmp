@@ -3,7 +3,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {MAT_DIALOG_DATA, MatDialog, MatDialogConfig} from '@angular/material';
 import {MessagesService} from '../services/messages.service';
 import {Course} from '../models/course.model';
-import {Observable} from 'rxjs/Observable';
+import {Observable} from 'rxjs';
 import {CourseSection} from '../models/course-section.model';
 import {AddSectionDialogComponent} from '../add-section-dialog/add-section-dialog.component';
 import { selectActiveCourse, isActiveCourseLoaded, selectActiveCourseSections} from '../store/selectors';

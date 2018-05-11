@@ -1,8 +1,7 @@
 import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot} from '@angular/router';
-import {Observable} from 'rxjs/Observable';
+import {Observable, of} from 'rxjs';
 import {TenantService} from './tenant.service';
 import {Injectable} from '@angular/core';
-import {of} from 'rxjs/observable/of';
 import {AngularFireAuth} from 'angularfire2/auth';
 import {AppState} from '../store';
 import {select, Store} from '@ngrx/store';

@@ -1,6 +1,6 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {Course} from '../models/course.model';
-import {Observable} from 'rxjs/Observable';
+import {Observable} from 'rxjs';
 import {
   selectActiveCourse, selectActiveCourseAllLessons, selectActiveCourseSections, selectActiveLesson,
   selectActiveSection

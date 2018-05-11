@@ -15,10 +15,9 @@ import {UpdateCourse} from '../store/course.actions';
 import {defaultHtmlEditorConfig} from '../common/html-editor.config';
 import {LoadDescription, SaveDescription} from '../store/description.actions';
 import {FileUploadService} from '../services/file-upload.service';
-import {Observable} from 'rxjs/Observable';
+import {Observable, noop} from 'rxjs';
 import {UrlBuilderService} from '../services/url-builder.service';
 import {UpdateStr} from '@ngrx/entity/src/models';
-import {noop} from 'rxjs/util/noop';
 import {AngularFireUploadTask} from 'angularfire2/storage/task';
 import {selectDescriptionsState} from '../store/selectors';
 

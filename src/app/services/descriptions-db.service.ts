@@ -1,8 +1,7 @@
 import {Injectable} from '@angular/core';
 import {TenantService} from './tenant.service';
 import {AngularFirestore} from 'angularfire2/firestore';
-import {fromPromise} from 'rxjs/observable/fromPromise';
-import {Observable} from 'rxjs/Observable';
+import {from as fromPromise, Observable} from 'rxjs';
 import {readDocumentValue} from '../common/firestore-utils';
 import {first, map} from 'rxjs/operators';
 

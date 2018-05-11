@@ -1,6 +1,6 @@
 import {filter, first, map} from 'rxjs/operators';
 import {AngularFirestoreCollection} from 'angularfire2/firestore/collection/collection';
-import {Observable} from 'rxjs/Observable';
+import {Observable} from 'rxjs';
 import {AngularFirestore, AngularFirestoreDocument} from 'angularfire2/firestore';
 import {Course} from '../models/course.model';
 

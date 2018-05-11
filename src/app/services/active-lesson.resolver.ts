@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Lesson} from '../models/lesson.model';
 import {ActivatedRouteSnapshot, Resolve, RouterStateSnapshot} from '@angular/router';
-import {Observable} from 'rxjs/Observable';
+import {Observable} from 'rxjs';
 import {select, Store} from '@ngrx/store';
 import {AppState} from '../store';
 import {WatchLesson} from '../store/lesson.actions';

@@ -1,13 +1,12 @@
 import {Injectable} from '@angular/core';
 import {AngularFirestore} from 'angularfire2/firestore';
-import {Observable} from 'rxjs/Observable';
+import {Observable, from as fromPromise} from 'rxjs';
 import {TenantService} from './tenant.service';
 import {CourseSection} from '../models/course-section.model';
 import {findLastBySeqNo, findUniqueMatchWithId, readCollectionWithIds, readDocumentWithId} from '../common/firestore-utils';
 import {concatMap, first, map} from 'rxjs/operators';
 import {Lesson} from '../models/lesson.model';
 import {Course} from '../models/course.model';
-import {fromPromise} from 'rxjs/observable/fromPromise';
 import {Update} from '@ngrx/entity';
 import {UpdateStr} from '@ngrx/entity/src/models';
 
@@ -25,8 +24,8 @@ export class LessonsDBService {
 
     const coursePath = this.tenant.path(`courses/${courseId}`);
 
-    return readCollectionWithIds<CourseSection[]>(this.afs.collection(coursePath + '/sections', ref => ref.orderBy('seqNo')))
-      .map(sections => sections.map(section => {return {...section, courseId}}));
+    return readCollectionWithIds<CourseSection[]>(this.afs.collection(coursePath + '/sections', ref => ref.orderBy('seqNo'))).pipe(
+      map(sections => sections.map(section => {return {...section, courseId}})));
 
   }
 

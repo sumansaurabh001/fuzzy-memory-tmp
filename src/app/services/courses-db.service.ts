@@ -1,7 +1,6 @@
 import {Injectable} from '@angular/core';
 import {AngularFirestore} from 'angularfire2/firestore';
-import {Observable} from 'rxjs/Observable';
-import {fromPromise} from 'rxjs/observable/fromPromise';
+import {Observable, from as fromPromise} from 'rxjs';
 import {
   findLastBySeqNo, findUniqueMatchWithId, readCollectionWithIds, readDocumentValue,
   readDocumentWithId

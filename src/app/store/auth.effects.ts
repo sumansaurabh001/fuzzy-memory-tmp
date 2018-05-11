@@ -1,9 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Actions, Effect} from '@ngrx/effects';
-import {Observable} from 'rxjs/Observable';
+import {Observable, defer, of} from 'rxjs';
 import {Action} from '@ngrx/store';
-import {defer} from 'rxjs/observable/defer';
-import {of} from 'rxjs/observable/of';
 import {Login, Logout} from './auth.actions';
 import {AngularFireAuth} from 'angularfire2/auth';
 import {catchError, concatMap, filter, map, tap} from 'rxjs/operators';

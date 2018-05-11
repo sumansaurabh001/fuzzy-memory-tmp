@@ -2,7 +2,7 @@ import {AfterViewInit, ChangeDetectionStrategy, Component, OnInit, ViewChild} fr
 import {select, Store} from '@ngrx/store';
 import {AppState} from '../store';
 import {Course} from '../models/course.model';
-import {Observable} from 'rxjs/Observable';
+import {Observable, BehaviorSubject} from 'rxjs';
 import {
   selectActiveCourse, selectActiveCourseAllLessons, selectActiveCourseDescription,
   selectActiveCourseSections
@@ -11,7 +11,6 @@ import {UrlBuilderService} from '../services/url-builder.service';
 import {Lesson} from '../models/lesson.model';
 import {CourseSection} from '../models/course-section.model';
 import {filter, map, startWith, tap, withLatestFrom} from 'rxjs/operators';
-import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 import {CollapsibleTriggerComponent} from '../collapsible-trigger/collapsible-trigger.component';
 import {sortSectionsBySeqNo} from '../common/sort-model';
 

@@ -1,6 +1,6 @@
 import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
 import {Course} from '../models/course.model';
-import {Observable} from 'rxjs/Observable';
+import {Observable} from 'rxjs';
 import {ActivatedRoute} from '@angular/router';
 import {TenantService} from '../services/tenant.service';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';

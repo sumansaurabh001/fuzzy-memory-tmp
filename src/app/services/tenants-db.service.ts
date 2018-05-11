@@ -1,17 +1,14 @@
 import {Injectable} from '@angular/core';
-import {Observable} from 'rxjs/Observable';
+import {Observable, of, from as fromPromise} from 'rxjs';
 import {AngularFirestore} from 'angularfire2/firestore';
 import {concatMap, first, map, tap, withLatestFrom} from 'rxjs/operators';
 import {findLastBySeqNo, findUniqueMatchWithId, readDocumentWithId} from '../common/firestore-utils';
-
-import {of} from 'rxjs/observable/of';
 import {AngularFireAuth} from 'angularfire2/auth';
 import {User} from '../models/user.model';
 import {Tenant} from '../models/tenant.model';
 import {Lesson} from '../models/lesson.model';
 import {AngularFirestoreCollection} from 'angularfire2/firestore/collection/collection';
 import {DEFAULT_SCHOOL_ACCENT_COLOR, DEFAULT_SCHOOL_PRIMARY_COLOR} from '../common/ui-constants';
-import {fromPromise} from 'rxjs/observable/fromPromise';
 
 
 @Injectable()

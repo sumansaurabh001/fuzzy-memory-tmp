@@ -5,7 +5,7 @@ import {select, Store} from '@ngrx/store';
 import {AppState} from './index';
 import {LoadingService} from '../services/loading.service';
 import {MessagesService} from '../services/messages.service';
-import {_throw} from 'rxjs/observable/throw';
+import {throwError as _throw} from 'rxjs';
 import {PlatformActionTypes, SaveTheme} from './platform.actions';
 import {TenantsDBService} from '../services/tenants-db.service';
 import {TenantService} from '../services/tenant.service';
