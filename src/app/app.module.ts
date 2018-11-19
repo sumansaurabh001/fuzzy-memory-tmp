@@ -22,15 +22,14 @@ import {
 import {MatMomentDateModule} from '@angular/material-moment-adapter';
 import {AppRoutingModule} from './app-routing.module';
 import {EditCourseComponent} from './edit-course/edit-course.component';
-import {FlexLayoutModule} from '@angular/flex-layout';
 import {EditLessonsListComponent} from './edit-lessons-list/edit-lessons-list.component';
 import {EditLessonComponent} from './edit-lesson/edit-lesson.component';
 import {FooterComponent} from './footer/footer.component';
 import {CoursesComponent} from './courses/courses.component';
 import {TopMenuComponent} from './top-menu/top-menu.component';
-import {AngularFireModule} from 'angularfire2';
+import {AngularFireModule} from '@angular/fire';
 import {environment} from '../environments/environment';
-import {AngularFirestoreModule} from 'angularfire2/firestore';
+import {AngularFirestoreModule} from '@angular/fire/firestore';
 import {CoursePageComponent} from './course-page/course-page.component';
 import {CourseLandingPageComponent} from './course-landing-page/course-landing-page.component';
 import {EditLessonsToolbarComponent} from './edit-lessons-toolbar/edit-lessons-toolbar.component';
@@ -46,7 +45,7 @@ import {TenantService} from './services/tenant.service';
 import {CoursesDBService} from './services/courses-db.service';
 import { CourseCardComponent } from './course-card/course-card.component';
 import {FileUploadService} from './services/file-upload.service';
-import {AngularFireStorageModule} from 'angularfire2/storage';
+import {AngularFireStorageModule} from '@angular/fire/storage';
 import {UrlBuilderService} from './services/url-builder.service';
 import {LessonsDBService} from './services/lessons-db.service';
 import { AddSectionDialogComponent } from './add-section-dialog/add-section-dialog.component';
@@ -74,7 +73,7 @@ import {ActiveLessonResolver} from './services/active-lesson.resolver';
 import { VideoPlayerComponent } from './video-player/video-player.component';
 import {EditSectionDialogComponent} from './edit-section-dialog/edit-section-dialog.component';
 import { LoginComponent } from './login/login.component';
-import {AngularFireAuthModule} from 'angularfire2/auth';
+import {AngularFireAuthModule} from '@angular/fire/auth';
 import {TenantsDBService} from './services/tenants-db.service';
 import {AuthEffects} from './store/auth.effects';
 import {ViewCoursesResolver} from './services/view-courses.resolver';
@@ -143,7 +142,6 @@ import {CookieService} from 'ngx-cookie-service';
     MatSliderModule,
     MatGridListModule,
     MatCheckboxModule,
-    FlexLayoutModule,
     FormsModule,
     ReactiveFormsModule,
     NgxEditorModule,

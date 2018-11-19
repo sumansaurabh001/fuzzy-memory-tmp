@@ -9,7 +9,17 @@ import * as shortid from 'shortid';
 // use $ and @ instead of - and _
 shortid.characters('0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ$@');
 
-const gcs = require('@google-cloud/storage')({keyFilename: __dirname + '/service-account-credentials.json'});
+const {Storage} = require('@google-cloud/storage');
+
+/*
+*
+*  Take an uploaded course image, generate a thumbnail and delete the original image.
+*  Link the uploaded image to the course in the Firestore database.
+*
+*/
+
+
+const gcs = new Storage();
 
 import * as os from 'os';
 import * as path from 'path';
@@ -28,12 +38,12 @@ const THUMB_MAX_WIDTH = THUMB_MAX_HEIGHT / formFactor;
 
 
 
-export const imageUpload = functions.storage.object().onChange(async event => {
+export const imageUpload = functions.storage.object().onFinalize(async (object, context) => {
 
   const uniqueFileSuffix = shortid.generate();
 
-  const filePath = event.data.name,
-    contentType = event.data.contentType,
+  const filePath = object.name,
+    contentType = object.contentType,
     fileDir = path.dirname(filePath),
     fileName = path.basename(filePath),
     fileExtension = fileName.split('.').pop(),
@@ -51,12 +61,7 @@ export const imageUpload = functions.storage.object().onChange(async event => {
     return null;
   }
 
-  // Exit if this is a move or deletion event.
-  if (event.data.resourceState === 'not_exists') {
-    return null;
-  }
-
-  const bucket = gcs.bucket(event.data.bucket);
+  const bucket = gcs.bucket(object.bucket);
   const file = bucket.file(filePath);
   const thumbFile = bucket.file(thumbFilePath);
   const metadata = {

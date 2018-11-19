@@ -4,7 +4,7 @@ import {select, Store} from '@ngrx/store';
 import {AppState} from '../store';
 import {isLoggedIn, isLoggedOut, userPictureUrl} from '../store/selectors';
 import {Logout} from '../store/auth.actions';
-import {AngularFireAuth} from 'angularfire2/auth';
+import {AngularFireAuth} from '@angular/fire/auth';
 import {Router} from '@angular/router';
 import {LoadingService} from '../services/loading.service';
 import {MessagesService} from '../services/messages.service';

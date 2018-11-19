@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {AngularFirestore} from 'angularfire2/firestore';
+import {AngularFirestore} from '@angular/fire/firestore';
 import {Observable, from as fromPromise} from 'rxjs';
 import {TenantService} from './tenant.service';
 import {CourseSection} from '../models/course-section.model';

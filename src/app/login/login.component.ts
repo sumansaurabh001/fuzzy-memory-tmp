@@ -1,5 +1,5 @@
 import {Component, Inject, OnDestroy, OnInit} from '@angular/core';
-import {AngularFireAuth} from 'angularfire2/auth';
+import {AngularFireAuth} from '@angular/fire/auth';
 import * as firebase from 'firebase/app';
 import * as firebaseui from 'firebaseui';
 import {LoadingService} from '../services/loading.service';

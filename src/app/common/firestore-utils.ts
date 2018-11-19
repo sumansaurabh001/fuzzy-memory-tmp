@@ -1,7 +1,7 @@
 import {filter, first, map} from 'rxjs/operators';
-import {AngularFirestoreCollection} from 'angularfire2/firestore/collection/collection';
+import {AngularFirestoreCollection} from '@angular/fire/firestore/collection/collection';
 import {Observable} from 'rxjs';
-import {AngularFirestore, AngularFirestoreDocument} from 'angularfire2/firestore';
+import {AngularFirestore, AngularFirestoreDocument} from '@angular/fire/firestore';
 import {Course} from '../models/course.model';
 
 
@@ -15,7 +15,7 @@ export function readDocumentWithId<T>(doc: AngularFirestoreDocument<T>): Observa
         }
 
         const id = action.payload.id,
-          data = action.payload.data();
+          data:any = action.payload.data();
 
         return {...data, id};
       })
@@ -36,7 +36,7 @@ export function readCollectionWithIds<T>(col: AngularFirestoreCollection<T>): Ob
       map(snaps => snaps.map(snap => {
 
         const id = snap.payload.doc.id;
-        const data = snap.payload.doc.data();
+        const data:any = snap.payload.doc.data();
 
         return {...data, id};
       })),
@@ -59,7 +59,7 @@ export function findUniqueMatchWithId<T>(col: AngularFirestoreCollection<T>): Ob
         if (results.length == 1) {
           result = {
             id: results[0].payload.doc.id,
-            ...(results[0].payload.doc.data())
+            ...(<any>results[0].payload.doc.data())
           };
         }
         return result;

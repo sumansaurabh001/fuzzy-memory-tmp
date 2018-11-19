@@ -7,13 +7,21 @@ import * as shortid from 'shortid';
 // use $ and @ instead of - and _
 shortid.characters('0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ$@');
 
-const gcs = require('@google-cloud/storage')({keyFilename: __dirname + '/service-account-credentials.json'});
+const {Storage} = require('@google-cloud/storage');
+
+const gcs = new Storage();
 
 import * as os from 'os';
 import * as path from 'path';
 import {listDirectory, promisifyCommand} from './utils';
 import {db} from './init';
 
+/*
+*
+* After each video upload, extract an image thumbnail and the duration and update the database.
+*
+*
+* */
 
 const ffmpeg = require('fluent-ffmpeg');
 const ffmpeg_static = require('ffmpeg-static');
@@ -27,18 +35,13 @@ const ffprobeAsync = promisify(ffmpeg.ffprobe);
 const THUMB_PREFIX = 'thumb_';
 
 
-export const videoUpload = functions.storage.object().onChange(async event => {
+export const videoUpload = functions.storage.object().onFinalize(async (object, context) => {
 
-  if (!event.data.contentType.startsWith('video/')) {
+  if (!object.contentType.startsWith('video/')) {
     return null;
   }
 
-  // Exit if this is a move or deletion event.
-  if (event.data.resourceState === 'not_exists') {
-    return null;
-  }
-
-  const videoBucketFullPath = event.data.name;
+  const videoBucketFullPath = object.name;
 
   const frags = videoBucketFullPath.split('/');
 
@@ -62,7 +65,7 @@ export const videoUpload = functions.storage.object().onChange(async event => {
       localTempDir = path.dirname(localVideoFilePath);
 
 
-    const bucket = gcs.bucket(event.data.bucket);
+    const bucket = gcs.bucket(object.bucket);
     const file = bucket.file(videoBucketFullPath);
 
     // Create the temp directory where the video file will be downloaded.

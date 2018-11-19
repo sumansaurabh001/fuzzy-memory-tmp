@@ -2,7 +2,7 @@ import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot} from '
 import {Observable, of} from 'rxjs';
 import {TenantService} from './tenant.service';
 import {Injectable} from '@angular/core';
-import {AngularFireAuth} from 'angularfire2/auth';
+import {AngularFireAuth} from '@angular/fire/auth';
 import {AppState} from '../store';
 import {select, Store} from '@ngrx/store';
 import {concatMap, filter, map, tap, withLatestFrom} from 'rxjs/operators';

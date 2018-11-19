@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
-import {AngularFireStorage} from 'angularfire2/storage';
+import {AngularFireStorage} from '@angular/fire/storage';
 import {Observable} from 'rxjs';
 import {TenantService} from './tenant.service';
 import {generateId} from '../common/unique-id-generator';
-import {AngularFireUploadTask} from 'angularfire2/storage/task';
+import {AngularFireUploadTask} from '@angular/fire/storage/task';
 
 
 @Injectable()

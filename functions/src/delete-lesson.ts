@@ -1,18 +1,25 @@
 import * as functions from 'firebase-functions';
-import {storage} from './init';
 
-const gcs = require('@google-cloud/storage')({keyFilename: __dirname + '/service-account-credentials.json'});
+const {Storage} = require('@google-cloud/storage');
 
+/*
+*
+*  When a lesson is deleted from the database, deleted also any files associated to it:
+*  thumbnails, video files, etc.
+*
+*/
+
+const gcs = new Storage();
 
 export const onDeleteLesson = functions.firestore
   .document('schools/{tenantId}/courses/{courseId}/lessons/{lessonId}')
-  .onDelete(async event => {
+  .onDelete(async (snap, context) => {
 
-    const tenantId = event.params.tenantId,
-      courseId = event.params.courseId,
-      lessonId = event.params.lessonId;
+    const tenantId = context.params.tenantId,
+      courseId = context.params.courseId,
+      lessonId = context.params.lessonId;
 
-    const lesson = event.data.previous.data();
+    const lesson = snap.data();
 
     const lessonDirectoryPath = `${tenantId}/${courseId}/videos/${lessonId}`;
 

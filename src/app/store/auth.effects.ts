@@ -3,7 +3,7 @@ import {Actions, Effect} from '@ngrx/effects';
 import {Observable, defer, of} from 'rxjs';
 import {Action} from '@ngrx/store';
 import {Login, Logout} from './auth.actions';
-import {AngularFireAuth} from 'angularfire2/auth';
+import {AngularFireAuth} from '@angular/fire/auth';
 import {catchError, concatMap, filter, map, tap} from 'rxjs/operators';
 import {TenantsDBService} from '../services/tenants-db.service';
 

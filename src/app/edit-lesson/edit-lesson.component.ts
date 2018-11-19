@@ -18,7 +18,7 @@ import {FileUploadService} from '../services/file-upload.service';
 import {Observable, noop} from 'rxjs';
 import {UrlBuilderService} from '../services/url-builder.service';
 import {UpdateStr} from '@ngrx/entity/src/models';
-import {AngularFireUploadTask} from 'angularfire2/storage/task';
+import {AngularFireUploadTask} from '@angular/fire/storage/task';
 import {selectDescriptionsState} from '../store/selectors';
 
 
