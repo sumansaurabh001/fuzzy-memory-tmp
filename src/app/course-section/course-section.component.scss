@@ -4,7 +4,7 @@
 .course-section {
   margin: 15px 15px 80px 15px;
   background: rgba(0, 0, 0, .03);
-  padding: 30px 15px 15px 15px;
+  padding: 30px 15px 20px 15px;
 }
 
 .section-number {
@@ -40,6 +40,10 @@
 .bottom-toolbar {
   display: flex;
   margin-top: 15px;
+}
+
+.lesson-item {
+  margin-bottom: 15px;
 }
 
 

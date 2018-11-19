@@ -9,6 +9,7 @@ import {ActiveLessonResolver} from './services/active-lesson.resolver';
 import {LoginComponent} from './login/login.component';
 import {ViewCoursesResolver} from './services/view-courses.resolver';
 import {PlatformGuard} from './services/platform.guard';
+import {AuthGuard} from './services/auth.guard';
 
 const routes: Routes = [
   {
@@ -34,7 +35,7 @@ const routes: Routes = [
     resolve: {
       course: LoadCourseDetailResolver
     },
-    canActivate: [PlatformGuard]
+    canActivate: [AuthGuard,PlatformGuard]
   },
   {
     path:'courses',
