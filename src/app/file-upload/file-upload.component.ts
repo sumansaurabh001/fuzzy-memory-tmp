@@ -23,8 +23,9 @@ export class FileUploadComponent implements OnInit {
   @HostBinding('style.width')
   width;
 
-
   @Input() accept;
+
+  @Input() processing:boolean;
 
   @Output() fileSelected = new EventEmitter();
 

@@ -39,11 +39,12 @@
 
     <div *ngIf="isProcessing()">
       <span class="status-ongoing">PROCESSING</span>
-      <span> (should finish soon)</span>
+      <span> (should finish in less than 10 minutes)</span>
     </div>
 
     <div *ngIf="isError()">
       <span class="status-error">PROCESSING FAILED</span>
+      <span>Something went wrong, please re-upload.</span>
     </div>
 
   </div>

@@ -84,6 +84,11 @@ export class AppComponent implements OnInit {
         .theme .mat-slide-toggle.mat-primary.mat-checked:not(.mat-disabled) .mat-slide-toggle-thumb {
           background-color: ${branding.primaryColor};          
         }
+        
+        .theme .mat-progress-spinner circle, .mat-spinner circle {
+          stroke: ${branding.primaryColor};
+        
+        }
 
       </style>`;
 

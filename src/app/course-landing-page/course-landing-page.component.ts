@@ -32,6 +32,8 @@ export class CourseLandingPageComponent implements OnInit {
 
   toolbar = defaultHtmlEditorConfig;
 
+  imageProcessingOngoing = false;
+
   constructor(private route: ActivatedRoute,
               private tenant: TenantService,
               private store: Store<AppState>,
@@ -103,7 +105,7 @@ export class CourseLandingPageComponent implements OnInit {
         .pipe(
           tap(percent => {
             if (percent == 100) {
-              this.messages.info("The image is being processed ...");
+              this.imageProcessingOngoing = true;
               this.onThumbnailUploadCompleted(course);
             }
           })
@@ -122,6 +124,10 @@ export class CourseLandingPageComponent implements OnInit {
         filter(course => course.thumbnail !== currentThumbnail),
         first(),
         tap(course => {
+
+          if (course.thumbnail) {
+            this.imageProcessingOngoing = false;
+          }
 
           const update = {
             id: course.id,
