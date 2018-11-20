@@ -39,6 +39,7 @@
     <div *ngIf="isProcessing()">
       <span class="status-ongoing">PROCESSING</span>
       <span> (should finish in less than 10 minutes)</span>
+      <mat-progress-bar class="file-upload-progress" mode="indeterminate"></mat-progress-bar>
     </div>
 
     <div *ngIf="isError()">
