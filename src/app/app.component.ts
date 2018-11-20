@@ -89,6 +89,10 @@ export class AppComponent implements OnInit {
           stroke: ${branding.primaryColor};
         
         }
+        
+        .theme .mat-progress-bar-fill::after {
+          background-color: ${branding.primaryColor};
+        }
 
       </style>`;
 
