@@ -18,7 +18,7 @@ import {db} from './init';
 
 /*
 *
-* After each video upload, extract an image thumbnail and the duration and update the database.
+* After each video upload, extract an image thumbnail, the video duration and update the database.
 *
 *
 * */
@@ -95,7 +95,7 @@ export const videoUpload = functions.storage.object().onFinalize(async (object, 
     fs.unlinkSync(localVideoFilePath);
     fs.unlinkSync(localThumbnailFilePath);
 
-    // delete previous video and lesson thumbnail to save space
+    // if there was already a previous video for the lesson, delete it and its lesson thumbnail to save space
     if (lesson && lesson.videoFileName) {
 
       const previousVideoFilePath = `${tenantId}/${courseId}/videos/${lessonId}/${lesson.videoFileName}`;
