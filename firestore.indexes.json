@@ -1,20 +1,30 @@
 {
-
-   "indexes": [
-     {
-       "collectionId": "lessons",
-       "fields": [
-         { "fieldPath": "sectionId", "mode": "ASCENDING" },
-         { "fieldPath": "seqNo", "mode": "DESCENDING" }
-       ]
-     },
-     {
-       "collectionId": "coupons",
-       "fields": [
-         { "fieldPath": "created", "mode": "DESCENDING" },
-         { "fieldPath": "status", "mode": "ASCENDING" }
-       ]
-
-     }
-   ]
+  "indexes": [
+    {
+      "collectionId": "lessons",
+      "fields": [
+        {
+          "fieldPath": "sectionId",
+          "mode": "ASCENDING"
+        },
+        {
+          "fieldPath": "seqNo",
+          "mode": "DESCENDING"
+        }
+      ]
+    },
+    {
+      "collectionId": "coupons",
+      "fields": [
+        {
+          "fieldPath": "status",
+          "mode": "ASCENDING"
+        },
+        {
+          "fieldPath": "created",
+          "mode": "DESCENDING"
+        }
+      ]
+    }
+  ]
 }
