@@ -7,6 +7,14 @@
          { "fieldPath": "sectionId", "mode": "ASCENDING" },
          { "fieldPath": "seqNo", "mode": "DESCENDING" }
        ]
+     },
+     {
+       "collectionId": "coupons",
+       "fields": [
+         { "fieldPath": "created", "mode": "DESCENDING" },
+         { "fieldPath": "status", "mode": "ASCENDING" }
+       ]
+
      }
    ]
 }
