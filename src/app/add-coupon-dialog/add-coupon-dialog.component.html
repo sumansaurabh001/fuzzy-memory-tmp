@@ -1,0 +1,38 @@
+<h2 mat-dialog-title>Create New Coupon</h2>
+
+<messages></messages>
+
+<loading></loading>
+
+<mat-dialog-content [formGroup]="form">
+
+  <mat-form-field>
+
+    <input matInput
+           placeholder="Coupon Code"
+           maxLength="20"
+           formControlName="code">
+
+    <mat-hint align="end">
+      Your coupon code must be between 6 and 20 characters. It can only contain alphanumeric characters (A-Z, 0-9), periods ("."), dashes ("-") or underscores ("_"). All letters must be CAPITAL.
+    </mat-hint>
+
+  </mat-form-field>
+
+</mat-dialog-content>
+
+<mat-dialog-actions class="dialog-actions">
+
+  <button class="mat-raised-button"
+          (click)="close()">
+    Close
+  </button>
+
+  <button class="mat-raised-button mat-primary"
+          (click)="save()" [disabled]="!form.valid">
+    Create Coupon
+  </button>
+
+</mat-dialog-actions>
+
+

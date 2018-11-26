@@ -80,6 +80,9 @@ import {ViewCoursesResolver} from './services/view-courses.resolver';
 import {PlatformGuard} from './services/platform.guard';
 import {PlatformEffects} from './store/platform.effects';
 import {CookieService} from 'ngx-cookie-service';
+import { PriceAndCouponsComponent } from './price-and-coupons/price-and-coupons.component';
+import { CouponsTableComponent } from './coupons-table/coupons-table.component';
+import {AddCouponDialogComponent} from './add-coupon-dialog/add-coupon-dialog.component';
 
 
 @NgModule({
@@ -95,6 +98,7 @@ import {CookieService} from 'ngx-cookie-service';
     CourseLandingPageComponent,
     EditLessonsToolbarComponent,
     AddCourseDialogComponent,
+    AddCouponDialogComponent,
     MessagesComponent,
     LoadingComponent,
     ActionButtonComponent,
@@ -112,7 +116,9 @@ import {CookieService} from 'ngx-cookie-service';
     DurationPipe,
     WatchCourseComponent,
     VideoPlayerComponent,
-    LoginComponent
+    LoginComponent,
+    PriceAndCouponsComponent,
+    CouponsTableComponent
   ],
   imports: [
     BrowserModule,

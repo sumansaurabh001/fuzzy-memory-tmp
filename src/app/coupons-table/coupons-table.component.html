@@ -1,0 +1,54 @@
+
+<button mat-raised-button color="accent"></button>
+
+<div class="mat-elevation-z8" * ngIf="courseCoupons; else noCoupons">
+  <table mat-table [dataSource]="courseCoupons">
+
+    <ng-container matColumnDef="code">
+      <th mat-header-cell *matHeaderCellDef>Code</th>
+      <td mat-cell *matCellDef="let element">{{element.code}}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="price">
+      <th mat-header-cell *matHeaderCellDef>Price</th>
+      <td mat-cell *matCellDef="let element">{{element.price}}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="remaining">
+      <th mat-header-cell *matHeaderCellDef>Remaining</th>
+      <td mat-cell *matCellDef="let element">{{element.remaining}}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="created">
+      <th mat-header-cell *matHeaderCellDef>Created</th>
+      <td mat-cell *matCellDef="let element">{{element.created}}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="deadline">
+      <th mat-header-cell *matHeaderCellDef>Deadline</th>
+      <td mat-cell *matCellDef="let element">{{element.deadline}}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="status">
+      <th mat-header-cell *matHeaderCellDef>Status</th>
+      <td mat-cell *matCellDef="let element">{{element.status}}</td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+  </table>
+</div>
+
+
+<ng-template # noCoupons>
+
+  <p>No coupons available.</p>
+
+</ng-template>
+
+<span>Create New Coupon</span>
+<button mat-fab color="accent" (click)="createCoupon()">
+  <mat-icon>add</mat-icon>
+</button>

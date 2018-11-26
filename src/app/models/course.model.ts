@@ -1,4 +1,3 @@
-import {CourseSection} from './course-section.model';
 
 export interface Course {
   id:string;
@@ -10,4 +9,5 @@ export interface Course {
   shortDescription: string;
   thumbnail: string;
   downloadAllowed: boolean;
+  price:Number;
 }

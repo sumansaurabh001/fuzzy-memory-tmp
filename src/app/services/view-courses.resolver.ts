@@ -1,9 +1,9 @@
-import {ActivatedRouteSnapshot, CanActivate, Resolve, RouterStateSnapshot} from '@angular/router';
+import {ActivatedRouteSnapshot, Resolve, RouterStateSnapshot} from '@angular/router';
 import {Observable} from 'rxjs';
 import {Injectable} from '@angular/core';
 import {select, Store} from '@ngrx/store';
 import {AppState} from '../store';
-import {selectActiveCourseSections, selectAllCourses, selectInitialCoursesLoaded} from '../store/selectors';
+import {selectAllCourses, selectInitialCoursesLoaded} from '../store/selectors';
 import {filter, first, map, tap, withLatestFrom} from 'rxjs/operators';
 import {LoadCourses} from '../store/course.actions';
 import {CoursesDBService} from './courses-db.service';
