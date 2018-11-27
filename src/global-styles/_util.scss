@@ -71,6 +71,18 @@
   padding: 30px;
 }
 
+.add-button-panel {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 30px 10px 10px 10px;
+
+}
+
+.add-button-panel button {
+  margin-top: 20px;
+}
 
 
 
@@ -93,6 +105,9 @@
   margin-top: 3px;
 }
 
+mat-divider.divider {
+  margin-top: 20px;
+}
 
 
 

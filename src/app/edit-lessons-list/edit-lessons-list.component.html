@@ -22,7 +22,7 @@
 
     </ng-container>
 
-    <div class="add-section-panel" [ngClass]="emptyCourseCss(course, sections)" *ngIf="isCourseLoaded$ | async">
+    <div class="add-button-panel add-section-panel" [ngClass]="emptyCourseCss(course, sections)" *ngIf="isCourseLoaded$ | async">
 
       <span>Add Course Section</span>
       <button class="add-section" mat-fab color="accent" (click)="addSection(course)">

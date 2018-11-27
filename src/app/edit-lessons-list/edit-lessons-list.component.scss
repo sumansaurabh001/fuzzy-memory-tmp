@@ -22,12 +22,6 @@
 }
 
 .add-section-panel {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  margin: 30px 10px 10px 10px;
-
   &.empty-course {
     background: $secondary-light;
     min-height: 350px;

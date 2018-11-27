@@ -42,13 +42,18 @@
 </div>
 
 
-<ng-template # noCoupons>
+<ng-template #noCoupons>
 
-  <p>No coupons available.</p>
+  <span>No coupons available, let's create one.</span>
 
 </ng-template>
 
-<span>Create New Coupon</span>
-<button mat-fab color="accent" (click)="createCoupon()">
-  <mat-icon>add</mat-icon>
-</button>
+<div class="add-button-panel">
+
+  <div>Create New Coupon</div>
+  <button mat-fab color="accent" (click)="createCoupon()">
+    <mat-icon>add</mat-icon>
+  </button>
+
+</div>
+
