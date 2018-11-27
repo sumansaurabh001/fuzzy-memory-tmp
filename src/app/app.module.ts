@@ -192,7 +192,8 @@ import {AddCouponDialogComponent} from './add-coupon-dialog/add-coupon-dialog.co
     AddSectionDialogComponent,
     AddLessonDialogComponent,
     ConfirmationDialogComponent,
-    EditSectionDialogComponent
+    EditSectionDialogComponent,
+    AddCouponDialogComponent
   ],
   bootstrap: [AppComponent]
 })

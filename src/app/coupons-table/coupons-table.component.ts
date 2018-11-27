@@ -1,6 +1,8 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {CourseCoupon} from '../models/coupon.model';
 import {Course} from '../models/course.model';
+import {MatDialog, MatDialogConfig} from '@angular/material';
+import {AddCouponDialogComponent} from '../add-coupon-dialog/add-coupon-dialog.component';
 
 @Component({
   selector: 'coupons-table',
@@ -17,7 +19,7 @@ export class CouponsTableComponent implements OnInit {
   @Input()
   course: Course;
 
-  constructor() {
+  constructor(private dialog: MatDialog) {
 
   }
 
@@ -27,6 +29,14 @@ export class CouponsTableComponent implements OnInit {
 
   createCoupon() {
 
+    const dialogConfig = new MatDialogConfig();
+
+    dialogConfig.autoFocus = true;
+    dialogConfig.disableClose = true;
+    dialogConfig.minWidth = '500px';
+    dialogConfig.data = {course: this.course};
+
+    const dialogRef = this.dialog.open(AddCouponDialogComponent, dialogConfig);
 
   }
 
