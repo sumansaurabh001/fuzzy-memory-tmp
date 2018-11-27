@@ -1,7 +1,22 @@
 
+<ng-template #noCoupons>
+
+  <span>No coupons available, let's create one.</span>
+
+</ng-template>
+
+<div class="add-button-panel">
+
+  <div>Create New Coupon</div>
+  <button mat-fab color="accent" (click)="createCoupon()">
+    <mat-icon>add</mat-icon>
+  </button>
+
+</div>
+
 <div class="mat-elevation-z8" *ngIf="courseCoupons; else noCoupons">
 
-  <table mat-table [dataSource]="courseCoupons">
+  <table class="coupons-table" mat-table [dataSource]="courseCoupons">
 
     <ng-container matColumnDef="code">
       <th mat-header-cell *matHeaderCellDef>Code</th>
@@ -20,12 +35,12 @@
 
     <ng-container matColumnDef="created">
       <th mat-header-cell *matHeaderCellDef>Created</th>
-      <td mat-cell *matCellDef="let element">{{element.created | timestamp | date: 'MMM/dd/yyyy'}}</td>
+      <td mat-cell *matCellDef="let element">{{element.created | timestamp | date: 'MMM dd, yyyy'}}</td>
     </ng-container>
 
     <ng-container matColumnDef="deadline">
       <th mat-header-cell *matHeaderCellDef>Deadline</th>
-      <td mat-cell *matCellDef="let element">{{element.deadline | timestamp | date: 'MMM/dd/yyyy'}}</td>
+      <td mat-cell *matCellDef="let element">{{element.deadline | timestamp | date: 'MMM dd, yyyy'}}</td>
     </ng-container>
 
     <ng-container matColumnDef="status">
@@ -40,19 +55,4 @@
   </table>
 </div>
 
-
-<ng-template #noCoupons>
-
-  <span>No coupons available, let's create one.</span>
-
-</ng-template>
-
-<div class="add-button-panel">
-
-  <div>Create New Coupon</div>
-  <button mat-fab color="accent" (click)="createCoupon()">
-    <mat-icon>add</mat-icon>
-  </button>
-
-</div>
 
