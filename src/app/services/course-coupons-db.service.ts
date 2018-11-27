@@ -5,6 +5,7 @@ import {first, map} from 'rxjs/operators';
 import {readCollectionWithIds} from '../common/firestore-utils';
 import {CourseCoupon} from '../models/coupon.model';
 import {Observable, from} from 'rxjs';
+import {DocumentReference} from '../../../node_modules/@angular/fire/firestore/interfaces';
 
 @Injectable({
   providedIn: 'root'
@@ -27,7 +28,7 @@ export class CourseCouponsDbService {
           let query = ref.orderBy('created', 'desc');
 
           if (activeCouponsOnly) {
-          query = query.where("active", "==", true);
+            query = query.where('active', '==', true);
           }
 
           return query;
@@ -35,16 +36,24 @@ export class CourseCouponsDbService {
     );
   }
 
-  private courseCouponsPath(courseId:string) {
+  private courseCouponsPath(courseId: string) {
     return this.tenant.path(`courses/${courseId}/coupons`);
   }
 
 
   createNewCoupon(courseId: string, coupon: CourseCoupon) {
 
-      const addCouponAsync = this.afs.collection(this.courseCouponsPath(courseId)).add(coupon);
+    const addCouponAsync = this.afs.collection(this.courseCouponsPath(courseId)).add(coupon);
 
-      return from(addCouponAsync);
+    return from(addCouponAsync)
+      .pipe(
+        map(ref => {
+            return {
+              id: ref.id,
+              ...coupon
+            };
+          })
+      );
 
   }
 

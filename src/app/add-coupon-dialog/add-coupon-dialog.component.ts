@@ -12,6 +12,7 @@ import {CoursesDBService} from '../services/courses-db.service';
 import {LoadingService} from '../services/loading.service';
 import {CourseCoupon} from '../models/coupon.model';
 import {CourseCouponsDbService} from '../services/course-coupons-db.service';
+import {CourseCouponsService} from '../coupons-table/course-coupons.service';
 
 
 @Component({
@@ -34,8 +35,7 @@ export class AddCouponDialogComponent implements OnInit {
   constructor(private fb: FormBuilder,
               @Inject(MAT_DIALOG_DATA) data,
               private dialogRef: MatDialogRef<AddCouponDialogComponent>,
-              private loading: LoadingService,
-              private couponsDB: CourseCouponsDbService,
+              private couponsService: CourseCouponsService,
               private messages: MessagesService) {
 
     this.course = data.course;
@@ -76,14 +76,12 @@ export class AddCouponDialogComponent implements OnInit {
     coupon.active = true;
     coupon.created = new Date();
 
-    this.loading.showLoader(this.couponsDB.createNewCoupon(this.course.id, coupon))
-      .subscribe(() => {
-
-          this.dialogRef.close();
-        },
-        err => this.messages.error(err));
+    this.couponsService.createNewCoupon(this.course.id, coupon)
+      .subscribe(
+        () => this.dialogRef.close(coupon),
+        err => this.messages.error(err)
+    );
 
   }
-
 
 }

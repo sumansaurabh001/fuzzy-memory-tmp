@@ -63,7 +63,8 @@
 
   <coupons-table
     [courseCoupons]="coupons$ | async"
-    [course]="course$ | async">
+    [course]="course$ | async"
+    (toggleCoupon)="onCouponToggled($event)">
 
   </coupons-table>
 

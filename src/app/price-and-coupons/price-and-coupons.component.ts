@@ -9,12 +9,16 @@ import {Course} from '../models/course.model';
 import {map, mergeMap, startWith} from 'rxjs/operators';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {LoadingService} from '../services/loading.service';
+import {CourseCouponsService} from '../coupons-table/course-coupons.service';
 
 @Component({
   selector: 'price-and-coupons',
   templateUrl: './price-and-coupons.component.html',
   styleUrls: ['./price-and-coupons.component.css'],
-  providers: [LoadingService]
+  providers: [
+    LoadingService,
+    CourseCouponsService
+  ]
 })
 export class PriceAndCouponsComponent implements OnInit {
 
@@ -38,10 +42,9 @@ export class PriceAndCouponsComponent implements OnInit {
   activeCouponsOnly = true;
 
   constructor(
-    private couponsDB: CourseCouponsDbService,
     private store: Store<AppState>,
     private fb: FormBuilder,
-    private loading: LoadingService) {
+    private couponsService: CourseCouponsService) {
 
     this.form = this.fb.group({
       free: [false, [Validators.required]],
@@ -54,7 +57,10 @@ export class PriceAndCouponsComponent implements OnInit {
 
     this.course$ = this.store.pipe(select(selectActiveCourse));
 
-    this.loadCoupons();
+    this.coupons$ = this.couponsService.loadCoupons(true);
+    this.loadingCoupons$ = this.couponsService.loadingCoupons$;
+
+    this.couponsService.loadCoupons(true);
 
     this.course$.subscribe(course => {
       if (course) {
@@ -75,26 +81,14 @@ export class PriceAndCouponsComponent implements OnInit {
       });
 
   }
-
-  loadCoupons() {
-
-    this.coupons$ = this.loading.showLoader(
-      this.course$
-        .pipe(
-          mergeMap(course => this.couponsDB.loadCoupons(course.id, this.activeCouponsOnly))
-        )
-    );
-
-    this.loadingCoupons$ = this.coupons$
-      .pipe(
-        startWith(true),
-        map(coupons => !coupons)
-      );
-  }
-
   onToggleFilter() {
     this.activeCouponsOnly = !this.activeCouponsOnly;
-    this.loadCoupons();
+    this.coupons$ = this.couponsService.loadCoupons(this.activeCouponsOnly);
   }
+
+  onCouponToggled(coupon: CourseCoupon) {
+    this.couponsService.toggleCoupon(coupon);
+  }
+
 
 }

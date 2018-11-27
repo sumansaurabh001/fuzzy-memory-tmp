@@ -1,9 +1,9 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {CourseCoupon} from '../models/coupon.model';
 import {Course} from '../models/course.model';
 import {MatDialog, MatDialogConfig} from '@angular/material';
 import {AddCouponDialogComponent} from '../add-coupon-dialog/add-coupon-dialog.component';
-import {LoadingService} from '../services/loading.service';
+
 
 @Component({
   selector: 'coupons-table',
@@ -19,6 +19,9 @@ export class CouponsTableComponent implements OnInit {
 
   @Input()
   course: Course;
+
+  @Output()
+  toggleCoupon = new EventEmitter<CourseCoupon>();
 
   constructor(private dialog: MatDialog) {
 
@@ -37,8 +40,14 @@ export class CouponsTableComponent implements OnInit {
     dialogConfig.minWidth = '600px';
     dialogConfig.data = {course: this.course};
 
-    const dialogRef = this.dialog.open(AddCouponDialogComponent, dialogConfig);
+    this.dialog.open(AddCouponDialogComponent, dialogConfig);
 
+
+
+  }
+
+  onToggleCouponActive(coupon:CourseCoupon) {
+    this.toggleCoupon.emit(coupon);
   }
 
 }
