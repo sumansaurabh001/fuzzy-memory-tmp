@@ -1,3 +1,10 @@
 @import "../mixins";
 
 @include single-col-dialog();
+
+
+.free-command {
+  margin: 30px 0;
+}
+
+

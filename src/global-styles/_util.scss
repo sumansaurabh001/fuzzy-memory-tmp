@@ -1,6 +1,5 @@
 
 
-
 .filler {
   flex: 1 1 auto;
 }
@@ -101,8 +100,10 @@
 }
 
 .field-hint {
-  font-size: 13px;
+  font-family: 'Roboto', 'Helvetica', sans-serif;;
   margin-top: 3px;
+  color: rgba(0, 0, 0, 0.54);
+  font-size: 13px;
 }
 
 mat-divider.divider {

@@ -1,5 +1,5 @@
 import {ChangeDetectionStrategy, Component, Inject, OnInit} from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
 import {URL_PATH_REGEX} from '../common/regex';
 import {MessagesService} from '../services/messages.service';
@@ -12,7 +12,6 @@ import {CoursesDBService} from '../services/courses-db.service';
 import {LoadingService} from '../services/loading.service';
 import {CourseCoupon} from '../models/coupon.model';
 import {CourseCouponsDbService} from '../services/course-coupons-db.service';
-
 
 
 @Component({
@@ -28,7 +27,9 @@ export class AddCouponDialogComponent implements OnInit {
 
   form: FormGroup;
 
-  course:Course;
+  course: Course;
+
+  priceControl = new FormControl(null);
 
   constructor(private fb: FormBuilder,
               @Inject(MAT_DIALOG_DATA) data,
@@ -42,9 +43,27 @@ export class AddCouponDialogComponent implements OnInit {
   }
 
   ngOnInit() {
+
     this.form = this.fb.group({
-      code: ['', [Validators.required, Validators.maxLength(20)]]
+      code: ['', [Validators.required, Validators.minLength(6), Validators.maxLength(20), Validators.pattern("^[a-zA-Z0-9-_]+$")]],
+      free: [false, Validators.required],
+      price: this.priceControl,
+      remaining: [null, Validators.required],
+      deadline: [null]
     });
+
+    this.form.valueChanges
+      .subscribe((coupon:CourseCoupon) => {
+
+        if (coupon.free) {
+          this.priceControl.disable({emitEvent: false});
+        }
+        else {
+          this.priceControl.enable({emitEvent:false});
+        }
+
+      });
+
   }
 
   close() {
@@ -55,6 +74,8 @@ export class AddCouponDialogComponent implements OnInit {
 
     const coupon = this.form.value as CourseCoupon;
     coupon.active = true;
+
+    debugger;
 
     this.loading.showLoader(this.couponsDB.createNewCoupon(this.course.id, coupon))
       .subscribe(() => {

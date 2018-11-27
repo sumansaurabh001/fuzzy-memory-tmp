@@ -33,7 +33,7 @@ export class CouponsTableComponent implements OnInit {
 
     dialogConfig.autoFocus = true;
     dialogConfig.disableClose = true;
-    dialogConfig.minWidth = '500px';
+    dialogConfig.minWidth = '600px';
     dialogConfig.data = {course: this.course};
 
     const dialogRef = this.dialog.open(AddCouponDialogComponent, dialogConfig);

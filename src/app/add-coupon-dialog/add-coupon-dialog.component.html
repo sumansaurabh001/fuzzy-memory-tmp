@@ -10,12 +10,46 @@
 
     <input matInput
            placeholder="Coupon Code"
-           maxLength="20"
            formControlName="code">
 
-    <mat-hint align="end">
-      Your coupon code must be between 6 and 20 characters. It can only contain alphanumeric characters (A-Z, 0-9), periods ("."), dashes ("-") or underscores ("_"). All letters must be CAPITAL.
-    </mat-hint>
+    <mat-hint align="end">Your coupon code must be between 6 and 20 characters. It can only contain alphanumeric characters (A-Z, 0-9), dashes ("-") or underscores ("_"). All letters must be CAPITAL.</mat-hint>
+
+  </mat-form-field>
+
+
+  <div class="toggle-command free-command">
+    <mat-slide-toggle color="primary" formControlName="free">
+      Free Coupon
+    </mat-slide-toggle>
+
+    <div class="field-hint">Free coupons are a great way of building your mailing list.</div>
+
+  </div>
+
+  <mat-form-field>
+
+    <input matInput placeholder="Discounted price (USD)" type="number" formControlName="price">
+
+  </mat-form-field>
+
+  <mat-form-field>
+
+    <input matInput placeholder="Number of coupons" type="number" formControlName="remaining">
+
+  </mat-form-field>
+
+
+  <mat-form-field>
+
+    <input matInput [matDatepicker]="dealinePicker"
+           formControlName="deadline" (click)="dealinePicker.open()">
+
+    <mat-datepicker-toggle matSuffix
+                           [for]="dealinePicker">
+
+    </mat-datepicker-toggle>
+
+    <mat-datepicker #dealinePicker></mat-datepicker>
 
   </mat-form-field>
 
