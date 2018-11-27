@@ -6,7 +6,7 @@
 
   <h3>Course Price</h3>
 
-  <div class="controls-form" [formGroup]="form">
+  <div class="controls-form" [formGroup]="form" *ngIf="course$ | async as course">
 
     <mat-form-field class="price-field">
 
@@ -34,13 +34,13 @@
       </div>
     </div>
 
-  </div>
+    <div class="form-buttons">
 
-  <div class="form-buttons">
+      <div class="filler"></div>
 
-    <div class="filler"></div>
+      <button mat-raised-button color="primary">Save Changes</button>
 
-    <button mat-raised-button color="primary">Save</button>
+    </div>
 
   </div>
 

@@ -7,7 +7,7 @@ import {Observable} from 'rxjs/Observable';
 import {selectActiveCourse} from '../store/selectors';
 import {Course} from '../models/course.model';
 import {mergeMap} from 'rxjs/operators';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 
 @Component({
   selector: 'price-and-coupons',
@@ -22,13 +22,15 @@ export class PriceAndCouponsComponent implements OnInit {
 
   form: FormGroup;
 
+  priceControl = new FormControl('', Validators.required);
+
   constructor(
     private couponsDB: CourseCouponsDbService,
     private store: Store<AppState>,
     private fb: FormBuilder) {
 
     this.form = this.fb.group({
-      price: ['', [Validators.required]],
+      price: this.priceControl,
       includedInSubscription: [true, [Validators.required]],
       free: [false, [Validators.required]]
     });
@@ -40,6 +42,24 @@ export class PriceAndCouponsComponent implements OnInit {
     this.course$ = this.store.pipe(select(selectActiveCourse));
 
     this.coupons$ = this.course$.pipe(mergeMap(course => this.couponsDB.loadActiveCoupons(course.id)));
+
+    this.course$.subscribe(course => {
+      if (course) {
+        this.form.patchValue(course)
+      }
+    });
+
+    this.form.valueChanges
+      .subscribe((val:Course) => {
+
+        if (val.free) {
+          this.priceControl.disable({onlySelf:true, emitEvent:false});
+        }
+        else {
+          this.priceControl.enable({onlySelf:true, emitEvent:false});
+        }
+
+      });
 
   }
 
