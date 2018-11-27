@@ -1,8 +1,6 @@
 
+<div class="mat-elevation-z8" *ngIf="courseCoupons; else noCoupons">
 
-{{courseCoupons | json}}
-
-<div class="mat-elevation-z8" * ngIf="courseCoupons; else noCoupons">
   <table mat-table [dataSource]="courseCoupons">
 
     <ng-container matColumnDef="code">
@@ -12,7 +10,7 @@
 
     <ng-container matColumnDef="price">
       <th mat-header-cell *matHeaderCellDef>Price</th>
-      <td mat-cell *matCellDef="let element">{{element.price}}</td>
+      <td mat-cell *matCellDef="let element">{{element.price | currency }}</td>
     </ng-container>
 
     <ng-container matColumnDef="remaining">
@@ -22,12 +20,12 @@
 
     <ng-container matColumnDef="created">
       <th mat-header-cell *matHeaderCellDef>Created</th>
-      <td mat-cell *matCellDef="let element">{{element.created}}</td>
+      <td mat-cell *matCellDef="let element">{{element.created | timestamp | date: 'MMM/dd/yyyy'}}</td>
     </ng-container>
 
     <ng-container matColumnDef="deadline">
       <th mat-header-cell *matHeaderCellDef>Deadline</th>
-      <td mat-cell *matCellDef="let element">{{element.deadline}}</td>
+      <td mat-cell *matCellDef="let element">{{element.deadline | timestamp | date: 'MMM/dd/yyyy'}}</td>
     </ng-container>
 
     <ng-container matColumnDef="status">

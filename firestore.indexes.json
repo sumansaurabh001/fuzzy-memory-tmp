@@ -17,7 +17,7 @@
       "collectionId": "coupons",
       "fields": [
         {
-          "fieldPath": "status",
+          "fieldPath": "active",
           "mode": "ASCENDING"
         },
         {

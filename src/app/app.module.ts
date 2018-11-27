@@ -83,6 +83,7 @@ import {CookieService} from 'ngx-cookie-service';
 import { PriceAndCouponsComponent } from './price-and-coupons/price-and-coupons.component';
 import { CouponsTableComponent } from './coupons-table/coupons-table.component';
 import {AddCouponDialogComponent} from './add-coupon-dialog/add-coupon-dialog.component';
+import {TimestampPipe} from './common/timestamp.pipe';
 
 
 @NgModule({
@@ -114,6 +115,7 @@ import {AddCouponDialogComponent} from './add-coupon-dialog/add-coupon-dialog.co
     CollapsiblePanelComponent,
     CollapsibleTriggerComponent,
     DurationPipe,
+    TimestampPipe,
     WatchCourseComponent,
     VideoPlayerComponent,
     LoginComponent,

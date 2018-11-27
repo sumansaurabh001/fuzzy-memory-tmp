@@ -74,8 +74,7 @@ export class AddCouponDialogComponent implements OnInit {
 
     const coupon = this.form.value as CourseCoupon;
     coupon.active = true;
-
-    debugger;
+    coupon.created = new Date();
 
     this.loading.showLoader(this.couponsDB.createNewCoupon(this.course.id, coupon))
       .subscribe(() => {

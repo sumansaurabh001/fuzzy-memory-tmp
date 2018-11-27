@@ -22,7 +22,7 @@ export class CourseCouponsDbService {
     return readCollectionWithIds<CourseCoupon[]>(
       this.afs.collection(
         this.courseCouponsPath(courseId),
-        ref => ref.where("status", "==", true).orderBy('created', 'desc'))
+        ref => ref.where("active", "==", true).orderBy('created', 'desc'))
     );
   }
 
