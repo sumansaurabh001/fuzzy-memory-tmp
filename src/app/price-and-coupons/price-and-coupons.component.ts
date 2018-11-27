@@ -7,6 +7,7 @@ import {Observable} from 'rxjs/Observable';
 import {selectActiveCourse} from '../store/selectors';
 import {Course} from '../models/course.model';
 import {mergeMap} from 'rxjs/operators';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 
 @Component({
   selector: 'price-and-coupons',
@@ -19,7 +20,20 @@ export class PriceAndCouponsComponent implements OnInit {
 
   coupons$: Observable<CourseCoupon[]>;
 
-  constructor(private couponsDB: CourseCouponsDbService, private store: Store<AppState>) { }
+  form: FormGroup;
+
+  constructor(
+    private couponsDB: CourseCouponsDbService,
+    private store: Store<AppState>,
+    private fb: FormBuilder) {
+
+    this.form = this.fb.group({
+      price: ['', [Validators.required]],
+      includedInSubscription: [true, [Validators.required]],
+      free: [false, [Validators.required]]
+    });
+
+  }
 
   ngOnInit() {
 

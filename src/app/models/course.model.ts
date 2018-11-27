@@ -9,5 +9,7 @@ export interface Course {
   shortDescription: string;
   thumbnail: string;
   downloadAllowed: boolean;
-  price:Number;
+  price:number;
+  includedInSubscription:boolean;
+  free:boolean;
 }

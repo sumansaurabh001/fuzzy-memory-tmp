@@ -74,4 +74,26 @@
 
 
 
+.controls-form {
+  display: flex;
+  flex-direction: column;
+
+}
+
+.controls-form .toggle-command {
+  margin-bottom: 20px;
+}
+
+.form-buttons button {
+  margin-left: 10px;
+}
+
+.field-hint {
+  font-size: 13px;
+  margin-top: 3px;
+}
+
+
+
+
 

@@ -4,24 +4,43 @@
 
 <div class="tab-container mat-elevation-z5">
 
-  <p>Suggestion: If the course is also part of a monthly subscription, its important
-    to set the price between 6 to 10 times the value of the subscription, in order to make choosing the subscription more
-    appealing.</p>
+  <h3>Course Price</h3>
 
+  <div class="controls-form" [formGroup]="form">
 
-  <input matInput placeholder="Course Price" type="number">
+    <mat-form-field class="price-field">
 
+      <input matInput placeholder="Undiscounted sales price" type="number" formControlName="price">
 
-  Is the course included in a Subscription?
-  <mat-checkbox color="primary"></mat-checkbox>
-  <mat-hint>If you plan on producing regular content, it's recommended to have a subscription plan.</mat-hint>
+    </mat-form-field>
 
+    <div class="toggle-command">
+      <mat-slide-toggle color="primary" formControlName="free">
+        Free Course
+      </mat-slide-toggle>
 
-  <div class="price-actions">
+      <div class="field-hint">A free course is a great way of building your mailing list.</div>
+
+    </div>
+
+    <div class="toggle-command">
+      <mat-slide-toggle color="primary" formControlName="includedInSubscription">
+        Included in subscription
+      </mat-slide-toggle>
+
+      <div class="field-hint">If you plan on producing regular content, it's recommended to include every course in the
+        subscription
+        plan.
+      </div>
+    </div>
+
+  </div>
+
+  <div class="form-buttons">
 
     <div class="filler"></div>
 
-    <button mat-raised-button>Save</button>
+    <button mat-raised-button color="primary">Save</button>
 
   </div>
 

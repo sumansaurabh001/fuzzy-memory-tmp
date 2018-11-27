@@ -1,4 +1,5 @@
 
-.price-actions {
-  display: flex;
+.price-field {
+  max-width: 300px;
+  margin-bottom: 30px;
 }
