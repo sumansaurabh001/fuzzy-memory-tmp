@@ -31,6 +31,8 @@ export class PriceAndCouponsComponent implements OnInit {
     includedInSubscription: this.includedControl
   });
 
+  onlyActiveCoupons = true;
+
   constructor(
     private couponsDB: CourseCouponsDbService,
     private store: Store<AppState>,
@@ -67,6 +69,10 @@ export class PriceAndCouponsComponent implements OnInit {
 
       });
 
+  }
+
+  onToggleFilter() {
+    this.onlyActiveCoupons = !this.onlyActiveCoupons;
   }
 
 }

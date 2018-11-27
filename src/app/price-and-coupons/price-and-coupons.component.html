@@ -53,7 +53,17 @@
 
   <h3>Course Coupons</h3>
 
-  <coupons-table [courseCoupons]="coupons$ | async" [course]="course$ | async"></coupons-table>
+  <div class="toggle-command">
+    <mat-slide-toggle color="primary" [checked]="onlyActiveCoupons" (toggleChange)="onToggleFilter($event)">
+      Show only active coupons
+    </mat-slide-toggle>
+  </div>
+
+  <coupons-table
+    [courseCoupons]="coupons$ | async"
+    [course]="course$ | async">
+
+  </coupons-table>
 
 </div>
 

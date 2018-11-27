@@ -1,5 +1,6 @@
 
-<button mat-raised-button color="accent"></button>
+
+{{courseCoupons | json}}
 
 <div class="mat-elevation-z8" * ngIf="courseCoupons; else noCoupons">
   <table mat-table [dataSource]="courseCoupons">
