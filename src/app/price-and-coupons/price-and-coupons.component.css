@@ -1,5 +1,8 @@
 
 .price-field {
-  max-width: 300px;
-  margin-bottom: 30px;
+  width: 300px;
+}
+
+.price-controls {
+  margin-bottom: 40px;
 }

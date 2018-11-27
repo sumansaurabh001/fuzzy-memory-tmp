@@ -8,11 +8,27 @@
 
   <div class="controls-form" [formGroup]="form" *ngIf="course$ | async as course">
 
-    <mat-form-field class="price-field">
+    <div [formGroup]="priceGroup" class="price-controls">
 
-      <input matInput placeholder="Undiscounted sales price" type="number" formControlName="price">
+      <mat-form-field class="price-field">
 
-    </mat-form-field>
+        <input matInput placeholder="Undiscounted sales price (USD)" type="number" formControlName="price">
+
+      </mat-form-field>
+
+      <div class="toggle-command">
+        <mat-slide-toggle color="primary" formControlName="includedInSubscription">
+          Included in subscription
+        </mat-slide-toggle>
+
+        <div class="field-hint">If you plan on producing regular content, it's recommended to include every course in the
+          subscription
+          plan.
+        </div>
+      </div>
+
+
+    </div>
 
     <div class="toggle-command">
       <mat-slide-toggle color="primary" formControlName="free">
@@ -21,17 +37,6 @@
 
       <div class="field-hint">A free course is a great way of building your mailing list.</div>
 
-    </div>
-
-    <div class="toggle-command">
-      <mat-slide-toggle color="primary" formControlName="includedInSubscription">
-        Included in subscription
-      </mat-slide-toggle>
-
-      <div class="field-hint">If you plan on producing regular content, it's recommended to include every course in the
-        subscription
-        plan.
-      </div>
     </div>
 
     <div class="form-buttons">

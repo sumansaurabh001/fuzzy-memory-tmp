@@ -24,15 +24,21 @@ export class PriceAndCouponsComponent implements OnInit {
 
   priceControl = new FormControl('', Validators.required);
 
+  includedControl = new FormControl(true, Validators.required);
+
+  priceGroup = new FormGroup({
+    price: this.priceControl,
+    includedInSubscription: this.includedControl
+  });
+
   constructor(
     private couponsDB: CourseCouponsDbService,
     private store: Store<AppState>,
     private fb: FormBuilder) {
 
     this.form = this.fb.group({
-      price: this.priceControl,
-      includedInSubscription: [true, [Validators.required]],
-      free: [false, [Validators.required]]
+      free: [false, [Validators.required]],
+      priceGroup: this.priceGroup
     });
 
   }
@@ -53,10 +59,10 @@ export class PriceAndCouponsComponent implements OnInit {
       .subscribe((val:Course) => {
 
         if (val.free) {
-          this.priceControl.disable({onlySelf:true, emitEvent:false});
+          this.priceGroup.disable({emitEvent:false});
         }
         else {
-          this.priceControl.enable({onlySelf:true, emitEvent:false});
+          this.priceGroup.enable({emitEvent:false});
         }
 
       });
