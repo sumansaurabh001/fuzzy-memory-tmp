@@ -3,6 +3,7 @@ import {CourseCoupon} from '../models/coupon.model';
 import {Course} from '../models/course.model';
 import {MatDialog, MatDialogConfig} from '@angular/material';
 import {AddCouponDialogComponent} from '../add-coupon-dialog/add-coupon-dialog.component';
+import {LoadingService} from '../services/loading.service';
 
 @Component({
   selector: 'coupons-table',

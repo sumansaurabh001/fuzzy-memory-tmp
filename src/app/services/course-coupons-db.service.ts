@@ -18,11 +18,20 @@ export class CourseCouponsDbService {
   }
 
 
-  loadActiveCoupons(courseId:string) {
+  loadCoupons(courseId: string, activeCouponsOnly: boolean) {
     return readCollectionWithIds<CourseCoupon[]>(
       this.afs.collection(
         this.courseCouponsPath(courseId),
-        ref => ref.where("active", "==", true).orderBy('created', 'desc'))
+        ref => {
+
+          let query = ref.orderBy('created', 'desc');
+
+          if (activeCouponsOnly) {
+          query = query.where("active", "==", true);
+          }
+
+          return query;
+        })
     );
   }
 

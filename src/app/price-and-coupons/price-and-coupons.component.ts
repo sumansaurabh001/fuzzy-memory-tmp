@@ -6,19 +6,23 @@ import {AppState} from '../store';
 import {Observable} from 'rxjs/Observable';
 import {selectActiveCourse} from '../store/selectors';
 import {Course} from '../models/course.model';
-import {mergeMap} from 'rxjs/operators';
+import {map, mergeMap, startWith} from 'rxjs/operators';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
+import {LoadingService} from '../services/loading.service';
 
 @Component({
   selector: 'price-and-coupons',
   templateUrl: './price-and-coupons.component.html',
-  styleUrls: ['./price-and-coupons.component.css']
+  styleUrls: ['./price-and-coupons.component.css'],
+  providers: [LoadingService]
 })
 export class PriceAndCouponsComponent implements OnInit {
 
   course$: Observable<Course>;
 
   coupons$: Observable<CourseCoupon[]>;
+
+  loadingCoupons$: Observable<boolean>;
 
   form: FormGroup;
 
@@ -31,12 +35,13 @@ export class PriceAndCouponsComponent implements OnInit {
     includedInSubscription: this.includedControl
   });
 
-  onlyActiveCoupons = true;
+  activeCouponsOnly = true;
 
   constructor(
     private couponsDB: CourseCouponsDbService,
     private store: Store<AppState>,
-    private fb: FormBuilder) {
+    private fb: FormBuilder,
+    private loading: LoadingService) {
 
     this.form = this.fb.group({
       free: [false, [Validators.required]],
@@ -49,7 +54,7 @@ export class PriceAndCouponsComponent implements OnInit {
 
     this.course$ = this.store.pipe(select(selectActiveCourse));
 
-    this.coupons$ = this.course$.pipe(mergeMap(course => this.couponsDB.loadActiveCoupons(course.id)));
+    this.loadCoupons();
 
     this.course$.subscribe(course => {
       if (course) {
@@ -71,8 +76,25 @@ export class PriceAndCouponsComponent implements OnInit {
 
   }
 
+  loadCoupons() {
+
+    this.coupons$ = this.loading.showLoader(
+      this.course$
+        .pipe(
+          mergeMap(course => this.couponsDB.loadCoupons(course.id, this.activeCouponsOnly))
+        )
+    );
+
+    this.loadingCoupons$ = this.coupons$
+      .pipe(
+        startWith(true),
+        map(coupons => !coupons)
+      );
+  }
+
   onToggleFilter() {
-    this.onlyActiveCoupons = !this.onlyActiveCoupons;
+    this.activeCouponsOnly = !this.activeCouponsOnly;
+    this.loadCoupons();
   }
 
 }
