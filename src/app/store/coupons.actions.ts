@@ -38,7 +38,7 @@ export class AddCoupon implements Action {
 export class UpdateCoupon implements Action {
   readonly type = CouponActionTypes.UpdateCoupon;
 
-  constructor(public payload: { course: Update<CourseCoupon> }) {
+  constructor(public payload: { coupon: Update<CourseCoupon> }) {
   }
 }
 

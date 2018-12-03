@@ -29,8 +29,11 @@ export function couponsReducer(state = initialCouponsState, action: CouponsActio
 
     case CouponActionTypes.AddCoupon:
 
+      return adapter.addOne(action.payload.coupon, state);
+
     case CouponActionTypes.UpdateCoupon:
 
+      return adapter.updateOne(action.payload.coupon, state);
 
     default:
       return state;

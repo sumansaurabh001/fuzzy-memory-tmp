@@ -12,8 +12,8 @@ import {CoursesDBService} from '../services/courses-db.service';
 import {LoadingService} from '../services/loading.service';
 import {CourseCoupon} from '../models/coupon.model';
 import {CourseCouponsDbService} from '../services/course-coupons-db.service';
-import {CourseCouponsService} from '../coupons-table/course-coupons.service';
-import * as firebase from 'firebase';
+import * as firebase from 'firebase/app';
+import {AddCoupon} from '../store/coupons.actions';
 
 
 
@@ -37,7 +37,8 @@ export class AddCouponDialogComponent implements OnInit {
   constructor(private fb: FormBuilder,
               @Inject(MAT_DIALOG_DATA) data,
               private dialogRef: MatDialogRef<AddCouponDialogComponent>,
-              private couponsService: CourseCouponsService,
+              private couponsDb: CourseCouponsDbService,
+              private store: Store<AppState>,
               private messages: MessagesService) {
 
     this.course = data.course;
@@ -74,13 +75,20 @@ export class AddCouponDialogComponent implements OnInit {
 
   save() {
 
-    const coupon = this.form.value as CourseCoupon;
+    const coupon = this.form.value;
     coupon.active = true;
     coupon.created = firebase.firestore.Timestamp.fromDate(new Date());
+    coupon.deadline = coupon.deadline ? firebase.firestore.Timestamp.fromDate(coupon.deadline) : null;
 
-    this.couponsService.createNewCoupon(this.course.id, coupon)
+    this.couponsDb.createNewCoupon(this.course.id, coupon)
       .subscribe(
-        () => this.dialogRef.close(coupon),
+        coupon => {
+
+         this.store.dispatch(new AddCoupon({coupon}));
+
+          this.dialogRef.close()
+
+        },
         err => this.messages.error(err)
     );
 

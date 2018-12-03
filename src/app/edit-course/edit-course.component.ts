@@ -6,7 +6,6 @@ import {UrlBuilderService} from '../services/url-builder.service';
 import {selectActiveCourse} from '../store/selectors';
 import {select, Store} from '@ngrx/store';
 import {AppState} from '../store';
-import {CourseCouponsService} from '../coupons-table/course-coupons.service';
 import {LoadCoupons} from '../store/coupons.actions';
 
 
@@ -15,10 +14,7 @@ import {LoadCoupons} from '../store/coupons.actions';
   selector: 'edit-course',
   templateUrl: './edit-course.component.html',
   styleUrls: ['./edit-course.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [
-    CourseCouponsService
-  ]
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class EditCourseComponent implements OnInit {
 

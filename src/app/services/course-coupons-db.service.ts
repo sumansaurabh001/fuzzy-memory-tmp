@@ -53,6 +53,7 @@ export class CourseCouponsDbService {
         map(ref => {
             return {
               id: ref.id,
+              courseId,
               ...coupon
             };
           })
