@@ -166,7 +166,11 @@ export const selectAllCoupons = createSelector(couponsState, fromCoupon.selectAl
 export const selectActiveCourseCoupons = createSelector(
   selectAllCoupons,
   selectActiveCourse,
-  (coupons, course) => coupons.filter(coupon => coupon.courseId == course.id)
+  (coupons, course) => coupons.filter(coupon => coupon.courseId == course.id && coupon.active)
 );
 
-
+export const selectAllCourseCoupons = createSelector(
+  selectAllCoupons,
+  selectActiveCourse,
+  (coupons, course) => coupons.filter(coupon => coupon.courseId == course.id)
+);

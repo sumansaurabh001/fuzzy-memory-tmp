@@ -3,7 +3,7 @@ import {CourseCoupon} from '../models/coupon.model';
 import {select, Store} from '@ngrx/store';
 import {AppState} from '../store';
 import {Observable} from 'rxjs/Observable';
-import {selectActiveCourse, selectActiveCourseCoupons, selectAllCoupons} from '../store/selectors';
+import {selectActiveCourse, selectActiveCourseCoupons, selectAllCoupons, selectAllCourseCoupons} from '../store/selectors';
 import {Course} from '../models/course.model';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {LoadCoupons} from '../store/coupons.actions';
@@ -72,7 +72,14 @@ export class PriceAndCouponsComponent implements OnInit {
 
     this.activeCouponsOnly = !this.activeCouponsOnly;
 
-    //TODO
+    if (this.activeCouponsOnly) {
+      this.coupons$ = this.store.pipe(select(selectActiveCourseCoupons));
+      this.store.dispatch(new LoadCoupons({activeCouponsOnly:true}));
+    }
+    else {
+      this.coupons$ = this.store.pipe(select(selectAllCourseCoupons));
+      this.store.dispatch(new LoadCoupons({activeCouponsOnly:false}));
+    }
 
   }
 

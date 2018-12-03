@@ -8,6 +8,8 @@ import {isActiveCourseLessonsLoaded, selectActiveCourse} from './selectors';
 import {AppState} from './index';
 import {_throw} from '../../../node_modules/rxjs-compat/observable/throw';
 import {MessagesService} from '../services/messages.service';
+import {LoadingService} from '../services/loading.service';
+import {CourseCoupon} from '../models/coupon.model';
 
 
 @Injectable({
@@ -21,7 +23,7 @@ export class CouponEffects {
     .ofType<LoadCoupons>(CouponActionTypes.LoadCoupons)
     .pipe(
       withLatestFrom(this.store.pipe(select(selectActiveCourse))),
-      mergeMap(([action, course]) => this.dbCoupons.loadCoupons(course.id, action.payload.activeCouponsOnly)),
+      mergeMap(([action, course]) => this.loading.showLoader<CourseCoupon[]>(this.dbCoupons.loadCoupons(course.id, action.payload.activeCouponsOnly))),
       map(coupons => new AddCoupons({coupons})),
       catchError(err => {
         this.messages.error('Could not load course coupons.');
@@ -34,7 +36,8 @@ export class CouponEffects {
     private actions$: Actions,
     private dbCoupons: CourseCouponsDbService,
     private store: Store<AppState>,
-    private messages: MessagesService) {
+    private messages: MessagesService,
+    private loading: LoadingService) {
 
   }
 
