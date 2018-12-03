@@ -5,7 +5,8 @@ import {first, map} from 'rxjs/operators';
 import {readCollectionWithIds} from '../common/firestore-utils';
 import {CourseCoupon} from '../models/coupon.model';
 import {Observable, from} from 'rxjs';
-import {DocumentReference} from '../../../node_modules/@angular/fire/firestore/interfaces';
+import {Update} from '@ngrx/entity';
+
 
 @Injectable({
   providedIn: 'root'
@@ -59,6 +60,10 @@ export class CourseCouponsDbService {
           })
       );
 
+  }
+
+  saveCoupon(courseId: any, couponId:string, props: Partial<CourseCoupon>): Observable<any> {
+    return from(this.afs.collection(this.courseCouponsPath(courseId)).doc(couponId).update(props));
   }
 
 }

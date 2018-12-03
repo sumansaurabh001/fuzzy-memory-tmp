@@ -7,7 +7,7 @@ import {selectActiveCourse, selectActiveCourseCoupons, selectAllCoupons, selectA
 import {Course} from '../models/course.model';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {LoadCoupons, UpdateCoupon} from '../store/coupons.actions';
-import {UpdateStr} from '../../../node_modules/@ngrx/entity/src/models';
+import {Update, UpdateStr} from '../../../node_modules/@ngrx/entity/src/models';
 
 @Component({
   selector: 'price-and-coupons',
@@ -93,7 +93,7 @@ export class PriceAndCouponsComponent implements OnInit {
       }
     };
 
-    this.store.dispatch(new UpdateCoupon({coupon: update}));
+    this.store.dispatch(new UpdateCoupon({courseId: coupon.courseId, coupon: update}));
 
   }
 

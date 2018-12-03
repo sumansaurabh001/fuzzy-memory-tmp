@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {Actions, Effect} from '@ngrx/effects';
-import {AddCoupons, CouponActionTypes, LoadCoupons} from './coupons.actions';
+import {AddCoupons, CouponActionTypes, LoadCoupons, UpdateCoupon} from './coupons.actions';
 import {catchError, map, mergeMap, withLatestFrom} from 'rxjs/operators';
 import {CourseCouponsDbService} from '../services/course-coupons-db.service';
 import {select, Store} from '@ngrx/store';
@@ -29,6 +29,14 @@ export class CouponEffects {
         this.messages.error('Could not load course coupons.');
         return _throw(err);
       })
+    );
+
+
+  @Effect({dispatch:false})
+  saveCoupon$ = this.actions$
+    .ofType<UpdateCoupon>(CouponActionTypes.UpdateCoupon)
+    .pipe(
+      mergeMap(action => this.dbCoupons.saveCoupon(action.payload.courseId, action.payload.coupon.id ,action.payload.coupon.changes))
     );
 
 

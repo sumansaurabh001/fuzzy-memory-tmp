@@ -2,6 +2,7 @@ import {Action} from '@ngrx/store';
 import {Update} from '@ngrx/entity';
 import {Course} from '../models/course.model';
 import {CourseCoupon} from '../models/coupon.model';
+import {UpdateStr} from '../../../node_modules/@ngrx/entity/src/models';
 
 export enum CouponActionTypes {
   LoadCoupons = '[Coupon]  Load Coupons',
@@ -38,7 +39,7 @@ export class AddCoupon implements Action {
 export class UpdateCoupon implements Action {
   readonly type = CouponActionTypes.UpdateCoupon;
 
-  constructor(public payload: { coupon: Update<CourseCoupon> }) {
+  constructor(public payload: { courseId:string, coupon: UpdateStr<CourseCoupon> }) {
   }
 }
 
