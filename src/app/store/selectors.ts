@@ -163,6 +163,10 @@ export const getTenant = createSelector(
 
 export const selectAllCoupons = createSelector(couponsState, fromCoupon.selectAll);
 
-
+export const selectActiveCourseCoupons = createSelector(
+  selectAllCoupons,
+  selectActiveCourse,
+  (coupons, course) => coupons.filter(coupon => coupon.courseId == course.id)
+);
 
 

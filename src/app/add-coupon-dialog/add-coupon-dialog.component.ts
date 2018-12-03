@@ -13,6 +13,8 @@ import {LoadingService} from '../services/loading.service';
 import {CourseCoupon} from '../models/coupon.model';
 import {CourseCouponsDbService} from '../services/course-coupons-db.service';
 import {CourseCouponsService} from '../coupons-table/course-coupons.service';
+import * as firebase from 'firebase';
+
 
 
 @Component({
@@ -74,7 +76,7 @@ export class AddCouponDialogComponent implements OnInit {
 
     const coupon = this.form.value as CourseCoupon;
     coupon.active = true;
-    coupon.created = new Date();
+    coupon.created = firebase.firestore.Timestamp.fromDate(new Date());
 
     this.couponsService.createNewCoupon(this.course.id, coupon)
       .subscribe(

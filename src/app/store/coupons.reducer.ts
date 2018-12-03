@@ -7,7 +7,12 @@ export interface CouponsState extends EntityState<CourseCoupon> {
 
 }
 
-export const adapter: EntityAdapter<CourseCoupon> = createEntityAdapter<CourseCoupon>();
+export const adapter: EntityAdapter<CourseCoupon> = createEntityAdapter<CourseCoupon>({
+  sortComparer: (c1, c2) => {
+
+    return c2.created.toDate().getTime() - c1.created.toDate().getTime();
+  }
+});
 
 
 export const initialCouponsState: CouponsState = adapter.getInitialState({

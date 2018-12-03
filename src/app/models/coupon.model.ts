@@ -1,4 +1,7 @@
 
+import * as firebase from 'firebase';
+
+
 export interface CourseCoupon {
   id:string;
   courseId:string;
@@ -6,7 +9,7 @@ export interface CourseCoupon {
   price:number;
   free:boolean;
   remaining:number;
-  created:Date;
-  deadline:Date;
+  created:firebase.firestore.Timestamp;
+  deadline:firebase.firestore.Timestamp;
   active: boolean;
 }
