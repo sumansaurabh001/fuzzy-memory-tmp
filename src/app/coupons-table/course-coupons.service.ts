@@ -32,6 +32,8 @@ export class CourseCouponsService {
 
     this.course$ = this.store.pipe(select(selectActiveCourse));
 
+    this.coupons$ = this.loadCoupons(true);
+
   }
 
   loadCoupons(activeCouponsOnly:boolean) {

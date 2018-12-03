@@ -3,10 +3,10 @@ import {ActivatedRoute} from '@angular/router';
 import {Course} from '../models/course.model';
 import {Observable} from 'rxjs';
 import {UrlBuilderService} from '../services/url-builder.service';
-import {selectAllCourses, selectActiveCourse} from '../store/selectors';
+import {selectActiveCourse} from '../store/selectors';
 import {select, Store} from '@ngrx/store';
-import {map, tap} from 'rxjs/operators';
 import {AppState} from '../store';
+import {CourseCouponsService} from '../coupons-table/course-coupons.service';
 
 
 
@@ -14,7 +14,10 @@ import {AppState} from '../store';
   selector: 'edit-course',
   templateUrl: './edit-course.component.html',
   styleUrls: ['./edit-course.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [
+    CourseCouponsService
+  ]
 })
 export class EditCourseComponent implements OnInit {
 
@@ -34,7 +37,6 @@ export class EditCourseComponent implements OnInit {
   ngOnInit() {
 
     this.course$ = this.store.pipe(select(selectActiveCourse));
-
 
   }
 

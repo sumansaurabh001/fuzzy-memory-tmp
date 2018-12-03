@@ -1,32 +1,23 @@
-import { Component, OnInit } from '@angular/core';
-import {CourseCouponsDbService} from '../services/course-coupons-db.service';
+import {Component, OnInit} from '@angular/core';
 import {CourseCoupon} from '../models/coupon.model';
 import {select, Store} from '@ngrx/store';
 import {AppState} from '../store';
 import {Observable} from 'rxjs/Observable';
 import {selectActiveCourse} from '../store/selectors';
 import {Course} from '../models/course.model';
-import {map, mergeMap, startWith} from 'rxjs/operators';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
-import {LoadingService} from '../services/loading.service';
 import {CourseCouponsService} from '../coupons-table/course-coupons.service';
 
 @Component({
   selector: 'price-and-coupons',
   templateUrl: './price-and-coupons.component.html',
   styleUrls: ['./price-and-coupons.component.css'],
-  providers: [
-    LoadingService,
-    CourseCouponsService
-  ]
 })
 export class PriceAndCouponsComponent implements OnInit {
 
   course$: Observable<Course>;
 
   coupons$: Observable<CourseCoupon[]>;
-
-  loadingCoupons$: Observable<boolean>;
 
   form: FormGroup;
 
@@ -57,10 +48,7 @@ export class PriceAndCouponsComponent implements OnInit {
 
     this.course$ = this.store.pipe(select(selectActiveCourse));
 
-    this.coupons$ = this.couponsService.loadCoupons(true);
-    this.loadingCoupons$ = this.couponsService.loadingCoupons$;
-
-    this.couponsService.loadCoupons(true);
+    this.coupons$ = this.couponsService.coupons$;
 
     this.course$.subscribe(course => {
       if (course) {
