@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {CourseCouponsDbService} from '../services/course-coupons-db.service';
 import {Observable} from '../../../node_modules/rxjs/Observable';
 import {CourseCoupon} from '../models/coupon.model';
-import {map, mergeMap, startWith, tap} from 'rxjs/operators';
+import {filter, map, mergeMap, startWith, tap} from 'rxjs/operators';
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 import {LoadingService} from '../services/loading.service';
 import {select, Store} from '@ngrx/store';
@@ -16,14 +16,11 @@ import {AppState} from '../store';
 })
 export class CourseCouponsService {
 
-  private subject = new BehaviorSubject<CourseCoupon[]>([]);
+  private subject = new BehaviorSubject<CourseCoupon[]>(undefined);
 
   private course$: Observable<Course>;
 
-  coupons$: Observable<CourseCoupon[]> = this.subject.asObservable();
-
-  loadingCoupons$: Observable<boolean>;
-
+  coupons$: Observable<CourseCoupon[]> = this.subject.asObservable().pipe(filter(coupons => !!coupons));
 
   constructor(
     private couponsDB: CourseCouponsDbService,
@@ -32,12 +29,12 @@ export class CourseCouponsService {
 
     this.course$ = this.store.pipe(select(selectActiveCourse));
 
-    this.coupons$ = this.loadCoupons(true);
+    this.loadCoupons(true);
 
   }
 
   loadCoupons(activeCouponsOnly:boolean) {
-    this.coupons$ = this.loading.showLoader(
+    const $loadCoupons = this.loading.showLoader(
       this.course$
         .pipe(
           mergeMap(course => this.couponsDB.loadCoupons(course.id, activeCouponsOnly)),
@@ -45,11 +42,7 @@ export class CourseCouponsService {
         )
     );
 
-    this.loadingCoupons$ = this.coupons$
-      .pipe(
-        startWith(true),
-        map(coupons => !coupons)
-      );
+    $loadCoupons.subscribe();
 
     return this.coupons$;
   }
