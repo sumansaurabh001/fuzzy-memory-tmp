@@ -49,7 +49,7 @@ export class CourseCouponsService {
 
 
   createNewCoupon(courseId: string, newCoupon: CourseCoupon) {
-    return this.loading.showLoader(
+    const createCoupon$ = this.loading.showLoader(
       this.couponsDB.createNewCoupon(courseId, newCoupon)
         .pipe(
           tap(coupon => {
@@ -61,6 +61,11 @@ export class CourseCouponsService {
           })
         )
     );
+
+    createCoupon$.subscribe();
+
+    return createCoupon$;
+
   }
 
   toggleCoupon(coupon: CourseCoupon) {
