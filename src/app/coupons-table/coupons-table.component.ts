@@ -31,6 +31,10 @@ export class CouponsTableComponent implements OnInit {
 
   }
 
+  couponsExist() {
+    return this.courseCoupons && this.courseCoupons.length > 0;
+  }
+
   createCoupon() {
 
     const dialogConfig = new MatDialogConfig();
@@ -41,8 +45,6 @@ export class CouponsTableComponent implements OnInit {
     dialogConfig.data = {course: this.course};
 
     this.dialog.open(AddCouponDialogComponent, dialogConfig);
-
-
 
   }
 

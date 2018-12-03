@@ -9,7 +9,7 @@
 
 </div>
 
-<div class="mat-elevation-z8" *ngIf="courseCoupons; else noCoupons">
+<div class="mat-elevation-z8" *ngIf="couponsExist()">
 
   <table class="coupons-table" mat-table [dataSource]="courseCoupons">
 
@@ -54,9 +54,4 @@
   </table>
 </div>
 
-<ng-template #noCoupons>
-
-  <span>No coupons available, let's create one.</span>
-
-</ng-template>
 
