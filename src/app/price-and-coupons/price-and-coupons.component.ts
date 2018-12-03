@@ -8,6 +8,7 @@ import {Course} from '../models/course.model';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {LoadCoupons, UpdateCoupon} from '../store/coupons.actions';
 import {Update, UpdateStr} from '../../../node_modules/@ngrx/entity/src/models';
+import {MessagesService} from '../services/messages.service';
 
 @Component({
   selector: 'price-and-coupons',
@@ -35,7 +36,8 @@ export class PriceAndCouponsComponent implements OnInit {
 
   constructor(
     private store: Store<AppState>,
-    private fb: FormBuilder) {
+    private fb: FormBuilder,
+    private messages: MessagesService) {
 
     this.form = this.fb.group({
       free: [false, [Validators.required]],
