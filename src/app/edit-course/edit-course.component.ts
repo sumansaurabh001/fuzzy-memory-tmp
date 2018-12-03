@@ -7,6 +7,7 @@ import {selectActiveCourse} from '../store/selectors';
 import {select, Store} from '@ngrx/store';
 import {AppState} from '../store';
 import {CourseCouponsService} from '../coupons-table/course-coupons.service';
+import {LoadCoupons} from '../store/coupons.actions';
 
 
 
@@ -24,6 +25,8 @@ export class EditCourseComponent implements OnInit {
   course$: Observable<Course>;
 
   selectedIndex = 0;
+
+  couponsLoaded = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -46,6 +49,12 @@ export class EditCourseComponent implements OnInit {
 
   onTabChange(selectedIndex) {
     this.selectedIndex = selectedIndex;
+
+    if (this.selectedIndex === 2 && !this.couponsLoaded) {
+      this.store.dispatch(new LoadCoupons({activeCouponsOnly:true}));
+      this.couponsLoaded = true;
+    }
+
   }
 
   editCourse() {

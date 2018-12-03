@@ -13,6 +13,7 @@ import {storeFreeze} from 'ngrx-store-freeze';
 import * as fromLesson from './lesson.reducer';
 import {authReducer, AuthState} from './auth.reducer';
 import {platformReducer, PlatformState} from './platform.reducer';
+import {couponsReducer, CouponsState} from './coupons.reducer';
 
 
 
@@ -24,6 +25,7 @@ export interface AppState {
   lessons: fromLesson.State;
   auth: AuthState;
   platform: PlatformState;
+  coupons: CouponsState;
 }
 
 
@@ -35,7 +37,8 @@ export const reducers: ActionReducerMap<AppState> = {
   sections: fromCourseSection.reducer,
   lessons: fromLesson.reducer,
   auth: authReducer,
-  platform: platformReducer
+  platform: platformReducer,
+  coupons: couponsReducer
 };
 
 

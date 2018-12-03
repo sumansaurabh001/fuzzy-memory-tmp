@@ -9,6 +9,8 @@ import * as fromLesson from './lesson.reducer';
 import {AuthState} from './auth.reducer';
 import {Tenant} from '../models/tenant.model';
 import {PlatformState} from './platform.reducer';
+import {CouponsState} from './coupons.reducer';
+import * as fromCoupon from './coupons.reducer';
 
 
 export const selectCoursesState = createFeatureSelector<fromCourse.State>('courses');
@@ -22,6 +24,8 @@ export const selectLessonsState = createFeatureSelector<fromLesson.State>('lesso
 export const authState = createFeatureSelector<AuthState>('auth');
 
 export const platformState = createFeatureSelector<PlatformState>('platform');
+
+export const couponsState = createFeatureSelector<CouponsState>('coupons');
 
 
 
@@ -155,3 +159,10 @@ export const getTenant = createSelector(
   authState,
   auth => <Tenant>auth.user
 );
+
+
+export const selectAllCoupons = createSelector(couponsState, fromCoupon.selectAll);
+
+
+
+

@@ -3,10 +3,10 @@ import {CourseCoupon} from '../models/coupon.model';
 import {select, Store} from '@ngrx/store';
 import {AppState} from '../store';
 import {Observable} from 'rxjs/Observable';
-import {selectActiveCourse} from '../store/selectors';
+import {selectActiveCourse, selectAllCoupons} from '../store/selectors';
 import {Course} from '../models/course.model';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
-import {CourseCouponsService} from '../coupons-table/course-coupons.service';
+import {LoadCoupons} from '../store/coupons.actions';
 
 @Component({
   selector: 'price-and-coupons',
@@ -34,8 +34,7 @@ export class PriceAndCouponsComponent implements OnInit {
 
   constructor(
     private store: Store<AppState>,
-    private fb: FormBuilder,
-    private couponsService: CourseCouponsService) {
+    private fb: FormBuilder) {
 
     this.form = this.fb.group({
       free: [false, [Validators.required]],
@@ -48,7 +47,7 @@ export class PriceAndCouponsComponent implements OnInit {
 
     this.course$ = this.store.pipe(select(selectActiveCourse));
 
-    this.coupons$ = this.couponsService.coupons$;
+    this.coupons$ = this.store.pipe(select(selectAllCoupons));
 
     this.course$.subscribe(course => {
       if (course) {
@@ -70,12 +69,17 @@ export class PriceAndCouponsComponent implements OnInit {
 
   }
   onToggleFilter() {
+
     this.activeCouponsOnly = !this.activeCouponsOnly;
-    this.coupons$ = this.couponsService.loadCoupons(this.activeCouponsOnly);
+
+    //TODO
+
   }
 
   onCouponToggled(coupon: CourseCoupon) {
-    this.couponsService.toggleCoupon(coupon);
+
+    //TODO
+
   }
 
 

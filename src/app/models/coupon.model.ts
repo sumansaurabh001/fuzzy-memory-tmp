@@ -1,6 +1,7 @@
 
 export interface CourseCoupon {
   id:string;
+  courseId:string;
   code:string;
   price:number;
   free:boolean;

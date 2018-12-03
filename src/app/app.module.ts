@@ -84,6 +84,7 @@ import { PriceAndCouponsComponent } from './price-and-coupons/price-and-coupons.
 import { CouponsTableComponent } from './coupons-table/coupons-table.component';
 import {AddCouponDialogComponent} from './add-coupon-dialog/add-coupon-dialog.component';
 import {TimestampPipe} from './common/timestamp.pipe';
+import {CouponEffects} from './store/coupon.effects';
 
 
 @NgModule({
@@ -164,7 +165,8 @@ import {TimestampPipe} from './common/timestamp.pipe';
       CourseEffects,
       DescriptionEffects,
       AuthEffects,
-      PlatformEffects
+      PlatformEffects,
+      CouponEffects
     ]),
     StoreRouterConnectingModule.forRoot({
       stateKey: 'router'

@@ -33,7 +33,10 @@ export class CourseCouponsDbService {
 
           return query;
         })
-    );
+    )
+      .pipe(
+        map(coupons => coupons.map(coupon => {return {...coupon, courseId}}))
+      );
   }
 
   private courseCouponsPath(courseId: string) {
