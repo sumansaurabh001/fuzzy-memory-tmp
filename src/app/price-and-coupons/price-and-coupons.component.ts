@@ -6,7 +6,8 @@ import {Observable} from 'rxjs/Observable';
 import {selectActiveCourse, selectActiveCourseCoupons, selectAllCoupons, selectAllCourseCoupons} from '../store/selectors';
 import {Course} from '../models/course.model';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
-import {LoadCoupons} from '../store/coupons.actions';
+import {LoadCoupons, UpdateCoupon} from '../store/coupons.actions';
+import {UpdateStr} from '../../../node_modules/@ngrx/entity/src/models';
 
 @Component({
   selector: 'price-and-coupons',
@@ -85,7 +86,14 @@ export class PriceAndCouponsComponent implements OnInit {
 
   onCouponToggled(coupon: CourseCoupon) {
 
-    //TODO
+    const update: UpdateStr<CourseCoupon> = {
+      id: coupon.id,
+      changes: {
+        active: !coupon.active
+      }
+    };
+
+    this.store.dispatch(new UpdateCoupon({coupon: update}));
 
   }
 

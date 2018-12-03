@@ -54,7 +54,7 @@
   <h3>Course Coupons</h3>
 
   <div class="toggle-command">
-    <mat-slide-toggle color="primary" [checked]="onlyActiveCoupons" (toggleChange)="onToggleFilter($event)">
+    <mat-slide-toggle color="primary" [checked]="activeCouponsOnly" (toggleChange)="onToggleFilter($event)">
       Show only active coupons
     </mat-slide-toggle>
   </div>
