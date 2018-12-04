@@ -12,7 +12,7 @@ import {AddCouponDialogComponent} from '../add-coupon-dialog/add-coupon-dialog.c
 })
 export class CouponsTableComponent implements OnInit {
 
-  displayedColumns = ['code', 'price', 'remaining', 'created', 'deadline', 'status'];
+  displayedColumns = ['code', 'link', 'price', 'remaining', 'deadline', 'status'];
 
   @Input()
   courseCoupons: CourseCoupon[];

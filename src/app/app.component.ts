@@ -93,6 +93,10 @@ export class AppComponent implements OnInit {
         .theme .mat-progress-bar-fill::after {
           background-color: ${branding.primaryColor};
         }
+        
+        .theme .mat-button.mat-primary, .theme .mat-icon-button.mat-primary, .theme .mat-stroked-button.mat-primary {
+          color: ${branding.primaryColor};
+        }
 
       </style>`;
 
