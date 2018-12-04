@@ -8,7 +8,7 @@
 
   <mat-form-field>
 
-    <input matInput
+    <input class="uppercase" matInput
            placeholder="Coupon Code"
            formControlName="code">
 
@@ -19,7 +19,7 @@
   <div class="form-field-error" *ngIf="couponCodeExists()">This coupon code already exists, please choose another one.</div>
 
   <div class="toggle-command free-command">
-    <mat-slide-toggle color="primary" formControlName="free">
+    <mat-slide-toggle color="primary" formControlName="free" (change)="onFreeToggled($event)">
       Free Coupon
     </mat-slide-toggle>
 

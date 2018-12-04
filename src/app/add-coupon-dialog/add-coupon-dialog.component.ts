@@ -32,7 +32,7 @@ export class AddCouponDialogComponent implements OnInit {
 
   course: Course;
 
-  priceControl = new FormControl(null);
+  priceControl = new FormControl(null, Validators.required);
 
   couponCodeSyncValidators = [Validators.required, Validators.minLength(6), Validators.maxLength(20), Validators.pattern("^[a-zA-Z0-9-_]+$")];
 
@@ -62,10 +62,14 @@ export class AddCouponDialogComponent implements OnInit {
 
         if (coupon.free) {
           this.priceControl.disable({emitEvent: false});
+          this.priceControl.setValidators(null);
         }
         else {
           this.priceControl.enable({emitEvent:false});
+          this.priceControl.setValidators(Validators.required);
         }
+
+        this.priceControl.updateValueAndValidity({emitEvent: false});
 
       });
 
@@ -78,6 +82,7 @@ export class AddCouponDialogComponent implements OnInit {
   save() {
 
     const coupon = this.form.value;
+    coupon.code = coupon.code.toUpperCase();
     coupon.active = true;
     coupon.created = firebase.firestore.Timestamp.fromDate(new Date());
     coupon.deadline = coupon.deadline ? firebase.firestore.Timestamp.fromDate(coupon.deadline) : null;
@@ -94,6 +99,12 @@ export class AddCouponDialogComponent implements OnInit {
         err => this.messages.error(err)
     );
 
+  }
+
+  onFreeToggled(free:boolean) {
+    if (free) {
+      this.priceControl.setValue(null, {emitEvent:false});
+    }
   }
 
   couponCodeExists() {
