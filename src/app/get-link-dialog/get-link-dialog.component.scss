@@ -1,0 +1,11 @@
+@import "../mixins";
+@import "../vars";
+
+@include single-col-dialog();
+
+
+.copied-to-clipboard {
+  color:$warn;
+}
+
+

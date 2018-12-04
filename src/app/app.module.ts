@@ -85,6 +85,7 @@ import { CouponsTableComponent } from './coupons-table/coupons-table.component';
 import {AddCouponDialogComponent} from './add-coupon-dialog/add-coupon-dialog.component';
 import {TimestampPipe} from './common/timestamp.pipe';
 import {CouponEffects} from './store/coupon.effects';
+import {GetLinkDialogComponent} from './get-link-dialog/get-link-dialog.component';
 
 
 @NgModule({
@@ -121,7 +122,8 @@ import {CouponEffects} from './store/coupon.effects';
     VideoPlayerComponent,
     LoginComponent,
     PriceAndCouponsComponent,
-    CouponsTableComponent
+    CouponsTableComponent,
+    GetLinkDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -197,7 +199,8 @@ import {CouponEffects} from './store/coupon.effects';
     AddLessonDialogComponent,
     ConfirmationDialogComponent,
     EditSectionDialogComponent,
-    AddCouponDialogComponent
+    AddCouponDialogComponent,
+    GetLinkDialogComponent
   ],
   bootstrap: [AppComponent]
 })

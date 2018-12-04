@@ -1,0 +1,24 @@
+<h2 mat-dialog-title>Coupon Link</h2>
+
+<mat-dialog-content>
+
+    <div class="link">
+      <a [href]="link" mat-button>{{link}}</a>
+    </div>
+
+    <div class="field-hint copied-to-clipboard">
+        <mat-icon>check_circle</mat-icon> Link copied to clipboard
+    </div>
+
+</mat-dialog-content>
+
+<mat-dialog-actions class="dialog-actions">
+
+  <button class="mat-raised-button"
+          (click)="close()">
+    Close
+  </button>
+
+</mat-dialog-actions>
+
+

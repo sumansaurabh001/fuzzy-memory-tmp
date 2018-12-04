@@ -3,6 +3,7 @@ import {CourseCoupon} from '../models/coupon.model';
 import {Course} from '../models/course.model';
 import {MatDialog, MatDialogConfig} from '@angular/material';
 import {AddCouponDialogComponent} from '../add-coupon-dialog/add-coupon-dialog.component';
+import {GetLinkDialogComponent} from '../get-link-dialog/get-link-dialog.component';
 
 
 @Component({
@@ -50,6 +51,19 @@ export class CouponsTableComponent implements OnInit {
 
   onToggleCouponActive(coupon:CourseCoupon) {
     this.toggleCoupon.emit(coupon);
+  }
+
+  getCouponLink(coupon: CourseCoupon) {
+
+    const dialogConfig = new MatDialogConfig();
+
+    dialogConfig.autoFocus = true;
+    dialogConfig.disableClose = true;
+    dialogConfig.minWidth = '600px';
+    dialogConfig.data = {coupon, course:this.course};
+
+    this.dialog.open(GetLinkDialogComponent, dialogConfig);
+
   }
 
 }
