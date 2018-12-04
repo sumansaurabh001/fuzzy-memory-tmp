@@ -35,7 +35,7 @@ export class GetLinkDialogComponent implements OnInit, AfterViewInit {
               private dialogRef: MatDialogRef<GetLinkDialogComponent>) {
 
 
-    this.link = `https://onlinecoursehost.com/TODO/coupons/${data.course.seqNo}?couponCode=${data.coupon.code}`;
+    this.link = `https://onlinecoursehost.com/courses/${data.course.seqNo}?couponCode=${data.coupon.code}`;
 
   }
 
