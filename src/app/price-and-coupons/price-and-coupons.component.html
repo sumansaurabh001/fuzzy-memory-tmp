@@ -4,67 +4,78 @@
 
 <div class="tab-container mat-elevation-z5">
 
-  <h3>Course Price</h3>
+  <ng-container *ngIf="(isConnectedToStripe$ | async); else connectToStripe">
 
-  <div class="controls-form" [formGroup]="form" *ngIf="course$ | async as course">
+    <h3>Course Price</h3>
 
-    <div [formGroup]="priceGroup" class="price-controls">
+    <div class="controls-form" [formGroup]="form" *ngIf="course$ | async as course">
 
-      <mat-form-field class="price-field">
+      <div [formGroup]="priceGroup" class="price-controls">
 
-        <input matInput placeholder="Undiscounted sales price (USD)" type="number" formControlName="price">
+        <mat-form-field class="price-field">
 
-      </mat-form-field>
+          <input matInput placeholder="Undiscounted sales price (USD)" type="number" formControlName="price">
 
-      <div class="toggle-command">
-        <mat-slide-toggle color="primary" formControlName="includedInSubscription">
-          Included in subscription
-        </mat-slide-toggle>
+        </mat-form-field>
 
-        <div class="field-hint">If you plan on producing regular content, it's recommended to include your courses in a
-          subscription
-          plan.
+        <div class="toggle-command">
+          <mat-slide-toggle color="primary" formControlName="includedInSubscription">
+            Included in subscription
+          </mat-slide-toggle>
+
+          <div class="field-hint">If you plan on producing regular content, it's recommended to include your courses in
+            a
+            subscription
+            plan.
+          </div>
         </div>
+
       </div>
 
+      <div class="toggle-command">
+        <mat-slide-toggle color="primary" formControlName="free">
+          Free Course
+        </mat-slide-toggle>
+
+        <div class="field-hint">A free course is a great way of building your mailing list.</div>
+
+      </div>
+
+      <div class="form-buttons">
+
+        <div class="filler"></div>
+
+        <button mat-raised-button color="primary" (click)="save(course.id)">Save Changes</button>
+
+      </div>
 
     </div>
+
+    <mat-divider class="divider"></mat-divider>
+
+    <h3>Course Coupons</h3>
 
     <div class="toggle-command">
-      <mat-slide-toggle color="primary" formControlName="free">
-        Free Course
+      <mat-slide-toggle color="primary" [checked]="activeCouponsOnly" (toggleChange)="onToggleFilter($event)">
+        Show only active coupons
       </mat-slide-toggle>
-
-      <div class="field-hint">A free course is a great way of building your mailing list.</div>
-
     </div>
 
-    <div class="form-buttons">
+    <coupons-table
+      [courseCoupons]="coupons$ | async"
+      [course]="course$ | async"
+      (toggleCoupon)="onCouponToggled($event)">
 
-      <div class="filler"></div>
+    </coupons-table>
 
-      <button mat-raised-button color="primary" (click)="save(course.id)">Save Changes</button>
+  </ng-container>
 
-    </div>
+  <ng-template #connectToStripe>
 
-  </div>
+    <connect-with-stripe></connect-with-stripe>
 
-  <mat-divider class="divider"></mat-divider>
+  </ng-template>
 
-  <h3>Course Coupons</h3>
-
-  <div class="toggle-command">
-    <mat-slide-toggle color="primary" [checked]="activeCouponsOnly" (toggleChange)="onToggleFilter($event)">
-      Show only active coupons
-    </mat-slide-toggle>
-  </div>
-
-  <coupons-table
-    [courseCoupons]="coupons$ | async"
-    [course]="course$ | async"
-    (toggleCoupon)="onCouponToggled($event)">
-
-  </coupons-table>
 
 </div>
 

@@ -6,11 +6,13 @@ import {PlatformActions, PlatformActionTypes} from './platform.actions';
 export interface PlatformState {
   primaryColor: string;
   accentColor:string;
+  stripeTenantUserId:string;
 }
 
 export const initialState: PlatformState = {
   primaryColor: undefined,
-  accentColor: undefined
+  accentColor: undefined,
+  stripeTenantUserId: undefined
 };
 
 export function platformReducer(state = initialState, action: PlatformActions): PlatformState {

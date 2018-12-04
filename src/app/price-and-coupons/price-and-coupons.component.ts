@@ -3,7 +3,13 @@ import {CourseCoupon} from '../models/coupon.model';
 import {select, Store} from '@ngrx/store';
 import {AppState} from '../store';
 import {Observable} from 'rxjs/Observable';
-import {selectActiveCourse, selectActiveCourseCoupons, selectAllCoupons, selectAllCourseCoupons} from '../store/selectors';
+import {
+  isConnectedToStripe,
+  selectActiveCourse,
+  selectActiveCourseCoupons,
+  selectAllCoupons,
+  selectAllCourseCoupons
+} from '../store/selectors';
 import {Course} from '../models/course.model';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {LoadCoupons, UpdateCoupon} from '../store/coupons.actions';
@@ -21,6 +27,8 @@ export class PriceAndCouponsComponent implements OnInit {
   course$: Observable<Course>;
 
   coupons$: Observable<CourseCoupon[]>;
+
+  isConnectedToStripe$: Observable<boolean>;
 
   form: FormGroup;
 
@@ -52,6 +60,8 @@ export class PriceAndCouponsComponent implements OnInit {
     this.course$ = this.store.pipe(select(selectActiveCourse));
 
     this.coupons$ = this.store.pipe(select(selectActiveCourseCoupons));
+
+    this.isConnectedToStripe$ = this.store.pipe(select(isConnectedToStripe));
 
     this.course$.subscribe(course => {
       if (course) {

@@ -86,6 +86,7 @@ import {AddCouponDialogComponent} from './add-coupon-dialog/add-coupon-dialog.co
 import {TimestampPipe} from './common/timestamp.pipe';
 import {CouponEffects} from './store/coupon.effects';
 import {GetLinkDialogComponent} from './get-link-dialog/get-link-dialog.component';
+import { ConnectWithStripeComponent } from './connect-with-stripe/connect-with-stripe.component';
 
 
 @NgModule({
@@ -123,7 +124,8 @@ import {GetLinkDialogComponent} from './get-link-dialog/get-link-dialog.componen
     LoginComponent,
     PriceAndCouponsComponent,
     CouponsTableComponent,
-    GetLinkDialogComponent
+    GetLinkDialogComponent,
+    ConnectWithStripeComponent
   ],
   imports: [
     BrowserModule,

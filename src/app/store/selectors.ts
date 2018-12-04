@@ -174,3 +174,11 @@ export const selectAllCourseCoupons = createSelector(
   selectActiveCourse,
   (coupons, course) => coupons.filter(coupon => coupon.courseId == course.id)
 );
+
+
+
+export const isConnectedToStripe = createSelector(
+  platformState,
+  settings => !!settings.stripeTenantUserId
+
+);
