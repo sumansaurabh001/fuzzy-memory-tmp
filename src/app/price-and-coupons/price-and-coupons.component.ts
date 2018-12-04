@@ -9,6 +9,7 @@ import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {LoadCoupons, UpdateCoupon} from '../store/coupons.actions';
 import {Update, UpdateStr} from '../../../node_modules/@ngrx/entity/src/models';
 import {MessagesService} from '../services/messages.service';
+import {UpdateCourse} from '../store/course.actions';
 
 @Component({
   selector: 'price-and-coupons',
@@ -96,6 +97,18 @@ export class PriceAndCouponsComponent implements OnInit {
     };
 
     this.store.dispatch(new UpdateCoupon({courseId: coupon.courseId, coupon: update}));
+
+  }
+
+
+  save(courseId:string) {
+
+    const course = {
+      id: courseId,
+      changes: {...this.form.value}
+    };
+
+    this.store.dispatch(new UpdateCourse({course}));
 
   }
 
