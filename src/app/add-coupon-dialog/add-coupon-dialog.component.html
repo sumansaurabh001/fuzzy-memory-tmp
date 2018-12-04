@@ -16,6 +16,7 @@
 
   </mat-form-field>
 
+  <div class="form-field-error" *ngIf="couponCodeExists()">This coupon code already exists, please choose another one.</div>
 
   <div class="toggle-command free-command">
     <mat-slide-toggle color="primary" formControlName="free">

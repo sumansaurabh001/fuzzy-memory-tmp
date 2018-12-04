@@ -14,6 +14,7 @@ import {CourseCoupon} from '../models/coupon.model';
 import {CourseCouponsDbService} from '../services/course-coupons-db.service';
 import * as firebase from 'firebase/app';
 import {AddCoupon} from '../store/coupons.actions';
+import {existingCouponCodeValidator} from './coupon-code.validator';
 
 
 
@@ -21,7 +22,6 @@ import {AddCoupon} from '../store/coupons.actions';
   selector: 'add-course-dialog',
   templateUrl: './add-coupon-dialog.component.html',
   styleUrls: ['./add-coupon-dialog.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
     MessagesService
   ]
@@ -33,6 +33,8 @@ export class AddCouponDialogComponent implements OnInit {
   course: Course;
 
   priceControl = new FormControl(null);
+
+  couponCodeSyncValidators = [Validators.required, Validators.minLength(6), Validators.maxLength(20), Validators.pattern("^[a-zA-Z0-9-_]+$")];
 
   constructor(private fb: FormBuilder,
               @Inject(MAT_DIALOG_DATA) data,
@@ -48,7 +50,7 @@ export class AddCouponDialogComponent implements OnInit {
   ngOnInit() {
 
     this.form = this.fb.group({
-      code: ['', [Validators.required, Validators.minLength(6), Validators.maxLength(20), Validators.pattern("^[a-zA-Z0-9-_]+$")]],
+      code: ['', this.couponCodeSyncValidators, [existingCouponCodeValidator(this.couponsDb, this.course.id)] ],
       free: [false, Validators.required],
       price: this.priceControl,
       remaining: [null, Validators.required],
@@ -92,6 +94,10 @@ export class AddCouponDialogComponent implements OnInit {
         err => this.messages.error(err)
     );
 
+  }
+
+  couponCodeExists() {
+    return this.form.get('code').errors && this.form.get('code').errors.codeExists;
   }
 
 }

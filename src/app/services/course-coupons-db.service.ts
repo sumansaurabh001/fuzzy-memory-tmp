@@ -2,10 +2,10 @@ import {Injectable} from '@angular/core';
 import {AngularFirestore} from '@angular/fire/firestore';
 import {TenantService} from './tenant.service';
 import {first, map} from 'rxjs/operators';
-import {readCollectionWithIds} from '../common/firestore-utils';
+import {findUniqueMatchWithId, readCollectionWithIds} from '../common/firestore-utils';
 import {CourseCoupon} from '../models/coupon.model';
 import {Observable, from} from 'rxjs';
-import {Update} from '@ngrx/entity';
+
 
 
 @Injectable({
@@ -19,6 +19,13 @@ export class CourseCouponsDbService {
 
   }
 
+
+  findCouponByCode(courseId:string, code:string): Observable<CourseCoupon> {
+
+    const courseQuery$ = this.afs.collection<CourseCoupon>(this.courseCouponsPath(courseId), ref => ref.where('code', '==', code));
+
+    return findUniqueMatchWithId(courseQuery$).pipe(first());
+  }
 
   loadCoupons(courseId: string, activeCouponsOnly: boolean) {
     return readCollectionWithIds<CourseCoupon[]>(
