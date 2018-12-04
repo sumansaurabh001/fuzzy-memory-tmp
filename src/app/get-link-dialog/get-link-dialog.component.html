@@ -2,9 +2,9 @@
 
 <mat-dialog-content>
 
-    <div class="link">
-      <a [href]="link" mat-button>{{link}}</a>
-    </div>
+
+
+    <input class="link" [value]="link" #input readonly>
 
     <div class="field-hint copied-to-clipboard">
         <mat-icon>check_circle</mat-icon> Link copied to clipboard

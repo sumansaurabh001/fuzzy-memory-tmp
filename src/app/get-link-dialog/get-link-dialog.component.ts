@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, Inject, OnInit} from '@angular/core';
+import {AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, Inject, OnInit, ViewChild} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
 import {URL_PATH_REGEX} from '../common/regex';
@@ -23,9 +23,12 @@ import {AddCoupon} from '../store/coupons.actions';
   styleUrls: ['./get-link-dialog.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class GetLinkDialogComponent implements OnInit {
+export class GetLinkDialogComponent implements OnInit, AfterViewInit {
 
   link:string;
+
+  @ViewChild('input')
+  copyInput: ElementRef;
 
 
   constructor(@Inject(MAT_DIALOG_DATA) data,
@@ -34,12 +37,17 @@ export class GetLinkDialogComponent implements OnInit {
 
     this.link = `https://onlinecoursehost.com/TODO/coupons/${data.course.seqNo}?couponCode=${data.coupon.code}`;
 
-
   }
 
   ngOnInit() {
 
+  }
 
+  ngAfterViewInit() {
+
+    this.copyInput.nativeElement.select();
+
+    document.execCommand("copy");
 
   }
 
