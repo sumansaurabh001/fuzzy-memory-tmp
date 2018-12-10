@@ -15,6 +15,6 @@ export const environment = {
     messagingSenderId: '407544233574'
   },
   stripe: {
-    stripeHostClientId: 'ca_Cy5anMny12mdtLh35j2Dbci2SetKr4j2'
+    stripeHostClientId: 'ca_Cy5anMny12mdtLh35j2Dbci2SetKr4j2' // this is the Stripe ID of the platform host account, which is providing the hosting service to other tenant Stripe accounts
   }
 };
