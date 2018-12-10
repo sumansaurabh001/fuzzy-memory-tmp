@@ -13,5 +13,8 @@ export const environment = {
     projectId: 'onlinecoursehost-local-dev',
     storageBucket: 'onlinecoursehost-local-dev.appspot.com',
     messagingSenderId: '407544233574'
+  },
+  stripe: {
+    stripeHostClientId: 'ca_Cy5anMny12mdtLh35j2Dbci2SetKr4j2'
   }
 };
