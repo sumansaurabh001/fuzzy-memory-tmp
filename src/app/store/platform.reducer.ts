@@ -6,7 +6,7 @@ import {PlatformActions, PlatformActionTypes} from './platform.actions';
 export interface PlatformState {
   primaryColor: string;
   accentColor:string;
-  stripeTenantUserId:string;
+  stripeTenantUserId?:string;
 }
 
 export const initialState: PlatformState = {
