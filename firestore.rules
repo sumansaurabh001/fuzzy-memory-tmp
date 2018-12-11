@@ -18,6 +18,14 @@ service cloud.firestore {
 
     }
 
+
+    match /tenantSettings/{uid} {
+
+      // only the tenant himself can both read and edit its own settings, this is private data
+      allow read,write: if isTenant(uid);
+
+    }
+
     match /schools/{tenantId}/courses/{courseId}  {
 
         // all course data is public

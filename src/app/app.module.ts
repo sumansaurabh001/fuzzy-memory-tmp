@@ -87,6 +87,7 @@ import {TimestampPipe} from './common/timestamp.pipe';
 import {CouponEffects} from './store/coupon.effects';
 import {GetLinkDialogComponent} from './get-link-dialog/get-link-dialog.component';
 import { ConnectWithStripeComponent } from './connect-with-stripe/connect-with-stripe.component';
+import { StripeRedirectPageComponent } from './stripe-redirect-page/stripe-redirect-page.component';
 
 
 @NgModule({
@@ -125,7 +126,8 @@ import { ConnectWithStripeComponent } from './connect-with-stripe/connect-with-s
     PriceAndCouponsComponent,
     CouponsTableComponent,
     GetLinkDialogComponent,
-    ConnectWithStripeComponent
+    ConnectWithStripeComponent,
+    StripeRedirectPageComponent
   ],
   imports: [
     BrowserModule,

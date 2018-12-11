@@ -10,6 +10,7 @@ import {LoginComponent} from './login/login.component';
 import {ViewCoursesResolver} from './services/view-courses.resolver';
 import {PlatformGuard} from './services/platform.guard';
 import {AuthGuard} from './services/auth.guard';
+import {StripeRedirectPageComponent} from './stripe-redirect-page/stripe-redirect-page.component';
 
 const routes: Routes = [
   {
@@ -48,6 +49,11 @@ const routes: Routes = [
   {
     path: 'login',
     component: LoginComponent
+  },
+  {
+    path: "stripe-redirect",
+    component: StripeRedirectPageComponent,
+    canActivate: [PlatformGuard]
   },
   {
     path: 'admin',

@@ -16,5 +16,10 @@ export const environment = {
   },
   stripe: {
     stripeHostClientId: 'ca_E8O23Zg2xUn1A216OEkwL0OJrW7K7wqN' // this is the Stripe ID of the platform host account, which is providing the hosting service to other tenant Stripe accounts
+  },
+  // Cloud Function API endpoints
+  api: {
+    stripeConnectionUrl: 'https://us-central1-onlinecoursehost-local-dev.cloudfunctions.net/apiStripeConnection' // get the user credentials from Stripe and stores them in the DB
+
   }
 };
