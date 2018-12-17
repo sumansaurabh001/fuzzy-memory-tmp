@@ -5,7 +5,8 @@ import {Theme} from '../models/theme.model';
 export enum PlatformActionTypes {
   ThemeChanged = '[ThemeChanged] Action',
   SaveTheme = '[Branding Screen] Save Theme',
-  UpdateStripeSettings = '[Stripe Redirect Page] Update Stripe Settings'
+  LoadStripeStatus = '[Edit Course Screen] Load Stripe Status',
+  UpdateStripeStatus = '[Platform API] Update Stripe Status'
 }
 
 
@@ -17,8 +18,6 @@ export class ThemeChanged implements Action {
 
 }
 
-
-
 export class SaveTheme implements Action {
 
   readonly type = PlatformActionTypes.SaveTheme;
@@ -28,14 +27,26 @@ export class SaveTheme implements Action {
 }
 
 
-export class UpdateStripeSettings implements Action {
+export class LoadStripeConnectionStatus {
 
-  readonly type = PlatformActionTypes.UpdateStripeSettings;
+  readonly type = PlatformActionTypes.LoadStripeStatus;
 
-  constructor(public payload: {stripeTenantUserId:string}) {}
+  constructor() {}
 
 }
 
 
-export type PlatformActions = ThemeChanged | SaveTheme | UpdateStripeSettings;
+
+export class UpdateStripeStatus {
+
+  readonly type = PlatformActionTypes.UpdateStripeStatus;
+
+  constructor(public payload: {isConnectedToStripe:boolean}) {}
+
+}
+
+
+
+
+export type PlatformActions = ThemeChanged | SaveTheme | LoadStripeConnectionStatus | UpdateStripeStatus;
 

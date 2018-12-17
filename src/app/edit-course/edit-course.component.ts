@@ -7,6 +7,7 @@ import {selectActiveCourse} from '../store/selectors';
 import {select, Store} from '@ngrx/store';
 import {AppState} from '../store';
 import {LoadCoupons} from '../store/coupons.actions';
+import {LoadStripeConnectionStatus} from '../store/platform.actions';
 
 
 
@@ -36,6 +37,8 @@ export class EditCourseComponent implements OnInit {
   ngOnInit() {
 
     this.course$ = this.store.pipe(select(selectActiveCourse));
+
+    this.store.dispatch(new LoadStripeConnectionStatus());
 
   }
 

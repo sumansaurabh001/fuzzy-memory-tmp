@@ -54,6 +54,8 @@ export class EditLessonsListComponent implements OnInit {
 
     this.isCourseLoaded$ = this.store.pipe(select(isActiveCourseLoaded));
 
+
+
   }
 
 

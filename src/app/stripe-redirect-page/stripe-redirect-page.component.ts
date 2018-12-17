@@ -46,7 +46,7 @@ export class StripeRedirectPageComponent implements OnInit {
 
   openWaitingDialog() {
 
-    // prevents ExpressionChangedAfterItHasBeenCheckedError, it looks like dialogs currently cant be opened on page startup
+    // prevents ExpressionChangedAfterItHasBeenCheckedError, it looks like Material dialogs currently cannot be opened when the page is refreshed
     setTimeout(() => {
 
       const dialogConfig = new MatDialogConfig();
@@ -70,7 +70,7 @@ export class StripeRedirectPageComponent implements OnInit {
     this.stripeConnectionService.initStripeConnection(authorizationCode)
       .subscribe(
         () => {
-          this.messages.success('Stripe connection Successful, you are ready to start taking payments.');
+          this.messages.success('Stripe connection successful, you are ready to start taking payments.');
           this.navigateToCourses();
         },
         err => {

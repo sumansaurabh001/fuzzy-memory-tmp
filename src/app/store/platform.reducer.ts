@@ -1,17 +1,16 @@
 import {PlatformActions, PlatformActionTypes} from './platform.actions';
-import {StripeSettings} from '../models/stripe-settings';
 
 
 export interface PlatformState {
   primaryColor: string;
   accentColor:string;
-  stripeSettings: StripeSettings
+  isConnectedToStripe: boolean
 }
 
 export const initialState: PlatformState = {
   primaryColor: undefined,
   accentColor: undefined,
-  stripeSettings: undefined
+  isConnectedToStripe: false
 };
 
 export function platformReducer(state = initialState, action: PlatformActions): PlatformState {
@@ -24,11 +23,11 @@ export function platformReducer(state = initialState, action: PlatformActions): 
         accentColor: action.payload.accentColor
       };
 
-    case PlatformActionTypes.UpdateStripeSettings:
-        return {
-          ...state,
-          stripeSettings: {stripeTenantUserId: action.payload ? action.payload.stripeTenantUserId : undefined}
-        };
+    case PlatformActionTypes.UpdateStripeStatus:
+      return {
+        ...state,
+        isConnectedToStripe: action.payload.isConnectedToStripe
+      };
 
     default:
       return state;
