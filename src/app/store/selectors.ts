@@ -176,9 +176,13 @@ export const selectAllCourseCoupons = createSelector(
 );
 
 
+export const isPlatformInitialized = createSelector(
+  platformState,
+  settings => !!settings.primaryColor
+);
 
 export const isConnectedToStripe = createSelector(
   platformState,
-  settings => !!settings.stripeTenantUserId
+  settings => !!settings.stripeSettings.stripeTenantUserId
 
 );

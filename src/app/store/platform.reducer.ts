@@ -1,18 +1,17 @@
-import { Action } from '@ngrx/store';
 import {PlatformActions, PlatformActionTypes} from './platform.actions';
-
+import {StripeSettings} from '../models/stripe-settings';
 
 
 export interface PlatformState {
   primaryColor: string;
   accentColor:string;
-  stripeTenantUserId?:string;
+  stripeSettings: StripeSettings
 }
 
 export const initialState: PlatformState = {
   primaryColor: undefined,
   accentColor: undefined,
-  stripeTenantUserId: undefined
+  stripeSettings: undefined
 };
 
 export function platformReducer(state = initialState, action: PlatformActions): PlatformState {
@@ -23,7 +22,13 @@ export function platformReducer(state = initialState, action: PlatformActions): 
         ...state,
         primaryColor: action.payload.primaryColor,
         accentColor: action.payload.accentColor
-      }
+      };
+
+    case PlatformActionTypes.UpdateStripeSettings:
+        return {
+          ...state,
+          stripeSettings: {stripeTenantUserId: action.payload.stripeTenantUserId}
+        };
 
     default:
       return state;

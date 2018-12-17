@@ -9,6 +9,8 @@ import {Tenant} from '../models/tenant.model';
 import {Lesson} from '../models/lesson.model';
 import {AngularFirestoreCollection} from '@angular/fire/firestore/collection/collection';
 import {DEFAULT_SCHOOL_ACCENT_COLOR, DEFAULT_SCHOOL_PRIMARY_COLOR} from '../common/ui-constants';
+import {StripeSettings} from '../models/stripe-settings';
+import {db} from '../../../functions/src/init';
 
 
 @Injectable()
@@ -101,6 +103,11 @@ export class TenantsDBService {
 
     return fromPromise(this.afs.collection('tenants').doc(tenantId).update({primaryColor, accentColor}));
 
+  }
+
+  loadTenantStripeSettings(tenantId:string): Observable<StripeSettings> {
+    return this.afs.doc<StripeSettings>(`tenantSettings/${tenantId}`).valueChanges()
+      .pipe(first());
   }
 
 }

@@ -4,7 +4,8 @@ import {Theme} from '../models/theme.model';
 
 export enum PlatformActionTypes {
   ThemeChanged = '[ThemeChanged] Action',
-  SaveTheme = '[SaveTheme] Action'
+  SaveTheme = '[Branding Screen] Save Theme',
+  UpdateStripeSettings = '[Stripe Redirect Page] Update Stripe Settings'
 }
 
 
@@ -27,4 +28,14 @@ export class SaveTheme implements Action {
 }
 
 
-export type PlatformActions = ThemeChanged | SaveTheme;
+export class UpdateStripeSettings implements Action {
+
+  readonly type = PlatformActionTypes.UpdateStripeSettings;
+
+  constructor(public payload: {stripeTenantUserId:string}) {}
+
+}
+
+
+export type PlatformActions = ThemeChanged | SaveTheme | UpdateStripeSettings;
+

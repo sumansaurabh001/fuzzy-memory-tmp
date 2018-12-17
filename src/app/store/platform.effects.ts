@@ -1,15 +1,16 @@
 import {Injectable} from '@angular/core';
 import {Actions, Effect, ofType} from '@ngrx/effects';
-import {catchError, concatMap} from 'rxjs/operators';
+import {catchError, concatMap, filter, map, withLatestFrom} from 'rxjs/operators';
 import {select, Store} from '@ngrx/store';
 import {AppState} from './index';
 import {LoadingService} from '../services/loading.service';
 import {MessagesService} from '../services/messages.service';
 import {throwError as _throw} from 'rxjs';
-import {PlatformActionTypes, SaveTheme} from './platform.actions';
+import {PlatformActionTypes, SaveTheme, UpdateStripeSettings} from './platform.actions';
 import {TenantsDBService} from '../services/tenants-db.service';
 import {TenantService} from '../services/tenant.service';
-
+import {defer, of} from 'rxjs';
+import {isPlatformInitialized} from './selectors';
 
 @Injectable()
 export class PlatformEffects {
@@ -24,6 +25,17 @@ export class PlatformEffects {
         return _throw(err);
       })
     );
+
+
+  @Effect()
+  init$ = defer(() =>
+    this.store.select(isPlatformInitialized)
+      .pipe(
+        filter(isPlatformInitialized => isPlatformInitialized),
+        concatMap(() => this.tenantsDB.loadTenantStripeSettings(this.tenant.id)),
+        map(settings => new UpdateStripeSettings(settings))
+      )
+  );
 
 
   constructor(private actions$: Actions,

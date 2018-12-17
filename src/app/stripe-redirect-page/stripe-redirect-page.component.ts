@@ -4,6 +4,9 @@ import {MessagesService} from '../services/messages.service';
 import {LoadingService} from '../services/loading.service';
 import {TenantsDBService} from '../services/tenants-db.service';
 import {StripeConnectionService} from '../services/stripe-connection.service';
+import {Store} from '@ngrx/store';
+import {AppState} from '../store';
+import {UpdateStripeSettings} from '../store/platform.actions';
 
 @Component({
   selector: 'stripe-redirect-page',
@@ -52,7 +55,7 @@ export class StripeRedirectPageComponent implements OnInit {
     this.stripeConnectionService.initStripeConnection(authorizationCode)
       .subscribe(
         () => {
-          this.messages.success("Stripe connection Successful, you are ready to accept payments.");
+          this.messages.success("Stripe connection Successful, we are ready to start taking payments.");
           this.navigateToCourses();
         },
         err => {

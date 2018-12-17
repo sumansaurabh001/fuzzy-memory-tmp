@@ -42,16 +42,16 @@ export const apiStripeConnection  = functions.https.onRequest((req,res) => {
         apiError(res, `Error fetching Stripe credentials: ${results.error} - ${results.error_description}`);
       }
 
-      const stripeUserId = results.stripe_user_id,
+      const stripeTenantUserId = results.stripe_user_id,
         refreshToken = results.refresh_token;
 
-      if (!stripeUserId) {
+      if (!stripeTenantUserId) {
         apiError(res, `Could not retrieve Stripe user Id.`);
       }
 
-      await db.doc(`tenantSettings/${tenantId}`).set({stripeUserId, refreshToken}, { merge: true });
+      await db.doc(`tenantSettings/${tenantId}`).set({stripeTenantUserId, refreshToken}, { merge: true });
 
-      res.status(200).json({message:'Stripe connection ready.'});
+      res.status(200).json({message:'Stripe connection ready.', stripeTenantUserId});
 
     }
     catch(error) {
