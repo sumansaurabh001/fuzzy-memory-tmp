@@ -1,12 +1,9 @@
 import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute, ActivatedRouteSnapshot, Router} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {MessagesService} from '../services/messages.service';
-import {LoadingService} from '../services/loading.service';
-import {TenantsDBService} from '../services/tenants-db.service';
 import {StripeConnectionService} from '../services/stripe-connection.service';
-import {Store} from '@ngrx/store';
-import {AppState} from '../store';
-import {UpdateStripeSettings} from '../store/platform.actions';
+import {MatDialog, MatDialogConfig, MatDialogRef} from '@angular/material';
+import {LoadingDialogComponent} from '../loading-dialog/loading-dialog.component';
 
 @Component({
   selector: 'stripe-redirect-page',
@@ -15,26 +12,25 @@ import {UpdateStripeSettings} from '../store/platform.actions';
 })
 export class StripeRedirectPageComponent implements OnInit {
 
+  dialogRef: MatDialogRef<LoadingDialogComponent>;
+
   constructor(
     private route: ActivatedRoute,
     private messages: MessagesService,
     private router: Router,
-    private loading: LoadingService,
-    private stripeConnectionService: StripeConnectionService) {
+    private stripeConnectionService: StripeConnectionService,
+    private dialog: MatDialog) {
 
   }
 
   ngOnInit() {
-
-    this.messages.info('Connecting to Stripe, this could take about 1 minute...');
-
-    this.loading.loadingOn();
 
     const scope = this.route.snapshot.queryParamMap.get('scope');
 
     const error = this.route.snapshot.queryParamMap.get('error');
 
     if (scope === 'read_write') {
+      this.openWaitingDialog();
       this.handleStripeConnectionSuccessful();
     }
     else if (error) {
@@ -48,6 +44,25 @@ export class StripeRedirectPageComponent implements OnInit {
 
   }
 
+  openWaitingDialog() {
+
+    // prevents ExpressionChangedAfterItHasBeenCheckedError, it looks like dialogs currently cant be opened on page startup
+    setTimeout(() => {
+
+      const dialogConfig = new MatDialogConfig();
+
+      dialogConfig.autoFocus = true;
+      dialogConfig.disableClose = true;
+      dialogConfig.minWidth = '450px';
+      dialogConfig.minHeight = '200px';
+      dialogConfig.data = {message: 'Connecting to Stripe, this could take about 1 minute...'};
+
+      this.dialogRef = this.dialog.open(LoadingDialogComponent, dialogConfig);
+
+    });
+
+  }
+
   handleStripeConnectionSuccessful() {
 
     const authorizationCode = this.route.snapshot.queryParamMap.get('code');
@@ -55,11 +70,11 @@ export class StripeRedirectPageComponent implements OnInit {
     this.stripeConnectionService.initStripeConnection(authorizationCode)
       .subscribe(
         () => {
-          this.messages.success("Stripe connection Successful, we are ready to start taking payments.");
+          this.messages.success('Stripe connection Successful, you are ready to start taking payments.');
           this.navigateToCourses();
         },
         err => {
-          console.log("Could not initialize the Stripe connection", err);
+          console.log('Could not initialize the Stripe connection', err);
           this.messages.error(`The Stripe connection attempt has failed.`);
           this.navigateToCourses();
         }
@@ -67,11 +82,11 @@ export class StripeRedirectPageComponent implements OnInit {
 
   }
 
-  handleStripeConnectionFailed(error:string) {
+  handleStripeConnectionFailed(error: string) {
 
     const errorDescription = this.route.snapshot.queryParamMap.get('error_description');
 
-    console.log("Could not retrieve Stripe credentials:", error);
+    console.log('Could not retrieve Stripe credentials:', error);
 
     this.messages.error(`Error connecting to Stripe - ${errorDescription}`);
 
@@ -80,7 +95,9 @@ export class StripeRedirectPageComponent implements OnInit {
   }
 
   navigateToCourses() {
-    this.loading.loadingOff();
+    if (this.dialogRef) {
+      this.dialogRef.close();
+    }
     this.router.navigateByUrl('/courses');
   }
 

@@ -88,6 +88,7 @@ import {CouponEffects} from './store/coupon.effects';
 import {GetLinkDialogComponent} from './get-link-dialog/get-link-dialog.component';
 import { ConnectWithStripeComponent } from './connect-with-stripe/connect-with-stripe.component';
 import { StripeRedirectPageComponent } from './stripe-redirect-page/stripe-redirect-page.component';
+import { LoadingDialogComponent } from './loading-dialog/loading-dialog.component';
 
 
 @NgModule({
@@ -127,7 +128,8 @@ import { StripeRedirectPageComponent } from './stripe-redirect-page/stripe-redir
     CouponsTableComponent,
     GetLinkDialogComponent,
     ConnectWithStripeComponent,
-    StripeRedirectPageComponent
+    StripeRedirectPageComponent,
+    LoadingDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -204,7 +206,8 @@ import { StripeRedirectPageComponent } from './stripe-redirect-page/stripe-redir
     ConfirmationDialogComponent,
     EditSectionDialogComponent,
     AddCouponDialogComponent,
-    GetLinkDialogComponent
+    GetLinkDialogComponent,
+    LoadingDialogComponent
   ],
   bootstrap: [AppComponent]
 })

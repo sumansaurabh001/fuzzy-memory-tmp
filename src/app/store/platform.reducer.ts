@@ -27,7 +27,7 @@ export function platformReducer(state = initialState, action: PlatformActions): 
     case PlatformActionTypes.UpdateStripeSettings:
         return {
           ...state,
-          stripeSettings: {stripeTenantUserId: action.payload.stripeTenantUserId}
+          stripeSettings: {stripeTenantUserId: action.payload ? action.payload.stripeTenantUserId : undefined}
         };
 
     default:
