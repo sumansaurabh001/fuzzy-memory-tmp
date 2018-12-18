@@ -13,7 +13,7 @@ import {
   DEFAULT_SCHOOL_ACCENT_COLOR, DEFAULT_SCHOOL_PRIMARY_COLOR, ONLINECOURSEHOST_ACCENT_COLOR,
   ONLINECOURSEHOST_PRIMARY_COLOR
 } from '../common/ui-constants';
-import {checkIfPlatformSite, getPlatformSubdomain} from '../common/platform-utils';
+import {checkIfPlatformSite, getPlatformSubdomain, ONLINECOURSEHOST_THEME} from '../common/platform-utils';
 import {ThemeChanged} from '../store/platform.actions';
 import {Tenant} from '../models/tenant.model';
 import {CookieService} from 'ngx-cookie-service';
@@ -32,12 +32,6 @@ import {Theme} from '../models/theme.model';
 *
 *
 * */
-
-
-const ONLINECOURSEHOST_THEME = {
-  primaryColor: ONLINECOURSEHOST_PRIMARY_COLOR,
-  accentColor: ONLINECOURSEHOST_ACCENT_COLOR
-};
 
 
 @Injectable()
@@ -76,7 +70,7 @@ export class PlatformGuard implements CanActivate {
 
           // platform site main app, logged in
           else if (isPlatformSite) {
-            return this.loading.showLoader(this.tenantDB.findTenantByUid());
+            return this.loading.showLoader(this.tenantDB.findTenantByCurrentUid());
           }
 
           // platform site subdomain

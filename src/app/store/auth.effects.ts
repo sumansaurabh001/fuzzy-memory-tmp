@@ -16,7 +16,7 @@ export class AuthEffects {
   init$ = this.afAuth.authState
     .pipe(
       filter(authState => !!authState),
-      concatMap(() => this.tenantsDB.findTenantByUid()),
+      concatMap(() => this.tenantsDB.findTenantByCurrentUid()),
       map(tenant => tenant ? new Login(tenant) : new Logout()),
       catchError(() => of(new Logout()))
     );

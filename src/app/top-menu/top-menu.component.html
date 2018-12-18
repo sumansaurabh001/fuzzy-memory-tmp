@@ -26,42 +26,45 @@
 
 <mat-toolbar color="primary" class="mat-elevation-z6 top-menu">
 
-  <span class="menu-logo">OnlineCourseHost.com</span>
-
+  <span class="menu-logo" *ngIf="isPlatformSite">OnlineCourseHost.com</span>
 
   <a mat-button (click)="start.open('mouse')" class="mobile-menu">
     <mat-icon>menu</mat-icon>
   </a>
 
-  <a mat-button class="desktop-menu" routerLink="/courses">
-    <span>Courses</span>
-  </a>
+  <ng-container *ngIf="!isSingleSignOnPage">
 
-  <a mat-button class="desktop-menu" [matMenuTriggerFor]="adminMenu">
-    <span>Admin</span>
-  </a>
+    <a mat-button class="desktop-menu" routerLink="/courses">
+      <span>Courses</span>
+    </a>
 
-  <mat-menu class="dropdown-menu" #adminMenu [overlapTrigger]="false">
-    <button mat-menu-item>My Account</button>
-    <mat-divider></mat-divider>
-    <button mat-menu-item routerLink="/admin/branding">Branding</button>
-    <button mat-menu-item>Pricing</button>
-  </mat-menu>
+    <a mat-button class="desktop-menu" [matMenuTriggerFor]="adminMenu">
+      <span>Admin</span>
+    </a>
 
-  <span class="filler"></span>
+    <mat-menu class="dropdown-menu" #adminMenu [overlapTrigger]="false">
+      <button mat-menu-item>My Account</button>
+      <mat-divider></mat-divider>
+      <button mat-menu-item routerLink="/admin/branding">Branding</button>
+      <button mat-menu-item>Pricing</button>
+    </mat-menu>
 
-  <a mat-button class="desktop-menu" routerLink="/login" *ngIf="isLoggedOut$ | async">
-    <mat-icon>account_circle</mat-icon>
-    <span>Login</span>
-  </a>
+    <span class="filler"></span>
 
-  <img class="user-avatar" [src]="pictureUrl$ | async" *ngIf="pictureUrl$ | async">
+    <a mat-button class="desktop-menu" (click)="login()" *ngIf="(isLoggedOut$ | async)">
+      <mat-icon>account_circle</mat-icon>
+      <span>Login</span>
+    </a>
 
-  <a mat-button class="desktop-menu" *ngIf="isLoggedIn$ | async" (click)="logout()">
-    <mat-icon>exit_to_app</mat-icon>
-    <span>Logout</span>
-  </a>
+    <img class="user-avatar" [src]="pictureUrl$ | async" *ngIf="pictureUrl$ | async">
 
+    <a mat-button class="desktop-menu" *ngIf="isLoggedIn$ | async" (click)="logout()">
+      <mat-icon>exit_to_app</mat-icon>
+      <span>Logout</span>
+    </a>
+
+
+  </ng-container>
 
 </mat-toolbar>
 

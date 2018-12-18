@@ -8,7 +8,7 @@ import {AppState} from '../store';
 import {Store} from '@ngrx/store';
 import {Login} from '../store/auth.actions';
 import {ActivatedRoute, Router} from '@angular/router';
-import {checkIfPlatformSite} from '../common/platform-utils';
+import {checkIfPlatformSite, ONLINECOURSEHOST_THEME} from '../common/platform-utils';
 import {ONLINECOURSEHOST_ACCENT_COLOR, ONLINECOURSEHOST_PRIMARY_COLOR} from '../common/ui-constants';
 import {ThemeChanged} from '../store/platform.actions';
 
@@ -22,9 +22,12 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   ui: firebaseui.auth.AuthUI;
 
-  isPlatformSite:boolean;
+  isPlatformSite: boolean;
 
-  isEmailAndPassword:boolean;
+  isEmailAndPassword: boolean;
+
+  redirectUrl: string;
+
 
   constructor(
     public afAuth: AngularFireAuth,
@@ -34,21 +37,21 @@ export class LoginComponent implements OnInit, OnDestroy {
     private router: Router,
     private route: ActivatedRoute) {
 
-    const hostName = document.location.hostname;
-
     this.isPlatformSite = checkIfPlatformSite();
 
-    if (this.isPlatformSite) {
-      this.store.dispatch(new ThemeChanged({primaryColor: ONLINECOURSEHOST_PRIMARY_COLOR, accentColor: ONLINECOURSEHOST_ACCENT_COLOR}));
-    }
-
-    this.isEmailAndPassword = !!route.snapshot.queryParamMap.get("mode");
+    this.isEmailAndPassword = !!route.snapshot.queryParamMap.get('mode');
+    this.redirectUrl = route.snapshot.queryParamMap.get('redirectUrl');
 
   }
 
   ngOnInit() {
 
     this.loading.loadingOn();
+
+    // if logging in to the platform website, apply the platform brand
+    if (this.isPlatformSite) {
+      this.store.dispatch(new ThemeChanged(ONLINECOURSEHOST_THEME));
+    }
 
     try {
 
@@ -65,7 +68,7 @@ export class LoginComponent implements OnInit, OnDestroy {
           signInSuccessWithAuthResult: (result) => {
 
             const email = result.user.email,
-                  displayName = result.user.displayName;
+              displayName = result.user.displayName;
 
             let picture;
 
@@ -79,11 +82,30 @@ export class LoginComponent implements OnInit, OnDestroy {
                 .createTenantIfNeeded(email, picture, displayName))
                 .subscribe(tenant => {
 
-                  this.store.dispatch(new Login(tenant));
-
-                  this.router.navigateByUrl('/courses');
+                    this.store.dispatch(new Login(tenant));
+                    this.router.navigateByUrl('/courses');
 
                 });
+            }
+            else if (this.redirectUrl) {
+
+              // get the JWT token, and send it in the redirect
+              this.afAuth.idToken
+                .subscribe(
+                    jwt => {
+                      if (jwt) {
+
+                        let redirectUrlWithAuthToken = `${this.redirectUrl}`;
+
+                        redirectUrlWithAuthToken += this.redirectUrl.includes('?') ? "&" : "?";
+
+                        redirectUrlWithAuthToken += `authJwtToken=${jwt}`;
+
+                        window.location.href = redirectUrlWithAuthToken;
+                      }
+                  }
+                );
+
             }
 
             return false;
@@ -100,7 +122,7 @@ export class LoginComponent implements OnInit, OnDestroy {
       this.ui.start('#firebaseui-auth-container', uiConfig);
 
     }
-    catch(err) {
+    catch (err) {
       this.loading.loadingOff();
     }
 
@@ -109,7 +131,6 @@ export class LoginComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.ui.delete();
   }
-
 
 
 }

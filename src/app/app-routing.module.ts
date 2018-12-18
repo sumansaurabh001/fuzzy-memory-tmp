@@ -11,6 +11,7 @@ import {ViewCoursesResolver} from './services/view-courses.resolver';
 import {PlatformGuard} from './services/platform.guard';
 import {AuthGuard} from './services/auth.guard';
 import {StripeRedirectPageComponent} from './stripe-redirect-page/stripe-redirect-page.component';
+import {LoginGuard} from './login/login.guard';
 
 const routes: Routes = [
   {
@@ -48,7 +49,8 @@ const routes: Routes = [
   },
   {
     path: 'login',
-    component: LoginComponent
+    component: LoginComponent,
+    canActivate: [LoginGuard]
   },
   {
     path: "stripe-redirect",

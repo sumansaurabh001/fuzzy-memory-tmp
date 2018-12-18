@@ -1,6 +1,6 @@
 import {ChangeDetectionStrategy, Component, OnInit, ViewChild} from '@angular/core';
 import {MatSidenavContent} from '@angular/material';
-import {NavigationEnd, Router} from '@angular/router';
+import {ActivatedRoute, NavigationEnd, Router} from '@angular/router';
 import {filter, tap} from 'rxjs/operators';
 import {DomSanitizer} from '@angular/platform-browser';
 import {select, Store} from '@ngrx/store';
@@ -9,6 +9,7 @@ import {Observable} from 'rxjs';
 import {platformState} from './store/selectors';
 import {LoadingService} from './services/loading.service';
 import {PlatformState} from './store/platform.reducer';
+import {AngularFireAuth} from '@angular/fire/auth';
 
 @Component({
   selector: 'app-root',
@@ -23,7 +24,9 @@ export class AppComponent implements OnInit {
     private router:Router,
     private sanitizer: DomSanitizer,
     private store: Store<AppState>,
-    private loading: LoadingService) {
+    private loading: LoadingService,
+    private route: ActivatedRoute,
+    private afAuth: AngularFireAuth) {
 
   }
 
@@ -31,6 +34,7 @@ export class AppComponent implements OnInit {
 
     this.loading.showLoading();
 
+    // scroll to the top of the page after every router navigation
     this.router.events
       .pipe(
         filter(event => event instanceof NavigationEnd),
@@ -44,6 +48,20 @@ export class AppComponent implements OnInit {
         filter(platformSettings => !!platformSettings.primaryColor)
       );
 
+
+    this.route.queryParamMap
+      .subscribe(params => {
+
+        // login the user using a url JWT parameter, if it arrived via a redirect from the single sign-on login page
+        const authJwtToken = params.get('authJwtToken');
+
+        if (authJwtToken) {
+          this.afAuth.auth.signInWithCustomToken(authJwtToken);
+        }
+
+      });
+
+
   }
 
 
@@ -54,8 +72,14 @@ export class AppComponent implements OnInit {
     if (main) {
       main.scrollTo(0,0);
     }
+
   }
 
+  /**
+   *
+   * This style tag gets injected in the page, and it will overwrite the default theme with the tenant brand colors.
+   *
+   */
 
   brandStyles(branding: PlatformState) {
 

@@ -45,8 +45,6 @@ export class CoursesDBService {
 
   createNewCourse(course: Course): Observable<Course> {
 
-    debugger;
-
     const newCourse = {...course};
 
     return findLastBySeqNo<Course>(this.afs, this.coursesPath)

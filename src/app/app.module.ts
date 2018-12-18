@@ -89,6 +89,7 @@ import {GetLinkDialogComponent} from './get-link-dialog/get-link-dialog.componen
 import { ConnectWithStripeComponent } from './connect-with-stripe/connect-with-stripe.component';
 import { StripeRedirectPageComponent } from './stripe-redirect-page/stripe-redirect-page.component';
 import { LoadingDialogComponent } from './loading-dialog/loading-dialog.component';
+import {LoginGuard} from './login/login.guard';
 
 
 @NgModule({
@@ -194,6 +195,7 @@ import { LoadingDialogComponent } from './loading-dialog/loading-dialog.componen
     LoadCourseDetailResolver,
     ActiveLessonResolver,
     UrlBuilderService,
+    LoginGuard,
     CookieService,
     { provide: RouterStateSerializer, useClass: CustomRouterStateSerializer }
 

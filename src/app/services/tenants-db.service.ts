@@ -23,7 +23,7 @@ export class TenantsDBService {
   }
 
   createTenantIfNeeded(email: string, pictureUrl: string = null, displayName:string = null): Observable<Tenant> {
-    return this.findTenantByUid()
+    return this.findTenantByCurrentUid()
       .pipe(
         withLatestFrom(this.afAuth.authState, this.findLastTenantSeqNo()),
         concatMap(([tenant, authState, seqNo]) => {
@@ -58,7 +58,7 @@ export class TenantsDBService {
       );
   }
 
-  findTenantByUid(): Observable<Tenant> {
+  findTenantByCurrentUid(): Observable<Tenant> {
     return this.afAuth.authState
       .pipe(
         concatMap(authState => {
@@ -68,6 +68,13 @@ export class TenantsDBService {
           return readDocumentWithId(this.afs.doc('tenants/' + authState.uid));
 
         })
+      );
+  }
+
+  findTenantById(tenantId:string) {
+    return this.afs.doc<Tenant>(`tenants/${tenantId}`).valueChanges()
+      .pipe(
+        first()
       );
   }
 

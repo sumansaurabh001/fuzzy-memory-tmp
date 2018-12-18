@@ -8,6 +8,9 @@ import {AngularFireAuth} from '@angular/fire/auth';
 import {Router} from '@angular/router';
 import {LoadingService} from '../services/loading.service';
 import {MessagesService} from '../services/messages.service';
+import {environment} from '../../environments/environment';
+import {TenantService} from '../services/tenant.service';
+import {checkIfPlatformSite, checkIfSingleSignOnPage} from '../common/platform-utils';
 
 @Component({
   selector: 'top-menu',
@@ -21,12 +24,18 @@ export class TopMenuComponent implements OnInit {
   isLoggedOut$: Observable<boolean>;
   pictureUrl$: Observable<string>;
 
+  isPlatformSite:boolean;
+  isSingleSignOnPage:boolean;
+
   constructor(
     private store: Store<AppState>,
     private afAuth: AngularFireAuth,
     private router: Router,
     private loading: LoadingService,
-    private messages: MessagesService) {
+    private tenant: TenantService) {
+
+    this.isPlatformSite = checkIfPlatformSite();
+    this.isSingleSignOnPage = checkIfSingleSignOnPage();
 
   }
 
@@ -37,6 +46,26 @@ export class TopMenuComponent implements OnInit {
     this.isLoggedOut$ = this.store.pipe(select(isLoggedOut));
 
     this.pictureUrl$ = this.store.pipe(select(userPictureUrl));
+
+  }
+
+  login() {
+
+    if (this.isPlatformSite) {
+      this.router.navigateByUrl('/login');
+    }
+    // if on a tenant subdomain, or tenant custom website
+    else {
+
+      let loginUrl =  `${environment.authenticationUrl}?redirectUrl=${window.location.href}`;
+
+      if (this.tenant.id) {
+        loginUrl += `&tenantId=${this.tenant.id}`;
+      }
+
+      window.location.href = loginUrl;
+
+    }
 
   }
 
