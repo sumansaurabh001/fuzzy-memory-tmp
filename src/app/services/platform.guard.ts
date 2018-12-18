@@ -33,7 +33,6 @@ import {Theme} from '../models/theme.model';
 *
 * */
 
-const  PLATFORM_COOKIE = 'PLATFORM_SETTINGS';
 
 const ONLINECOURSEHOST_THEME = {
   primaryColor: ONLINECOURSEHOST_PRIMARY_COLOR,
@@ -55,21 +54,7 @@ export class PlatformGuard implements CanActivate {
   }
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
-
-    if (this.cookies.check(PLATFORM_COOKIE)) {
-
-      const settings: PlatformSettings = JSON.parse(this.cookies.get(PLATFORM_COOKIE));
-
-      this.tenant.id = settings.tenantId;
-
-      this.store.dispatch(new ThemeChanged({primaryColor: settings.activeTheme.primaryColor, accentColor: settings.activeTheme.accentColor}));
-
-      return of(true);
-    }
-    else {
-      return this.determinePlatformSettings();
-    }
-
+     return this.determinePlatformSettings();
   }
 
   determinePlatformSettings(): Observable<boolean> {
@@ -157,8 +142,6 @@ export class PlatformGuard implements CanActivate {
       tenantId: tenant.id,
       activeTheme
     }
-
-    this.cookies.set(PLATFORM_COOKIE, JSON.stringify(settings));
 
   }
 
