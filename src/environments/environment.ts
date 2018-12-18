@@ -14,6 +14,7 @@ export const environment = {
     storageBucket: 'onlinecoursehost-local-dev.appspot.com',
     messagingSenderId: '407544233574'
   },
+  authenticationUrl: 'http://login.onlinecoursehost.test/login',
   stripe: {
     stripeHostClientId: 'ca_E8O23Zg2xUn1A216OEkwL0OJrW7K7wqN' // this is the Stripe ID of the platform host account, which is providing the hosting service to other tenant Stripe accounts
   },

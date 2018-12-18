@@ -100,8 +100,6 @@ export class PlatformGuard implements CanActivate {
             this.tenant.id = tenant.id;
           }
 
-          this.savePlatformCookie(tenant);
-
         }),
 
         map(tenant => !!tenant)
@@ -123,27 +121,5 @@ export class PlatformGuard implements CanActivate {
   setPlatformBrandColors() {
     this.store.dispatch(new ThemeChanged(ONLINECOURSEHOST_THEME));
   }
-
-  savePlatformCookie(tenant: Tenant) {
-
-    let activeTheme: Theme;
-
-    if (checkIfPlatformSite()) {
-      activeTheme = ONLINECOURSEHOST_THEME;
-    }
-    else {
-      activeTheme = {
-        primaryColor: tenant.primaryColor,
-        accentColor: tenant.accentColor
-      };
-    }
-
-    const settings: PlatformSettings = {
-      tenantId: tenant.id,
-      activeTheme
-    }
-
-  }
-
 
 }
