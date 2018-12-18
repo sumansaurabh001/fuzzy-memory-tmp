@@ -48,7 +48,6 @@ export class AppComponent implements OnInit {
         filter(platformSettings => !!platformSettings.primaryColor)
       );
 
-
     this.route.queryParamMap
       .subscribe(params => {
 
@@ -56,10 +55,23 @@ export class AppComponent implements OnInit {
         const authJwtToken = params.get('authJwtToken');
 
         if (authJwtToken) {
-          this.afAuth.auth.signInWithCustomToken(authJwtToken);
+
+          this.afAuth.authState.subscribe(auth => console.log('new auth state:', auth));
+
+          this.afAuth.auth.signInWithCustomToken(authJwtToken)
+            .then(result => {
+
+              console.log("Signed in with custom token, setting current user:",result);
+
+              this.afAuth.auth.updateCurrentUser(result.user);
+
+            });
         }
 
       });
+
+
+
 
 
   }

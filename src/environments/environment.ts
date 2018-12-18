@@ -20,7 +20,8 @@ export const environment = {
   },
   // Cloud Function API endpoints
   api: {
-    stripeConnectionUrl: 'https://us-central1-onlinecoursehost-local-dev.cloudfunctions.net/apiStripeConnection' // get the user credentials from Stripe and stores them in the DB
+    stripeConnectionUrl: 'https://us-central1-onlinecoursehost-local-dev.cloudfunctions.net/apiStripeConnection', // get the user credentials from Stripe and stores them in the DB
+    customJwtUrl: 'https://us-central1-onlinecoursehost-local-dev.cloudfunctions.net/apiCreateCustomJwt' // creates a custom authentication JWT for a given user. Used in the single-sign on solution for tenant domains
 
   }
 };

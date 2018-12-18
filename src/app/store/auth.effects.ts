@@ -13,7 +13,7 @@ export class AuthEffects {
 
 
   @Effect()
-  init$ = this.afAuth.authState
+  login$ = this.afAuth.authState
     .pipe(
       filter(authState => !!authState),
       concatMap(() => this.tenantsDB.findTenantByCurrentUid()),

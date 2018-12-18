@@ -11,6 +11,8 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {checkIfPlatformSite, ONLINECOURSEHOST_THEME} from '../common/platform-utils';
 import {ONLINECOURSEHOST_ACCENT_COLOR, ONLINECOURSEHOST_PRIMARY_COLOR} from '../common/ui-constants';
 import {ThemeChanged} from '../store/platform.actions';
+import {CustomJwtAuthService} from '../services/custom-jwt-auth.service';
+import {concatMap, filter} from 'rxjs/operators';
 
 
 @Component({
@@ -35,7 +37,8 @@ export class LoginComponent implements OnInit, OnDestroy {
     private loading: LoadingService,
     private store: Store<AppState>,
     private router: Router,
-    private route: ActivatedRoute) {
+    private route: ActivatedRoute,
+    private jwtService: CustomJwtAuthService) {
 
     this.isPlatformSite = checkIfPlatformSite();
 
@@ -77,35 +80,10 @@ export class LoginComponent implements OnInit, OnDestroy {
             }
 
             if (this.isPlatformSite) {
-
-              this.loading.showLoader(this.tenantsDB
-                .createTenantIfNeeded(email, picture, displayName))
-                .subscribe(tenant => {
-
-                    this.store.dispatch(new Login(tenant));
-                    this.router.navigateByUrl('/courses');
-
-                });
+              this.handlePlatformWebsiteLogin(email, picture, displayName);
             }
             else if (this.redirectUrl) {
-
-              // get the JWT token, and send it in the redirect
-              this.afAuth.idToken
-                .subscribe(
-                    jwt => {
-                      if (jwt) {
-
-                        let redirectUrlWithAuthToken = `${this.redirectUrl}`;
-
-                        redirectUrlWithAuthToken += this.redirectUrl.includes('?') ? "&" : "?";
-
-                        redirectUrlWithAuthToken += `authJwtToken=${jwt}`;
-
-                        window.location.href = redirectUrlWithAuthToken;
-                      }
-                  }
-                );
-
+              this.handleTenantWebsiteLogin();
             }
 
             return false;
@@ -125,6 +103,49 @@ export class LoginComponent implements OnInit, OnDestroy {
     catch (err) {
       this.loading.loadingOff();
     }
+
+  }
+
+  handlePlatformWebsiteLogin(email:string, picture:string, displayName:string) {
+    this.loading.showLoader(this.tenantsDB
+      .createTenantIfNeeded(email, picture, displayName))
+      .subscribe(tenant => {
+
+        this.store.dispatch(new Login(tenant));
+        this.router.navigateByUrl('/courses');
+
+      });
+  }
+
+  /**
+   *
+   * The user has logged in to the tenant website in the single sign-on page login.onlinecoursehost.com
+   *
+   * create a custom JWT token and send the it back to the tenant website. On arrival the user will be authenticated
+   * using the custom JWT.
+   *
+   */
+
+  handleTenantWebsiteLogin() {
+    this.afAuth.authState
+      .pipe(
+        filter(authState => !!authState.uid),
+        concatMap(authState => this.jwtService.createCustomJwt(authState.uid))
+      )
+      .subscribe(
+        jwt => {
+          if (jwt) {
+
+            let redirectUrlWithAuthToken = `${this.redirectUrl}`;
+
+            redirectUrlWithAuthToken += this.redirectUrl.includes('?') ? "&" : "?";
+
+            redirectUrlWithAuthToken += `authJwtToken=${jwt}`;
+
+            window.location.href = redirectUrlWithAuthToken;
+          }
+        }
+      );
 
   }
 

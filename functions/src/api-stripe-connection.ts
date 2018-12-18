@@ -1,5 +1,6 @@
 import * as functions from 'firebase-functions';
 import {db} from './init';
+import {apiError} from './api-utils';
 
 const request = require('request-promise');
 const express = require('express');
@@ -37,7 +38,7 @@ app.get('/stripe-connection', async (req, res) => {
 
     console.log("Retrieved Stripe settings: " + JSON.stringify(stripeSettings) );
 
-    res.status(200).json({isConnectedToStripe:!!stripeSettings.stripeTenantUserId});
+    res.status(200).json({isConnectedToStripe:stripeSettings && !!stripeSettings.stripeTenantUserId});
 
   }
   catch(error) {
@@ -113,10 +114,6 @@ export const apiStripeConnection  = functions.https.onRequest(app);
 
 
 
-function apiError(res, errorDescription) {
-  console.log(errorDescription);
-  res.status(500).json({errorDescription});
-}
 
 
 

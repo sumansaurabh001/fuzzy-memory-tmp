@@ -73,7 +73,11 @@ export class TopMenuComponent implements OnInit {
     this.afAuth.auth.signOut();
     this.store.dispatch(new Logout());
     this.loading.loadingOn();
-    setTimeout(() => window.location.reload(), 300)
+
+    // remove Url query parameters before reloading, as one of the parameters would authenticate the user back again
+    const reloadUrl = `${window.location.protocol}//${window.location.host}${window.location.pathname}`;
+
+    setTimeout(() => window.location.href = reloadUrl, 300)
 
   }
 
