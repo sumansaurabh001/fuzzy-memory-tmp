@@ -1,8 +1,9 @@
 import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs/Observable';
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {environment} from '../../environments/environment';
 import {map} from 'rxjs/operators';
+import {AngularFireAuth} from '@angular/fire/auth';
 
 
 @Injectable({
@@ -11,12 +12,16 @@ import {map} from 'rxjs/operators';
 export class CustomJwtAuthService {
 
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private afAuth: AngularFireAuth) {
 
   }
 
-  createCustomJwt(uid:string): Observable<string> {
-    return this.http.post(`${environment.api.customJwtUrl}/custom-jwt`, {uid})
+  createCustomJwt(uid:string, authJwtToken:string): Observable<string> {
+
+    const headers = new HttpHeaders()
+      .set('Authorization',`Bearer ${authJwtToken}`);
+
+    return this.http.post(`${environment.api.customJwtUrl}/custom-jwt`, {uid}, {headers})
       .pipe(
         map(res => res['customJWt'])
       );

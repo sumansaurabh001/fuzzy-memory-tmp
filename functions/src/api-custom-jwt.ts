@@ -12,7 +12,7 @@ const app = express();
 app.use(cors({ origin: true }));
 
 // only a signed-in user can create custom JWT tokens
-// app.use(authenticationMiddleware);
+app.use(authenticationMiddleware);
 
 
 /**
@@ -26,13 +26,17 @@ app.post('/custom-jwt', async (req, res) => {
 
   try {
 
-    const uid = req.body.uid;
+    const userUid = req.body.uid,
+          requesterUid = req.user.uid;
 
-    console.log("req.user:", JSON.stringify(req.user));
+    console.log('Creating JWT for uid:' + userUid);
 
-    console.log('Creating JWT for uid:' + uid);
+    if (userUid != requesterUid) {
+      throw 'Currently, a user can only create authentication JWT tokens for himself. ' +
+      'in the future it will be possible for admin users to create JWTs for other users as well.';
+    }
 
-    const customJWt = await auth.createCustomToken(uid);
+    const customJWt = await auth.createCustomToken(userUid);
 
     res.status(200).json({customJWt});
 

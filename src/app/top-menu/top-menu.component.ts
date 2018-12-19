@@ -74,8 +74,7 @@ export class TopMenuComponent implements OnInit {
     this.store.dispatch(new Logout());
     this.loading.loadingOn();
 
-    // remove Url query parameters before reloading, as one of the parameters would authenticate the user back again
-    const reloadUrl = `${window.location.protocol}//${window.location.host}${window.location.pathname}`;
+    const reloadUrl = `${window.location.protocol}//${window.location.host}/courses`;
 
     setTimeout(() => window.location.href = reloadUrl, 300)
 

@@ -56,8 +56,6 @@ export class AppComponent implements OnInit {
 
         if (authJwtToken) {
 
-          this.afAuth.authState.subscribe(auth => console.log('new auth state:', auth));
-
           this.afAuth.auth.signInWithCustomToken(authJwtToken)
             .then(result => {
 

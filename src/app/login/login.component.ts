@@ -12,7 +12,7 @@ import {checkIfPlatformSite, ONLINECOURSEHOST_THEME} from '../common/platform-ut
 import {ONLINECOURSEHOST_ACCENT_COLOR, ONLINECOURSEHOST_PRIMARY_COLOR} from '../common/ui-constants';
 import {ThemeChanged} from '../store/platform.actions';
 import {CustomJwtAuthService} from '../services/custom-jwt-auth.service';
-import {concatMap, filter, map} from 'rxjs/operators';
+import {concatMap, filter, map, withLatestFrom} from 'rxjs/operators';
 import {SchoolUsersDbService} from '../services/school-users-db.service';
 
 
@@ -141,7 +141,8 @@ export class LoginComponent implements OnInit, OnDestroy {
                 map(() => authState.uid)
               )
           ),
-          concatMap(uid => this.jwtService.createCustomJwt(uid))
+          withLatestFrom(this.afAuth.idToken),
+          concatMap(([uid, authJwtToken]) => this.jwtService.createCustomJwt(uid, authJwtToken))
         )
       )
       .subscribe(
