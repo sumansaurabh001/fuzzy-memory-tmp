@@ -13,7 +13,7 @@ import {ONLINECOURSEHOST_ACCENT_COLOR, ONLINECOURSEHOST_PRIMARY_COLOR} from '../
 import {ThemeChanged} from '../store/platform.actions';
 import {CustomJwtAuthService} from '../services/custom-jwt-auth.service';
 import {concatMap, filter, map} from 'rxjs/operators';
-import {UsersDbService} from '../services/users-db.service';
+import {SchoolUsersDbService} from '../services/school-users-db.service';
 
 
 @Component({
@@ -40,7 +40,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     private router: Router,
     private route: ActivatedRoute,
     private jwtService: CustomJwtAuthService,
-    private usersDB: UsersDbService) {
+    private usersDB: SchoolUsersDbService) {
 
     this.isPlatformSite = checkIfPlatformSite();
 
