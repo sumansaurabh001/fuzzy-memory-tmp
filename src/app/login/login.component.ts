@@ -12,7 +12,7 @@ import {checkIfPlatformSite, ONLINECOURSEHOST_THEME} from '../common/platform-ut
 import {ONLINECOURSEHOST_ACCENT_COLOR, ONLINECOURSEHOST_PRIMARY_COLOR} from '../common/ui-constants';
 import {ThemeChanged} from '../store/platform.actions';
 import {CustomJwtAuthService} from '../services/custom-jwt-auth.service';
-import {concatMap, filter} from 'rxjs/operators';
+import {concatMap, filter, map} from 'rxjs/operators';
 import {UsersDbService} from '../services/users-db.service';
 
 
@@ -26,10 +26,10 @@ export class LoginComponent implements OnInit, OnDestroy {
   ui: firebaseui.auth.AuthUI;
 
   isPlatformSite: boolean;
-
   isEmailAndPassword: boolean;
-
   redirectUrl: string;
+  tenantId:string;
+
 
 
   constructor(
@@ -46,6 +46,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 
     this.isEmailAndPassword = !!route.snapshot.queryParamMap.get('mode');
     this.redirectUrl = route.snapshot.queryParamMap.get('redirectUrl');
+    this.tenantId = route.snapshot.queryParamMap.get('tenantId');
 
   }
 
@@ -134,7 +135,13 @@ export class LoginComponent implements OnInit, OnDestroy {
       this.afAuth.authState
         .pipe(
           filter(authState => !!authState.uid),
-          concatMap(authState => this.jwtService.createCustomJwt(authState.uid))
+          concatMap(authState =>
+            this.usersDB.saveLatestUserProfile(authState.uid, this.tenantId, email, picture, displayName)
+              .pipe(
+                map(() => authState.uid)
+              )
+          ),
+          concatMap(uid => this.jwtService.createCustomJwt(uid))
         )
       )
       .subscribe(

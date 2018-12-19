@@ -61,8 +61,6 @@ export class AppComponent implements OnInit {
           this.afAuth.auth.signInWithCustomToken(authJwtToken)
             .then(result => {
 
-              console.log("Signed in with custom token, setting current user:",result);
-
               this.afAuth.auth.updateCurrentUser(result.user);
 
             });
