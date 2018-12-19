@@ -1,16 +1,13 @@
 import {Injectable} from '@angular/core';
-import {Observable, of, from as fromPromise} from 'rxjs';
+import {Observable, of, from} from 'rxjs';
 import {AngularFirestore} from '@angular/fire/firestore';
-import {concatMap, first, map, tap, withLatestFrom} from 'rxjs/operators';
+import {concatMap, first, map, withLatestFrom} from 'rxjs/operators';
 import {findLastBySeqNo, findUniqueMatchWithId, readDocumentWithId} from '../common/firestore-utils';
 import {AngularFireAuth} from '@angular/fire/auth';
-import {User} from '../models/user.model';
 import {Tenant} from '../models/tenant.model';
-import {Lesson} from '../models/lesson.model';
 import {AngularFirestoreCollection} from '@angular/fire/firestore/collection/collection';
 import {DEFAULT_SCHOOL_ACCENT_COLOR, DEFAULT_SCHOOL_PRIMARY_COLOR} from '../common/ui-constants';
-
-import {db} from '../../../functions/src/init';
+import {User} from '../models/user.model';
 
 
 @Injectable()
@@ -50,9 +47,22 @@ export class TenantsDBService {
 
             };
 
-            return this.afs.doc(`tenants/${authState.uid}`)
-              .set(newTenant)
-              .then(() => newTenant);
+            const newSchoolUser = {
+              id: authState.uid,
+              email,
+              pictureUrl,
+              displayName
+            };
+
+            const batch = this.afs.firestore.batch();
+
+            const schoolUserRef = this.afs.doc(`schools/${authState.uid}/users/${authState.uid}`).ref;
+            batch.set(schoolUserRef, newSchoolUser);
+
+            const tenantRef = this.afs.doc(`tenants/${authState.uid}`).ref;
+            batch.set(tenantRef, newTenant);
+
+            return from(batch.commit().then(() => newTenant));
           }
         })
       );
@@ -108,7 +118,7 @@ export class TenantsDBService {
 
   saveTheme(tenantId: string, primaryColor:string, accentColor:string) : Observable<any> {
 
-    return fromPromise(this.afs.collection('tenants').doc(tenantId).update({primaryColor, accentColor}));
+    return from(this.afs.collection('tenants').doc(tenantId).update({primaryColor, accentColor}));
 
   }
 

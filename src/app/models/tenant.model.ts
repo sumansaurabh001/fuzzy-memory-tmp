@@ -7,6 +7,6 @@ export interface Tenant extends User {
   seqNo: number;
   primaryColor: string;
   accentColor:string;
-  stripeUserId:string;
+  stripeUserId?:string;
 
 }

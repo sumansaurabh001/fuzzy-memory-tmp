@@ -6,6 +6,10 @@ service cloud.firestore {
         return request.auth.uid == tenantId && exists(/databases/$(database)/documents/tenants/$(request.auth.uid));
     }
 
+    function isCurrentUser(uid) {
+      return request.auth.uid == uid;
+    }
+
     match /tenants/{uid} {
 
       allow read: if true;
@@ -59,6 +63,17 @@ service cloud.firestore {
         allow write, delete: if isTenant(tenantId);
 
     }
+
+    match /schools/{tenantId}/users/{uid}  {
+
+        // user data is only visible by the tenant or the user himself
+        allow read: if isTenant(uid) || isCurrentUser(uid);
+
+        // only the tenant or the user himself can create or edit user data
+        allow write: if isTenant(tenantId)  || isCurrentUser(uid);
+
+    }
+
 
   }
 

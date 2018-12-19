@@ -13,6 +13,7 @@ import {ONLINECOURSEHOST_ACCENT_COLOR, ONLINECOURSEHOST_PRIMARY_COLOR} from '../
 import {ThemeChanged} from '../store/platform.actions';
 import {CustomJwtAuthService} from '../services/custom-jwt-auth.service';
 import {concatMap, filter} from 'rxjs/operators';
+import {UsersDbService} from '../services/users-db.service';
 
 
 @Component({
@@ -38,7 +39,8 @@ export class LoginComponent implements OnInit, OnDestroy {
     private store: Store<AppState>,
     private router: Router,
     private route: ActivatedRoute,
-    private jwtService: CustomJwtAuthService) {
+    private jwtService: CustomJwtAuthService,
+    private usersDB: UsersDbService) {
 
     this.isPlatformSite = checkIfPlatformSite();
 
@@ -67,27 +69,7 @@ export class LoginComponent implements OnInit, OnDestroy {
           firebase.auth.EmailAuthProvider.PROVIDER_ID
         ],
         callbacks: {
-
-          signInSuccessWithAuthResult: (result) => {
-
-            const email = result.user.email,
-              displayName = result.user.displayName;
-
-            let picture;
-
-            if (result.additionalUserInfo && result.additionalUserInfo.profile) {
-              picture = result.additionalUserInfo.profile.picture;
-            }
-
-            if (this.isPlatformSite) {
-              this.handlePlatformWebsiteLogin(email, picture, displayName);
-            }
-            else if (this.redirectUrl) {
-              this.handleTenantWebsiteLogin();
-            }
-
-            return false;
-          },
+          signInSuccessWithAuthResult: this.onLoginSuccessful.bind(this),
           uiShown: () => {
             this.loading.loadingOff();
           }
@@ -106,9 +88,30 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   }
 
+  onLoginSuccessful(result) {
+    const email = result.user.email,
+      displayName = result.user.displayName;
+
+    let picture;
+
+    if (result.additionalUserInfo && result.additionalUserInfo.profile) {
+      picture = result.additionalUserInfo.profile.picture;
+    }
+
+    if (this.isPlatformSite) {
+      this.handlePlatformWebsiteLogin(email, picture, displayName);
+    }
+    else if (this.redirectUrl) {
+      this.handleTenantWebsiteLogin(email, picture, displayName);
+    }
+
+    return false;
+  }
+
   handlePlatformWebsiteLogin(email:string, picture:string, displayName:string) {
-    this.loading.showLoader(this.tenantsDB
-      .createTenantIfNeeded(email, picture, displayName))
+    this.loading.showLoader(
+      this.tenantsDB.createTenantIfNeeded(email, picture, displayName)
+    )
       .subscribe(tenant => {
 
         this.store.dispatch(new Login(tenant));
@@ -126,11 +129,13 @@ export class LoginComponent implements OnInit, OnDestroy {
    *
    */
 
-  handleTenantWebsiteLogin() {
-    this.afAuth.authState
-      .pipe(
-        filter(authState => !!authState.uid),
-        concatMap(authState => this.jwtService.createCustomJwt(authState.uid))
+  handleTenantWebsiteLogin(email:string, picture:string, displayName:string) {
+    this.loading.showLoader(
+      this.afAuth.authState
+        .pipe(
+          filter(authState => !!authState.uid),
+          concatMap(authState => this.jwtService.createCustomJwt(authState.uid))
+        )
       )
       .subscribe(
         jwt => {
