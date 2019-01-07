@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {Actions, Effect} from '@ngrx/effects';
+import {Actions, Effect, ofType} from '@ngrx/effects';
 import {AddCoupons, CouponActionTypes, LoadCoupons, UpdateCoupon} from './coupons.actions';
 import {catchError, map, mergeMap, withLatestFrom} from 'rxjs/operators';
 import {CourseCouponsDbService} from '../services/course-coupons-db.service';
@@ -20,8 +20,8 @@ export class CouponEffects {
 
   @Effect()
   loadCoupons$ = this.actions$
-    .ofType<LoadCoupons>(CouponActionTypes.LoadCoupons)
     .pipe(
+      ofType<LoadCoupons>(CouponActionTypes.LoadCoupons),
       withLatestFrom(this.store.pipe(select(selectActiveCourse))),
       mergeMap(([action, course]) => this.loading.showLoader<CourseCoupon[]>(this.dbCoupons.loadCoupons(course.id, action.payload.activeCouponsOnly))),
       map(coupons => new AddCoupons({coupons})),
@@ -32,11 +32,11 @@ export class CouponEffects {
     );
 
 
-  @Effect({dispatch:false})
+  @Effect({dispatch: false})
   saveCoupon$ = this.actions$
-    .ofType<UpdateCoupon>(CouponActionTypes.UpdateCoupon)
     .pipe(
-      mergeMap(action => this.dbCoupons.saveCoupon(action.payload.courseId, action.payload.coupon.id ,action.payload.coupon.changes))
+      ofType<UpdateCoupon>(CouponActionTypes.UpdateCoupon),
+      mergeMap(action => this.dbCoupons.saveCoupon(action.payload.courseId, action.payload.coupon.id, action.payload.coupon.changes))
     );
 
 

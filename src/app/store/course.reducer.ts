@@ -30,16 +30,8 @@ export function reducer(
       return adapter.addOne(action.payload.course, state);
     }
 
-    case CourseActionTypes.UpsertCourse: {
-      return adapter.upsertOne(action.payload.course, state);
-    }
-
     case CourseActionTypes.AddCourses: {
       return adapter.addMany(action.payload.courses, state);
-    }
-
-    case CourseActionTypes.UpsertCourses: {
-      return adapter.upsertMany(action.payload.courses, state);
     }
 
     case CourseActionTypes.UpdateCourse: {

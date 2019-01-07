@@ -6,7 +6,7 @@ import {
 import { environment } from '../../environments/environment';
 import * as fromCourse from './course.reducer';
 import {routerReducer} from '@ngrx/router-store';
-import {RouterReducerState} from '@ngrx/router-store/src/router_store_module';
+import {RouterReducerState} from '@ngrx/router-store';
 import * as fromDescriptions from './descriptions.reducer';
 import * as fromCourseSection from './course-section.reducer';
 import {storeFreeze} from 'ngrx-store-freeze';

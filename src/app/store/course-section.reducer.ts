@@ -25,10 +25,6 @@ export function reducer(
       return adapter.addOne(action.payload.courseSection, state);
     }
 
-    case CourseSectionActionTypes.UpsertCourseSection: {
-      return adapter.upsertOne(action.payload.courseSection, state);
-    }
-
     case CourseSectionActionTypes.AddCourseSections: {
 
       const sections = adapter.addMany(action.payload.courseSections, state);
@@ -41,10 +37,6 @@ export function reducer(
       newState.loadedCourses[action.payload.courseId] = true;
 
       return newState;
-    }
-
-    case CourseSectionActionTypes.UpsertCourseSections: {
-      return adapter.upsertMany(action.payload.courseSections, state);
     }
 
     case CourseSectionActionTypes.UpdateCourseSection: {
