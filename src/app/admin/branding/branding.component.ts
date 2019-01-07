@@ -86,7 +86,7 @@ export class BrandingComponent implements OnInit {
 
     this.store.dispatch(new SaveTheme(payload));
 
-    this.messages.success('New theme saved successfully, refresh your website to see how it looks.');
+    this.messages.success('New theme applied.');
 
   }
 

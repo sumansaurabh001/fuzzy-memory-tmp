@@ -117,8 +117,9 @@ export class LoginComponent implements OnInit, OnDestroy {
   *
   * We need to first register this user as a tenant in the database if necessary.
   *
-  * Then, we need to create a custom JWT token to authenticate him in his subdomain,
-  * and send him back to his subdomain, where he will be admin level user.
+  * Then, we need to create a custom JWT token to authenticate the user in his subdomain.
+  *
+  * We then redirect the user to his subdomain, sending the jwt as a url parameter.
   *
   * All course editing etc. happens directly in his subdomain, and not on app.onlinecoursehost.com.
   *
@@ -127,13 +128,20 @@ export class LoginComponent implements OnInit, OnDestroy {
   handlePlatformWebsiteLogin(email: string, picture: string, displayName: string) {
     this.loading.showLoader(
       this.tenantsDB.createTenantIfNeeded(email, picture, displayName)
+        .pipe(
+            withLatestFrom(this.afAuth.idToken),
+            concatMap(([tenant, authJwtToken]) =>
+              this.jwtService.createCustomJwt(tenant.id, authJwtToken)
+                .pipe(
+                  tap(jwt => this.redirectUsingTenantCounter(jwt, tenant.seqNo))
+                )
+
+
+            ),
+
+        )
     )
-      .subscribe(tenant => {
-
-        this.store.dispatch(new Login(tenant));
-        this.router.navigateByUrl('/courses');
-
-      });
+      .subscribe();
   }
 
   /**
@@ -163,21 +171,49 @@ export class LoginComponent implements OnInit, OnDestroy {
           withLatestFrom(this.afAuth.idToken),
           concatMap(([uid, authJwtToken]) => this.jwtService.createCustomJwt(uid, authJwtToken)),
           filter(jwt => !!jwt),
-          tap(jwt => {
-
-            let redirectUrlWithAuthToken = `${this.redirectUrl}`;
-
-            redirectUrlWithAuthToken += this.redirectUrl.includes('?') ? '&' : '?';
-
-            redirectUrlWithAuthToken += `authJwtToken=${jwt}`;
-
-            window.location.href = redirectUrlWithAuthToken;
-
-          })
+          tap(jwt => this.redirectUsingRedirectUrl(jwt))
         )
     )
       .subscribe();
 
+  }
+
+  redirectUsingTenantCounter(jwt:string, seqNo:number) {
+
+    const urlSubdomains = window.location.hostname.split('.'),
+          topLevelSubdomain = urlSubdomains[urlSubdomains.length - 1],
+          port = window.location.port,
+          protocol = window.location.protocol;
+
+    // building a url that looks like http://online-school-4201.onlinecoursehost.test:4201/courses?authJwtToken=...
+
+    let redirectUrlWithAuthToken = `${protocol}//online-school-${seqNo}.onlinecoursehost.${topLevelSubdomain}`;
+
+    if (port) {
+      redirectUrlWithAuthToken += `:${port}`;
+    }
+
+    redirectUrlWithAuthToken += `/courses?authJwtToken=${jwt}`;
+
+    console.log("Redirecting to ", redirectUrlWithAuthToken);
+
+    window.location.href = redirectUrlWithAuthToken;
+
+  }
+
+
+
+  redirectUsingRedirectUrl(jwt) {
+
+    let redirectUrlWithAuthToken = `${this.redirectUrl}`;
+
+    redirectUrlWithAuthToken += this.redirectUrl.includes('?') ? '&' : '?';
+
+    redirectUrlWithAuthToken += `authJwtToken=${jwt}`;
+
+    console.log("Redirecting to ", redirectUrlWithAuthToken);
+
+    window.location.href = redirectUrlWithAuthToken;
   }
 
   ngOnDestroy() {
