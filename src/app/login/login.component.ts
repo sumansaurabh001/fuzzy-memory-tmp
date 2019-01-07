@@ -12,7 +12,7 @@ import {checkIfPlatformSite, ONLINECOURSEHOST_THEME} from '../common/platform-ut
 import {ONLINECOURSEHOST_ACCENT_COLOR, ONLINECOURSEHOST_PRIMARY_COLOR} from '../common/ui-constants';
 import {ThemeChanged} from '../store/platform.actions';
 import {CustomJwtAuthService} from '../services/custom-jwt-auth.service';
-import {concatMap, filter, map, withLatestFrom} from 'rxjs/operators';
+import {concatMap, filter, map, tap, withLatestFrom} from 'rxjs/operators';
 import {SchoolUsersDbService} from '../services/school-users-db.service';
 
 
@@ -28,8 +28,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   isPlatformSite: boolean;
   isEmailAndPassword: boolean;
   redirectUrl: string;
-  tenantId:string;
-
+  tenantId: string;
 
 
   constructor(
@@ -109,7 +108,23 @@ export class LoginComponent implements OnInit, OnDestroy {
     return false;
   }
 
-  handlePlatformWebsiteLogin(email:string, picture:string, displayName:string) {
+  /*
+  *
+  * The user has logged in to the app.onlinecoursehost.com domain.
+  *
+  * This means this user is an administrator of a given online school,
+  * and has his own subdomain (e.g. online-school-5000.onlinecoursehost.com).
+  *
+  * We need to first register this user as a tenant in the database if necessary.
+  *
+  * Then, we need to create a custom JWT token to authenticate him in his subdomain,
+  * and send him back to his subdomain, where he will be admin level user.
+  *
+  * All course editing etc. happens directly in his subdomain, and not on app.onlinecoursehost.com.
+  *
+  * */
+
+  handlePlatformWebsiteLogin(email: string, picture: string, displayName: string) {
     this.loading.showLoader(
       this.tenantsDB.createTenantIfNeeded(email, picture, displayName)
     )
@@ -123,14 +138,18 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   /**
    *
-   * The user has logged in to the tenant website in the single sign-on page login.onlinecoursehost.com
+   * The user has logged in to a tenant website in the single sign-on page login.onlinecoursehost.com
    *
-   * create a custom JWT token and send the it back to the tenant website. On arrival the user will be authenticated
-   * using the custom JWT.
+   * create a custom JWT token and send the it back to the tenant website using the redirect Url.
+   *
+   * The user will be redirected to the tenant domain which will either be a hosting sub-domain online-school-5000.onlinecoursehost.com,
+   * or a custom domain like chess-classes.com.
+   *
+   * On arrival the user will be authenticated using the custom JWT.
    *
    */
 
-  handleTenantWebsiteLogin(email:string, picture:string, displayName:string) {
+  handleTenantWebsiteLogin(email: string, picture: string, displayName: string) {
     this.loading.showLoader(
       this.afAuth.authState
         .pipe(
@@ -142,23 +161,22 @@ export class LoginComponent implements OnInit, OnDestroy {
               )
           ),
           withLatestFrom(this.afAuth.idToken),
-          concatMap(([uid, authJwtToken]) => this.jwtService.createCustomJwt(uid, authJwtToken))
-        )
-      )
-      .subscribe(
-        jwt => {
-          if (jwt) {
+          concatMap(([uid, authJwtToken]) => this.jwtService.createCustomJwt(uid, authJwtToken)),
+          filter(jwt => !!jwt),
+          tap(jwt => {
 
             let redirectUrlWithAuthToken = `${this.redirectUrl}`;
 
-            redirectUrlWithAuthToken += this.redirectUrl.includes('?') ? "&" : "?";
+            redirectUrlWithAuthToken += this.redirectUrl.includes('?') ? '&' : '?';
 
             redirectUrlWithAuthToken += `authJwtToken=${jwt}`;
 
             window.location.href = redirectUrlWithAuthToken;
-          }
-        }
-      );
+
+          })
+        )
+    )
+      .subscribe();
 
   }
 
