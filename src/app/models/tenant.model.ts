@@ -5,8 +5,10 @@ export interface Tenant extends User {
 
   status: 'new';
   seqNo: number;
-  primaryColor: string;
-  accentColor:string;
+  brandTheme: {
+    primaryColor: string;
+    accentColor:string;
+  }
   stripeUserId?:string;
 
 }

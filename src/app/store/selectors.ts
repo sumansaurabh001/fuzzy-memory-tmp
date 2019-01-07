@@ -154,10 +154,14 @@ export const userPictureUrl = createSelector(
   auth => auth.user ? auth.user.pictureUrl : undefined
 );
 
+export const isBrandThemeLoaded = createSelector(
+  platformState,
+  platformState => !!platformState.brandTheme
+);
 
-export const getTenant = createSelector(
-  authState,
-  auth => <Tenant>auth.user
+export const getBrandTheme = createSelector(
+  platformState,
+  platformState => platformState.brandTheme
 );
 
 

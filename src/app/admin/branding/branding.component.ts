@@ -5,8 +5,8 @@ import {MessagesService} from '../../services/messages.service';
 import {AppState} from '../../store';
 import {select, Store} from '@ngrx/store';
 import {checkIfPlatformSite} from '../../common/platform-utils';
-import {getTenant, platformState} from '../../store/selectors';
-import {tap} from 'rxjs/operators';
+import {getBrandTheme, platformState} from '../../store/selectors';
+import {filter, tap} from 'rxjs/operators';
 import {SaveTheme, ThemeChanged} from '../../store/platform.actions';
 
 
@@ -20,9 +20,9 @@ const isHexColorRegex  = /^#[0-9A-F]{6}$/i;
 })
 export class BrandingComponent implements OnInit {
 
-  primaryColor:string = DEFAULT_SCHOOL_PRIMARY_COLOR;
+  primaryColor:string;
 
-  accentColor:string = DEFAULT_SCHOOL_ACCENT_COLOR;
+  accentColor:string;
 
   @ViewChild('primaryPicker', {read: ColorPickerDirective})
   primaryPicker: ColorPickerDirective;
@@ -42,10 +42,12 @@ export class BrandingComponent implements OnInit {
 
     this.store
       .pipe(
-        select(getTenant),
-        tap(tenant => {
-          this.primaryColor = tenant.primaryColor;
-          this.accentColor = tenant.accentColor;
+        select(getBrandTheme),
+        filter(theme => !!theme),
+        tap(theme => {
+
+          this.primaryColor = theme.primaryColor;
+          this.accentColor = theme.accentColor;
         })
       )
       .subscribe();
@@ -85,9 +87,6 @@ export class BrandingComponent implements OnInit {
     }
 
     this.store.dispatch(new SaveTheme(payload));
-
-    this.messages.success('New theme applied.');
-
   }
 
 

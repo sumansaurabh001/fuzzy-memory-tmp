@@ -41,10 +41,11 @@ export class TenantsDBService {
               pictureUrl,
               status: 'new',
               displayName,
-              //default brand colors
-              primaryColor: DEFAULT_SCHOOL_PRIMARY_COLOR,
-              accentColor: DEFAULT_SCHOOL_ACCENT_COLOR
-
+              brandTheme: {
+                //default brand colors
+                primaryColor: DEFAULT_SCHOOL_PRIMARY_COLOR,
+                accentColor: DEFAULT_SCHOOL_ACCENT_COLOR
+              }
             };
 
             const newSchoolUser = {
@@ -118,7 +119,7 @@ export class TenantsDBService {
 
   saveTheme(tenantId: string, primaryColor:string, accentColor:string) : Observable<any> {
 
-    return from(this.afs.collection('tenants').doc(tenantId).update({primaryColor, accentColor}));
+    return from(this.afs.collection('tenants').doc(tenantId).update({brandTheme:{primaryColor, accentColor}}));
 
   }
 

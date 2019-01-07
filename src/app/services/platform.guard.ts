@@ -6,19 +6,13 @@ import {AngularFireAuth} from '@angular/fire/auth';
 import {AppState} from '../store';
 import {select, Store} from '@ngrx/store';
 import {concatMap, filter, map, tap, withLatestFrom} from 'rxjs/operators';
-import {isLoggedIn} from '../store/selectors';
 import {TenantsDBService} from './tenants-db.service';
 import {LoadingService} from './loading.service';
-import {
-  DEFAULT_SCHOOL_ACCENT_COLOR, DEFAULT_SCHOOL_PRIMARY_COLOR, ONLINECOURSEHOST_ACCENT_COLOR,
-  ONLINECOURSEHOST_PRIMARY_COLOR
-} from '../common/ui-constants';
-import {checkIfPlatformSite, getPlatformSubdomain, ONLINECOURSEHOST_THEME} from '../common/platform-utils';
+import {checkIfPlatformSite, getPlatformSubdomain, DEFAULT_THEME} from '../common/platform-utils';
 import {ThemeChanged} from '../store/platform.actions';
 import {Tenant} from '../models/tenant.model';
 import {CookieService} from 'ngx-cookie-service';
-import {PlatformSettings} from '../models/platform-settings.model';
-import {Theme} from '../models/theme.model';
+
 
 /*
 *
@@ -107,13 +101,13 @@ export class PlatformGuard implements CanActivate {
       this.setPlatformBrandColors();
     }
     else if (tenant) {
-      this.store.dispatch(new ThemeChanged({primaryColor: tenant.primaryColor, accentColor: tenant.accentColor}));
+      this.store.dispatch(new ThemeChanged(tenant.brandTheme));
     }
   }
 
 
   setPlatformBrandColors() {
-    this.store.dispatch(new ThemeChanged(ONLINECOURSEHOST_THEME));
+    this.store.dispatch(new ThemeChanged(DEFAULT_THEME));
   }
 
 }

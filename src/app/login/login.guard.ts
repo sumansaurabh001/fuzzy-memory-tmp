@@ -2,7 +2,7 @@ import {ActivatedRoute, ActivatedRouteSnapshot, CanActivate, RouterStateSnapshot
 import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs/Observable';
 import {TenantsDBService} from '../services/tenants-db.service';
-import {checkIfSingleSignOnPage, ONLINECOURSEHOST_THEME} from '../common/platform-utils';
+import {checkIfSingleSignOnPage, DEFAULT_THEME} from '../common/platform-utils';
 import {of} from 'rxjs';
 import {ThemeChanged} from '../store/platform.actions';
 import {first, map, tap} from 'rxjs/operators';
@@ -46,10 +46,10 @@ export class LoginGuard implements CanActivate {
           tap(tenant => {
 
             if (tenant) {
-              this.store.dispatch(new ThemeChanged({primaryColor: tenant.primaryColor, accentColor: tenant.accentColor}));
+              this.store.dispatch(new ThemeChanged(tenant.brandTheme));
             }
             else {
-              this.store.dispatch(new ThemeChanged(ONLINECOURSEHOST_THEME));
+              this.store.dispatch(new ThemeChanged(DEFAULT_THEME));
             }
 
           }),

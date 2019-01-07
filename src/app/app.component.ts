@@ -45,7 +45,7 @@ export class AppComponent implements OnInit {
     this.settings$ = this.store
       .pipe(
         select(platformState),
-        filter(platformSettings => !!platformSettings.primaryColor)
+        filter(platformSettings => platformSettings.brandTheme && !!platformSettings.brandTheme.primaryColor)
       );
 
     this.route.queryParamMap
@@ -65,10 +65,6 @@ export class AppComponent implements OnInit {
         }
 
       });
-
-
-
-
 
   }
 
@@ -91,22 +87,23 @@ export class AppComponent implements OnInit {
 
   brandStyles(branding: PlatformState) {
 
-    const RGB = branding.primaryColor;
+    const primaryColor = branding.brandTheme.primaryColor;
 
-    const sliderColor ='rgba('+parseInt(RGB.substring(1,3),16)+','+parseInt(RGB.substring(3,5),16)+','+parseInt(RGB.substring(5,7),16)+',0.5)';
+    const sliderColor ='rgba('+parseInt(
+      primaryColor.substring(1,3),16)+','+parseInt(primaryColor.substring(3,5),16)+','+parseInt(primaryColor.substring(5,7),16)+',0.5)';
 
     const test = `
 
       <style>
 
         .theme .mat-toolbar.mat-primary {
-          background: ${branding.primaryColor};        
+          background: ${primaryColor};        
         }
         
         .theme .mat-raised-button.mat-primary:not([disabled]), 
         .theme .mat-fab.mat-primary:not([disabled]), 
         .theme .mat-mini-fab.mat-primary:not([disabled]) { 
-          background-color: ${branding.primaryColor};
+          background-color: ${primaryColor};
         }
         
         .theme .mat-slide-toggle.mat-primary.mat-checked:not(.mat-disabled) .mat-slide-toggle-bar {
@@ -114,20 +111,20 @@ export class AppComponent implements OnInit {
         }
         
         .theme .mat-slide-toggle.mat-primary.mat-checked:not(.mat-disabled) .mat-slide-toggle-thumb {
-          background-color: ${branding.primaryColor};          
+          background-color: ${primaryColor};          
         }
         
         .theme .mat-progress-spinner circle, .mat-spinner circle {
-          stroke: ${branding.primaryColor};
+          stroke: ${primaryColor};
         
         }
         
         .theme .mat-progress-bar-fill::after {
-          background-color: ${branding.primaryColor};
+          background-color: ${primaryColor};
         }
         
         .theme .mat-button.mat-primary, .theme .mat-icon-button.mat-primary, .theme .mat-stroked-button.mat-primary {
-          color: ${branding.primaryColor};
+          color: ${primaryColor};
         }
 
       </style>`;

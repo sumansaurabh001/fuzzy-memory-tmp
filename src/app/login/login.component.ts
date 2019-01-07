@@ -8,7 +8,7 @@ import {AppState} from '../store';
 import {Store} from '@ngrx/store';
 import {Login} from '../store/auth.actions';
 import {ActivatedRoute, Router} from '@angular/router';
-import {checkIfPlatformSite, ONLINECOURSEHOST_THEME} from '../common/platform-utils';
+import {checkIfPlatformSite, DEFAULT_THEME} from '../common/platform-utils';
 import {ONLINECOURSEHOST_ACCENT_COLOR, ONLINECOURSEHOST_PRIMARY_COLOR} from '../common/ui-constants';
 import {ThemeChanged} from '../store/platform.actions';
 import {CustomJwtAuthService} from '../services/custom-jwt-auth.service';
@@ -55,7 +55,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 
     // if logging in to the platform website, apply the platform brand
     if (this.isPlatformSite) {
-      this.store.dispatch(new ThemeChanged(ONLINECOURSEHOST_THEME));
+      this.store.dispatch(new ThemeChanged(DEFAULT_THEME));
     }
 
     try {
@@ -133,7 +133,7 @@ export class LoginComponent implements OnInit, OnDestroy {
             concatMap(([tenant, authJwtToken]) =>
               this.jwtService.createCustomJwt(tenant.id, authJwtToken)
                 .pipe(
-                  tap(jwt => this.redirectUsingTenantCounter(jwt, tenant.seqNo))
+                  tap(jwt => this.redirectTenantToSubdomain(jwt, tenant.seqNo))
                 )
 
 
@@ -178,7 +178,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   }
 
-  redirectUsingTenantCounter(jwt:string, seqNo:number) {
+  redirectTenantToSubdomain(jwt:string, seqNo:number) {
 
     const urlSubdomains = window.location.hostname.split('.'),
           topLevelSubdomain = urlSubdomains[urlSubdomains.length - 1],
@@ -196,6 +196,9 @@ export class LoginComponent implements OnInit, OnDestroy {
     redirectUrlWithAuthToken += `/courses?authJwtToken=${jwt}`;
 
     console.log("Redirecting to ", redirectUrlWithAuthToken);
+
+    // logout from app.onlinecoursehost.com, we won't be needing this JWT anymore
+    this.afAuth.auth.signOut();
 
     window.location.href = redirectUrlWithAuthToken;
 

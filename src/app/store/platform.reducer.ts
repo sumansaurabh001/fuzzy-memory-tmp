@@ -1,15 +1,14 @@
 import {PlatformActions, PlatformActionTypes} from './platform.actions';
+import {Theme} from '../models/theme.model';
 
 
 export interface PlatformState {
-  primaryColor: string;
-  accentColor:string;
+  brandTheme: Theme,
   isConnectedToStripe: boolean
 }
 
 export const initialState: PlatformState = {
-  primaryColor: undefined,
-  accentColor: undefined,
+  brandTheme: undefined,
   isConnectedToStripe: false
 };
 
@@ -19,8 +18,7 @@ export function platformReducer(state = initialState, action: PlatformActions): 
     case PlatformActionTypes.ThemeChanged:
       return {
         ...state,
-        primaryColor: action.payload.primaryColor,
-        accentColor: action.payload.accentColor
+        brandTheme: action.payload
       };
 
     case PlatformActionTypes.UpdateStripeStatus:
