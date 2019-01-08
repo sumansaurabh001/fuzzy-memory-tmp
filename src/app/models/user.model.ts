@@ -5,5 +5,5 @@ export interface User {
   email:string;
   pictureUrl: string;
   displayName:string;
-  roles:string[];
+  roles?:string[];
 }

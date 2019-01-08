@@ -16,21 +16,9 @@ export class AuthEffects {
 
 
   @Effect()
-  login$ = combineLatest(
-    this.afAuth.authState,
-    this.tenant.tenantId$
-  )
+  login$ = this.afAuth.authState
     .pipe(
-      filter(([authState, tenantId]) => !!authState && !!tenantId),
-      concatMap(() => {
-        if (checkIfPlatformSite()) {
-          return this.tenantsDB.findTenantByCurrentUid();
-        }
-        else {
-          return this.schoolUsersDB.findUserByCurrentUid();
-        }
-      }),
-      map(userProfile => userProfile ? new Login(userProfile) : new Logout()),
+      map(user => user ? new Login({displayName: user.displayName, email:user.email, pictureUrl: user.photoURL, id:user.uid}) : new Logout()),
       catchError(() => of(new Logout()))
     );
 

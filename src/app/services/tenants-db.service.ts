@@ -20,7 +20,7 @@ export class TenantsDBService {
 
   }
 
-  createTenantIfNeeded(email: string, pictureUrl: string = null, displayName:string = null): Observable<Tenant> {
+  createTenantIfNeeded(email: string, displayName:string = null): Observable<Tenant> {
     return this.findTenantByCurrentUid()
       .pipe(
         withLatestFrom(this.afAuth.authState, this.findLastTenantSeqNo()),
@@ -39,7 +39,6 @@ export class TenantsDBService {
               id: authState.uid,
               seqNo,
               email,
-              pictureUrl,
               status: 'new',
               displayName,
               brandTheme: {
@@ -52,7 +51,6 @@ export class TenantsDBService {
             const newSchoolUser = {
               id: authState.uid,
               email,
-              pictureUrl,
               displayName
             };
 
