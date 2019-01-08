@@ -185,3 +185,9 @@ export const isConnectedToStripe = createSelector(
   settings => !!settings.isConnectedToStripe
 
 );
+
+
+export const selectUserPermissions = createSelector(
+    authState,
+    authState => authState.permissions
+);

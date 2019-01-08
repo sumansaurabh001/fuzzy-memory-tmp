@@ -32,10 +32,7 @@ export class AuthEffects {
 
 
   constructor(private actions$: Actions,
-              private afAuth: AngularFireAuth,
-              private tenantsDB: TenantsDBService,
-              private schoolUsersDB: SchoolUsersDbService,
-              private tenant: TenantService) {
+              private afAuth: AngularFireAuth) {
 
   }
 

@@ -90,6 +90,7 @@ import { ConnectWithStripeComponent } from './connect-with-stripe/connect-with-s
 import { StripeRedirectPageComponent } from './stripe-redirect-page/stripe-redirect-page.component';
 import { LoadingDialogComponent } from './loading-dialog/loading-dialog.component';
 import {LoginGuard} from './login/login.guard';
+import { AllowRoleDirective } from './auth/allow-role.directive';
 
 
 @NgModule({
@@ -130,7 +131,8 @@ import {LoginGuard} from './login/login.guard';
     GetLinkDialogComponent,
     ConnectWithStripeComponent,
     StripeRedirectPageComponent,
-    LoadingDialogComponent
+    LoadingDialogComponent,
+    AllowRoleDirective
   ],
   imports: [
     BrowserModule,
