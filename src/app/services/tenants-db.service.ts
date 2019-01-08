@@ -20,7 +20,7 @@ export class TenantsDBService {
 
   }
 
-  createTenantIfNeeded(email: string, displayName:string = null): Observable<Tenant> {
+  createTenantIfNeeded(email: string): Observable<Tenant> {
     return this.findTenantByCurrentUid()
       .pipe(
         withLatestFrom(this.afAuth.authState, this.findLastTenantSeqNo()),
@@ -40,7 +40,6 @@ export class TenantsDBService {
               seqNo,
               email,
               status: 'new',
-              displayName,
               brandTheme: {
                 //default brand colors
                 primaryColor: DEFAULT_SCHOOL_PRIMARY_COLOR,
@@ -50,8 +49,7 @@ export class TenantsDBService {
 
             const newSchoolUser = {
               id: authState.uid,
-              email,
-              displayName
+              email
             };
 
             const batch = this.afs.firestore.batch();
