@@ -131,7 +131,7 @@ export class LoginComponent implements OnInit, OnDestroy {
         .pipe(
             withLatestFrom(this.afAuth.idToken),
             concatMap(([tenant, authJwtToken]) =>
-              this.jwtService.createCustomJwt(tenant.id, authJwtToken)
+              this.jwtService.createCustomJwt(tenant.id, tenant.id, authJwtToken)
                 .pipe(
                   tap(jwt => this.redirectTenantToSubdomain(jwt, tenant.seqNo))
                 )
@@ -169,7 +169,7 @@ export class LoginComponent implements OnInit, OnDestroy {
               )
           ),
           withLatestFrom(this.afAuth.idToken),
-          concatMap(([uid, authJwtToken]) => this.jwtService.createCustomJwt(uid, authJwtToken)),
+          concatMap(([uid, authJwtToken]) => this.jwtService.createCustomJwt(this.tenantId, uid, authJwtToken)),
           filter(jwt => !!jwt),
           tap(jwt => this.redirectUsingRedirectUrl(jwt))
         )
@@ -179,6 +179,8 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   redirectTenantToSubdomain(jwt:string, seqNo:number) {
+
+    console.log("custom jwt:", jwt);
 
     const urlSubdomains = window.location.hostname.split('.'),
           topLevelSubdomain = urlSubdomains[urlSubdomains.length - 1],
@@ -207,6 +209,8 @@ export class LoginComponent implements OnInit, OnDestroy {
 
 
   redirectUsingRedirectUrl(jwt) {
+
+    console.log("custom jwt:", jwt);
 
     let redirectUrlWithAuthToken = `${this.redirectUrl}`;
 

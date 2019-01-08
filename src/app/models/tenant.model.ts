@@ -9,6 +9,5 @@ export interface Tenant extends User {
     primaryColor: string;
     accentColor:string;
   }
-  stripeUserId?:string;
 
 }

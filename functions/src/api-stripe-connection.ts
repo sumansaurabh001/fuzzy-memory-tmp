@@ -89,14 +89,16 @@ app.post('/stripe-connection', async (req,res) => {
       }
 
       const stripeTenantUserId = results.stripe_user_id,
-        refreshToken = results.refresh_token;
+        stripeRefreshToken = results.refresh_token;
 
       if (!stripeTenantUserId) {
         apiError(res, `Could not retrieve Stripe user Id.`);
       }
 
+      const settings = {stripeTenantUserId, stripeRefreshToken};
+
       // write Stripe credentials to database
-      await db.doc(`tenantSettings/${tenantId}`).set({stripeTenantUserId, refreshToken}, { merge: true });
+      await db.doc(`tenantSettings/${tenantId}`).set(settings, { merge: true });
 
       res.status(200).json({message:'Stripe connection ready.', stripeTenantUserId});
 

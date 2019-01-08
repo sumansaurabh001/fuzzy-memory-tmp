@@ -8,6 +8,7 @@ import {Tenant} from '../models/tenant.model';
 import {AngularFirestoreCollection} from '@angular/fire/firestore/collection/collection';
 import {DEFAULT_SCHOOL_ACCENT_COLOR, DEFAULT_SCHOOL_PRIMARY_COLOR} from '../common/ui-constants';
 import {User} from '../models/user.model';
+import {TenantSettings} from '../models/tenant-settings.model';
 
 
 @Injectable()
@@ -62,6 +63,10 @@ export class TenantsDBService {
 
             const tenantRef = this.afs.doc(`tenants/${authState.uid}`).ref;
             batch.set(tenantRef, newTenant);
+
+            // the tenant is an admin in its own website (note that only the tenant can edit his own settings)
+            const tenantSettingsRef = this.afs.doc(`tenantSettings/${authState.uid}/userPermissions/${authState.uid}`).ref;
+            batch.set(tenantSettingsRef, {isAdmin:true});
 
             return from(batch.commit().then(() => newTenant));
           }

@@ -16,12 +16,12 @@ export class CustomJwtAuthService {
 
   }
 
-  createCustomJwt(uid:string, authJwtToken:string): Observable<string> {
+  createCustomJwt(tenantId:string, uid:string, authJwtToken:string): Observable<string> {
 
     const headers = new HttpHeaders()
       .set('Authorization',`Bearer ${authJwtToken}`);
 
-    return this.http.post(`${environment.api.customJwtUrl}/custom-jwt`, {uid}, {headers})
+    return this.http.post(`${environment.api.customJwtUrl}/custom-jwt`, {uid, tenantId}, {headers})
       .pipe(
         map(res => res['customJWt'])
       );

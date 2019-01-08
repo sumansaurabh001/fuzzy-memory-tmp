@@ -2,15 +2,21 @@ service cloud.firestore {
 
   match /databases/{database}/documents {
 
-    function isTenant(tenantId) {
-        return request.auth.uid == tenantId && exists(/databases/$(database)/documents/tenants/$(request.auth.uid));
+    //
+    // returns true if a given user is an Admin-level user in a specific tenant website.
+    //
+    // This admin could be either the tenant himself or some other user with the admin role.
+    //
+
+    function isAdmin(tenantId) {
+      return request.auth.token.tenantId == tenantId && request.auth.token.isAdmin == true;
     }
 
     function isCurrentUser(uid) {
       return request.auth.uid == uid;
     }
 
-    match /tenants/{uid} {
+    match /tenants/{tenantId} {
 
       allow read: if true;
 
@@ -18,15 +24,18 @@ service cloud.firestore {
       allow create: if request.auth.uid != null && request.resource.data.status == 'new';
 
       // only the tenant can modify its own data
-      allow update: if isTenant(uid);
+      allow update: if isCurrentUser(tenantId);
 
     }
 
+    match /tenantSettings/{tenantId} {
 
-    match /tenantSettings/{uid} {
+      // only the tenant himself (and not other admins) can both read and edit his own settings, this is private data
+      allow read,write: if isCurrentUser(tenantId);
 
-      // only the tenant himself can both read and edit its own settings, this is private data
-      allow read,write: if isTenant(uid);
+      match /{document=**} {
+        allow read,write: if isCurrentUser(tenantId);
+      }
 
     }
 
@@ -35,8 +44,8 @@ service cloud.firestore {
         // all course data is public
         allow read: if true;
 
-        // only tenants can modify course data - and only their own courses
-        allow write: if isTenant(tenantId);
+        // only admins of a given online school can modify the courses of that particular school
+        allow write: if isAdmin(tenantId);
 
         // for sections and lessons
         match /{document=**} {
@@ -44,13 +53,13 @@ service cloud.firestore {
           // everything is public
           allow read: if true;
 
-          // but only tenants can udpate or delete sections or lessons
-          allow write, delete: if isTenant(tenantId);
+          // but only admins can update or delete sections or lessons
+          allow write, delete: if isAdmin(tenantId);
 
         }
 
-        // tenants can only delete draft courses, to avoid accidents
-        allow delete: if isTenant() && resource.data.status == 'draft';
+        // even admins can only delete draft courses, to avoid accidentally deleting a whole course
+        allow delete: if isAdmin(tenantId) && resource.data.status == 'draft';
 
     }
 
@@ -60,17 +69,17 @@ service cloud.firestore {
         allow read: if true;
 
         // only tenants can edit descriptions
-        allow write, delete: if isTenant(tenantId);
+        allow write, delete: if isAdmin(tenantId);
 
     }
 
     match /schools/{tenantId}/users/{uid}  {
 
-        // user data is only visible by the tenant or the user himself
-        allow read: if isTenant(uid) || isCurrentUser(uid);
+        // user data is only visible by admins or the user himself
+        allow read: if isAdmin(uid) || isCurrentUser(uid);
 
-        // only the tenant or the user himself can create or edit user data
-        allow write: if isTenant(tenantId)  || isCurrentUser(uid);
+        // only admins or the user himself can create or edit the data of a given user
+        allow write: if isAdmin(tenantId)  || isCurrentUser(uid);
 
     }
 
