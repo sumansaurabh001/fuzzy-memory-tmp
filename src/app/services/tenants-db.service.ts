@@ -64,7 +64,7 @@ export class TenantsDBService {
             const tenantRef = this.afs.doc(`tenants/${authState.uid}`).ref;
             batch.set(tenantRef, newTenant);
 
-            // the tenant is an admin in its own website (note that only the tenant can edit his own settings)
+            // the tenant is also an admin in its own website
             const tenantSettingsRef = this.afs.doc(`tenantSettings/${authState.uid}/userPermissions/${authState.uid}`).ref;
             batch.set(tenantSettingsRef, {isAdmin:true});
 
