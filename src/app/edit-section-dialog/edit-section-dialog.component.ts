@@ -14,7 +14,7 @@ import {UpdateStr} from '@ngrx/entity/src/models';
 @Component({
   selector: 'edit-section-dialog',
   templateUrl: './edit-section-dialog.component.html',
-  styleUrls: ['./edit-section-dialog.component.scss']
+  styleUrls: ['./edit-section-dialog.component.scss'],
   providers: [
     MessagesService
   ]
