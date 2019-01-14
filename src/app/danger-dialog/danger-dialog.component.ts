@@ -5,8 +5,7 @@ import {MessagesService} from '../services/messages.service';
 @Component({
   selector: 'danger-dialog',
   templateUrl: './danger-dialog.component.html',
-  styleUrls: ['./danger-dialog.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  styleUrls: ['./danger-dialog.component.scss']
   providers: [
     MessagesService
   ]

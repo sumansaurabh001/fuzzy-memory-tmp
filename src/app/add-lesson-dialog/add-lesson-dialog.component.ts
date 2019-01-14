@@ -14,8 +14,7 @@ import {AddLesson} from '../store/lesson.actions';
 @Component({
   selector: 'add-lesson-dialog',
   templateUrl: './add-lesson-dialog.component.html',
-  styleUrls: ['./add-lesson-dialog.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  styleUrls: ['./add-lesson-dialog.component.scss']
   providers: [
     MessagesService
   ]

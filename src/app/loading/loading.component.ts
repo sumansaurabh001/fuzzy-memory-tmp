@@ -5,8 +5,7 @@ import {Observable} from 'rxjs';
 @Component({
   selector: 'loading',
   templateUrl: './loading.component.html',
-  styleUrls: ['./loading.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  styleUrls: ['./loading.component.scss']
 })
 export class LoadingComponent implements OnInit {
 

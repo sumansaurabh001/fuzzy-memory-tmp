@@ -5,8 +5,7 @@ import {UIMessage} from './ui-message.model';
 @Component({
   selector: 'messages',
   templateUrl: './messages.component.html',
-  styleUrls: ['./messages.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  styleUrls: ['./messages.component.scss']
 })
 export class MessagesComponent implements OnInit {
 

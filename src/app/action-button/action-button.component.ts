@@ -3,8 +3,7 @@ import {ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit} from '@
 @Component({
   selector: 'action-button',
   templateUrl: './action-button.component.html',
-  styleUrls: ['./action-button.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  styleUrls: ['./action-button.component.scss']
 })
 export class ActionButtonComponent {
 

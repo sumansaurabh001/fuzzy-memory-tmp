@@ -14,8 +14,7 @@ import {LoadStripeConnectionStatus} from '../store/platform.actions';
 @Component({
   selector: 'edit-course',
   templateUrl: './edit-course.component.html',
-  styleUrls: ['./edit-course.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  styleUrls: ['./edit-course.component.scss']
 })
 export class EditCourseComponent implements OnInit {
 

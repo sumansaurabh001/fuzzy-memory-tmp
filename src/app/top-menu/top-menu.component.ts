@@ -15,8 +15,7 @@ import {checkIfPlatformSite, checkIfSingleSignOnPage} from '../common/platform-u
 @Component({
   selector: 'top-menu',
   templateUrl: './top-menu.component.html',
-  styleUrls: ['./top-menu.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  styleUrls: ['./top-menu.component.scss']
 })
 export class TopMenuComponent implements OnInit {
 

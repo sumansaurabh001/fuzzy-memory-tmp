@@ -6,8 +6,7 @@ import {UrlBuilderService} from '../services/url-builder.service';
 @Component({
   selector: 'course-card',
   templateUrl: './course-card.component.html',
-  styleUrls: ['./course-card.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  styleUrls: ['./course-card.component.scss']
 })
 export class CourseCardComponent implements OnInit {
 

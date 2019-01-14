@@ -20,8 +20,7 @@ import {AddCoupon} from '../store/coupons.actions';
 @Component({
   selector: 'get-link-dialog',
   templateUrl: './get-link-dialog.component.html',
-  styleUrls: ['./get-link-dialog.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  styleUrls: ['./get-link-dialog.component.scss']
 })
 export class GetLinkDialogComponent implements OnInit, AfterViewInit {
 

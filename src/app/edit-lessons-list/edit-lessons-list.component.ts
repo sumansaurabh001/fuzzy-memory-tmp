@@ -24,8 +24,7 @@ import {Lesson} from '../models/lesson.model';
 @Component({
   selector: 'edit-lessons-list',
   templateUrl: './edit-lessons-list.component.html',
-  styleUrls: ['./edit-lessons-list.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  styleUrls: ['./edit-lessons-list.component.scss']
 })
 export class EditLessonsListComponent implements OnInit {
 

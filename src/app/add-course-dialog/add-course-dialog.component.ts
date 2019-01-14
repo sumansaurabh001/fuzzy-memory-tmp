@@ -17,7 +17,6 @@ import {LoadingService} from '../services/loading.service';
   selector: 'add-course-dialog',
   templateUrl: './add-course-dialog.component.html',
   styleUrls: ['./add-course-dialog.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
     MessagesService
   ]

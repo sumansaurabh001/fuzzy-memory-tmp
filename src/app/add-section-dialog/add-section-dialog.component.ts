@@ -12,8 +12,7 @@ import {Course} from '../models/course.model';
 @Component({
   selector: 'add-section-dialog',
   templateUrl: './add-section-dialog.component.html',
-  styleUrls: ['./add-section-dialog.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  styleUrls: ['./add-section-dialog.component.scss']
   providers: [
     MessagesService
   ]
