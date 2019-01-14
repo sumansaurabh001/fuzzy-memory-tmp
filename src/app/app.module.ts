@@ -91,6 +91,8 @@ import { StripeRedirectPageComponent } from './stripe-redirect-page/stripe-redir
 import { LoadingDialogComponent } from './loading-dialog/loading-dialog.component';
 import {LoginGuard} from './login/login.guard';
 import {AllowRoleDirective} from './auth/allow-role.directive';
+import { StripeConnectionRequestComponent } from './stripe-connection-request/stripe-connection-request.component';
+import { StripeConnectionResponseComponent } from './stripe-connection-response/stripe-connection-response.component';
 
 
 @NgModule({
@@ -132,7 +134,9 @@ import {AllowRoleDirective} from './auth/allow-role.directive';
     ConnectWithStripeComponent,
     StripeRedirectPageComponent,
     LoadingDialogComponent,
-    AllowRoleDirective
+    AllowRoleDirective,
+    StripeConnectionRequestComponent,
+    StripeConnectionResponseComponent
   ],
   imports: [
     BrowserModule,

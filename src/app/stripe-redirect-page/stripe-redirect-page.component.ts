@@ -55,7 +55,7 @@ export class StripeRedirectPageComponent implements OnInit {
       dialogConfig.disableClose = true;
       dialogConfig.minWidth = '450px';
       dialogConfig.minHeight = '200px';
-      dialogConfig.data = {message: 'Connecting to Stripe, this could take about 1 minute...'};
+      dialogConfig.data = {message: 'Connecting to Stripe ...'};
 
       this.dialogRef = this.dialog.open(LoadingDialogComponent, dialogConfig);
 

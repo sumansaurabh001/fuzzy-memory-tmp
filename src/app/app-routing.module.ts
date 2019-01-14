@@ -12,6 +12,8 @@ import {PlatformGuard} from './services/platform.guard';
 import {AuthGuard} from './services/auth.guard';
 import {StripeRedirectPageComponent} from './stripe-redirect-page/stripe-redirect-page.component';
 import {LoginGuard} from './login/login.guard';
+import {StripeConnectionRequestComponent} from './stripe-connection-request/stripe-connection-request.component';
+import {StripeConnectionResponseComponent} from './stripe-connection-response/stripe-connection-response.component';
 
 const routes: Routes = [
   {
@@ -52,6 +54,15 @@ const routes: Routes = [
     component: LoginComponent,
     canActivate: [LoginGuard]
   },
+  {
+    path: "stripe-connection-request",
+    component: StripeConnectionRequestComponent
+  },
+  {
+    path: "stripe-connection-response",
+    component: StripeConnectionResponseComponent
+  },
+
   {
     path: "stripe-redirect",
     component: StripeRedirectPageComponent,
