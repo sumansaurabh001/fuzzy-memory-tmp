@@ -10,8 +10,7 @@ import {selectAllCourses} from '../store/selectors';
 @Component({
   selector: 'courses',
   templateUrl: './courses.component.html',
-  styleUrls: ['./courses.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  styleUrls: ['./courses.component.scss']
 })
 export class CoursesComponent implements OnInit {
 

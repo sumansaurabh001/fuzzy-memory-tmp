@@ -1,16 +1,20 @@
 <div class="desktop-container">
 
-  <div class="page-section">
+  <ng-container *allowRole="'ADMIN'">
 
-    <div class="new-course-button">
-      <span class="button-text">Create New Course:</span>
-      <button mat-fab color="accent" (click)="addNewCourse()">
-        <mat-icon>add</mat-icon>
-      </button>
+    <div class="page-section">
+
+      <div class="new-course-button">
+        <span class="button-text">Create New Course:</span>
+        <button mat-fab color="accent" (click)="addNewCourse()">
+          <mat-icon>add</mat-icon>
+        </button>
+      </div>
     </div>
-  </div>
 
-  <mat-divider></mat-divider>
+    <mat-divider></mat-divider>
+
+  </ng-container>
 
   <ng-container *ngIf="courses$ | async as courses">
 

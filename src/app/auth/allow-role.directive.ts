@@ -2,6 +2,8 @@ import {Directive, Input, TemplateRef, ViewContainerRef} from '@angular/core';
 import {AppState} from '../store';
 import {select, Store} from '@ngrx/store';
 import {selectUserPermissions} from '../store/selectors';
+import {tap} from 'rxjs/operators';
+import {UserPermissions} from '../models/user-permissions.model';
 
 
 @Directive({
@@ -9,7 +11,10 @@ import {selectUserPermissions} from '../store/selectors';
 })
 export class AllowRoleDirective {
 
-  private userRoles = [];
+  private userPermissions: UserPermissions;
+  private allowedRoles: string[] = [];
+
+  private visible = false;
 
   constructor(
     private templateRef: TemplateRef<any>,
@@ -19,15 +24,35 @@ export class AllowRoleDirective {
 
     store
       .pipe(
-        select(selectUserPermissions)
-        //TODO save user roles, link isAdmin = true to *allowRole=['ADMIN']
+        select(selectUserPermissions),
+        tap(permissions => {
+          this.userPermissions = permissions;
+          this.updateVisibility();
+        })
       )
       .subscribe();
 
   }
 
   @Input()
-  set roles(allowedRoles: string[]) {
+  set allowRole(allowedRoles: string[]) {
+    this.allowedRoles = allowedRoles;
+    this.updateVisibility();
+  }
+
+
+  private updateVisibility() {
+
+    const newVisibility = this.userPermissions && this.userPermissions.isAdmin && this.allowedRoles.includes('ADMIN');
+
+    if (newVisibility && !this.visible) {
+      this.viewContainer.createEmbeddedView(this.templateRef);
+      this.visible = true;
+    }
+    else if (!newVisibility && this.visible) {
+      this.viewContainer.clear();
+      this.visible = false;
+    }
 
   }
 

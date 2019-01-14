@@ -38,7 +38,7 @@
       <span>Courses</span>
     </a>
 
-    <a mat-button class="desktop-menu" [matMenuTriggerFor]="adminMenu">
+    <a mat-button class="desktop-menu" [matMenuTriggerFor]="adminMenu" *allowRole="'ADMIN'">
       <span>Admin</span>
     </a>
 

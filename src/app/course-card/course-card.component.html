@@ -13,6 +13,6 @@
   </mat-card-content>
   <mat-card-actions class="course-actions">
     <button mat-raised-button color="primary" [routerLink]="['/courses',course.url]">VIEW COURSE</button>
-    <button mat-raised-button color="accent" [routerLink]="['/courses',course.url, 'edit']">EDIT</button>
+    <button mat-raised-button color="accent" [routerLink]="['/courses',course.url, 'edit']" *allowRole="'ADMIN'">EDIT</button>
   </mat-card-actions>
 </mat-card>
