@@ -31,30 +31,12 @@
     <div class="course-enroll-card">
 
       <div class="prices">
-        <span class="course-price">Price: $10.99</span>
+        <span class="course-price">Price: {{course.price | currency}}</span>
         <span class="course-original-price">$199</span>
         <span class="discount">(94% Off)</span>
       </div>
 
-      <div class="action-buttons">
-
-        <button mat-raised-button color="accent">
-          <div class="first-line">
-            <mat-icon class="play-icon">play_circle_filled</mat-icon>
-            <div>Take This Course</div>
-          </div>
-          <div class="second-line">Lifetime Access</div>
-        </button>
-
-        <button mat-raised-button color="primary">
-          <div class="first-line">
-            <mat-icon>play_circle_filled</mat-icon>
-            <div>Subscribe Now</div>
-          </div>
-          <div class="second-line">Access All Courses</div>
-        </button>
-
-      </div>
+      <course-action-buttons [course]="course"></course-action-buttons>
 
     </div>
 

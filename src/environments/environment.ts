@@ -16,7 +16,8 @@ export const environment = {
   },
   authenticationUrl: 'http://login.onlinecoursehost.test:4201/login',
   stripe: {
-    stripeHostClientId: 'ca_E8O23Zg2xUn1A216OEkwL0OJrW7K7wqN' // this is the Stripe ID of the platform host account, which is providing the hosting service to other tenant Stripe accounts
+    stripeHostClientId: 'ca_E8O23Zg2xUn1A216OEkwL0OJrW7K7wqN', // this is the Stripe ID of the platform host account, which is providing the hosting service to other tenant Stripe accounts
+    stripePublicKey: 'pk_test_5NQiVpv8GxwDJxKGilXmBK15' // This is the public key used needed by Checkout.js
   },
   // Cloud Function API endpoints
   api: {

@@ -93,6 +93,7 @@ import {LoginGuard} from './login/login.guard';
 import {AllowRoleDirective} from './auth/allow-role.directive';
 import { StripeConnectionRequestComponent } from './stripe-connection-request/stripe-connection-request.component';
 import { StripeConnectionResponseComponent } from './stripe-connection-response/stripe-connection-response.component';
+import { CourseActionButtonsComponent } from './course-action-buttons/course-action-buttons.component';
 
 
 @NgModule({
@@ -136,7 +137,8 @@ import { StripeConnectionResponseComponent } from './stripe-connection-response/
     LoadingDialogComponent,
     AllowRoleDirective,
     StripeConnectionRequestComponent,
-    StripeConnectionResponseComponent
+    StripeConnectionResponseComponent,
+    CourseActionButtonsComponent
   ],
   imports: [
     BrowserModule,

@@ -113,9 +113,18 @@ export class PriceAndCouponsComponent implements OnInit {
 
   save(courseId:string) {
 
+    const val = this.form.value;
+
+    const changes: Partial<Course> = {
+      free: val.free,
+      price: val.priceGroup.price,
+      includedInSubscription: val.priceGroup.includedInSubscription
+
+    };
+
     const course = {
       id: courseId,
-      changes: {...this.form.value}
+      changes
     };
 
     this.store.dispatch(new UpdateCourse({course}));
