@@ -21,7 +21,7 @@ export class CustomJwtAuthService {
     const headers = new HttpHeaders()
       .set('Authorization',`Bearer ${authJwtToken}`);
 
-    return this.http.post(`${environment.api.customJwtUrl}/custom-jwt`, {uid, tenantId}, {headers})
+    return this.http.post(environment.api.customJwtUrl, {uid, tenantId}, {headers})
       .pipe(
         map(res => res['customJWt'])
       );

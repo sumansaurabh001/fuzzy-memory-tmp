@@ -1,5 +1,9 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {Course} from '../models/course.model';
+import {PaymentsService} from '../services/payments.service';
+import {MessagesService} from '../services/messages.service';
+import {environment} from '../../environments/environment';
+import {LoadingService} from '../services/loading.service';
 
 declare const StripeCheckout;
 
@@ -15,20 +19,33 @@ export class CourseActionButtonsComponent implements OnInit {
 
   checkoutHandler: any;
 
-  constructor() { }
+  constructor(
+    private payments: PaymentsService,
+    private messages: MessagesService,
+    private loading: LoadingService) {
+
+  }
 
   ngOnInit() {
 
     this.checkoutHandler = StripeCheckout.configure({
-      key: 'pk_test_5NQiVpv8GxwDJxKGilXmBK15',
+      key: environment.stripe.stripePublicKey,
       image: 'https://stripe.com/img/documentation/checkout/marketplace.png',
       locale: 'auto',
       token: (token) => {
 
+        const tokenId = token.id,
+              paymentEmail = token.email,
+              purchaseCourse$ = this.payments.purchaseCourse(tokenId, paymentEmail, this.course.id);
 
-        const tokenId = token.id;
-
-
+        this.loading.showLoaderUntilCompleted(purchaseCourse$)
+          .subscribe(
+            () => this.messages.success('Payment successful, please enjoy the course!'),
+            err => {
+              console.log('Payment failed, reason: ', err);
+              this.messages.error("Payment failed, please check your card balance.");
+            }
+          );
       }
     });
 

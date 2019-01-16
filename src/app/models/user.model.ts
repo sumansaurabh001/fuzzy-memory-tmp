@@ -6,4 +6,6 @@ export interface User {
   pictureUrl: string;
   displayName:string;
   roles?:string[];
+  stripeCustomerId?:string;
+  purchasedCourses?:string[];
 }

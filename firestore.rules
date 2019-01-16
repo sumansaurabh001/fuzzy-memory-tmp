@@ -83,6 +83,16 @@ service cloud.firestore {
 
     }
 
+    match /schools/{tenantId}/userCourses/{uid}  {
+
+        // the user purchased courses are only visible by admins or the user himself
+        allow read: if isAdmin(uid) || isCurrentUser(uid);
+
+        // only admins can add purchased courses to a user, the user himself cannot do that
+        allow write: if isAdmin(tenantId);
+
+    }
+
 
   }
 

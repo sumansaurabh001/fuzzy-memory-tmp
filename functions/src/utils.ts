@@ -1,5 +1,6 @@
 
 import * as fs from 'fs';
+import {db} from './init';
 
 
 
@@ -23,4 +24,15 @@ export function promisifyCommand(command) {
         reject(error);
       });
   });
+}
+
+
+
+
+
+export async function getDocData(docPath) {
+
+  const snap = await db.doc(docPath).get();
+
+  return snap.data();
 }
