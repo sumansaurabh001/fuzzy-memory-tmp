@@ -7,5 +7,4 @@ export interface User {
   displayName:string;
   roles?:string[];
   stripeCustomerId?:string;
-  purchasedCourses?:string[];
 }

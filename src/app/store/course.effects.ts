@@ -1,11 +1,11 @@
 import {Injectable} from '@angular/core';
 import {Actions, Effect, ofType} from '@ngrx/effects';
-import {CourseActionTypes, DeleteCourse} from '../store/course.actions';
+import {CourseActionTypes, DeleteCourse, UserCoursesLoaded} from '../store/course.actions';
 import {concatMap, catchError, withLatestFrom, filter, map, tap} from 'rxjs/operators';
 import {CoursesDBService} from '../services/courses-db.service';
 import {LoadingService} from '../services/loading.service';
 import {MessagesService} from '../services/messages.service';
-import {throwError as _throw} from 'rxjs';
+import {throwError as _throw, combineLatest} from 'rxjs';
 import {AddCourse, LoadCourseDetail, UpdateCourse} from './course.actions';
 import {AppState} from './index';
 import {select, Store} from '@ngrx/store';
@@ -18,12 +18,29 @@ import {
 import {LessonsDBService} from '../services/lessons-db.service';
 import {AddCourseSections} from './course-section.actions';
 import {AddLessons, LessonActionTypes, UpdateLesson} from './lesson.actions';
-
-
+import {AngularFireAuth} from '@angular/fire/auth';
+import {SchoolUsersDbService} from '../services/school-users-db.service';
+import {TenantService} from '../services/tenant.service';
 
 
 @Injectable()
 export class CourseEffects {
+
+  @Effect()
+  loadUserCourses$ = combineLatest(
+    this.afAuth.authState,
+    this.tenant.tenantId$
+  )
+    .pipe(
+      filter(([user, tenantId]) => !!(user && tenantId)),
+      concatMap(([user, tenantId]) => this.usersDB.loadUserCourses(tenantId, user.uid)),
+      map(purchasedCourses => new UserCoursesLoaded({purchasedCourses})),
+      catchError(err => {
+        this.messages.error('Could not load user courses.');
+        return _throw(err);
+      })
+    );
+
 
   @Effect()
   loadCourseDescriptionIfNeeded$ = this.actions$
@@ -109,7 +126,10 @@ export class CourseEffects {
               private lessonsDB: LessonsDBService,
               private store: Store<AppState>,
               private loading: LoadingService,
-              private messages: MessagesService) {
+              private messages: MessagesService,
+              private afAuth: AngularFireAuth,
+              private usersDB: SchoolUsersDbService,
+              private tenant: TenantService) {
 
   }
 

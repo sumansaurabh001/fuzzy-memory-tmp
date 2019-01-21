@@ -14,9 +14,10 @@ export enum CourseActionTypes {
   UpdateCourses = '[Course] Update Courses',
   DeleteCourse = '[Course] Delete Course',
   DeleteCourses = '[Course] Delete Courses',
-  ClearCourses = '[Course] Clear Courses'
+  ClearCourses = '[Course] Clear Courses',
+  CoursePurchased = '[Course Page] Course Purchased',
+  UserCoursesLoaded = '[App Startup] User Courses Loaded'
 }
-
 
 
 export class LoadCourse implements Action {
@@ -106,6 +107,19 @@ export class ClearCourses implements Action {
   readonly type = CourseActionTypes.ClearCourses;
 }
 
+export class CoursePurchased implements Action {
+  readonly type = CourseActionTypes.CoursePurchased;
+
+  constructor(public payload: {courseId:string}) {}
+}
+
+export class UserCoursesLoaded implements Action {
+  readonly type = CourseActionTypes.UserCoursesLoaded;
+
+  constructor(public payload: {purchasedCourses:string[]}) {}
+}
+
+
 export type CourseActions =
    LoadCourseDetail
   | LoadCourses
@@ -117,4 +131,6 @@ export type CourseActions =
   | UpdateCourses
   | DeleteCourse
   | DeleteCourses
-  | ClearCourses;
+  | ClearCourses
+  | CoursePurchased
+  | UserCoursesLoaded;

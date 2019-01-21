@@ -1,23 +1,23 @@
-import { EntityState, EntityAdapter, createEntityAdapter } from '@ngrx/entity';
-import { Course } from '../models/course.model';
-import { CourseActions, CourseActionTypes } from './course.actions';
-
-
+import {createEntityAdapter, EntityAdapter, EntityState} from '@ngrx/entity';
+import {Course} from '../models/course.model';
+import {CourseActions, CourseActionTypes} from './course.actions';
 
 
 export interface State extends EntityState<Course> {
   initialCoursesLoaded:boolean;
   activeCourseId: string;
+  coursesPurchased: string[];
 }
 
 export const adapter: EntityAdapter<Course> = createEntityAdapter<Course>();
 
 export const initialState: State = adapter.getInitialState({
   initialCoursesLoaded:false,
-  activeCourseId: undefined
+  activeCourseId: undefined,
+  coursesPurchased: []
 });
 
-export function reducer(
+export function coursesReducer(
   state = initialState,
   action: CourseActions
 ): State {
@@ -58,6 +58,20 @@ export function reducer(
 
     case CourseActionTypes.ClearCourses: {
       return adapter.removeAll(state);
+    }
+
+    case CourseActionTypes.CoursePurchased: {
+      return {
+        ...state,
+        coursesPurchased: state.coursesPurchased.concat(action.payload.courseId)
+      };
+    }
+
+    case CourseActionTypes.UserCoursesLoaded: {
+      return {
+        ...state,
+        coursesPurchased: action.payload.purchasedCourses
+      };
     }
 
     default: {

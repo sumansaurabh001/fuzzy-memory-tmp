@@ -4,6 +4,9 @@ import {PaymentsService} from '../services/payments.service';
 import {MessagesService} from '../services/messages.service';
 import {environment} from '../../environments/environment';
 import {LoadingService} from '../services/loading.service';
+import {AppState} from '../store';
+import {Store} from '@ngrx/store';
+import {CoursePurchased} from '../store/course.actions';
 
 declare const StripeCheckout;
 
@@ -22,7 +25,8 @@ export class CourseActionButtonsComponent implements OnInit {
   constructor(
     private payments: PaymentsService,
     private messages: MessagesService,
-    private loading: LoadingService) {
+    private loading: LoadingService,
+    private store: Store<AppState>) {
 
   }
 
@@ -40,7 +44,10 @@ export class CourseActionButtonsComponent implements OnInit {
 
         this.loading.showLoaderUntilCompleted(purchaseCourse$)
           .subscribe(
-            () => this.messages.success('Payment successful, please enjoy the course!'),
+            () => {
+              this.store.dispatch(new CoursePurchased({courseId: this.course.id}));
+              this.messages.success('Payment successful, please enjoy the course!');
+            },
             err => {
               console.log('Payment failed, reason: ', err);
               this.messages.error("Payment failed, please check your card balance.");
