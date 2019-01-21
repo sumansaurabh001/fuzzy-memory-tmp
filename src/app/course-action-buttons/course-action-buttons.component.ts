@@ -20,6 +20,9 @@ export class CourseActionButtonsComponent implements OnInit {
   @Input()
   course:Course;
 
+  @Input()
+  userCourses: string[];
+
   checkoutHandler: any;
 
   constructor(
@@ -29,6 +32,7 @@ export class CourseActionButtonsComponent implements OnInit {
     private store: Store<AppState>) {
 
   }
+
 
   ngOnInit() {
 
@@ -58,6 +62,7 @@ export class CourseActionButtonsComponent implements OnInit {
 
   }
 
+
   buyCourse() {
 
     this.checkoutHandler.open({
@@ -68,5 +73,15 @@ export class CourseActionButtonsComponent implements OnInit {
     });
 
   }
+
+
+  userOwnsCourse() {
+    return this.course && this.userCourses.includes(this.course.id);
+  }
+
+  startCourse() {
+
+  }
+
 
 }

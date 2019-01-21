@@ -1,19 +1,35 @@
-<div class="action-buttons">
+<div class="action-buttons" *ngIf="userCourses">
 
-  <button mat-raised-button color="accent" (click)="buyCourse()">
-    <div class="first-line">
-      <mat-icon class="play-icon">play_circle_filled</mat-icon>
-      <div>Take This Course</div>
-    </div>
-    <div class="second-line">Lifetime Access</div>
-  </button>
+  <ng-container *ngIf="!userOwnsCourse(); else startCourse">
 
-  <button mat-raised-button color="primary">
-    <div class="first-line">
-      <mat-icon>play_circle_filled</mat-icon>
-      <div>Subscribe Now</div>
-    </div>
-    <div class="second-line">Access All Courses</div>
-  </button>
+    <button mat-raised-button color="accent" (click)="buyCourse()">
+      <div class="first-line">
+        <mat-icon class="play-icon">play_circle_filled</mat-icon>
+        <div>Take This Course</div>
+      </div>
+      <div class="second-line">Lifetime Access</div>
+    </button>
+
+    <button mat-raised-button color="primary">
+      <div class="first-line">
+        <mat-icon>play_circle_filled</mat-icon>
+        <div>Subscribe Now</div>
+      </div>
+      <div class="second-line">Access All Courses</div>
+    </button>
+
+  </ng-container>
+
+  <ng-template #startCourse>
+
+    <button mat-raised-button color="primary" (click)="startCourse()">
+      <div class="first-line">
+        <mat-icon class="play-icon">play_circle_filled</mat-icon>
+        <div>Start Course</div>
+      </div>
+    </button>
+
+  </ng-template>
+
 
 </div>

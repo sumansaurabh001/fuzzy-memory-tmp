@@ -5,7 +5,7 @@ import {Course} from '../models/course.model';
 import {Observable, BehaviorSubject} from 'rxjs';
 import {
   selectActiveCourse, selectActiveCourseAllLessons, selectActiveCourseDescription,
-  selectActiveCourseSections
+  selectActiveCourseSections, selectUserCourses
 } from '../store/selectors';
 import {UrlBuilderService} from '../services/url-builder.service';
 import {Lesson} from '../models/lesson.model';
@@ -32,6 +32,8 @@ export class CoursePageComponent implements OnInit {
 
   lessons$: Observable<Lesson[]>;
 
+  userCourses$: Observable<string[]>;
+
   showFullDescription = false;
 
 
@@ -52,6 +54,8 @@ export class CoursePageComponent implements OnInit {
     this.lessons$ = this.store.pipe(select(selectActiveCourseAllLessons));
 
     this.courseDescription$ = this.selectDescription();
+
+    this.userCourses$ = this.store.pipe(select(selectUserCourses));
 
   }
 
