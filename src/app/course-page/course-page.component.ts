@@ -4,6 +4,7 @@ import {AppState} from '../store';
 import {Course} from '../models/course.model';
 import {Observable, BehaviorSubject} from 'rxjs';
 import {
+  isAdmin,
   selectActiveCourse, selectActiveCourseAllLessons, selectActiveCourseDescription,
   selectActiveCourseSections, selectUserCourses
 } from '../store/selectors';

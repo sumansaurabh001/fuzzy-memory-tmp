@@ -196,3 +196,10 @@ export const selectUserCourses = createSelector(
   selectCoursesState,
   coursesState => coursesState.coursesPurchased
 );
+
+
+export const isAdmin = createSelector(
+  authState,
+  authState => authState.permissions.isAdmin
+);
+

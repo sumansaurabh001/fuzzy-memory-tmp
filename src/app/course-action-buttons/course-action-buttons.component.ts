@@ -1,13 +1,15 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnChanges, OnInit, SimpleChange, SimpleChanges} from '@angular/core';
 import {Course} from '../models/course.model';
 import {PaymentsService} from '../services/payments.service';
 import {MessagesService} from '../services/messages.service';
 import {environment} from '../../environments/environment';
 import {LoadingService} from '../services/loading.service';
 import {AppState} from '../store';
-import {Store} from '@ngrx/store';
+import {select, Store} from '@ngrx/store';
 import {CoursePurchased} from '../store/course.actions';
 import {Router} from '@angular/router';
+import {Observable} from 'rxjs/Observable';
+import {isAdmin} from '../store/selectors';
 
 declare const StripeCheckout;
 
@@ -16,13 +18,17 @@ declare const StripeCheckout;
   templateUrl: './course-action-buttons.component.html',
   styleUrls: ['./course-action-buttons.component.scss']
 })
-export class CourseActionButtonsComponent implements OnInit {
+export class CourseActionButtonsComponent implements OnInit, OnChanges {
 
   @Input()
   course:Course;
 
   @Input()
   userCourses: string[];
+
+  showPurchaseButtons:boolean;
+
+  isAdmin: boolean;
 
   checkoutHandler: any;
 
@@ -62,6 +68,19 @@ export class CourseActionButtonsComponent implements OnInit {
       }
     });
 
+    this.store.pipe(select(isAdmin))
+      .subscribe(isAdmin => {
+
+        this.isAdmin = isAdmin;
+
+        this.updatePurchaseButtonsVisibility();
+
+    });
+
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    this.updatePurchaseButtonsVisibility();
   }
 
 
@@ -76,9 +95,11 @@ export class CourseActionButtonsComponent implements OnInit {
 
   }
 
+  updatePurchaseButtonsVisibility() {
 
-  userOwnsCourse() {
-    return this.course && this.userCourses.includes(this.course.id);
+    const userOwnsCourse = this.course && this.userCourses.includes(this.course.id);
+
+    this.showPurchaseButtons =  !this.isAdmin && !userOwnsCourse;
   }
 
 

@@ -1,6 +1,6 @@
-<div class="action-buttons" *ngIf="userCourses">
+<div class="action-buttons">
 
-  <ng-container *ngIf="!userOwnsCourse(); else startCourse">
+  <ng-container *ngIf="showPurchaseButtons; else startCourse">
 
     <button mat-raised-button color="accent" (click)="buyCourse()">
       <div class="first-line">
