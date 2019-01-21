@@ -7,6 +7,7 @@ import {LoadingService} from '../services/loading.service';
 import {AppState} from '../store';
 import {Store} from '@ngrx/store';
 import {CoursePurchased} from '../store/course.actions';
+import {Router} from '@angular/router';
 
 declare const StripeCheckout;
 
@@ -29,7 +30,8 @@ export class CourseActionButtonsComponent implements OnInit {
     private payments: PaymentsService,
     private messages: MessagesService,
     private loading: LoadingService,
-    private store: Store<AppState>) {
+    private store: Store<AppState>,
+    private router: Router) {
 
   }
 
@@ -79,7 +81,10 @@ export class CourseActionButtonsComponent implements OnInit {
     return this.course && this.userCourses.includes(this.course.id);
   }
 
-  startCourse() {
+
+  start() {
+
+    this.router.navigateByUrl(`courses/${this.course.url}/1/lessons/1`);
 
   }
 
