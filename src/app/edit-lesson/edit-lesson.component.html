@@ -9,8 +9,8 @@
 
   <div class="video-text-details">
 
-    <div class="filename" *ngIf="lesson?.videoFileName">
-      <span>{{extractFileName(lesson?.videoFileName)}}</span>
+    <div class="filename" *ngIf="lesson?.originalFileName">
+      <span>{{lesson?.originalFileName}}</span>
     </div>
 
     <div>{{lesson?.videoDuration | duration}}</div>
@@ -58,7 +58,7 @@
   </mat-form-field>
 
   <mat-slide-toggle color="primary" formControlName="free">
-    Free Preview
+    Free Lesson
   </mat-slide-toggle>
 
 </div>
@@ -96,7 +96,7 @@
 
   <button mat-raised-button color="warn" *ngIf="isPublished()">Unpublish</button>
 
-  <button mat-raised-button color="basic" *ngIf="lesson?.videoFileName" (click)="fileUpload.open()">Replace Video
+  <button mat-raised-button color="basic" *ngIf="lesson?.originalFileName" (click)="fileUpload.open()">Replace Video
   </button>
 
   <button mat-raised-button color="basic" (click)="saveLesson()">Save</button>

@@ -47,13 +47,32 @@ service cloud.firestore {
         // only admins of a given online school can modify the courses of that particular school
         allow write: if isAdmin(tenantId);
 
-        // for sections and lessons
-        match /{document=**} {
+        match /sections/{sectionId} {
 
           // everything is public
           allow read: if true;
 
-          // but only admins can update or delete sections or lessons
+          // but only admins can modify
+          allow write, delete: if isAdmin(tenantId);
+
+        }
+
+        match /lessons/{lessonId} {
+
+          // everything is public
+          allow read: if true;
+
+          // but only admins can modify
+          allow write, delete: if isAdmin(tenantId);
+
+        }
+
+        match /videos/{lessonId} {
+
+          // only a Firebase Could Function can read this
+          allow read: if false;
+
+          // only admins can modify
           allow write, delete: if isAdmin(tenantId);
 
         }

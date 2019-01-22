@@ -83,7 +83,7 @@ export class EditLessonComponent implements OnInit, OnChanges {
   }
 
   isReady() {
-    return this.lesson && this.lesson.videoFileName;
+    return this.lesson && this.lesson.originalFileName;
   }
 
   isPublished() {
@@ -207,17 +207,6 @@ export class EditLessonComponent implements OnInit, OnChanges {
 
     this.store.dispatch(new UpdateLesson({lesson: update, courseId: this.course.id}));
 
-  }
-
-  extractFileName(name: string) {
-
-    if (!name) {
-      return '';
-    }
-
-    const index = name.indexOf('-');
-
-    return name.slice(index + 1);
   }
 
   toggleEditLesson() {

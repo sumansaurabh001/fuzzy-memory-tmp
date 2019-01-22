@@ -1,6 +1,9 @@
 import * as functions from 'firebase-functions';
+import {getDocData} from './utils';
 
 const {Storage} = require('@google-cloud/storage');
+
+const adminConfig = JSON.parse(process.env.FIREBASE_CONFIG);
 
 /*
 *
@@ -23,9 +26,12 @@ export const onDeleteLesson = functions.firestore
 
     const lessonDirectoryPath = `${tenantId}/${courseId}/videos/${lessonId}`;
 
-    const bucket = gcs.bucket(functions.config().firebase.storageBucket);
+    const bucket = gcs.bucket(adminConfig.storageBucket);
 
-    const videoFilePath = `${lessonDirectoryPath}/${lesson.videoFileName}`;
+    // get the video file name from the DB
+    const video = await getDocData(`schools/${tenantId}/courses/${courseId}/videos/${lessonId}`);
+
+    const videoFilePath = `${lessonDirectoryPath}/${video.secretVideoName}`;
 
     await bucket.file(videoFilePath).delete();
 

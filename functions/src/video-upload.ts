@@ -96,9 +96,9 @@ export const videoUpload = functions.storage.object().onFinalize(async (object, 
     fs.unlinkSync(localThumbnailFilePath);
 
     // if there was already a previous video for the lesson, delete it and its lesson thumbnail to save space
-    if (lesson && lesson.videoFileName) {
+    if (lesson && lesson.originalFileName) {
 
-      const previousVideoFilePath = `${tenantId}/${courseId}/videos/${lessonId}/${lesson.videoFileName}`;
+      const previousVideoFilePath = `${tenantId}/${courseId}/videos/${lessonId}/${lesson.originalFileName}`;
 
       const previousVideoFile = bucket.file(previousVideoFilePath);
 
@@ -114,10 +114,18 @@ export const videoUpload = functions.storage.object().onFinalize(async (object, 
 
     await db.doc(lessonDbPath).update({
       thumbnail: thumbnailFileName,
-      videoFileName,
+      originalFileName: extractOriginalFileName(videoFileName),
       videoDuration,
       status:"ready"
     });
+
+    // save the actual video file name in another non-public collection, in order to support premium videos.
+    const videosDbPath = 'schools/' + tenantId + '/courses/' + courseId + '/videos/' + lessonId;
+
+    await db.doc(videosDbPath).set({
+      secretVideoName: videoFileName
+    });
+
 
   }
   catch (err) {
@@ -131,6 +139,17 @@ export const videoUpload = functions.storage.object().onFinalize(async (object, 
 
 
 });
+
+function extractOriginalFileName(name: string) {
+
+  if (!name) {
+    return '';
+  }
+
+  const index = name.indexOf('-');
+
+  return name.slice(index + 1);
+}
 
 
 async function extractVideoThumbnail(videoPath: string, thumbnailPath: string, thumbnailName: string) {
