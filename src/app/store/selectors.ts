@@ -11,6 +11,7 @@ import {Tenant} from '../models/tenant.model';
 import {PlatformState} from './platform.reducer';
 import {CouponsState} from './coupons.reducer';
 import * as fromCoupon from './coupons.reducer';
+import {VideoAccessState} from './video-access.reducer';
 
 
 export const selectCoursesState = createFeatureSelector<fromCourse.State>('courses');
@@ -26,6 +27,8 @@ export const authState = createFeatureSelector<AuthState>('auth');
 export const platformState = createFeatureSelector<PlatformState>('platform');
 
 export const couponsState = createFeatureSelector<CouponsState>('coupons');
+
+export const videoAccessState = createFeatureSelector<VideoAccessState>('videoAccess');
 
 
 
@@ -201,5 +204,18 @@ export const selectUserCourses = createSelector(
 export const isAdmin = createSelector(
   authState,
   authState => authState.permissions.isAdmin
+);
+
+export const selectActiveLessonVideoAccess = createSelector(
+  selectActiveLesson,
+  videoAccessState,
+  (lesson, accessState) => lesson ? accessState.entities[lesson.id] : undefined
+);
+
+export const isActiveLessonVideoAccessLoaded = createSelector(
+  selectActiveLesson,
+  videoAccessState,
+  (lesson, accessState) => lesson && !!accessState.entities[lesson.id]
+
 );
 

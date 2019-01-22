@@ -3,6 +3,7 @@ import {TenantService} from './tenant.service';
 import {Course} from '../models/course.model';
 import {EMPTY_IMG} from '../common/ui-constants';
 import {Lesson} from '../models/lesson.model';
+import {VideoAccess} from '../models/video-access.model';
 
 @Injectable()
 export class UrlBuilderService {
@@ -33,10 +34,10 @@ export class UrlBuilderService {
     }
   }
 
-  buildLessonVideoUrl(course: Course, lesson:Lesson) {
+  buildLessonVideoUrl(course: Course, lesson:Lesson, access: VideoAccess) {
     if (course && lesson && lesson.originalFileName) {
       return 'https://firebasestorage.googleapis.com/v0/b/onlinecoursehost-local-dev.appspot.com/o/'
-        + this.tenant.id + '%2F' + course.id + '%2Fvideos%2F' + lesson.id + '%2F' + lesson.originalFileName + '?alt=media';
+        + this.tenant.id + '%2F' + course.id + '%2Fvideos%2F' + lesson.id + '%2F' + access.videoSecretFileName + '?alt=media';
     }
     else {
       return undefined;

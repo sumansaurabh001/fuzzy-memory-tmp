@@ -47,10 +47,6 @@ export function reducer(
       return adapter.updateOne(action.payload.lesson, state);
     }
 
-    case LessonActionTypes.UpdateLessons: {
-      return adapter.updateMany(action.payload.lessons, state);
-    }
-
     case LessonActionTypes.DeleteLesson: {
       return adapter.removeOne(action.payload.id, state);
     }
@@ -65,6 +61,10 @@ export function reducer(
 
     case LessonActionTypes.ClearLessons: {
       return adapter.removeAll(state);
+    }
+
+    case LessonActionTypes.LoadLessonVideo: {
+      return adapter.updateOne(action.payload.update, state);
     }
 
     default: {

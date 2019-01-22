@@ -14,6 +14,7 @@ import * as fromLesson from './lesson.reducer';
 import {authReducer, AuthState} from './auth.reducer';
 import {platformReducer, PlatformState} from './platform.reducer';
 import {couponsReducer, CouponsState} from './coupons.reducer';
+import {videoAccessReducer, VideoAccessState} from './video-access.reducer';
 
 
 
@@ -26,6 +27,7 @@ export interface AppState {
   auth: AuthState;
   platform: PlatformState;
   coupons: CouponsState;
+  videoAccess: VideoAccessState;
 }
 
 
@@ -38,7 +40,8 @@ export const reducers: ActionReducerMap<AppState> = {
   lessons: fromLesson.reducer,
   auth: authReducer,
   platform: platformReducer,
-  coupons: couponsReducer
+  coupons: couponsReducer,
+  videoAccess: videoAccessReducer
 };
 
 

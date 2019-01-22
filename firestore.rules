@@ -67,6 +67,16 @@ service cloud.firestore {
 
         }
 
+        match /coupons/{lessonId} {
+
+          // everything is public
+          allow read: if true;
+
+          // but only admins can modify
+          allow write, delete: if isAdmin(tenantId);
+
+        }
+
         match /videos/{lessonId} {
 
           // only a Firebase Could Function can read this

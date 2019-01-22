@@ -14,33 +14,42 @@
 
       <ng-container *ngIf="(activeLesson$ | async) as activeLesson">
 
-          <course-content
-            [playlistMode]="true"
-            [course]="course"
-            [sections]="sections$ | async"
-            [lessons]="lessons"
-            [activeLesson]="activeLesson">
+        <course-content
+          [playlistMode]="true"
+          [course]="course"
+          [sections]="sections$ | async"
+          [lessons]="lessons"
+          [activeLesson]="activeLesson">
 
-          </course-content>
+        </course-content>
 
       </ng-container>
 
     </div>
 
-
     <div class="video-panel" *ngIf="(activeLesson$ | async) as activeLesson">
 
-      <video-player
-        #videoPlayer
-        class="lesson-video"
-        [url]="ub.buildLessonVideoUrl(course, activeLesson)"
-        [videoDuration]="activeLesson.videoDuration"
-        (close)="toggleLeftMenu()"
-        (open)="toggleLeftMenu()"
-        (exit)="onExit(course)"
-        (videoEnded)="onVideoEnded(lessons, activeLesson)">
+      <ng-container *ngIf="(activeLessonVideoAccess$ | async) as videoAccess">
 
-      </video-player>
+        <video-player *ngIf="videoAccess.status == 'allowed'; else videoNotAllowed"
+                      #videoPlayer
+                      class="lesson-video"
+                      [url]="ub.buildLessonVideoUrl(course, activeLesson, videoAccess)"
+                      [videoDuration]="activeLesson.videoDuration"
+                      (close)="toggleLeftMenu()"
+                      (open)="toggleLeftMenu()"
+                      (exit)="onExit(course)"
+                      (videoEnded)="onVideoEnded(lessons, activeLesson)">
+
+        </video-player>
+
+        <ng-template #videoNotAllowed>
+
+          <p>TODO - user cannot watch video.</p>
+
+        </ng-template>
+
+      </ng-container>
 
     </div>
 

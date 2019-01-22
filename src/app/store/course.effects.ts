@@ -13,14 +13,16 @@ import {DescriptionsDbService} from '../services/descriptions-db.service';
 import {AddDescription, LoadDescription} from './description.actions';
 import {
   isActiveCourseDescriptionLoaded, isActiveCourseSectionsLoaded, selectActiveCourse, selectActiveCourseDescription,
-  selectActiveCourseSections, isActiveCourseLessonsLoaded, selectDescriptionsState
+  selectActiveCourseSections, isActiveCourseLessonsLoaded, selectDescriptionsState, isActiveLessonVideoAccessLoaded
 } from './selectors';
 import {LessonsDBService} from '../services/lessons-db.service';
 import {AddCourseSections} from './course-section.actions';
-import {AddLessons, LessonActionTypes, UpdateLesson} from './lesson.actions';
+import {AddLessons, LessonActionTypes, UpdateLesson, WatchLesson} from './lesson.actions';
 import {AngularFireAuth} from '@angular/fire/auth';
 import {SchoolUsersDbService} from '../services/school-users-db.service';
 import {TenantService} from '../services/tenant.service';
+import {VideoService} from '../services/video.service';
+import {SaveVideoAccess} from './video-access.actions';
 
 
 @Injectable()
@@ -120,6 +122,23 @@ export class CourseEffects {
       })
     );
 
+  @Effect()
+  loadUserVideoAccessIfNeeded$ = this.actions$
+    .pipe(
+      ofType<WatchLesson>(LessonActionTypes.WatchLesson),
+      withLatestFrom(
+        this.store.pipe(select(isActiveLessonVideoAccessLoaded)),
+        this.store.pipe(select(selectActiveCourse)),
+      ),
+      filter(([action, loaded, course]) => !loaded),
+      concatMap(([action,loaded, course]) => this.videos.loadVideoAccess(course.id, action.payload.lessonId) ),
+      map(videoAccess => new SaveVideoAccess({videoAccess})),
+      catchError(err => {
+        this.messages.error('Could not load user video access.');
+        return _throw(err);
+      })
+    );
+
 
   constructor(private actions$: Actions,
               private coursesDB: CoursesDBService,
@@ -129,7 +148,8 @@ export class CourseEffects {
               private messages: MessagesService,
               private afAuth: AngularFireAuth,
               private usersDB: SchoolUsersDbService,
-              private tenant: TenantService) {
+              private tenant: TenantService,
+              private videos: VideoService) {
 
   }
 

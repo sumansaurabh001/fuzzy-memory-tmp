@@ -2,6 +2,7 @@ import { Action } from '@ngrx/store';
 import { Update } from '@ngrx/entity';
 import { Lesson } from '../models/lesson.model';
 import {UpdateStr} from '@ngrx/entity/src/models';
+import {Course} from '../models/course.model';
 
 export enum LessonActionTypes {
   WatchLesson = '[Lesson] Watch Lesson',
@@ -11,10 +12,10 @@ export enum LessonActionTypes {
   AddLessons = '[Lesson] Add Lessons',
   UpsertLessons = '[Lesson] Upsert Lessons',
   UpdateLesson = '[Lesson] Update Lesson',
-  UpdateLessons = '[Lesson] Update Lessons',
   DeleteLesson = '[Lesson] Delete Lesson',
   DeleteLessons = '[Lesson] Delete Lessons',
-  ClearLessons = '[Lesson] Clear Lessons'
+  ClearLessons = '[Lesson] Clear Lessons',
+  LoadLessonVideo = '[Watch Course Screen] Load Lesson Video'
 }
 
 export class WatchLesson implements Action {
@@ -60,12 +61,6 @@ export class UpdateLesson implements Action {
   constructor(public payload: { lesson: UpdateStr<Lesson>, courseId:string }) {}
 }
 
-export class UpdateLessons implements Action {
-  readonly type = LessonActionTypes.UpdateLessons;
-
-  constructor(public payload: { lessons: Update<Lesson>[] }) {}
-}
-
 export class DeleteLesson implements Action {
   readonly type = LessonActionTypes.DeleteLesson;
 
@@ -82,6 +77,13 @@ export class ClearLessons implements Action {
   readonly type = LessonActionTypes.ClearLessons;
 }
 
+export class LoadLessonVideo implements Action {
+  readonly type = LessonActionTypes.LoadLessonVideo;
+
+  constructor(public payload: {update: Update<Lesson>}) {}
+
+}
+
 export type LessonActions =
   WatchLesson
  | LoadLessons
@@ -90,7 +92,7 @@ export type LessonActions =
  | AddLessons
  | UpsertLessons
  | UpdateLesson
- | UpdateLessons
  | DeleteLesson
  | DeleteLessons
- | ClearLessons;
+ | ClearLessons
+ | LoadLessonVideo;

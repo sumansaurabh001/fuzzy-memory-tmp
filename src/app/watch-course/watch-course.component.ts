@@ -2,7 +2,7 @@ import {Component, OnInit, ViewChild} from '@angular/core';
 import {Course} from '../models/course.model';
 import {Observable} from 'rxjs';
 import {
-  selectActiveCourse, selectActiveCourseAllLessons, selectActiveCourseSections, selectActiveLesson,
+  selectActiveCourse, selectActiveCourseAllLessons, selectActiveCourseSections, selectActiveLesson, selectActiveLessonVideoAccess,
   selectActiveSection
 } from '../store/selectors';
 import {select, Store} from '@ngrx/store';
@@ -15,6 +15,7 @@ import {map, tap, withLatestFrom} from 'rxjs/operators';
 import {sortLessonsBySectionAndSeqNo, sortSectionsBySeqNo} from '../common/sort-model';
 import {WatchLesson} from '../store/lesson.actions';
 import {VideoPlayerComponent} from '../video-player/video-player.component';
+import {VideoAccess} from '../models/video-access.model';
 
 
 @Component({
@@ -37,6 +38,8 @@ export class WatchCourseComponent implements OnInit {
   activeSection$: Observable<CourseSection>;
 
   activeLesson$: Observable<Lesson>;
+
+  activeLessonVideoAccess$: Observable<VideoAccess>;
 
   leftMenuOpened = true;
 
@@ -73,18 +76,22 @@ export class WatchCourseComponent implements OnInit {
 
     this.activeSection$ = this.store.pipe(select(selectActiveSection));
 
-    this.activeLesson$ = this.store.pipe(
-      select(selectActiveLesson),
-      tap(() => {
+    this.activeLesson$ = this.store
+      .pipe(
+        select(selectActiveLesson),
+        tap(() => {
 
-        if (!this.initialLessonLoaded) {
-          this.initialLessonLoaded = true;
-        }
-        else if (this.autoPlay && this.videoPlayer) {
-          setTimeout(() => this.videoPlayer.play());
-        }
-      })
-    );
+          if (!this.initialLessonLoaded) {
+            this.initialLessonLoaded = true;
+          }
+          else if (this.autoPlay && this.videoPlayer) {
+            setTimeout(() => this.videoPlayer.play());
+          }
+        })
+      );
+
+    this.activeLessonVideoAccess$ = this.store.pipe(select(selectActiveLessonVideoAccess));
+
 
   }
 
