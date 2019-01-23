@@ -32,7 +32,11 @@ export class VideoService {
       .set("courseId", courseId)
       .set("lessonId", lessonId);
 
-    return this.http.get<VideoAccess>(environment.api.videoAccessUrl, {params});
+    const headers = new HttpHeaders()
+      .set('Content-Type', "application/json")
+      .set('Authorization',`Bearer ${this.authJwtToken}`);
+
+    return this.http.get<VideoAccess>(environment.api.videoAccessUrl, {params, headers});
   }
 
 }

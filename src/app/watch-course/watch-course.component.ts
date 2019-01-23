@@ -11,7 +11,7 @@ import {Lesson} from '../models/lesson.model';
 import {AppState} from '../store';
 import {UrlBuilderService} from '../services/url-builder.service';
 import {Router} from '@angular/router';
-import {map, tap, withLatestFrom} from 'rxjs/operators';
+import {filter, map, tap, withLatestFrom} from 'rxjs/operators';
 import {sortLessonsBySectionAndSeqNo, sortSectionsBySeqNo} from '../common/sort-model';
 import {WatchLesson} from '../store/lesson.actions';
 import {VideoPlayerComponent} from '../video-player/video-player.component';
@@ -78,19 +78,24 @@ export class WatchCourseComponent implements OnInit {
 
     this.activeLesson$ = this.store
       .pipe(
-        select(selectActiveLesson),
-        tap(() => {
+        select(selectActiveLesson)
+      );
+
+    this.activeLessonVideoAccess$ = this.store
+      .pipe(
+        select(selectActiveLessonVideoAccess),
+        filter(videoAccess => !!videoAccess),
+        tap(videoAccess => {
 
           if (!this.initialLessonLoaded) {
             this.initialLessonLoaded = true;
           }
-          else if (this.autoPlay && this.videoPlayer) {
+          else if (this.autoPlay && this.videoPlayer && videoAccess.status == 'allowed') {
             setTimeout(() => this.videoPlayer.play());
           }
         })
-      );
 
-    this.activeLessonVideoAccess$ = this.store.pipe(select(selectActiveLessonVideoAccess));
+        );
 
 
   }

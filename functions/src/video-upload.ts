@@ -123,7 +123,7 @@ export const videoUpload = functions.storage.object().onFinalize(async (object, 
     const videosDbPath = 'schools/' + tenantId + '/courses/' + courseId + '/videos/' + lessonId;
 
     await db.doc(videosDbPath).set({
-      secretVideoName: videoFileName
+      secretVideoFileName: videoFileName
     });
 
 
