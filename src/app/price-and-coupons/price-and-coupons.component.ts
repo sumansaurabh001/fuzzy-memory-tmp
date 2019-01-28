@@ -13,7 +13,7 @@ import {
 import {Course} from '../models/course.model';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {LoadCoupons, UpdateCoupon} from '../store/coupons.actions';
-import {Update, UpdateStr} from '../../../node_modules/@ngrx/entity/src/models';
+import {Update} from '@ngrx/entity';
 import {MessagesService} from '../services/messages.service';
 import {UpdateCourse} from '../store/course.actions';
 
@@ -99,7 +99,7 @@ export class PriceAndCouponsComponent implements OnInit {
 
   onCouponToggled(coupon: CourseCoupon) {
 
-    const update: UpdateStr<CourseCoupon> = {
+    const update: Update<CourseCoupon> = {
       id: coupon.id,
       changes: {
         active: !coupon.active

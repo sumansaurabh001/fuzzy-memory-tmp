@@ -75,6 +75,8 @@ export class PlatformGuard implements CanActivate {
           //TODO custom domain case
           else {
 
+            return of(undefined);
+
           }
 
         }),
