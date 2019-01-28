@@ -14,6 +14,7 @@ import {StripeRedirectPageComponent} from './stripe-redirect-page/stripe-redirec
 import {LoginGuard} from './login/login.guard';
 import {StripeConnectionRequestComponent} from './stripe-connection-request/stripe-connection-request.component';
 import {StripeConnectionResponseComponent} from './stripe-connection-response/stripe-connection-response.component';
+import {SubscriptionComponent} from './subscription/subscription.component';
 
 const routes: Routes = [
   {
@@ -49,6 +50,13 @@ const routes: Routes = [
     },
     canActivate: [PlatformGuard]
   },
+
+  {
+    path: 'subscription',
+    component: SubscriptionComponent,
+    canActivate: [PlatformGuard]
+  },
+
   {
     path: 'login',
     component: LoginComponent,

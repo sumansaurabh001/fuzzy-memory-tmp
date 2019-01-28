@@ -95,6 +95,7 @@ import { StripeConnectionRequestComponent } from './stripe-connection-request/st
 import { StripeConnectionResponseComponent } from './stripe-connection-response/stripe-connection-response.component';
 import { CourseActionButtonsComponent } from './course-action-buttons/course-action-buttons.component';
 import {PaymentsService} from './services/payments.service';
+import { SubscriptionComponent } from './subscription/subscription.component';
 
 
 @NgModule({
@@ -139,7 +140,8 @@ import {PaymentsService} from './services/payments.service';
     AllowRoleDirective,
     StripeConnectionRequestComponent,
     StripeConnectionResponseComponent,
-    CourseActionButtonsComponent
+    CourseActionButtonsComponent,
+    SubscriptionComponent
   ],
   imports: [
     BrowserModule,
