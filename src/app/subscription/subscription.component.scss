@@ -2,6 +2,7 @@
 @import "../vars";
 
 .pricing-screen {
+  color: $text;
   max-width: 1000px;
   margin: 0 auto;
   padding-left: 20px;
@@ -15,8 +16,11 @@
 }
 
 .pricing-plan {
+  display: flex;
+  flex-direction: column;
   padding: 0;
   border-radius: 4px;
+  color:rgba(26,35,38,.8);
 
   ::ng-deep .mat-card-header-text {
     margin: 0;
@@ -34,6 +38,38 @@
 
 }
 
+.prices {
+  .price {
+    font-size:19px;
+    margin: 10px auto;
+    display: flex;
+    justify-content: center;
+  }
+
+  .undiscounted-price {
+    font-size: 21px;
+    margin-top: 12px;
+    display: flex;
+    justify-content: center;
+    .strikethrough-price {
+      text-decoration: line-through;
+    }
+    .discount {
+      margin-left: 5px;
+    }
+  }
+}
+
+.features {
+  margin: 10px;
+}
+
+.purchase-button {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 15px !important;
+}
+
 
 .powered-by {
   text-align: center;
@@ -42,6 +78,8 @@
     height: 55px;
   }
 }
+
+
 
 .faq-section {
   margin-top: 100px;
@@ -55,7 +93,7 @@
 }
 
 .faq-answer {
-  color: $text;
   font-size: 16px;
   line-height: 24px;
 }
+
