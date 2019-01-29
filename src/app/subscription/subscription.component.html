@@ -138,6 +138,8 @@
       <li>Try the Webstorm IDE during 3 months for free (license upon request, see FAQ for how to get a license).</li>
     </ul>
 
+    <mini-action-button class="edit-button" icon="mode_edit" *allowRole="'ADMIN'"></mini-action-button>
+
   </div>
 
 
@@ -156,7 +158,18 @@
         ASAP.
       </div>
 
+      <div class="faq-tools">
+
+        <mini-action-button icon="mode_edit" *allowRole="'ADMIN'"></mini-action-button>
+
+        <mini-action-button icon="delete" *allowRole="'ADMIN'" color="basic"></mini-action-button>
+
+      </div>
+
+
     </div>
+
+    <mat-divider *allowRole="'ADMIN'"></mat-divider>
 
     <div class="faq">
 
@@ -169,7 +182,25 @@
         permission, then one way is to pay with your own card and either expense the receipt to your employer.
       </div>
 
+      <div class="faq-tools">
+
+        <mini-action-button icon="mode_edit" *allowRole="'ADMIN'"></mini-action-button>
+
+        <mini-action-button icon="delete" *allowRole="'ADMIN'" color="basic"></mini-action-button>
+
+      </div>
+
     </div>
+
+    <mat-divider *allowRole="'ADMIN'"></mat-divider>
+
+    <div class="add-faq" *allowRole="'ADMIN'">
+
+      <action-button text="Add new FAQ" color="accent" icon="add"></action-button>
+
+    </div>
+
+
 
   </div>
 

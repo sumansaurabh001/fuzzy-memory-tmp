@@ -37,6 +37,7 @@
     border-top-right-radius: 4px;
     .edit-button {
       margin-left: 20px;
+      margin-top: 5px;
     }
   }
 
@@ -83,7 +84,10 @@
   }
 }
 
-
+.faq {
+  display: flex;
+  flex-direction: column;
+}
 
 .faq-section {
   margin-top: 100px;
@@ -101,3 +105,17 @@
   line-height: 24px;
 }
 
+.faq-tools {
+  display: flex;
+  align-content: flex-end;
+  margin: 10px 0 15px 20px;
+  mini-action-button {
+    margin-right: 10px;
+  }
+}
+
+.add-faq {
+  display: flex;
+  justify-content: center;
+  margin: 40px 0;
+}

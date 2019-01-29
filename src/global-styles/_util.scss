@@ -147,5 +147,9 @@ mat-divider.divider {
   font-size: 16px;
   color: rgba(26,35,38,.8);
   line-height: 25px;
+  display: flex;
+  .edit-button{
+    align-self: flex-end;
+  }
 }
 

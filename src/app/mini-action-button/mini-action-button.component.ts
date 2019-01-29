@@ -10,6 +10,9 @@ export class MiniActionButtonComponent implements OnInit {
   @Input()
   icon:string;
 
+  @Input()
+  color = 'accent';
+
   constructor() { }
 
   ngOnInit() {
