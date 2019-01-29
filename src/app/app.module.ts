@@ -96,6 +96,7 @@ import { StripeConnectionResponseComponent } from './stripe-connection-response/
 import { CourseActionButtonsComponent } from './course-action-buttons/course-action-buttons.component';
 import {PaymentsService} from './services/payments.service';
 import { SubscriptionComponent } from './subscription/subscription.component';
+import { MiniActionButtonComponent } from './mini-action-button/mini-action-button.component';
 
 
 @NgModule({
@@ -141,7 +142,8 @@ import { SubscriptionComponent } from './subscription/subscription.component';
     StripeConnectionRequestComponent,
     StripeConnectionResponseComponent,
     CourseActionButtonsComponent,
-    SubscriptionComponent
+    SubscriptionComponent,
+    MiniActionButtonComponent
   ],
   imports: [
     BrowserModule,

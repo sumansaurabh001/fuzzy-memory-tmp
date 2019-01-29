@@ -1,0 +1,17 @@
+
+@import "../vars";
+@import "../mixins";
+
+.mini-action-button {
+  @include mat-icon-size(20px);
+}
+
+button {
+  width: 30px;
+  height: 30px;
+  mat-icon {
+    font-size: 18px;
+    margin-top: -12px;
+  }
+}
+

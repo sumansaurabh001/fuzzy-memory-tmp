@@ -1,5 +1,6 @@
 
 @import "../vars";
+@import "../mixins";
 
 .pricing-screen {
   color: $text;
@@ -34,6 +35,9 @@
     justify-content: center;
     border-top-left-radius: 4px;
     border-top-right-radius: 4px;
+    .edit-button {
+      margin-left: 20px;
+    }
   }
 
 }
