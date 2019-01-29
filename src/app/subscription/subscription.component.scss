@@ -1,4 +1,6 @@
 
+@import "../vars";
+
 .pricing-screen {
   max-width: 1000px;
   margin: 0 auto;
@@ -39,4 +41,21 @@
   img {
     height: 55px;
   }
+}
+
+.faq-section {
+  margin-top: 100px;
+}
+
+.faq-question {
+  margin-top: 20px;
+  margin-bottom: 5px;
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.faq-answer {
+  color: $text;
+  font-size: 16px;
+  line-height: 24px;
 }
