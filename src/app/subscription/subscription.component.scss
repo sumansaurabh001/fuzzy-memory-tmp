@@ -148,3 +148,12 @@ fieldset {
   margin-top: 10px;
 }
 
+.edit-plans {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  span{
+    margin-right: 5px;
+    font-size: 16px;
+  }
+}

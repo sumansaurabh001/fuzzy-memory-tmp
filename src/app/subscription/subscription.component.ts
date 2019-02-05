@@ -67,4 +67,9 @@ export class SubscriptionComponent implements OnInit {
 
   }
 
+  editPlans(plans: PricingPlansState) {
+
+  }
+
+
 }

@@ -5,6 +5,15 @@
 
     <ng-container *ngIf="(plans$ | async) as plans; else plansNotReady">
 
+      <div class="edit-plans" *allowRole="'ADMIN'">
+
+        <span class="button-text">Edit Plans:</span>
+        <button mat-fab color="accent" (click)="editPlans(plans)">
+          <mat-icon>mode_edit</mat-icon>
+        </button>
+
+      </div>
+
       <h1 class="page-title">Subscription Plans - Cancel Anytime</h1>
 
       <div class="pricing-plans">
@@ -14,7 +23,6 @@
           <mat-card-header>
             <mat-toolbar color="primary">
               Monthly
-              <mini-action-button class="edit-button" icon="mode_edit" *allowRole="'ADMIN'"></mini-action-button>
             </mat-toolbar>
           </mat-card-header>
 
@@ -48,7 +56,6 @@
           <mat-card-header>
             <mat-toolbar color="primary">
               Yearly
-              <mini-action-button class="edit-button" icon="mode_edit" *allowRole="'ADMIN'"></mini-action-button>
             </mat-toolbar>
           </mat-card-header>
 
@@ -63,14 +70,12 @@
             </div>
 
             <ul class="features">
-
               <li>Best Value</li>
               <li>Ideal for Training Request</li>
               <li>Webstorm 3 Month License</li>
               <li>Access All Courses</li>
               <li>All Ebooks</li>
               <li>Access all Future Videos</li>
-
             </ul>
 
           </mat-card-content>
@@ -91,7 +96,6 @@
           <mat-card-header>
             <mat-toolbar color="primary">
               Lifetime
-              <mini-action-button class="edit-button" icon="mode_edit" *allowRole="'ADMIN'"></mini-action-button>
             </mat-toolbar>
           </mat-card-header>
 
