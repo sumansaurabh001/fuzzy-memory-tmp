@@ -3,7 +3,7 @@
   <ng-container *ngIf="(isConnectedToStripe$ | async); else connectToStripe">
 
 
-    <ng-container *ngIf="arePricingPlansReady$ | async; else plansNotReady">
+    <ng-container *ngIf="(plans$ | async) as plans; else plansNotReady">
 
       <h1 class="page-title">Subscription Plans - Cancel Anytime</h1>
 
@@ -21,7 +21,7 @@
           <mat-card-content>
 
             <div class="prices">
-              <div class="price">$9.99 / Month</div>
+              <div class="price">{{plans.monthlyPlan.price / 100 | currency}} / Month</div>
             </div>
 
             <ul class="features">
@@ -55,7 +55,7 @@
           <mat-card-content>
 
             <div class="prices">
-              <div class="price">$99 / Year</div>
+              <div class="price">{{plans.yearlyPlan.price / 100 | currency}} / Year</div>
               <div class="undiscounted-price">
                 <span class="strikethrough-price">$119.88</span>
                 <span class="discount">(17% Off)</span>
@@ -98,7 +98,7 @@
           <mat-card-content>
 
             <div class="prices">
-              <div class="price">$399 / Forever!</div>
+              <div class="price">{{plans.lifetimeAccessPrice / 100 | currency}} / Forever!</div>
             </div>
 
             <ul class="features">

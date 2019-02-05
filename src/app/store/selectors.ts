@@ -227,3 +227,6 @@ export const arePricingPlansReady = createSelector(
   state => !!state.monthlyPlan
 );
 
+export const selectPricingPlans = createSelector(
+  pricingPlansState
+);
