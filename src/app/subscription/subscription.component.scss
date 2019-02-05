@@ -2,6 +2,7 @@
 @import "../vars";
 @import "../mixins";
 
+
 .pricing-screen {
   color: $text;
   max-width: 1000px;
@@ -119,3 +120,31 @@
   justify-content: center;
   margin: 40px 0;
 }
+
+.pricing-plans-message {
+  max-width: 600px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.note {
+  font-size: 14px;
+  font-style: italic;
+}
+
+
+.connect-with-stripe {
+  background: $secondary-light;
+}
+
+fieldset {
+  display: flex;
+  flex-direction: column;
+}
+
+
+.activate-button {
+  margin-top: 10px;
+}
+

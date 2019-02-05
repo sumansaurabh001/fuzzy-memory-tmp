@@ -1,207 +1,303 @@
 <div class="desktop-container pricing-screen">
 
-
-  <h1 class="page-title">Subscription Plans - Cancel Anytime</h1>
-
-
-  <div class="pricing-plans">
+  <ng-container *ngIf="(isConnectedToStripe$ | async); else connectToStripe">
 
 
-    <mat-card class="mat-elevation-z10 pricing-plan">
+    <ng-container *ngIf="arePricingPlansReady$ | async; else plansNotReady">
 
-      <mat-card-header>
-        <mat-toolbar color="primary">
-          Monthly
-          <mini-action-button class="edit-button" icon="mode_edit" *allowRole="'ADMIN'"></mini-action-button>
-        </mat-toolbar>
-      </mat-card-header>
+      <h1 class="page-title">Subscription Plans - Cancel Anytime</h1>
 
-      <mat-card-content>
+      <div class="pricing-plans">
 
-        <div class="prices">
-          <div class="price">$9.99 / Month</div>
-        </div>
+        <mat-card class="mat-elevation-z10 pricing-plan">
 
-        <ul class="features">
-          <li>Access All Courses</li>
-          <li>All Ebooks</li>
-          <li>Access all Future Videos</li>
-          <li>Webstorm 3 Month License</li>
-        </ul>
+          <mat-card-header>
+            <mat-toolbar color="primary">
+              Monthly
+              <mini-action-button class="edit-button" icon="mode_edit" *allowRole="'ADMIN'"></mini-action-button>
+            </mat-toolbar>
+          </mat-card-header>
 
-      </mat-card-content>
+          <mat-card-content>
 
-      <div class="filler"></div>
+            <div class="prices">
+              <div class="price">$9.99 / Month</div>
+            </div>
 
-      <div class="purchase-button">
+            <ul class="features">
+              <li>Access All Courses</li>
+              <li>All Ebooks</li>
+              <li>Access all Future Videos</li>
+              <li>Webstorm 3 Month License</li>
+            </ul>
 
-        <button mat-raised-button color="primary">Access All Courses</button>
+          </mat-card-content>
 
-      </div>
+          <div class="filler"></div>
 
-    </mat-card>
+          <div class="purchase-button">
 
+            <button mat-raised-button color="primary">Access All Courses</button>
 
-    <mat-card class="mat-elevation-z10 pricing-plan">
-      <mat-card-header>
-        <mat-toolbar color="primary">
-          Yearly
-          <mini-action-button class="edit-button" icon="mode_edit" *allowRole="'ADMIN'"></mini-action-button>
-        </mat-toolbar>
-      </mat-card-header>
-
-      <mat-card-content>
-
-        <div class="prices">
-          <div class="price">$99 / Year</div>
-          <div class="undiscounted-price">
-            <span class="strikethrough-price">$119.88</span>
-            <span class="discount">(17% Off)</span>
           </div>
-        </div>
 
-        <ul class="features">
+        </mat-card>
 
-          <li>Best Value</li>
-          <li>Ideal for Training Request</li>
-          <li>Webstorm 3 Month License</li>
-          <li>Access All Courses</li>
-          <li>All Ebooks</li>
-          <li>Access all Future Videos</li>
 
+        <mat-card class="mat-elevation-z10 pricing-plan">
+          <mat-card-header>
+            <mat-toolbar color="primary">
+              Yearly
+              <mini-action-button class="edit-button" icon="mode_edit" *allowRole="'ADMIN'"></mini-action-button>
+            </mat-toolbar>
+          </mat-card-header>
+
+          <mat-card-content>
+
+            <div class="prices">
+              <div class="price">$99 / Year</div>
+              <div class="undiscounted-price">
+                <span class="strikethrough-price">$119.88</span>
+                <span class="discount">(17% Off)</span>
+              </div>
+            </div>
+
+            <ul class="features">
+
+              <li>Best Value</li>
+              <li>Ideal for Training Request</li>
+              <li>Webstorm 3 Month License</li>
+              <li>Access All Courses</li>
+              <li>All Ebooks</li>
+              <li>Access all Future Videos</li>
+
+            </ul>
+
+          </mat-card-content>
+
+          <div class="filler"></div>
+
+          <mat-card-actions class="purchase-button">
+
+            <button mat-raised-button color="accent">Access All Courses</button>
+
+          </mat-card-actions>
+
+        </mat-card>
+
+
+        <mat-card class="mat-elevation-z10 pricing-plan">
+
+          <mat-card-header>
+            <mat-toolbar color="primary">
+              Lifetime
+              <mini-action-button class="edit-button" icon="mode_edit" *allowRole="'ADMIN'"></mini-action-button>
+            </mat-toolbar>
+          </mat-card-header>
+
+          <mat-card-content>
+
+            <div class="prices">
+              <div class="price">$399 / Forever!</div>
+            </div>
+
+            <ul class="features">
+              <li>Lifetime Acess To All Content!</li>
+              <li>Webstorm 3 Month License</li>
+              <li>Access All Courses</li>
+              <li>All Ebooks</li>
+              <li>Access all Future Videos</li>
+              <li>Instructor Support</li>
+            </ul>
+
+          </mat-card-content>
+
+          <div class="filler"></div>
+
+          <div class="purchase-button">
+
+            <button mat-raised-button color="primary">Access All Courses</button>
+
+          </div>
+
+        </mat-card>
+
+      </div>
+
+      <div class="powered-by">
+
+        <img src="https://angular-academy.s3.amazonaws.com/powered_by_stripe_v2.png">
+
+      </div>
+
+      <div class="text-box">
+
+        <ul>
+          <li>Does your employer sponsor online training? Consider requesting a one year or lifetime subscription as a
+            training request (see FAQ below, multiple options available).
+          </li>
+          <li>50% student discount available, simply email us at helpdesk@angular-university.io to get your discount.</li>
+          <li>From Brasil, India, elsewhere? Get your fair geographical discount at helpdesk@angular-university.io.</li>
+          <li>Free for teachers, discounts available for educational institutions, please email us at
+            helpdesk@angular-university.io
+          </li>
+          <li>Try the Webstorm IDE during 3 months for free (license upon request, see FAQ for how to get a license).</li>
         </ul>
 
-      </mat-card-content>
+        <mini-action-button class="edit-button" icon="mode_edit" *allowRole="'ADMIN'"></mini-action-button>
 
-      <div class="filler"></div>
-
-      <mat-card-actions class="purchase-button">
-
-        <button mat-raised-button color="accent">Access All Courses</button>
-
-      </mat-card-actions>
-
-    </mat-card>
+      </div>
 
 
-    <mat-card class="mat-elevation-z10 pricing-plan">
+      <div class="faq-section">
 
-      <mat-card-header>
-        <mat-toolbar color="primary">
-          Lifetime
-          <mini-action-button class="edit-button" icon="mode_edit" *allowRole="'ADMIN'"></mini-action-button>
-        </mat-toolbar>
-      </mat-card-header>
+        <h1 class="page-title">FAQ</h1>
 
-      <mat-card-content>
+        <div class="faq">
 
-        <div class="prices">
-          <div class="price">$399 / Forever!</div>
+          <div class="faq-question">Tell me about the Webstorm 3 Month Free license?</div>
+
+          <div class="faq-answer">
+            Webstorm is the IDE used for all lessons, and it rocks ! With an Angular University subscription you have the
+            right to a 3 month free license if you want to, this gives you enough time to build a personal project or even
+            a
+            POC for a small business. Simply email us at helpdesk@angular-university.io and you will get your license code
+            ASAP.
+          </div>
+
+          <div class="faq-tools">
+
+            <mini-action-button icon="mode_edit" *allowRole="'ADMIN'"></mini-action-button>
+
+            <mini-action-button icon="delete" *allowRole="'ADMIN'" color="basic"></mini-action-button>
+
+          </div>
+
+
         </div>
 
-        <ul class="features">
-          <li>Lifetime Acess To All Content!</li>
-          <li>Webstorm 3 Month License</li>
-          <li>Access All Courses</li>
-          <li>All Ebooks</li>
-          <li>Access all Future Videos</li>
-          <li>Instructor Support</li>
-        </ul>
+        <mat-divider *allowRole="'ADMIN'"></mat-divider>
 
-      </mat-card-content>
+        <div class="faq">
 
-      <div class="filler"></div>
+          <div class="faq-question">
+            Can my employer sponsor my subscription?
+          </div>
 
-      <div class="purchase-button">
+          <div class="faq-answer">
+            Yes, this is available either for a one year request or lifetime access. Please first request your employer
+            permission, then one way is to pay with your own card and either expense the receipt to your employer.
+          </div>
 
-        <button mat-raised-button color="primary">Access All Courses</button>
+          <div class="faq-tools">
 
-      </div>
+            <mini-action-button icon="mode_edit" *allowRole="'ADMIN'"></mini-action-button>
 
-    </mat-card>
+            <mini-action-button icon="delete" *allowRole="'ADMIN'" color="basic"></mini-action-button>
 
-  </div>
+          </div>
 
-  <div class="powered-by">
+        </div>
 
-    <img src="https://angular-academy.s3.amazonaws.com/powered_by_stripe_v2.png">
+        <mat-divider *allowRole="'ADMIN'"></mat-divider>
 
-  </div>
+        <div class="add-faq" *allowRole="'ADMIN'">
 
-  <div class="text-box">
+          <action-button text="Add new FAQ" color="accent" icon="add"></action-button>
 
-    <ul >
-      <li>Does your employer sponsor online training? Consider requesting a one year or lifetime subscription as a training request (see FAQ below, multiple options available).</li>
-      <li>50% student discount available, simply email us at helpdesk@angular-university.io to get your discount.</li>
-      <li>From Brasil, India, elsewhere? Get your fair geographical discount at helpdesk@angular-university.io.</li>
-      <li>Free for teachers, discounts available for educational institutions, please email us at helpdesk@angular-university.io</li>
-      <li>Try the Webstorm IDE during 3 months for free (license upon request, see FAQ for how to get a license).</li>
-    </ul>
-
-    <mini-action-button class="edit-button" icon="mode_edit" *allowRole="'ADMIN'"></mini-action-button>
-
-  </div>
-
-
-  <div class="faq-section">
-
-    <h1 class="page-title">FAQ</h1>
-
-    <div class="faq">
-
-      <div class="faq-question">Tell me about the Webstorm 3 Month Free license?</div>
-
-      <div class="faq-answer">
-        Webstorm is the IDE used for all lessons, and it rocks ! With an Angular University subscription you have the
-        right to a 3 month free license if you want to, this gives you enough time to build a personal project or even a
-        POC for a small business. Simply email us at helpdesk@angular-university.io and you will get your license code
-        ASAP.
-      </div>
-
-      <div class="faq-tools">
-
-        <mini-action-button icon="mode_edit" *allowRole="'ADMIN'"></mini-action-button>
-
-        <mini-action-button icon="delete" *allowRole="'ADMIN'" color="basic"></mini-action-button>
+        </div>
 
       </div>
 
+    </ng-container>
+
+
+    <ng-template #plansNotReady>
+
+      <div class="pricing-plans-message" [formGroup]="form">
+
+        <h1>Activate Subscription Plans</h1>
+
+        <p class="note">Note:These descriptions are shown to users on their credit card statements. Make sure that these descriptions correctly identify your website. </p>
+
+
+        <fieldset>
+
+          <legend>Monthly Plan</legend>
+
+          <mat-form-field>
+
+            <input matInput
+                   placeholder="Monthly Subscription Plan Name (shown to subscribers)"
+                   #titleHint
+                   maxLength="60"
+                   formControlName="monthlyPlanDescription">
+
+          </mat-form-field>
+
+          <mat-form-field>
+
+            <input matInput placeholder="Monthly Plan Price (USD)" type="number" formControlName="monthlyPlanPrice">
+
+          </mat-form-field>
+
+
+        </fieldset>
+
+        <fieldset>
+
+          <legend>Yearly Plan</legend>
+
+          <mat-form-field>
+
+            <input matInput
+                   placeholder="Yearly Subscription Plan Name (shown to subscribers)"
+                   #titleHint
+                   maxLength="60"
+                   formControlName="yearlyPlanDescription">
+
+          </mat-form-field>
+
+          <mat-form-field>
+
+            <input matInput placeholder="Yearly Plan Price (USD)" type="number" formControlName="yearlyPlanPrice">
+
+          </mat-form-field>
+
+        </fieldset>
+
+        <fieldset>
+
+          <legend>Lifetime Plan</legend>
+
+          <mat-form-field>
+
+            <input matInput placeholder="Lifetime Access Price (USD)" type="number" formControlName="lifetimeAccessPrice">
+
+          </mat-form-field>
+
+        </fieldset>
+
+        <button class="activate-button" mat-raised-button color="primary" [disabled]="!form.valid"
+                (click)="setupPricingPlans()">
+          Activate Subscription Plans
+        </button>
+
+      </div>
+
+
+    </ng-template>
+
+  </ng-container>
+
+  <ng-template #connectToStripe>
+    
+    <div class="connect-with-stripe mat-elevation-z10">
+
+      <connect-with-stripe message="Connect with Stripe to activate subscription plans, and start collecting customer payments."></connect-with-stripe>
 
     </div>
 
-    <mat-divider *allowRole="'ADMIN'"></mat-divider>
-
-    <div class="faq">
-
-      <div class="faq-question">
-        Can my employer sponsor my subscription?
-      </div>
-
-      <div class="faq-answer">
-        Yes, this is available either for a one year request or lifetime access. Please first request your employer
-        permission, then one way is to pay with your own card and either expense the receipt to your employer.
-      </div>
-
-      <div class="faq-tools">
-
-        <mini-action-button icon="mode_edit" *allowRole="'ADMIN'"></mini-action-button>
-
-        <mini-action-button icon="delete" *allowRole="'ADMIN'" color="basic"></mini-action-button>
-
-      </div>
-
-    </div>
-
-    <mat-divider *allowRole="'ADMIN'"></mat-divider>
-
-    <div class="add-faq" *allowRole="'ADMIN'">
-
-      <action-button text="Add new FAQ" color="accent" icon="add"></action-button>
-
-    </div>
-
-
-
-  </div>
+  </ng-template>
 
 </div>

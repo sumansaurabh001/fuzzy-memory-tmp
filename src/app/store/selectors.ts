@@ -12,6 +12,7 @@ import {PlatformState} from './platform.reducer';
 import {CouponsState} from './coupons.reducer';
 import * as fromCoupon from './coupons.reducer';
 import {VideoAccessState} from './video-access.reducer';
+import {PricingPlansState} from './pricing-plans.reducer';
 
 
 export const selectCoursesState = createFeatureSelector<fromCourse.State>('courses');
@@ -29,6 +30,8 @@ export const platformState = createFeatureSelector<PlatformState>('platform');
 export const couponsState = createFeatureSelector<CouponsState>('coupons');
 
 export const videoAccessState = createFeatureSelector<VideoAccessState>('videoAccess');
+
+export const pricingPlansState = createFeatureSelector<PricingPlansState>('pricingPlans');
 
 
 
@@ -217,5 +220,10 @@ export const isActiveLessonVideoAccessLoaded = createSelector(
   videoAccessState,
   (lesson, accessState) => lesson && !!accessState.entities[lesson.id]
 
+);
+
+export const arePricingPlansReady = createSelector(
+  pricingPlansState,
+  state => !!state.monthlyPlan
 );
 

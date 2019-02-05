@@ -12,12 +12,13 @@ import {checkIfPlatformSite, getPlatformSubdomain, DEFAULT_THEME} from '../commo
 import {ThemeChanged} from '../store/platform.actions';
 import {Tenant} from '../models/tenant.model';
 import {CookieService} from 'ngx-cookie-service';
+import {PricingPlansLoaded} from '../store/pricing-plans.actions';
 
 
 /*
 *
 *
-*  This guard has a couple of very important functions, without which the website cant function:
+*  This guard has a couple of very important functions, without which the website can't function:
 *
 *   - it determines the tenant at application startup time, which will determine which courses
 *     and lessons will be shown to the user (as this is a multi-tenant app)
@@ -83,7 +84,7 @@ export class PlatformGuard implements CanActivate {
 
         tap(tenant => {
 
-          this.setTheme(tenant);
+          this.saveTenantDetails(tenant);
 
           // setting the tenant id globally (determines what courses get loaded)
           if (tenant) {
@@ -98,7 +99,13 @@ export class PlatformGuard implements CanActivate {
   }
 
 
-  setTheme(tenant: Tenant) {
+  saveTenantDetails(tenant: Tenant) {
+
+    if (tenant.pricingPlans) {
+      this.store.dispatch(new PricingPlansLoaded({pricingPlans: tenant.pricingPlans}))
+    }
+
+    // apply branding
     if (checkIfPlatformSite()) {
       this.setPlatformBrandColors();
     }

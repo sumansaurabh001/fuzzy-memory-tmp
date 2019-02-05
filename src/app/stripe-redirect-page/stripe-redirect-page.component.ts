@@ -4,6 +4,9 @@ import {MessagesService} from '../services/messages.service';
 import {StripeConnectionService} from '../services/stripe-connection.service';
 import {MatDialog, MatDialogConfig, MatDialogRef} from '@angular/material';
 import {LoadingDialogComponent} from '../loading-dialog/loading-dialog.component';
+import {UpdateStripeStatus} from '../store/platform.actions';
+import {AppState} from '../store';
+import {Store} from '@ngrx/store';
 
 @Component({
   selector: 'stripe-redirect-page',
@@ -19,7 +22,8 @@ export class StripeRedirectPageComponent implements OnInit {
     private messages: MessagesService,
     private router: Router,
     private stripeConnectionService: StripeConnectionService,
-    private dialog: MatDialog) {
+    private dialog: MatDialog,
+    private store: Store<AppState>) {
 
   }
 
@@ -38,7 +42,7 @@ export class StripeRedirectPageComponent implements OnInit {
     }
     else {
       this.messages.warn('An unknown Stripe reply was received, the Stripe connection is NOT active.');
-      this.navigateToCourses();
+      this.onStripeConnectionSuccessful();
 
     }
 
@@ -71,12 +75,12 @@ export class StripeRedirectPageComponent implements OnInit {
       .subscribe(
         () => {
           this.messages.success('Stripe connection successful, you are ready to start taking payments.');
-          this.navigateToCourses();
+          this.onStripeConnectionSuccessful();
         },
         err => {
           console.log('Could not initialize the Stripe connection', err);
           this.messages.error(`The Stripe connection attempt has failed.`);
-          this.navigateToCourses();
+          this.onStripeConnectionSuccessful();
         }
       );
 
@@ -90,11 +94,14 @@ export class StripeRedirectPageComponent implements OnInit {
 
     this.messages.error(`Error connecting to Stripe - ${errorDescription}`);
 
-    this.navigateToCourses();
+    this.onStripeConnectionSuccessful();
 
   }
 
-  navigateToCourses() {
+  onStripeConnectionSuccessful() {
+
+    this.store.dispatch(new UpdateStripeStatus({isConnectedToStripe:true}));
+
     if (this.dialogRef) {
       this.dialogRef.close();
     }

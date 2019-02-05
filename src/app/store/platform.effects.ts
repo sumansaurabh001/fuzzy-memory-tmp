@@ -10,6 +10,7 @@ import {PlatformActionTypes, SaveTheme, UpdateStripeStatus} from './platform.act
 import {TenantsDBService} from '../services/tenants-db.service';
 import {TenantService} from '../services/tenant.service';
 import {StripeConnectionService} from '../services/stripe-connection.service';
+import {AuthActionTypes} from './auth.actions';
 
 
 @Injectable()
@@ -26,11 +27,10 @@ export class PlatformEffects {
       })
     );
 
-
   @Effect()
-  loadStripeConnectionStatus$ = this.actions$
+  loadStripeConnectionStatus$ = this.tenant.tenantId$
     .pipe(
-      ofType(PlatformActionTypes.LoadStripeStatus),
+      filter(tenantId => !!tenantId),
       concatMap(() => this.stripeConnectionService.isConnectedToStripe(this.tenant.id)),
       map(isConnectedToStripe => new UpdateStripeStatus({isConnectedToStripe}))
     );

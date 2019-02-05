@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {environment} from '../../environments/environment';
 
 
@@ -8,6 +8,9 @@ import {environment} from '../../environments/environment';
   styleUrls: ['./connect-with-stripe.component.css']
 })
 export class ConnectWithStripeComponent implements OnInit {
+
+  @Input()
+  message:string;
 
   constructor() {
   }
