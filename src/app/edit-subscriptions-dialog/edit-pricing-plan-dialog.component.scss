@@ -1,0 +1,10 @@
+@import "../mixins";
+
+@include single-col-dialog();
+
+.plan-form {
+  display: flex;
+  flex-direction: column;
+  margin-top: 20px;
+  padding: 0 15px;
+}

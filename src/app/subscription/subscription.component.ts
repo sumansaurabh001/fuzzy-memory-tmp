@@ -2,13 +2,16 @@ import { Component, OnInit } from '@angular/core';
 import {Observable} from 'rxjs/Observable';
 import {AppState} from '../store';
 import {select, Store} from '@ngrx/store';
-import {isConnectedToStripe, selectPricingPlans} from '../store/selectors';
+import {arePricingPlansReady, isConnectedToStripe, selectPricingPlans} from '../store/selectors';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {StripeConnectionService} from '../services/stripe-connection.service';
 import {PricingPlansLoaded} from '../store/pricing-plans.actions';
 import {MessagesService} from '../services/messages.service';
 import {LoadingService} from '../services/loading.service';
 import {PricingPlansState} from '../store/pricing-plans.reducer';
+import {MatDialog, MatDialogConfig} from '@angular/material';
+import {PricingPlan} from '../models/pricing-plan.model';
+import {EditPricingPlanDialogComponent} from '../edit-subscriptions-dialog/edit-pricing-plan-dialog.component';
 
 @Component({
   selector: 'subscription',
@@ -21,6 +24,7 @@ export class SubscriptionComponent implements OnInit {
 
 
   isConnectedToStripe$: Observable<boolean>;
+  arePricingPlansReady$: Observable<boolean>;
   plans$: Observable<PricingPlansState>;
 
   constructor(
@@ -28,7 +32,8 @@ export class SubscriptionComponent implements OnInit {
     private fb: FormBuilder,
     private stripe: StripeConnectionService,
     private messages: MessagesService,
-    private loading: LoadingService) {
+    private loading: LoadingService,
+    private dialog: MatDialog) {
 
     this.form = this.fb.group({
       monthlyPlanDescription: ['', Validators.required],
@@ -47,6 +52,8 @@ export class SubscriptionComponent implements OnInit {
     this.isConnectedToStripe$ = this.store.pipe(select(isConnectedToStripe));
 
     this.plans$ = this.store.pipe(select(selectPricingPlans));
+
+    this.arePricingPlansReady$ = this.store.pipe(select(arePricingPlansReady));
 
   }
 
@@ -67,9 +74,21 @@ export class SubscriptionComponent implements OnInit {
 
   }
 
-  editPlans(plans: PricingPlansState) {
+  editMonthlyPlan(monthlyPlan: PricingPlan) {
+
+    const dialogConfig = new MatDialogConfig();
+
+    dialogConfig.autoFocus = true;
+    dialogConfig.disableClose = true;
+    dialogConfig.minWidth = '500px';
+    dialogConfig.data = {
+      dialogTitle: 'Edit Monthly Plan',
+      plan:monthlyPlan
+    };
+
+    this.dialog.open(EditPricingPlanDialogComponent, dialogConfig);
+
 
   }
-
 
 }

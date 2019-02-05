@@ -97,6 +97,7 @@ import { CourseActionButtonsComponent } from './course-action-buttons/course-act
 import {PaymentsService} from './services/payments.service';
 import { SubscriptionComponent } from './subscription/subscription.component';
 import { MiniActionButtonComponent } from './mini-action-button/mini-action-button.component';
+import {EditPricingPlanDialogComponent} from './edit-subscriptions-dialog/edit-pricing-plan-dialog.component';
 
 
 @NgModule({
@@ -143,7 +144,8 @@ import { MiniActionButtonComponent } from './mini-action-button/mini-action-butt
     StripeConnectionResponseComponent,
     CourseActionButtonsComponent,
     SubscriptionComponent,
-    MiniActionButtonComponent
+    MiniActionButtonComponent,
+    EditPricingPlanDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -210,9 +212,8 @@ import { MiniActionButtonComponent } from './mini-action-button/mini-action-butt
     UrlBuilderService,
     LoginGuard,
     CookieService,
-    { provide: RouterStateSerializer, useClass: CustomRouterStateSerializer },
+    {provide: RouterStateSerializer, useClass: CustomRouterStateSerializer},
     PaymentsService
-
   ],
   entryComponents: [
     AddCourseDialogComponent,
@@ -223,7 +224,8 @@ import { MiniActionButtonComponent } from './mini-action-button/mini-action-butt
     EditSectionDialogComponent,
     AddCouponDialogComponent,
     GetLinkDialogComponent,
-    LoadingDialogComponent
+    LoadingDialogComponent,
+    EditPricingPlanDialogComponent
   ],
   bootstrap: [AppComponent]
 })

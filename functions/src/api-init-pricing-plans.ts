@@ -68,15 +68,35 @@ app.post('/init-pricing-plans', async (req, res) => {
         stripePlanId: monthlyResponse.id,
         description: monthlyPlanDescription,
         price: monthlyPlanPrice,
-        frequency: 'monthly'
+        frequency: 'monthly',
+        features: [
+          'Access All Courses',
+          'Access all Future Videos'
+        ]
       },
       yearlyPlan: {
         stripePlanId: yearlyResponse.id,
         description: yearlyPlanDescription,
         price: yearlyPlanPrice,
-        frequency: 'yearly'
+        frequency: 'yearly',
+        features: [
+          'Best Value',
+          'Ideal for Training Request',
+          'Access All Courses',
+          'Access all Future Videos'
+        ]
       },
-      lifetimeAccessPrice
+      lifetimePlan: {
+        description: 'Lifetime Plan',
+        price: lifetimeAccessPrice,
+        frequency: 'lifetime',
+        features: [
+          'Lifetime Access To All Content!',
+          'Access All Courses',
+          'Access all Future Videos',
+          'Instructor Support'
+        ]
+      }
     };
 
     const tenantPath = `tenants/${tenantId}`;

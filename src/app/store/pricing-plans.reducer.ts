@@ -5,14 +5,14 @@ import {PricingPlanActionTypes, PricingPlansActions} from './pricing-plans.actio
 export interface PricingPlansState {
   monthlyPlan: PricingPlan;
   yearlyPlan: PricingPlan;
-  lifetimeAccessPrice: number;
+  lifetimePlan: PricingPlan;
 }
 
 
 export const initialState: PricingPlansState = {
   monthlyPlan: undefined,
   yearlyPlan: undefined,
-  lifetimeAccessPrice: undefined
+  lifetimePlan: undefined
 };
 
 
@@ -22,7 +22,7 @@ export function pricingPlansReducer(state = initialState, action: PricingPlansAc
     case PricingPlanActionTypes.PricingPlansLoaded:
       return {
         ...state,
-        lifetimeAccessPrice: action.payload.pricingPlans.lifetimeAccessPrice,
+        lifetimePlan: action.payload.pricingPlans.lifetimePlan,
         yearlyPlan: action.payload.pricingPlans.yearlyPlan,
         monthlyPlan: action.payload.pricingPlans.monthlyPlan
       };
