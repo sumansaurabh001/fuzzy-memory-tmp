@@ -5,7 +5,7 @@ export interface PricingPlan {
   description:string;
   price:number;
   undiscountedPrice:number;
-  frequency: 'monthly' | 'yearly' | 'lifetime';
+  frequency: 'month' | 'year' | 'lifetime';
   features: string[];
 }
 

@@ -27,6 +27,18 @@ export function pricingPlansReducer(state = initialState, action: PricingPlansAc
         monthlyPlan: action.payload.pricingPlans.monthlyPlan
       };
 
+    case PricingPlanActionTypes.UpdatePricingPlan:
+
+      const newState = {...state};
+
+      const newPlan = {
+        ...newState[action.payload.planName],
+        ...action.payload.changes
+      };
+
+      newState[action.payload.planName] = newPlan;
+
+      return newState;
 
     default:
       return state;

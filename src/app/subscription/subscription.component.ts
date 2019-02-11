@@ -11,7 +11,7 @@ import {LoadingService} from '../services/loading.service';
 import {PricingPlansState} from '../store/pricing-plans.reducer';
 import {MatDialog, MatDialogConfig} from '@angular/material';
 import {PricingPlan} from '../models/pricing-plan.model';
-import {EditPricingPlanDialogComponent} from '../edit-subscriptions-dialog/edit-pricing-plan-dialog.component';
+import {EditMonthlyPricingPlanDialogComponent} from '../edit-subscriptions-dialog/edit-monthly-pricing-plan-dialog.component';
 
 @Component({
   selector: 'subscription',
@@ -86,7 +86,7 @@ export class SubscriptionComponent implements OnInit {
       plan:monthlyPlan
     };
 
-    this.dialog.open(EditPricingPlanDialogComponent, dialogConfig);
+    this.dialog.open(EditMonthlyPricingPlanDialogComponent, dialogConfig);
 
 
   }

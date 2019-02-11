@@ -97,7 +97,7 @@ import { CourseActionButtonsComponent } from './course-action-buttons/course-act
 import {PaymentsService} from './services/payments.service';
 import { SubscriptionComponent } from './subscription/subscription.component';
 import { MiniActionButtonComponent } from './mini-action-button/mini-action-button.component';
-import {EditPricingPlanDialogComponent} from './edit-subscriptions-dialog/edit-pricing-plan-dialog.component';
+import {EditMonthlyPricingPlanDialogComponent} from './edit-subscriptions-dialog/edit-monthly-pricing-plan-dialog.component';
 
 
 @NgModule({
@@ -145,7 +145,7 @@ import {EditPricingPlanDialogComponent} from './edit-subscriptions-dialog/edit-p
     CourseActionButtonsComponent,
     SubscriptionComponent,
     MiniActionButtonComponent,
-    EditPricingPlanDialogComponent
+    EditMonthlyPricingPlanDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -225,7 +225,7 @@ import {EditPricingPlanDialogComponent} from './edit-subscriptions-dialog/edit-p
     AddCouponDialogComponent,
     GetLinkDialogComponent,
     LoadingDialogComponent,
-    EditPricingPlanDialogComponent
+    EditMonthlyPricingPlanDialogComponent
   ],
   bootstrap: [AppComponent]
 })
