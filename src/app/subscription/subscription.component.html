@@ -26,10 +26,7 @@
               </div>
 
               <ul class="features">
-                <li>Access All Courses</li>
-                <li>All Ebooks</li>
-                <li>Access all Future Videos</li>
-                <li>Webstorm 3 Month License</li>
+                <li *ngFor="let feature of plans.monthlyPlan.features">{{feature}}</li>
               </ul>
 
             </mat-card-content>
@@ -63,12 +60,7 @@
               </div>
 
               <ul class="features">
-                <li>Best Value</li>
-                <li>Ideal for Training Request</li>
-                <li>Webstorm 3 Month License</li>
-                <li>Access All Courses</li>
-                <li>All Ebooks</li>
-                <li>Access all Future Videos</li>
+                <li *ngFor="let feature of plans.yearlyPlan.features">{{feature}}</li>
               </ul>
 
             </mat-card-content>
@@ -99,12 +91,7 @@
               </div>
 
               <ul class="features">
-                <li>Lifetime Access To All Content!</li>
-                <li>Webstorm 3 Month License</li>
-                <li>Access All Courses</li>
-                <li>All Ebooks</li>
-                <li>Access all Future Videos</li>
-                <li>Instructor Support</li>
+                <li *ngFor="let feature of plans.lifetimePlan.features">{{feature}}</li>
               </ul>
 
             </mat-card-content>
