@@ -22,6 +22,8 @@ export class EditMonthlyPricingPlanDialogComponent implements OnInit {
 
   dialogTitle: string;
 
+  pricingPlan: PricingPlan;
+
   planForm: FormGroup;
 
   constructor(
@@ -35,12 +37,12 @@ export class EditMonthlyPricingPlanDialogComponent implements OnInit {
 
     this.dialogTitle = data.dialogTitle;
 
-    const plan: PricingPlan = data.plan;
+    this.pricingPlan = data.plan;
 
 
     this.planForm = this.fb.group({
-      planDescription: [plan.description, Validators.required],
-      planPrice: [plan.price / 100, Validators.required]
+      planDescription: [this.pricingPlan.description, Validators.required],
+      planPrice: [this.pricingPlan.price / 100, Validators.required]
     });
 
   }

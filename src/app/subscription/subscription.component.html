@@ -29,6 +29,8 @@
                 <li *ngFor="let feature of plans.monthlyPlan.features">{{feature}}</li>
               </ul>
 
+              <mini-action-button class="edit-button edit-features" icon="mode_edit" *allowRole="'ADMIN'"></mini-action-button>
+
             </mat-card-content>
 
             <div class="filler"></div>
@@ -46,6 +48,7 @@
             <mat-card-header>
               <mat-toolbar color="primary">
                 Yearly
+                <mini-action-button class="edit-button" icon="mode_edit" *allowRole="'ADMIN'"></mini-action-button>
               </mat-toolbar>
             </mat-card-header>
 
@@ -62,6 +65,8 @@
               <ul class="features">
                 <li *ngFor="let feature of plans.yearlyPlan.features">{{feature}}</li>
               </ul>
+
+              <mini-action-button class="edit-button edit-features" icon="mode_edit" *allowRole="'ADMIN'"></mini-action-button>
 
             </mat-card-content>
 
@@ -81,6 +86,7 @@
             <mat-card-header>
               <mat-toolbar color="primary">
                 Lifetime
+                <mini-action-button class="edit-button" icon="mode_edit" *allowRole="'ADMIN'"></mini-action-button>
               </mat-toolbar>
             </mat-card-header>
 
@@ -93,6 +99,8 @@
               <ul class="features">
                 <li *ngFor="let feature of plans.lifetimePlan.features">{{feature}}</li>
               </ul>
+
+              <mini-action-button class="edit-button edit-features" icon="mode_edit" *allowRole="'ADMIN'"></mini-action-button>
 
             </mat-card-content>
 
