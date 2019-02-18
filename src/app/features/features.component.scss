@@ -1,0 +1,47 @@
+
+@import "../mixins";
+
+:host {
+  font-family: 'Roboto', 'Helvetica', sans-serif;
+}
+
+.title {
+  margin-top: 0;
+}
+
+.add-feature-field {
+  margin-left: 10px;
+  .label {
+    font-size: 15px;
+    margin-bottom: 5px;
+  }
+  .add-feature {
+    width: 300px;
+    border-radius: 4px;
+    height: 20px;
+  }
+
+}
+
+
+
+.move-cell {
+  mat-icon {
+    margin-right: 5px;
+  }
+}
+
+.icon-cell {
+  display: flex;
+  @include mat-icon-size(18px);
+  opacity:0.75;
+  mat-icon {
+    cursor: pointer;
+  }
+}
+
+.delete-cell {
+  justify-content: flex-end;
+}
+
+

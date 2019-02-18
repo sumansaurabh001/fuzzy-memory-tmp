@@ -1,0 +1,51 @@
+
+<h4 class="title">Edit Plan Features</h4>
+
+<div class="add-feature-field">
+
+  <div class="label">Add Feature:</div>
+
+  <input placeholder="Type new feature + Enter" maxLength="60" class="add-feature" (keyup.enter)="onAdd(input.value)" #input>
+
+</div>
+
+
+<mat-table [dataSource]="features">
+
+  <ng-container matColumnDef="move">
+
+    <mat-header-cell *matHeaderCellDef >Move Up/Down</mat-header-cell>
+
+    <mat-cell *matCellDef="let feature; let i = index" class="icon-cell move-cell">
+      <mat-icon (click)="onMoveUp(i)">arrow_upward</mat-icon>
+      <mat-icon (click)="onMoveDown(i)">arrow_downward</mat-icon>
+    </mat-cell>
+
+  </ng-container>
+
+  <ng-container matColumnDef="description">
+
+    <mat-header-cell *matHeaderCellDef>Description</mat-header-cell>
+
+    <mat-cell *matCellDef="let feature">{{feature}}</mat-cell>
+
+  </ng-container>
+
+  <ng-container matColumnDef="delete">
+
+    <mat-header-cell *matHeaderCellDef></mat-header-cell>
+
+    <mat-cell *matCellDef="let feature; let i = index" class="icon-cell delete-cell">
+      <mat-icon (click)="onDelete(i)">delete</mat-icon>
+    </mat-cell>
+
+  </ng-container>
+
+  <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+
+  <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+
+</mat-table>
+
+
+

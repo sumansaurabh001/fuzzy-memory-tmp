@@ -98,6 +98,7 @@ import {PaymentsService} from './services/payments.service';
 import { SubscriptionComponent } from './subscription/subscription.component';
 import { MiniActionButtonComponent } from './mini-action-button/mini-action-button.component';
 import {EditMonthlyPricingPlanDialogComponent} from './edit-subscriptions-dialog/edit-monthly-pricing-plan-dialog.component';
+import { FeaturesComponent } from './features/features.component';
 
 
 @NgModule({
@@ -145,7 +146,8 @@ import {EditMonthlyPricingPlanDialogComponent} from './edit-subscriptions-dialog
     CourseActionButtonsComponent,
     SubscriptionComponent,
     MiniActionButtonComponent,
-    EditMonthlyPricingPlanDialogComponent
+    EditMonthlyPricingPlanDialogComponent,
+    FeaturesComponent
   ],
   imports: [
     BrowserModule,

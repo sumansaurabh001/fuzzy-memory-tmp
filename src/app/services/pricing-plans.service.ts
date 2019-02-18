@@ -19,7 +19,7 @@ export class PricingPlansService {
 
   }
 
-  savePricingPlan(planName: string, changes: Partial<PricingPlan>): Observable<Partial<PricingPlan>> {
+  updateStripePricingPlan(planName: string, changes: Partial<PricingPlan>): Observable<Partial<PricingPlan>> {
 
     const headers = new HttpHeaders()
       .set('Content-Type', "application/json")

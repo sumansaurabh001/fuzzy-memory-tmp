@@ -6,25 +6,35 @@
 
 <mat-dialog-content>
 
-      <div class="plan-form" [formGroup]="planForm">
+  <div class="plan-form" [formGroup]="planForm">
 
-        <mat-form-field>
+    <mat-form-field>
 
-          <input matInput
-                 placeholder="Plan Name (shown to subscribers)"
-                 #titleHint
-                 maxLength="60"
-                 formControlName="planDescription">
+      <input matInput
+             placeholder="Plan Name (shown to subscribers)"
+             #titleHint
+             maxLength="60"
+             formControlName="planDescription">
 
-        </mat-form-field>
+    </mat-form-field>
 
-        <mat-form-field>
+    <mat-form-field>
 
-          <input matInput placeholder="Plan Price (USD)" type="number" formControlName="planPrice">
+      <input matInput placeholder="Plan Price (USD)" type="number" formControlName="planPrice">
 
-        </mat-form-field>
+    </mat-form-field>
 
-      </div>
+    <features
+      [features]="pricingPlan.features"
+      (featureAdded)="onAddFeature($event)"
+      (featureDeleted)="onDeleteFeature($event)"
+      (featureUp)="onFeatureUp($event)"
+      (featureDown)="onFeatureDown($event)">
+
+
+    </features>
+
+  </div>
 
 </mat-dialog-content>
 

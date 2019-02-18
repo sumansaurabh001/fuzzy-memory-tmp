@@ -37,7 +37,10 @@ export class EditMonthlyPricingPlanDialogComponent implements OnInit {
 
     this.dialogTitle = data.dialogTitle;
 
-    this.pricingPlan = data.plan;
+    this.pricingPlan = {
+      ...data.plan,
+      features: data.plan.features.slice(0)
+    };
 
 
     this.planForm = this.fb.group({
@@ -56,7 +59,7 @@ export class EditMonthlyPricingPlanDialogComponent implements OnInit {
 
     const val = this.planForm.value;
 
-    const saveCourse$ = this.pricingPlans.savePricingPlan(
+    const saveCourse$ = this.pricingPlans.updateStripePricingPlan(
       'monthlyPlan',
       {
         description: val.planDescription,
@@ -81,6 +84,23 @@ export class EditMonthlyPricingPlanDialogComponent implements OnInit {
 
   }
 
+  onAddFeature(newFeature:string) {
+    const newFeatures = this.pricingPlan.features.slice(0);
+    newFeatures.push(newFeature);
+    this.pricingPlan.features = newFeatures;
+  }
+
+  onDeleteFeature(index:number) {
+
+  }
+
+  onFeatureUp(index:number) {
+
+  }
+
+  onFeatureDown(index:number) {
+
+  }
 
   close() {
 
