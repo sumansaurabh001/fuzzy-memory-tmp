@@ -4,12 +4,12 @@ import {Theme} from '../models/theme.model';
 
 export interface PlatformState {
   brandTheme: Theme,
-  isConnectedToStripe: boolean
+  isConnectedToStripe: boolean | null
 }
 
 export const initialState: PlatformState = {
   brandTheme: undefined,
-  isConnectedToStripe: false
+  isConnectedToStripe: null
 };
 
 export function platformReducer(state = initialState, action: PlatformActions): PlatformState {

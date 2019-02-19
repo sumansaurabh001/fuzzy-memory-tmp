@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {Observable} from 'rxjs/Observable';
 import {AppState} from '../store';
 import {select, Store} from '@ngrx/store';
-import {arePricingPlansReady, isConnectedToStripe, selectPricingPlans} from '../store/selectors';
+import {arePricingPlansReady, isConnectedToStripe, platformState, selectPricingPlans} from '../store/selectors';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {StripeConnectionService} from '../services/stripe-connection.service';
 import {PricingPlansLoaded} from '../store/pricing-plans.actions';
@@ -12,6 +12,9 @@ import {PricingPlansState} from '../store/pricing-plans.reducer';
 import {MatDialog, MatDialogConfig} from '@angular/material';
 import {PricingPlan} from '../models/pricing-plan.model';
 import {EditPricingPlanDialogComponent} from '../edit-subscriptions-dialog/edit-pricing-plan-dialog.component';
+import {filter, map, tap} from 'rxjs/operators';
+import {promise} from 'selenium-webdriver';
+
 
 @Component({
   selector: 'subscription',
@@ -49,7 +52,13 @@ export class SubscriptionComponent implements OnInit {
 
   ngOnInit() {
 
-    this.isConnectedToStripe$ = this.store.pipe(select(isConnectedToStripe));
+    this.isConnectedToStripe$ = this.store
+      .pipe(
+        select(platformState),
+        filter(platformState => platformState.isConnectedToStripe !== null),
+        tap(platformState => console.log(platformState)),
+        map(platformState => platformState.isConnectedToStripe)
+      );
 
     this.plans$ = this.store.pipe(select(selectPricingPlans));
 
