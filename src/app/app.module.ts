@@ -16,7 +16,7 @@ import {
   MatSidenavModule, MatSliderModule, MatSlideToggleModule,
   MatSortModule,
   MatTableModule,
-  MatTabsModule, MatToolbarModule
+  MatTabsModule, MatToolbarModule, MatTooltipModule
 } from '@angular/material';
 
 import {MatMomentDateModule} from '@angular/material-moment-adapter';
@@ -177,6 +177,7 @@ import { FeaturesComponent } from './features/features.component';
     MatSliderModule,
     MatGridListModule,
     MatCheckboxModule,
+    MatTooltipModule,
     FormsModule,
     ReactiveFormsModule,
     NgxEditorModule,

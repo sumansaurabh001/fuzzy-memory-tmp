@@ -31,6 +31,7 @@
     "@ngrx/router-store": "^7.0.0",
     "@ngrx/store": "^7.0.0",
     "@ngrx/store-devtools": "^7.0.0",
+    "array-move": "^1.0.0",
     "codemirror": "^5.36.0",
     "core-js": "^2.4.1",
     "firebase": "^5.5.5",

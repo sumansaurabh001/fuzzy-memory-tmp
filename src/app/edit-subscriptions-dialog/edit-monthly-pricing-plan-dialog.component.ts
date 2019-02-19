@@ -9,6 +9,7 @@ import {LoadingService} from '../services/loading.service';
 import {AppState} from '../store';
 import {Store} from '@ngrx/store';
 import {UpdatePricingPlan} from '../store/pricing-plans.actions';
+const arrayMove = require('array-move');
 
 @Component({
   selector: 'edit-subscriptions-dialog',
@@ -91,15 +92,19 @@ export class EditMonthlyPricingPlanDialogComponent implements OnInit {
   }
 
   onDeleteFeature(index:number) {
-
+    const newFeatures = [...this.pricingPlan.features];
+    newFeatures.splice(index, 1);
+    this.pricingPlan.features = newFeatures;
   }
 
   onFeatureUp(index:number) {
-
+    const newFeatures = arrayMove(this.pricingPlan.features, index, index - 1);
+    this.pricingPlan.features = newFeatures;
   }
 
   onFeatureDown(index:number) {
-
+    const newFeatures = arrayMove(this.pricingPlan.features, index, index + 1);
+    this.pricingPlan.features = newFeatures;
   }
 
   close() {

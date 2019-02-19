@@ -1,4 +1,5 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+const arrayMove = require('array-move');
 
 @Component({
   selector: 'features',
@@ -32,8 +33,9 @@ export class FeaturesComponent implements OnInit {
 
   }
 
-  onAdd(newFeature: string) {
+  onAdd(input: HTMLInputElement, newFeature: string) {
     this.featureAdded.emit(newFeature);
+    input.value = '';
   }
 
   onDelete(index: number) {
