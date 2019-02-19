@@ -97,8 +97,8 @@ import { CourseActionButtonsComponent } from './course-action-buttons/course-act
 import {PaymentsService} from './services/payments.service';
 import { SubscriptionComponent } from './subscription/subscription.component';
 import { MiniActionButtonComponent } from './mini-action-button/mini-action-button.component';
-import {EditMonthlyPricingPlanDialogComponent} from './edit-subscriptions-dialog/edit-monthly-pricing-plan-dialog.component';
 import { FeaturesComponent } from './features/features.component';
+import {EditPricingPlanDialogComponent} from './edit-subscriptions-dialog/edit-pricing-plan-dialog.component';
 
 
 @NgModule({
@@ -146,7 +146,7 @@ import { FeaturesComponent } from './features/features.component';
     CourseActionButtonsComponent,
     SubscriptionComponent,
     MiniActionButtonComponent,
-    EditMonthlyPricingPlanDialogComponent,
+    EditPricingPlanDialogComponent,
     FeaturesComponent
   ],
   imports: [
@@ -228,7 +228,7 @@ import { FeaturesComponent } from './features/features.component';
     AddCouponDialogComponent,
     GetLinkDialogComponent,
     LoadingDialogComponent,
-    EditMonthlyPricingPlanDialogComponent
+    EditPricingPlanDialogComponent
   ],
   bootstrap: [AppComponent]
 })

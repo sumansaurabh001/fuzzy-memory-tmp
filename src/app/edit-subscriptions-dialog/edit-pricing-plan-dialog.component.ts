@@ -16,13 +16,13 @@ const arrayMove = require('array-move');
 
 @Component({
   selector: 'edit-subscriptions-dialog',
-  templateUrl: './edit-monthly-pricing-plan-dialog.component.html',
-  styleUrls: ['./edit-monthly-pricing-plan-dialog.component.scss'],
+  templateUrl: './edit-pricing-plan-dialog.component.html',
+  styleUrls: ['./edit-pricing-plan-dialog.component.scss'],
   providers: [
     MessagesService
   ]
 })
-export class EditMonthlyPricingPlanDialogComponent implements OnInit {
+export class EditPricingPlanDialogComponent implements OnInit {
 
   dialogTitle: string;
 
@@ -36,7 +36,7 @@ export class EditMonthlyPricingPlanDialogComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private dialogRef: MatDialogRef<EditMonthlyPricingPlanDialogComponent>,
+    private dialogRef: MatDialogRef<EditPricingPlanDialogComponent>,
     @Inject(MAT_DIALOG_DATA) data,
     private pricingPlans: PricingPlansService,
     private messages: MessagesService,
