@@ -68,7 +68,7 @@ app.post('/init-pricing-plans', async (req, res) => {
         stripePlanId: monthlyResponse.id,
         description: monthlyPlanDescription,
         price: monthlyPlanPrice,
-        frequency: 'monthly',
+        frequency: 'month',
         features: [
           'Access All Courses',
           'Access all Future Videos'
@@ -78,7 +78,7 @@ app.post('/init-pricing-plans', async (req, res) => {
         stripePlanId: yearlyResponse.id,
         description: yearlyPlanDescription,
         price: yearlyPlanPrice,
-        frequency: 'yearly',
+        frequency: 'year',
         features: [
           'Best Value',
           'Ideal for Training Request',

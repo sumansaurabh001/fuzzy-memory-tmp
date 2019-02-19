@@ -9,6 +9,9 @@ import {LoadingService} from '../services/loading.service';
 import {AppState} from '../store';
 import {Store} from '@ngrx/store';
 import {UpdatePricingPlan} from '../store/pricing-plans.actions';
+import {Observable} from 'rxjs/Observable';
+import {concatMap} from 'rxjs/operators';
+import {PricingPlansState} from '../store/pricing-plans.reducer';
 const arrayMove = require('array-move');
 
 @Component({
@@ -27,6 +30,10 @@ export class EditMonthlyPricingPlanDialogComponent implements OnInit {
 
   planForm: FormGroup;
 
+  allPlans: PricingPlansState;
+
+  planName:string;
+
   constructor(
     private fb: FormBuilder,
     private dialogRef: MatDialogRef<EditMonthlyPricingPlanDialogComponent>,
@@ -38,11 +45,15 @@ export class EditMonthlyPricingPlanDialogComponent implements OnInit {
 
     this.dialogTitle = data.dialogTitle;
 
-    this.pricingPlan = {
-      ...data.plan,
-      features: data.plan.features.slice(0)
-    };
+    this.allPlans = data.allPlans;
+    this.planName = data.planName;
 
+    const editedPlan:PricingPlan = this.allPlans[this.planName];
+
+    this.pricingPlan = {
+      ...editedPlan,
+      features: editedPlan.features.slice(0)
+    };
 
     this.planForm = this.fb.group({
       planDescription: [this.pricingPlan.description, Validators.required],
@@ -60,26 +71,42 @@ export class EditMonthlyPricingPlanDialogComponent implements OnInit {
 
     const val = this.planForm.value;
 
-    const saveCourse$ = this.pricingPlans.updateStripePricingPlan(
-      'monthlyPlan',
-      {
-        description: val.planDescription,
-        price: val.planPrice,
-        frequency: 'month'
-      });
+    this.pricingPlan.price = val.planPrice * 100;
+    this.pricingPlan.description = val.planDescription;
+
+    const newPlans = {
+      ...this.allPlans
+    };
+
+    newPlans[this.planName] = this.pricingPlan;
+
+    let saveCourse$ = this.pricingPlans.updatePlans(newPlans);
+
+    if (this.planForm.dirty) {
+
+      const updatePlan$ = this.pricingPlans.updateStripePricingPlan(
+        this.planName,
+        {
+          description: this.pricingPlan.description,
+          price: this.pricingPlan.price,
+          frequency: this.pricingPlan.frequency
+        });
+
+      saveCourse$ = saveCourse$.pipe(concatMap(() => updatePlan$));
+    }
 
     this.loading.showLoader(saveCourse$)
       .subscribe(
-        changes => {
+        () => {
 
-          this.store.dispatch(new UpdatePricingPlan({planName: 'monthlyPlan', changes}));
+          this.store.dispatch(new UpdatePricingPlan({planName: this.planName, changes: this.pricingPlan}));
 
-          this.close();
+          this.dialogRef.close(this.pricingPlan);
 
         },
         err => {
-          this.messages.error('Error saving monthly pricing plan:' + err);
-          console.error('Error saving monthly pricing plan:', err);
+          this.messages.error('Error saving pricing plan:' + err);
+          console.error('Error saving pricing plan:', err);
         }
       );
 

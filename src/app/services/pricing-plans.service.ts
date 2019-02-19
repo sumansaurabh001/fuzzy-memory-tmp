@@ -5,6 +5,10 @@ import {HttpClient} from '@angular/common/http';
 import {HttpHeaders} from '@angular/common/http';
 import {AngularFireAuth} from '@angular/fire/auth';
 import {environment} from '../../environments/environment';
+import {AngularFirestore} from '@angular/fire/firestore';
+import {TenantService} from './tenant.service';
+import {PricingPlansState} from '../store/pricing-plans.reducer';
+import {of} from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +17,11 @@ export class PricingPlansService {
 
   private authJwtToken:string;
 
-  constructor(private http: HttpClient, private afAuth: AngularFireAuth) {
+  constructor(
+    private http: HttpClient,
+    private afAuth: AngularFireAuth,
+    private afs: AngularFirestore,
+    private tenant: TenantService) {
 
     afAuth.idToken.subscribe(jwt => this.authJwtToken = jwt);
 
@@ -28,4 +36,11 @@ export class PricingPlansService {
     return this.http.post(environment.api.stripeUpdatePricingPLanUrl, {planName, changes}, {headers});
 
   }
+
+  updatePlans(pricingPlans: PricingPlansState):Observable<any> {
+    return of(this.afs.doc(`tenants/${this.tenant.id}`).update({pricingPlans}));
+  }
+
+
+
 }

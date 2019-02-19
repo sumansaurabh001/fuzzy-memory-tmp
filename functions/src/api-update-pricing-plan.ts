@@ -29,7 +29,7 @@ app.post('/update-pricing-plan', async (req, res) => {
     const tenantId = req.user.uid,
       planName = req.body.planName,
       newPlanDescription = req.body.changes.description,
-      newPlanPrice = Math.round(req.body.changes.price * 100),
+      newPlanPrice = Math.round(req.body.changes.price),
       newPlanFrequency = req.body.changes.frequency;
 
     console.log("Updating pricing plan:", JSON.stringify(req.body));
@@ -58,8 +58,6 @@ app.post('/update-pricing-plan', async (req, res) => {
     const pricingPlans = tenant.pricingPlans;
 
     const changes = {
-      description: newPlanDescription,
-      price: newPlanPrice,
       stripePlanId: newPlanResponse.id
     };
 

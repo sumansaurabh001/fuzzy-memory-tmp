@@ -74,7 +74,7 @@ export class SubscriptionComponent implements OnInit {
 
   }
 
-  editMonthlyPlan(monthlyPlan: PricingPlan) {
+  editPlan(allPlans: PricingPlansState, planName: string) {
 
     const dialogConfig = new MatDialogConfig();
 
@@ -83,10 +83,20 @@ export class SubscriptionComponent implements OnInit {
     dialogConfig.minWidth = '500px';
     dialogConfig.data = {
       dialogTitle: 'Edit Monthly Plan',
-      plan:monthlyPlan
+      planName: "monthlyPlan",
+      allPlans,
+
     };
 
-    this.dialog.open(EditMonthlyPricingPlanDialogComponent, dialogConfig);
+    this.dialog.open(EditMonthlyPricingPlanDialogComponent, dialogConfig)
+      .afterClosed()
+      .subscribe(
+        newPlan => {
+          if (newPlan) {
+            this.messages.info("Pricing plan updated successfully.");
+          }
+        }
+      );
 
 
   }

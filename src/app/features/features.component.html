@@ -17,8 +17,8 @@
     <mat-header-cell *matHeaderCellDef >Move Up/Down</mat-header-cell>
 
     <mat-cell *matCellDef="let feature; let i = index; let first = first; let last = last;" class="icon-cell move-cell">
-      <mat-icon *ngIf="!first" matTooltip="Move this item down" (click)="onMoveUp(i)">arrow_upward</mat-icon>
-      <mat-icon *ngIf="!last" matTooltip="Move this item up" (click)="onMoveDown(i)">arrow_downward</mat-icon>
+      <mat-icon *ngIf="!first" matTooltip="Move item up" (click)="onMoveUp(i)">arrow_upward</mat-icon>
+      <mat-icon *ngIf="!last" matTooltip="Move item down" (click)="onMoveDown(i)">arrow_downward</mat-icon>
     </mat-cell>
 
   </ng-container>
