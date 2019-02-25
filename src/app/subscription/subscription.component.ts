@@ -30,6 +30,8 @@ export class SubscriptionComponent implements OnInit {
   arePricingPlansReady$: Observable<boolean>;
   plans$: Observable<PricingPlansState>;
 
+  showConnectToStripe = false;
+
   constructor(
     private store: Store<AppState>,
     private fb: FormBuilder,
@@ -56,8 +58,12 @@ export class SubscriptionComponent implements OnInit {
       .pipe(
         select(platformState),
         filter(platformState => platformState.isConnectedToStripe !== null),
-        tap(platformState => console.log(platformState)),
-        map(platformState => platformState.isConnectedToStripe)
+        map(platformState => platformState.isConnectedToStripe),
+        tap(connected => {
+          if (!connected) {
+            this.showConnectToStripe = true;
+          }
+        })
       );
 
     this.plans$ = this.store.pipe(select(selectPricingPlans));

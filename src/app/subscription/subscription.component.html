@@ -279,7 +279,7 @@
 
   <ng-template #connectToStripe>
     
-    <div class="connect-with-stripe mat-elevation-z10">
+    <div class="connect-with-stripe mat-elevation-z10" *ngIf="showConnectToStripe">
 
       <connect-with-stripe message="Connect with Stripe to activate subscription plans, and start collecting customer payments."></connect-with-stripe>
 
