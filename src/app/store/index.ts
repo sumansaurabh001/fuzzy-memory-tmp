@@ -11,7 +11,7 @@ import * as fromDescriptions from './descriptions.reducer';
 import * as fromCourseSection from './course-section.reducer';
 import {storeFreeze} from 'ngrx-store-freeze';
 import * as fromLesson from './lesson.reducer';
-import {authReducer, AuthState} from './auth.reducer';
+import {userReducer, UserState} from './auth.reducer';
 import {platformReducer, PlatformState} from './platform.reducer';
 import {couponsReducer, CouponsState} from './coupons.reducer';
 import {videoAccessReducer, VideoAccessState} from './video-access.reducer';
@@ -25,7 +25,7 @@ export interface AppState {
   descriptions: fromDescriptions.State;
   sections: fromCourseSection.State;
   lessons: fromLesson.State;
-  auth: AuthState;
+  user: UserState;
   platform: PlatformState;
   coupons: CouponsState;
   videoAccess: VideoAccessState;
@@ -40,7 +40,7 @@ export const reducers: ActionReducerMap<AppState> = {
   descriptions: fromDescriptions.reducer,
   sections: fromCourseSection.reducer,
   lessons: fromLesson.reducer,
-  auth: authReducer,
+  user: userReducer,
   platform: platformReducer,
   coupons: couponsReducer,
   videoAccess: videoAccessReducer,

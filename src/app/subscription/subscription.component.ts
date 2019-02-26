@@ -17,6 +17,7 @@ import {promise} from 'selenium-webdriver';
 import {environment} from '../../environments/environment';
 import {CoursePurchased} from '../store/course.actions';
 import {PaymentsService} from '../services/payments.service';
+import {SubscriptionActivated} from '../store/auth.actions';
 
 declare const StripeCheckout;
 
@@ -39,6 +40,12 @@ export class SubscriptionComponent implements OnInit {
   checkoutHandler: any;
 
   selectedPlan: PricingPlan = null;
+
+  dialogTitles = {
+    monthlyPlan: 'Edit Monthly Plan',
+    yearlyPlan: 'Edit Yearly Plan',
+    lifetimePlan: 'Edit Lifetime Plan'
+  };
 
   constructor(
     private store: Store<AppState>,
@@ -93,7 +100,7 @@ export class SubscriptionComponent implements OnInit {
           .pipe(finalize(() => this.selectedPlan = null))
           .subscribe(
             () => {
-              //TODO this.store.dispatch(new CoursePurchased({courseId: this.course.id}));
+              this.store.dispatch(new SubscriptionActivated({selectedPlan: this.selectedPlan}));
               this.messages.success('Payment successful, you now have access to all courses!');
             },
             err => {
@@ -110,7 +117,11 @@ export class SubscriptionComponent implements OnInit {
 
     const val = this.form.value;
 
-    const setupPlans$ = this.stripe.setupDefaultPricingPlans(val.monthlyPlanDescription, val.yearlyPlanDescription, val.monthlyPlanPrice * 100, val.yearlyPlanPrice * 100, val.lifetimeAccessPrice * 100);
+    const setupPlans$ = this.stripe.setupDefaultPricingPlans(
+      val.monthlyPlanDescription,
+      val.yearlyPlanDescription,
+      val.monthlyPlanPrice * 100, val.yearlyPlanPrice * 100,
+      val.lifetimeAccessPrice * 100);
 
     this.loading.showLoader(setupPlans$)
       .subscribe(
@@ -123,7 +134,7 @@ export class SubscriptionComponent implements OnInit {
 
   }
 
-  editPlan(allPlans: PricingPlansState, planName: string) {
+  editPlan(allPlans: PricingPlansState, planName: string, editPlanName:boolean, editUndiscountedPrice: boolean) {
 
     const dialogConfig = new MatDialogConfig();
 
@@ -131,8 +142,10 @@ export class SubscriptionComponent implements OnInit {
     dialogConfig.disableClose = true;
     dialogConfig.minWidth = '500px';
     dialogConfig.data = {
-      dialogTitle: 'Edit Monthly Plan',
-      planName: "monthlyPlan",
+      dialogTitle: this.dialogTitles[planName],
+      editPlanName,
+      editUndiscountedPrice,
+      planName,
       allPlans,
 
     };

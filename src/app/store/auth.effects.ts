@@ -12,7 +12,7 @@ import {TenantService} from '../services/tenant.service';
 
 
 @Injectable()
-export class AuthEffects {
+export class UserEffects {
 
 
   @Effect()

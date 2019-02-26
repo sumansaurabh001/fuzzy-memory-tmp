@@ -1,35 +1,44 @@
 import { Action } from '@ngrx/store';
 import {User} from '../models/user.model';
 import {UserPermissions} from '../models/user-permissions.model';
+import {PricingPlan} from '../models/pricing-plan.model';
+import {CourseActionTypes} from './course.actions';
 
-export enum AuthActionTypes {
+export enum UserActionTypes {
   LoginAction = '[Firebase Auth] Login',
   UserLoaded = '[App Startup] User Loaded',
   LogoutAction = '[Top Menu] Logout',
-  SetUserPermissionsAction = '[Firebase Auth] Set User Permissions'
+  SetUserPermissionsAction = '[Firebase Auth] Set User Permissions',
+  SubscriptionActivated = '[Subscriptions Page] Subscription Activated'
 }
 
 export class Login implements Action {
-  readonly type = AuthActionTypes.LoginAction;
+  readonly type = UserActionTypes.LoginAction;
 
   constructor(public user:User) {}
 }
 
 export class SetUserPermissions implements Action {
-  readonly type = AuthActionTypes.SetUserPermissionsAction;
+  readonly type = UserActionTypes.SetUserPermissionsAction;
 
   constructor(public permissions:UserPermissions) {}
 }
 
 export class Logout implements Action {
-  readonly type = AuthActionTypes.LogoutAction;
+  readonly type = UserActionTypes.LogoutAction;
 }
 
 export class UserLoaded implements Action {
-  readonly type = AuthActionTypes.UserLoaded;
+  readonly type = UserActionTypes.UserLoaded;
 
   constructor(public payload: {user:User}) {}
 
 }
 
-export type AuthActions = Login | Logout | SetUserPermissions | UserLoaded;
+export class SubscriptionActivated implements Action {
+  readonly type = UserActionTypes.SubscriptionActivated;
+
+  constructor(public payload: {selectedPlan: PricingPlan}) {}
+}
+
+export type UserActions = Login | Logout | SetUserPermissions | UserLoaded | SubscriptionActivated;

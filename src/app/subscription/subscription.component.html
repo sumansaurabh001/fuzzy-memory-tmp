@@ -15,7 +15,7 @@
             <mat-card-header>
               <mat-toolbar color="primary">
                 Monthly
-                <mini-action-button class="edit-button" icon="mode_edit" *allowRole="'ADMIN'" (click)="editPlan(plans, 'monthlyPlan')"></mini-action-button>
+                <mini-action-button class="edit-button" icon="mode_edit" *allowRole="'ADMIN'" (click)="editPlan(plans, 'monthlyPlan', true, false)"></mini-action-button>
               </mat-toolbar>
             </mat-card-header>
 
@@ -46,7 +46,7 @@
             <mat-card-header>
               <mat-toolbar color="primary">
                 Yearly
-                <mini-action-button class="edit-button" icon="mode_edit" *allowRole="'ADMIN'"></mini-action-button>
+                <mini-action-button class="edit-button" icon="mode_edit" *allowRole="'ADMIN'" (click)="editPlan(plans, 'yearlyPlan', true, true)"></mini-action-button>
               </mat-toolbar>
             </mat-card-header>
 
@@ -82,7 +82,7 @@
             <mat-card-header>
               <mat-toolbar color="primary">
                 Lifetime
-                <mini-action-button class="edit-button" icon="mode_edit" *allowRole="'ADMIN'"></mini-action-button>
+                <mini-action-button class="edit-button" icon="mode_edit" *allowRole="'ADMIN'" (click)="editPlan(plans, 'lifetimePlan', false, false)"></mini-action-button>
               </mat-toolbar>
             </mat-card-header>
 

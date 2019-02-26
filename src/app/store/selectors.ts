@@ -6,7 +6,7 @@ import {
 } from '@ngrx/store';
 import * as fromSection from './course-section.reducer';
 import * as fromLesson from './lesson.reducer';
-import {AuthState} from './auth.reducer';
+import {UserState} from './auth.reducer';
 import {Tenant} from '../models/tenant.model';
 import {PlatformState} from './platform.reducer';
 import {CouponsState} from './coupons.reducer';
@@ -23,7 +23,7 @@ export const selectSectionsState = createFeatureSelector<fromSection.State>('sec
 
 export const selectLessonsState = createFeatureSelector<fromLesson.State>('lessons');
 
-export const authState = createFeatureSelector<AuthState>('auth');
+export const userState = createFeatureSelector<UserState>('user');
 
 export const platformState = createFeatureSelector<PlatformState>('platform');
 
@@ -145,7 +145,7 @@ export const isActiveCourseLoaded = createSelector(
 
 
 export const isLoggedIn = createSelector(
-  authState,
+  userState,
   auth => auth.isLoggedIn
 );
 
@@ -156,7 +156,7 @@ export const isLoggedOut = createSelector(
 );
 
 export const userPictureUrl = createSelector(
-  authState,
+  userState,
   auth => auth.user ? auth.user.pictureUrl : undefined
 );
 
@@ -194,12 +194,12 @@ export const isConnectedToStripe = createSelector(
 
 
 export const selectUserPermissions = createSelector(
-    authState,
+    userState,
     authState => authState.permissions
 );
 
 export const selectUser = createSelector(
-  authState,
+  userState,
   authState => authState.user
 );
 
@@ -210,7 +210,7 @@ export const selectUserCourses = createSelector(
 
 
 export const isAdmin = createSelector(
-  authState,
+  userState,
   authState => authState.permissions.isAdmin
 );
 

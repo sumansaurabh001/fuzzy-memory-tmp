@@ -1,43 +1,43 @@
-import {AuthActions, AuthActionTypes} from './auth.actions';
+import {UserActions, UserActionTypes} from './auth.actions';
 import {User} from '../models/user.model';
 import {UserPermissions} from '../models/user-permissions.model';
 
 
-export interface AuthState {
+export interface UserState {
   isLoggedIn:boolean;
   user: User;
   permissions?: UserPermissions;
 }
 
-export const initialAuthState: AuthState = {
+export const initialUserState: UserState = {
   isLoggedIn: false,
   user:undefined,
   permissions: undefined
 };
 
-export function authReducer(state = initialAuthState, action: AuthActions): AuthState {
+export function userReducer(state = initialUserState, action: UserActions): UserState {
   switch (action.type) {
-    case AuthActionTypes.LoginAction:
+    case UserActionTypes.LoginAction:
       return {
         ...state,
         isLoggedIn: true,
         user: action.user
       };
 
-    case AuthActionTypes.SetUserPermissionsAction:
+    case UserActionTypes.SetUserPermissionsAction:
       return {
         ...state,
         permissions: action.permissions
       };
 
-    case AuthActionTypes.LogoutAction:
+    case UserActionTypes.LogoutAction:
       return {
         isLoggedIn: false,
         user: undefined,
         permissions: undefined
       };
 
-    case AuthActionTypes.UserLoaded:
+    case UserActionTypes.UserLoaded:
       return {
         ...state,
         user: {

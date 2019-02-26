@@ -24,9 +24,6 @@ export class CourseActionButtonsComponent implements OnInit, OnChanges {
   @Input()
   course:Course;
 
-  @Input()
-  userCourses: string[] = [];
-
   user:User;
 
   userCourses: string[];
