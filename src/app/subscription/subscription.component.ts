@@ -47,6 +47,12 @@ export class SubscriptionComponent implements OnInit {
     lifetimePlan: 'Edit Lifetime Plan'
   };
 
+  paymentModalTitle = {
+    month: "Monthly Plan",
+    year: "Yearly Plan",
+    lifetime: "Lifetime Plan"
+  };
+
   constructor(
     private store: Store<AppState>,
     private fb: FormBuilder,
@@ -165,11 +171,7 @@ export class SubscriptionComponent implements OnInit {
 
     this.selectedPlan = plan;
 
-    let description;
-
-    if (plan.frequency == 'month') {
-      description = "Monthly Plan";
-    }
+    const description = this.paymentModalTitle[plan.frequency];
 
     this.checkoutHandler.open({
       name: 'Angular University',
