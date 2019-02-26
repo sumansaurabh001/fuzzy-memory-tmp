@@ -26,6 +26,7 @@ export const environment = {
     purchaseCourseUrl: 'https://us-central1-onlinecoursehost-local-dev.cloudfunctions.net/apiPurchaseCourse/purchase-course',
     videoAccessUrl: 'https://us-central1-onlinecoursehost-local-dev.cloudfunctions.net/apiVideoAccess/video-access', // load the video file names only for which the user has access, which allows the user to play the video
     stripeInitPricingPlansUrl: 'https://us-central1-onlinecoursehost-local-dev.cloudfunctions.net/apiStripeInitPricingPlans/init-pricing-plans',
-    stripeUpdatePricingPLanUrl: 'https://us-central1-onlinecoursehost-local-dev.cloudfunctions.net/apiStripeUpdatePricingPlan/update-pricing-plan'
+    stripeUpdatePricingPLanUrl: 'https://us-central1-onlinecoursehost-local-dev.cloudfunctions.net/apiStripeUpdatePricingPlan/update-pricing-plan',
+    stripeCreateSubscriptionUrl: 'https://us-central1-onlinecoursehost-local-dev.cloudfunctions.net/apiStripeCreateSubscription/create-subscription'
   }
 };

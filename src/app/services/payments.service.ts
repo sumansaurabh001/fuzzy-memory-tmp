@@ -3,6 +3,8 @@ import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {environment} from '../../environments/environment';
 import {TenantService} from './tenant.service';
 import {AngularFireAuth} from '@angular/fire/auth';
+import {PricingPlan} from '../models/pricing-plan.model';
+import {Observable} from 'rxjs/Observable';
 
 
 
@@ -22,7 +24,7 @@ export class PaymentsService {
 
   }
 
-  purchaseCourse(tokenId: string, paymentEmail: string, courseId) {
+  purchaseCourse(tokenId: string, paymentEmail: string, courseId): Observable<any> {
 
     const headers = new HttpHeaders()
       .set('Content-Type', "application/json")
@@ -38,7 +40,24 @@ export class PaymentsService {
       {
         headers
       });
+  }
 
+  purchaseSubscription(tokenId: string, paymentEmail: string, plan: PricingPlan): Observable<any> {
+
+    const headers = new HttpHeaders()
+      .set('Content-Type', "application/json")
+      .set('Authorization',`Bearer ${this.authJwtToken}`);
+
+    return this.http.post(
+      environment.api.stripeCreateSubscriptionUrl,
+      {
+        tokenId,
+        plan,
+        tenantId: this.tenant.id
+      },
+      {
+        headers
+      });
   }
 
 

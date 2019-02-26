@@ -12,9 +12,13 @@ import {PricingPlansState} from '../store/pricing-plans.reducer';
 import {MatDialog, MatDialogConfig} from '@angular/material';
 import {PricingPlan} from '../models/pricing-plan.model';
 import {EditPricingPlanDialogComponent} from '../edit-subscriptions-dialog/edit-pricing-plan-dialog.component';
-import {filter, map, tap} from 'rxjs/operators';
+import {filter, finalize, map, tap} from 'rxjs/operators';
 import {promise} from 'selenium-webdriver';
+import {environment} from '../../environments/environment';
+import {CoursePurchased} from '../store/course.actions';
+import {PaymentsService} from '../services/payments.service';
 
+declare const StripeCheckout;
 
 @Component({
   selector: 'subscription',
@@ -32,12 +36,17 @@ export class SubscriptionComponent implements OnInit {
 
   showConnectToStripe = false;
 
+  checkoutHandler: any;
+
+  selectedPlan: PricingPlan = null;
+
   constructor(
     private store: Store<AppState>,
     private fb: FormBuilder,
     private stripe: StripeConnectionService,
     private messages: MessagesService,
     private loading: LoadingService,
+    private payments: PaymentsService,
     private dialog: MatDialog) {
 
     this.form = this.fb.group({
@@ -69,6 +78,31 @@ export class SubscriptionComponent implements OnInit {
     this.plans$ = this.store.pipe(select(selectPricingPlans));
 
     this.arePricingPlansReady$ = this.store.pipe(select(arePricingPlansReady));
+
+    this.checkoutHandler = StripeCheckout.configure({
+      key: environment.stripe.stripePublicKey,
+      image: 'https://stripe.com/img/documentation/checkout/marketplace.png',
+      locale: 'auto',
+      token: (token) => {
+
+        const tokenId = token.id,
+          paymentEmail = token.email,
+          purchaseSubscription$ = this.payments.purchaseSubscription(tokenId, paymentEmail, this.selectedPlan);
+
+        this.loading.showLoaderUntilCompleted(purchaseSubscription$)
+          .pipe(finalize(() => this.selectedPlan = null))
+          .subscribe(
+            () => {
+              //TODO this.store.dispatch(new CoursePurchased({courseId: this.course.id}));
+              this.messages.success('Payment successful, you now have access to all courses!');
+            },
+            err => {
+              console.log('Payment failed, reason: ', err);
+              this.messages.error("Payment failed, please check your card balance.");
+            }
+          );
+      }
+    });
 
   }
 
@@ -112,8 +146,27 @@ export class SubscriptionComponent implements OnInit {
           }
         }
       );
+  }
 
+  activateSubscription(plan: PricingPlan) {
+
+    this.selectedPlan = plan;
+
+    let description;
+
+    if (plan.frequency == 'month') {
+      description = "Monthly Plan";
+    }
+
+    this.checkoutHandler.open({
+      name: 'Angular University',
+      description,
+      currency: 'usd',
+      amount: plan.price
+    });
 
   }
 
 }
+
+

@@ -18,3 +18,4 @@ export {apiStripeInitPricingPlans} from './api-init-pricing-plans';
 
 export {apiStripeUpdatePricingPlan} from './api-update-pricing-plan';
 
+export {apiStripeCreateSubscription} from './api-create-subscription';
