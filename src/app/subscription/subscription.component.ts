@@ -140,7 +140,7 @@ export class SubscriptionComponent implements OnInit {
 
     dialogConfig.autoFocus = true;
     dialogConfig.disableClose = true;
-    dialogConfig.minWidth = '500px';
+    dialogConfig.minWidth = '550px';
     dialogConfig.data = {
       dialogTitle: this.dialogTitles[planName],
       editPlanName,

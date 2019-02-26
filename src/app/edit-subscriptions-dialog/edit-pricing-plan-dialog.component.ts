@@ -26,6 +26,10 @@ export class EditPricingPlanDialogComponent implements OnInit {
 
   dialogTitle: string;
 
+  editPlanName: boolean;
+
+  editUndiscountedPrice: boolean;
+
   pricingPlan: PricingPlan;
 
   planForm: FormGroup;
@@ -44,6 +48,8 @@ export class EditPricingPlanDialogComponent implements OnInit {
     private store: Store<AppState>) {
 
     this.dialogTitle = data.dialogTitle;
+    this.editPlanName = data.editPlanName;
+    this.editUndiscountedPrice = data.editUndiscountedPrice;
 
     this.allPlans = data.allPlans;
     this.planName = data.planName;
@@ -57,7 +63,8 @@ export class EditPricingPlanDialogComponent implements OnInit {
 
     this.planForm = this.fb.group({
       planDescription: [this.pricingPlan.description, Validators.required],
-      planPrice: [this.pricingPlan.price / 100, Validators.required]
+      planPrice: [this.pricingPlan.price / 100, Validators.required],
+      undiscountedPrice: [this.pricingPlan.undiscountedPrice / 100, Validators.required]
     });
 
   }

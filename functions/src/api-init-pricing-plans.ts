@@ -78,6 +78,7 @@ app.post('/init-pricing-plans', async (req, res) => {
         stripePlanId: yearlyResponse.id,
         description: yearlyPlanDescription,
         price: yearlyPlanPrice,
+        undiscountedPrice: 12 * monthlyPlanPrice,
         frequency: 'year',
         features: [
           'Best Value',
