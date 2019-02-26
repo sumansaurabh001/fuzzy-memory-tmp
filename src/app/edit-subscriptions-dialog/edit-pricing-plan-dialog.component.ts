@@ -74,12 +74,15 @@ export class EditPricingPlanDialogComponent implements OnInit {
   }
 
 
+
   save() {
 
     const val = this.planForm.value;
 
     this.pricingPlan.price = val.planPrice * 100;
+    this.pricingPlan.undiscountedPrice = val.undiscountedPrice * 100;
     this.pricingPlan.description = val.planDescription;
+
 
     const newPlans = {
       ...this.allPlans
@@ -89,7 +92,10 @@ export class EditPricingPlanDialogComponent implements OnInit {
 
     let saveCourse$ = this.pricingPlans.updatePlans(newPlans);
 
-    if (this.planForm.dirty) {
+    // only these two fields affect the Stripe pricing plan
+    if (this.planForm.controls['planDescription'].dirty || this.planForm.controls['planPrice'].dirty) {
+
+      console.log('Updating Stripe pricing plan ...');
 
       const updatePlan$ = this.pricingPlans.updateStripePricingPlan(
         this.planName,
