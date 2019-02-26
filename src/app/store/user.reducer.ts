@@ -1,4 +1,4 @@
-import {UserActions, UserActionTypes} from './auth.actions';
+import {UserActions, UserActionTypes} from './user.actions';
 import {User} from '../models/user.model';
 import {UserPermissions} from '../models/user-permissions.model';
 

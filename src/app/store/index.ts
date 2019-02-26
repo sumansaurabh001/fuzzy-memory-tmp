@@ -11,7 +11,7 @@ import * as fromDescriptions from './descriptions.reducer';
 import * as fromCourseSection from './course-section.reducer';
 import {storeFreeze} from 'ngrx-store-freeze';
 import * as fromLesson from './lesson.reducer';
-import {userReducer, UserState} from './auth.reducer';
+import {userReducer, UserState} from './user.reducer';
 import {platformReducer, PlatformState} from './platform.reducer';
 import {couponsReducer, CouponsState} from './coupons.reducer';
 import {videoAccessReducer, VideoAccessState} from './video-access.reducer';

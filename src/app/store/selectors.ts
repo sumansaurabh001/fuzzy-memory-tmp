@@ -6,7 +6,7 @@ import {
 } from '@ngrx/store';
 import * as fromSection from './course-section.reducer';
 import * as fromLesson from './lesson.reducer';
-import {UserState} from './auth.reducer';
+import {UserState} from './user.reducer';
 import {Tenant} from '../models/tenant.model';
 import {PlatformState} from './platform.reducer';
 import {CouponsState} from './coupons.reducer';

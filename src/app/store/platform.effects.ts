@@ -10,7 +10,7 @@ import {PlatformActionTypes, SaveTheme, UpdateStripeStatus} from './platform.act
 import {TenantsDBService} from '../services/tenants-db.service';
 import {TenantService} from '../services/tenant.service';
 import {StripeConnectionService} from '../services/stripe-connection.service';
-import {UserActionTypes} from './auth.actions';
+import {UserActionTypes} from './user.actions';
 
 
 @Injectable()

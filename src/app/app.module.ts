@@ -75,7 +75,7 @@ import {EditSectionDialogComponent} from './edit-section-dialog/edit-section-dia
 import { LoginComponent } from './login/login.component';
 import {AngularFireAuthModule} from '@angular/fire/auth';
 import {TenantsDBService} from './services/tenants-db.service';
-import {UserEffects} from './store/auth.effects';
+import {UserEffects} from './store/user.effects';
 import {ViewCoursesResolver} from './services/view-courses.resolver';
 import {PlatformGuard} from './services/platform.guard';
 import {PlatformEffects} from './store/platform.effects';

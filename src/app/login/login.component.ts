@@ -6,7 +6,7 @@ import {LoadingService} from '../services/loading.service';
 import {TenantsDBService} from '../services/tenants-db.service';
 import {AppState} from '../store';
 import {Store} from '@ngrx/store';
-import {Login} from '../store/auth.actions';
+import {Login} from '../store/user.actions';
 import {ActivatedRoute, Router} from '@angular/router';
 import {checkIfPlatformSite, DEFAULT_THEME} from '../common/platform-utils';
 import {ONLINECOURSEHOST_ACCENT_COLOR, ONLINECOURSEHOST_PRIMARY_COLOR} from '../common/ui-constants';

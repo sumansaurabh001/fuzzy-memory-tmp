@@ -17,7 +17,7 @@ import {promise} from 'selenium-webdriver';
 import {environment} from '../../environments/environment';
 import {CoursePurchased} from '../store/course.actions';
 import {PaymentsService} from '../services/payments.service';
-import {SubscriptionActivated} from '../store/auth.actions';
+import {SubscriptionActivated} from '../store/user.actions';
 
 declare const StripeCheckout;
 

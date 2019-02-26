@@ -3,7 +3,7 @@ import {Observable} from 'rxjs';
 import {select, Store} from '@ngrx/store';
 import {AppState} from '../store';
 import {isLoggedIn, isLoggedOut, userPictureUrl} from '../store/selectors';
-import {Logout} from '../store/auth.actions';
+import {Logout} from '../store/user.actions';
 import {AngularFireAuth} from '@angular/fire/auth';
 import {Router} from '@angular/router';
 import {LoadingService} from '../services/loading.service';
