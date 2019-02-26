@@ -6,7 +6,7 @@ import {Observable, BehaviorSubject} from 'rxjs';
 import {
   isAdmin,
   selectActiveCourse, selectActiveCourseAllLessons, selectActiveCourseDescription,
-  selectActiveCourseSections, selectUserCourses
+  selectActiveCourseSections, selectUser, selectUserCourses
 } from '../store/selectors';
 import {UrlBuilderService} from '../services/url-builder.service';
 import {Lesson} from '../models/lesson.model';
@@ -14,6 +14,7 @@ import {CourseSection} from '../models/course-section.model';
 import {filter, map, startWith, tap, withLatestFrom} from 'rxjs/operators';
 import {CollapsibleTriggerComponent} from '../collapsible-trigger/collapsible-trigger.component';
 import {sortSectionsBySeqNo} from '../common/sort-model';
+import {User} from '../models/user.model';
 
 const DESCRIPTION_MAX_LENGTH = 1500;
 
@@ -26,6 +27,8 @@ const DESCRIPTION_MAX_LENGTH = 1500;
 export class CoursePageComponent implements OnInit {
 
   course$: Observable<Course>;
+
+  user$: Observable<User>;
 
   courseDescription$: Observable<string>;
 
@@ -45,6 +48,8 @@ export class CoursePageComponent implements OnInit {
   ngOnInit() {
 
     this.course$ = this.store.pipe(select(selectActiveCourse));
+
+    this.user$ = this.store.pipe(select(selectUser));
 
     this.sections$ = this.store
       .pipe(

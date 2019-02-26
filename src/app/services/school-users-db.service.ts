@@ -20,11 +20,11 @@ export class SchoolUsersDbService {
 
   }
 
-  saveLatestUserProfile(userId: string, tenantId: string, email: string) {
+  saveLatestUserProfile(userId: string, tenantId: string, email: string, pictureUrl:string) {
 
     const addUserAsync = this.afs
       .doc(`schools/${tenantId}/users/${userId}`)
-      .set({email}, {merge: true});
+      .set({email,pictureUrl}, {merge: true});
 
     return from(addUserAsync);
   }
@@ -36,9 +36,7 @@ export class SchoolUsersDbService {
           if (!authState) {
             return of(undefined);
           }
-
           return readDocumentWithId(this.afs.doc(`schools/${this.tenant.id}/users/${authState.uid}`));
-
         })
       );
   }

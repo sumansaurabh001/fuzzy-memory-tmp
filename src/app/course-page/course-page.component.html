@@ -38,9 +38,13 @@
 
       <ng-container *ngIf="(userCourses$ | async) as userCourses">
 
-        <course-action-buttons
-          [course]="course" [userCourses]="userCourses">
-        </course-action-buttons>
+        <ng-container *ngIf="(user$ | async) as user">
+
+          <course-action-buttons
+            [course]="course" [user]="user" [userCourses]="userCourses">
+          </course-action-buttons>
+
+        </ng-container>
 
       </ng-container>
 

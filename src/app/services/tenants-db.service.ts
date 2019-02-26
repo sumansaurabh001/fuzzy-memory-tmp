@@ -20,7 +20,7 @@ export class TenantsDBService {
 
   }
 
-  createTenantIfNeeded(email: string): Observable<Tenant> {
+  createTenantIfNeeded(email: string, pictureUrl:string): Observable<Tenant> {
     return this.findTenantByCurrentUid()
       .pipe(
         withLatestFrom(this.afAuth.authState, this.findLastTenantSeqNo()),
@@ -49,7 +49,8 @@ export class TenantsDBService {
 
             const newSchoolUser = {
               id: authState.uid,
-              email
+              email,
+              pictureUrl
             };
 
             const batch = this.afs.firestore.batch();

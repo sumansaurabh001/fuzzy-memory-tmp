@@ -99,10 +99,10 @@ export class LoginComponent implements OnInit, OnDestroy {
     }
 
     if (this.isPlatformSite) {
-      this.handlePlatformWebsiteLogin(email);
+      this.handlePlatformWebsiteLogin(email, picture);
     }
     else if (this.redirectUrl) {
-      this.handleTenantWebsiteLogin(email);
+      this.handleTenantWebsiteLogin(email, picture);
     }
 
     return false;
@@ -125,9 +125,9 @@ export class LoginComponent implements OnInit, OnDestroy {
   *
   * */
 
-  handlePlatformWebsiteLogin(email: string) {
+  handlePlatformWebsiteLogin(email: string, pictureUrl:string) {
     this.loading.showLoader(
-      this.tenantsDB.createTenantIfNeeded(email)
+      this.tenantsDB.createTenantIfNeeded(email, pictureUrl)
         .pipe(
             withLatestFrom(this.afAuth.idToken),
             concatMap(([tenant, authJwtToken]) =>
@@ -157,13 +157,13 @@ export class LoginComponent implements OnInit, OnDestroy {
    *
    */
 
-  handleTenantWebsiteLogin(email: string) {
+  handleTenantWebsiteLogin(email: string, pictureUrl:string) {
     this.loading.showLoader(
       this.afAuth.authState
         .pipe(
           filter(authState => !!authState.uid),
           concatMap(authState =>
-            this.usersDB.saveLatestUserProfile(authState.uid, this.tenantId, email)
+            this.usersDB.saveLatestUserProfile(authState.uid, this.tenantId, email, pictureUrl)
               .pipe(
                 map(() => authState.uid)
               )

@@ -198,6 +198,11 @@ export const selectUserPermissions = createSelector(
     authState => authState.permissions
 );
 
+export const selectUser = createSelector(
+  authState,
+  authState => authState.user
+);
+
 export const selectUserCourses = createSelector(
   selectCoursesState,
   coursesState => coursesState.coursesPurchased

@@ -10,6 +10,7 @@ import {CoursePurchased} from '../store/course.actions';
 import {Router} from '@angular/router';
 import {Observable} from 'rxjs/Observable';
 import {isAdmin} from '../store/selectors';
+import {User} from '../models/user.model';
 
 declare const StripeCheckout;
 
@@ -22,6 +23,9 @@ export class CourseActionButtonsComponent implements OnInit, OnChanges {
 
   @Input()
   course:Course;
+
+  @Input()
+  user:User;
 
   @Input()
   userCourses: string[];
@@ -97,7 +101,9 @@ export class CourseActionButtonsComponent implements OnInit, OnChanges {
 
   updatePurchaseButtonsVisibility() {
 
-    const userOwnsCourse = this.course && this.userCourses.includes(this.course.id);
+    debugger;
+
+    const userOwnsCourse = this.course && (this.userCourses.includes(this.course.id) || this.user.pricingPlan);
 
     this.showPurchaseButtons =  !this.isAdmin && !userOwnsCourse;
   }

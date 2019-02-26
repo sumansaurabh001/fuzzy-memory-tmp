@@ -72,9 +72,28 @@ app.get('/video-access', async (req, res) => {
 
 });
 
+
+/*
+*
+* The user can only access the premium video if:
+ *
+ *  - its a free video
+ *  - the user is a premium subscriber
+ *  - the user bought the course separately
+*
+*/
+
 async function handleAuthenticatedUser(req, res, reqInfo:RequestInfo, video) {
   if (req.user.isAdmin) {
     console.log('Granting video access to admin user.');
+    allowVideoAccess(res, reqInfo, video);
+    return;
+  }
+
+  const user = await getDocData(`schools/${reqInfo.tenantId}/users/${reqInfo.userId}`);
+
+  if (user.pricingPlan) {
+    console.log('Granting video access to subscribed user.');
     allowVideoAccess(res, reqInfo, video);
     return;
   }
@@ -84,10 +103,11 @@ async function handleAuthenticatedUser(req, res, reqInfo:RequestInfo, video) {
   if (userCourses && userCourses.purchasedCourses.includes(reqInfo.courseId)) {
     console.log('Granting video access to premium user.');
     allowVideoAccess(res, reqInfo, video);
+    return;
   }
-  else {
-    denyVideoAccess(res, reqInfo);
-  }
+
+  denyVideoAccess(res, reqInfo);
+
 }
 
 
