@@ -14,7 +14,7 @@ export const adapter: EntityAdapter<Course> = createEntityAdapter<Course>();
 export const initialState: State = adapter.getInitialState({
   initialCoursesLoaded:false,
   activeCourseId: undefined,
-  coursesPurchased: undefined
+  coursesPurchased: []
 });
 
 export function coursesReducer(

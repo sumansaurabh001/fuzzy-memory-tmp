@@ -9,7 +9,7 @@ import {select, Store} from '@ngrx/store';
 import {CoursePurchased} from '../store/course.actions';
 import {Router} from '@angular/router';
 import {Observable} from 'rxjs/Observable';
-import {isAdmin} from '../store/selectors';
+import {isAdmin, selectUser, selectUserCourses} from '../store/selectors';
 import {User} from '../models/user.model';
 
 declare const StripeCheckout;
@@ -25,9 +25,10 @@ export class CourseActionButtonsComponent implements OnInit, OnChanges {
   course:Course;
 
   @Input()
+  userCourses: string[] = [];
+
   user:User;
 
-  @Input()
   userCourses: string[];
 
   showPurchaseButtons:boolean;
@@ -47,6 +48,18 @@ export class CourseActionButtonsComponent implements OnInit, OnChanges {
 
 
   ngOnInit() {
+
+    this.store.pipe(select(selectUser))
+      .subscribe(user => {
+        this.user = user;
+        this.updatePurchaseButtonsVisibility();
+      });
+
+    this.store.pipe(select(selectUserCourses))
+      .subscribe(userCourses => {
+        this.userCourses = userCourses;
+        this.updatePurchaseButtonsVisibility();
+      });
 
     this.checkoutHandler = StripeCheckout.configure({
       key: environment.stripe.stripePublicKey,
@@ -101,11 +114,9 @@ export class CourseActionButtonsComponent implements OnInit, OnChanges {
 
   updatePurchaseButtonsVisibility() {
 
-    debugger;
+    const userOwnsCourse = this.course && (this.userCourses.includes(this.course.id) || this.user && this.user.pricingPlan);
 
-    const userOwnsCourse = this.course && (this.userCourses.includes(this.course.id) || this.user.pricingPlan);
-
-    this.showPurchaseButtons =  !this.isAdmin && !userOwnsCourse;
+    this.showPurchaseButtons =  !this.user || (!this.isAdmin && !userOwnsCourse);
   }
 
 

@@ -4,6 +4,7 @@ import {UserPermissions} from '../models/user-permissions.model';
 
 export enum AuthActionTypes {
   LoginAction = '[Firebase Auth] Login',
+  UserLoaded = '[App Startup] User Loaded',
   LogoutAction = '[Top Menu] Logout',
   SetUserPermissionsAction = '[Firebase Auth] Set User Permissions'
 }
@@ -24,5 +25,11 @@ export class Logout implements Action {
   readonly type = AuthActionTypes.LogoutAction;
 }
 
+export class UserLoaded implements Action {
+  readonly type = AuthActionTypes.UserLoaded;
 
-export type AuthActions = Login | Logout | SetUserPermissions;
+  constructor(public payload: {user:User}) {}
+
+}
+
+export type AuthActions = Login | Logout | SetUserPermissions | UserLoaded;

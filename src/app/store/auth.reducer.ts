@@ -6,7 +6,7 @@ import {UserPermissions} from '../models/user-permissions.model';
 export interface AuthState {
   isLoggedIn:boolean;
   user: User;
-  permissions: UserPermissions;
+  permissions?: UserPermissions;
 }
 
 export const initialAuthState: AuthState = {
@@ -36,6 +36,15 @@ export function authReducer(state = initialAuthState, action: AuthActions): Auth
         user: undefined,
         permissions: undefined
       };
+
+    case AuthActionTypes.UserLoaded:
+      return {
+        ...state,
+        user: {
+          ...state.user,
+          pricingPlan: action.payload.user.pricingPlan
+        }
+      }
 
     default:
       return state;

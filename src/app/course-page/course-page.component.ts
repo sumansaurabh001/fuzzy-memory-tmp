@@ -28,15 +28,13 @@ export class CoursePageComponent implements OnInit {
 
   course$: Observable<Course>;
 
-  user$: Observable<User>;
-
   courseDescription$: Observable<string>;
 
   sections$: Observable<CourseSection[]>;
 
   lessons$: Observable<Lesson[]>;
 
-  userCourses$: Observable<string[]>;
+
 
   showFullDescription = false;
 
@@ -49,8 +47,6 @@ export class CoursePageComponent implements OnInit {
 
     this.course$ = this.store.pipe(select(selectActiveCourse));
 
-    this.user$ = this.store.pipe(select(selectUser));
-
     this.sections$ = this.store
       .pipe(
         select(selectActiveCourseSections),
@@ -60,8 +56,6 @@ export class CoursePageComponent implements OnInit {
     this.lessons$ = this.store.pipe(select(selectActiveCourseAllLessons));
 
     this.courseDescription$ = this.selectDescription();
-
-    this.userCourses$ = this.store.pipe(select(selectUserCourses));
 
   }
 

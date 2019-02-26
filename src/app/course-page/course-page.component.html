@@ -36,17 +36,8 @@
         <span class="discount">(94% Off)</span>
       </div>
 
-      <ng-container *ngIf="(userCourses$ | async) as userCourses">
-
-        <ng-container *ngIf="(user$ | async) as user">
-
-          <course-action-buttons
-            [course]="course" [user]="user" [userCourses]="userCourses">
-          </course-action-buttons>
-
-        </ng-container>
-
-      </ng-container>
+      <course-action-buttons [course]="course">
+      </course-action-buttons>
 
     </div>
 
