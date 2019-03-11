@@ -140,7 +140,7 @@ export class SubscriptionComponent implements OnInit {
 
   }
 
-  editPlan(allPlans: PricingPlansState, planName: string, editPlanName:boolean, editUndiscountedPrice: boolean) {
+  editPlan(allPlans: PricingPlansState, planName: string, editPlanName:boolean, editUndiscountedPrice: boolean, updateStripePlan:boolean) {
 
     const dialogConfig = new MatDialogConfig();
 
@@ -153,6 +153,7 @@ export class SubscriptionComponent implements OnInit {
       editUndiscountedPrice,
       planName,
       allPlans,
+      updateStripePlan
 
     };
 
