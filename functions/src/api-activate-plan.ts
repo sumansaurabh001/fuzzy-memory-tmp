@@ -58,10 +58,10 @@ app.post('/activate-plan', async (req, res) => {
     reqInfo.user = user;
 
     if (reqInfo.oneTimeCharge) {
-
+      await activateOneTimeChargePlan(reqInfo);
     }
     else {
-      await handleRecurringCharge(reqInfo);
+      await activateRecurringPlan(reqInfo);
     }
 
 
@@ -75,7 +75,7 @@ app.post('/activate-plan', async (req, res) => {
 
 });
 
-async function handleRecurringCharge(reqInfo: ReqInfo) {
+async function activateRecurringPlan(reqInfo: ReqInfo) {
 
   let config = {stripe_account: reqInfo.tenant.stripeTenantUserId};
 
@@ -107,8 +107,33 @@ async function handleRecurringCharge(reqInfo: ReqInfo) {
     stripeSubscriptionId: subscription.id,
     pricingPlan: reqInfo.plan.frequency}, {merge:true});
 
+}
+
+
+async function activateOneTimeChargePlan(reqInfo: ReqInfo) {
+
+  await stripe.charges.create({
+    amount: reqInfo.plan.price,
+    currency: 'usd',
+    source: reqInfo.tokenId,
+    application_fee: application_fee_percent / 100 * reqInfo.plan.price
+  }, {
+    stripe_account: reqInfo.tenant.stripeTenantUserId,
+  });
+
+  console.log("Created Stripe one-time plan: " + reqInfo.plan.frequency);
+
+  const userPrivatePath = `schools/${reqInfo.tenantId}/usersPrivate/${reqInfo.userId}`;
+
+  await db.doc(userPrivatePath).set({
+    pricingPlan: reqInfo.plan.frequency
+  }, {merge:true});
+
+
 
 }
+
+
 
 
 export const apiStripeActivatePlan = functions.https.onRequest(app);
