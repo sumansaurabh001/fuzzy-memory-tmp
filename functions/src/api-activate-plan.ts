@@ -24,52 +24,46 @@ app.use(cors({origin: true}));
 app.use(authenticationMiddleware);
 
 
+interface ReqInfo {
+  tokenId:string;
+  plan: any;
+  userId:string;
+  tenantId:string;
+  oneTimeCharge:boolean;
+  tenant?:any;
+  user?:any;
+}
+
 app.post('/activate-plan', async (req, res) => {
 
   try {
 
-    const tokenId = req.body.tokenId,
-      plan = req.body.plan,
-      userId = req.user.uid,
-      tenantId = req.body.tenantId;
+    const reqInfo: ReqInfo = {
+      tokenId: req.body.tokenId,
+      plan: req.body.plan,
+      userId: req.user.uid,
+      tenantId: req.body.tenantId,
+      oneTimeCharge: req.body.oneTimeCharge
+    };
 
     // get the tenant from the database
-    const tenantPath = `tenantSettings/${tenantId}`,
+    const tenantPath = `tenantSettings/${reqInfo.tenantId}`,
       tenant = await getDocData(tenantPath);
 
     // get the user from the database
-    const userPath = `schools/${tenantId}/users/${userId}`,
+    const userPath = `schools/${reqInfo.tenantId}/users/${reqInfo.userId}`,
       user = await getDocData(userPath);
 
-    let config = {stripe_account: tenant.stripeTenantUserId};
+    reqInfo.tenant = tenant;
+    reqInfo.user = user;
 
-    // create the stripe customer
-    const customer = await stripe.customers.create({
-      source: tokenId,
-      email: user.email
-    }, config);
+    if (reqInfo.oneTimeCharge) {
 
-    console.log('Created Stripe customer ' + customer.id);
+    }
+    else {
+      await handleRecurringCharge(reqInfo);
+    }
 
-    // create the stripe subscription
-    const subscription = await stripe.subscriptions.create({
-      customer: customer.id,
-      items: [
-        {
-          plan: plan.stripePlanId,
-        },
-      ],
-      application_fee_percent
-    }, config);
-
-    console.log("Created Stripe subscription: " + subscription.id);
-
-    const userPrivatePath = `schools/${tenantId}/usersPrivate/${userId}`;
-
-    await db.doc(userPrivatePath).set({
-      stripeCustomerId: customer.id,
-      stripeSubscriptionId: subscription.id,
-      pricingPlan: plan.frequency}, {merge:true});
 
     res.status(200).json({message: 'Customer subscription created successfully.'});
 
@@ -80,6 +74,41 @@ app.post('/activate-plan', async (req, res) => {
   }
 
 });
+
+async function handleRecurringCharge(reqInfo: ReqInfo) {
+
+  let config = {stripe_account: reqInfo.tenant.stripeTenantUserId};
+
+  // create the stripe customer
+  const customer = await stripe.customers.create({
+    source: reqInfo.tokenId,
+    email: reqInfo.user.email
+  }, config);
+
+  console.log('Created Stripe customer ' + customer.id);
+
+  // create the stripe subscription
+  const subscription = await stripe.subscriptions.create({
+    customer: customer.id,
+    items: [
+      {
+        plan: reqInfo.plan.stripePlanId,
+      },
+    ],
+    application_fee_percent
+  }, config);
+
+  console.log("Created Stripe subscription: " + subscription.id);
+
+  const userPrivatePath = `schools/${reqInfo.tenantId}/usersPrivate/${reqInfo.userId}`;
+
+  await db.doc(userPrivatePath).set({
+    stripeCustomerId: customer.id,
+    stripeSubscriptionId: subscription.id,
+    pricingPlan: reqInfo.plan.frequency}, {merge:true});
+
+
+}
 
 
 export const apiStripeActivatePlan = functions.https.onRequest(app);

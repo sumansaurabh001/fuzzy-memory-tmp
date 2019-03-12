@@ -34,14 +34,15 @@ export class PaymentsService {
       });
   }
 
-  activatePlan(tokenId: string, paymentEmail: string, plan: PricingPlan): Observable<any> {
+  activatePlan(tokenId: string, paymentEmail: string, plan: PricingPlan, oneTimeCharge:boolean): Observable<any> {
 
     return this.http.post(
       environment.api.stripeActivatePlanUrl,
       {
         tokenId,
         plan,
-        tenantId: this.tenant.id
+        tenantId: this.tenant.id,
+        oneTimeCharge
       });
   }
 
