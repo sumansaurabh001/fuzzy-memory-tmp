@@ -64,10 +64,12 @@ app.post('/activate-plan', async (req, res) => {
 
     console.log("Created Stripe subscription: " + subscription.id);
 
-    await db.doc(userPath).update({
+    const userPrivatePath = `schools/${tenantId}/usersPrivate/${userId}`;
+
+    await db.doc(userPrivatePath).set({
       stripeCustomerId: customer.id,
       stripeSubscriptionId: subscription.id,
-      pricingPlan: plan.frequency});
+      pricingPlan: plan.frequency}, {merge:true});
 
     res.status(200).json({message: 'Customer subscription created successfully.'});
 

@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {AngularFirestore} from '@angular/fire/firestore';
-import {from, of} from 'rxjs';
-import {concatMap, map} from 'rxjs/operators';
+import {from, of, forkJoin} from 'rxjs';
+import {concatMap, first, map} from 'rxjs/operators';
 import {readDocumentWithId} from '../common/firestore-utils';
 import {AngularFireAuth} from '@angular/fire/auth';
 import {TenantService} from './tenant.service';
@@ -31,8 +31,18 @@ export class SchoolUsersDbService {
   }
 
   findUserByUid(uid:string): Observable<User> {
-    return readDocumentWithId<User>(this.afs.doc(`schools/${this.tenant.id}/users/${uid}`));
-
+    return forkJoin(
+        readDocumentWithId<User>(this.afs.doc(`schools/${this.tenant.id}/users/${uid}`)).pipe(first()),
+        readDocumentWithId<User>(this.afs.doc(`schools/${this.tenant.id}/usersPrivate/${uid}`)).pipe(first())
+      )
+      .pipe(
+        map(([data, privateData]) => {
+          return {
+            ...data,
+            ...privateData
+          }
+        })
+      );
   }
 
   loadUserCourses(tenantId: string, userId: string): Observable<string[]> {

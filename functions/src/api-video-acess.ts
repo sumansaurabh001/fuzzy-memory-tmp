@@ -100,7 +100,7 @@ async function handleAuthenticatedUser(req, res, reqInfo:RequestInfo, video) {
 
   const userPrivate = await getDocData(`schools/${reqInfo.tenantId}/usersPrivate/${reqInfo.userId}`);
 
-  if (userPrivate && userPrivate.purchasedCourses.includes(reqInfo.courseId)) {
+  if (userPrivate && userPrivate.purchasedCourses && userPrivate.purchasedCourses.includes(reqInfo.courseId)) {
     console.log('Granting video access to premium user.');
     allowVideoAccess(res, reqInfo, video);
     return;
@@ -113,11 +113,20 @@ async function handleAuthenticatedUser(req, res, reqInfo:RequestInfo, video) {
 
 function allowVideoAccess(res, reqInfo: RequestInfo, video) {
   console.log("Granting access to video:", JSON.stringify(video));
-  res.status(200).json({id: reqInfo.lessonId, status:'allowed', videoSecretFileName: video.secretVideoFileName});
+  res.status(200).json({
+    id: reqInfo.lessonId,
+    courseId: reqInfo.courseId,
+    status:'allowed',
+    videoSecretFileName: video.secretVideoFileName
+  });
 }
 
 function denyVideoAccess(res, reqInfo: RequestInfo) {
-  res.status(200).json({id: reqInfo.lessonId, status:'denied'});
+  res.status(200).json({
+    id: reqInfo.lessonId,
+    status:'denied',
+    courseId: reqInfo.courseId
+  });
 }
 
 

@@ -17,7 +17,7 @@ import {promise} from 'selenium-webdriver';
 import {environment} from '../../environments/environment';
 import {CoursePurchased} from '../store/course.actions';
 import {PaymentsService} from '../services/payments.service';
-import {SubscriptionActivated} from '../store/user.actions';
+import {PlanActivated} from '../store/user.actions';
 
 declare const StripeCheckout;
 
@@ -114,7 +114,7 @@ export class SubscriptionComponent implements OnInit {
           .pipe(finalize(() => this.selectedPlan = null))
           .subscribe(
             () => {
-              this.store.dispatch(new SubscriptionActivated({selectedPlan: this.selectedPlan}));
+              this.store.dispatch(new PlanActivated({selectedPlan: this.selectedPlan}));
               this.messages.success('Payment successful, you now have access to all courses!');
             },
             err => {

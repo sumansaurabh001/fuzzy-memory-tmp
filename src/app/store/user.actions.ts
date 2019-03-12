@@ -9,7 +9,7 @@ export enum UserActionTypes {
   UserLoaded = '[App Startup] User Loaded',
   LogoutAction = '[Top Menu] Logout',
   SetUserPermissionsAction = '[Firebase Auth] Set User Permissions',
-  SubscriptionActivated = '[Subscriptions Page] Subscription Activated'
+  PlanActivated = '[Subscriptions Page] Subscription Activated'
 }
 
 export class Login implements Action {
@@ -31,14 +31,14 @@ export class Logout implements Action {
 export class UserLoaded implements Action {
   readonly type = UserActionTypes.UserLoaded;
 
-  constructor(public payload: {user:User}) {}
+  constructor(public payload: {user:Partial<User>}) {}
 
 }
 
-export class SubscriptionActivated implements Action {
-  readonly type = UserActionTypes.SubscriptionActivated;
+export class PlanActivated implements Action {
+  readonly type = UserActionTypes.PlanActivated;
 
   constructor(public payload: {selectedPlan: PricingPlan}) {}
 }
 
-export type UserActions = Login | Logout | SetUserPermissions | UserLoaded | SubscriptionActivated;
+export type UserActions = Login | Logout | SetUserPermissions | UserLoaded | PlanActivated;

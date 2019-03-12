@@ -14,8 +14,6 @@ import {VideoAccess} from '../models/video-access.model';
 })
 export class VideoService {
 
-  private authJwtToken:string;
-
   constructor(
     private http:HttpClient,
     private tenant: TenantService) {
