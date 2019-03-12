@@ -99,10 +99,18 @@ export class SubscriptionComponent implements OnInit {
       token: (token) => {
 
         const tokenId = token.id,
-          paymentEmail = token.email,
-          purchaseSubscription$ = this.payments.purchaseSubscription(tokenId, paymentEmail, this.selectedPlan);
+          paymentEmail = token.email;
 
-        this.loading.showLoaderUntilCompleted(purchaseSubscription$)
+        let buyPlan$;
+
+        if (this.selectedPlan.frequency == 'lifetime') {
+
+        }
+        else {
+          buyPlan$ = this.payments.activatePlan(tokenId, paymentEmail, this.selectedPlan);
+        }
+
+        this.loading.showLoaderUntilCompleted(buyPlan$)
           .pipe(finalize(() => this.selectedPlan = null))
           .subscribe(
             () => {

@@ -15,25 +15,18 @@ import {of} from 'rxjs';
 })
 export class PricingPlansService {
 
-  private authJwtToken:string;
 
   constructor(
     private http: HttpClient,
-    private afAuth: AngularFireAuth,
     private afs: AngularFirestore,
     private tenant: TenantService) {
 
-    afAuth.idToken.subscribe(jwt => this.authJwtToken = jwt);
 
   }
 
   updateStripePricingPlan(planName: string, changes: Partial<PricingPlan>): Observable<Partial<PricingPlan>> {
 
-    const headers = new HttpHeaders()
-      .set('Content-Type', "application/json")
-      .set('Authorization',`Bearer ${this.authJwtToken}`);
-
-    return this.http.post(environment.api.stripeUpdatePricingPLanUrl, {planName, changes}, {headers});
+    return this.http.post(environment.api.stripeUpdatePricingPLanUrl, {planName, changes});
 
   }
 

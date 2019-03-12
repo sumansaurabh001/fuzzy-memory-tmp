@@ -21,7 +21,7 @@ export class SchoolUsersDbService {
 
   }
 
-  saveLatestUserProfile(userId: string, tenantId: string, email: string, pictureUrl: string) {
+  saveLatestUserProfile(userId: string, tenantId: string, email: string = null, pictureUrl: string = null) {
 
     const addUserAsync = this.afs
       .doc(`schools/${tenantId}/users/${userId}`)
@@ -36,7 +36,7 @@ export class SchoolUsersDbService {
   }
 
   loadUserCourses(tenantId: string, userId: string): Observable<string[]> {
-    return this.afs.doc(`schools/${tenantId}/userCourses/${userId}`)
+    return this.afs.doc(`schools/${tenantId}/usersPrivate/${userId}`)
       .get()
       .pipe(
         map(snap => {

@@ -13,22 +13,17 @@ import {Observable} from 'rxjs/Observable';
 })
 export class PaymentsService {
 
-  private authJwtToken:string;
+
 
   constructor(
     private http: HttpClient,
-    private tenant: TenantService,
-    private afAuth: AngularFireAuth) {
+    private tenant: TenantService) {
 
-    afAuth.idToken.subscribe(jwt => this.authJwtToken = jwt);
+
 
   }
 
   purchaseCourse(tokenId: string, paymentEmail: string, courseId): Observable<any> {
-
-    const headers = new HttpHeaders()
-      .set('Content-Type', "application/json")
-      .set('Authorization',`Bearer ${this.authJwtToken}`);
 
     return this.http.post(
       environment.api.purchaseCourseUrl,
@@ -36,27 +31,17 @@ export class PaymentsService {
         tokenId,
         courseId,
         tenantId: this.tenant.id
-      },
-      {
-        headers
       });
   }
 
-  purchaseSubscription(tokenId: string, paymentEmail: string, plan: PricingPlan): Observable<any> {
-
-    const headers = new HttpHeaders()
-      .set('Content-Type', "application/json")
-      .set('Authorization',`Bearer ${this.authJwtToken}`);
+  activatePlan(tokenId: string, paymentEmail: string, plan: PricingPlan): Observable<any> {
 
     return this.http.post(
-      environment.api.stripeCreateSubscriptionUrl,
+      environment.api.stripeActivatePlanUrl,
       {
         tokenId,
         plan,
         tenantId: this.tenant.id
-      },
-      {
-        headers
       });
   }
 

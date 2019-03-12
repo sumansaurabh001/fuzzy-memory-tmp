@@ -43,6 +43,12 @@ export class PlatformGuard implements CanActivate {
   }
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
+
+     // the tenant is only going to be determined once, at application startup time
+     if (this.tenant.id) {
+       return of(true);
+     }
+
      return this.determinePlatformSettings();
   }
 

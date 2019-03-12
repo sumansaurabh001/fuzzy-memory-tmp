@@ -18,10 +18,8 @@ export class VideoService {
 
   constructor(
     private http:HttpClient,
-    private tenant: TenantService,
-    private afAuth: AngularFireAuth) {
+    private tenant: TenantService) {
 
-    afAuth.idToken.subscribe(jwt => this.authJwtToken = jwt);
 
   }
 
@@ -32,11 +30,7 @@ export class VideoService {
       .set("courseId", courseId)
       .set("lessonId", lessonId);
 
-    const headers = new HttpHeaders()
-      .set('Content-Type', "application/json")
-      .set('Authorization',`Bearer ${this.authJwtToken}`);
-
-    return this.http.get<VideoAccess>(environment.api.videoAccessUrl, {params, headers});
+    return this.http.get<VideoAccess>(environment.api.videoAccessUrl, {params});
   }
 
 }

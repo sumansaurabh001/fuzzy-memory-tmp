@@ -26,7 +26,7 @@ export class CourseActionButtonsComponent implements OnInit, OnChanges {
 
   user:User;
 
-  userCourses: string[];
+  userCourses: string[] = [];
 
   showPurchaseButtons:boolean;
 

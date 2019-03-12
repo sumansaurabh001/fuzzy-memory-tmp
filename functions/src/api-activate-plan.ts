@@ -24,7 +24,7 @@ app.use(cors({origin: true}));
 app.use(authenticationMiddleware);
 
 
-app.post('/create-subscription', async (req, res) => {
+app.post('/activate-plan', async (req, res) => {
 
   try {
 
@@ -80,7 +80,7 @@ app.post('/create-subscription', async (req, res) => {
 });
 
 
-export const apiStripeCreateSubscription = functions.https.onRequest(app);
+export const apiStripeActivatePlan = functions.https.onRequest(app);
 
 
 

@@ -30,11 +30,12 @@ service cloud.firestore {
 
     match /tenantSettings/{tenantId} {
 
-      // only the tenant himself (and not other admins) can both read and edit his own settings, this is private data
+      // only the tenant himself (and not other admins) can both read and edit the tenant own settings
       allow read,write: if isCurrentUser(tenantId);
 
-      match /{document=**} {
-        allow read,write: if isCurrentUser(tenantId);
+      // the tenant user can read his own permissions, and even edit them, unlike admin users
+      match /userPermissions/{tenantId} {
+        allow read, write: if isCurrentUser(tenantId);
       }
 
     }
@@ -112,12 +113,12 @@ service cloud.firestore {
 
     }
 
-    match /schools/{tenantId}/userCourses/{uid}  {
+    match /schools/{tenantId}/usersPrivate/{uid}  {
 
-        // the user purchased courses are only visible by admins or the user himself
+        // user data is only visible by admins or the user himself
         allow read: if isAdmin(uid) || isCurrentUser(uid);
 
-        // only admins can add purchased courses to a user, the user himself cannot do that
+        // even the user himself can't edit this
         allow write: if isAdmin(tenantId);
 
     }

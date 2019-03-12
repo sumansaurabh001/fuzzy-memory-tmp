@@ -98,9 +98,9 @@ async function handleAuthenticatedUser(req, res, reqInfo:RequestInfo, video) {
     return;
   }
 
-  const userCourses = await getDocData(`schools/${reqInfo.tenantId}/userCourses/${reqInfo.userId}`);
+  const userPrivate = await getDocData(`schools/${reqInfo.tenantId}/usersPrivate/${reqInfo.userId}`);
 
-  if (userCourses && userCourses.purchasedCourses.includes(reqInfo.courseId)) {
+  if (userPrivate && userPrivate.purchasedCourses.includes(reqInfo.courseId)) {
     console.log('Granting video access to premium user.');
     allowVideoAccess(res, reqInfo, video);
     return;

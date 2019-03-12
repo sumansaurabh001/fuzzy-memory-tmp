@@ -65,19 +65,19 @@ app.post('/purchase-course', async (req, res) => {
     }
 
     // add the course to the user's list of purchased courses
-    const userCoursesPath = `schools/${tenantId}/userCourses/${userId}`;
+    const usersPrivatePath = `schools/${tenantId}/usersPrivate/${userId}`;
 
-    let userCourses = await getDocData(userCoursesPath);
+    let userPrivate = await getDocData(usersPrivatePath);
 
-    if (!userCourses || !userCourses.purchasedCourses) {
-      userCourses = {
+    if (!userPrivate || !userPrivate.purchasedCourses) {
+      userPrivate = {
         purchasedCourses: []
       }
     }
 
-    userCourses.purchasedCourses.push(courseId);
+    userPrivate.purchasedCourses.push(courseId);
 
-    await db.doc(userCoursesPath).set(userCourses);
+    await db.doc(usersPrivatePath).set(userPrivate, {merge:true});
 
     res.status(200).json({message: 'Payment processed successfully.'});
 

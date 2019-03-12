@@ -32,7 +32,7 @@
     <mat-icon>menu</mat-icon>
   </a>
 
-  <ng-container *ngIf="!isSingleSignOnPage">
+  <ng-container *ngIf="!isSingleSignOnPage && !isPlatformSite">
 
     <a mat-button class="desktop-menu" routerLink="/courses">
       <span>Courses</span>

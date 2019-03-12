@@ -4,7 +4,7 @@ import {NgModule} from '@angular/core';
 
 import {AppComponent} from './app.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {HttpClientModule} from '@angular/common/http';
+import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 
 import {
   MatButtonModule, MatCardModule, MatCheckboxModule, MatDatepickerModule, MatDialogModule, MatExpansionModule, MatGridListModule,
@@ -99,6 +99,7 @@ import { SubscriptionComponent } from './subscription/subscription.component';
 import { MiniActionButtonComponent } from './mini-action-button/mini-action-button.component';
 import { FeaturesComponent } from './features/features.component';
 import {EditPricingPlanDialogComponent} from './edit-subscriptions-dialog/edit-pricing-plan-dialog.component';
+import {AuthInterceptor} from './services/auth.interceptor';
 
 
 @NgModule({
@@ -216,7 +217,12 @@ import {EditPricingPlanDialogComponent} from './edit-subscriptions-dialog/edit-p
     LoginGuard,
     CookieService,
     {provide: RouterStateSerializer, useClass: CustomRouterStateSerializer},
-    PaymentsService
+    PaymentsService,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi:true
+    }
   ],
   entryComponents: [
     AddCourseDialogComponent,

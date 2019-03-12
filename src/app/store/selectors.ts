@@ -211,7 +211,7 @@ export const selectUserCourses = createSelector(
 
 export const isAdmin = createSelector(
   userState,
-  authState => authState.permissions.isAdmin
+  authState => authState.permissions ? authState.permissions.isAdmin : false
 );
 
 export const selectActiveLessonVideoAccess = createSelector(

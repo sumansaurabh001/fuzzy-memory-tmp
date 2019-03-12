@@ -14,14 +14,11 @@ import {AngularFireAuth} from '@angular/fire/auth';
 })
 export class StripeConnectionService {
 
-  private authJwtToken:string;
-
   constructor(
     private http:HttpClient,
     private tenant: TenantService,
     private afAuth: AngularFireAuth) {
 
-    afAuth.idToken.subscribe(jwt => this.authJwtToken = jwt);
 
   }
 
@@ -44,8 +41,6 @@ export class StripeConnectionService {
   setupDefaultPricingPlans(monthlyPlanDescription:string, yearlyPlanDescription:string,
                            monthlyPlanPrice:number, yearlyPlanPrice: number, lifetimeAccessPrice:number): Observable<PricingPlanDetails> {
 
-    const headers = new HttpHeaders()
-      .set('Authorization',`Bearer ${this.authJwtToken}`);
 
     return this.http.post<PricingPlanDetails>(environment.api.stripeInitPricingPlansUrl,
       {
@@ -54,7 +49,6 @@ export class StripeConnectionService {
         monthlyPlanPrice,
         yearlyPlanPrice,
         lifetimeAccessPrice
-      },
-      {headers});
+      });
   }
 }
