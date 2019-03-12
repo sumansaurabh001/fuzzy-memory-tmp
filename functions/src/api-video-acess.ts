@@ -90,15 +90,13 @@ async function handleAuthenticatedUser(req, res, reqInfo:RequestInfo, video) {
     return;
   }
 
-  const user = await getDocData(`schools/${reqInfo.tenantId}/users/${reqInfo.userId}`);
+  const userPrivate = await getDocData(`schools/${reqInfo.tenantId}/usersPrivate/${reqInfo.userId}`);
 
-  if (user.pricingPlan) {
+  if (userPrivate.pricingPlan) {
     console.log('Granting video access to subscribed user.');
     allowVideoAccess(res, reqInfo, video);
     return;
   }
-
-  const userPrivate = await getDocData(`schools/${reqInfo.tenantId}/usersPrivate/${reqInfo.userId}`);
 
   if (userPrivate && userPrivate.purchasedCourses && userPrivate.purchasedCourses.includes(reqInfo.courseId)) {
     console.log('Granting video access to premium user.');
