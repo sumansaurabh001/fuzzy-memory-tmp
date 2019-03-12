@@ -48,10 +48,19 @@
     </a>
 
     <mat-menu class="dropdown-menu" #adminMenu [overlapTrigger]="false">
-      <button mat-menu-item>My Account</button>
       <mat-divider></mat-divider>
       <button mat-menu-item routerLink="/admin/branding">Branding</button>
     </mat-menu>
+
+
+    <a mat-button class="desktop-menu" [matMenuTriggerFor]="settingsMenu">
+      <span>Settings</span>
+    </a>
+
+    <mat-menu class="dropdown-menu" #settingsMenu [overlapTrigger]="false">
+      <button mat-menu-item routerLink="/user-settings/my-account">My Account</button>
+    </mat-menu>
+
 
     <span class="filler"></span>
 

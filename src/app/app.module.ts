@@ -100,6 +100,7 @@ import { MiniActionButtonComponent } from './mini-action-button/mini-action-butt
 import { FeaturesComponent } from './features/features.component';
 import {EditPricingPlanDialogComponent} from './edit-subscriptions-dialog/edit-pricing-plan-dialog.component';
 import {AuthInterceptor} from './services/auth.interceptor';
+import { MyAccountComponent } from './my-account/my-account.component';
 
 
 @NgModule({
@@ -148,7 +149,8 @@ import {AuthInterceptor} from './services/auth.interceptor';
     SubscriptionComponent,
     MiniActionButtonComponent,
     EditPricingPlanDialogComponent,
-    FeaturesComponent
+    FeaturesComponent,
+    MyAccountComponent
   ],
   imports: [
     BrowserModule,

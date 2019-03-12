@@ -15,6 +15,7 @@ import {LoginGuard} from './login/login.guard';
 import {StripeConnectionRequestComponent} from './stripe-connection-request/stripe-connection-request.component';
 import {StripeConnectionResponseComponent} from './stripe-connection-response/stripe-connection-response.component';
 import {SubscriptionComponent} from './subscription/subscription.component';
+import {MyAccountComponent} from './my-account/my-account.component';
 
 const routes: Routes = [
   {
@@ -80,6 +81,11 @@ const routes: Routes = [
     path: 'admin',
     loadChildren: './admin/admin.module#AdminModule',
     canActivate: [AuthGuard, PlatformGuard]
+  },
+  {
+    path: "user-settings/my-account",
+    component: MyAccountComponent,
+    canActivate: [PlatformGuard]
   },
   {
     path: "**",
