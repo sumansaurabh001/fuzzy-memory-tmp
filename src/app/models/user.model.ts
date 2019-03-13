@@ -10,6 +10,7 @@ export interface User {
   roles?:string[];
   pricingPlan?:string;
   planActivatedAt?:firebase.firestore.Timestamp;
+  planValidUntil?:firebase.firestore.Timestamp;
   stripeCustomerId?:string;
   stripeSubscriptionId?:string;
 }

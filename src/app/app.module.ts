@@ -19,7 +19,6 @@ import {
   MatTabsModule, MatToolbarModule, MatTooltipModule
 } from '@angular/material';
 
-import {MatMomentDateModule} from '@angular/material-moment-adapter';
 import {AppRoutingModule} from './app-routing.module';
 import {EditCourseComponent} from './edit-course/edit-course.component';
 import {EditLessonsListComponent} from './edit-lessons-list/edit-lessons-list.component';

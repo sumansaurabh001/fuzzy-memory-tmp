@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Observable} from 'rxjs/Observable';
 import {User} from '../models/user.model';
 import {AppState} from '../store';
 import {select, Store} from '@ngrx/store';
 import {selectUser} from '../store/selectors';
 import {planNames} from '../common/text';
+
 
 @Component({
   selector: 'my-account',
@@ -16,7 +17,8 @@ export class MyAccountComponent implements OnInit {
 
   user$: Observable<User>;
 
-  constructor(private store: Store<AppState>) { }
+  constructor(private store: Store<AppState>) {
+  }
 
   ngOnInit() {
 
@@ -24,18 +26,24 @@ export class MyAccountComponent implements OnInit {
 
   }
 
-  isSubscriptionActive(user:User) {
+  isSubscriptionActive(user: User) {
     return user && user.pricingPlan;
   }
 
-  subscriptionDescr(user:User) {
-    return user.pricingPlan ? planNames[user.pricingPlan] : "None";
+  subscriptionDescr(user: User) {
+    return user.pricingPlan ? planNames[user.pricingPlan] : 'None';
   }
 
-  validUntil(user:User) {
+  isLifetimeSubscriber(user: User) {
+    return user.pricingPlan == 'lifetime';
+  }
 
+  activationDate(user) {
+    return new Date(user.planActivatedAt.toMillis());
+  }
 
-
+  validUntil(user: User) {
+    return new Date(user.planValidUntil.toMillis());
   }
 
   cancelPlan() {
