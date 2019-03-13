@@ -102,9 +102,9 @@ export class SubscriptionComponent implements OnInit {
         this.loading.showLoaderUntilCompleted(buyPlan$)
           .pipe(finalize(() => this.selectedPlan = null))
           .subscribe(
-            () => {
-              this.store.dispatch(new PlanActivated({selectedPlan: this.selectedPlan}));
-              this.messages.success('Payment successful, you now have access to all courses!');
+            (response) => {
+              this.store.dispatch(new PlanActivated({selectedPlan: this.selectedPlan, planActivatedAt: response.planActivatedAt}));
+              this.messages.info('Payment successful, you now have access to all courses!');
             },
             err => {
               console.log('Payment failed, reason: ', err);

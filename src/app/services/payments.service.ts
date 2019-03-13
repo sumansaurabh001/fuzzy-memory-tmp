@@ -13,13 +13,9 @@ import {Observable} from 'rxjs/Observable';
 })
 export class PaymentsService {
 
-
-
   constructor(
     private http: HttpClient,
     private tenant: TenantService) {
-
-
 
   }
 
@@ -45,6 +41,5 @@ export class PaymentsService {
         oneTimeCharge
       });
   }
-
 
 }

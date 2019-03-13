@@ -51,7 +51,8 @@ export function userReducer(state = initialUserState, action: UserActions): User
         ...state,
         user: {
           ...state.user,
-          pricingPlan: action.payload.selectedPlan.frequency
+          pricingPlan: action.payload.selectedPlan.frequency,
+          planActivatedAt: action.payload.planActivatedAt
         }
       };
 

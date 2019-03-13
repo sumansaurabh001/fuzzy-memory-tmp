@@ -32,6 +32,12 @@ export class MyAccountComponent implements OnInit {
     return user.pricingPlan ? planNames[user.pricingPlan] : "None";
   }
 
+  validUntil(user:User) {
+
+
+
+  }
+
   cancelPlan() {
 
   }

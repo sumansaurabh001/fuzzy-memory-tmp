@@ -3,9 +3,10 @@ import {authenticationMiddleware} from './api-authentication.middleware';
 import {auth, db} from './init';
 import {getDocData} from './utils';
 
-
 const express = require('express');
 const cors = require('cors');
+
+const firebase = require('firebase-admin');
 
 const stripeSecretKey = functions.config().stripe.secret_key;
 
@@ -57,15 +58,17 @@ app.post('/activate-plan', async (req, res) => {
     reqInfo.tenant = tenant;
     reqInfo.user = user;
 
+    let response;
+
     if (reqInfo.oneTimeCharge) {
-      await activateOneTimeChargePlan(reqInfo);
+      response = await activateOneTimeChargePlan(reqInfo);
     }
     else {
-      await activateRecurringPlan(reqInfo);
+      response = await activateRecurringPlan(reqInfo);
     }
 
 
-    res.status(200).json({message: 'Customer subscription created successfully.'});
+    res.status(200).json(response);
 
   }
   catch (error) {
@@ -102,11 +105,19 @@ async function activateRecurringPlan(reqInfo: ReqInfo) {
 
   const userPrivatePath = `schools/${reqInfo.tenantId}/usersPrivate/${reqInfo.userId}`;
 
+  const result = {
+    pricingPlan: reqInfo.plan.frequency,
+    planActivatedAt:  firebase.firestore.Timestamp.fromMillis(subscription.created * 1000)
+  };
+
   await db.doc(userPrivatePath).set({
     stripeCustomerId: customer.id,
     stripeSubscriptionId: subscription.id,
-    pricingPlan: reqInfo.plan.frequency}, {merge:true});
+    ...result
+  },
+    {merge:true});
 
+  return result;
 }
 
 
@@ -125,11 +136,14 @@ async function activateOneTimeChargePlan(reqInfo: ReqInfo) {
 
   const userPrivatePath = `schools/${reqInfo.tenantId}/usersPrivate/${reqInfo.userId}`;
 
-  await db.doc(userPrivatePath).set({
+  const result = {
     pricingPlan: reqInfo.plan.frequency
-  }, {merge:true});
+  };
+
+  await db.doc(userPrivatePath).set(result, {merge:true});
 
 
+  return result;
 
 }
 

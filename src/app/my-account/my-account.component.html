@@ -13,17 +13,14 @@
           <mat-form-field appearance="outline">
             <mat-label>Your subscription</mat-label>
             <input matInput [value]="subscriptionDescr(user)" disabled>
-
             <mat-icon matSuffix>{{isSubscriptionActive(user)? 'check_circle_outline' : 'close'}}</mat-icon>
-
-
           </mat-form-field>
         </div>
 
         <div *ngIf="isSubscriptionActive(user)">
           <mat-form-field appearance="outline">
             <mat-label>Active until</mat-label>
-            <input matInput disabled>
+            <input matInput [value]="validUntil(user)" disabled>
             <mat-icon matSuffix>date_range</mat-icon>
           </mat-form-field>
         </div>

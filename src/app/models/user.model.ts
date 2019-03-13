@@ -1,4 +1,6 @@
 
+import * as firebase from 'firebase';
+
 
 export interface User {
   id:string;
@@ -7,6 +9,7 @@ export interface User {
   displayName:string;
   roles?:string[];
   pricingPlan?:string;
+  planActivatedAt?:firebase.firestore.Timestamp;
   stripeCustomerId?:string;
   stripeSubscriptionId?:string;
 }

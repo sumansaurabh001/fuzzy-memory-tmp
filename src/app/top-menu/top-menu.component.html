@@ -53,9 +53,13 @@
     </mat-menu>
 
 
-    <a mat-button class="desktop-menu" [matMenuTriggerFor]="settingsMenu" *denyRole="'ADMIN'">
-      <span>Settings</span>
-    </a>
+    <ng-container *ngIf="isLoggedIn$ | async">
+
+      <a mat-button class="desktop-menu" [matMenuTriggerFor]="settingsMenu" *denyRole="'ADMIN'" >
+        <span>Settings</span>
+      </a>
+
+    </ng-container>
 
     <mat-menu class="dropdown-menu" #settingsMenu [overlapTrigger]="false">
       <button mat-menu-item routerLink="/user-settings/my-account">My Account</button>

@@ -3,6 +3,7 @@ import {User} from '../models/user.model';
 import {UserPermissions} from '../models/user-permissions.model';
 import {PricingPlan} from '../models/pricing-plan.model';
 import {CourseActionTypes} from './course.actions';
+import * as firebase from 'firebase';
 
 export enum UserActionTypes {
   LoginAction = '[Firebase Auth] Login',
@@ -38,7 +39,7 @@ export class UserLoaded implements Action {
 export class PlanActivated implements Action {
   readonly type = UserActionTypes.PlanActivated;
 
-  constructor(public payload: {selectedPlan: PricingPlan}) {}
+  constructor(public payload: {selectedPlan: PricingPlan, planActivatedAt: firebase.firestore.Timestamp}) {}
 }
 
 export type UserActions = Login | Logout | SetUserPermissions | UserLoaded | PlanActivated;
