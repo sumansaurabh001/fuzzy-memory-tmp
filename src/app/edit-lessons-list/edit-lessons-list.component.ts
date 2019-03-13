@@ -10,15 +10,9 @@ import { selectActiveCourse, isActiveCourseLoaded, selectActiveCourseSections} f
 import {select, Store} from '@ngrx/store';
 import {AppState} from '../store';
 import {DeleteCourse} from '../store/course.actions';
-import {DeleteCourseSection} from '../store/course-section.actions';
 import {LessonsDBService} from '../services/lessons-db.service';
 import {LoadingService} from '../services/loading.service';
-import {AddLessonDialogComponent} from '../add-lesson-dialog/add-lesson-dialog.component';
-import {DangerDialogComponent} from '../danger-dialog/danger-dialog.component';
-import {concatMap, filter, tap} from 'rxjs/operators';
-import {DeleteLesson} from '../store/lesson.actions';
 import {ConfirmationDialogComponent} from '../confirmation-dialog/confirmation-dialog.component';
-import {Lesson} from '../models/lesson.model';
 
 
 @Component({

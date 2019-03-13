@@ -1,0 +1,41 @@
+<h2 mat-dialog-title>Cancel Subscription</h2>
+
+<loading></loading>
+
+<mat-dialog-content [formGroup]="form">
+
+  <messages style="dialog"></messages>
+
+  <div class="warning">
+    <mat-icon color="warn">warning</mat-icon><span>Warning: this operation cannot be reversed.</span>
+  </div>
+
+  <mat-form-field appearance="outline">
+
+    <textarea matInput
+           placeholder="Please tell us a bit about the reason (min 20 chars)"
+            minLength="20"
+            formControlName="reason" >
+
+    </textarea>
+
+
+  </mat-form-field>
+
+</mat-dialog-content>
+
+<mat-dialog-actions class="dialog-actions">
+
+  <button mat-raised-button
+          (click)="close()">
+    Close
+  </button>
+
+  <button mat-raised-button color="warn"
+          (click)="cancelSubscription()" [disabled]="!form.valid">
+    Cancel Subscription
+  </button>
+
+</mat-dialog-actions>
+
+

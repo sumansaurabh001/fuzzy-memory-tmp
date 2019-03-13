@@ -1,0 +1,7 @@
+@import "../mixins";
+
+@include single-col-dialog();
+
+textarea {
+  height: 200px;
+}

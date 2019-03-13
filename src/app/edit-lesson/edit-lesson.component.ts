@@ -6,7 +6,6 @@ import {LessonsDBService} from '../services/lessons-db.service';
 import {Course} from '../models/course.model';
 import {LoadingService} from '../services/loading.service';
 import {DeleteLesson, UpdateLesson} from '../store/lesson.actions';
-import {DangerDialogComponent} from '../danger-dialog/danger-dialog.component';
 import {MatDialog, MatDialogConfig} from '@angular/material';
 import {ConfirmationDialogComponent} from '../confirmation-dialog/confirmation-dialog.component';
 import {concatMap, filter, first, map, tap} from 'rxjs/operators';

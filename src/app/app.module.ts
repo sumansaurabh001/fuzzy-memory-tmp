@@ -101,6 +101,7 @@ import {EditPricingPlanDialogComponent} from './edit-subscriptions-dialog/edit-p
 import {AuthInterceptor} from './services/auth.interceptor';
 import { MyAccountComponent } from './my-account/my-account.component';
 import {DenyRoleDirective} from './auth/deny-role.directive';
+import { CancelSubscriptionDialogComponent } from './cancel-subscription-dialog/cancel-subscription-dialog.component';
 
 
 @NgModule({
@@ -151,7 +152,8 @@ import {DenyRoleDirective} from './auth/deny-role.directive';
     MiniActionButtonComponent,
     EditPricingPlanDialogComponent,
     FeaturesComponent,
-    MyAccountComponent
+    MyAccountComponent,
+    CancelSubscriptionDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -237,7 +239,8 @@ import {DenyRoleDirective} from './auth/deny-role.directive';
     AddCouponDialogComponent,
     GetLinkDialogComponent,
     LoadingDialogComponent,
-    EditPricingPlanDialogComponent
+    EditPricingPlanDialogComponent,
+    CancelSubscriptionDialogComponent
   ],
   bootstrap: [AppComponent]
 })
