@@ -14,6 +14,11 @@
   padding-top: 140px;
 }
 
+.slim-page {
+  min-width: 700px;
+  padding-top: 140px;
+}
+
 .form-buttons {
   margin-top: 15px;
   display: flex;
@@ -153,3 +158,10 @@ mat-divider.divider {
   }
 }
 
+
+mat-card.card-section {
+  padding: 0;
+  & mat-card-content {
+    padding: 16px;
+  }
+}

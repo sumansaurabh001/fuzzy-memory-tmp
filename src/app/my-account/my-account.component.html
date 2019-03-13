@@ -1,18 +1,42 @@
 
 <div class="desktop-container">
 
-  <mat-card>
+  <mat-card class="card-section">
 
     <mat-toolbar color="primary">My Subscription</mat-toolbar>
 
     <mat-card-content>
 
-      <div class="field-hint"></div>
+      <div class="subscription-fields" *ngIf="(user$ | async) as user">
 
-      <button mat-raised-button color="warn" (click)="cancelPlan()">Cancel Subscription</button>
+        <div>
+          <mat-form-field appearance="outline">
+            <mat-label>Your subscription</mat-label>
+            <input matInput [value]="subscriptionDescr(user)" disabled>
+
+            <mat-icon matSuffix>{{isSubscriptionActive(user)? 'check_circle_outline' : 'close'}}</mat-icon>
+
+
+          </mat-form-field>
+        </div>
+
+        <div *ngIf="isSubscriptionActive(user)">
+          <mat-form-field appearance="outline">
+            <mat-label>Active until</mat-label>
+            <input matInput disabled>
+            <mat-icon matSuffix>date_range</mat-icon>
+          </mat-form-field>
+        </div>
+
+      </div>
 
     </mat-card-content>
 
+    <div class="card-actions" *ngIf="(user$ | async) as user">
+
+      <button mat-stroked-button color="warn" (click)="cancelPlan()" [disabled]="!isSubscriptionActive(user)">Cancel Subscription</button>
+
+    </div>
 
 
   </mat-card>

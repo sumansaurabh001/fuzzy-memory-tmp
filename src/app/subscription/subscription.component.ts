@@ -18,6 +18,7 @@ import {environment} from '../../environments/environment';
 import {CoursePurchased} from '../store/course.actions';
 import {PaymentsService} from '../services/payments.service';
 import {PlanActivated} from '../store/user.actions';
+import {planNames} from '../common/text';
 
 declare const StripeCheckout;
 
@@ -45,12 +46,6 @@ export class SubscriptionComponent implements OnInit {
     monthlyPlan: 'Edit Monthly Plan',
     yearlyPlan: 'Edit Yearly Plan',
     lifetimePlan: 'Edit Lifetime Plan'
-  };
-
-  paymentModalTitle = {
-    month: "Monthly Plan",
-    year: "Yearly Plan",
-    lifetime: "Lifetime Plan"
   };
 
   constructor(
@@ -174,7 +169,7 @@ export class SubscriptionComponent implements OnInit {
 
     this.selectedPlan = plan;
 
-    const description = this.paymentModalTitle[plan.frequency];
+    const description = planNames[plan.frequency];
 
     this.checkoutHandler.open({
       name: 'Angular University',

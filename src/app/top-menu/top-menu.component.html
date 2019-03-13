@@ -53,7 +53,7 @@
     </mat-menu>
 
 
-    <a mat-button class="desktop-menu" [matMenuTriggerFor]="settingsMenu">
+    <a mat-button class="desktop-menu" [matMenuTriggerFor]="settingsMenu" *denyRole="'ADMIN'">
       <span>Settings</span>
     </a>
 

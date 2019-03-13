@@ -101,6 +101,7 @@ import { FeaturesComponent } from './features/features.component';
 import {EditPricingPlanDialogComponent} from './edit-subscriptions-dialog/edit-pricing-plan-dialog.component';
 import {AuthInterceptor} from './services/auth.interceptor';
 import { MyAccountComponent } from './my-account/my-account.component';
+import {DenyRoleDirective} from './auth/deny-role.directive';
 
 
 @NgModule({
@@ -143,6 +144,7 @@ import { MyAccountComponent } from './my-account/my-account.component';
     StripeRedirectPageComponent,
     LoadingDialogComponent,
     AllowRoleDirective,
+    DenyRoleDirective,
     StripeConnectionRequestComponent,
     StripeConnectionResponseComponent,
     CourseActionButtonsComponent,

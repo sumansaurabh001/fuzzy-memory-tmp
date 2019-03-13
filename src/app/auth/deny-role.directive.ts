@@ -7,12 +7,12 @@ import {UserPermissions} from '../models/user-permissions.model';
 
 
 @Directive({
-  selector: '[allowRole]'
+  selector: '[denyRole]'
 })
-export class AllowRoleDirective {
+export class DenyRoleDirective {
 
   private userPermissions: UserPermissions;
-  private allowedRoles: string[] = [];
+  private deniedRoles: string[] = [];
 
   private visible = false;
 
@@ -35,29 +35,29 @@ export class AllowRoleDirective {
   }
 
   @Input()
-  set allowRole(allowedRoles: string[]) {
-    this.allowedRoles = allowedRoles;
+  set denyRole(deniedRoles: string[]) {
+    this.deniedRoles = deniedRoles;
     this.updateVisibility();
   }
 
 
   private updateVisibility() {
 
-    const allowed = this.userPermissions && this.isRoleAllowed("isAdmin", "ADMIN");
+    const denied = this.userPermissions && this.isRoleDenied('isAdmin','ADMIN');
 
-    if (allowed && !this.visible) {
-      this.viewContainer.createEmbeddedView(this.templateRef);
-      this.visible = true;
-    }
-    else if (!allowed && this.visible) {
+    if (denied && this.visible) {
       this.viewContainer.clear();
       this.visible = false;
+    }
+    else if (!denied && !this.visible) {
+      this.viewContainer.createEmbeddedView(this.templateRef);
+      this.visible = true;
     }
 
   }
 
-  isRoleAllowed(permissionFlagName:string, role:string) {
-    return this.userPermissions[permissionFlagName] && this.allowedRoles.includes(role);
+  isRoleDenied(permissionFlagName:string, role:string) {
+    return this.userPermissions[permissionFlagName] && this.deniedRoles.includes(role);
   }
 
 
