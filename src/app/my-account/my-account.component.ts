@@ -8,6 +8,9 @@ import {planNames} from '../common/text';
 import {MatDialog, MatDialogConfig} from '@angular/material';
 import {CancelSubscriptionDialogComponent} from '../cancel-subscription-dialog/cancel-subscription-dialog.component';
 
+import * as dayjs from 'dayjs';
+import {MessagesService} from '../services/messages.service';
+
 
 @Component({
   selector: 'my-account',
@@ -21,7 +24,8 @@ export class MyAccountComponent implements OnInit {
 
   constructor(
     private store: Store<AppState>,
-    private dialog: MatDialog) {
+    private dialog: MatDialog,
+    private messages: MessagesService) {
   }
 
   ngOnInit() {
@@ -31,8 +35,14 @@ export class MyAccountComponent implements OnInit {
   }
 
   isSubscriptionActive(user: User) {
-    return user && user.pricingPlan;
+    return user && user.pricingPlan && (!user.planEndsAt || dayjs(user.planEndsAt.toMillis()).isAfter(dayjs()));
   }
+
+  isSubscriptionCancelled(user: User) {
+    return user && user.planEndsAt;
+  }
+
+
 
   subscriptionDescr(user: User) {
     return user.pricingPlan ? planNames[user.pricingPlan] : 'None';
@@ -47,18 +57,26 @@ export class MyAccountComponent implements OnInit {
   }
 
   validUntil(user: User) {
-    return new Date(user.planValidUntil.toMillis());
+    return new Date(user.planEndsAt.toMillis());
   }
 
-  cancelPlan() {
+  cancelPlan(user: User) {
 
     const dialogConfig = new MatDialogConfig();
 
     dialogConfig.autoFocus = true;
     dialogConfig.disableClose = true;
     dialogConfig.minWidth = '550px';
+    dialogConfig.data = {user};
 
-    this.dialog.open(CancelSubscriptionDialogComponent, dialogConfig);
+    this.dialog.open(CancelSubscriptionDialogComponent, dialogConfig)
+      .afterClosed()
+      .subscribe(
+        result => {
+          if (result) {
+            this.messages.info('Plan cancelled. We are sorry to see you go, you are welcome back anytime.');
+          }
+        });
 
   }
 

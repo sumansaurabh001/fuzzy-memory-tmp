@@ -19,3 +19,5 @@ export {apiStripeInitPricingPlans} from './api-init-pricing-plans';
 export {apiStripeUpdatePricingPlan} from './api-update-pricing-plan';
 
 export {apiStripeActivatePlan} from './api-activate-plan';
+
+export {apiStripeCancelPlan} from './api-cancel-plan';

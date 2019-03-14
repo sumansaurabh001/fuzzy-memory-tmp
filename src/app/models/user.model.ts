@@ -1,5 +1,5 @@
 
-import * as firebase from 'firebase';
+import * as firebase from 'firebase/app';
 
 
 export interface User {
@@ -10,7 +10,7 @@ export interface User {
   roles?:string[];
   pricingPlan?:string;
   planActivatedAt?:firebase.firestore.Timestamp;
-  planValidUntil?:firebase.firestore.Timestamp;
+  planEndsAt?:firebase.firestore.Timestamp;
   stripeCustomerId?:string;
   stripeSubscriptionId?:string;
 }

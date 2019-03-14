@@ -26,13 +26,13 @@ app.use(authenticationMiddleware);
 
 
 interface ReqInfo {
-  tokenId:string;
+  tokenId: string;
   plan: any;
-  userId:string;
-  tenantId:string;
-  oneTimeCharge:boolean;
-  tenant?:any;
-  user?:any;
+  userId: string;
+  tenantId: string;
+  oneTimeCharge: boolean;
+  tenant?: any;
+  user?: any;
 }
 
 app.post('/activate-plan', async (req, res) => {
@@ -101,23 +101,24 @@ async function activateRecurringPlan(reqInfo: ReqInfo) {
     application_fee_percent
   }, config);
 
-  console.log("Created Stripe subscription: " + subscription.id);
+  console.log('Created Stripe subscription: ' + subscription.id);
 
   const userPrivatePath = `schools/${reqInfo.tenantId}/usersPrivate/${reqInfo.userId}`;
 
-  const result = {
-    pricingPlan: reqInfo.plan.frequency,
-    planActivatedAt:  firebase.firestore.Timestamp.fromMillis(subscription.created * 1000)
+  const response = {
+    planActivatedAt: subscription.created * 1000
   };
 
   await db.doc(userPrivatePath).set({
-    stripeCustomerId: customer.id,
-    stripeSubscriptionId: subscription.id,
-    ...result
-  },
-    {merge:true});
+      stripeCustomerId: customer.id,
+      stripeSubscriptionId: subscription.id,
+      planEndsAt: null,
+      pricingPlan: reqInfo.plan.frequency,
+      planActivatedAt: firebase.firestore.Timestamp.fromMillis(response.planActivatedAt)
+    },
+    {merge: true});
 
-  return result;
+  return response;
 }
 
 
@@ -132,22 +133,21 @@ async function activateOneTimeChargePlan(reqInfo: ReqInfo) {
     stripe_account: reqInfo.tenant.stripeTenantUserId,
   });
 
-  console.log("Created Stripe one-time plan: " + reqInfo.plan.frequency);
+  console.log('Created Stripe one-time plan: ' + reqInfo.plan.frequency);
 
   const userPrivatePath = `schools/${reqInfo.tenantId}/usersPrivate/${reqInfo.userId}`;
 
-  const result = {
-    pricingPlan: reqInfo.plan.frequency
+  const response = {
+    pricingPlan: reqInfo.plan.frequency,
+    planEndsAt: null
   };
 
-  await db.doc(userPrivatePath).set(result, {merge:true});
+  await db.doc(userPrivatePath).set(response, {merge: true});
 
 
-  return result;
+  return response;
 
 }
-
-
 
 
 export const apiStripeActivatePlan = functions.https.onRequest(app);

@@ -20,6 +20,8 @@ import {PaymentsService} from '../services/payments.service';
 import {PlanActivated} from '../store/user.actions';
 import {planNames} from '../common/text';
 
+import * as firebase from "firebase/app";
+
 declare const StripeCheckout;
 
 @Component({
@@ -103,7 +105,14 @@ export class SubscriptionComponent implements OnInit {
           .pipe(finalize(() => this.selectedPlan = null))
           .subscribe(
             (response) => {
-              this.store.dispatch(new PlanActivated({selectedPlan: this.selectedPlan, planActivatedAt: response.planActivatedAt}));
+              this.store.dispatch(new PlanActivated({
+                selectedPlan: this.selectedPlan,
+                user: {
+                  planActivatedAt: firebase.firestore.Timestamp.fromMillis(response.planActivatedAt),
+                  planEndsAt: null
+                }
+              })
+            );
               this.messages.info('Payment successful, you now have access to all courses!');
             },
             err => {

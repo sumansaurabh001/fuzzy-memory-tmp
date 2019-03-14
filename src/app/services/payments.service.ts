@@ -5,6 +5,7 @@ import {TenantService} from './tenant.service';
 import {AngularFireAuth} from '@angular/fire/auth';
 import {PricingPlan} from '../models/pricing-plan.model';
 import {Observable} from 'rxjs/Observable';
+import {User} from '../models/user.model';
 
 
 
@@ -41,5 +42,18 @@ export class PaymentsService {
         oneTimeCharge
       });
   }
+
+  cancelPlan(user: User, reason:string): Observable<any> {
+    return this.http.post(
+      environment.api.stripeCancelPlanUrl,
+      {
+        user,
+        tenantId: this.tenant.id,
+        reason
+      }
+    );
+  }
+
+
 
 }

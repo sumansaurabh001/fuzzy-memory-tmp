@@ -51,8 +51,17 @@ export function userReducer(state = initialUserState, action: UserActions): User
         ...state,
         user: {
           ...state.user,
-          pricingPlan: action.payload.selectedPlan.frequency,
-          planActivatedAt: action.payload.planActivatedAt
+          ...action.payload.user,
+          pricingPlan: action.payload.selectedPlan.frequency
+        }
+      };
+
+    case UserActionTypes.PlanCancelled:
+      return {
+        ...state,
+        user: {
+          ...state.user,
+          planEndsAt: action.payload.planEndsAt
         }
       };
 
