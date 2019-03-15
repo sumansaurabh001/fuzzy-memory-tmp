@@ -16,6 +16,7 @@
     "@google-cloud/storage": "^2.1.0",
     "child-process-promise": "^2.2.1",
     "cors": "^2.8.5",
+    "dayjs": "^1.8.10",
     "express": "^4.16.4",
     "ffmpeg-static": "^2.2.0",
     "firebase-admin": "~6.0.0",

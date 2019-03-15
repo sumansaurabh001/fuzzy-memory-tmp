@@ -5,7 +5,8 @@ import {getUserMiddleware} from './api-get-user.middleware';
 
 const express = require('express');
 const cors = require('cors');
-
+const firebase = require('firebase-admin');
+import * as dayjs from "dayjs";
 
 const app = express();
 
@@ -92,7 +93,7 @@ async function handleAuthenticatedUser(req, res, reqInfo:RequestInfo, video) {
 
   const userPrivate = await getDocData(`schools/${reqInfo.tenantId}/usersPrivate/${reqInfo.userId}`);
 
-  if (userPrivate.pricingPlan) {
+  if (isSubscriptionActive(userPrivate)) {
     console.log('Granting video access to subscribed user.');
     allowVideoAccess(res, reqInfo, video);
     return;
@@ -105,6 +106,37 @@ async function handleAuthenticatedUser(req, res, reqInfo:RequestInfo, video) {
   }
 
   denyVideoAccess(res, reqInfo);
+
+}
+
+function isSubscriptionActive(user) {
+
+  if (!user.pricingPlan) {
+    return false;
+  }
+
+  // Lifetime plan
+  if (user.pricingPlan == 'forever') {
+    return true;
+  }
+
+  // ongoing subscription
+  if (!user.planEndsAt) {
+    return true;
+  }
+
+  // cancelled subscription, before end period
+  if (user.planEndsAt) {
+
+    const subscriptionEnd = dayjs(user.planEndsAt);
+
+    const now = dayjs();
+
+    return subscriptionEnd.isAfter(now);
+
+  }
+
+  return false;
 
 }
 

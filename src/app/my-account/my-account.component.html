@@ -18,7 +18,7 @@
 
         <div *ngIf="isSubscriptionActive(user) && !isSubscriptionCancelled(user)">
           <mat-form-field appearance="outline">
-            <mat-label>Activation Date</mat-label>
+            <mat-label>{{ isLifetimeSubscriber(user) ? 'End Date' : 'Activation Date' }}</mat-label>
             <ng-container *ngIf="!isLifetimeSubscriber(user); else neverExpires">
               <input matInput [value]="activationDate(user) | date:'longDate'" disabled>
             </ng-container>
@@ -43,11 +43,11 @@
 
     <div class="card-actions" *ngIf="(user$ | async) as user">
 
-      <button mat-raised-button color="accent" routerLink="/subscription" [disabled]="isSubscriptionActive(user) && !isSubscriptionCancelled(user)">
+      <button mat-raised-button color="accent" routerLink="/subscription" [disabled]="isLifetimeSubscriber(user)  || (isSubscriptionActive(user) && !isSubscriptionCancelled(user))">
         New Subscription
       </button>
 
-      <button mat-stroked-button color="warn" (click)="cancelPlan(user)" [disabled]="!isSubscriptionActive(user) || isSubscriptionCancelled(user)">
+      <button mat-stroked-button color="warn" (click)="cancelPlan(user)" [disabled]="isLifetimeSubscriber(user)  || (!isSubscriptionActive(user) || isSubscriptionCancelled(user))">
         Cancel Subscription
       </button>
 
