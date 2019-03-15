@@ -67,7 +67,6 @@ app.post('/activate-plan', async (req, res) => {
       response = await activateRecurringPlan(reqInfo);
     }
 
-
     res.status(200).json(response);
 
   }
@@ -80,13 +79,13 @@ app.post('/activate-plan', async (req, res) => {
 
 async function activateRecurringPlan(reqInfo: ReqInfo) {
 
-  let config = {stripe_account: reqInfo.tenant.stripeTenantUserId};
+  const tenantConfig = multi_tenant_mode ? {stripe_account: reqInfo.tenant.stripeTenantUserId} : {};
 
   // create the stripe customer
   const customer = await stripe.customers.create({
     source: reqInfo.tokenId,
     email: reqInfo.user.email
-  }, config);
+  }, tenantConfig);
 
   console.log('Created Stripe customer ' + customer.id);
 
@@ -99,7 +98,7 @@ async function activateRecurringPlan(reqInfo: ReqInfo) {
       },
     ],
     application_fee_percent
-  }, config);
+  }, tenantConfig);
 
   console.log('Created Stripe subscription: ' + subscription.id);
 
@@ -124,14 +123,15 @@ async function activateRecurringPlan(reqInfo: ReqInfo) {
 
 async function activateOneTimeChargePlan(reqInfo: ReqInfo) {
 
+  const tenantConfig = multi_tenant_mode ? {stripe_account: reqInfo.tenant.stripeTenantUserId} : {};
+
   await stripe.charges.create({
     amount: reqInfo.plan.price,
     currency: 'usd',
     source: reqInfo.tokenId,
     application_fee: application_fee_percent / 100 * reqInfo.plan.price
-  }, {
-    stripe_account: reqInfo.tenant.stripeTenantUserId,
-  });
+  },
+    tenantConfig);
 
   console.log('Created Stripe one-time plan: ' + reqInfo.plan.frequency);
 

@@ -74,7 +74,7 @@ export class StripeRedirectPageComponent implements OnInit {
     this.stripeConnectionService.initStripeConnection(authorizationCode)
       .subscribe(
         () => {
-          this.messages.success('Stripe connection successful, you are ready to start taking payments.');
+          this.messages.info('Stripe connection successful, you are ready to start taking payments.');
           this.onStripeConnectionSuccessful();
         },
         err => {

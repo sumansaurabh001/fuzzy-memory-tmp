@@ -65,7 +65,13 @@ export class PriceAndCouponsComponent implements OnInit {
 
     this.course$.subscribe(course => {
       if (course) {
-        this.form.patchValue(course)
+        this.form.patchValue({
+          priceGroup: {
+            price: course.price,
+            includedInSubscription: course.includedInSubscription
+          },
+          free: course.free
+        })
       }
     });
 

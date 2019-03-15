@@ -72,7 +72,7 @@ export class CourseActionButtonsComponent implements OnInit, OnChanges {
           .subscribe(
             () => {
               this.store.dispatch(new CoursePurchased({courseId: this.course.id}));
-              this.messages.success('Payment successful, please enjoy the course!');
+              this.messages.info('Payment successful, please enjoy the course!');
             },
             err => {
               console.log('Payment failed, reason: ', err);

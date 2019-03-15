@@ -42,27 +42,15 @@ app.post('/purchase-course', async (req, res) => {
 
     const priceAmount = course.price * 100;
 
-    if (multi_tenant_mode == 'on') {
+    const tenantConfig = multi_tenant_mode ? {stripe_account: tenant.stripeTenantUserId} : {};
 
-      // charge the end customer on behalf of the tenant and apply fees
-      await stripe.charges.create({
-        amount: priceAmount,
-        currency: 'usd',
-        source: tokenId,
-        application_fee: application_fee_percent / 100 * priceAmount
-      }, {
-        stripe_account: tenant.stripeTenantUserId,
-      });
-    }
-    else {
-
-      // charge the end customer directly
-      await stripe.charges.create({
-        amount: priceAmount,
-        currency: 'usd',
-        source: tokenId
-      });
-    }
+    // charge the end customer on behalf of the tenant and apply fees
+    await stripe.charges.create({
+      amount: priceAmount,
+      currency: 'usd',
+      source: tokenId,
+      application_fee: application_fee_percent / 100 * priceAmount
+    }, tenantConfig);
 
     // add the course to the user's list of purchased courses
     const usersPrivatePath = `schools/${tenantId}/usersPrivate/${userId}`;

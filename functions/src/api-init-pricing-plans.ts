@@ -18,6 +18,8 @@ app.use(authenticationMiddleware);
 
 const stripeSecretKey = functions.config().stripe.secret_key;
 
+const multi_tenant_mode = functions.config().platform.multi_tenant_mode;
+
 const stripe = require('stripe')(stripeSecretKey);
 
 
@@ -35,6 +37,8 @@ app.post('/init-pricing-plans', async (req, res) => {
     // get the tenant from the database
     const tenant = await getDocData(`tenantSettings/${tenantId}`);
 
+    const tenantConfig = multi_tenant_mode ? {stripe_account: tenant.stripeTenantUserId} : {};
+
     const monthlyResponse = await stripe.plans.create({
         amount: monthlyPlanPrice,
         interval: 'month',
@@ -43,9 +47,7 @@ app.post('/init-pricing-plans', async (req, res) => {
         },
         currency: 'usd',
       },
-      {
-        stripe_account: tenant.stripeTenantUserId
-      });
+      tenantConfig);
 
     console.log('Created monthly plan:', monthlyResponse);
 
@@ -57,9 +59,7 @@ app.post('/init-pricing-plans', async (req, res) => {
         },
         currency: 'usd',
       },
-      {
-        stripe_account: tenant.stripeTenantUserId
-      });
+      tenantConfig);
 
     console.log('Created yearly plan:', yearlyResponse);
 

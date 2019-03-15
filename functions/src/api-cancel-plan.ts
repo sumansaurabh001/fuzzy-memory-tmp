@@ -44,7 +44,7 @@ app.post('/cancel-plan', async (req, res) => {
       throw "Could not find user private data in path: " + userPrivatePath;
     }
 
-    let tenantConfig = multi_tenant_mode ? {stripe_account: tenantSettings.stripeTenantUserId} : {};
+    const tenantConfig = multi_tenant_mode ? {stripe_account: tenantSettings.stripeTenantUserId} : {};
 
     // cancel the Stripe pricing plan
     const result = await stripe.subscriptions.update(

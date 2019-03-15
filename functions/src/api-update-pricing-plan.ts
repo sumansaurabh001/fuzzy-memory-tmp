@@ -19,6 +19,8 @@ app.use(authenticationMiddleware);
 
 const stripeSecretKey = functions.config().stripe.secret_key;
 
+const multi_tenant_mode = functions.config().platform.multi_tenant_mode;
+
 const stripe = require('stripe')(stripeSecretKey);
 
 
@@ -39,6 +41,8 @@ app.post('/update-pricing-plan', async (req, res) => {
 
     console.log("tenant", JSON.stringify(tenantSettings));
 
+    const tenantConfig = multi_tenant_mode ? {stripe_account: tenantSettings.stripeTenantUserId} : {};
+
     const newPlanResponse = await stripe.plans.create({
         amount: newPlanPrice,
         interval: newPlanFrequency,
@@ -47,9 +51,7 @@ app.post('/update-pricing-plan', async (req, res) => {
         },
         currency: 'usd',
       },
-      {
-        stripe_account: tenantSettings.stripeTenantUserId
-      });
+      tenantConfig);
 
     const tenantPath = `tenants/${tenantId}`;
 
