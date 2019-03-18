@@ -64,7 +64,7 @@
                     <div class="price">{{plans.yearlyPlan.price / 100 | currency}} / Year</div>
                     <div class="undiscounted-price">
                       <span class="strikethrough-price">{{plans.yearlyPlan.undiscountedPrice / 100 | currency}}</span>
-                      <span class="discount">(17% Off)</span>
+                      <span class="discount">({{calculateYearlyDiscount(plans) | percent }} Off)</span>
                     </div>
                   </div>
 

@@ -288,6 +288,12 @@ export class SubscriptionComponent implements OnInit {
     return true;
   }
 
+  calculateYearlyDiscount(plans:PricingPlansState) {
+    const unDiscountedYearlyPrice = plans.monthlyPlan.price * 12;
+    return (unDiscountedYearlyPrice - plans.yearlyPlan.price) / unDiscountedYearlyPrice;
+
+  }
+
 
 }
 
