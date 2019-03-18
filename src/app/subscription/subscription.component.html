@@ -6,196 +6,212 @@
 
       <ng-container *ngIf="(userPermissions$ | async) as userPermissions">
 
-        <ng-container *ngIf="(plans$ | async) as plans">
+        <ng-container *ngIf="(user$ | async) as user">
 
-          <h1 class="page-title">Subscription Plans - Cancel Anytime</h1>
+          <ng-container *ngIf="(plans$ | async) as plans">
 
-          <div class="pricing-plans">
+            <h1 class="page-title">Subscription Plans - Cancel Anytime</h1>
 
-            <mat-card class="mat-elevation-z10 pricing-plan">
+            <div class="pricing-plans">
 
-              <mat-card-header>
-                <mat-toolbar color="primary">
-                  Monthly
-                  <mini-action-button class="edit-button" icon="mode_edit" *allowRole="'ADMIN'" (click)="editPlan(plans, 'monthlyPlan', true, false, true)"></mini-action-button>
-                </mat-toolbar>
-              </mat-card-header>
+              <mat-card class="mat-elevation-z10 pricing-plan">
 
-              <mat-card-content>
+                <mat-card-header>
+                  <mat-toolbar color="primary">
+                    Monthly
+                    <mini-action-button class="edit-button" icon="mode_edit" *allowRole="'ADMIN'" (click)="editPlan(plans, 'monthlyPlan', true, false, true)"></mini-action-button>
+                  </mat-toolbar>
+                </mat-card-header>
 
-                <div class="prices">
-                  <div class="price">{{plans.monthlyPlan.price / 100 | currency}} / Month</div>
-                </div>
+                <mat-card-content>
 
-                <ul class="features">
-                  <li *ngFor="let feature of plans.monthlyPlan.features">{{feature}}</li>
-                </ul>
-
-              </mat-card-content>
-
-              <div class="filler"></div>
-
-              <div class="purchase-button">
-
-                <button mat-raised-button color="primary" (click)="activateSubscription(plans.monthlyPlan, userPermissions)">Access All Courses</button>
-
-              </div>
-
-            </mat-card>
-
-
-            <mat-card class="mat-elevation-z10 pricing-plan">
-              <mat-card-header>
-                <mat-toolbar color="primary">
-                  Yearly
-                  <mini-action-button class="edit-button" icon="mode_edit" *allowRole="'ADMIN'" (click)="editPlan(plans, 'yearlyPlan', true, true, true)"></mini-action-button>
-                </mat-toolbar>
-              </mat-card-header>
-
-              <mat-card-content>
-
-                <div class="prices">
-                  <div class="price">{{plans.yearlyPlan.price / 100 | currency}} / Year</div>
-                  <div class="undiscounted-price">
-                    <span class="strikethrough-price">{{plans.yearlyPlan.undiscountedPrice / 100 | currency}}</span>
-                    <span class="discount">(17% Off)</span>
+                  <div class="prices">
+                    <div class="price">{{plans.monthlyPlan.price / 100 | currency}} / Month</div>
                   </div>
+
+                  <ul class="features">
+                    <li *ngFor="let feature of plans.monthlyPlan.features">{{feature}}</li>
+                  </ul>
+
+                </mat-card-content>
+
+                <div class="filler"></div>
+
+                <div class="purchase-button">
+
+                  <button mat-raised-button color="primary"
+                          [disabled]="!isMonthlyButtonActive(user)"
+                          (click)="activateSubscription(plans.monthlyPlan, userPermissions)">
+                    {{monthlyPlanButtonText( user)}}
+                  </button>
+
                 </div>
 
-                <ul class="features">
-                  <li *ngFor="let feature of plans.yearlyPlan.features">{{feature}}</li>
-                </ul>
-
-              </mat-card-content>
-
-              <div class="filler"></div>
-
-              <mat-card-actions class="purchase-button">
-
-                <button mat-raised-button color="accent" (click)="activateSubscription(plans.yearlyPlan, userPermissions)">Access All Courses</button>
-
-              </mat-card-actions>
-
-            </mat-card>
+              </mat-card>
 
 
-            <mat-card class="mat-elevation-z10 pricing-plan">
+              <mat-card class="mat-elevation-z10 pricing-plan">
+                <mat-card-header>
+                  <mat-toolbar color="primary">
+                    Yearly
+                    <mini-action-button class="edit-button" icon="mode_edit" *allowRole="'ADMIN'" (click)="editPlan(plans, 'yearlyPlan', true, true, true)"></mini-action-button>
+                  </mat-toolbar>
+                </mat-card-header>
 
-              <mat-card-header>
-                <mat-toolbar color="primary">
-                  Lifetime
-                  <mini-action-button class="edit-button" icon="mode_edit" *allowRole="'ADMIN'" (click)="editPlan(plans, 'lifetimePlan', false, false, false)"></mini-action-button>
-                </mat-toolbar>
-              </mat-card-header>
+                <mat-card-content>
 
-              <mat-card-content>
+                  <div class="prices">
+                    <div class="price">{{plans.yearlyPlan.price / 100 | currency}} / Year</div>
+                    <div class="undiscounted-price">
+                      <span class="strikethrough-price">{{plans.yearlyPlan.undiscountedPrice / 100 | currency}}</span>
+                      <span class="discount">(17% Off)</span>
+                    </div>
+                  </div>
 
-                <div class="prices">
-                  <div class="price">${{plans.lifetimePlan.price / 100 | number}} / Forever!</div>
+                  <ul class="features">
+                    <li *ngFor="let feature of plans.yearlyPlan.features">{{feature}}</li>
+                  </ul>
+
+                </mat-card-content>
+
+                <div class="filler"></div>
+
+                <mat-card-actions class="purchase-button">
+
+                  <button mat-raised-button color="accent"
+                          [disabled]="!isYearlyButtonActive(user)"
+                          (click)="activateSubscription(plans.yearlyPlan, userPermissions)">
+                    {{yearlyPlanButtonText( user)}}
+                  </button>
+
+                </mat-card-actions>
+
+              </mat-card>
+
+
+              <mat-card class="mat-elevation-z10 pricing-plan">
+
+                <mat-card-header>
+                  <mat-toolbar color="primary">
+                    Lifetime
+                    <mini-action-button class="edit-button" icon="mode_edit" *allowRole="'ADMIN'" (click)="editPlan(plans, 'lifetimePlan', false, false, false)"></mini-action-button>
+                  </mat-toolbar>
+                </mat-card-header>
+
+                <mat-card-content>
+
+                  <div class="prices">
+                    <div class="price">${{plans.lifetimePlan.price / 100 | number}} / Forever!</div>
+                  </div>
+
+                  <ul class="features">
+                    <li *ngFor="let feature of plans.lifetimePlan.features">{{feature}}</li>
+                  </ul>
+
+                </mat-card-content>
+
+                <div class="filler"></div>
+
+                <div class="purchase-button">
+
+                  <button mat-raised-button color="primary"
+                          [disabled]="!isLifetimeButtonActive(user)"
+                          (click)="activateSubscription(plans.lifetimePlan, userPermissions)">
+                    {{lifetimePlanButtonText( user)}}
+                  </button>
+
                 </div>
 
-                <ul class="features">
-                  <li *ngFor="let feature of plans.lifetimePlan.features">{{feature}}</li>
-                </ul>
-
-              </mat-card-content>
-
-              <div class="filler"></div>
-
-              <div class="purchase-button">
-
-                <button mat-raised-button color="primary" (click)="activateSubscription(plans.lifetimePlan, userPermissions)">Access All Courses</button>
-
-              </div>
-
-            </mat-card>
-
-          </div>
-
-          <div class="powered-by">
-
-            <img src="https://angular-academy.s3.amazonaws.com/powered_by_stripe_v2.png">
-
-          </div>
-
-          <div class="text-box">
-
-            <ul>
-              <li>Does your employer sponsor online training? Consider requesting a one year or lifetime subscription as a
-                training request (see FAQ below, multiple options available).
-              </li>
-              <li>50% student discount available, simply email us at helpdesk@angular-university.io to get your discount.</li>
-              <li>From Brasil, India, elsewhere? Get your fair geographical discount at helpdesk@angular-university.io.</li>
-              <li>Free for teachers, discounts available for educational institutions, please email us at
-                helpdesk@angular-university.io
-              </li>
-              <li>Try the Webstorm IDE during 3 months for free (license upon request, see FAQ for how to get a license).</li>
-            </ul>
-
-            <mini-action-button class="edit-button" icon="mode_edit" *allowRole="'ADMIN'"></mini-action-button>
-
-          </div>
-
-
-          <div class="faq-section">
-
-            <h1 class="page-title">FAQ</h1>
-
-            <div class="faq">
-
-              <div class="faq-question">Tell me about the Webstorm 3 Month Free license?</div>
-
-              <div class="faq-answer">
-                Webstorm is the IDE used for all lessons, and it rocks ! With an Angular University subscription you have the
-                right to a 3 month free license if you want to, this gives you enough time to build a personal project or even
-                a
-                POC for a small business. Simply email us at helpdesk@angular-university.io and you will get your license code
-                ASAP.
-              </div>
-
-              <div class="faq-tools">
-
-                <mini-action-button icon="mode_edit" *allowRole="'ADMIN'"></mini-action-button>
-
-                <mini-action-button icon="delete" *allowRole="'ADMIN'" color="basic"></mini-action-button>
-
-              </div>
-
+              </mat-card>
 
             </div>
 
-            <mat-divider *allowRole="'ADMIN'"></mat-divider>
+            <div class="powered-by">
 
-            <div class="faq">
+              <img src="https://angular-academy.s3.amazonaws.com/powered_by_stripe_v2.png">
 
-              <div class="faq-question">
-                Can my employer sponsor my subscription?
+            </div>
+
+            <div class="text-box">
+
+              <ul>
+                <li>Does your employer sponsor online training? Consider requesting a one year or lifetime subscription as a
+                  training request (see FAQ below, multiple options available).
+                </li>
+                <li>50% student discount available, simply email us at helpdesk@angular-university.io to get your discount.</li>
+                <li>From Brasil, India, elsewhere? Get your fair geographical discount at helpdesk@angular-university.io.</li>
+                <li>Free for teachers, discounts available for educational institutions, please email us at
+                  helpdesk@angular-university.io
+                </li>
+                <li>Try the Webstorm IDE during 3 months for free (license upon request, see FAQ for how to get a license).</li>
+              </ul>
+
+              <mini-action-button class="edit-button" icon="mode_edit" *allowRole="'ADMIN'"></mini-action-button>
+
+            </div>
+
+
+            <div class="faq-section">
+
+              <h1 class="page-title">FAQ</h1>
+
+              <div class="faq">
+
+                <div class="faq-question">Tell me about the Webstorm 3 Month Free license?</div>
+
+                <div class="faq-answer">
+                  Webstorm is the IDE used for all lessons, and it rocks ! With an Angular University subscription you have the
+                  right to a 3 month free license if you want to, this gives you enough time to build a personal project or even
+                  a
+                  POC for a small business. Simply email us at helpdesk@angular-university.io and you will get your license code
+                  ASAP.
+                </div>
+
+                <div class="faq-tools">
+
+                  <mini-action-button icon="mode_edit" *allowRole="'ADMIN'"></mini-action-button>
+
+                  <mini-action-button icon="delete" *allowRole="'ADMIN'" color="basic"></mini-action-button>
+
+                </div>
+
+
               </div>
 
-              <div class="faq-answer">
-                Yes, this is available either for a one year request or lifetime access. Please first request your employer
-                permission, then one way is to pay with your own card and either expense the receipt to your employer.
+              <mat-divider *allowRole="'ADMIN'"></mat-divider>
+
+              <div class="faq">
+
+                <div class="faq-question">
+                  Can my employer sponsor my subscription?
+                </div>
+
+                <div class="faq-answer">
+                  Yes, this is available either for a one year request or lifetime access. Please first request your employer
+                  permission, then one way is to pay with your own card and either expense the receipt to your employer.
+                </div>
+
+                <div class="faq-tools">
+
+                  <mini-action-button icon="mode_edit" *allowRole="'ADMIN'"></mini-action-button>
+
+                  <mini-action-button icon="delete" *allowRole="'ADMIN'" color="basic"></mini-action-button>
+
+                </div>
+
               </div>
 
-              <div class="faq-tools">
+              <mat-divider *allowRole="'ADMIN'"></mat-divider>
 
-                <mini-action-button icon="mode_edit" *allowRole="'ADMIN'"></mini-action-button>
+              <div class="add-faq" *allowRole="'ADMIN'">
 
-                <mini-action-button icon="delete" *allowRole="'ADMIN'" color="basic"></mini-action-button>
+                <action-button text="Add new FAQ" color="accent" icon="add"></action-button>
 
               </div>
 
             </div>
 
-            <mat-divider *allowRole="'ADMIN'"></mat-divider>
-
-            <div class="add-faq" *allowRole="'ADMIN'">
-
-              <action-button text="Add new FAQ" color="accent" icon="add"></action-button>
-
-            </div>
-
-          </div>
+          </ng-container>
 
         </ng-container>
 

@@ -2,7 +2,14 @@ import { Component, OnInit } from '@angular/core';
 import {Observable} from 'rxjs/Observable';
 import {AppState} from '../store';
 import {select, Store} from '@ngrx/store';
-import {arePricingPlansReady, isConnectedToStripe, platformState, selectPricingPlans, selectUserPermissions} from '../store/selectors';
+import {
+  arePricingPlansReady,
+  isConnectedToStripe,
+  platformState,
+  selectPricingPlans,
+  selectUser,
+  selectUserPermissions
+} from '../store/selectors';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {StripeConnectionService} from '../services/stripe-connection.service';
 import {PricingPlansLoaded} from '../store/pricing-plans.actions';
@@ -22,6 +29,7 @@ import {planNames} from '../common/text';
 
 import * as firebase from "firebase/app";
 import {UserPermissions} from '../models/user-permissions.model';
+import {isUserPlanCanceled, isUserPlanStillValid, User} from '../models/user.model';
 
 declare const StripeCheckout;
 
@@ -39,6 +47,7 @@ export class SubscriptionComponent implements OnInit {
   arePricingPlansReady$: Observable<boolean>;
   plans$: Observable<PricingPlansState>;
   userPermissions$: Observable<UserPermissions>;
+  user$: Observable<User>;
 
   showConnectToStripe = false;
 
@@ -127,6 +136,8 @@ export class SubscriptionComponent implements OnInit {
 
     this.userPermissions$ = this.store.pipe(select(selectUserPermissions));
 
+    this.user$ = this.store.pipe(select(selectUser));
+
   }
 
   setupPricingPlans() {
@@ -197,6 +208,86 @@ export class SubscriptionComponent implements OnInit {
     });
 
   }
+
+  monthlyPlanButtonText(user:User) {
+    if (user.pricingPlan == "month" && !isUserPlanCanceled(user)) {
+      return "Already Subscribed";
+    }
+    if (user.pricingPlan == 'year' && !isUserPlanCanceled(user)) {
+      return "Subscribed to Yearly"
+    }
+
+    if (user.pricingPlan == 'lifetime') {
+      return "Subscribed to Lifetime";
+    }
+
+    return "Access All Courses";
+  }
+
+  yearlyPlanButtonText(user:User) {
+    if (user.pricingPlan == "month" && !isUserPlanCanceled(user)) {
+      return "Upgrade to Yearly";
+    }
+    if (user.pricingPlan == 'year' && !isUserPlanCanceled(user)) {
+      return "Already Subscribed"
+    }
+
+    if (user.pricingPlan == 'lifetime') {
+      return "Subscribed to Lifetime";
+    }
+
+    return "Access All Courses";
+  }
+
+  lifetimePlanButtonText(user:User) {
+    if (user.pricingPlan == "month" && !isUserPlanCanceled(user)) {
+      return "Upgrade to Lifetime";
+    }
+    if (user.pricingPlan == 'year' && !isUserPlanCanceled(user)) {
+      return "Upgrade to Lifetime"
+    }
+
+    if (user.pricingPlan == 'lifetime') {
+      return "Already Subscribed";
+    }
+
+    return "Access All Courses";
+  }
+
+
+  isMonthlyButtonActive(user: User) {
+    return !user.pricingPlan || isUserPlanCanceled(user);
+  }
+
+
+  isYearlyButtonActive(user: User) {
+    if (user.pricingPlan == "month") {
+      return true;
+    }
+    if (user.pricingPlan == 'year' && !isUserPlanCanceled(user)) {
+      return false;
+    }
+    if (user.pricingPlan == 'lifetime') {
+      return false;
+    }
+    return true;
+  }
+
+
+  isLifetimeButtonActive(user: User) {
+    if (user.pricingPlan == "month") {
+      return true;
+    }
+    if (user.pricingPlan == 'year') {
+      return true;
+    }
+
+    if (user.pricingPlan == 'lifetime') {
+      return false;
+    }
+    return true;
+  }
+
 
 }
 

@@ -74,7 +74,7 @@ export class MyAccountComponent implements OnInit {
       .subscribe(
         result => {
           if (result) {
-            this.messages.info('Plan cancelled. We are sorry to see you go, you are welcome back anytime.');
+            this.messages.info('Plan canceled. We are sorry to see you go, you are welcome back anytime.');
           }
         });
 
