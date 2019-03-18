@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {Observable} from 'rxjs/Observable';
 import {AppState} from '../store';
 import {select, Store} from '@ngrx/store';
-import {arePricingPlansReady, isConnectedToStripe, platformState, selectPricingPlans} from '../store/selectors';
+import {arePricingPlansReady, isConnectedToStripe, platformState, selectPricingPlans, selectUserPermissions} from '../store/selectors';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {StripeConnectionService} from '../services/stripe-connection.service';
 import {PricingPlansLoaded} from '../store/pricing-plans.actions';
@@ -21,6 +21,7 @@ import {PlanActivated} from '../store/user.actions';
 import {planNames} from '../common/text';
 
 import * as firebase from "firebase/app";
+import {UserPermissions} from '../models/user-permissions.model';
 
 declare const StripeCheckout;
 
@@ -37,6 +38,7 @@ export class SubscriptionComponent implements OnInit {
   isConnectedToStripe$: Observable<boolean>;
   arePricingPlansReady$: Observable<boolean>;
   plans$: Observable<PricingPlansState>;
+  userPermissions$: Observable<UserPermissions>;
 
   showConnectToStripe = false;
 
@@ -123,6 +125,8 @@ export class SubscriptionComponent implements OnInit {
       }
     });
 
+    this.userPermissions$ = this.store.pipe(select(selectUserPermissions));
+
   }
 
   setupPricingPlans() {
@@ -174,7 +178,12 @@ export class SubscriptionComponent implements OnInit {
       );
   }
 
-  activateSubscription(plan: PricingPlan) {
+  activateSubscription(plan: PricingPlan, userPermissions: UserPermissions) {
+
+    if (userPermissions.isAdmin) {
+      this.messages.info("Students will be able to subscribe using this button.");
+      return;
+    }
 
     this.selectedPlan = plan;
 
