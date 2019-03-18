@@ -81,17 +81,28 @@ async function activateRecurringPlan(reqInfo: ReqInfo) {
 
   const tenantConfig = multi_tenant_mode ? {stripe_account: reqInfo.tenant.stripeTenantUserId} : {};
 
-  // create the stripe customer
-  const customer = await stripe.customers.create({
-    source: reqInfo.tokenId,
-    email: reqInfo.user.email
-  }, tenantConfig);
+  const userPrivatePath = `schools/${reqInfo.tenantId}/usersPrivate/${reqInfo.userId}`;
 
-  console.log('Created Stripe customer ' + customer.id);
+  const userPrivate = await getDocData(userPrivatePath);
+
+  let stripeCustomerId = userPrivate ? userPrivate.stripeCustomerId : null;
+
+  // in case of a reactivation, reuse the same Stripe customer
+  if (!stripeCustomerId) {
+    // create the stripe customer
+    const customer = await stripe.customers.create({
+      source: reqInfo.tokenId,
+      email: reqInfo.user.email
+    }, tenantConfig);
+
+    stripeCustomerId = customer.id;
+
+    console.log('Created Stripe customer ' + customer.id);
+  }
 
   // create the stripe subscription
   const subscription = await stripe.subscriptions.create({
-    customer: customer.id,
+    customer: stripeCustomerId,
     items: [
       {
         plan: reqInfo.plan.stripePlanId,
@@ -102,14 +113,12 @@ async function activateRecurringPlan(reqInfo: ReqInfo) {
 
   console.log('Created Stripe subscription: ' + subscription.id);
 
-  const userPrivatePath = `schools/${reqInfo.tenantId}/usersPrivate/${reqInfo.userId}`;
-
   const response = {
     planActivatedAt: subscription.created * 1000
   };
 
   await db.doc(userPrivatePath).set({
-      stripeCustomerId: customer.id,
+      stripeCustomerId,
       stripeSubscriptionId: subscription.id,
       planEndsAt: null,
       pricingPlan: reqInfo.plan.frequency,
