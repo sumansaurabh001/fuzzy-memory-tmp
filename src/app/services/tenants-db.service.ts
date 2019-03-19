@@ -9,6 +9,8 @@ import {AngularFirestoreCollection} from '@angular/fire/firestore/collection/col
 import {DEFAULT_SCHOOL_ACCENT_COLOR, DEFAULT_SCHOOL_PRIMARY_COLOR} from '../common/ui-constants';
 import {User} from '../models/user.model';
 import {TenantSettings} from '../models/tenant-settings.model';
+import {SubscriptionContent} from '../models/content/subscription-content.model';
+import {DEFAULT_SUBSCRIPTION_BENEFITS} from './default.content';
 
 
 @Injectable()
@@ -64,6 +66,14 @@ export class TenantsDBService {
             // the tenant is also an admin in its own website
             const tenantSettingsRef = this.afs.doc(`tenantSettings/${authState.uid}/userPermissions/${authState.uid}`).ref;
             batch.set(tenantSettingsRef, {isAdmin:true});
+
+            // set default tenant site content
+            const defaultSubscriptionContent = {
+              subscriptionBenefits: DEFAULT_SUBSCRIPTION_BENEFITS
+            };
+
+            const subscriptionContentRef = this.afs.doc(`schools/${authState.uid}/content/subscription`).ref;
+            batch.set(subscriptionContentRef, defaultSubscriptionContent);
 
             return from(batch.commit().then(() => newTenant));
           }

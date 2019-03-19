@@ -102,6 +102,8 @@ import {AuthInterceptor} from './services/auth.interceptor';
 import { MyAccountComponent } from './my-account/my-account.component';
 import {DenyRoleDirective} from './auth/deny-role.directive';
 import { CancelSubscriptionDialogComponent } from './cancel-subscription-dialog/cancel-subscription-dialog.component';
+import { FaqsComponent } from './faqs/faqs.component';
+import {ContentEffects} from './store/content.effects';
 
 
 @NgModule({
@@ -153,7 +155,8 @@ import { CancelSubscriptionDialogComponent } from './cancel-subscription-dialog/
     EditPricingPlanDialogComponent,
     FeaturesComponent,
     MyAccountComponent,
-    CancelSubscriptionDialogComponent
+    CancelSubscriptionDialogComponent,
+    FaqsComponent
   ],
   imports: [
     BrowserModule,
@@ -199,7 +202,8 @@ import { CancelSubscriptionDialogComponent } from './cancel-subscription-dialog/
       DescriptionEffects,
       UserEffects,
       PlatformEffects,
-      CouponEffects
+      CouponEffects,
+      ContentEffects
     ]),
     StoreRouterConnectingModule.forRoot({
       stateKey: 'router'

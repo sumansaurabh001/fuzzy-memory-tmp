@@ -89,41 +89,6 @@
   }
 }
 
-.faq {
-  display: flex;
-  flex-direction: column;
-}
-
-.faq-section {
-  margin-top: 100px;
-}
-
-.faq-question {
-  margin-top: 20px;
-  margin-bottom: 5px;
-  font-size: 16px;
-  font-weight: 700;
-}
-
-.faq-answer {
-  font-size: 16px;
-  line-height: 24px;
-}
-
-.faq-tools {
-  display: flex;
-  align-content: flex-end;
-  margin: 10px 0 15px 20px;
-  mini-action-button {
-    margin-right: 10px;
-  }
-}
-
-.add-faq {
-  display: flex;
-  justify-content: center;
-  margin: 40px 0;
-}
 
 .pricing-plans-message {
   max-width: 600px;

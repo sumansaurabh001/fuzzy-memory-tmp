@@ -19,7 +19,8 @@
                 <mat-card-header>
                   <mat-toolbar color="primary">
                     Monthly
-                    <mini-action-button class="edit-button" icon="mode_edit" *allowRole="'ADMIN'" (click)="editPlan(plans, 'monthlyPlan', true, false, true)"></mini-action-button>
+                    <mini-action-button class="edit-button" icon="mode_edit" *allowRole="'ADMIN'"
+                                        (click)="editPlan(plans, 'monthlyPlan', true, false, true)"></mini-action-button>
                   </mat-toolbar>
                 </mat-card-header>
 
@@ -54,7 +55,8 @@
                 <mat-card-header>
                   <mat-toolbar color="primary">
                     Yearly
-                    <mini-action-button class="edit-button" icon="mode_edit" *allowRole="'ADMIN'" (click)="editPlan(plans, 'yearlyPlan', true, true, true)"></mini-action-button>
+                    <mini-action-button class="edit-button" icon="mode_edit" *allowRole="'ADMIN'"
+                                        (click)="editPlan(plans, 'yearlyPlan', true, true, true)"></mini-action-button>
                   </mat-toolbar>
                 </mat-card-header>
 
@@ -94,7 +96,8 @@
                 <mat-card-header>
                   <mat-toolbar color="primary">
                     Lifetime
-                    <mini-action-button class="edit-button" icon="mode_edit" *allowRole="'ADMIN'" (click)="editPlan(plans, 'lifetimePlan', false, false, false)"></mini-action-button>
+                    <mini-action-button class="edit-button" icon="mode_edit" *allowRole="'ADMIN'"
+                                        (click)="editPlan(plans, 'lifetimePlan', false, false, false)"></mini-action-button>
                   </mat-toolbar>
                 </mat-card-header>
 
@@ -132,84 +135,19 @@
 
             </div>
 
-            <div class="text-box">
+            <ng-container *ngIf="(subscriptionContent$ | async) as subscriptionContent">
 
-              <ul>
-                <li>Does your employer sponsor online training? Consider requesting a one year or lifetime subscription as a
-                  training request (see FAQ below, multiple options available).
-                </li>
-                <li>50% student discount available, simply email us at helpdesk@angular-university.io to get your discount.</li>
-                <li>From Brasil, India, elsewhere? Get your fair geographical discount at helpdesk@angular-university.io.</li>
-                <li>Free for teachers, discounts available for educational institutions, please email us at
-                  helpdesk@angular-university.io
-                </li>
-                <li>Try the Webstorm IDE during 3 months for free (license upon request, see FAQ for how to get a license).</li>
-              </ul>
+              <div class="text-box">
 
-              <mini-action-button class="edit-button" icon="mode_edit" *allowRole="'ADMIN'"></mini-action-button>
+                <div [innerHtml]="subscriptionContent.subscriptionBenefits"></div>
 
-            </div>
-
-
-            <div class="faq-section">
-
-              <h1 class="page-title">FAQ</h1>
-
-              <div class="faq">
-
-                <div class="faq-question">Tell me about the Webstorm 3 Month Free license?</div>
-
-                <div class="faq-answer">
-                  Webstorm is the IDE used for all lessons, and it rocks ! With an Angular University subscription you have the
-                  right to a 3 month free license if you want to, this gives you enough time to build a personal project or even
-                  a
-                  POC for a small business. Simply email us at helpdesk@angular-university.io and you will get your license code
-                  ASAP.
-                </div>
-
-                <div class="faq-tools">
-
-                  <mini-action-button icon="mode_edit" *allowRole="'ADMIN'"></mini-action-button>
-
-                  <mini-action-button icon="delete" *allowRole="'ADMIN'" color="basic"></mini-action-button>
-
-                </div>
-
+                <mini-action-button class="edit-button" icon="mode_edit" *allowRole="'ADMIN'"></mini-action-button>
 
               </div>
 
-              <mat-divider *allowRole="'ADMIN'"></mat-divider>
+              <faqs></faqs>
 
-              <div class="faq">
-
-                <div class="faq-question">
-                  Can my employer sponsor my subscription?
-                </div>
-
-                <div class="faq-answer">
-                  Yes, this is available either for a one year request or lifetime access. Please first request your employer
-                  permission, then one way is to pay with your own card and either expense the receipt to your employer.
-                </div>
-
-                <div class="faq-tools">
-
-                  <mini-action-button icon="mode_edit" *allowRole="'ADMIN'"></mini-action-button>
-
-                  <mini-action-button icon="delete" *allowRole="'ADMIN'" color="basic"></mini-action-button>
-
-                </div>
-
-              </div>
-
-              <mat-divider *allowRole="'ADMIN'"></mat-divider>
-
-              <div class="add-faq" *allowRole="'ADMIN'">
-
-                <action-button text="Add new FAQ" color="accent" icon="add"></action-button>
-
-              </div>
-
-            </div>
+            </ng-container>
 
           </ng-container>
 
@@ -225,7 +163,8 @@
 
         <h1>Activate Subscription Plans</h1>
 
-        <p class="note">Note:These descriptions are shown to users on their credit card statements. Make sure that these descriptions correctly identify your website. </p>
+        <p class="note">Note:These descriptions are shown to users on their credit card statements. Make sure that these
+          descriptions correctly identify your website. </p>
 
 
         <fieldset>
@@ -279,7 +218,8 @@
 
           <mat-form-field>
 
-            <input matInput placeholder="Lifetime Access Price (USD)" type="number" formControlName="lifetimeAccessPrice">
+            <input matInput placeholder="Lifetime Access Price (USD)" type="number"
+                   formControlName="lifetimeAccessPrice">
 
           </mat-form-field>
 
@@ -298,10 +238,11 @@
   </ng-container>
 
   <ng-template #connectToStripe>
-    
+
     <div class="connect-with-stripe mat-elevation-z10" *ngIf="showConnectToStripe">
 
-      <connect-with-stripe message="Connect with Stripe to activate subscription plans, and start collecting customer payments."></connect-with-stripe>
+      <connect-with-stripe
+        message="Connect with Stripe to activate subscription plans, and start collecting customer payments."></connect-with-stripe>
 
     </div>
 

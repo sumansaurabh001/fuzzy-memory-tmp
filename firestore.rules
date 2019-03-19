@@ -109,7 +109,7 @@ service cloud.firestore {
         allow read: if isAdmin(uid) || isCurrentUser(uid);
 
         // only admins or the user himself can create or edit the data of a given user
-        allow write: if isAdmin(tenantId)  || isCurrentUser(uid);
+        allow write: if isAdmin(tenantId) || isCurrentUser(uid);
 
     }
 
@@ -123,6 +123,15 @@ service cloud.firestore {
 
     }
 
+    match /schools/{tenantId}/content/{contentId}  {
+
+        // all content is public info
+        allow read: if true;
+
+        // only the tenant can edit the website's content
+        allow write, delete: if isCurrentUser(tenantId);
+
+    }
 
   }
 

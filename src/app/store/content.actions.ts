@@ -1,0 +1,27 @@
+import {Action} from '@ngrx/store';
+import {SubscriptionContent} from '../models/content/subscription-content.model';
+
+
+export enum ContentActionTypes {
+  GetSubscriptionContent = '[Subscription Screen] Get Subscription Content',
+  SubscriptionContentLoaded = '[Content Effects] Subscription Content Loaded'
+}
+
+
+
+export class SubscriptionContentLoaded implements Action {
+
+  readonly type = ContentActionTypes.SubscriptionContentLoaded;
+
+  constructor(public payload: {subscriptionContent:SubscriptionContent}) {}
+}
+
+export class GetSubscriptionContent implements Action {
+
+  readonly type = ContentActionTypes.GetSubscriptionContent;
+
+}
+
+export type ContentActions = GetSubscriptionContent | SubscriptionContentLoaded;
+
+

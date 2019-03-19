@@ -30,6 +30,9 @@ import {planNames} from '../common/text';
 import * as firebase from "firebase/app";
 import {UserPermissions} from '../models/user-permissions.model';
 import {isUserPlanCanceled, isUserPlanStillValid, User} from '../models/user.model';
+import {GetSubscriptionContent} from '../store/content.actions';
+import {SubscriptionContent} from '../models/content/subscription-content.model';
+import {selectSubscriptionContent} from '../store/content.selectors';
 
 declare const StripeCheckout;
 
@@ -48,6 +51,7 @@ export class SubscriptionComponent implements OnInit {
   plans$: Observable<PricingPlansState>;
   userPermissions$: Observable<UserPermissions>;
   user$: Observable<User>;
+  subscriptionContent$:Observable<SubscriptionContent>;
 
   showConnectToStripe = false;
 
@@ -137,6 +141,8 @@ export class SubscriptionComponent implements OnInit {
     this.userPermissions$ = this.store.pipe(select(selectUserPermissions));
 
     this.user$ = this.store.pipe(select(selectUser));
+
+    this.subscriptionContent$ = this.store.pipe(select(selectSubscriptionContent));
 
   }
 

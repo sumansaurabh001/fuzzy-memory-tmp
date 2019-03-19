@@ -16,6 +16,7 @@ import {StripeConnectionRequestComponent} from './stripe-connection-request/stri
 import {StripeConnectionResponseComponent} from './stripe-connection-response/stripe-connection-response.component';
 import {SubscriptionComponent} from './subscription/subscription.component';
 import {MyAccountComponent} from './my-account/my-account.component';
+import {SubscriptionContentResolver} from './services/subscription-content.resolver';
 
 const routes: Routes = [
   {
@@ -55,7 +56,10 @@ const routes: Routes = [
   {
     path: 'subscription',
     component: SubscriptionComponent,
-    canActivate: [PlatformGuard]
+    canActivate: [PlatformGuard],
+    resolve: {
+      content: SubscriptionContentResolver
+    }
   },
 
   {

@@ -16,6 +16,7 @@ import {platformReducer, PlatformState} from './platform.reducer';
 import {couponsReducer, CouponsState} from './coupons.reducer';
 import {videoAccessReducer, VideoAccessState} from './video-access.reducer';
 import {pricingPlansReducer, PricingPlansState} from './pricing-plans.reducer';
+import {contentReducer, ContentState} from './content.reducer';
 
 
 
@@ -30,6 +31,7 @@ export interface AppState {
   coupons: CouponsState;
   videoAccess: VideoAccessState;
   pricingPlans: PricingPlansState;
+  content: ContentState;
 }
 
 
@@ -44,7 +46,8 @@ export const reducers: ActionReducerMap<AppState> = {
   platform: platformReducer,
   coupons: couponsReducer,
   videoAccess: videoAccessReducer,
-  pricingPlans: pricingPlansReducer
+  pricingPlans: pricingPlansReducer,
+  content: contentReducer
 };
 
 
