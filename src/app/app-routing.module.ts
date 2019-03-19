@@ -52,7 +52,6 @@ const routes: Routes = [
     },
     canActivate: [PlatformGuard]
   },
-
   {
     path: 'subscription',
     component: SubscriptionComponent,
@@ -61,7 +60,6 @@ const routes: Routes = [
       content: SubscriptionContentResolver
     }
   },
-
   {
     path: 'login',
     component: LoginComponent,
