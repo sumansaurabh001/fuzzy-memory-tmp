@@ -13,7 +13,7 @@ import {selectActiveCourse, selectActiveCourseDescription} from '../store/select
 import {CoursesDBService} from '../services/courses-db.service';
 import { UpdateCourse} from '../store/course.actions';
 import {AddDescription, SaveDescription} from '../store/description.actions';
-import {defaultHtmlEditorConfig} from '../common/html-editor.config';
+import {defaultEditorConfig} from '../common/html-editor.config';
 import {FileUploadService} from '../services/file-upload.service';
 import {LoadingService} from '../services/loading.service';
 
@@ -30,7 +30,7 @@ export class CourseLandingPageComponent implements OnInit {
 
   form: FormGroup;
 
-  toolbar = defaultHtmlEditorConfig;
+  editorConfig = defaultEditorConfig;
 
   imageProcessingOngoing = false;
 

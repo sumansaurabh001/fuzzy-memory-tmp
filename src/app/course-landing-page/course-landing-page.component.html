@@ -75,16 +75,13 @@
 
   <div class="section-label">Long Description</div>
 
-  <app-ngx-editor
-    height="500px"
-    minHeight="500px"
-    placeholder="Enter course description here..."
-    [spellcheck]="true"
-    [toolbar]="toolbar"
+  <quill-editor
     [(ngModel)]="courseDescription"
-    resizer="stack">
+    [modules]="editorConfig"
+    [style]="{height: '500px'}"
+    placeholder="Enter course description here...">
 
-  </app-ngx-editor>
+  </quill-editor>
 
   <div class="form-buttons">
 
