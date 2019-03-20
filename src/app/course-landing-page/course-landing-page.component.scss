@@ -8,12 +8,10 @@
 }
 
 
-:host app-ngx-editor ::ng-deep {
-  color:$text;
-  b {
-    color:$dark-text;
-  }
+::ng-deep quill-editor .ql-container {
+  font-family: 'Roboto';
 }
+
 
 .image-processing {
   font-size: 13px;
