@@ -24,6 +24,7 @@ export const initialContentState:ContentState = {
 export function contentReducer(state =initialContentState, action: ContentActions) : ContentState {
   switch (action.type) {
     case ContentActionTypes.SubscriptionContentLoaded:
+    case ContentActionTypes.SubscriptionContentUpdated:
       return {
         ...state,
         subscription: {

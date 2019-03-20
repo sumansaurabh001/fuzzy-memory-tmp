@@ -52,6 +52,8 @@ export class AddCourseDialogComponent implements OnInit {
     const course = this.form.value as Course;
     course.status = 'draft';
     course.downloadAllowed = true;
+    course.includedInSubscription = true;
+    course.free = false;
 
     this.loading.showLoader(this.coursesDB.createNewCourse(course))
       .subscribe(course => {

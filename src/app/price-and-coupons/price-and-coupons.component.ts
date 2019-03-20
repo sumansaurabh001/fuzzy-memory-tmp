@@ -64,6 +64,7 @@ export class PriceAndCouponsComponent implements OnInit {
     this.isConnectedToStripe$ = this.store.pipe(select(isConnectedToStripe));
 
     this.course$.subscribe(course => {
+
       if (course) {
         this.form.patchValue({
           priceGroup: {

@@ -30,9 +30,10 @@ import {planNames} from '../common/text';
 import * as firebase from "firebase/app";
 import {UserPermissions} from '../models/user-permissions.model';
 import {isUserPlanCanceled, isUserPlanStillValid, User} from '../models/user.model';
-import {GetSubscriptionContent} from '../store/content.actions';
+import {GetSubscriptionContent, SubscriptionContentUpdated} from '../store/content.actions';
 import {SubscriptionContent} from '../models/content/subscription-content.model';
 import {selectSubscriptionContent} from '../store/content.selectors';
+import {EditHtmlDialogComponent} from '../edit-html-dialog/edit-html-dialog.component';
 
 declare const StripeCheckout;
 
@@ -298,6 +299,32 @@ export class SubscriptionComponent implements OnInit {
     const unDiscountedYearlyPrice = plans.monthlyPlan.price * 12;
     return (unDiscountedYearlyPrice - plans.yearlyPlan.price) / unDiscountedYearlyPrice;
 
+  }
+
+  editBenefits(content: SubscriptionContent, editedProperty:string) {
+
+    const dialogConfig = new MatDialogConfig();
+
+    dialogConfig.autoFocus = true;
+    dialogConfig.disableClose = true;
+    dialogConfig.width = '1000px';
+    dialogConfig.data = {
+      dialogTitle: 'Edit Subscription Benefits',
+      content,
+      editedProperty,
+      savePath: `content/subscription`
+    };
+
+    this.dialog.open(EditHtmlDialogComponent, dialogConfig)
+      .afterClosed()
+      .subscribe(
+        subscriptionContent => {
+          if (subscriptionContent) {
+            this.store.dispatch(new SubscriptionContentUpdated({subscriptionContent}));
+            this.messages.info('Subscription benefits saved.');
+          }
+        }
+      );
   }
 
 

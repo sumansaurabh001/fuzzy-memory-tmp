@@ -141,7 +141,7 @@
 
                 <div [innerHtml]="subscriptionContent.subscriptionBenefits"></div>
 
-                <mini-action-button class="edit-button" icon="mode_edit" *allowRole="'ADMIN'"></mini-action-button>
+                <mini-action-button class="edit-button" icon="mode_edit" *allowRole="'ADMIN'" (click)="editBenefits(subscriptionContent, 'subscriptionBenefits')"></mini-action-button>
 
               </div>
 

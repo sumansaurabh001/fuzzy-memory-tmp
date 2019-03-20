@@ -5,6 +5,8 @@ import {AngularFirestore} from '@angular/fire/firestore';
 import {AngularFireAuth} from '@angular/fire/auth';
 import {TenantService} from './tenant.service';
 import {first} from 'rxjs/operators';
+import {from} from 'rxjs';
+
 
 
 @Injectable({
@@ -14,8 +16,7 @@ export class ContentDbService {
 
   constructor(
     private afs: AngularFirestore,
-    private tenant:TenantService
-  ) {
+    private tenant:TenantService) {
 
   }
 
@@ -26,5 +27,12 @@ export class ContentDbService {
         first()
       );
   }
+
+  saveContent(savePath:string, newContent:any): Observable<any> {
+    return from(this.afs.doc(`schools/${this.tenant.id}/${savePath}`).update(newContent));
+  }
+
+
+
 }
 

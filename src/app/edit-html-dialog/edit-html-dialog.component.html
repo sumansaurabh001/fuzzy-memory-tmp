@@ -1,0 +1,35 @@
+<h2 mat-dialog-title>{{dialogTitle}}</h2>
+
+<loading></loading>
+
+<mat-dialog-content>
+
+  <messages style="dialog"></messages>
+
+  <app-ngx-editor
+    minHeight="200px"
+    placeholder="Edit content here..."
+    [spellcheck]="true"
+    [toolbar]="toolbar"
+    [(ngModel)]="html"
+    resizer="stack">
+
+  </app-ngx-editor>
+
+</mat-dialog-content>
+
+<mat-dialog-actions class="dialog-actions">
+
+  <button mat-raised-button
+          (click)="close()">
+    Close
+  </button>
+
+  <button mat-raised-button color="primary"
+          (click)="save()">
+    Save
+  </button>
+
+</mat-dialog-actions>
+
+

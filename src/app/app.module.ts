@@ -104,6 +104,7 @@ import {DenyRoleDirective} from './auth/deny-role.directive';
 import { CancelSubscriptionDialogComponent } from './cancel-subscription-dialog/cancel-subscription-dialog.component';
 import { FaqsComponent } from './faqs/faqs.component';
 import {ContentEffects} from './store/content.effects';
+import { EditHtmlDialogComponent } from './edit-html-dialog/edit-html-dialog.component';
 
 
 @NgModule({
@@ -156,7 +157,8 @@ import {ContentEffects} from './store/content.effects';
     FeaturesComponent,
     MyAccountComponent,
     CancelSubscriptionDialogComponent,
-    FaqsComponent
+    FaqsComponent,
+    EditHtmlDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -244,7 +246,8 @@ import {ContentEffects} from './store/content.effects';
     GetLinkDialogComponent,
     LoadingDialogComponent,
     EditPricingPlanDialogComponent,
-    CancelSubscriptionDialogComponent
+    CancelSubscriptionDialogComponent,
+    EditHtmlDialogComponent
   ],
   bootstrap: [AppComponent]
 })
