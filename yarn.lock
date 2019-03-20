@@ -5063,12 +5063,6 @@ ngx-cookie-service@^1.0.10:
   version "1.0.10"
   resolved "https://registry.yarnpkg.com/ngx-cookie-service/-/ngx-cookie-service-1.0.10.tgz#dc17ff4f1a0224cf3b0c7a7f52bff2b798396e3d"
 
-ngx-editor@v3.3.0-rc.13:
-  version "3.3.0-rc.13"
-  resolved "https://registry.yarnpkg.com/ngx-editor/-/ngx-editor-3.3.0-rc.13.tgz#49e69f7754eb9fa9f02d4748b0755a204f5558e7"
-  dependencies:
-    tslib "^1.7.1"
-
 ngx-quill@^4.6.12:
   version "4.6.12"
   resolved "https://registry.yarnpkg.com/ngx-quill/-/ngx-quill-4.6.12.tgz#9ff1c194057b95f24f09bb7fc53d6d1a73c7a153"

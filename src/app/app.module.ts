@@ -32,7 +32,6 @@ import {AngularFirestoreModule} from '@angular/fire/firestore';
 import {CoursePageComponent} from './course-page/course-page.component';
 import {CourseLandingPageComponent} from './course-landing-page/course-landing-page.component';
 import {EditLessonsToolbarComponent} from './edit-lessons-toolbar/edit-lessons-toolbar.component';
-import {NgxEditorModule} from 'ngx-editor';
 import {AddCourseDialogComponent} from './add-course-dialog/add-course-dialog.component';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {MessagesService} from './services/messages.service';
@@ -192,7 +191,6 @@ import {QuillModule} from 'ngx-quill';
     MatTooltipModule,
     FormsModule,
     ReactiveFormsModule,
-    NgxEditorModule,
     MatDialogModule,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFirestoreModule,

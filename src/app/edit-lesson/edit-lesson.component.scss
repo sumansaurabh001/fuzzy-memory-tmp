@@ -17,6 +17,10 @@
   }
 }
 
+::ng-deep quill-editor .ql-container {
+  font-family: 'Roboto';
+}
+
 .filename {
   display: flex;
   align-items: center;
@@ -107,10 +111,5 @@
 
 .edit-descr-btn {
   margin-left: 3px;
-}
-
-
-.text-editor::ng-deep .ngx-editor  {
-  max-width: 890px;
 }
 

@@ -73,14 +73,13 @@
 
 <collapsible-panel [trigger]="trigger">
 
-  <app-ngx-editor class="text-editor"
-                  height="50px"
-                  placeholder="(Optional)"
-                  [spellcheck]="true"
-                  [toolbar]="toolbar"
-                  [(ngModel)]="lessonDescription">
+  <quill-editor
+    [(ngModel)]="lessonDescription"
+    [modules]="modules"
+    [style]="{height: '200px'}"
+    placeholder="Enter lesson description here...">
 
-  </app-ngx-editor>
+  </quill-editor>
 
 </collapsible-panel>
 

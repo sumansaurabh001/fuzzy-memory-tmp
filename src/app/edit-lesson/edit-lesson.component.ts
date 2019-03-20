@@ -11,7 +11,7 @@ import {ConfirmationDialogComponent} from '../confirmation-dialog/confirmation-d
 import {concatMap, filter, first, map, tap} from 'rxjs/operators';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {UpdateCourse} from '../store/course.actions';
-import {defaultHtmlEditorConfig} from '../common/html-editor.config';
+import {defaultEditorConfig} from '../common/html-editor.config';
 import {LoadDescription, SaveDescription} from '../store/description.actions';
 import {FileUploadService} from '../services/file-upload.service';
 import {Observable, noop} from 'rxjs';
@@ -34,7 +34,7 @@ export class EditLessonComponent implements OnInit, OnChanges {
   form: FormGroup;
 
   lessonDescription: string;
-  toolbar = defaultHtmlEditorConfig;
+  modules = defaultEditorConfig;
 
   uploadTask: AngularFireUploadTask;
 
