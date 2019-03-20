@@ -105,6 +105,7 @@ import { CancelSubscriptionDialogComponent } from './cancel-subscription-dialog/
 import { FaqsComponent } from './faqs/faqs.component';
 import {ContentEffects} from './store/content.effects';
 import { EditHtmlDialogComponent } from './edit-html-dialog/edit-html-dialog.component';
+import {QuillModule} from 'ngx-quill';
 
 
 @NgModule({
@@ -197,6 +198,9 @@ import { EditHtmlDialogComponent } from './edit-html-dialog/edit-html-dialog.com
     AngularFirestoreModule,
     AngularFireAuthModule,
     AngularFireStorageModule,
+
+    QuillModule,
+
     StoreModule.forRoot(reducers, { metaReducers }),
     !environment.production ? StoreDevtoolsModule.instrument() : [],
     EffectsModule.forRoot([

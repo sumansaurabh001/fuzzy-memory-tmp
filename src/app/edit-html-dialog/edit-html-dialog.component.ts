@@ -4,7 +4,7 @@ import {MessagesService} from '../services/messages.service';
 import {LoadingService} from '../services/loading.service';
 import {Store} from '@ngrx/store';
 import {AppState} from '../store';
-import {defaultHtmlEditorConfig} from '../common/html-editor.config';
+import {defaultHtmlEditorConfig, defaultEditorConfig} from '../common/html-editor.config';
 import {ContentDbService} from '../services/content-db.service';
 
 @Component({
@@ -22,7 +22,7 @@ export class EditHtmlDialogComponent implements OnInit {
 
   html:string;
 
-  toolbar = defaultHtmlEditorConfig;
+  editorConfig = defaultEditorConfig;
 
 
 

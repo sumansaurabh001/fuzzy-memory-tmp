@@ -45,6 +45,8 @@
     "ngx-color-picker": "^5.3.8",
     "ngx-cookie-service": "^1.0.10",
     "ngx-editor": "v3.3.0-rc.13",
+    "ngx-quill": "^4.6.12",
+    "quill": "^1.3.6",
     "rxjs": "6.3.3",
     "rxjs-compat": "^6.0.0-rc.0",
     "shortid": "^2.2.8",

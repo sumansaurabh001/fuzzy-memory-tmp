@@ -6,15 +6,13 @@
 
   <messages style="dialog"></messages>
 
-  <app-ngx-editor
-    minHeight="200px"
-    placeholder="Edit content here..."
-    [spellcheck]="true"
-    [toolbar]="toolbar"
+  <quill-editor
     [(ngModel)]="html"
-    resizer="stack">
+    [modules]="editorConfig"
+    [style]="{height: '200px'}"
+    placeholder="Edit content here...">
 
-  </app-ngx-editor>
+  </quill-editor>
 
 </mat-dialog-content>
 

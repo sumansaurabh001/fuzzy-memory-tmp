@@ -3,9 +3,8 @@
 
 @include single-col-dialog();
 
-:host app-ngx-editor ::ng-deep {
-  color:$text;
-  b {
-    color:$dark-text;
-  }
+
+
+::ng-deep quill-editor .ql-container {
+  font-family: 'Roboto';
 }
