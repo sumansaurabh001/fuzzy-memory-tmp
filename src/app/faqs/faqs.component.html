@@ -4,7 +4,7 @@
 
   <mat-divider *allowRole="'ADMIN'"></mat-divider>
 
-  <div class="faq" *ngFor="let faq of faqs; let index = index">
+  <div class="faq" *ngFor="let faq of editedContent?.faqs; let index = index">
 
     <div class="faq-question" [innerHtml]="faq.question">
     </div>

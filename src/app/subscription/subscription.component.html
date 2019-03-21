@@ -148,10 +148,10 @@
 
 
               <faqs
-                [faqs]="subscriptionContent.faqs"
-                (faqEdited)="onFaqEdited(subscriptionContent, $event)"
-                (faqAdded)="onFaqAdded(subscriptionContent, $event)"
-                (faqDeleted)="onFaqDeleted(subscriptionContent, $event)">
+                [editedContent]="subscriptionContent"
+                (faqEdited)="onFaqEdited($event)"
+                (faqAdded)="onFaqAdded($event)"
+                (faqDeleted)="onFaqDeleted($event)">
 
               </faqs>
 

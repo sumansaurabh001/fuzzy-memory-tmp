@@ -1,11 +1,10 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {FAQ} from '../models/content/faq.model';
-import {AddFaqEvent, DeleteFaqEvent, EditFaqEvent} from './faq.events';
 import {MatDialog, MatDialogConfig} from '@angular/material';
 import {EditFaqDialogComponent} from '../edit-faq-dialog/edit-faq-dialog.component';
 import {ConfirmationDialogComponent} from '../confirmation-dialog/confirmation-dialog.component';
 import {concatMap, filter, tap} from 'rxjs/operators';
-import {DeleteLesson} from '../store/lesson.actions';
+import {HasFaqs} from '../models/content/has-faqs.model';
 
 @Component({
   selector: 'faqs',
@@ -15,16 +14,16 @@ import {DeleteLesson} from '../store/lesson.actions';
 export class FaqsComponent implements OnInit {
 
   @Input()
-  faqs: FAQ[];
+  editedContent:HasFaqs;
 
   @Output()
-  faqEdited = new EventEmitter<EditFaqEvent>();
+  faqEdited = new EventEmitter<any>();
 
   @Output()
-  faqDeleted = new EventEmitter<DeleteFaqEvent>();
+  faqDeleted = new EventEmitter<any>();
 
   @Output()
-  faqAdded = new EventEmitter<AddFaqEvent>();
+  faqAdded = new EventEmitter<any>();
 
   constructor(
     private dialog: MatDialog) {
@@ -37,7 +36,7 @@ export class FaqsComponent implements OnInit {
 
   onEditFaq(index:number) {
 
-    const dialogConfig = this.setupDialogConfig('Edit FAQ', {...this.faqs[index]});
+    const dialogConfig = this.setupDialogConfig('Edit FAQ', {...this.editedContent.faqs[index]});
 
     this.dialog.open(EditFaqDialogComponent, dialogConfig)
       .afterClosed()
@@ -45,7 +44,18 @@ export class FaqsComponent implements OnInit {
         filter(faq => !! faq)
       )
       .subscribe(
-        (faq:FAQ) => this.faqEdited.emit({faq, index})
+        (faq:FAQ) => {
+
+          const newContent = {
+            ...this.editedContent,
+            faqs: this.editedContent.faqs.slice(0)
+          };
+
+          newContent.faqs[index] = faq;
+
+          this.faqEdited.emit(newContent)
+
+        }
       );
 
   }
@@ -68,7 +78,18 @@ export class FaqsComponent implements OnInit {
         filter(result => result.confirm),
       )
       .subscribe(
-        () => this.faqDeleted.emit({index})
+        () => {
+
+          const newContent = {
+            ...this.editedContent,
+            faqs: this.editedContent.faqs.slice(0)
+          };
+
+          newContent.faqs.splice(index, 1);
+
+          this.faqDeleted.emit(newContent);
+
+        }
       );
 
   }
@@ -83,7 +104,17 @@ export class FaqsComponent implements OnInit {
         filter(faq => !! faq)
       )
       .subscribe(
-        (faq:FAQ) =>  this.faqAdded.emit({faq})
+        (faq:FAQ) =>  {
+
+          const newContent = {
+            ...this.editedContent,
+            faqs: this.editedContent.faqs.slice(0)
+          };
+
+          newContent.faqs.push(faq);
+
+          this.faqAdded.emit(newContent);
+        }
       );
 
   }

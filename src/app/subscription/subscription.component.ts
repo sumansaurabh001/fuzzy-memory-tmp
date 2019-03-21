@@ -34,7 +34,6 @@ import {GetSubscriptionContent, SubscriptionContentUpdated} from '../store/conte
 import {SubscriptionContent} from '../models/content/subscription-content.model';
 import {selectSubscriptionContent} from '../store/content.selectors';
 import {EditHtmlDialogComponent} from '../edit-html-dialog/edit-html-dialog.component';
-import {EditFaqEvent} from '../faqs/faq.events';
 import {ContentDbService} from '../services/content-db.service';
 
 declare const StripeCheckout;
@@ -309,43 +308,16 @@ export class SubscriptionComponent implements OnInit {
   }
 
 
-  onFaqEdited(content: SubscriptionContent, event: EditFaqEvent) {
-
-    const subscriptionContent:SubscriptionContent = {
-      ...content,
-      faqs: content.faqs.slice(0)
-    };
-
-    subscriptionContent.faqs[event.index] = event.faq;
-
-    this.store.dispatch(new SubscriptionContentUpdated({subscriptionContent}));
-
-  }
-
-  onFaqAdded(content: SubscriptionContent, event: EditFaqEvent) {
-
-    const subscriptionContent:SubscriptionContent = {
-      ...content,
-      faqs: content.faqs.slice(0)
-    };
-
-    subscriptionContent.faqs.push(event.faq);
-
+  onFaqEdited(subscriptionContent: SubscriptionContent) {
     this.store.dispatch(new SubscriptionContentUpdated({subscriptionContent}));
   }
 
-  onFaqDeleted(content: SubscriptionContent, event: EditFaqEvent) {
-
-    const subscriptionContent:SubscriptionContent = {
-      ...content,
-      faqs: content.faqs.slice(0)
-    };
-
-    subscriptionContent.faqs.splice(event.index, 1);
-
+  onFaqAdded(subscriptionContent: SubscriptionContent) {
     this.store.dispatch(new SubscriptionContentUpdated({subscriptionContent}));
+  }
 
-
+  onFaqDeleted(subscriptionContent: SubscriptionContent) {
+    this.store.dispatch(new SubscriptionContentUpdated({subscriptionContent}));
   }
 
 }
