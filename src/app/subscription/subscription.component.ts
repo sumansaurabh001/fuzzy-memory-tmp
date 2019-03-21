@@ -34,6 +34,7 @@ import {GetSubscriptionContent, SubscriptionContentUpdated} from '../store/conte
 import {SubscriptionContent} from '../models/content/subscription-content.model';
 import {selectSubscriptionContent} from '../store/content.selectors';
 import {EditHtmlDialogComponent} from '../edit-html-dialog/edit-html-dialog.component';
+import {EditFaqEvent} from '../faqs/faq.events';
 
 declare const StripeCheckout;
 
@@ -325,6 +326,12 @@ export class SubscriptionComponent implements OnInit {
           }
         }
       );
+  }
+
+  onFaqEdited(content: SubscriptionContent, event: EditFaqEvent) {
+
+    //TODO
+
   }
 
 

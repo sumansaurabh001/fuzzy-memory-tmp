@@ -1,0 +1,38 @@
+<h2 mat-dialog-title>{{dialogTitle}}</h2>
+
+<mat-dialog-content [formGroup]="form">
+
+  <mat-form-field appearance="outline">
+
+    <input matInput
+           placeholder="Type here the question..."
+           maxLength="60"
+           formControlName="question">
+
+  </mat-form-field>
+
+    <quill-editor
+      [formControl]="form.controls['answer']"
+      [modules]="editorConfig"
+      [style]="{height: '200px'}"
+      placeholder="Type here the answer...">
+
+    </quill-editor>
+
+</mat-dialog-content>
+
+<mat-dialog-actions class="dialog-actions">
+
+  <button mat-raised-button
+          (click)="close()">
+    Close
+  </button>
+
+  <button mat-raised-button color="primary"
+          (click)="cancelSubscription()" [disabled]="!form.valid">
+    Save FAQ
+  </button>
+
+</mat-dialog-actions>
+
+

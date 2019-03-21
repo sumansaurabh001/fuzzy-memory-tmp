@@ -105,6 +105,7 @@ import { FaqsComponent } from './faqs/faqs.component';
 import {ContentEffects} from './store/content.effects';
 import { EditHtmlDialogComponent } from './edit-html-dialog/edit-html-dialog.component';
 import {QuillModule} from 'ngx-quill';
+import { EditFaqDialogComponent } from './edit-faq-dialog/edit-faq-dialog.component';
 
 
 @NgModule({
@@ -158,7 +159,8 @@ import {QuillModule} from 'ngx-quill';
     MyAccountComponent,
     CancelSubscriptionDialogComponent,
     FaqsComponent,
-    EditHtmlDialogComponent
+    EditHtmlDialogComponent,
+    EditFaqDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -249,7 +251,8 @@ import {QuillModule} from 'ngx-quill';
     LoadingDialogComponent,
     EditPricingPlanDialogComponent,
     CancelSubscriptionDialogComponent,
-    EditHtmlDialogComponent
+    EditHtmlDialogComponent,
+    EditFaqDialogComponent
   ],
   bootstrap: [AppComponent]
 })

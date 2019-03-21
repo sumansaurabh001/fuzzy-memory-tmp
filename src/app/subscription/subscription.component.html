@@ -145,7 +145,11 @@
 
               </div>
 
-              <faqs [faqs]="subscriptionContent.faqs"></faqs>
+              <faqs
+                [faqs]="subscriptionContent.faqs"
+                (editFaq)="onFaqEdited(subscriptionContent, $event)">
+
+              </faqs>
 
             </ng-container>
 

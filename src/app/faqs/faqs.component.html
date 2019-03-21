@@ -4,7 +4,7 @@
 
   <mat-divider *allowRole="'ADMIN'"></mat-divider>
 
-  <div class="faq" *ngFor="let faq of faqs">
+  <div class="faq" *ngFor="let faq of faqs; let index = index">
 
     <div class="faq-question" [innerHtml]="faq.question">
     </div>
@@ -14,9 +14,9 @@
 
     <div class="faq-tools">
 
-      <mini-action-button icon="mode_edit" *allowRole="'ADMIN'"></mini-action-button>
+      <mini-action-button icon="mode_edit" *allowRole="'ADMIN'" (click)="onEditFaq(index)"></mini-action-button>
 
-      <mini-action-button icon="delete" *allowRole="'ADMIN'" color="basic"></mini-action-button>
+      <mini-action-button icon="delete" *allowRole="'ADMIN'" color="basic" (click)="onDeleteFaq(index)"></mini-action-button>
 
     </div>
 
@@ -26,7 +26,7 @@
 
   <div class="add-faq" *allowRole="'ADMIN'">
 
-    <action-button text="Add new FAQ" color="accent" icon="add"></action-button>
+    <action-button text="Add new FAQ" color="accent" icon="add" (click)="onAddFaq()"></action-button>
 
   </div>
 
