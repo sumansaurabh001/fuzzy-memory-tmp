@@ -75,8 +75,7 @@ export class SubscriptionComponent implements OnInit {
     private messages: MessagesService,
     private loading: LoadingService,
     private payments: PaymentsService,
-    private dialog: MatDialog,
-    private contentDb: ContentDbService) {
+    private dialog: MatDialog) {
 
     this.form = this.fb.group({
       monthlyPlanDescription: ['', Validators.required],
@@ -324,7 +323,6 @@ export class SubscriptionComponent implements OnInit {
         subscriptionContent => {
           if (subscriptionContent) {
             this.store.dispatch(new SubscriptionContentUpdated({subscriptionContent}));
-            this.contentDb.saveContent("content/subscription", subscriptionContent).subscribe();
           }
         }
       );
@@ -339,7 +337,6 @@ export class SubscriptionComponent implements OnInit {
 
     subscriptionContent.faqs[event.index] = event.faq;
 
-    this.contentDb.saveContent("content/subscription", subscriptionContent).subscribe();
     this.store.dispatch(new SubscriptionContentUpdated({subscriptionContent}));
 
   }
@@ -353,7 +350,6 @@ export class SubscriptionComponent implements OnInit {
 
     subscriptionContent.faqs.push(event.faq);
 
-    this.contentDb.saveContent("content/subscription", subscriptionContent).subscribe();
     this.store.dispatch(new SubscriptionContentUpdated({subscriptionContent}));
   }
 
@@ -366,7 +362,6 @@ export class SubscriptionComponent implements OnInit {
 
     subscriptionContent.faqs.splice(event.index, 1);
 
-    this.contentDb.saveContent("content/subscription", subscriptionContent).subscribe();
     this.store.dispatch(new SubscriptionContentUpdated({subscriptionContent}));
 
 

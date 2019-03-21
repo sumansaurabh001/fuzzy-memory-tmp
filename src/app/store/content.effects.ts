@@ -1,6 +1,12 @@
 import {Injectable} from '@angular/core';
 import {Actions, Effect, ofType} from '@ngrx/effects';
-import {ContentActions, ContentActionTypes, GetSubscriptionContent, SubscriptionContentLoaded} from './content.actions';
+import {
+  ContentActions,
+  ContentActionTypes,
+  GetSubscriptionContent,
+  SubscriptionContentLoaded,
+  SubscriptionContentUpdated
+} from './content.actions';
 import {catchError, concatMap, filter, map, withLatestFrom} from 'rxjs/operators';
 import {select, Store} from '@ngrx/store';
 import {AppState} from './index';
@@ -23,6 +29,18 @@ export class ContentEffects {
       map((subscriptionContent) => new SubscriptionContentLoaded({subscriptionContent})),
       catchError(err => {
         this.messages.error('Could not load subscription content.');
+        return throwError(err);
+      })
+    );
+
+
+  @Effect({dispatch:false})
+  saveSubscriptionContent$ = this.actions$
+    .pipe(
+      ofType<SubscriptionContentUpdated>(ContentActionTypes.SubscriptionContentUpdated),
+      concatMap(action => this.content.saveContent("content/subscription", action.payload.subscriptionContent)),
+      catchError(err => {
+        this.messages.error('Could not save subscription content.');
         return throwError(err);
       })
     );
