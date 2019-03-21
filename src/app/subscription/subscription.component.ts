@@ -324,7 +324,7 @@ export class SubscriptionComponent implements OnInit {
         subscriptionContent => {
           if (subscriptionContent) {
             this.store.dispatch(new SubscriptionContentUpdated({subscriptionContent}));
-            this.messages.info('Subscription benefits saved.');
+            this.contentDb.saveContent("content/subscription", subscriptionContent).subscribe();
           }
         }
       );

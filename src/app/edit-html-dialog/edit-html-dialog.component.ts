@@ -28,11 +28,7 @@ export class EditHtmlDialogComponent implements OnInit {
 
   constructor(
     private dialogRef: MatDialogRef<EditHtmlDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) data,
-    private messages: MessagesService,
-    private loading: LoadingService,
-    private store: Store<AppState>,
-    private contentDb: ContentDbService) {
+    @Inject(MAT_DIALOG_DATA) data) {
 
     this.dialogTitle = data.dialogTitle;
     this.content = data.content;
@@ -55,17 +51,7 @@ export class EditHtmlDialogComponent implements OnInit {
 
     newContent[this.editedProperty] = this.html;
 
-    const saveContent$ = this.contentDb.saveContent(this.savePath, newContent);
-
-    this.loading.showLoaderUntilCompleted(saveContent$)
-      .subscribe(
-        () => this.dialogRef.close(newContent),
-        err => {
-          console.log("Could not save new content: ", err);
-
-        }
-      );
-
+    this.dialogRef.close(newContent);
 
   }
 
