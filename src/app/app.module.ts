@@ -106,6 +106,7 @@ import {ContentEffects} from './store/content.effects';
 import { EditHtmlDialogComponent } from './edit-html-dialog/edit-html-dialog.component';
 import {QuillModule} from 'ngx-quill';
 import { EditFaqDialogComponent } from './edit-faq-dialog/edit-faq-dialog.component';
+import { EditableTextBoxComponent } from './editable-text-box/editable-text-box.component';
 
 
 @NgModule({
@@ -160,7 +161,8 @@ import { EditFaqDialogComponent } from './edit-faq-dialog/edit-faq-dialog.compon
     CancelSubscriptionDialogComponent,
     FaqsComponent,
     EditHtmlDialogComponent,
-    EditFaqDialogComponent
+    EditFaqDialogComponent,
+    EditableTextBoxComponent
   ],
   imports: [
     BrowserModule,

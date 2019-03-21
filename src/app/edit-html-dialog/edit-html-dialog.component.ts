@@ -5,7 +5,6 @@ import {LoadingService} from '../services/loading.service';
 import {Store} from '@ngrx/store';
 import {AppState} from '../store';
 import {defaultEditorConfig} from '../common/html-editor.config';
-import {ContentDbService} from '../services/content-db.service';
 
 @Component({
   selector: 'edit-html-dialog',
@@ -18,12 +17,9 @@ export class EditHtmlDialogComponent implements OnInit {
   dialogTitle:string;
   content:any;
   editedProperty:string;
-  savePath:string;
-
   html:string;
 
   editorConfig = defaultEditorConfig;
-
 
 
   constructor(
@@ -33,7 +29,6 @@ export class EditHtmlDialogComponent implements OnInit {
     this.dialogTitle = data.dialogTitle;
     this.content = data.content;
     this.editedProperty = data.editedProperty;
-    this.savePath = data.savePath;
 
     this.html = this.content[this.editedProperty];
 

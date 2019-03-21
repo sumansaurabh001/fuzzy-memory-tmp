@@ -137,13 +137,15 @@
 
             <ng-container *ngIf="(subscriptionContent$ | async) as subscriptionContent">
 
-              <div class="text-box">
 
-                <div [innerHtml]="subscriptionContent.subscriptionBenefits"></div>
+              <editable-text-box
+                [html]="subscriptionContent.subscriptionBenefits"
+                [content]="subscriptionContent"
+                editedProperty="subscriptionBenefits"
+                (textEdited)="onBenefitsEdited($event)">
 
-                <mini-action-button class="edit-button" icon="mode_edit" *allowRole="'ADMIN'" (click)="editBenefits(subscriptionContent, 'subscriptionBenefits')"></mini-action-button>
+              </editable-text-box>
 
-              </div>
 
               <faqs
                 [faqs]="subscriptionContent.faqs"

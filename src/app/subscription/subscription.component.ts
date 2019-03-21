@@ -303,30 +303,11 @@ export class SubscriptionComponent implements OnInit {
 
   }
 
-  editBenefits(content: SubscriptionContent, editedProperty:string) {
 
-    const dialogConfig = new MatDialogConfig();
-
-    dialogConfig.autoFocus = true;
-    dialogConfig.disableClose = true;
-    dialogConfig.width = '1000px';
-    dialogConfig.data = {
-      dialogTitle: 'Edit Subscription Benefits',
-      content,
-      editedProperty,
-      savePath: `content/subscription`
-    };
-
-    this.dialog.open(EditHtmlDialogComponent, dialogConfig)
-      .afterClosed()
-      .subscribe(
-        subscriptionContent => {
-          if (subscriptionContent) {
-            this.store.dispatch(new SubscriptionContentUpdated({subscriptionContent}));
-          }
-        }
-      );
+  onBenefitsEdited(subscriptionContent:SubscriptionContent) {
+    this.store.dispatch(new SubscriptionContentUpdated({subscriptionContent}));
   }
+
 
   onFaqEdited(content: SubscriptionContent, event: EditFaqEvent) {
 
