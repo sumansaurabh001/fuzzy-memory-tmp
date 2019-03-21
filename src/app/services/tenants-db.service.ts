@@ -10,7 +10,7 @@ import {DEFAULT_SCHOOL_ACCENT_COLOR, DEFAULT_SCHOOL_PRIMARY_COLOR} from '../comm
 import {User} from '../models/user.model';
 import {TenantSettings} from '../models/tenant-settings.model';
 import {SubscriptionContent} from '../models/content/subscription-content.model';
-import {DEFAULT_SUBSCRIPTION_BENEFITS} from './default.content';
+import {DEFAULT_FAQS, DEFAULT_SUBSCRIPTION_BENEFITS} from './default.content';
 
 
 @Injectable()
@@ -67,9 +67,10 @@ export class TenantsDBService {
             const tenantSettingsRef = this.afs.doc(`tenantSettings/${authState.uid}/userPermissions/${authState.uid}`).ref;
             batch.set(tenantSettingsRef, {isAdmin:true});
 
-            // set default tenant site content
+            // set default tenant website content
             const defaultSubscriptionContent = {
-              subscriptionBenefits: DEFAULT_SUBSCRIPTION_BENEFITS
+              subscriptionBenefits: DEFAULT_SUBSCRIPTION_BENEFITS,
+              faqs: DEFAULT_FAQS
             };
 
             const subscriptionContentRef = this.afs.doc(`schools/${authState.uid}/content/subscription`).ref;

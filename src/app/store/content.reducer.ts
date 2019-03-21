@@ -15,7 +15,8 @@ export const initialContentState:ContentState = {
   subscription: {
     loaded:false,
     content: {
-      subscriptionBenefits: undefined
+      subscriptionBenefits: undefined,
+      faqs: []
     }
   }
 };

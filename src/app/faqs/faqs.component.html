@@ -2,40 +2,14 @@
 
   <h1 class="page-title">FAQ</h1>
 
-  <div class="faq">
-
-    <div class="faq-question">Tell me about the Webstorm 3 Month Free license?</div>
-
-    <div class="faq-answer">
-      Webstorm is the IDE used for all lessons, and it rocks ! With an Angular University subscription you have the
-      right to a 3 month free license if you want to, this gives you enough time to build a personal project or even
-      a
-      POC for a small business. Simply email us at helpdesk@angular-university.io and you will get your license code
-      ASAP.
-    </div>
-
-    <div class="faq-tools">
-
-      <mini-action-button icon="mode_edit" *allowRole="'ADMIN'"></mini-action-button>
-
-      <mini-action-button icon="delete" *allowRole="'ADMIN'" color="basic"></mini-action-button>
-
-    </div>
-
-
-  </div>
-
   <mat-divider *allowRole="'ADMIN'"></mat-divider>
 
-  <div class="faq">
+  <div class="faq" *ngFor="let faq of faqs">
 
-    <div class="faq-question">
-      Can my employer sponsor my subscription?
+    <div class="faq-question" [innerHtml]="faq.question">
     </div>
 
-    <div class="faq-answer">
-      Yes, this is available either for a one year request or lifetime access. Please first request your employer
-      permission, then one way is to pay with your own card and either expense the receipt to your employer.
+    <div class="faq-answer" [innerHtml]="faq.answer">
     </div>
 
     <div class="faq-tools">
