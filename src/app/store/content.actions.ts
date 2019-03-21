@@ -5,7 +5,7 @@ import {SubscriptionContent} from '../models/content/subscription-content.model'
 export enum ContentActionTypes {
   GetSubscriptionContent = '[Subscription Screen] Get Subscription Content',
   SubscriptionContentLoaded = '[Content Effects] Subscription Content Loaded',
-  SubscriptionContentUpdated = '[Subscription Benefits Dialog] Subscription Content Updated'
+  SubscriptionContentUpdated = '[Subscription Screen] Subscription Content Updated'
 }
 
 

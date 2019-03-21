@@ -33,8 +33,8 @@ export class EditFaqDialogComponent implements OnInit {
     this.faq = data.faq;
 
     this.form = this.fb.group({
-      question: ['', [Validators.required, Validators.minLength(20)]],
-      answer: ['', [Validators.required, Validators.minLength(20)]],
+      question: ['', [Validators.required, Validators.required]],
+      answer: ['', [Validators.required, Validators.required]],
     });
 
     if (this.faq) {
@@ -48,6 +48,10 @@ export class EditFaqDialogComponent implements OnInit {
   }
 
   save() {
+
+    const faq = this.form.value as FAQ;
+
+    this.dialogRef.close(faq);
 
   }
 

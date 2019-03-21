@@ -35,6 +35,7 @@ import {SubscriptionContent} from '../models/content/subscription-content.model'
 import {selectSubscriptionContent} from '../store/content.selectors';
 import {EditHtmlDialogComponent} from '../edit-html-dialog/edit-html-dialog.component';
 import {EditFaqEvent} from '../faqs/faq.events';
+import {ContentDbService} from '../services/content-db.service';
 
 declare const StripeCheckout;
 
@@ -74,7 +75,8 @@ export class SubscriptionComponent implements OnInit {
     private messages: MessagesService,
     private loading: LoadingService,
     private payments: PaymentsService,
-    private dialog: MatDialog) {
+    private dialog: MatDialog,
+    private contentDb: ContentDbService) {
 
     this.form = this.fb.group({
       monthlyPlanDescription: ['', Validators.required],
@@ -330,10 +332,45 @@ export class SubscriptionComponent implements OnInit {
 
   onFaqEdited(content: SubscriptionContent, event: EditFaqEvent) {
 
-    //TODO
+    const subscriptionContent:SubscriptionContent = {
+      ...content,
+      faqs: content.faqs.slice(0)
+    };
+
+    subscriptionContent.faqs[event.index] = event.faq;
+
+    this.contentDb.saveContent("content/subscription", subscriptionContent).subscribe();
+    this.store.dispatch(new SubscriptionContentUpdated({subscriptionContent}));
 
   }
 
+  onFaqAdded(content: SubscriptionContent, event: EditFaqEvent) {
+
+    const subscriptionContent:SubscriptionContent = {
+      ...content,
+      faqs: content.faqs.slice(0)
+    };
+
+    subscriptionContent.faqs.push(event.faq);
+
+    this.contentDb.saveContent("content/subscription", subscriptionContent).subscribe();
+    this.store.dispatch(new SubscriptionContentUpdated({subscriptionContent}));
+  }
+
+  onFaqDeleted(content: SubscriptionContent, event: EditFaqEvent) {
+
+    const subscriptionContent:SubscriptionContent = {
+      ...content,
+      faqs: content.faqs.slice(0)
+    };
+
+    subscriptionContent.faqs.splice(event.index, 1);
+
+    this.contentDb.saveContent("content/subscription", subscriptionContent).subscribe();
+    this.store.dispatch(new SubscriptionContentUpdated({subscriptionContent}));
+
+
+  }
 
 }
 

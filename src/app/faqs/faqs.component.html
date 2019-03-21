@@ -14,9 +14,11 @@
 
     <div class="faq-tools">
 
-      <mini-action-button icon="mode_edit" *allowRole="'ADMIN'" (click)="onEditFaq(index)"></mini-action-button>
+      <mini-action-button icon="mode_edit" *allowRole="'ADMIN'" (click)="onEditFaq(index)"
+                          matTooltip="Edit this question"></mini-action-button>
 
-      <mini-action-button icon="delete" *allowRole="'ADMIN'" color="basic" (click)="onDeleteFaq(index)"></mini-action-button>
+      <mini-action-button icon="delete" *allowRole="'ADMIN'" color="basic" (click)="onDeleteFaq(index)"
+                          matTooltip="Delete this question"></mini-action-button>
 
     </div>
 

@@ -147,7 +147,9 @@
 
               <faqs
                 [faqs]="subscriptionContent.faqs"
-                (editFaq)="onFaqEdited(subscriptionContent, $event)">
+                (faqEdited)="onFaqEdited(subscriptionContent, $event)"
+                (faqAdded)="onFaqAdded(subscriptionContent, $event)"
+                (faqDeleted)="onFaqDeleted(subscriptionContent, $event)">
 
               </faqs>
 
