@@ -17,6 +17,7 @@ import {StripeConnectionResponseComponent} from './stripe-connection-response/st
 import {SubscriptionComponent} from './subscription/subscription.component';
 import {MyAccountComponent} from './my-account/my-account.component';
 import {SubscriptionContentResolver} from './services/subscription-content.resolver';
+import {HomeComponent} from './home/home.component';
 
 const routes: Routes = [
   {
@@ -87,6 +88,11 @@ const routes: Routes = [
   {
     path: "user-settings/my-account",
     component: MyAccountComponent,
+    canActivate: [PlatformGuard]
+  },
+  {
+    path: 'home',
+    component: HomeComponent,
     canActivate: [PlatformGuard]
   },
   {

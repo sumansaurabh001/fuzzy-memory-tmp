@@ -107,6 +107,7 @@ import { EditHtmlDialogComponent } from './edit-html-dialog/edit-html-dialog.com
 import {QuillModule} from 'ngx-quill';
 import { EditFaqDialogComponent } from './edit-faq-dialog/edit-faq-dialog.component';
 import { EditableTextBoxComponent } from './editable-text-box/editable-text-box.component';
+import { HomeComponent } from './home/home.component';
 
 
 @NgModule({
@@ -162,7 +163,8 @@ import { EditableTextBoxComponent } from './editable-text-box/editable-text-box.
     FaqsComponent,
     EditHtmlDialogComponent,
     EditFaqDialogComponent,
-    EditableTextBoxComponent
+    EditableTextBoxComponent,
+    HomeComponent
   ],
   imports: [
     BrowserModule,
