@@ -15,37 +15,12 @@
     </mat-panel-description>
   </mat-expansion-panel-header>
 
-  <div class="lesson-row mat-row" *ngFor="let lesson of sectionLessons(section)"
-       [routerLink]="['/courses', course.url, section.seqNo , 'lessons', lesson.seqNo]" [ngClass]="lessonClasses(lesson)">
+  <lessons-list
+   [course]="course"
+   [sectionSeqNo]="section.seqNo"
+   [lessons]="sectionLessons(section)"
+   [playlistMode]="playlistMode">
 
-    <div class="lesson-icon">
-      <mat-icon>play_circle_outline</mat-icon>
-    </div>
-
-    <div class="lesson-number">
-      {{lesson.seqNo}}.
-    </div>
-
-    <div class="lesson-description">
-      {{lesson.title}}
-    </div>
-
-    <div class="filler"></div>
-
-    <div class="lesson-pro" *ngIf="!playlistMode">
-      <mat-icon class="pro-icon" *ngIf="!lesson.free" title="This is a Premium lesson">local_parking</mat-icon>
-    </div>
-
-    <div class="lesson-duration">
-
-      {{lesson.videoDuration | duration}}
-    </div>
-
-    <div class="lesson-viewed">
-      <mat-checkbox color="primary" (click)="onLessonViewedClicked($event, lesson)"></mat-checkbox>
-    </div>
-
-  </div>
-
+  </lessons-list>
 
 </mat-expansion-panel>

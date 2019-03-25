@@ -1,0 +1,78 @@
+@import "../vars";
+
+.lesson-row {
+  display: flex;
+  align-items: center;
+  min-height: 48px;
+  border-top: 1px solid rgba(0,0,0,.12);
+  color:$text;
+  cursor: pointer;
+  outline: none;
+}
+
+.lesson-row:hover {
+  background: #f2f3f5;
+  border-top-color: #f2f3f5;
+}
+
+.lesson-icon {
+  margin-left: 25px;
+  flex: 0 0 35px;
+  color: $dark-text;
+  display: flex;
+}
+
+.lesson-number {
+  flex: 0 0 30px;
+}
+
+.lesson-pro {
+  flex: 0 0 25px;
+}
+
+.lesson-duration {
+  flex: 0 0 55px;
+  margin-left: 10px;
+}
+
+.lesson-viewed {
+  margin-right: 25px;
+}
+
+.pro-icon {
+  color: #fff;
+  background: $primary;
+  border-radius: 3px;
+  font-size: 16px;
+  text-align: center;
+  vertical-align: middle;
+  line-height: 20px;
+  width: 20px;
+  height: 20px;
+}
+
+
+$active-row-background: #05677d;
+
+
+
+.lesson-row.active-lesson {
+  background: $active-row-background;
+  color:white;
+
+.lesson-icon {
+  color:white;
+}
+
+::ng-deep .lesson-viewed .mat-checkbox-frame {
+  border-color: white;
+}
+
+}
+
+
+.lesson-row.active-lesson:hover {
+  background: $active-row-background;
+  border-top-color: $active-row-background;
+  color:white;
+}

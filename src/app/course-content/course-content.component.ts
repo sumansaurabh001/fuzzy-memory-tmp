@@ -40,14 +40,10 @@ export class CourseContentComponent implements OnInit {
 
 
 
-  onLessonViewedClicked(event, lesson) {
-    event.stopPropagation();
-  }
 
 
-  lessonClasses(lesson: Lesson) {
-    return lesson && this.activeLesson && (lesson.id == this.activeLesson.id) ? 'active-lesson': undefined;
-  }
+
+
 
 
 
