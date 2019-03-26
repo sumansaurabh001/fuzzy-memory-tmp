@@ -109,6 +109,7 @@ import { EditFaqDialogComponent } from './edit-faq-dialog/edit-faq-dialog.compon
 import { EditableTextBoxComponent } from './editable-text-box/editable-text-box.component';
 import { HomeComponent } from './home/home.component';
 import { LessonsListComponent } from './lessons-list/lessons-list.component';
+import { EditHomeDialogComponent } from './edit-home-dialog/edit-home-dialog.component';
 
 
 @NgModule({
@@ -166,7 +167,8 @@ import { LessonsListComponent } from './lessons-list/lessons-list.component';
     EditFaqDialogComponent,
     EditableTextBoxComponent,
     HomeComponent,
-    LessonsListComponent
+    LessonsListComponent,
+    EditHomeDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -258,7 +260,8 @@ import { LessonsListComponent } from './lessons-list/lessons-list.component';
     EditPricingPlanDialogComponent,
     CancelSubscriptionDialogComponent,
     EditHtmlDialogComponent,
-    EditFaqDialogComponent
+    EditFaqDialogComponent,
+    EditHomeDialogComponent
   ],
   bootstrap: [AppComponent]
 })
