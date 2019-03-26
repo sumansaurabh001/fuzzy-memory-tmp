@@ -2,6 +2,7 @@ import {Component, Inject, OnInit} from '@angular/core';
 import {MessagesService} from '../services/messages.service';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
+import {defaultEditorConfig} from '../common/html-editor.config';
 
 @Component({
   selector: 'edit-home-dialog',
@@ -14,6 +15,8 @@ import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
 export class EditHomeDialogComponent implements OnInit {
 
   form: FormGroup;
+
+  editorConfig = defaultEditorConfig;
 
   constructor(
     private fb: FormBuilder,
