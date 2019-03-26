@@ -31,6 +31,13 @@
 
   .cta-button {
     margin-bottom: 20px;
+    font-size: 17px;
+    line-height: 40px;
+    margin-right: 15px;
+
+    &.edit-button {
+      color: $dark-text;
+    }
   }
 }
 
@@ -58,6 +65,7 @@
     line-height: 28px;
     padding: 0;
   }
+
 
 
 }

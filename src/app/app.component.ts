@@ -87,7 +87,8 @@ export class AppComponent implements OnInit {
 
   brandStyles(branding: PlatformState) {
 
-    const primaryColor = branding.brandTheme.primaryColor;
+    const primaryColor = branding.brandTheme.primaryColor,
+          accentColor = branding.brandTheme.accentColor;
 
     const sliderColor ='rgba('+parseInt(
       primaryColor.substring(1,3),16)+','+parseInt(primaryColor.substring(3,5),16)+','+parseInt(primaryColor.substring(5,7),16)+',0.5)';
@@ -105,6 +106,10 @@ export class AppComponent implements OnInit {
         .theme .mat-mini-fab.mat-primary:not([disabled]) { 
           background-color: ${primaryColor};
         }
+        
+        .mat-flat-button.mat-accent, .mat-raised-button.mat-accent, .mat-fab.mat-accent, .mat-mini-fab.mat-accent {
+          background-color: ${accentColor}; 
+        }        
         
         .theme .mat-slide-toggle.mat-primary.mat-checked:not(.mat-disabled) .mat-slide-toggle-bar {
           background-color: ${sliderColor};
