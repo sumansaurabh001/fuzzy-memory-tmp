@@ -3,3 +3,14 @@
 
 @include single-col-dialog();
 
+:host {
+  font-family: 'Roboto', 'Helvetica', sans-serif; 
+}
+
+.image-label {
+  margin-bottom: 10px;
+}
+
+.banner-image {
+  margin-bottom: 30px;
+}

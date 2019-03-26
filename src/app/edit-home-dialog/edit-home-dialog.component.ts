@@ -1,5 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Inject, OnInit} from '@angular/core';
 import {MessagesService} from '../services/messages.service';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
 
 @Component({
   selector: 'edit-home-dialog',
@@ -11,9 +13,34 @@ import {MessagesService} from '../services/messages.service';
 })
 export class EditHomeDialogComponent implements OnInit {
 
-  constructor() { }
+  form: FormGroup;
+
+  constructor(
+    private fb: FormBuilder,
+    private dialogRef: MatDialogRef<EditHomeDialogComponent>,
+    @Inject(MAT_DIALOG_DATA) data) {
+
+    this.form = this.fb.group({
+      title: ['', [Validators.required, Validators.maxLength(60)]]
+    });
+
+    this.form.patchValue({title: data.pageTitle});
+
+  }
 
   ngOnInit() {
+
+  }
+
+  close() {
+    this.dialogRef.close();
+  }
+
+  onBannerSelected() {
+
+  }
+
+  onLogoSelected() {
 
   }
 

@@ -26,6 +26,10 @@ export class HomeComponent implements OnInit {
     dialogConfig.disableClose = true;
     dialogConfig.minWidth = '550px';
 
+    dialogConfig.data = {
+
+    };
+
     this.dialog.open(EditHomeDialogComponent, dialogConfig);
 
   }
