@@ -4,7 +4,12 @@
 @include single-col-dialog();
 
 :host {
-  font-family: 'Roboto', 'Helvetica', sans-serif; 
+  font-family: 'Roboto', 'Helvetica', sans-serif;
+}
+
+.edit-title {
+  margin-top: 40px;
+  width: 100%;
 }
 
 .image-label {
