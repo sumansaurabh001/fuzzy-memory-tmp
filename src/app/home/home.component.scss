@@ -1,20 +1,78 @@
 
-.banner {
-  background-image: url('https://angular-academy.s3.amazonaws.com/banner-small.jpg');
-  background-repeat: no-repeat;
-}
+@import "../vars";
 
-.header-logo {
+:host {
+  width: 100%;
   display: flex;
   flex-direction: column;
+  align-items: center;
+  margin-top: 63px;
 }
+
+.home-banner {
+  width: 100%;
+  background-image: url('https://angular-academy.s3.amazonaws.com/banner-small.jpg');
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  .company-logo {
+    max-height: 300px;
+    margin-top: 40px;
+  }
+
+  .page-title {
+    color: white;
+    text-shadow: 1px 1px black;
+  }
+
+  .cta-button {
+    margin-bottom: 20px;
+  }
+}
+
+.home-body {
+  max-width: 1000px;
+  color:$dark-text;
+}
+
 
 .benefits {
   display: flex;
+
+  .benefit:first-child {
+    margin-right: 25px;
+  }
+
+  .benefit:last-child {
+    margin-left: 25px;
+  }
+
+  .benefit-text {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 28px;
+    padding: 0;
+  }
+
+
 }
 
-.benefit {
+.scroll-down {
+  display: flex;
+  justify-content: center;
+  padding: 30px 0;
 
+  mat-icon {
+    cursor: pointer;
+    font-size: 50px;
+    height: 48px;
+    width: 50px;
+  }
 }
 
 
