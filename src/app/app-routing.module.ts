@@ -18,6 +18,7 @@ import {SubscriptionComponent} from './subscription/subscription.component';
 import {MyAccountComponent} from './my-account/my-account.component';
 import {SubscriptionContentResolver} from './services/subscription-content.resolver';
 import {HomeComponent} from './home/home.component';
+import {HomePageContentResolver} from './services/home-page-content.resolver';
 
 const routes: Routes = [
   {
@@ -93,7 +94,10 @@ const routes: Routes = [
   {
     path: 'home',
     component: HomeComponent,
-    canActivate: [PlatformGuard]
+    canActivate: [PlatformGuard],
+    resolve: {
+      content: HomePageContentResolver
+    }
   },
   {
     path: "**",

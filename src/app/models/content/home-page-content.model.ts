@@ -2,5 +2,8 @@ import {MarketingBenefit} from './marketing-benefit.model';
 
 
 export interface HomePageContent {
-  benefits: MarketingBenefit[];
+  pageTitle?:string;
+  bannerImageUrl?:string;
+  logoImageUrl?:string;
+  benefits?: MarketingBenefit[];
 }
