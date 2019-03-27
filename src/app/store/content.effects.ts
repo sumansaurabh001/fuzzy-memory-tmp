@@ -3,14 +3,14 @@ import {Actions, Effect, ofType} from '@ngrx/effects';
 import {
   ContentActions,
   ContentActionTypes,
-  GetSubscriptionContent,
+  GetSubscriptionContent, HomePageContentLoaded,
   SubscriptionContentLoaded,
   SubscriptionContentUpdated
 } from './content.actions';
 import {catchError, concatMap, filter, map, tap, withLatestFrom} from 'rxjs/operators';
 import {select, Store} from '@ngrx/store';
 import {AppState} from './index';
-import {isSubscriptionContentLoaded} from './content.selectors';
+import {isContentLoaded} from './content.selectors';
 import {ContentDbService} from '../services/content-db.service';
 import {throwError} from 'rxjs';
 import {MessagesService} from '../services/messages.service';
@@ -27,6 +27,13 @@ export class ContentEffects {
 
   @Effect({dispatch:false})
   saveSubscriptionContent$ = this.createSaveContentEffect("subscription", ContentActionTypes.SubscriptionContentUpdated);
+
+  @Effect()
+  loadHomePageContent$ = this.createLoadContentEffect("home-page", ContentActionTypes.GetHomePageContent, HomePageContentLoaded);
+
+  @Effect({dispatch:false})
+  saveHomePageContent$ = this.createSaveContentEffect("home-page", ContentActionTypes.HomePageContentUpated);
+
 
 
   constructor(

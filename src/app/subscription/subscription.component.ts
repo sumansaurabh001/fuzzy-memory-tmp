@@ -32,7 +32,7 @@ import {UserPermissions} from '../models/user-permissions.model';
 import {isUserPlanCanceled, isUserPlanStillValid, User} from '../models/user.model';
 import {GetSubscriptionContent, SubscriptionContentUpdated} from '../store/content.actions';
 import {SubscriptionContent} from '../models/content/subscription-content.model';
-import {selectSubscriptionContent} from '../store/content.selectors';
+import {selectContent} from '../store/content.selectors';
 import {EditHtmlDialogComponent} from '../edit-html-dialog/edit-html-dialog.component';
 import {ContentDbService} from '../services/content-db.service';
 
@@ -144,7 +144,7 @@ export class SubscriptionComponent implements OnInit {
 
     this.user$ = this.store.pipe(select(selectUser));
 
-    this.subscriptionContent$ = this.store.pipe(select(selectSubscriptionContent));
+    this.subscriptionContent$ = this.store.pipe(select(selectContent("subscription")));
 
   }
 

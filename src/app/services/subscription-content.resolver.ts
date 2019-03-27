@@ -3,11 +3,10 @@ import {ActivatedRouteSnapshot, CanActivate, Resolve, RouterStateSnapshot} from 
 import {select, Store} from '@ngrx/store';
 import {AppState} from '../store';
 import {Observable} from 'rxjs';
-import {isSubscriptionContentLoaded, selectContentState, selectSubscriptionContent} from '../store/content.selectors';
-import {filter, first, tap} from 'rxjs/operators';
 import {GetSubscriptionContent} from '../store/content.actions';
 import {LoadingService} from './loading.service';
 import {SubscriptionContent} from '../models/content/subscription-content.model';
+import {createContentResolver} from './create-content-resolver';
 
 
 @Injectable({
@@ -23,19 +22,10 @@ export class SubscriptionContentResolver implements Resolve<SubscriptionContent>
   }
 
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<any> {
-    const loadSubscriptionContent$ = this.store
-      .pipe(
-        select(selectContentState),
-        tap(state => {
-          if (!state.subscription.loaded) {
-            this.store.dispatch(new GetSubscriptionContent());
-          }
-        }),
-        filter(state => state.subscription.loaded),
-        first()
-      );
 
-    return this.loading.showLoaderUntilCompleted(loadSubscriptionContent$);
+    const loadContent$ = createContentResolver(this.store, "subscription", GetSubscriptionContent);
+
+    return this.loading.showLoaderUntilCompleted(loadContent$);
   }
 
 

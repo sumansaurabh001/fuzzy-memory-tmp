@@ -5,13 +5,15 @@ import {ContentState} from './content.reducer';
 export const selectContentState = createFeatureSelector<ContentState>('content');
 
 
-export const isSubscriptionContentLoaded = createSelector(
+export const isContentLoaded = (contentKey:string) => createSelector(
   selectContentState,
-  contentState => contentState.subscription.loaded
+  contentState => contentState[contentKey].loaded
 );
 
 
-export const selectSubscriptionContent = createSelector(
+export const selectContent = (contentKey:string) => createSelector(
   selectContentState,
-  contentState => contentState.subscription.content
+  contentState => contentState[contentKey].content
 );
+
+
