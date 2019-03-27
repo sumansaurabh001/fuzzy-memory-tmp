@@ -6,6 +6,9 @@ import {select, Store} from '@ngrx/store';
 import {selectContent} from '../store/content.selectors';
 import {Observable} from 'rxjs/Observable';
 import {AppState} from '../store';
+import {EditTitleDescriptionDialogComponent} from '../edit-title-description-dialog/edit-title-description-dialog.component';
+import {filter, tap} from 'rxjs/operators';
+import {HomePageContentUpdated} from '../store/content.actions';
 
 @Component({
   selector: 'home',
@@ -28,7 +31,7 @@ export class HomeComponent implements OnInit {
 
   }
 
-  editPage() {
+  editPageHeader() {
 
     const dialogConfig = new MatDialogConfig();
 
@@ -41,6 +44,48 @@ export class HomeComponent implements OnInit {
     };
 
     this.dialog.open(EditHomeDialogComponent, dialogConfig);
+
+  }
+
+  onBenefitEdited(content: HomePageContent, benefitIndex:number) {
+
+    const benefit = content.benefits[benefitIndex];
+
+    const dialogConfig = new MatDialogConfig();
+
+    dialogConfig.autoFocus = true;
+    dialogConfig.disableClose = true;
+    dialogConfig.minWidth = '550px';
+
+    dialogConfig.data = {
+      dialogTitle: 'Edit Headline',
+      data: {
+        title: benefit.title,
+        description: benefit.description
+      }
+    };
+
+    this.dialog.open(EditTitleDescriptionDialogComponent, dialogConfig)
+      .afterClosed()
+      .pipe(
+        filter(val => !!val),
+        tap(val => {
+
+          const newContent = {
+            ...content,
+            benefits: content.benefits.slice(0)
+          };
+
+          newContent.benefits[benefitIndex] = {
+            title: val.title,
+            description: val.description
+          };
+
+          this.store.dispatch(new HomePageContentUpdated({content: newContent}));
+
+        })
+      )
+      .subscribe();
 
   }
 

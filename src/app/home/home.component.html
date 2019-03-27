@@ -16,7 +16,7 @@
 
       </button>
 
-      <button class="cta-button edit-button" mat-raised-button *allowRole="'ADMIN'" (click)="editPage()">
+      <button class="cta-button edit-button" mat-raised-button *allowRole="'ADMIN'" (click)="editPageHeader()">
 
         <mat-icon>mode_edit</mat-icon>
 
@@ -31,7 +31,8 @@
 
     <div class="benefits">
 
-      <editable-container *ngFor="let benefit of content.benefits">
+      <editable-container *ngFor="let benefit of content.benefits; let index =index"
+                          (editRequested)="onBenefitEdited(content, index)">
         <div class="benefit">
           <h3>{{benefit.title}}</h3>
           <p class="benefit-text">{{benefit.description}}</p>
