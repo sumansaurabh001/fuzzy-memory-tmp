@@ -11,6 +11,7 @@ import {User} from '../models/user.model';
 import {TenantSettings} from '../models/tenant-settings.model';
 import {SubscriptionContent} from '../models/content/subscription-content.model';
 import {DEFAULT_FAQS, DEFAULT_SUBSCRIPTION_BENEFITS} from './default.content';
+import {HomePageContent} from '../models/content/home-page-content.model';
 
 
 @Injectable()
@@ -68,13 +69,33 @@ export class TenantsDBService {
             batch.set(tenantSettingsRef, {isAdmin:true});
 
             // set default tenant website content
-            const defaultSubscriptionContent = {
+            const defaultSubscriptionContent: SubscriptionContent = {
               subscriptionBenefits: DEFAULT_SUBSCRIPTION_BENEFITS,
               faqs: DEFAULT_FAQS
             };
 
             const subscriptionContentRef = this.afs.doc(`schools/${authState.uid}/content/subscription`).ref;
-            batch.set(subscriptionContentRef, defaultSubscriptionContent);
+            batch.set(subscriptionContentRef, defaultSubscriptionContent as any);
+
+            const defaultHomePageContent: HomePageContent = {
+              benefits: [
+                {
+                  title: 'Hover to edit this benefit',
+                  description:'Enter the text benefit description here'
+                },
+                {
+                  title: 'Hover to edit this benefit',
+                  description:'Enter the text benefit description here'
+                },
+                {
+                  title: 'Hover to edit this benefit',
+                  description:'Enter the text benefit description here'
+                }
+              ]
+            };
+
+            const homePageContentRef = this.afs.doc(`schools/${authState.uid}/content/home-page`).ref;
+            batch.set(homePageContentRef, defaultHomePageContent as any);
 
             return from(batch.commit().then(() => newTenant));
           }

@@ -1,10 +1,15 @@
 import {ContentActions, ContentActionTypes} from './content.actions';
 import {SubscriptionContent} from '../models/content/subscription-content.model';
+import {HomePageContent} from '../models/content/home-page-content.model';
 
 
 export interface ContentState {
   subscription: {
     content:SubscriptionContent;
+    loaded:boolean;
+  },
+  homePage: {
+    content: HomePageContent,
     loaded:boolean;
   }
 
@@ -18,6 +23,12 @@ export const initialContentState:ContentState = {
       subscriptionBenefits: undefined,
       faqs: []
     }
+  },
+  homePage: {
+    content: {
+      benefits: []
+    },
+    loaded: false
   }
 };
 
@@ -30,9 +41,20 @@ export function contentReducer(state =initialContentState, action: ContentAction
         ...state,
         subscription: {
           loaded:true,
-          content: action.payload.subscriptionContent
+          content: action.payload.content
         }
       };
+
+    case ContentActionTypes.HomePageContentLoaded:
+    case ContentActionTypes.HomePageContentUpated:
+      return {
+        ...state,
+        homePage: {
+          loaded:true,
+          content: action.payload.content
+        }
+      };
+
 
 
     default:

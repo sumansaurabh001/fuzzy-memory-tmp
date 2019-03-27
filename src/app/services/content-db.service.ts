@@ -20,16 +20,16 @@ export class ContentDbService {
 
   }
 
-  loadSubscriptionContent() : Observable<SubscriptionContent> {
-    return this.afs.doc<SubscriptionContent>(`schools/${this.tenant.id}/content/subscription`)
+  loadPageContent(contentPath:string) : Observable<SubscriptionContent> {
+    return this.afs.doc<SubscriptionContent>(`schools/${this.tenant.id}/content/${contentPath}`)
       .valueChanges()
       .pipe(
         first()
       );
   }
 
-  saveContent(savePath:string, newContent:any): Observable<any> {
-    return from(this.afs.doc(`schools/${this.tenant.id}/${savePath}`).update(newContent));
+  savePageContent(savePath:string, newContent:any): Observable<any> {
+    return from(this.afs.doc(`schools/${this.tenant.id}/content/${savePath}`).update(newContent));
   }
 
 

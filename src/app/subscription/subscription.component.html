@@ -135,23 +135,23 @@
 
             </div>
 
-            <ng-container *ngIf="(subscriptionContent$ | async) as subscriptionContent">
+            <ng-container *ngIf="(subscriptionContent$ | async) as content">
 
 
               <editable-text-box
-                [html]="subscriptionContent.subscriptionBenefits"
-                [content]="subscriptionContent"
+                [html]="content.subscriptionBenefits"
+                [content]="content"
                 editedProperty="subscriptionBenefits"
-                (textEdited)="onBenefitsEdited($event)">
+                (textEdited)="onContentEdited($event)">
 
               </editable-text-box>
 
 
               <faqs
-                [editedContent]="subscriptionContent"
-                (faqEdited)="onFaqEdited($event)"
-                (faqAdded)="onFaqAdded($event)"
-                (faqDeleted)="onFaqDeleted($event)">
+                [editedContent]="content"
+                (faqEdited)="onContentEdited($event)"
+                (faqAdded)="onContentEdited($event)"
+                (faqDeleted)="onContentEdited($event)">
 
               </faqs>
 

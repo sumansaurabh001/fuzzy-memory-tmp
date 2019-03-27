@@ -303,21 +303,8 @@ export class SubscriptionComponent implements OnInit {
   }
 
 
-  onBenefitsEdited(subscriptionContent:SubscriptionContent) {
-    this.store.dispatch(new SubscriptionContentUpdated({subscriptionContent}));
-  }
-
-
-  onFaqEdited(subscriptionContent: SubscriptionContent) {
-    this.store.dispatch(new SubscriptionContentUpdated({subscriptionContent}));
-  }
-
-  onFaqAdded(subscriptionContent: SubscriptionContent) {
-    this.store.dispatch(new SubscriptionContentUpdated({subscriptionContent}));
-  }
-
-  onFaqDeleted(subscriptionContent: SubscriptionContent) {
-    this.store.dispatch(new SubscriptionContentUpdated({subscriptionContent}));
+  onContentEdited(content:SubscriptionContent) {
+    this.store.dispatch(new SubscriptionContentUpdated({content}));
   }
 
 }
