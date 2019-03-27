@@ -110,6 +110,7 @@ import { EditableTextBoxComponent } from './editable-text-box/editable-text-box.
 import { HomeComponent } from './home/home.component';
 import { LessonsListComponent } from './lessons-list/lessons-list.component';
 import { EditHomeDialogComponent } from './edit-home-dialog/edit-home-dialog.component';
+import { EditableContainerComponent } from './editable-container/editable-container.component';
 
 
 @NgModule({
@@ -168,7 +169,8 @@ import { EditHomeDialogComponent } from './edit-home-dialog/edit-home-dialog.com
     EditableTextBoxComponent,
     HomeComponent,
     LessonsListComponent,
-    EditHomeDialogComponent
+    EditHomeDialogComponent,
+    EditableContainerComponent
   ],
   imports: [
     BrowserModule,
