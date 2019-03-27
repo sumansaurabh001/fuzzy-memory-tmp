@@ -1,6 +1,6 @@
 <div (mouseenter)="toggleEditMode()" (mouseleave)="toggleEditMode()" class="editable-container">
 
-  <ng-container *ngIf="editMode">
+  <ng-container *ngIf="editMode && editModeEnabled">
 
     <mini-action-button class="edit-button" icon="mode_edit" *allowRole="'ADMIN'"
                         (click)="onEditClicked()"></mini-action-button>

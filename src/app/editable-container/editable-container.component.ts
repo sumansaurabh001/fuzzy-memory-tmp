@@ -1,4 +1,4 @@
-import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 
 @Component({
   selector: 'editable-container',
@@ -8,6 +8,9 @@ import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 export class EditableContainerComponent implements OnInit {
 
   editMode = false;
+
+  @Input()
+  editModeEnabled = true;
 
   @Output()
   editRequested = new EventEmitter();
@@ -30,7 +33,7 @@ export class EditableContainerComponent implements OnInit {
   }
 
   containerStyles() {
-    if (this.editMode) {
+    if (this.editMode && this.editModeEnabled) {
       return {
         opacity:0.5
       }

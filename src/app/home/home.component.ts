@@ -9,6 +9,8 @@ import {AppState} from '../store';
 import {EditTitleDescriptionDialogComponent} from '../edit-title-description-dialog/edit-title-description-dialog.component';
 import {filter, tap} from 'rxjs/operators';
 import {HomePageContentUpdated} from '../store/content.actions';
+import {UserPermissions} from '../models/user-permissions.model';
+import {selectUserPermissions} from '../store/selectors';
 
 @Component({
   selector: 'home',
@@ -19,6 +21,8 @@ export class HomeComponent implements OnInit {
 
   homePageContent$: Observable<HomePageContent>;
 
+  editModeEnabled = false;
+
   constructor(
     private store: Store<AppState>,
     private dialog: MatDialog) {
@@ -28,6 +32,9 @@ export class HomeComponent implements OnInit {
   ngOnInit() {
 
     this.homePageContent$ = this.store.pipe(select(selectContent("homePage")));
+
+    this.store.pipe(select(selectUserPermissions))
+      .subscribe(permissions => this.editModeEnabled = permissions && permissions.isAdmin);
 
   }
 
