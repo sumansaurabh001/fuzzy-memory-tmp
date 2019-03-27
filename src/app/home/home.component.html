@@ -1,91 +1,54 @@
-<div class="home-banner">
+<ng-container *ngIf="(homePageContent$ | async) as content">
 
+  <div class="home-banner">
 
-  <img class="company-logo" src="https://angular-academy.s3.amazonaws.com/main-logo/main-page-logo-small-hat.png">
+    <img class="company-logo" src="https://angular-academy.s3.amazonaws.com/main-logo/main-page-logo-small-hat.png">
 
-  <h1 class="page-title">Learn and Keep Up with the Angular Ecosystem</h1>
+    <h1 class="page-title">Learn and Keep Up with the Angular Ecosystem</h1>
 
-  <div class="cta-buttons">
+    <div class="cta-buttons">
 
-    <button class="cta-button" mat-raised-button color="accent">
+      <button class="cta-button" mat-raised-button color="accent">
 
-      <mat-icon>account_circle</mat-icon>
+        <mat-icon>account_circle</mat-icon>
 
-      Sign up Now
+        Sign up Now
 
-    </button>
+      </button>
 
-    <button class="cta-button edit-button" mat-raised-button *allowRole="'ADMIN'" (click)="editPage()">
+      <button class="cta-button edit-button" mat-raised-button *allowRole="'ADMIN'" (click)="editPage()">
 
-      <mat-icon>mode_edit</mat-icon>
+        <mat-icon>mode_edit</mat-icon>
 
-      Edit Header
-    </button>
+        Edit Header
+      </button>
 
-  </div>
-
-</div>
-
-<div class="home-body">
-
-  <div class="benefits">
-
-
-    <editable-container>
-
-      <div class="benefit">
-
-        <h3>Courses Updated To Angular 7</h3>
-        <p class="benefit-text">Learn Angular in a fast and effective way: via a series of short lessons (about 5m) that
-          cover a single
-          well-contained topic, lessons updated ASAP with releases.</p>
-
-      </div>
-
-    </editable-container>
-
-
-    <editable-container>
-
-      <div class="benefit">
-
-
-        <h3>Courses for All Levels</h3>
-        <p class="benefit-text">Premium Quality Weekly screencasts for all levels: Beginner, Intermediate or Expert,
-          covering everything from
-          in-depth lessons to What's New, or taking a look under the hood.</p>
-
-      </div>
-
-    </editable-container>
-
-    <editable-container>
-
-
-      <div class="benefit">
-
-        <h3>Videos & E-Books</h3>
-        <p class="benefit-text">Our video lessons are complemented with E-Books in PDF format. Each E-Book drills down
-          into one specific
-          Angular topic in detail: for example the Router, Forms and much more.</p>
-
-      </div>
-
-    </editable-container>
-
+    </div>
 
   </div>
 
-  <div class="scroll-down">
+  <div class="home-body">
 
-    <mat-icon>arrow_drop_down_circle</mat-icon>
+    <div class="benefits">
+
+      <editable-container *ngFor="let benefit of content.benefits">
+        <div class="benefit">
+          <h3>{{benefit.title}}</h3>
+          <p class="benefit-text">{{benefit.description}}</p>
+        </div>
+      </editable-container>
+
+
+
+    </div>
+
+    <div class="scroll-down">
+
+      <mat-icon>arrow_drop_down_circle</mat-icon>
+
+    </div>
 
   </div>
 
-</div>
-
-
-
-
-
+</ng-container>
 
