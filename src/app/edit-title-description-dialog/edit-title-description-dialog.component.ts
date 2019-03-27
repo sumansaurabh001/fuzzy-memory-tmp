@@ -6,39 +6,42 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {PaymentsService} from '../services/payments.service';
 import {Store} from '@ngrx/store';
 import {AppState} from '../store';
-import {FAQ} from '../models/content/faq.model';
 import {defaultEditorConfig} from '../common/html-editor.config';
 
 @Component({
-  selector: 'edit-faq-dialog',
-  templateUrl: './edit-faq-dialog.component.html',
-  styleUrls: ['./edit-faq-dialog.component.scss']
+  selector: 'edit-title-description-dialog',
+  templateUrl: './edit-title-description-dialog.component.html',
+  styleUrls: ['./edit-title-description-dialog.component.scss']
 })
-export class EditFaqDialogComponent implements OnInit {
+export class EditTitleDescriptionDialogComponent implements OnInit {
 
   dialogTitle:string;
-  faq:FAQ;
+  title:string;
+  description:string;
 
   form:FormGroup;
 
   editorConfig = defaultEditorConfig;
 
   constructor(
-    private dialogRef: MatDialogRef<EditFaqDialogComponent>,
+    private dialogRef: MatDialogRef<EditTitleDescriptionDialogComponent>,
     @Inject(MAT_DIALOG_DATA) data,
     private fb: FormBuilder) {
 
-
     this.dialogTitle = data.dialogTitle;
-    this.faq = data.faq;
+    this.title = data.title;
+    this.description = data.description;
 
     this.form = this.fb.group({
-      question: ['', [Validators.required, Validators.required]],
-      answer: ['', [Validators.required, Validators.required]],
+      title: ['', [Validators.required, Validators.required]],
+      description: ['', [Validators.required, Validators.required]],
     });
 
-    if (this.faq) {
-      this.form.patchValue(this.faq);
+    if (this.title) {
+      this.form.patchValue({
+        title: this.title,
+        description: this.description
+      });
     }
 
   }
@@ -49,9 +52,12 @@ export class EditFaqDialogComponent implements OnInit {
 
   save() {
 
-    const faq = this.form.value as FAQ;
+    const val = this.form.value;
 
-    this.dialogRef.close(faq);
+    this.dialogRef.close({
+      title: val.title,
+      description: val.description
+    });
 
   }
 

@@ -1,7 +1,7 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {FAQ} from '../models/content/faq.model';
 import {MatDialog, MatDialogConfig} from '@angular/material';
-import {EditFaqDialogComponent} from '../edit-faq-dialog/edit-faq-dialog.component';
+import {EditTitleDescriptionDialogComponent} from '../edit-title-description-dialog/edit-title-description-dialog.component';
 import {ConfirmationDialogComponent} from '../confirmation-dialog/confirmation-dialog.component';
 import {concatMap, filter, tap} from 'rxjs/operators';
 import {HasFaqs} from '../models/content/has-faqs.model';
@@ -38,20 +38,23 @@ export class FaqsComponent implements OnInit {
 
     const dialogConfig = this.setupDialogConfig('Edit FAQ', {...this.editedContent.faqs[index]});
 
-    this.dialog.open(EditFaqDialogComponent, dialogConfig)
+    this.dialog.open(EditTitleDescriptionDialogComponent, dialogConfig)
       .afterClosed()
       .pipe(
         filter(faq => !! faq)
       )
       .subscribe(
-        (faq:FAQ) => {
+        (val) => {
 
           const newContent = {
             ...this.editedContent,
             faqs: this.editedContent.faqs.slice(0)
           };
 
-          newContent.faqs[index] = faq;
+          newContent.faqs[index] = {
+            question: val.title,
+            answer: val.description
+          };
 
           this.faqEdited.emit(newContent)
 
@@ -98,20 +101,23 @@ export class FaqsComponent implements OnInit {
 
     const dialogConfig = this.setupDialogConfig('Add FAQ');
 
-    this.dialog.open(EditFaqDialogComponent, dialogConfig)
+    this.dialog.open(EditTitleDescriptionDialogComponent, dialogConfig)
       .afterClosed()
       .pipe(
         filter(faq => !! faq)
       )
       .subscribe(
-        (faq:FAQ) =>  {
+        (val) =>  {
 
           const newContent = {
             ...this.editedContent,
             faqs: this.editedContent.faqs.slice(0)
           };
 
-          newContent.faqs.push(faq);
+          newContent.faqs.push({
+            question: val.title,
+            answer: val.description
+          });
 
           this.faqAdded.emit(newContent);
         }
@@ -129,7 +135,8 @@ export class FaqsComponent implements OnInit {
     dialogConfig.width = '1000px';
     dialogConfig.data = {
       dialogTitle,
-      faq
+      title: faq ? faq.question: '',
+      description: faq? faq.answer: ''
     };
 
     return dialogConfig;

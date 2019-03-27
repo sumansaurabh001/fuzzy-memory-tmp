@@ -5,17 +5,17 @@
   <mat-form-field appearance="outline">
 
     <input matInput
-           placeholder="Type here the question..."
+           placeholder="Type here the title..."
            maxLength="60"
-           formControlName="question">
+           formControlName="title">
 
   </mat-form-field>
 
     <quill-editor
-      [formControl]="form.controls['answer']"
+      [formControl]="form.controls['description']"
       [modules]="editorConfig"
       [style]="{height: '200px'}"
-      placeholder="Type here the answer...">
+      placeholder="Type here the description...">
 
     </quill-editor>
 
@@ -30,7 +30,7 @@
 
   <button mat-raised-button color="primary"
           (click)="save()" [disabled]="!form.valid">
-    Save FAQ
+    Save
   </button>
 
 </mat-dialog-actions>

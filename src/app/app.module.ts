@@ -105,7 +105,7 @@ import { FaqsComponent } from './faqs/faqs.component';
 import {ContentEffects} from './store/content.effects';
 import { EditHtmlDialogComponent } from './edit-html-dialog/edit-html-dialog.component';
 import {QuillModule} from 'ngx-quill';
-import { EditFaqDialogComponent } from './edit-faq-dialog/edit-faq-dialog.component';
+import { EditTitleDescriptionDialogComponent } from './edit-title-description-dialog/edit-title-description-dialog.component';
 import { EditableTextBoxComponent } from './editable-text-box/editable-text-box.component';
 import { HomeComponent } from './home/home.component';
 import { LessonsListComponent } from './lessons-list/lessons-list.component';
@@ -165,7 +165,7 @@ import { EditableContainerComponent } from './editable-container/editable-contai
     CancelSubscriptionDialogComponent,
     FaqsComponent,
     EditHtmlDialogComponent,
-    EditFaqDialogComponent,
+    EditTitleDescriptionDialogComponent,
     EditableTextBoxComponent,
     HomeComponent,
     LessonsListComponent,
@@ -262,7 +262,7 @@ import { EditableContainerComponent } from './editable-container/editable-contai
     EditPricingPlanDialogComponent,
     CancelSubscriptionDialogComponent,
     EditHtmlDialogComponent,
-    EditFaqDialogComponent,
+    EditTitleDescriptionDialogComponent,
     EditHomeDialogComponent
   ],
   bootstrap: [AppComponent]
