@@ -50,6 +50,10 @@
 .benefits {
   display: flex;
 
+  .benefit {
+    width: 283px;
+  }
+
   .benefit:first-child {
     margin-right: 25px;
   }

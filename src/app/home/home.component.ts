@@ -55,14 +55,12 @@ export class HomeComponent implements OnInit {
 
     dialogConfig.autoFocus = true;
     dialogConfig.disableClose = true;
-    dialogConfig.minWidth = '550px';
+    dialogConfig.width = '550px';
 
     dialogConfig.data = {
       dialogTitle: 'Edit Headline',
-      data: {
-        title: benefit.title,
-        description: benefit.description
-      }
+      title: benefit.title,
+      description: benefit.description
     };
 
     this.dialog.open(EditTitleDescriptionDialogComponent, dialogConfig)

@@ -34,8 +34,8 @@
       <editable-container *ngFor="let benefit of content.benefits; let index =index"
                           (editRequested)="onBenefitEdited(content, index)">
         <div class="benefit">
-          <h3>{{benefit.title}}</h3>
-          <p class="benefit-text">{{benefit.description}}</p>
+          <h3 [innerHtml]="benefit.title"></h3>
+          <p class="benefit-text" [innerHtml]="benefit.description"></p>
         </div>
       </editable-container>
 
