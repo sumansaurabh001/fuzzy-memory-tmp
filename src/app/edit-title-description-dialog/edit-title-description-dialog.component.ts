@@ -7,6 +7,7 @@ import {PaymentsService} from '../services/payments.service';
 import {Store} from '@ngrx/store';
 import {AppState} from '../store';
 import {defaultEditorConfig} from '../common/html-editor.config';
+import {QuillConfig, QuillToolbarConfig} from 'ngx-quill';
 
 @Component({
   selector: 'edit-title-description-dialog',
@@ -21,7 +22,7 @@ export class EditTitleDescriptionDialogComponent implements OnInit {
 
   form:FormGroup;
 
-  editorConfig = defaultEditorConfig;
+  editorConfig: any;
 
   constructor(
     private dialogRef: MatDialogRef<EditTitleDescriptionDialogComponent>,
@@ -31,6 +32,7 @@ export class EditTitleDescriptionDialogComponent implements OnInit {
     this.dialogTitle = data.dialogTitle;
     this.title = data.title;
     this.description = data.description;
+    this.editorConfig = data.editorConfig ? data.editorConfig : defaultEditorConfig;
 
     this.form = this.fb.group({
       title: ['', [Validators.required, Validators.required]],

@@ -11,6 +11,7 @@ import {filter, tap} from 'rxjs/operators';
 import {HomePageContentUpdated} from '../store/content.actions';
 import {UserPermissions} from '../models/user-permissions.model';
 import {selectUserPermissions} from '../store/selectors';
+import {minimalEditorConfig} from '../common/html-editor.config';
 
 @Component({
   selector: 'home',
@@ -67,7 +68,8 @@ export class HomeComponent implements OnInit {
     dialogConfig.data = {
       dialogTitle: 'Edit Headline',
       title: benefit.title,
-      description: benefit.description
+      description: benefit.description,
+      editorConfig: minimalEditorConfig
     };
 
     this.dialog.open(EditTitleDescriptionDialogComponent, dialogConfig)

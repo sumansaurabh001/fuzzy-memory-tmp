@@ -42,3 +42,15 @@ export const defaultEditorConfig = {
     ['link']
   ]
 };
+
+
+export const minimalEditorConfig = {
+  toolbar: [
+    ['bold', 'italic', 'underline', 'strike'], // toggled buttons
+    ['blockquote'],
+    [
+      {color: []}
+    ], // dropdown with defaults from theme
+    ['link']
+  ]
+};
