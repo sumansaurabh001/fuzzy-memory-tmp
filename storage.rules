@@ -6,19 +6,19 @@ service firebase.storage {
 
       match /{courseId}/thumbnail/{allPaths=**} {
         allow read: if true;
-        allow write: if request.resource.size < 10 * 1024 * 1024;
+        allow write: if request.resource.size < 10 * 1024 * 1024; // max unprocessed thumbnail is 10MB
       }
 
       match /{courseId}/videos/{allPaths=**} {
         allow read: if true;
-        allow write: if request.resource.size < 300 * 1024 * 1024;
+        allow write: if request.resource.size < 300 * 1024 * 1024; // max video size is 300MB
         allow delete: if true;
       }
 
 
       match /content/{contentId}/{allPaths=**} {
         allow read: if true;
-        allow write: if request.resource.size < 10 * 1024 * 1024;
+        allow write: if request.resource.size < 250 * 1024; // limit content images to 250K
       }
 
 

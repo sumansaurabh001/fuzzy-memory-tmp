@@ -36,8 +36,6 @@ const THUMB_MAX_HEIGHT = 700;
 const THUMB_MAX_WIDTH = THUMB_MAX_HEIGHT / formFactor;
 
 
-
-
 export const imageUpload = functions.storage.object().onFinalize(async (object, context) => {
 
   const uniqueFileSuffix = shortid.generate();
