@@ -51,6 +51,10 @@ export const imageUpload = functions.storage.object().onFinalize(async (object, 
     tempLocalDir = path.dirname(tempLocalFile),
     tempLocalThumbFile = path.join(os.tmpdir(), thumbFilePath);
 
+  if (!fileDir.endsWith('/thumbnail')) {
+    return null;
+  }
+
   if (!contentType.startsWith('image/')) {
     return null;
   }

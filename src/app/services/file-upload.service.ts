@@ -34,4 +34,9 @@ export class FileUploadService {
     return this.storage.upload(uploadPath, video, {cacheControl: 'public,max-age=25920000, s-maxage=25920000'});
 
   }
+
+  getDownloadUrl(filePath:string): Observable<string> {
+     return this.storage.ref(filePath).getDownloadURL();
+  }
+
 }

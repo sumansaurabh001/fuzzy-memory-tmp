@@ -9,6 +9,12 @@ import {Course} from '../models/course.model';
 import {TenantService} from '../services/tenant.service';
 import {Observable} from 'rxjs/Observable';
 import {AngularFireUploadTask} from '@angular/fire/storage';
+import {concatMap, last, map, tap} from 'rxjs/operators';
+import {HomePageContent} from '../models/content/home-page-content.model';
+import {ContentDbService} from '../services/content-db.service';
+import {AppState} from '../store';
+import {Store} from '@ngrx/store';
+import {HomePageContentUpdated} from '../store/content.actions';
 
 @Component({
   selector: 'edit-home-dialog',
@@ -19,6 +25,8 @@ import {AngularFireUploadTask} from '@angular/fire/storage';
   ]
 })
 export class EditHomeDialogComponent implements OnInit {
+
+  content: HomePageContent;
 
   form: FormGroup;
 
@@ -33,7 +41,11 @@ export class EditHomeDialogComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) data,
     private upload: FileUploadService,
     private tenant: TenantService,
-    private messages: MessagesService) {
+    private messages: MessagesService,
+    private contentDb: ContentDbService,
+    private store: Store<AppState>) {
+
+    this.content = data;
 
     this.form = this.fb.group({
       title: ['', [Validators.required, Validators.maxLength(60)]]
@@ -55,26 +67,36 @@ export class EditHomeDialogComponent implements OnInit {
 
   onBannerSelected(event) {
 
-    const banner = event.target.files[0];
+    const imageFile = event.target.files[0];
 
-    if (banner) {
+    if (imageFile) {
 
+      const filePath = this.imageBasePath() + '/' + imageFile.name;
 
-      this.bannerUploadTask = this.upload.uploadFile(banner, this.imageBasePath());
+      this.bannerUploadTask = this.upload.uploadFile(imageFile, this.imageBasePath());
       this.bannerPercentageUpload$ =  this.bannerUploadTask.percentageChanges();
 
-      this.bannerPercentageUpload$
-        .subscribe(
-          noop,
-          noop,
-          () => {
+      this.bannerUploadTask
+        .snapshotChanges()
+        .pipe(
+          last(),
+          tap(() => this.messages.info("Home page banner upload completed.")),
+          concatMap(() => this.upload.getDownloadUrl(filePath)),
+          concatMap(url => {
 
-            console.log("File upload completed.");
+            const newContent = {
+              ...this.content,
+              bannerImageUrl: url
+            };
 
-            this.messages.info("Home page banner upload completed.");
-
-          }
-        );
+            return this.contentDb.savePageContent("home-page", newContent)
+              .pipe(
+                map(() => newContent)
+              );
+          }),
+          tap(content => this.store.dispatch(new HomePageContentUpdated({content})))
+        )
+        .subscribe();
 
     }
 

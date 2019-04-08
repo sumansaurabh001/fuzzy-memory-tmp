@@ -39,7 +39,7 @@ export class HomeComponent implements OnInit {
 
   }
 
-  editPageHeader() {
+  editPageHeader(content: HomePageContent) {
 
     const dialogConfig = new MatDialogConfig();
 
@@ -47,9 +47,7 @@ export class HomeComponent implements OnInit {
     dialogConfig.disableClose = true;
     dialogConfig.minWidth = '550px';
 
-    dialogConfig.data = {
-
-    };
+    dialogConfig.data = content;
 
     this.dialog.open(EditHomeDialogComponent, dialogConfig);
 
