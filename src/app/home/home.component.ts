@@ -47,8 +47,6 @@ export class HomeComponent implements OnInit {
     dialogConfig.disableClose = true;
     dialogConfig.minWidth = '550px';
 
-    dialogConfig.data = content;
-
     this.dialog.open(EditHomeDialogComponent, dialogConfig);
 
   }
@@ -95,5 +93,9 @@ export class HomeComponent implements OnInit {
   }
 
 
-
+  homeBannerStyles(content: HomePageContent) {
+    return {
+      "background-image": "url('" + content.bannerImageUrl + "')"
+    }
+  }
 }

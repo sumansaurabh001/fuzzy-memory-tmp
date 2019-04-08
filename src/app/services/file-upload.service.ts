@@ -6,9 +6,10 @@ import {generateId} from '../common/unique-id-generator';
 import {AngularFireUploadTask} from '@angular/fire/storage/task';
 
 
+const CACHE_CONTROL_SETTINGS= 'public,max-age=25920000, s-maxage=25920000';
+
 @Injectable()
 export class FileUploadService {
-
 
   constructor(
     private storage: AngularFireStorage,
@@ -21,7 +22,7 @@ export class FileUploadService {
 
     const uploadPath = filePath + '/' + file.name;
 
-    return this.storage.upload(uploadPath, file);
+    return this.storage.upload(uploadPath, file, {cacheControl: CACHE_CONTROL_SETTINGS});
   }
 
 
@@ -31,7 +32,7 @@ export class FileUploadService {
 
     const uploadPath = `${this.tenant.id}/${courseId}/videos/${lessonId}/${prefix}-${video.name}`;
 
-    return this.storage.upload(uploadPath, video, {cacheControl: 'public,max-age=25920000, s-maxage=25920000'});
+    return this.storage.upload(uploadPath, video, {cacheControl:CACHE_CONTROL_SETTINGS});
 
   }
 

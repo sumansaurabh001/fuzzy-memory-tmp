@@ -13,8 +13,10 @@ import {concatMap, last, map, tap} from 'rxjs/operators';
 import {HomePageContent} from '../models/content/home-page-content.model';
 import {ContentDbService} from '../services/content-db.service';
 import {AppState} from '../store';
-import {Store} from '@ngrx/store';
+import {select, Store} from '@ngrx/store';
 import {HomePageContentUpdated} from '../store/content.actions';
+import {selectContent} from '../store/content.selectors';
+import {deepClone} from '../common/collection-utils';
 
 @Component({
   selector: 'edit-home-dialog',
@@ -26,7 +28,7 @@ import {HomePageContentUpdated} from '../store/content.actions';
 })
 export class EditHomeDialogComponent implements OnInit {
 
-  content: HomePageContent;
+  homePageContent$: Observable<HomePageContent>;
 
   form: FormGroup;
 
@@ -34,6 +36,7 @@ export class EditHomeDialogComponent implements OnInit {
 
   bannerUploadTask: AngularFireUploadTask;
   bannerPercentageUpload$: Observable<number>;
+
 
   constructor(
     private fb: FormBuilder,
@@ -45,17 +48,17 @@ export class EditHomeDialogComponent implements OnInit {
     private contentDb: ContentDbService,
     private store: Store<AppState>) {
 
-    this.content = data;
-
     this.form = this.fb.group({
       title: ['', [Validators.required, Validators.maxLength(60)]]
     });
 
-    this.form.patchValue({title: data.pageTitle});
-
   }
 
   ngOnInit() {
+
+    this.homePageContent$ = this.store.pipe(select(selectContent('homePage')));
+
+    this.homePageContent$.subscribe(content => this.form.patchValue({title: content.pageTitle}));
 
   }
 
@@ -64,8 +67,7 @@ export class EditHomeDialogComponent implements OnInit {
   }
 
 
-
-  onBannerSelected(event) {
+  onBannerSelected(event, content: HomePageContent) {
 
     const imageFile = event.target.files[0];
 
@@ -74,22 +76,21 @@ export class EditHomeDialogComponent implements OnInit {
       const filePath = this.imageBasePath() + '/' + imageFile.name;
 
       this.bannerUploadTask = this.upload.uploadFile(imageFile, this.imageBasePath());
-      this.bannerPercentageUpload$ =  this.bannerUploadTask.percentageChanges();
+      this.bannerPercentageUpload$ = this.bannerUploadTask.percentageChanges();
 
       this.bannerUploadTask
         .snapshotChanges()
         .pipe(
           last(),
-          tap(() => this.messages.info("Home page banner upload completed.")),
+          tap(() => this.messages.info('Home page banner upload completed.')),
           concatMap(() => this.upload.getDownloadUrl(filePath)),
           concatMap(url => {
 
-            const newContent = {
-              ...this.content,
-              bannerImageUrl: url
-            };
+            const newContent: HomePageContent = deepClone(content);
 
-            return this.contentDb.savePageContent("home-page", newContent)
+            newContent.bannerImageUrl = url;
+
+            return this.contentDb.savePageContent('home-page', newContent)
               .pipe(
                 map(() => newContent)
               );
@@ -107,9 +108,6 @@ export class EditHomeDialogComponent implements OnInit {
     this.bannerUploadTask = null;
     this.bannerPercentageUpload$ = null;
   }
-
-
-
 
 
   onLogoSelected(event) {

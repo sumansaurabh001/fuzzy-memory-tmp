@@ -68,7 +68,6 @@ export class FileUploadComponent implements OnInit {
       'background-image': 'url(' + this.imgSrc() + ')',
       height: this.height,
       width: this.width,
-      'background-size': this.width + ' ' + this.height
     };
 
   }

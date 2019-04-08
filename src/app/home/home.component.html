@@ -1,6 +1,6 @@
 <ng-container *ngIf="(homePageContent$ | async) as content">
 
-  <div class="home-banner">
+  <div class="home-banner" [ngStyle]="homeBannerStyles(content)">
 
     <img class="company-logo" src="https://angular-academy.s3.amazonaws.com/main-logo/main-page-logo-small-hat.png">
 

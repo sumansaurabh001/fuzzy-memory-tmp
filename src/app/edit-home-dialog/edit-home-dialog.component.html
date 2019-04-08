@@ -1,54 +1,55 @@
-<h2 mat-dialog-title>Edit Home Page Header</h2>
+<ng-container *ngIf="(homePageContent$ | async) as content">
 
-<messages></messages>
+  <h2 mat-dialog-title>Edit Home Page Header</h2>
 
-<loading></loading>
+  <messages></messages>
 
-<mat-dialog-content [formGroup]="form">
+  <loading></loading>
 
-  <mat-form-field class="edit-title" appearance="standard">
+  <mat-dialog-content [formGroup]="form">
 
-    <input matInput placeholder="Edit page title..." formControlName="title">
+    <mat-form-field class="edit-title" appearance="standard">
 
-  </mat-form-field>
+      <input matInput placeholder="Edit page title..." formControlName="title">
 
-  <div class="image-label">
-    Choose logo
-  </div>
+    </mat-form-field>
 
-  <file-upload class="banner-image mat-elevation-z4"
-               src="https://angular-academy.s3.amazonaws.com/main-logo/main-page-logo-small-hat.png"
-               [processing]="false"
-               accept="image/*" (fileSelected)="onLogoSelected($event)" height="150px" width="150px">
+    <div class="image-label">
+      Choose logo
+    </div>
 
-  </file-upload>
+    <file-upload class="banner-image mat-elevation-z4"
+                 src="https://angular-academy.s3.amazonaws.com/main-logo/main-page-logo-small-hat.png"
+                 [processing]="false"
+                 accept="image/*" (fileSelected)="onLogoSelected($event)" height="150px" width="150px">
 
-  <div class="image-label">
-    Choose background banner
-  </div>
+    </file-upload>
 
-  <file-upload class="logo-image mat-elevation-z4" src="https://angular-academy.s3.amazonaws.com/banner-small.jpg"
-               [processing]="false"
-               accept="image/*" (fileSelected)="onBannerSelected($event)" width="100%" height="150px">
+    <div class="image-label">
+      Choose background banner
+    </div>
 
-  </file-upload>
+    <file-upload class="logo-image mat-elevation-z4" [src]="content.bannerImageUrl"
+                 [processing]="false"
+                 accept="image/*" (fileSelected)="onBannerSelected($event, content)" width="100%" height="150px">
 
-  <file-upload-progress
-    [upload$]="bannerPercentageUpload$"
-    width="450px"
-    (cancel)="onBannerCancelUpload()">
+    </file-upload>
 
-  </file-upload-progress>
+    <file-upload-progress
+      [upload$]="bannerPercentageUpload$"
+      width="450px"
+      (cancel)="onBannerCancelUpload()">
 
-</mat-dialog-content>
+    </file-upload-progress>
 
-<mat-dialog-actions class="dialog-actions">
+  </mat-dialog-content>
 
-  <button mat-raised-button color="primary" (click)="save()" [disabled]="!form.valid">Save</button>
+  <mat-dialog-actions class="dialog-actions">
 
-  <button class="mat-raised-button" (click)="close()">Close</button>
+    <button mat-raised-button color="primary" (click)="save()" [disabled]="!form.valid">Save</button>
 
-</mat-dialog-actions>
+    <button class="mat-raised-button" (click)="close()">Close</button>
 
+  </mat-dialog-actions>
 
-
+</ng-container>
