@@ -111,6 +111,7 @@ import { HomeComponent } from './home/home.component';
 import { LessonsListComponent } from './lessons-list/lessons-list.component';
 import { EditHomeDialogComponent } from './edit-home-dialog/edit-home-dialog.component';
 import { EditableContainerComponent } from './editable-container/editable-container.component';
+import { FileUploadProgressComponent } from './file-upload-progress/file-upload-progress.component';
 
 
 @NgModule({
@@ -170,7 +171,8 @@ import { EditableContainerComponent } from './editable-container/editable-contai
     HomeComponent,
     LessonsListComponent,
     EditHomeDialogComponent,
-    EditableContainerComponent
+    EditableContainerComponent,
+    FileUploadProgressComponent
   ],
   imports: [
     BrowserModule,

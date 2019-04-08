@@ -101,7 +101,7 @@ export class CourseLandingPageComponent implements OnInit {
     const image = event.target.files[0];
 
     if (image) {
-      this.loading.showLoaderUntilCompleted(this.upload.uploadImageThumbnail(image, this.imagesPath(course)))
+      this.loading.showLoaderUntilCompleted(this.upload.uploadFile(image, this.imagesPath(course)))
         .pipe(
           tap(percent => {
             if (percent == 100) {

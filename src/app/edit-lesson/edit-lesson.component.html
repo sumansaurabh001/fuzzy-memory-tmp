@@ -17,23 +17,11 @@
 
     <div class="filler"></div>
 
-    <div *ngIf="(percentageUpload$ | async) as percentage">
+    <file-upload-progress
+      [upload$]="percentageUpload$"
+      (cancel)="cancelUpload()">
 
-      <div class="upload-progress-container">
-
-        <div class="upload-progress">
-
-          <span>{{percentage / 100 | percent}}</span>
-
-          <mat-progress-bar class="file-upload-progress" mode="determinate" [value]="percentage"></mat-progress-bar>
-
-        </div>
-
-        <mat-icon class="cancel-upload" title="Cancel upload" (click)="cancelUpload()">delete_forever</mat-icon>
-
-      </div>
-
-    </div>
+    </file-upload-progress>
 
 
     <div *ngIf="isProcessing()">

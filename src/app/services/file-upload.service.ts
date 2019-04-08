@@ -17,11 +17,11 @@ export class FileUploadService {
 
   }
 
-  uploadImageThumbnail(image:File, imagePath:string): Observable<any> {
+  uploadFile(file:File, filePath:string): Observable<any> {
 
-    const uploadPath = imagePath + '/' + image.name;
+    const uploadPath = filePath + '/' + file.name;
 
-    return this.storage.upload(uploadPath, image)
+    return this.storage.upload(uploadPath, file)
       .percentageChanges();
   }
 
