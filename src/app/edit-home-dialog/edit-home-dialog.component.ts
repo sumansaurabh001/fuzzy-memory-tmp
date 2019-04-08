@@ -8,6 +8,7 @@ import {noop} from 'rxjs';
 import {Course} from '../models/course.model';
 import {TenantService} from '../services/tenant.service';
 import {Observable} from 'rxjs/Observable';
+import {AngularFireUploadTask} from '@angular/fire/storage';
 
 @Component({
   selector: 'edit-home-dialog',
@@ -23,6 +24,7 @@ export class EditHomeDialogComponent implements OnInit {
 
   editorConfig = defaultEditorConfig;
 
+  bannerUploadTask: AngularFireUploadTask;
   bannerPercentageUpload$: Observable<number>;
 
   constructor(
@@ -30,7 +32,8 @@ export class EditHomeDialogComponent implements OnInit {
     private dialogRef: MatDialogRef<EditHomeDialogComponent>,
     @Inject(MAT_DIALOG_DATA) data,
     private upload: FileUploadService,
-    private tenant: TenantService) {
+    private tenant: TenantService,
+    private messages: MessagesService) {
 
     this.form = this.fb.group({
       title: ['', [Validators.required, Validators.maxLength(60)]]
@@ -54,9 +57,13 @@ export class EditHomeDialogComponent implements OnInit {
 
     const banner = event.target.files[0];
 
+    debugger;
+
     if (banner) {
 
-      this.bannerPercentageUpload$ = this.upload.uploadFile(banner, this.imageBasePath());
+
+      this.bannerUploadTask = this.upload.uploadFile(banner, this.imageBasePath());
+      this.bannerPercentageUpload$ =  this.bannerUploadTask.percentageChanges();
 
       this.bannerPercentageUpload$
         .subscribe(
@@ -66,11 +73,19 @@ export class EditHomeDialogComponent implements OnInit {
 
             console.log("File upload completed.");
 
+            this.messages.info("Home page banner upload completed.");
+
           }
         );
 
     }
 
+  }
+
+  onBannerCancelUpload() {
+    this.bannerUploadTask.cancel();
+    this.bannerUploadTask = null;
+    this.bannerPercentageUpload$ = null;
   }
 
 

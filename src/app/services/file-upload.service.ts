@@ -17,12 +17,11 @@ export class FileUploadService {
 
   }
 
-  uploadFile(file:File, filePath:string): Observable<any> {
+  uploadFile(file:File, filePath:string): AngularFireUploadTask {
 
     const uploadPath = filePath + '/' + file.name;
 
-    return this.storage.upload(uploadPath, file)
-      .percentageChanges();
+    return this.storage.upload(uploadPath, file);
   }
 
 

@@ -33,6 +33,12 @@
 
   </file-upload>
 
+  <file-upload-progress
+    [upload$]="bannerPercentageUpload$"
+    width="400px"
+    (cancel)="onBannerCancelUpload()">
+
+  </file-upload-progress>
 
 </mat-dialog-content>
 

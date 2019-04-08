@@ -11,6 +11,9 @@ export class FileUploadProgressComponent implements OnInit {
   @Input()
   upload$: Observable<number>;
 
+  @Input()
+  width = "500px";
+
   @Output()
   cancel = new EventEmitter();
 
@@ -24,4 +27,9 @@ export class FileUploadProgressComponent implements OnInit {
     this.cancel.emit();
   }
 
+  calculateStyles() {
+    return {
+      width: this.width
+    }
+  }
 }

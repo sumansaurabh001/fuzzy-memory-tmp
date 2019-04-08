@@ -6,7 +6,7 @@ service firebase.storage {
 
       match /{courseId}/thumbnail/{allPaths=**} {
         allow read: if true;
-        allow write: if request.resource.size < 2 * 1024 * 1024;
+        allow write: if request.resource.size < 10 * 1024 * 1024;
       }
 
       match /{courseId}/videos/{allPaths=**} {
@@ -14,6 +14,14 @@ service firebase.storage {
         allow write: if request.resource.size < 300 * 1024 * 1024;
         allow delete: if true;
       }
+
+
+      match /content/{contentId}/{allPaths=**} {
+        allow read: if true;
+        allow write: if request.resource.size < 10 * 1024 * 1024;
+      }
+
+
     }
 
 

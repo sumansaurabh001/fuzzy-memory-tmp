@@ -1,5 +1,5 @@
 
-<div *ngIf="(percentageUpload$ | async) as percentage">
+<div *ngIf="(upload$ | async) as percentage">
 
   <div class="upload-progress-container">
 
@@ -7,7 +7,13 @@
 
       <span>{{percentage / 100 | percent}}</span>
 
-      <mat-progress-bar class="file-upload-progress" mode="determinate" [value]="percentage"></mat-progress-bar>
+      <mat-progress-bar
+        class="file-upload-progress"
+        [ngStyle]="calculateStyles()"
+        mode="determinate"
+        [value]="percentage">
+
+      </mat-progress-bar>
 
     </div>
 
