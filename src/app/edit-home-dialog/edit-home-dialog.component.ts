@@ -57,8 +57,6 @@ export class EditHomeDialogComponent implements OnInit {
 
     const banner = event.target.files[0];
 
-    debugger;
-
     if (banner) {
 
 
