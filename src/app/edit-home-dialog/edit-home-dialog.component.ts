@@ -146,4 +146,8 @@ export class EditHomeDialogComponent implements OnInit {
     return this.tenant.id + '/content/home';
   }
 
+  onLogoDeleted() {
+
+  }
+
 }

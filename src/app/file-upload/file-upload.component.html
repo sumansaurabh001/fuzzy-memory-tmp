@@ -1,4 +1,6 @@
-<div class="file-upload-container noselect" [ngStyle]="containerStyles()">
+<div class="container">
+
+  <div class="file-upload-container noselect" [ngStyle]="containerStyles()">
 
     <ng-container *ngIf="!processing; else processingSpinner">
 
@@ -23,10 +25,18 @@
 
     <ng-template #processingSpinner>
 
-        <mat-spinner class="processing-ongoing"></mat-spinner>
+      <mat-spinner class="processing-ongoing"></mat-spinner>
 
     </ng-template>
 
-</div>
+  </div>
 
+  <div class="delete-file" *ngIf="allowDelete && src" (click)="onDelete()">
+
+    <mat-icon >delete</mat-icon>
+
+  </div>
+
+
+</div>
 

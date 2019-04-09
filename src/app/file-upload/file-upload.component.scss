@@ -1,6 +1,13 @@
 
 
 @import "../mixins";
+@import "../vars";
+
+.container {
+  display: flex;
+  align-items: flex-end;
+
+}
 
 .file-upload-container {
   display: flex;
@@ -46,4 +53,12 @@
 .empty-image {
   height: 80px;
   @include centered-child;
+}
+
+.delete-file {
+  cursor: pointer;
+  margin-left: 10px;
+  @include mat-icon-size(30px);
+  color: $dark-text;
+
 }

@@ -21,9 +21,11 @@
     <file-upload class="banner-image mat-elevation-z4"
                  [src]="content.logoImageUrl"
                  [processing]="false"
+                 [allowDelete]="true"
                  accept="image/*"
                  (fileSelected)="onLogoSelected($event, content)"
-                 height="150px" width="150px">
+                 height="150px" width="150px"
+                  (fileDeleted)="onLogoDeleted()">
 
     </file-upload>
 
@@ -41,9 +43,10 @@
     <file-upload class="logo-image mat-elevation-z4"
                  [src]="content.bannerImageUrl"
                  [processing]="false"
+                 [allowDelete]="true"
                  accept="image/*"
                  (fileSelected)="onBannerSelected($event, content)"
-                 width="100%" height="150px">
+                 width="450px" height="150px">
 
     </file-upload>
 

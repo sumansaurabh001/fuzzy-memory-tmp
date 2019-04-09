@@ -26,7 +26,11 @@ export class FileUploadComponent implements OnInit {
 
   @Input() processing:boolean;
 
+  @Input() allowDelete = false;
+
   @Output() fileSelected = new EventEmitter();
+
+  @Output() fileDeleted = new EventEmitter();
 
   @ViewChild("fileUpload")
   fileUpload : ElementRef;
@@ -86,6 +90,10 @@ export class FileUploadComponent implements OnInit {
 
   open() {
     this.fileUpload.nativeElement.click();
+  }
+
+  onDelete() {
+    this.fileDeleted.emit();
   }
 
 }
