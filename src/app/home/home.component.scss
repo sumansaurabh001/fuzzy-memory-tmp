@@ -18,6 +18,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
 
   .company-logo {
     max-height: 300px;
@@ -39,6 +40,14 @@
       color: $dark-text;
     }
   }
+
+  .banner-content {
+    justify-self: center;
+     display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
 }
 
 .home-body {

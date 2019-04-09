@@ -18,7 +18,7 @@ service firebase.storage {
 
       match /content/{contentId}/{allPaths=**} {
         allow read: if true;
-        allow write: if request.resource.size < 250 * 1024; // limit content images to 250K
+        allow write: if request.resource.size < 250 * 1024; // limit content images to 300K
       }
 
 

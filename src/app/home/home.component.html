@@ -2,26 +2,30 @@
 
   <div class="home-banner" [ngStyle]="homeBannerStyles(content)">
 
-    <img class="company-logo" [src]="content.logoImageUrl">
+    <img class="company-logo" [src]="content.logoImageUrl" *ngIf="content.logoImageUrl">
 
-    <h1 class="page-title">Learn and Keep Up with the Angular Ecosystem</h1>
+    <div class="banner-content">
 
-    <div class="cta-buttons">
+      <h1 class="page-title">Learn and Keep Up with the Angular Ecosystem</h1>
 
-      <button class="cta-button" mat-raised-button color="accent">
+      <div class="cta-buttons">
 
-        <mat-icon>account_circle</mat-icon>
+        <button class="cta-button" mat-raised-button color="accent">
 
-        Sign up Now
+          <mat-icon>account_circle</mat-icon>
 
-      </button>
+          Sign up Now
 
-      <button class="cta-button edit-button" mat-raised-button *allowRole="'ADMIN'" (click)="editPageHeader(content)">
+        </button>
 
-        <mat-icon>mode_edit</mat-icon>
+        <button class="cta-button edit-button" mat-raised-button *allowRole="'ADMIN'" (click)="editPageHeader(content)">
 
-        Edit Header
-      </button>
+          <mat-icon>mode_edit</mat-icon>
+
+          Edit Header
+        </button>
+
+      </div>
 
     </div>
 
