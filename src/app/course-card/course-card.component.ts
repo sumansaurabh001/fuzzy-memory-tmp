@@ -18,7 +18,13 @@ export class CourseCardComponent implements OnInit {
   }
 
   imgSrc() {
-    return this.ub.buildCourseThumbailUrl(this.course);
+    if (this.course && this.course.thumbnail) {
+      return this.ub.buildCourseThumbailUrl(this.course);
+    }
+    else {
+      return EMPTY_IMG;
+    }
+
   }
 
 }

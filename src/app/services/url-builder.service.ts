@@ -18,7 +18,7 @@ export class UrlBuilderService {
         + this.tenant.id + '%2F' + course.id + '%2Fthumbnail%2F' + course.thumbnail + '?alt=media';
     }
     else {
-      return EMPTY_IMG;
+      return null;
     }
   }
 
@@ -30,7 +30,7 @@ export class UrlBuilderService {
         + this.tenant.id + '%2F' + course.id + '%2Fvideos%2F' + lesson.id + '%2F' + lesson.thumbnail + '?alt=media';
     }
     else {
-      return EMPTY_IMG;
+      return null;
     }
   }
 
@@ -40,7 +40,7 @@ export class UrlBuilderService {
         + this.tenant.id + '%2F' + course.id + '%2Fvideos%2F' + lesson.id + '%2F' + access.videoSecretFileName + '?alt=media';
     }
     else {
-      return undefined;
+      return null;
     }
   }
 

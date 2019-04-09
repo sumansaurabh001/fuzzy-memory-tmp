@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {MatDialog, MatDialogConfig} from '@angular/material';
 import {EditHomeDialogComponent} from '../edit-home-dialog/edit-home-dialog.component';
 import {HomePageContent} from '../models/content/home-page-content.model';
@@ -12,6 +12,7 @@ import {HomePageContentUpdated} from '../store/content.actions';
 import {UserPermissions} from '../models/user-permissions.model';
 import {selectUserPermissions} from '../store/selectors';
 import {minimalEditorConfig} from '../common/html-editor.config';
+import {EMPTY_IMG} from '../common/ui-constants';
 
 @Component({
   selector: 'home',
@@ -32,7 +33,7 @@ export class HomeComponent implements OnInit {
 
   ngOnInit() {
 
-    this.homePageContent$ = this.store.pipe(select(selectContent("homePage")));
+    this.homePageContent$ = this.store.pipe(select(selectContent('homePage')));
 
     this.store.pipe(select(selectUserPermissions))
       .subscribe(permissions => this.editModeEnabled = permissions && permissions.isAdmin);
@@ -51,7 +52,7 @@ export class HomeComponent implements OnInit {
 
   }
 
-  onBenefitEdited(content: HomePageContent, benefitIndex:number) {
+  onBenefitEdited(content: HomePageContent, benefitIndex: number) {
 
     const benefit = content.benefits[benefitIndex];
 
@@ -94,8 +95,16 @@ export class HomeComponent implements OnInit {
 
 
   homeBannerStyles(content: HomePageContent) {
-    return {
-      "background-image": "url('" + content.bannerImageUrl + "')"
+    if (content.bannerImageUrl) {
+      return {
+        'background-image': "url('" + content.bannerImageUrl  + "')"
+      };
+    }
+    else {
+      return {
+        'background-color': 'rgb(186, 190, 192)'
+      };
     }
   }
+
 }

@@ -32,6 +32,8 @@ export class FileUploadComponent implements OnInit {
   fileUpload : ElementRef;
 
 
+  EMPTY_IMG = EMPTY_IMG;
+
   constructor() {
 
   }
@@ -64,25 +66,23 @@ export class FileUploadComponent implements OnInit {
   }
 
   editableImageStyles() {
-    return {
-      'background-image': 'url(' + this.imgSrc() + ')',
+
+    const styles = {
       height: this.height,
       width: this.width,
     };
 
+    if (this.src) {
+      styles['background-image'] = `url(${this.src})`;
+    }
+
+    return styles;
   }
 
   onFileSelected($event) {
     this.fileSelected.next($event);
   }
 
-  fileUploadStyles() {
-
-  }
-
-  imgSrc() {
-    return this.src || EMPTY_IMG;
-  }
 
   open() {
     this.fileUpload.nativeElement.click();

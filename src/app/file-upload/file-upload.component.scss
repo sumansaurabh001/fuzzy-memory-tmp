@@ -5,20 +5,21 @@
 .file-upload-container {
   display: flex;
   align-items: flex-end;
+  background-color: rgb(232, 238, 241);
 }
 
 .editable-image {
   border-radius: 4px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
   background-repeat: no-repeat;
   background-size: cover;
+  @include centered-parent;
 }
 
 
 
 .edit-image-control {
+  @include centered-child;
+  z-index: 10;
   display: flex;
   align-items: center;
   @include mat-icon-size(38px);
@@ -40,4 +41,9 @@
   position: absolute;
   cursor: pointer;
   display: none;
+}
+
+.empty-image {
+  height: 80px;
+  @include centered-child;
 }

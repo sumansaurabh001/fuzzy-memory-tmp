@@ -162,7 +162,7 @@ async function extractVideoThumbnail(videoPath: string, thumbnailPath: string, t
       count: 1,
       folder: thumbnailPath,
       filename: thumbnailName,
-      size: '124x70'
+      size: '177x100'
     });
 
   return promisifyCommand(command);

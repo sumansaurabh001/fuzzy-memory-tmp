@@ -7,6 +7,7 @@ import {selectActiveCourse} from '../store/selectors';
 import {select, Store} from '@ngrx/store';
 import {AppState} from '../store';
 import {LoadCoupons} from '../store/coupons.actions';
+import {EMPTY_IMG} from '../common/ui-constants';
 
 
 
@@ -39,7 +40,11 @@ export class EditCourseComponent implements OnInit {
   }
 
   imgSrc(course:Course) {
-    return this.ub.buildCourseThumbailUrl(course);
+    if (course && course.thumbnail) {
+      return this.ub.buildCourseThumbailUrl(course);
+    }
+    else return EMPTY_IMG;
+
   }
 
   onTabChange(selectedIndex) {

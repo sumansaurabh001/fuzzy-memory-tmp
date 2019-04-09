@@ -1,17 +1,19 @@
-<div class="file-upload-container" [ngStyle]="containerStyles()">
+<div class="file-upload-container noselect" [ngStyle]="containerStyles()">
 
     <ng-container *ngIf="!processing; else processingSpinner">
 
-      <div class="editable-image" (click)="fileUpload.click()"
+      <div class="editable-image noselect" (click)="fileUpload.click()"
            [ngClass]="stateClasses()"
            [ngStyle]="editableImageStyles()"
            (mouseenter)="onMouseEnter()" (mouseleave)="onMouseLeave()">
 
 
-        <input class="file-upload" type="file" [ngStyle]="fileUploadStyles()"
+        <img class="empty-image noselect" [src]="EMPTY_IMG" *ngIf="!this.src">
+
+        <input class="file-upload noselect" type="file"
                (change)="onFileSelected($event)" [accept]="accept" #fileUpload>
 
-        <div class="edit-image-control" *ngIf="editMode">
+        <div class="edit-image-control noselect" *ngIf="editMode">
           <mat-icon>mode_edit</mat-icon>
         </div>
 

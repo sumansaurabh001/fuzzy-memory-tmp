@@ -82,7 +82,7 @@ export class EditHomeDialogComponent implements OnInit {
         .snapshotChanges()
         .pipe(
           last(),
-          tap(() => this.messages.info('Home page banner upload completed.')),
+          tap(() => this.messages.info('Home page banner uploaded, applying it now.')),
           concatMap(() => this.upload.getDownloadUrl(filePath)),
           concatMap(url => {
 
