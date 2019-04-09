@@ -2,7 +2,7 @@
 
   <div class="home-banner" [ngStyle]="homeBannerStyles(content)">
 
-    <img class="company-logo" src="https://angular-academy.s3.amazonaws.com/main-logo/main-page-logo-small-hat.png">
+    <img class="company-logo" [src]="content.logoImageUrl">
 
     <h1 class="page-title">Learn and Keep Up with the Angular Ecosystem</h1>
 

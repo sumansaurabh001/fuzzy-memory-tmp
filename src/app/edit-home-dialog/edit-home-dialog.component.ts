@@ -37,6 +37,9 @@ export class EditHomeDialogComponent implements OnInit {
   bannerUploadTask: AngularFireUploadTask;
   bannerPercentageUpload$: Observable<number>;
 
+  logoUploadTask: AngularFireUploadTask;
+  logoPercentageUpload$: Observable<number>;
+
 
   constructor(
     private fb: FormBuilder,
@@ -78,28 +81,52 @@ export class EditHomeDialogComponent implements OnInit {
       this.bannerUploadTask = this.upload.uploadFile(imageFile, this.imageBasePath());
       this.bannerPercentageUpload$ = this.bannerUploadTask.percentageChanges();
 
-      this.bannerUploadTask
-        .snapshotChanges()
-        .pipe(
-          last(),
-          tap(() => this.messages.info('Home page banner uploaded, applying it now.')),
-          concatMap(() => this.upload.getDownloadUrl(filePath)),
-          concatMap(url => {
-
-            const newContent: HomePageContent = deepClone(content);
-
-            newContent.bannerImageUrl = url;
-
-            return this.contentDb.savePageContent('home-page', newContent)
-              .pipe(
-                map(() => newContent)
-              );
-          }),
-          tap(content => this.store.dispatch(new HomePageContentUpdated({content})))
-        )
+      this.uploadImage(this.bannerUploadTask, filePath, "bannerImageUrl",content)
         .subscribe();
 
     }
+
+  }
+
+
+  onLogoSelected(event, content: HomePageContent) {
+
+    const imageFile = event.target.files[0];
+
+    if (imageFile) {
+
+      const filePath = this.imageBasePath() + '/' + imageFile.name;
+
+      this.logoUploadTask = this.upload.uploadFile(imageFile, this.imageBasePath());
+      this.logoPercentageUpload$ = this.logoUploadTask.percentageChanges();
+
+      this.uploadImage(this.logoUploadTask, filePath, "logoImageUrl",content)
+        .subscribe();
+
+    }
+
+  }
+
+  uploadImage(uploadTask: AngularFireUploadTask, filePath: string, imagePropertyName: string, content: HomePageContent):Observable<any> {
+    return uploadTask
+      .snapshotChanges()
+      .pipe(
+        last(),
+        tap(() => this.messages.info('Image uploaded, applying it now.')),
+        concatMap(() => this.upload.getDownloadUrl(filePath)),
+        concatMap(url => {
+
+          const newContent: HomePageContent = deepClone(content);
+
+          newContent[imagePropertyName] = url;
+
+          return this.contentDb.savePageContent('home-page', newContent)
+            .pipe(
+              map(() => newContent)
+            );
+        }),
+        tap(content => this.store.dispatch(new HomePageContentUpdated({content})))
+      );
 
   }
 
@@ -109,17 +136,10 @@ export class EditHomeDialogComponent implements OnInit {
     this.bannerPercentageUpload$ = null;
   }
 
-
-  onLogoSelected(event) {
-
-    const logo = event.target.files[0];
-
-    if (logo) {
-
-
-    }
-
-
+  onLogoCancelUpload() {
+    this.logoUploadTask.cancel();
+    this.logoUploadTask = null;
+    this.logoPercentageUpload$ = null;
   }
 
   imageBasePath() {
