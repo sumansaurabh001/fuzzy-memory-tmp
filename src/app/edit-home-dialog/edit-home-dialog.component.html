@@ -1,25 +1,12 @@
 <ng-container *ngIf="(homePageContent$ | async) as content">
 
-  <h2 mat-dialog-title>Edit Home Page Header</h2>
+  <h2 mat-dialog-title>Edit Home Page Images</h2>
 
   <messages></messages>
 
   <loading></loading>
 
-  <mat-dialog-content [formGroup]="form">
-
-    <div class="image-label">
-      Edit Home Page Title
-    </div>
-
-    <quill-editor
-      class="title-editor"
-      [formControl]="form.controls['title']"
-      [modules]="editorConfig"
-      [style]="{height: '100px'}"
-      placeholder="Type here the page title...">
-
-    </quill-editor>
+  <mat-dialog-content>
 
     <div class="image-label">
       Choose logo
@@ -53,7 +40,7 @@
                  [allowDelete]="true"
                  accept="image/*"
                  (fileSelected)="onBannerSelected($event, content)"
-                 width="450px" height="150px"
+                 width="470px" height="153px"
                  (fileDeleted)="onImageDeleted('banner', content)">
 
     </file-upload>
@@ -69,7 +56,7 @@
 
   <mat-dialog-actions class="dialog-actions">
 
-    <button mat-raised-button color="primary" (click)="save(content)" [disabled]="!form.valid">Save</button>
+    <button mat-raised-button color="primary" (click)="save(content)">Save</button>
 
     <button class="mat-raised-button" (click)="close()">Close</button>
 

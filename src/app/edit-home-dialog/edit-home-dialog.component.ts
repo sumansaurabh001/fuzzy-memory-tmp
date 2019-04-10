@@ -31,8 +31,6 @@ export class EditHomeDialogComponent implements OnInit {
 
   homePageContent$: Observable<HomePageContent>;
 
-  form: FormGroup;
-
   editorConfig = minimalEditorConfig;
 
   bannerUploadTask: AngularFireUploadTask;
@@ -52,9 +50,6 @@ export class EditHomeDialogComponent implements OnInit {
     private contentDb: ContentDbService,
     private store: Store<AppState>) {
 
-    this.form = this.fb.group({
-      title: ['', [Validators.required, Validators.maxLength(60)]]
-    });
 
   }
 
@@ -62,7 +57,6 @@ export class EditHomeDialogComponent implements OnInit {
 
     this.homePageContent$ = this.store.pipe(select(selectContent('homePage')));
 
-    this.homePageContent$.subscribe(content => this.form.patchValue({title: content.pageTitle}));
 
   }
 
@@ -174,11 +168,7 @@ export class EditHomeDialogComponent implements OnInit {
   }
 
 
-  save(content) {
-
-    const newTitle = this.form.value.pageTitle;
-
-    const newContent: HomePageContent = deepClone(content);
+  save() {
 
     this.close();
 
