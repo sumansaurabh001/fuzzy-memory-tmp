@@ -72,7 +72,7 @@
 
     <span class="filler"></span>
 
-    <a mat-button class="desktop-menu" (click)="login()" *ngIf="(isLoggedOut$ | async)">
+    <a mat-button class="desktop-menu" id="loginButton"  (click)="login()" *ngIf="(isLoggedOut$ | async)">
       <mat-icon>account_circle</mat-icon>
       <span>Login</span>
     </a>

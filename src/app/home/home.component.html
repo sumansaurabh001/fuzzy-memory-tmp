@@ -10,11 +10,22 @@
 
       <div class="cta-buttons">
 
-        <button class="cta-button" mat-raised-button color="accent">
+        <button class="cta-button" mat-raised-button color="accent" *ngIf="isLoggedOut$ | async"
+          (click)="onSignupClicked()">
 
           <mat-icon>account_circle</mat-icon>
 
           Sign up Now
+
+        </button>
+
+        <button class="cta-button" mat-raised-button color="accent"
+                *ngIf="isLoggedIn$ | async"
+                routerLink="/courses">
+
+          <mat-icon>library_books</mat-icon>
+
+          View Courses
 
         </button>
 

@@ -10,7 +10,7 @@ import {EditTitleDescriptionDialogComponent} from '../edit-title-description-dia
 import {filter, tap} from 'rxjs/operators';
 import {HomePageContentUpdated} from '../store/content.actions';
 import {UserPermissions} from '../models/user-permissions.model';
-import {selectUserPermissions} from '../store/selectors';
+import {isLoggedIn, isLoggedOut, selectUserPermissions} from '../store/selectors';
 import {minimalEditorConfig} from '../common/html-editor.config';
 import {EMPTY_IMG} from '../common/ui-constants';
 
@@ -23,6 +23,9 @@ export class HomeComponent implements OnInit {
 
   homePageContent$: Observable<HomePageContent>;
 
+  isLoggedIn$: Observable<boolean>;
+  isLoggedOut$: Observable<boolean>;
+
   editModeEnabled = false;
 
   constructor(
@@ -34,6 +37,10 @@ export class HomeComponent implements OnInit {
   ngOnInit() {
 
     this.homePageContent$ = this.store.pipe(select(selectContent('homePage')));
+
+    this.isLoggedIn$ = this.store.pipe(select(isLoggedIn));
+
+    this.isLoggedOut$ = this.store.pipe(select(isLoggedOut));
 
     this.store.pipe(select(selectUserPermissions))
       .subscribe(permissions => this.editModeEnabled = permissions && permissions.isAdmin);
@@ -111,5 +118,10 @@ export class HomeComponent implements OnInit {
       return {
         color: content.pageTitleColor
       }
+  }
+
+  onSignupClicked() {
+    const button: HTMLBaseElement = document.querySelector("#loginButton");
+    button.click();
   }
 }
