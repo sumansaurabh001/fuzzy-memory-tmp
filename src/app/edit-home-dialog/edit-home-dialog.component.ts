@@ -2,7 +2,7 @@ import {Component, Inject, OnInit} from '@angular/core';
 import {MessagesService} from '../services/messages.service';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
-import {defaultEditorConfig} from '../common/html-editor.config';
+import {defaultEditorConfig, minimalEditorConfig} from '../common/html-editor.config';
 import {FileUploadService} from '../services/file-upload.service';
 import {noop, throwError} from 'rxjs';
 import {Course} from '../models/course.model';
@@ -33,7 +33,7 @@ export class EditHomeDialogComponent implements OnInit {
 
   form: FormGroup;
 
-  editorConfig = defaultEditorConfig;
+  editorConfig = minimalEditorConfig;
 
   bannerUploadTask: AngularFireUploadTask;
   bannerPercentageUpload$: Observable<number>;
@@ -174,5 +174,14 @@ export class EditHomeDialogComponent implements OnInit {
   }
 
 
+  save(content) {
+
+    const newTitle = this.form.value.pageTitle;
+
+    const newContent: HomePageContent = deepClone(content);
+
+    this.close();
+
+  }
 
 }

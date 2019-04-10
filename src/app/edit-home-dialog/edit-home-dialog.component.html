@@ -8,11 +8,18 @@
 
   <mat-dialog-content [formGroup]="form">
 
-    <mat-form-field class="edit-title" appearance="standard">
+    <div class="image-label">
+      Edit Home Page Title
+    </div>
 
-      <input matInput placeholder="Edit page title..." formControlName="title">
+    <quill-editor
+      class="title-editor"
+      [formControl]="form.controls['title']"
+      [modules]="editorConfig"
+      [style]="{height: '100px'}"
+      placeholder="Type here the page title...">
 
-    </mat-form-field>
+    </quill-editor>
 
     <div class="image-label">
       Choose logo
@@ -62,7 +69,7 @@
 
   <mat-dialog-actions class="dialog-actions">
 
-    <button mat-raised-button color="primary" (click)="save()" [disabled]="!form.valid">Save</button>
+    <button mat-raised-button color="primary" (click)="save(content)" [disabled]="!form.valid">Save</button>
 
     <button class="mat-raised-button" (click)="close()">Close</button>
 
