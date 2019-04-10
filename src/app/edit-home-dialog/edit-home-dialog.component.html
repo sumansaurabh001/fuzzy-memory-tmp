@@ -25,7 +25,7 @@
                  accept="image/*"
                  (fileSelected)="onLogoSelected($event, content)"
                  height="150px" width="150px"
-                  (fileDeleted)="onLogoDeleted(content)">
+                  (fileDeleted)="onImageDeleted('logo', content)">
 
     </file-upload>
 
@@ -46,7 +46,8 @@
                  [allowDelete]="true"
                  accept="image/*"
                  (fileSelected)="onBannerSelected($event, content)"
-                 width="450px" height="150px">
+                 width="450px" height="150px"
+                 (fileDeleted)="onImageDeleted('banner', content)">
 
     </file-upload>
 

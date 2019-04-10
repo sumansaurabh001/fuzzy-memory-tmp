@@ -122,8 +122,6 @@ export class EditHomeDialogComponent implements OnInit {
           newContent[imageId + 'ImageUrl'] = url;
           newContent[imageId + 'FileName'] = fileName;
 
-          debugger;
-
           this.store.dispatch(new HomePageContentUpdated({content:newContent}));
         })
       );
@@ -146,16 +144,20 @@ export class EditHomeDialogComponent implements OnInit {
     return `${this.tenant.id}/content/home`;
   }
 
-  onLogoDeleted(content:HomePageContent) {
+  onImageDeleted(imageKey:string, content:HomePageContent) {
 
-    this.upload.deleteFile(`${this.tenant.id}/content/home/${content.logoFileName}`)
+    const imageUrlProperty = imageKey + 'ImageUrl',
+          imageFileNameProperty = imageKey + 'FileName',
+          imageFileName = content[imageFileNameProperty];
+
+    this.upload.deleteFile(`${this.tenant.id}/content/home/${imageFileName}`)
       .pipe(
         map(() => {
 
           const newContent: HomePageContent = deepClone(content);
 
-          delete newContent.logoImageUrl;
-          delete newContent.logoFileName;
+          delete newContent[imageUrlProperty];
+          delete newContent[imageFileNameProperty];
 
           return newContent;
         }),
