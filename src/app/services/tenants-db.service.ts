@@ -78,6 +78,7 @@ export class TenantsDBService {
             batch.set(subscriptionContentRef, defaultSubscriptionContent as any);
 
             const defaultHomePageContent: HomePageContent = {
+              pageTitle: 'Click the Edit Header Button below to edit this title',
               benefits: [
                 {
                   title: 'Hover to edit this benefit',

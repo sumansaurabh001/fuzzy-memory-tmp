@@ -1,12 +1,18 @@
 <ng-container *ngIf="(homePageContent$ | async) as content">
 
-  <h2 mat-dialog-title>Edit Home Page Images</h2>
+  <h2 mat-dialog-title>Edit Home Page Header</h2>
 
   <messages></messages>
 
   <loading></loading>
 
-  <mat-dialog-content>
+  <mat-dialog-content [formGroup]="form">
+
+    <mat-form-field class="edit-title" appearance="standard">
+
+      <input matInput placeholder="Edit page title..." formControlName="title">
+
+    </mat-form-field>
 
     <div class="image-label">
       Choose logo
@@ -56,7 +62,7 @@
 
   <mat-dialog-actions class="dialog-actions">
 
-    <button mat-raised-button color="primary" (click)="save(content)">Save</button>
+    <button mat-raised-button color="primary" (click)="save(content)" [disabled]="!form.valid">Save</button>
 
     <button class="mat-raised-button" (click)="close()">Close</button>
 

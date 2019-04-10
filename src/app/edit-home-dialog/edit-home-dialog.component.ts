@@ -29,6 +29,8 @@ import * as firebase from 'firebase/app';
 })
 export class EditHomeDialogComponent implements OnInit {
 
+  form: FormGroup;
+
   homePageContent$: Observable<HomePageContent>;
 
   editorConfig = minimalEditorConfig;
@@ -50,6 +52,9 @@ export class EditHomeDialogComponent implements OnInit {
     private contentDb: ContentDbService,
     private store: Store<AppState>) {
 
+    this.form = fb.group({
+      title: ['', Validators.required]
+    })
 
   }
 
@@ -57,6 +62,8 @@ export class EditHomeDialogComponent implements OnInit {
 
     this.homePageContent$ = this.store.pipe(select(selectContent('homePage')));
 
+    this.homePageContent$
+      .subscribe(content => this.form.patchValue({title:content.pageTitle}));
 
   }
 
@@ -168,7 +175,13 @@ export class EditHomeDialogComponent implements OnInit {
   }
 
 
-  save() {
+  save(content:HomePageContent) {
+
+    const newContent: HomePageContent = deepClone(content);
+
+    newContent.pageTitle = this.form.value.title;
+
+    this.store.dispatch(new HomePageContentUpdated({content:newContent}));
 
     this.close();
 
