@@ -4,12 +4,12 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
 import {defaultEditorConfig} from '../common/html-editor.config';
 import {FileUploadService} from '../services/file-upload.service';
-import {noop} from 'rxjs';
+import {noop, throwError} from 'rxjs';
 import {Course} from '../models/course.model';
 import {TenantService} from '../services/tenant.service';
 import {Observable} from 'rxjs/Observable';
 import {AngularFireUploadTask} from '@angular/fire/storage';
-import {concatMap, last, map, tap} from 'rxjs/operators';
+import {catchError, concatMap, last, map, tap} from 'rxjs/operators';
 import {HomePageContent} from '../models/content/home-page-content.model';
 import {ContentDbService} from '../services/content-db.service';
 import {AppState} from '../store';
@@ -113,6 +113,11 @@ export class EditHomeDialogComponent implements OnInit {
       .snapshotChanges()
       .pipe(
         last(),
+        catchError(err => {
+          console.log("Error uploading image, reason: ", err);
+          this.messages.error('Could not upload image. File size must be less than 300KB');
+          return throwError(err);
+        }),
         tap(() => this.messages.info('Image uploaded, applying it now.')),
         concatMap(() => this.upload.getDownloadUrl(filePath)),
         tap(url => {
