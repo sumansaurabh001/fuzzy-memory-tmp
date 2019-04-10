@@ -29,7 +29,7 @@ export class ContentDbService {
   }
 
   savePageContent(savePath:string, newContent:any): Observable<any> {
-    return from(this.afs.doc(`schools/${this.tenant.id}/content/${savePath}`).update(newContent));
+    return from(this.afs.doc(`schools/${this.tenant.id}/content/${savePath}`).set(newContent));
   }
 
 

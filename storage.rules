@@ -3,22 +3,25 @@ service firebase.storage {
 
     match /{tenantId} {
 
+      function isTenant() {
+        return request.auth != null && request.auth.uid == tenantId;
+      }
 
       match /{courseId}/thumbnail/{allPaths=**} {
         allow read: if true;
-        allow write: if request.resource.size < 10 * 1024 * 1024; // max unprocessed thumbnail is 10MB
+        allow write: if isTenant() && request.resource.size < 10 * 1024 * 1024; // max unprocessed thumbnail is 10MB
       }
 
       match /{courseId}/videos/{allPaths=**} {
         allow read: if true;
-        allow write: if request.resource.size < 300 * 1024 * 1024; // max video size is 300MB
-        allow delete: if true;
+        allow write: if isTenant() && request.resource.size < 300 * 1024 * 1024; // max video size is 300MB
       }
 
 
       match /content/{contentId}/{allPaths=**} {
         allow read: if true;
-        allow write: if request.resource.size < 250 * 1024; // limit content images to 300K
+        allow write: if isTenant() && request.resource.size < 250 * 1024; // limit content images to 300K
+        allow delete: if isTenant();
       }
 
 

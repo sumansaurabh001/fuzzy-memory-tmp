@@ -17,6 +17,7 @@ import {select, Store} from '@ngrx/store';
 import {HomePageContentUpdated} from '../store/content.actions';
 import {selectContent} from '../store/content.selectors';
 import {deepClone} from '../common/collection-utils';
+import * as firebase from 'firebase/app';
 
 @Component({
   selector: 'edit-home-dialog',
@@ -81,7 +82,7 @@ export class EditHomeDialogComponent implements OnInit {
       this.bannerUploadTask = this.upload.uploadFile(imageFile, this.imageBasePath());
       this.bannerPercentageUpload$ = this.bannerUploadTask.percentageChanges();
 
-      this.uploadImage(this.bannerUploadTask, filePath, "bannerImageUrl",content)
+      this.uploadImage(this.bannerUploadTask, filePath, "banner", imageFile.name, content)
         .subscribe();
 
     }
@@ -100,32 +101,31 @@ export class EditHomeDialogComponent implements OnInit {
       this.logoUploadTask = this.upload.uploadFile(imageFile, this.imageBasePath());
       this.logoPercentageUpload$ = this.logoUploadTask.percentageChanges();
 
-      this.uploadImage(this.logoUploadTask, filePath, "logoImageUrl",content)
+      this.uploadImage(this.logoUploadTask, filePath, "logo", imageFile.name, content)
         .subscribe();
 
     }
 
   }
 
-  uploadImage(uploadTask: AngularFireUploadTask, filePath: string, imagePropertyName: string, content: HomePageContent):Observable<any> {
+  uploadImage(uploadTask: AngularFireUploadTask, filePath: string, imageId: string, fileName:string, content: HomePageContent):Observable<any> {
     return uploadTask
       .snapshotChanges()
       .pipe(
         last(),
         tap(() => this.messages.info('Image uploaded, applying it now.')),
         concatMap(() => this.upload.getDownloadUrl(filePath)),
-        concatMap(url => {
+        tap(url => {
 
           const newContent: HomePageContent = deepClone(content);
 
-          newContent[imagePropertyName] = url;
+          newContent[imageId + 'ImageUrl'] = url;
+          newContent[imageId + 'FileName'] = fileName;
 
-          return this.contentDb.savePageContent('home-page', newContent)
-            .pipe(
-              map(() => newContent)
-            );
-        }),
-        tap(content => this.store.dispatch(new HomePageContentUpdated({content})))
+          debugger;
+
+          this.store.dispatch(new HomePageContentUpdated({content:newContent}));
+        })
       );
 
   }
@@ -143,11 +143,29 @@ export class EditHomeDialogComponent implements OnInit {
   }
 
   imageBasePath() {
-    return this.tenant.id + '/content/home';
+    return `${this.tenant.id}/content/home`;
   }
 
-  onLogoDeleted() {
+  onLogoDeleted(content:HomePageContent) {
+
+    this.upload.deleteFile(`${this.tenant.id}/content/home/${content.logoFileName}`)
+      .pipe(
+        map(() => {
+
+          const newContent: HomePageContent = deepClone(content);
+
+          delete newContent.logoImageUrl;
+          delete newContent.logoFileName;
+
+          return newContent;
+        }),
+        tap(content => this.store.dispatch(new HomePageContentUpdated({content}))),
+        tap(() => this.messages.info("Image deleted."))
+      )
+      .subscribe();
 
   }
+
+
 
 }

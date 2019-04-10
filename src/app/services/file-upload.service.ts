@@ -40,4 +40,8 @@ export class FileUploadService {
      return this.storage.ref(filePath).getDownloadURL();
   }
 
+  deleteFile(filePath:string) {
+    return this.storage.ref(filePath).delete();
+  }
+
 }
