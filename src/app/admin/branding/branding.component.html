@@ -9,38 +9,19 @@
 
       <form class="branding-form">
 
-        <div class="color-field">
+        <color-field
+          [color]="primaryColor"
+          label="Brand Primary Color"
+          (colorEdited)="onPrimaryColorChanged($event)">
 
-          <div class="color-sample mat-elevation-z3" [style.background]="primaryColor" (click)="openPrimaryPicker()">
+        </color-field>
 
-            <mat-icon>palette</mat-icon>
+        <color-field
+          [color]="accentColor"
+          label="Brand Accent Color"
+          (colorEdited)="onAccentColorChanged($event)">
 
-          </div>
-
-          <mat-form-field>
-            <mat-label>Brand Primary Color:</mat-label>
-            <input matInput [(colorPicker)]="primaryColor" [(ngModel)]="primaryColor" name="primaryColor" #primaryPicker
-                   cpPosition="bottom" [placeholder]="'Example: ' + primaryColor">
-          </mat-form-field>
-
-        </div>
-
-
-        <div class="color-field">
-
-          <div class="color-sample mat-elevation-z3" [style.background]="accentColor" (click)="openAccentPicker()">
-
-            <mat-icon>palette</mat-icon>
-
-          </div>
-
-          <mat-form-field>
-            <mat-label>Brand Accent Color:</mat-label>
-            <input matInput [(colorPicker)]="accentColor" cpPosition="bottom"  [(ngModel)]="accentColor" name="accentColor" #accentPicker
-                   [placeholder]="'Example: ' + accentColor">
-          </mat-form-field>
-
-        </div>
+        </color-field>
 
       </form>
 

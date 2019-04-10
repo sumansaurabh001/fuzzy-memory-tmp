@@ -1,30 +1,23 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
-import { AdminRoutingModule } from './admin-routing.module';
-import { BrandingComponent } from './branding/branding.component';
+import {ColorFieldComponent} from './color-field/color-field.component';
+import {ColorPickerModule} from 'ngx-color-picker';
+import {AdminRoutingModule} from '../admin/admin-routing.module';
 import {MatButtonModule, MatCardModule, MatIconModule, MatInputModule, MatToolbarModule} from '@angular/material';
 import {FormsModule} from '@angular/forms';
-import {SharedModule} from '../shared/shared.module';
-
-
 
 @NgModule({
   imports: [
     CommonModule,
-    AdminRoutingModule,
-    MatCardModule,
+    ColorPickerModule,
     MatInputModule,
-    MatToolbarModule,
     MatButtonModule,
     MatIconModule,
-    FormsModule,
-    SharedModule
+    FormsModule
   ],
   declarations: [
-    BrandingComponent
-  ]
+    ColorFieldComponent
+  ],
+  exports: [ColorFieldComponent]
 })
-export class AdminModule {
-
-}
+export class SharedModule { }

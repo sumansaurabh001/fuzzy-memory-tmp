@@ -1,0 +1,16 @@
+<div class="color-field">
+
+  <div class="color-sample mat-elevation-z3" [style.background]="color" (click)="onOpen()">
+
+    <mat-icon>palette</mat-icon>
+
+  </div>
+
+  <mat-form-field>
+    <mat-label>{{label}}</mat-label>
+    <input #colorPicker matInput [(colorPicker)]="color" (colorPickerChange)="onColorChanged()"
+           [(ngModel)]="color"
+           cpPosition="bottom" [placeholder]="'Example: ' + color">
+  </mat-form-field>
+
+</div>

@@ -112,6 +112,7 @@ import { LessonsListComponent } from './lessons-list/lessons-list.component';
 import { EditHomeDialogComponent } from './edit-home-dialog/edit-home-dialog.component';
 import { EditableContainerComponent } from './editable-container/editable-container.component';
 import { FileUploadProgressComponent } from './file-upload-progress/file-upload-progress.component';
+import {SharedModule} from './shared/shared.module';
 
 
 @NgModule({
@@ -212,6 +213,7 @@ import { FileUploadProgressComponent } from './file-upload-progress/file-upload-
     AngularFireStorageModule,
 
     QuillModule,
+    SharedModule,
 
     StoreModule.forRoot(reducers, { metaReducers }),
     !environment.production ? StoreDevtoolsModule.instrument() : [],

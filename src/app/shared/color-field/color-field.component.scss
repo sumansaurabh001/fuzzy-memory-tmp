@@ -1,0 +1,18 @@
+.color-field {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+
+.color-sample {
+  display: flex;
+  color: white;
+  justify-content: center;
+  align-items: center;
+  height: 35px;
+  width: 35px;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-right: 20px;
+}

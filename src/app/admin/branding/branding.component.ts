@@ -54,16 +54,13 @@ export class BrandingComponent implements OnInit {
 
   }
 
-
-  openPrimaryPicker() {
-    this.primaryPicker.openDialog();
+  onPrimaryColorChanged(color:string) {
+    this.primaryColor = color;
   }
 
-
-  openAccentPicker() {
-    this.accentPicker.openDialog();
+  onAccentColorChanged(color: string) {
+    this.accentColor = color;
   }
-
 
   saveBrandColors() {
 
@@ -88,7 +85,6 @@ export class BrandingComponent implements OnInit {
 
     this.store.dispatch(new SaveTheme(payload));
   }
-
 
 
 }

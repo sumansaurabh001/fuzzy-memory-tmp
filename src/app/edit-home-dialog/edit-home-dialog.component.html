@@ -6,13 +6,24 @@
 
   <loading></loading>
 
-  <mat-dialog-content [formGroup]="form">
+  <mat-dialog-content>
 
-    <mat-form-field class="edit-title" appearance="standard">
+    <ng-container [formGroup]="form">
 
-      <input matInput placeholder="Edit page title..." formControlName="title">
+      <mat-form-field class="edit-title" appearance="standard">
 
-    </mat-form-field>
+        <input matInput placeholder="Edit page title..." formControlName="title">
+
+      </mat-form-field>
+
+    </ng-container>
+
+    <color-field
+      [color]="titleColor"
+      label="Title Color"
+      (colorEdited)="onTitleColorChanged($event)">
+
+    </color-field>
 
     <div class="image-label">
       Choose logo

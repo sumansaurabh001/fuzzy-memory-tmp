@@ -31,6 +31,8 @@ export class EditHomeDialogComponent implements OnInit {
 
   form: FormGroup;
 
+  titleColor = '#ffffff';
+
   homePageContent$: Observable<HomePageContent>;
 
   editorConfig = minimalEditorConfig;
@@ -185,6 +187,10 @@ export class EditHomeDialogComponent implements OnInit {
 
     this.close();
 
+  }
+
+  onTitleColorChanged(color) {
+    this.titleColor = color;
   }
 
 }
