@@ -65,7 +65,13 @@ export class EditHomeDialogComponent implements OnInit {
     this.homePageContent$ = this.store.pipe(select(selectContent('homePage')));
 
     this.homePageContent$
-      .subscribe(content => this.form.patchValue({title:content.pageTitle}));
+      .subscribe(content => {
+
+        this.titleColor = content.pageTitleColor;
+
+        this.form.patchValue({title:content.pageTitle})
+
+      });
 
   }
 
@@ -182,6 +188,7 @@ export class EditHomeDialogComponent implements OnInit {
     const newContent: HomePageContent = deepClone(content);
 
     newContent.pageTitle = this.form.value.title;
+    newContent.pageTitleColor = this.titleColor;
 
     this.store.dispatch(new HomePageContentUpdated({content:newContent}));
 

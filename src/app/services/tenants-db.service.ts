@@ -79,6 +79,7 @@ export class TenantsDBService {
 
             const defaultHomePageContent: HomePageContent = {
               pageTitle: 'Click the Edit Header Button below to edit this title',
+              pageTitleColor: "#ffffff ",
               benefits: [
                 {
                   title: 'Hover to edit this benefit',

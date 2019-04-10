@@ -107,4 +107,9 @@ export class HomeComponent implements OnInit {
     }
   }
 
+  calculateTitleStyles(content: HomePageContent) {
+      return {
+        color: content.pageTitleColor
+      }
+  }
 }
