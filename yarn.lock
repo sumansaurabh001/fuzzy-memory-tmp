@@ -3048,8 +3048,8 @@ fsevents@^1.2.2:
     node-pre-gyp "^0.10.0"
 
 fsevents@^2.0.1:
-  version "2.0.1"
-  resolved "https://registry.yarnpkg.com/fsevents/-/fsevents-2.0.1.tgz#cdc8dc0145fa4198f4500ec09df35e79e5e52cf7"
+  version "2.0.6"
+  resolved "https://registry.yarnpkg.com/fsevents/-/fsevents-2.0.6.tgz#87b19df0bfb4a1a51d7ddb51b01b5f3bedb40c33"
 
 fstream-ignore@^1.0.5:
   version "1.0.5"

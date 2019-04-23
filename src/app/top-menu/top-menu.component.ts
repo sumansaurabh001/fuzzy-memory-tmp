@@ -1,8 +1,8 @@
 import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
-import {Observable} from 'rxjs';
+import {Observable, combineLatest} from 'rxjs';
 import {select, Store} from '@ngrx/store';
 import {AppState} from '../store';
-import {isLoggedIn, isLoggedOut, userPictureUrl} from '../store/selectors';
+import {arePricingPlansReady, isLoggedIn, isLoggedOut, selectUser, userPictureUrl} from '../store/selectors';
 import {Logout} from '../store/user.actions';
 import {AngularFireAuth} from '@angular/fire/auth';
 import {Router} from '@angular/router';
@@ -11,6 +11,10 @@ import {MessagesService} from '../services/messages.service';
 import {environment} from '../../environments/environment';
 import {TenantService} from '../services/tenant.service';
 import {checkIfPlatformSite, checkIfSingleSignOnPage} from '../common/platform-utils';
+import {map, tap, withLatestFrom} from 'rxjs/operators';
+import {User} from '../models/user.model';
+
+
 
 @Component({
   selector: 'top-menu',
@@ -22,6 +26,9 @@ export class TopMenuComponent implements OnInit {
   isLoggedIn$: Observable<boolean>;
   isLoggedOut$: Observable<boolean>;
   pictureUrl$: Observable<string>;
+  arePricingPlansReady$: Observable<boolean>;
+  user$ : Observable<User>;
+  showSubscription$ : Observable<boolean>;
 
   isPlatformSite:boolean;
   isSingleSignOnPage:boolean;
@@ -45,6 +52,19 @@ export class TopMenuComponent implements OnInit {
     this.isLoggedOut$ = this.store.pipe(select(isLoggedOut));
 
     this.pictureUrl$ = this.store.pipe(select(userPictureUrl));
+
+    this.arePricingPlansReady$ = this.store.pipe(select(arePricingPlansReady));
+
+    this.user$ = this.store
+      .pipe(
+        select(selectUser),
+      );
+
+    this.showSubscription$ =
+      combineLatest(this.tenant.tenantId$, this.user$, this.arePricingPlansReady$)
+      .pipe(
+        map(([tenantId, user, arePricingPlansReady]) => arePricingPlansReady || (user? user.id == tenantId : false) )
+      );
 
   }
 
@@ -78,5 +98,6 @@ export class TopMenuComponent implements OnInit {
     setTimeout(() => window.location.href = reloadUrl, 300)
 
   }
+
 
 }

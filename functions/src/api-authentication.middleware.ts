@@ -34,11 +34,11 @@ export function authenticationMiddleware(req, res, next) {
 
   let idToken;
   if (req.headers.authorization && req.headers.authorization.startsWith('Bearer ')) {
-    console.log('Found "Authorization" header');
+    //console.log('Found "Authorization" header');
     // Read the ID Token from the Authorization header.
     idToken = req.headers.authorization.split('Bearer ')[1];
   } else if(req.cookies) {
-    console.log('Found "__session" cookie');
+    //console.log('Found "__session" cookie');
     // Read the ID Token from cookie.
     idToken = req.cookies.__session;
   } else {
@@ -47,7 +47,7 @@ export function authenticationMiddleware(req, res, next) {
     return;
   }
   auth.verifyIdToken(idToken).then((decodedIdToken) => {
-    console.log('ID Token correctly decoded', decodedIdToken);
+    //console.log('ID Token correctly decoded', decodedIdToken);
     req.user = decodedIdToken;
     return next();
   }).catch((error) => {
