@@ -25,6 +25,7 @@
     "mailgun-js": "^0.22.0",
     "mkdirp-promise": "^5.0.1",
     "node-ffprobe": "^1.2.2",
+    "node-uuid": "^1.4.8",
     "request": "^2.88.0",
     "request-promise": "^4.2.2",
     "shortid": "^2.2.8",

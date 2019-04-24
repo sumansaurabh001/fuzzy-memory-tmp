@@ -22,7 +22,6 @@ import {EditPricingPlanDialogComponent} from '../edit-subscriptions-dialog/edit-
 import {filter, finalize, map, tap} from 'rxjs/operators';
 import {promise} from 'selenium-webdriver';
 import {environment} from '../../environments/environment';
-import {CoursePurchased} from '../store/course.actions';
 import {PaymentsService} from '../services/payments.service';
 import {PlanActivated} from '../store/user.actions';
 import {planNames} from '../common/text';

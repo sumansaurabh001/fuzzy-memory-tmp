@@ -15,6 +15,10 @@ import {filter, map, startWith, tap, withLatestFrom} from 'rxjs/operators';
 import {CollapsibleTriggerComponent} from '../collapsible-trigger/collapsible-trigger.component';
 import {sortSectionsBySeqNo} from '../common/sort-model';
 import {User} from '../models/user.model';
+import {ActivatedRoute} from '@angular/router';
+import {MessagesService} from '../services/messages.service';
+import {CoursePurchased} from '../store/course.actions';
+import {PaymentsService} from '../services/payments.service';
 
 const DESCRIPTION_MAX_LENGTH = 1500;
 
@@ -34,12 +38,15 @@ export class CoursePageComponent implements OnInit {
 
   lessons$: Observable<Lesson[]>;
 
-
-
   showFullDescription = false;
 
 
-  constructor(private store: Store<AppState>, private ub: UrlBuilderService) {
+  constructor(
+    private store: Store<AppState>,
+    private ub: UrlBuilderService,
+    private route:ActivatedRoute,
+    private messages:MessagesService,
+    private payments: PaymentsService) {
 
   }
 
@@ -56,6 +63,26 @@ export class CoursePageComponent implements OnInit {
     this.lessons$ = this.store.pipe(select(selectActiveCourseAllLessons));
 
     this.courseDescription$ = this.selectDescription();
+
+    this.route.queryParamMap.subscribe(params => {
+
+      const purchaseResult = params.get("purchaseResult");
+
+      if (purchaseResult == "success") {
+
+        const ongoingPurchaseSessionId = params.get("ongoingPurchaseSessionId"),
+              courseId = params.get("courseId");
+
+        this.store.dispatch(new CoursePurchased({courseId, ongoingPurchaseSessionId}));
+        this.messages.info('Payment successful, please enjoy the course!');
+
+        window.history.replaceState(null, null, window.location.pathname);
+      }
+      else if (purchaseResult == "failure") {
+        this.messages.error('Payment failed, please check your card balance.');
+      }
+
+    });
 
   }
 

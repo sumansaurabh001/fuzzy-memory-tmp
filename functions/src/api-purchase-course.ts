@@ -1,14 +1,17 @@
 import * as functions from 'firebase-functions';
 import {authenticationMiddleware} from './api-authentication.middleware';
-import {auth, db} from './init';
 import {getDocData} from './utils';
+import {db} from './init';
 
 
 const request = require('request-promise');
 const express = require('express');
 const cors = require('cors');
+const uuidv4 = require('uuid/v4');
 
 const stripeSecretKey = functions.config().stripe.secret_key;
+
+const stripePublicKey = functions.config().stripe.public_key;
 
 const application_fee_percent = functions.config().stripe.application_fee_percent;
 
@@ -29,10 +32,10 @@ app.post('/purchase-course', async (req, res) => {
 
   try {
 
-    const tokenId = req.body.tokenId,
-      courseId = req.body.courseId,
+    const courseId = req.body.courseId,
       userId = req.user.uid,
-      tenantId = req.body.tenantId;
+      tenantId = req.body.tenantId,
+      courseUrl = req.body.courseUrl;
 
     // get the course from the database
     const course = await getDocData(`schools/${tenantId}/courses/${courseId}`);
@@ -44,30 +47,39 @@ app.post('/purchase-course', async (req, res) => {
 
     const tenantConfig = multi_tenant_mode ? {stripe_account: tenant.stripeTenantUserId} : {};
 
-    // charge the end customer on behalf of the tenant and apply fees
-    await stripe.charges.create({
-      amount: priceAmount,
-      currency: 'usd',
-      source: tokenId,
-      application_fee: application_fee_percent / 100 * priceAmount
-    }, tenantConfig);
+    const ongoingPurchaseSessionId = uuidv4();
 
-    // add the course to the user's list of purchased courses
-    const usersPrivatePath = `schools/${tenantId}/usersPrivate/${userId}`;
+    const sessionConfig = {
+      success_url: `${courseUrl}?purchaseResult=success&ongoingPurchaseSessionId=${ongoingPurchaseSessionId}&courseId=${courseId}`,
+      cancel_url: `${courseUrl}?purchaseResult=failed`,
+      payment_method_types: ['card'],
+      line_items: [{
+        currency: 'usd',
+        amount: course.price * 100,
+        quantity:1,
+        name: course.title
+      }],
 
-    let userPrivate = await getDocData(usersPrivatePath);
-
-    if (!userPrivate || !userPrivate.purchasedCourses) {
-      userPrivate = {
-        purchasedCourses: []
+      payment_intent_data: {
+        application_fee_amount: application_fee_percent / 100 * priceAmount
       }
-    }
+    };
 
-    userPrivate.purchasedCourses.push(courseId);
+    // create a checkout session to purchase the course
+    const session = await stripe.checkout.sessions.create(sessionConfig, tenantConfig);
 
-    await db.doc(usersPrivatePath).set(userPrivate, {merge:true});
+    // save the ongoing purchase session
+    const purchaseSessionsPath = `schools/${tenantId}/purchaseSessions/${userId}`;
 
-    res.status(200).json({message: 'Payment processed successfully.'});
+    await db.doc(purchaseSessionsPath).set({ongoingPurchaseSessionId, courseId});
+
+    const stripeSession = {
+      sessionId:session.id,
+      stripePublicKey: stripePublicKey,
+      stripeTenantUserId:tenant.stripeTenantUserId
+    };
+
+    res.status(200).json(stripeSession);
 
   }
   catch (error) {

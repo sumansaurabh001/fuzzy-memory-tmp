@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {environment} from '../../environments/environment';
 import {TenantService} from './tenant.service';
@@ -6,7 +6,8 @@ import {AngularFireAuth} from '@angular/fire/auth';
 import {PricingPlan} from '../models/pricing-plan.model';
 import {Observable} from 'rxjs/Observable';
 import {User} from '../models/user.model';
-
+import {map} from 'rxjs/operators';
+import {StripeSession} from './stripe-session';
 
 
 @Injectable({
@@ -20,18 +21,17 @@ export class PaymentsService {
 
   }
 
-  purchaseCourse(tokenId: string, paymentEmail: string, courseId): Observable<any> {
-
-    return this.http.post(
+  createPurchaseCourseSession(courseId:string, courseUrl:string): Observable<StripeSession> {
+    return this.http.post<StripeSession>(
       environment.api.purchaseCourseUrl,
       {
-        tokenId,
         courseId,
+        courseUrl,
         tenantId: this.tenant.id
       });
   }
 
-  activatePlan(tokenId: string, paymentEmail: string, plan: PricingPlan, oneTimeCharge:boolean): Observable<any> {
+  activatePlan(tokenId: string, paymentEmail: string, plan: PricingPlan, oneTimeCharge: boolean): Observable<any> {
 
     return this.http.post(
       environment.api.stripeActivatePlanUrl,
@@ -43,7 +43,7 @@ export class PaymentsService {
       });
   }
 
-  cancelPlan(user: User, reason:string): Observable<any> {
+  cancelPlan(user: User, reason: string): Observable<any> {
     return this.http.post(
       environment.api.stripeCancelPlanUrl,
       {
@@ -54,6 +54,14 @@ export class PaymentsService {
     );
   }
 
-
-
+  confirmCoursePurchased(ongoingPurchaseSessionId: string, courseId: string) {
+    return this.http.post(
+      environment.api.confirmCoursePurchasedUrl,
+      {
+        ongoingPurchaseSessionId,
+        tenantId: this.tenant.id,
+        courseId
+      }
+    );
+  }
 }

@@ -12,7 +12,8 @@ import {Observable} from 'rxjs/Observable';
 import {isAdmin, selectUser, selectUserCourses} from '../store/selectors';
 import {User} from '../models/user.model';
 
-declare const StripeCheckout;
+
+declare const Stripe;
 
 @Component({
   selector: 'course-action-buttons',
@@ -22,17 +23,15 @@ declare const StripeCheckout;
 export class CourseActionButtonsComponent implements OnInit, OnChanges {
 
   @Input()
-  course:Course;
+  course: Course;
 
-  user:User;
+  user: User;
 
   userCourses: string[] = [];
 
-  showPurchaseButtons:boolean;
+  showPurchaseButtons: boolean;
 
   isAdmin: boolean;
-
-  checkoutHandler: any;
 
   constructor(
     private payments: PaymentsService,
@@ -58,30 +57,6 @@ export class CourseActionButtonsComponent implements OnInit, OnChanges {
         this.updatePurchaseButtonsVisibility();
       });
 
-    this.checkoutHandler = StripeCheckout.configure({
-      key: environment.stripe.stripePublicKey,
-      image: 'https://stripe.com/img/documentation/checkout/marketplace.png',
-      locale: 'auto',
-      token: (token) => {
-
-        const tokenId = token.id,
-              paymentEmail = token.email,
-              purchaseCourse$ = this.payments.purchaseCourse(tokenId, paymentEmail, this.course.id);
-
-        this.loading.showLoaderUntilCompleted(purchaseCourse$)
-          .subscribe(
-            () => {
-              this.store.dispatch(new CoursePurchased({courseId: this.course.id}));
-              this.messages.info('Payment successful, please enjoy the course!');
-            },
-            err => {
-              console.log('Payment failed, reason: ', err);
-              this.messages.error("Payment failed, please check your card balance.");
-            }
-          );
-      }
-    });
-
     this.store.pipe(select(isAdmin))
       .subscribe(isAdmin => {
 
@@ -89,7 +64,7 @@ export class CourseActionButtonsComponent implements OnInit, OnChanges {
 
         this.updatePurchaseButtonsVisibility();
 
-    });
+      });
 
   }
 
@@ -100,12 +75,20 @@ export class CourseActionButtonsComponent implements OnInit, OnChanges {
 
   buyCourse() {
 
-    this.checkoutHandler.open({
-      name: 'Angular University',
-      description:this.course.title,
-      currency: 'usd',
-      amount: this.course.price * 100
-    });
+    const courseUrl =  `${window.location.protocol}//${window.location.host}/courses/${this.course.url}`;
+
+    const purchaseCourseSession$ = this.payments.createPurchaseCourseSession(this.course.id, courseUrl);
+
+    this.loading.showLoaderUntilCompleted(purchaseCourseSession$)
+      .subscribe(session => {
+
+        const stripe = Stripe(session.stripePublicKey, {stripeAccount: session.stripeTenantUserId});
+
+        stripe.redirectToCheckout({
+          sessionId: session.sessionId,
+        });
+
+      });
 
   }
 
@@ -113,7 +96,7 @@ export class CourseActionButtonsComponent implements OnInit, OnChanges {
 
     const userOwnsCourse = this.course && (this.userCourses.includes(this.course.id) || this.user && this.user.pricingPlan);
 
-    this.showPurchaseButtons =  !this.user || (!this.isAdmin && !userOwnsCourse);
+    this.showPurchaseButtons = !this.user || (!this.isAdmin && !userOwnsCourse);
   }
 
 

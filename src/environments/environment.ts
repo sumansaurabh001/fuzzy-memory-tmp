@@ -28,6 +28,8 @@ export const environment = {
     stripeInitPricingPlansUrl: 'https://us-central1-onlinecoursehost-local-dev.cloudfunctions.net/apiStripeInitPricingPlans/init-pricing-plans',
     stripeUpdatePricingPLanUrl: 'https://us-central1-onlinecoursehost-local-dev.cloudfunctions.net/apiStripeUpdatePricingPlan/update-pricing-plan',
     stripeActivatePlanUrl: 'https://us-central1-onlinecoursehost-local-dev.cloudfunctions.net/apiStripeActivatePlan/activate-plan',
-    stripeCancelPlanUrl: 'https://us-central1-onlinecoursehost-local-dev.cloudfunctions.net/apiStripeCancelPlan/cancel-plan'
+    stripeCancelPlanUrl: 'https://us-central1-onlinecoursehost-local-dev.cloudfunctions.net/apiStripeCancelPlan/cancel-plan',
+    stripeCreateSessionUrl: 'https://us-central1-onlinecoursehost-local-dev.cloudfunctions.net/apiStripeCreateSession/create-stripe-session',
+    confirmCoursePurchasedUrl: 'https://us-central1-onlinecoursehost-local-dev.cloudfunctions.net/apiConfirmCoursePurchased/confirm-course-purchased'
   }
 };

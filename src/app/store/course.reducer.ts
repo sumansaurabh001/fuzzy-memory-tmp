@@ -70,7 +70,10 @@ export function coursesReducer(
     case CourseActionTypes.UserCoursesLoaded: {
       return {
         ...state,
-        coursesPurchased: action.payload.purchasedCourses
+        coursesPurchased: [
+          ...state.coursesPurchased,
+          ...action.payload.purchasedCourses
+        ]
       };
     }
 

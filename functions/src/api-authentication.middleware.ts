@@ -20,7 +20,7 @@ import {db, auth} from './init';
 **/
 
 export function authenticationMiddleware(req, res, next) {
-  console.log('Check if request is authorized with Firebase ID token');
+  //console.log('Check if request is authorized with Firebase ID token');
 
   if ((!req.headers.authorization || !req.headers.authorization.startsWith('Bearer ')) &&
     !(req.cookies && req.cookies.__session)) {

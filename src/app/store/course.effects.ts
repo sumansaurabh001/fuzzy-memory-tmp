@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {Actions, Effect, ofType} from '@ngrx/effects';
-import {CourseActionTypes, DeleteCourse, UserCoursesLoaded} from '../store/course.actions';
+import {CourseActionTypes, CoursePurchased, DeleteCourse, UserCoursesLoaded} from '../store/course.actions';
 import {concatMap, catchError, withLatestFrom, filter, map, tap} from 'rxjs/operators';
 import {CoursesDBService} from '../services/courses-db.service';
 import {LoadingService} from '../services/loading.service';
@@ -23,6 +23,7 @@ import {SchoolUsersDbService} from '../services/school-users-db.service';
 import {TenantService} from '../services/tenant.service';
 import {VideoService} from '../services/video.service';
 import {SaveVideoAccess} from './video-access.actions';
+import {PaymentsService} from '../services/payments.service';
 
 
 @Injectable()
@@ -139,6 +140,14 @@ export class CourseEffects {
       })
     );
 
+  @Effect({dispatch:false})
+  purchaseCourse$ = this.actions$
+    .pipe(
+      ofType<CoursePurchased>(CourseActionTypes.CoursePurchased),
+      concatMap(action => this.loading.showLoaderUntilCompleted(this.payments.confirmCoursePurchased(
+        action.payload.ongoingPurchaseSessionId, action.payload.courseId)))
+    );
+
 
   constructor(private actions$: Actions,
               private coursesDB: CoursesDBService,
@@ -149,7 +158,8 @@ export class CourseEffects {
               private afAuth: AngularFireAuth,
               private usersDB: SchoolUsersDbService,
               private tenant: TenantService,
-              private videos: VideoService) {
+              private videos: VideoService,
+              private payments: PaymentsService) {
 
   }
 
