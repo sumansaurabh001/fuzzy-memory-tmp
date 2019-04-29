@@ -53,6 +53,7 @@ app.post('/purchase-course', async (req, res) => {
       success_url: `${courseUrl}?purchaseResult=success&ongoingPurchaseSessionId=${ongoingPurchaseSessionId}&courseId=${courseId}`,
       cancel_url: `${courseUrl}?purchaseResult=failed`,
       payment_method_types: ['card'],
+      client_reference_id: ongoingPurchaseSessionId + "|" + tenantId,
       line_items: [{
         currency: 'usd',
         amount: course.price * 100,
@@ -69,14 +70,19 @@ app.post('/purchase-course', async (req, res) => {
     const session = await stripe.checkout.sessions.create(sessionConfig, tenantConfig);
 
     // save the ongoing purchase session
-    const purchaseSessionsPath = `schools/${tenantId}/purchaseSessions/${userId}`;
+    const purchaseSessionsPath = `schools/${tenantId}/purchaseSessions/${ongoingPurchaseSessionId}`;
 
-    await db.doc(purchaseSessionsPath).set({ongoingPurchaseSessionId, courseId});
+    await db.doc(purchaseSessionsPath).set({
+      courseId,
+      userId,
+      status: 'ongoing'
+    });
 
     const stripeSession = {
       sessionId:session.id,
       stripePublicKey: stripePublicKey,
-      stripeTenantUserId:tenant.stripeTenantUserId
+      stripeTenantUserId:tenant.stripeTenantUserId,
+      ongoingPurchaseSessionId
     };
 
     res.status(200).json(stripeSession);

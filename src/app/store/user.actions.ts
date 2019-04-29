@@ -39,7 +39,7 @@ export class UserLoaded implements Action {
 export class PlanActivated implements Action {
   readonly type = UserActionTypes.PlanActivated;
 
-  constructor(public payload: {selectedPlan: PricingPlan, user: Partial<User>}) {}
+  constructor(public payload: {selectedPlan: string, user: Partial<User>}) {}
 }
 
 

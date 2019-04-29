@@ -2,6 +2,7 @@ import * as functions from 'firebase-functions';
 import {authenticationMiddleware} from './api-authentication.middleware';
 import {auth, db} from './init';
 import {getDocData} from './utils';
+const uuidv4 = require('uuid/v4');
 
 const express = require('express');
 const cors = require('cors');
@@ -9,6 +10,8 @@ const cors = require('cors');
 const firebase = require('firebase-admin');
 
 const stripeSecretKey = functions.config().stripe.secret_key;
+
+const stripePublicKey = functions.config().stripe.public_key;
 
 const application_fee_percent = functions.config().stripe.application_fee_percent;
 
@@ -26,11 +29,11 @@ app.use(authenticationMiddleware);
 
 
 interface ReqInfo {
-  tokenId: string;
   plan: any;
   userId: string;
   tenantId: string;
   oneTimeCharge: boolean;
+  subscriptionUrl:string;
   tenant?: any;
   user?: any;
 }
@@ -40,11 +43,11 @@ app.post('/activate-plan', async (req, res) => {
   try {
 
     const reqInfo: ReqInfo = {
-      tokenId: req.body.tokenId,
       plan: req.body.plan,
       userId: req.user.uid,
       tenantId: req.body.tenantId,
-      oneTimeCharge: req.body.oneTimeCharge
+      oneTimeCharge: req.body.oneTimeCharge,
+      subscriptionUrl: req.body.subscriptionUrl
     };
 
     // get the tenant from the database
@@ -58,108 +61,68 @@ app.post('/activate-plan', async (req, res) => {
     reqInfo.tenant = tenant;
     reqInfo.user = user;
 
-    let response;
+    const tenantConfig = multi_tenant_mode ? {stripe_account: reqInfo.tenant.stripeTenantUserId} : {};
+
+    const ongoingPurchaseSessionId = uuidv4();
+
+    let sessionConfig:any = {
+      success_url: `${reqInfo.subscriptionUrl}?purchaseResult=success&ongoingPurchaseSessionId=${ongoingPurchaseSessionId}`,
+      cancel_url: `${reqInfo.subscriptionUrl}?purchaseResult=failed`,
+      payment_method_types: ['card'],
+      client_reference_id: ongoingPurchaseSessionId + "|" + reqInfo.tenantId
+    };
 
     if (reqInfo.oneTimeCharge) {
-      response = await activateOneTimeChargePlan(reqInfo);
-    }
-    else {
-      response = await activateRecurringPlan(reqInfo);
+      sessionConfig = {
+        ...sessionConfig,
+        line_items: [{
+          currency: 'usd',
+          amount: reqInfo.plan.price * 100,
+          quantity:1,
+          name: reqInfo.plan.description
+        }],
+        payment_intent_data: {
+          application_fee_amount: application_fee_percent  * reqInfo.plan.price
+        }
+      }
+    } else {
+      sessionConfig = {
+        ...sessionConfig,
+        subscription_data: {
+          items: [{plan: reqInfo.plan.stripePlanId}]
+        }
+      }
     }
 
-    res.status(200).json(response);
+    // create a checkout session
+    const session = await stripe.checkout.sessions.create(sessionConfig, tenantConfig);
 
-  }
-  catch (error) {
+    console.log("Created plan activation session: ", JSON.stringify(session));
+
+    // save the ongoing purchase session
+    const purchaseSessionsPath = `schools/${reqInfo.tenantId}/purchaseSessions/${ongoingPurchaseSessionId}`;
+
+    await db.doc(purchaseSessionsPath).set({
+      plan: reqInfo.plan.frequency,
+      userId: reqInfo.userId,
+      status: 'ongoing'
+    });
+
+    const stripeSession = {
+      sessionId:session.id,
+      stripePublicKey: stripePublicKey,
+      stripeTenantUserId:reqInfo.tenant.stripeTenantUserId,
+      ongoingPurchaseSessionId
+    };
+
+    res.status(200).json(stripeSession);
+
+  } catch (error) {
     console.log('Unexpected error occurred while creating subscription: ', error);
     res.status(500).json({error});
   }
 
 });
 
-async function activateRecurringPlan(reqInfo: ReqInfo) {
-
-  const tenantConfig = multi_tenant_mode ? {stripe_account: reqInfo.tenant.stripeTenantUserId} : {};
-
-  const userPrivatePath = `schools/${reqInfo.tenantId}/usersPrivate/${reqInfo.userId}`;
-
-  const userPrivate = await getDocData(userPrivatePath);
-
-  let stripeCustomerId = userPrivate ? userPrivate.stripeCustomerId : null;
-
-  // in case of a reactivation, reuse the same Stripe customer
-  if (!stripeCustomerId) {
-    // create the stripe customer
-    const customer = await stripe.customers.create({
-      source: reqInfo.tokenId,
-      email: reqInfo.user.email
-    }, tenantConfig);
-
-    stripeCustomerId = customer.id;
-
-    console.log('Created Stripe customer ' + customer.id);
-  }
-
-  // create the stripe subscription
-  const subscription = await stripe.subscriptions.create({
-    customer: stripeCustomerId,
-    items: [
-      {
-        plan: reqInfo.plan.stripePlanId,
-      },
-    ],
-    application_fee_percent
-  }, tenantConfig);
-
-  console.log('Created Stripe subscription: ' + subscription.id);
-
-  const response = {
-    planActivatedAt: subscription.created * 1000
-  };
-
-  await db.doc(userPrivatePath).set({
-      stripeCustomerId,
-      stripeSubscriptionId: subscription.id,
-      planEndsAt: null,
-      pricingPlan: reqInfo.plan.frequency,
-      planActivatedAt: firebase.firestore.Timestamp.fromMillis(response.planActivatedAt)
-    },
-    {merge: true});
-
-  return response;
-}
-
-
-async function activateOneTimeChargePlan(reqInfo: ReqInfo) {
-
-  const tenantConfig = multi_tenant_mode ? {stripe_account: reqInfo.tenant.stripeTenantUserId} : {};
-
-  await stripe.charges.create({
-    amount: reqInfo.plan.price,
-    currency: 'usd',
-    source: reqInfo.tokenId,
-    application_fee: application_fee_percent / 100 * reqInfo.plan.price
-  },
-    tenantConfig);
-
-  console.log('Created Stripe one-time plan: ' + reqInfo.plan.frequency);
-
-  const userPrivatePath = `schools/${reqInfo.tenantId}/usersPrivate/${reqInfo.userId}`;
-
-  const response = {
-    pricingPlan: reqInfo.plan.frequency,
-    planEndsAt: null
-  };
-
-  await db.doc(userPrivatePath).set(response, {merge: true});
-
-
-  return response;
-
-}
-
-
 export const apiStripeActivatePlan = functions.https.onRequest(app);
-
-
 

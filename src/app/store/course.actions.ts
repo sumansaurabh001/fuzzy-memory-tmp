@@ -110,7 +110,7 @@ export class ClearCourses implements Action {
 export class CoursePurchased implements Action {
   readonly type = CourseActionTypes.CoursePurchased;
 
-  constructor(public payload: {courseId:string, ongoingPurchaseSessionId:string}) {}
+  constructor(public payload: {courseId:string}) {}
 }
 
 export class UserCoursesLoaded implements Action {

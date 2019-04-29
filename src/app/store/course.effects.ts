@@ -140,14 +140,6 @@ export class CourseEffects {
       })
     );
 
-  @Effect({dispatch:false})
-  purchaseCourse$ = this.actions$
-    .pipe(
-      ofType<CoursePurchased>(CourseActionTypes.CoursePurchased),
-      concatMap(action => this.loading.showLoaderUntilCompleted(this.payments.confirmCoursePurchased(
-        action.payload.ongoingPurchaseSessionId, action.payload.courseId)))
-    );
-
 
   constructor(private actions$: Actions,
               private coursesDB: CoursesDBService,

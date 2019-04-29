@@ -22,4 +22,4 @@ export {apiStripeActivatePlan} from './api-activate-plan';
 
 export {apiStripeCancelPlan} from './api-cancel-plan';
 
-export {apiConfirmCoursePurchased} from './api-confirm-course-purchased';
+export {apiStripeFulfillmentWebhook} from './api-stripe-fulfillment-webhook';

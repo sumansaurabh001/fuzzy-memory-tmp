@@ -133,6 +133,16 @@ service cloud.firestore {
 
     }
 
+    match /schools/{tenantId}/purchaseSessions/{purchaseSessionId}  {
+
+        // all sessions are public info
+        allow read: if true;
+
+        // only cloud functions can modify this data
+        allow write, delete: if false;
+
+    }
+
   }
 
 }

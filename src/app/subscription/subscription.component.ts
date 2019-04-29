@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Observable} from 'rxjs/Observable';
 import {AppState} from '../store';
 import {select, Store} from '@ngrx/store';
@@ -16,17 +16,17 @@ import {PricingPlansLoaded} from '../store/pricing-plans.actions';
 import {MessagesService} from '../services/messages.service';
 import {LoadingService} from '../services/loading.service';
 import {PricingPlansState} from '../store/pricing-plans.reducer';
-import {MatDialog, MatDialogConfig} from '@angular/material';
+import {MatDialog, MatDialogConfig, MatDialogRef} from '@angular/material';
 import {PricingPlan} from '../models/pricing-plan.model';
 import {EditPricingPlanDialogComponent} from '../edit-subscriptions-dialog/edit-pricing-plan-dialog.component';
-import {filter, finalize, map, tap} from 'rxjs/operators';
+import {filter, finalize, map, tap, withLatestFrom} from 'rxjs/operators';
 import {promise} from 'selenium-webdriver';
 import {environment} from '../../environments/environment';
 import {PaymentsService} from '../services/payments.service';
 import {PlanActivated} from '../store/user.actions';
 import {planNames} from '../common/text';
 
-import * as firebase from "firebase/app";
+import * as firebase from 'firebase/app';
 import {UserPermissions} from '../models/user-permissions.model';
 import {isUserPlanCanceled, isUserPlanStillValid, User} from '../models/user.model';
 import {GetSubscriptionContent, SubscriptionContentUpdated} from '../store/content.actions';
@@ -34,8 +34,12 @@ import {SubscriptionContent} from '../models/content/subscription-content.model'
 import {selectContent} from '../store/content.selectors';
 import {EditHtmlDialogComponent} from '../edit-html-dialog/edit-html-dialog.component';
 import {ContentDbService} from '../services/content-db.service';
+import {ActivatedRoute} from '@angular/router';
+import {LoadingDialogComponent} from '../loading-dialog/loading-dialog.component';
+import {PurchasesService} from '../services/purchases.service';
 
-declare const StripeCheckout;
+
+declare const Stripe;
 
 @Component({
   selector: 'subscription',
@@ -52,11 +56,9 @@ export class SubscriptionComponent implements OnInit {
   plans$: Observable<PricingPlansState>;
   userPermissions$: Observable<UserPermissions>;
   user$: Observable<User>;
-  subscriptionContent$:Observable<SubscriptionContent>;
+  subscriptionContent$: Observable<SubscriptionContent>;
 
   showConnectToStripe = false;
-
-  checkoutHandler: any;
 
   selectedPlan: PricingPlan = null;
 
@@ -66,6 +68,8 @@ export class SubscriptionComponent implements OnInit {
     lifetimePlan: 'Edit Lifetime Plan'
   };
 
+  waitingDialogRef: MatDialogRef<LoadingDialogComponent>;
+
   constructor(
     private store: Store<AppState>,
     private fb: FormBuilder,
@@ -73,7 +77,9 @@ export class SubscriptionComponent implements OnInit {
     private messages: MessagesService,
     private loading: LoadingService,
     private payments: PaymentsService,
-    private dialog: MatDialog) {
+    private dialog: MatDialog,
+    private route: ActivatedRoute,
+    private purchases: PurchasesService) {
 
     this.form = this.fb.group({
       monthlyPlanDescription: ['', Validators.required],
@@ -84,7 +90,6 @@ export class SubscriptionComponent implements OnInit {
     });
 
   }
-
 
 
   ngOnInit() {
@@ -105,45 +110,27 @@ export class SubscriptionComponent implements OnInit {
 
     this.arePricingPlansReady$ = this.store.pipe(select(arePricingPlansReady));
 
-    this.checkoutHandler = StripeCheckout.configure({
-      key: environment.stripe.stripePublicKey,
-      image: 'https://stripe.com/img/documentation/checkout/marketplace.png',
-      locale: 'auto',
-      token: (token) => {
-
-        const tokenId = token.id,
-          paymentEmail = token.email,
-          oneTimeCharge = this.selectedPlan.frequency == 'lifetime';
-
-        let buyPlan$ = this.payments.activatePlan(tokenId, paymentEmail, this.selectedPlan, oneTimeCharge);
-
-        this.loading.showLoaderUntilCompleted(buyPlan$)
-          .pipe(finalize(() => this.selectedPlan = null))
-          .subscribe(
-            (response) => {
-              this.store.dispatch(new PlanActivated({
-                selectedPlan: this.selectedPlan,
-                user: {
-                  planActivatedAt: firebase.firestore.Timestamp.fromMillis(response.planActivatedAt),
-                  planEndsAt: null
-                }
-              })
-            );
-              this.messages.info('Payment successful, you now have access to all courses!');
-            },
-            err => {
-              console.log('Payment failed, reason: ', err);
-              this.messages.error("Payment failed, please check your card balance.");
-            }
-          );
-      }
-    });
-
     this.userPermissions$ = this.store.pipe(select(selectUserPermissions));
 
     this.user$ = this.store.pipe(select(selectUser));
 
-    this.subscriptionContent$ = this.store.pipe(select(selectContent("subscription")));
+    this.subscriptionContent$ = this.store.pipe(select(selectContent('subscription')));
+
+
+    this.route.queryParamMap.subscribe(params => {
+
+      const purchaseResult = params.get('purchaseResult'),
+           ongoingPurchaseSessionId = params.get("ongoingPurchaseSessionId");
+
+      window.history.replaceState(null, null, window.location.pathname);
+
+      if (purchaseResult == 'success') {
+        this.processPurchaseCompletion(ongoingPurchaseSessionId);
+      } else if (purchaseResult == 'failure') {
+        this.messages.error('Payment failed, please check your card balance.');
+      }
+
+    });
 
   }
 
@@ -168,7 +155,7 @@ export class SubscriptionComponent implements OnInit {
 
   }
 
-  editPlan(allPlans: PricingPlansState, planName: string, editPlanName:boolean, editUndiscountedPrice: boolean, updateStripePlan:boolean) {
+  editPlan(allPlans: PricingPlansState, planName: string, editPlanName: boolean, editUndiscountedPrice: boolean, updateStripePlan: boolean) {
 
     const dialogConfig = new MatDialogConfig();
 
@@ -190,7 +177,7 @@ export class SubscriptionComponent implements OnInit {
       .subscribe(
         newPlan => {
           if (newPlan) {
-            this.messages.info("Pricing plan updated successfully.");
+            this.messages.info('Pricing plan updated successfully.');
           }
         }
       );
@@ -199,66 +186,77 @@ export class SubscriptionComponent implements OnInit {
   activateSubscription(plan: PricingPlan, userPermissions: UserPermissions) {
 
     if (userPermissions.isAdmin) {
-      this.messages.info("Students will be able to subscribe using this button.");
+      this.messages.info('Students will be able to subscribe using this button.');
       return;
     }
 
     this.selectedPlan = plan;
 
-    const description = planNames[plan.frequency];
+    const oneTimeCharge = this.selectedPlan.frequency == 'lifetime',
+      subscriptionUrl = `${window.location.protocol}//${window.location.host}/subscription`;
 
-    this.checkoutHandler.open({
-      name: 'Angular University',
-      description,
-      currency: 'usd',
-      amount: plan.price
-    });
+    let buyPlan$ = this.payments.createActivatePlanSession(this.selectedPlan, oneTimeCharge, subscriptionUrl);
+
+    this.loading.showLoaderUntilCompleted(buyPlan$)
+      .subscribe(session => {
+
+          const stripe = Stripe(session.stripePublicKey, {stripeAccount: session.stripeTenantUserId});
+
+          stripe.redirectToCheckout({
+            sessionId: session.sessionId
+          });
+
+        },
+        err => {
+          console.log('Error creating subscription session:', err);
+          this.messages.error('Could not create subscription, please contact support.');
+        });
 
   }
 
-  monthlyPlanButtonText(user:User) {
-    if (user.pricingPlan == "month" && !isUserPlanCanceled(user)) {
-      return "Already Subscribed";
+  monthlyPlanButtonText(user: User) {
+    if (user.pricingPlan == 'month' && !isUserPlanCanceled(user)) {
+      return 'Already Subscribed';
     }
     if (user.pricingPlan == 'year' && !isUserPlanCanceled(user)) {
-      return "Subscribed to Yearly"
+      return 'Subscribed to Yearly';
     }
 
     if (user.pricingPlan == 'lifetime') {
-      return "Subscribed to Lifetime";
+      return 'Subscribed to Lifetime';
     }
 
-    return "Access All Courses";
+    return 'Access All Courses';
   }
 
-  yearlyPlanButtonText(user:User) {
-    if (user.pricingPlan == "month" && !isUserPlanCanceled(user)) {
-      return "Upgrade to Yearly";
+  yearlyPlanButtonText(user: User) {
+    if (user.pricingPlan == 'month' && !isUserPlanCanceled(user)) {
+      return 'Upgrade to Yearly';
     }
     if (user.pricingPlan == 'year' && !isUserPlanCanceled(user)) {
-      return "Already Subscribed"
+      return 'Already Subscribed';
     }
 
     if (user.pricingPlan == 'lifetime') {
-      return "Subscribed to Lifetime";
+      return 'Subscribed to Lifetime';
     }
 
-    return "Access All Courses";
+    return 'Access All Courses';
   }
 
-  lifetimePlanButtonText(user:User) {
-    if (user.pricingPlan == "month" && !isUserPlanCanceled(user)) {
-      return "Upgrade to Lifetime";
+  lifetimePlanButtonText(user: User) {
+    if (user.pricingPlan == 'month' && !isUserPlanCanceled(user)) {
+      return 'Upgrade to Lifetime';
     }
     if (user.pricingPlan == 'year' && !isUserPlanCanceled(user)) {
-      return "Upgrade to Lifetime"
+      return 'Upgrade to Lifetime';
     }
 
     if (user.pricingPlan == 'lifetime') {
-      return "Already Subscribed";
+      return 'Already Subscribed';
     }
 
-    return "Access All Courses";
+    return 'Access All Courses';
   }
 
 
@@ -268,7 +266,7 @@ export class SubscriptionComponent implements OnInit {
 
 
   isYearlyButtonActive(user: User) {
-    if (user.pricingPlan == "month") {
+    if (user.pricingPlan == 'month') {
       return true;
     }
     if (user.pricingPlan == 'year' && !isUserPlanCanceled(user)) {
@@ -282,7 +280,7 @@ export class SubscriptionComponent implements OnInit {
 
 
   isLifetimeButtonActive(user: User) {
-    if (user.pricingPlan == "month") {
+    if (user.pricingPlan == 'month') {
       return true;
     }
     if (user.pricingPlan == 'year') {
@@ -295,16 +293,79 @@ export class SubscriptionComponent implements OnInit {
     return true;
   }
 
-  calculateYearlyDiscount(plans:PricingPlansState) {
+  calculateYearlyDiscount(plans: PricingPlansState) {
     const unDiscountedYearlyPrice = plans.monthlyPlan.price * 12;
     return (unDiscountedYearlyPrice - plans.yearlyPlan.price) / unDiscountedYearlyPrice;
 
   }
 
 
-  onContentEdited(content:SubscriptionContent) {
+  onContentEdited(content: SubscriptionContent) {
     this.store.dispatch(new SubscriptionContentUpdated({content}));
   }
+
+  processPurchaseCompletion(ongoingPurchaseSessionId:string) {
+
+
+    this.purchases.waitForPurchaseCompletion(ongoingPurchaseSessionId)
+      .pipe(
+        withLatestFrom(this.plans$)
+      )
+      .subscribe( ([purchaseSession, plans]) => {
+
+          if (!purchaseSession) {
+            return;
+          }
+
+          if (purchaseSession.status == 'ongoing' && !this.waitingDialogRef) {
+
+            // prevents ExpressionChangedAfterItHasBeenCheckedError, it looks like Material dialogs currently cannot be opened when the page is refreshed
+            setTimeout(() => {
+
+              const dialogConfig = new MatDialogConfig();
+
+              dialogConfig.autoFocus = true;
+              dialogConfig.disableClose = true;
+              dialogConfig.minWidth = '450px';
+              dialogConfig.minHeight = '200px';
+              dialogConfig.data = {message: 'Purchase ongoing, please wait ...'};
+
+              this.waitingDialogRef = this.dialog.open(LoadingDialogComponent, dialogConfig);
+
+            });
+
+          }
+          else if (purchaseSession.status == 'completed' && this.waitingDialogRef) {
+
+            this.waitingDialogRef.close();
+
+            this.store.dispatch(new PlanActivated({
+                selectedPlan: purchaseSession.plan,
+                user: {
+                  planActivatedAt: firebase.firestore.Timestamp.fromMillis(new Date().getTime()),
+                  planEndsAt: null
+                }
+              })
+            );
+
+            this.confirmSubscriptionMessage();
+
+          }
+          else if (purchaseSession.status == 'completed' && !this.waitingDialogRef) {
+            this.confirmSubscriptionMessage();
+          }
+
+        });
+
+
+
+
+  }
+
+  confirmSubscriptionMessage() {
+    this.messages.info("Subscription activated, you now have access to all courses!");
+  }
+
 
 }
 

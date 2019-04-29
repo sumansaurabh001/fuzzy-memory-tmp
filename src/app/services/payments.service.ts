@@ -31,13 +31,12 @@ export class PaymentsService {
       });
   }
 
-  activatePlan(tokenId: string, paymentEmail: string, plan: PricingPlan, oneTimeCharge: boolean): Observable<any> {
-
-    return this.http.post(
+  createActivatePlanSession(plan: PricingPlan, oneTimeCharge: boolean, subscriptionUrl:string): Observable<StripeSession> {
+    return this.http.post<StripeSession>(
       environment.api.stripeActivatePlanUrl,
       {
-        tokenId,
         plan,
+        subscriptionUrl,
         tenantId: this.tenant.id,
         oneTimeCharge
       });
@@ -54,14 +53,5 @@ export class PaymentsService {
     );
   }
 
-  confirmCoursePurchased(ongoingPurchaseSessionId: string, courseId: string) {
-    return this.http.post(
-      environment.api.confirmCoursePurchasedUrl,
-      {
-        ongoingPurchaseSessionId,
-        tenantId: this.tenant.id,
-        courseId
-      }
-    );
-  }
+
 }

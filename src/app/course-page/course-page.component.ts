@@ -73,10 +73,20 @@ export class CoursePageComponent implements OnInit {
         const ongoingPurchaseSessionId = params.get("ongoingPurchaseSessionId"),
               courseId = params.get("courseId");
 
-        this.store.dispatch(new CoursePurchased({courseId, ongoingPurchaseSessionId}));
+        window.history.replaceState(null, null, window.location.pathname);
+
+
+        //TODO - apply same solution as in purchasing subscription
+
+        this.store.dispatch(new CoursePurchased({courseId}));
         this.messages.info('Payment successful, please enjoy the course!');
 
-        window.history.replaceState(null, null, window.location.pathname);
+
+
+
+
+
+
       }
       else if (purchaseResult == "failure") {
         this.messages.error('Payment failed, please check your card balance.');
