@@ -68,8 +68,6 @@ export class SubscriptionComponent implements OnInit {
     lifetimePlan: 'Edit Lifetime Plan'
   };
 
-  waitingDialogRef: MatDialogRef<LoadingDialogComponent>;
-
   constructor(
     private store: Store<AppState>,
     private fb: FormBuilder,
@@ -120,7 +118,7 @@ export class SubscriptionComponent implements OnInit {
     this.route.queryParamMap.subscribe(params => {
 
       const purchaseResult = params.get('purchaseResult'),
-           ongoingPurchaseSessionId = params.get("ongoingPurchaseSessionId");
+        ongoingPurchaseSessionId = params.get('ongoingPurchaseSessionId');
 
       window.history.replaceState(null, null, window.location.pathname);
 
@@ -304,68 +302,25 @@ export class SubscriptionComponent implements OnInit {
     this.store.dispatch(new SubscriptionContentUpdated({content}));
   }
 
-  processPurchaseCompletion(ongoingPurchaseSessionId:string) {
+  processPurchaseCompletion(ongoingPurchaseSessionId: string) {
 
+    this.purchases.waitForPurchaseCompletion(
+      ongoingPurchaseSessionId,
+      'Subscription activated, you now have access to all courses!')
+      .subscribe(purchaseSession => {
 
-    this.purchases.waitForPurchaseCompletion(ongoingPurchaseSessionId)
-      .pipe(
-        withLatestFrom(this.plans$)
-      )
-      .subscribe( ([purchaseSession, plans]) => {
+        this.store.dispatch(new PlanActivated({
+            selectedPlan: purchaseSession.plan,
+            user: {
+              planActivatedAt: firebase.firestore.Timestamp.fromMillis(new Date().getTime()),
+              planEndsAt: null
+            }
+          })
+        );
 
-          if (!purchaseSession) {
-            return;
-          }
-
-          if (purchaseSession.status == 'ongoing' && !this.waitingDialogRef) {
-
-            // prevents ExpressionChangedAfterItHasBeenCheckedError, it looks like Material dialogs currently cannot be opened when the page is refreshed
-            setTimeout(() => {
-
-              const dialogConfig = new MatDialogConfig();
-
-              dialogConfig.autoFocus = true;
-              dialogConfig.disableClose = true;
-              dialogConfig.minWidth = '450px';
-              dialogConfig.minHeight = '200px';
-              dialogConfig.data = {message: 'Purchase ongoing, please wait ...'};
-
-              this.waitingDialogRef = this.dialog.open(LoadingDialogComponent, dialogConfig);
-
-            });
-
-          }
-          else if (purchaseSession.status == 'completed' && this.waitingDialogRef) {
-
-            this.waitingDialogRef.close();
-
-            this.store.dispatch(new PlanActivated({
-                selectedPlan: purchaseSession.plan,
-                user: {
-                  planActivatedAt: firebase.firestore.Timestamp.fromMillis(new Date().getTime()),
-                  planEndsAt: null
-                }
-              })
-            );
-
-            this.confirmSubscriptionMessage();
-
-          }
-          else if (purchaseSession.status == 'completed' && !this.waitingDialogRef) {
-            this.confirmSubscriptionMessage();
-          }
-
-        });
-
-
-
+      });
 
   }
-
-  confirmSubscriptionMessage() {
-    this.messages.info("Subscription activated, you now have access to all courses!");
-  }
-
 
 }
 

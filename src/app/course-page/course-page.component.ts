@@ -19,6 +19,9 @@ import {ActivatedRoute} from '@angular/router';
 import {MessagesService} from '../services/messages.service';
 import {CoursePurchased} from '../store/course.actions';
 import {PaymentsService} from '../services/payments.service';
+import {PlanActivated} from '../store/user.actions';
+import * as firebase from '../subscription/subscription.component';
+import {PurchasesService} from '../services/purchases.service';
 
 const DESCRIPTION_MAX_LENGTH = 1500;
 
@@ -46,7 +49,7 @@ export class CoursePageComponent implements OnInit {
     private ub: UrlBuilderService,
     private route:ActivatedRoute,
     private messages:MessagesService,
-    private payments: PaymentsService) {
+    private purchases: PurchasesService) {
 
   }
 
@@ -75,18 +78,11 @@ export class CoursePageComponent implements OnInit {
 
         window.history.replaceState(null, null, window.location.pathname);
 
-
-        //TODO - apply same solution as in purchasing subscription
-
-        this.store.dispatch(new CoursePurchased({courseId}));
-        this.messages.info('Payment successful, please enjoy the course!');
-
-
-
-
-
-
-
+        if (purchaseResult == 'success') {
+          this.processPurchaseCompletion(ongoingPurchaseSessionId);
+        } else if (purchaseResult == 'failure') {
+          this.messages.error('Payment failed, please check your card balance.');
+        }
       }
       else if (purchaseResult == "failure") {
         this.messages.error('Payment failed, please check your card balance.');
@@ -116,6 +112,19 @@ export class CoursePageComponent implements OnInit {
   toggleShowMore() {
     this.showFullDescription = true;
     this.courseDescription$ = this.selectDescription();
+
+  }
+
+  processPurchaseCompletion(ongoingPurchaseSessionId:string) {
+
+    this.purchases.waitForPurchaseCompletion(
+      ongoingPurchaseSessionId,
+      'Payment successful, please enjoy the course!')
+      .subscribe(purchaseSession => {
+
+        this.store.dispatch(new CoursePurchased({courseId: purchaseSession.courseId}));
+
+      });
 
   }
 
