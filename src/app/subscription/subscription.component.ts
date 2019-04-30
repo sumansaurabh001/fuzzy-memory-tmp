@@ -314,17 +314,11 @@ export class SubscriptionComponent implements OnInit {
         concatMap(([purchaseSession, user]) => {
           // if the user upgraded to Lifetime, cancel the existing pricing plan in the background
           if (purchaseSession.plan == 'lifetime') {
-
-            debugger;
-
             return this.payments.cancelPlan(user, "Upgraded to Lifetime").pipe(map(() => [purchaseSession, user]));
           }
           else return of([purchaseSession, user]);
         }),
         tap(([purchaseSession]: [PurchaseSession]) => {
-
-          debugger;
-
           this.store.dispatch(new PlanActivated({
               selectedPlan: purchaseSession.plan,
               user: {

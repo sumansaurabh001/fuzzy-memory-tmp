@@ -1,6 +1,7 @@
 import * as functions from 'firebase-functions';
 import {getDocData} from './utils';
 import {db} from './init';
+import {keepEndpointAliveMiddleware} from './keep-endpoint-alive-middleware';
 
 const firebase = require('firebase-admin');
 
@@ -14,6 +15,8 @@ const endpointSecret = functions.config().stripe.webhook_secret;
 const express = require('express');
 
 const app = express();
+
+app.use(keepEndpointAliveMiddleware);
 
 interface ReqInfo {
   ongoingPurchaseSessionId:string;

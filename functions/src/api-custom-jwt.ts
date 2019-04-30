@@ -1,6 +1,7 @@
 import * as functions from 'firebase-functions';
 import {authenticationMiddleware} from './api-authentication.middleware';
 import {auth, db} from './init';
+import {keepEndpointAliveMiddleware} from './keep-endpoint-alive-middleware';
 
 const request = require('request-promise');
 const express = require('express');
@@ -10,6 +11,8 @@ const app = express();
 
 // Automatically allow cross-origin requests
 app.use(cors({ origin: true }));
+
+app.use(keepEndpointAliveMiddleware);
 
 // only a signed-in user can create custom JWT tokens
 app.use(authenticationMiddleware);

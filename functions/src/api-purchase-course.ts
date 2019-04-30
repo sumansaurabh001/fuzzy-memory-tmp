@@ -2,6 +2,7 @@ import * as functions from 'firebase-functions';
 import {authenticationMiddleware} from './api-authentication.middleware';
 import {getDocData} from './utils';
 import {db} from './init';
+import {keepEndpointAliveMiddleware} from './keep-endpoint-alive-middleware';
 
 
 const request = require('request-promise');
@@ -23,6 +24,8 @@ const app = express();
 
 // Automatically allow cross-origin requests
 app.use(cors({origin: true}));
+
+app.use(keepEndpointAliveMiddleware);
 
 // only a signed-in user can purchase courses
 app.use(authenticationMiddleware);

@@ -7,11 +7,14 @@ const express = require('express');
 const cors = require('cors');
 const firebase = require('firebase-admin');
 import * as dayjs from "dayjs";
+import {keepEndpointAliveMiddleware} from './keep-endpoint-alive-middleware';
 
 const app = express();
 
 // Automatically allow cross-origin requests
 app.use(cors({origin: true}));
+
+app.use(keepEndpointAliveMiddleware);
 
 // retrieve the user info from the request, if available
 app.use(getUserMiddleware);
