@@ -46,6 +46,8 @@ app.post('/cancel-plan', async (req, res) => {
 
     const tenantConfig = multi_tenant_mode ? {stripe_account: tenantSettings.stripeTenantUserId} : {};
 
+    console.log("cancelling plan of user:", JSON.stringify(userPrivate));
+
     // cancel the Stripe pricing plan
     const result = await stripe.subscriptions.update(
       userPrivate.stripeSubscriptionId,

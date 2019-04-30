@@ -56,7 +56,9 @@ app.post('/activate-plan', async (req, res) => {
 
     // get the user from the database
     const userPath = `schools/${reqInfo.tenantId}/users/${reqInfo.userId}`,
-      user = await getDocData(userPath);
+          usersPrivatePath = `schools/${reqInfo.tenantId}/usersPrivate/${reqInfo.userId}`,
+          user = await getDocData(userPath),
+          userPrivate = await getDocData(usersPrivatePath);
 
     reqInfo.tenant = tenant;
     reqInfo.user = user;
@@ -73,11 +75,17 @@ app.post('/activate-plan', async (req, res) => {
     };
 
     if (reqInfo.oneTimeCharge) {
+
+      // passing customer with subscription data is not yet supported
+      if (userPrivate.stripeCustomerId) {
+        sessionConfig.customer = userPrivate.stripeCustomerId;
+      }
+
       sessionConfig = {
         ...sessionConfig,
         line_items: [{
           currency: 'usd',
-          amount: reqInfo.plan.price * 100,
+          amount: reqInfo.plan.price,
           quantity:1,
           name: reqInfo.plan.description
         }],

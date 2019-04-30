@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {Observable} from 'rxjs/Observable';
 import {AppState} from '../store';
+import {of} from 'rxjs';
 import {select, Store} from '@ngrx/store';
 import {
   arePricingPlansReady,
@@ -19,7 +20,7 @@ import {PricingPlansState} from '../store/pricing-plans.reducer';
 import {MatDialog, MatDialogConfig, MatDialogRef} from '@angular/material';
 import {PricingPlan} from '../models/pricing-plan.model';
 import {EditPricingPlanDialogComponent} from '../edit-subscriptions-dialog/edit-pricing-plan-dialog.component';
-import {filter, finalize, map, tap, withLatestFrom} from 'rxjs/operators';
+import {concatMap, filter, finalize, map, tap, withLatestFrom} from 'rxjs/operators';
 import {promise} from 'selenium-webdriver';
 import {environment} from '../../environments/environment';
 import {PaymentsService} from '../services/payments.service';
@@ -37,6 +38,7 @@ import {ContentDbService} from '../services/content-db.service';
 import {ActivatedRoute} from '@angular/router';
 import {LoadingDialogComponent} from '../loading-dialog/loading-dialog.component';
 import {PurchasesService} from '../services/purchases.service';
+import {PurchaseSession} from '../models/purchase-session.model';
 
 
 declare const Stripe;
@@ -307,18 +309,33 @@ export class SubscriptionComponent implements OnInit {
     this.purchases.waitForPurchaseCompletion(
       ongoingPurchaseSessionId,
       'Subscription activated, you now have access to all courses!')
-      .subscribe(purchaseSession => {
+      .pipe(
+        withLatestFrom(this.user$),
+        concatMap(([purchaseSession, user]) => {
+          // if the user upgraded to Lifetime, cancel the existing pricing plan in the background
+          if (purchaseSession.plan == 'lifetime') {
 
-        this.store.dispatch(new PlanActivated({
-            selectedPlan: purchaseSession.plan,
-            user: {
-              planActivatedAt: firebase.firestore.Timestamp.fromMillis(new Date().getTime()),
-              planEndsAt: null
-            }
-          })
-        );
+            debugger;
 
-      });
+            return this.payments.cancelPlan(user, "Upgraded to Lifetime").pipe(map(() => [purchaseSession, user]));
+          }
+          else return of([purchaseSession, user]);
+        }),
+        tap(([purchaseSession]: [PurchaseSession]) => {
+
+          debugger;
+
+          this.store.dispatch(new PlanActivated({
+              selectedPlan: purchaseSession.plan,
+              user: {
+                planActivatedAt: firebase.firestore.Timestamp.fromMillis(new Date().getTime()),
+                planEndsAt: null
+              }
+            })
+          );
+        })
+      )
+      .subscribe();
 
   }
 

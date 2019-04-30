@@ -99,14 +99,21 @@ async function fulfillPlanSubscription(reqInfo:ReqInfo, plan:string) {
 
   const usersPrivatePath = `schools/${reqInfo.tenantId}/usersPrivate/${reqInfo.userId}`;
 
-  await db.doc(usersPrivatePath).set({
-      stripeCustomerId: reqInfo.stripeCustomerId,
-      stripeSubscriptionId: reqInfo.stripeSubscriptionId,
-      planEndsAt: null,
-      pricingPlan: plan,
-      planActivatedAt: firebase.firestore.Timestamp.fromMillis(new Date().getTime())
-    },
-    {merge: true});
+  const changes:any = {
+    planEndsAt: null,
+    pricingPlan: plan,
+    planActivatedAt: firebase.firestore.Timestamp.fromMillis(new Date().getTime())
+  };
+
+  if (reqInfo.stripeCustomerId) {
+    changes.stripeCustomerId = reqInfo.stripeCustomerId;
+  }
+
+  if (reqInfo.stripeSubscriptionId) {
+    changes.stripeSubscriptionId = reqInfo.stripeSubscriptionId;
+  }
+
+  await db.doc(usersPrivatePath).set(changes, {merge: true});
 
 }
 
@@ -118,15 +125,16 @@ async function fulfillCoursePurchase(reqInfo:ReqInfo, courseId:string) {
 
   let userPrivate = await getDocData(usersPrivatePath);
 
-  if (!userPrivate || !userPrivate.purchasedCourses) {
-    userPrivate = {
-      purchasedCourses: []
-    };
-  }
+  let purchasedCourses = userPrivate && userPrivate.purchasedCourses ? userPrivate.purchasedCourses : [];
 
-  userPrivate.purchasedCourses.push(courseId);
+  purchasedCourses.push(courseId);
 
-  await db.doc(usersPrivatePath).set(userPrivate, {merge: true});
+  await db.doc(usersPrivatePath).set(
+    {
+      purchasedCourses,
+      stripeCustomerId: reqInfo.stripeCustomerId
+    },
+    {merge: true});
 
 }
 
