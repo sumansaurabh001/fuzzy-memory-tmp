@@ -30,5 +30,5 @@ export function sortLessonsBySectionAndSeqNo(lessons: Lesson[], sections: Course
 
   });
 
-  return lessons;
+  return sortedLessons;
 }

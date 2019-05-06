@@ -2,20 +2,16 @@ import { Action } from '@ngrx/store';
 import { Update } from '@ngrx/entity';
 import { Lesson } from '../models/lesson.model';
 import {UpdateStr} from '@ngrx/entity/src/models';
-import {Course} from '../models/course.model';
+import {CourseSectionActionTypes} from './course-section.actions';
 
 export enum LessonActionTypes {
   WatchLesson = '[Lesson] Watch Lesson',
-  AddAllLessons = '[Lesson] Load Lessons',
   AddLesson = '[Lesson] Add Lesson',
-  UpsertLesson = '[Lesson] Upsert Lesson',
   AddLessons = '[Lesson] Add Lessons',
-  UpsertLessons = '[Lesson] Upsert Lessons',
   UpdateLesson = '[Lesson] Update Lesson',
   DeleteLesson = '[Lesson] Delete Lesson',
-  DeleteLessons = '[Lesson] Delete Lessons',
-  ClearLessons = '[Lesson] Clear Lessons',
-  LoadLessonVideo = '[Watch Course Screen] Load Lesson Video'
+  LoadLessonVideo = '[Watch Course Screen] Load Lesson Video',
+  UpdateLessonOrder = '[Edit Lessons Screen] Update Lesson Order'
 }
 
 export class WatchLesson implements Action {
@@ -25,34 +21,16 @@ export class WatchLesson implements Action {
 
 }
 
-export class LoadLessons implements Action {
-  readonly type = LessonActionTypes.AddAllLessons;
-
-  constructor(public payload: { lessons: Lesson[] }) {}
-}
-
 export class AddLesson implements Action {
   readonly type = LessonActionTypes.AddLesson;
 
   constructor(public payload: { lesson: Lesson }) {}
 }
 
-export class UpsertLesson implements Action {
-  readonly type = LessonActionTypes.UpsertLesson;
-
-  constructor(public payload: { lesson: Update<Lesson> }) {}
-}
-
 export class AddLessons implements Action {
   readonly type = LessonActionTypes.AddLessons;
 
   constructor(public payload: { lessons: Lesson[],  courseId:string  }) {}
-}
-
-export class UpsertLessons implements Action {
-  readonly type = LessonActionTypes.UpsertLessons;
-
-  constructor(public payload: { lessons: Update<Lesson>[] }) {}
 }
 
 export class UpdateLesson implements Action {
@@ -67,16 +45,6 @@ export class DeleteLesson implements Action {
   constructor(public payload: { id: string }) {}
 }
 
-export class DeleteLessons implements Action {
-  readonly type = LessonActionTypes.DeleteLessons;
-
-  constructor(public payload: { ids: string[] }) {}
-}
-
-export class ClearLessons implements Action {
-  readonly type = LessonActionTypes.ClearLessons;
-}
-
 export class LoadLessonVideo implements Action {
   readonly type = LessonActionTypes.LoadLessonVideo;
 
@@ -84,15 +52,19 @@ export class LoadLessonVideo implements Action {
 
 }
 
+export class UpdateLessonOrder implements Action {
+
+  readonly type = LessonActionTypes.UpdateLessonOrder;
+
+  constructor(public payload:{sourceSectionId:string, lessonId:string, previousIndex:number, currentIndex:number} ) {}
+
+}
+
 export type LessonActions =
   WatchLesson
- | LoadLessons
  | AddLesson
- | UpsertLesson
  | AddLessons
- | UpsertLessons
  | UpdateLesson
  | DeleteLesson
- | DeleteLessons
- | ClearLessons
- | LoadLessonVideo;
+ | LoadLessonVideo
+ | UpdateLessonOrder;

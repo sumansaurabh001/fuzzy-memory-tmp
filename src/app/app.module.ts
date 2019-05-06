@@ -114,6 +114,8 @@ import { EditableContainerComponent } from './editable-container/editable-contai
 import { FileUploadProgressComponent } from './file-upload-progress/file-upload-progress.component';
 import {SharedModule} from './shared/shared.module';
 import { ContactPageComponent } from './contact-page/contact-page.component';
+import {DragDropModule} from '@angular/cdk/drag-drop';
+import { EditLessonListItemComponent } from './edit-lesson-list-item/edit-lesson-list-item.component';
 
 
 @NgModule({
@@ -175,7 +177,8 @@ import { ContactPageComponent } from './contact-page/contact-page.component';
     EditHomeDialogComponent,
     EditableContainerComponent,
     FileUploadProgressComponent,
-    ContactPageComponent
+    ContactPageComponent,
+    EditLessonListItemComponent
   ],
   imports: [
     BrowserModule,
@@ -229,7 +232,8 @@ import { ContactPageComponent } from './contact-page/contact-page.component';
     ]),
     StoreRouterConnectingModule.forRoot({
       stateKey: 'router'
-    })
+    }),
+    DragDropModule
   ],
   providers: [
     MessagesService,

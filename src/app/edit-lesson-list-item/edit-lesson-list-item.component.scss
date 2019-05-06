@@ -1,0 +1,35 @@
+
+
+.lesson-item {
+  margin-bottom: 10px;
+}
+
+
+.lecture-number {
+  width: 95px;
+}
+
+
+
+.panel-description {
+  display: flex;
+}
+
+.add-content {
+  height: 22px;
+  font-size: 12px;
+  line-height: 12px;
+  margin-right: 5px;
+}
+
+::ng-deep .add-content.mat-raised-button {
+  padding: 0 8px;
+}
+
+.mat-expansion-panel-header-title {
+  flex-grow: 0;
+}
+
+.drag-lesson {
+  margin-right: 20px;
+}

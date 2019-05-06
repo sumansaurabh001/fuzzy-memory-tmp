@@ -1,6 +1,7 @@
-import { EntityState, EntityAdapter, createEntityAdapter } from '@ngrx/entity';
-import { Lesson } from '../models/lesson.model';
-import { LessonActions, LessonActionTypes } from './lesson.actions';
+import {createEntityAdapter, EntityAdapter, EntityState} from '@ngrx/entity';
+import {Lesson} from '../models/lesson.model';
+import {LessonActions, LessonActionTypes} from './lesson.actions';
+
 
 export interface State extends EntityState<Lesson> {
   loadedCourses: {[key:string]:boolean},
@@ -51,20 +52,15 @@ export function reducer(
       return adapter.removeOne(action.payload.id, state);
     }
 
-    case LessonActionTypes.DeleteLessons: {
-      return adapter.removeMany(action.payload.ids, state);
-    }
-
-    case LessonActionTypes.AddAllLessons: {
-      return adapter.addAll(action.payload.lessons, state);
-    }
-
-    case LessonActionTypes.ClearLessons: {
-      return adapter.removeAll(state);
-    }
-
     case LessonActionTypes.LoadLessonVideo: {
       return adapter.updateOne(action.payload.update, state);
+    }
+
+    case LessonActionTypes.UpdateLessonOrder: {
+
+
+
+
     }
 
     default: {
@@ -79,3 +75,13 @@ export const {
   selectAll,
   selectTotal,
 } = adapter.getSelectors();
+
+
+
+export function sortLessonsBySeqNo(l1: Lesson, l2:Lesson) {
+  return l1.seqNo - l2.seqNo;
+}
+
+
+
+

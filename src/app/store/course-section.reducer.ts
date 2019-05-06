@@ -43,26 +43,6 @@ export function reducer(
       return adapter.updateOne(action.payload.courseSection, state);
     }
 
-    case CourseSectionActionTypes.UpdateCourseSections: {
-      return adapter.updateMany(action.payload.courseSections, state);
-    }
-
-    case CourseSectionActionTypes.DeleteCourseSection: {
-      return adapter.removeOne(action.payload.id, state);
-    }
-
-    case CourseSectionActionTypes.DeleteCourseSections: {
-      return adapter.removeMany(action.payload.ids, state);
-    }
-
-    case CourseSectionActionTypes.LoadCourseSections: {
-      return adapter.addAll(action.payload.courseSections, state);
-    }
-
-    case CourseSectionActionTypes.ClearCourseSections: {
-      return adapter.removeAll(state);
-    }
-
     default: {
       return state;
     }

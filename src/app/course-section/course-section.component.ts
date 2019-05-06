@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
 import {CourseSection} from '../models/course-section.model';
 import {Lesson} from '../models/lesson.model';
 import {Course} from '../models/course.model';
@@ -15,6 +15,8 @@ import {Observable} from 'rxjs';
 import {selectActiveCourseAllLessons} from '../store/selectors';
 import {fadeIn} from '../common/fade-in-out';
 import {EditSectionDialogComponent} from '../edit-section-dialog/edit-section-dialog.component';
+import {UpdateLessonOrder} from '../store/lesson.actions';
+import {CdkDropList} from '@angular/cdk/drag-drop';
 
 @Component({
   selector: 'course-section',
@@ -22,10 +24,13 @@ import {EditSectionDialogComponent} from '../edit-section-dialog/edit-section-di
   styleUrls: ['./course-section.component.scss'],
   animations: [fadeIn]
 })
-export class CourseSectionComponent implements OnInit {
+export class CourseSectionComponent implements OnInit, AfterViewInit {
 
   @Input() course: Course;
   @Input() section: CourseSection;
+
+  @ViewChild('sectionDragContainer')
+  sectionDragContainer: ElementRef;
 
   lessons$: Observable<Lesson[]>;
 
@@ -46,6 +51,12 @@ export class CourseSectionComponent implements OnInit {
       select(selectActiveCourseAllLessons),
       map(lessons => lessons.filter(lesson => lesson.sectionId == this.section.id))
     );
+
+  }
+
+  ngAfterViewInit() {
+
+    this.sectionDragContainer.nativeElement['sectionId'] = this.section.id;
 
   }
 
@@ -90,14 +101,6 @@ export class CourseSectionComponent implements OnInit {
     return item.id;
   }
 
-  expandedCss(expanded: boolean) {
-    return expanded ? 'lesson-expanded' : null;
-  }
-
-  isExpanded(lesson: Lesson) {
-    return this.expandedLessons[lesson.id];
-  }
-
   onExpandLesson(lesson: Lesson, expanded) {
     this.expandedLessons[lesson.id] = expanded;
   }
@@ -115,6 +118,32 @@ export class CourseSectionComponent implements OnInit {
     dialogConfig.data = {course, section};
 
     const dialogRef = this.dialog.open(EditSectionDialogComponent, dialogConfig);
+  }
+
+  dropLesson(lessons: Lesson[], evt) {
+
+    console.log(evt);
+
+    const previousIndex = evt.previousIndex,
+          currentIndex = evt.currentIndex,
+          previousContainer: CdkDropList = evt.previousContainer,
+          container: CdkDropList = evt.container;
+
+    console.log("previousContainer", previousContainer.element.nativeElement["sectionId"]);
+
+    console.log("container", container.element.nativeElement["sectionId"]);
+
+    const action = new UpdateLessonOrder({sourceSectionId: this.section.id, lessonId:this.section.id, currentIndex, previousIndex});
+
+    console.log(action);
+
+    this.store.dispatch(action);
+
+
+
+
+
+
   }
 
 }
