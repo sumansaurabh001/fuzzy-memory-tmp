@@ -1,0 +1,45 @@
+<div class="desktop-container">
+
+  <div class="contact-form" [formGroup]="form">
+
+    <h1 class="contact-title"> Contact Us</h1>
+
+    <mat-divider></mat-divider>
+
+    <p class="contact-message">Please type your message below, and we will get back to you:</p>
+
+    <mat-form-field appearance="outline">
+
+      <input matInput
+             type="email"
+             placeholder="Type here your email address"
+             maxLength="90"
+             formControlName="from">
+
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+
+      <input matInput
+             placeholder="Type here the message subject"
+             maxLength="90"
+             formControlName="subject">
+
+    </mat-form-field>
+
+    <quill-editor
+      [formControl]="form.controls['html']"
+      [modules]="editorConfig"
+      [style]="{height: '250px'}"
+      placeholder="Type here your message...">
+
+    </quill-editor>
+
+    <button class="send-btn" mat-raised-button color="primary" (click)="sendEmail()">
+      Send Message
+    </button>
+
+
+  </div>
+
+</div>

@@ -28,7 +28,7 @@ export const DEFAULT_FAQS: FAQ[] = [
   },
   {
     question: 'What payment methods are available?',
-    answer: 'All Credit cards are accepted (via <a href="https://stripe.com">stripe.com</a>). Contact us if you have any questions regarding payment.'
+    answer: 'All Credit cards are accepted (via <a href="https://stripe.com">stripe.com</a>). <a href="/contact">Contact us</a> if you have any questions regarding payment.'
   },
   {
     question: 'Do you keep my credit card information?',
@@ -36,7 +36,7 @@ export const DEFAULT_FAQS: FAQ[] = [
   },
   {
     question: 'How does cancellation work?',
-    answer: 'You can cancel anytime by using the Cancel Subscription button that will be visible in the top menu. Any issues or questions regarding cancellation please contact us.'
+    answer: 'You can cancel anytime by using the Cancel Subscription button that will be visible in the top menu. Any issues or questions regarding cancellation please <a href="/contact">contact us</a>.'
   }
 ];
 

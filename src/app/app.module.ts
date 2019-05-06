@@ -113,6 +113,7 @@ import { EditHomeDialogComponent } from './edit-home-dialog/edit-home-dialog.com
 import { EditableContainerComponent } from './editable-container/editable-container.component';
 import { FileUploadProgressComponent } from './file-upload-progress/file-upload-progress.component';
 import {SharedModule} from './shared/shared.module';
+import { ContactPageComponent } from './contact-page/contact-page.component';
 
 
 @NgModule({
@@ -173,7 +174,8 @@ import {SharedModule} from './shared/shared.module';
     LessonsListComponent,
     EditHomeDialogComponent,
     EditableContainerComponent,
-    FileUploadProgressComponent
+    FileUploadProgressComponent,
+    ContactPageComponent
   ],
   imports: [
     BrowserModule,

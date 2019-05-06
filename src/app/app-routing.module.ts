@@ -19,6 +19,7 @@ import {MyAccountComponent} from './my-account/my-account.component';
 import {SubscriptionContentResolver} from './services/subscription-content.resolver';
 import {HomeComponent} from './home/home.component';
 import {HomePageContentResolver} from './services/home-page-content.resolver';
+import {ContactPageComponent} from './contact-page/contact-page.component';
 
 const routes: Routes = [
   {
@@ -79,6 +80,11 @@ const routes: Routes = [
   {
     path: "stripe-redirect",
     component: StripeRedirectPageComponent,
+    canActivate: [PlatformGuard]
+  },
+  {
+    path: 'contact',
+    component: ContactPageComponent,
     canActivate: [PlatformGuard]
   },
   {

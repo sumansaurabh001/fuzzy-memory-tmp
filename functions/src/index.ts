@@ -6,8 +6,6 @@ export {videoUpload} from './video-upload'
 
 export {onDeleteLesson} from './delete-lesson';
 
-
-
 export {apiStripeConnection} from './api-stripe-connection';
 
 export {apiCreateCustomJwt} from './api-custom-jwt';
@@ -25,3 +23,5 @@ export {apiStripeActivatePlan} from './api-activate-plan';
 export {apiStripeCancelPlan} from './api-cancel-plan';
 
 export {apiStripeFulfillmentWebhook} from './api-stripe-fulfillment-webhook';
+
+export {apiSendEmail} from './api-send-email';
