@@ -16,7 +16,7 @@
 
     </edit-lessons-toolbar>
 
-    <div cdkDropList (cdkDropListDropped)="dropLesson(course, sections, $event)">
+    <div class="drag-drop-container" cdkDropList (cdkDropListDropped)="dropLesson(course, sections, $event)">
 
       <ng-container *ngFor="let section of sections">
 
