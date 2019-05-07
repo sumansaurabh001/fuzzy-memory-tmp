@@ -112,35 +112,6 @@ export class CourseEffects {
       })
     );
 
-  @Effect({dispatch: false})
-  saveLesson$ = this.actions$
-    .pipe(
-      ofType<UpdateLesson>(LessonActionTypes.UpdateLesson),
-      concatMap(action => this.lessonsDB.saveLesson(action.payload.courseId, action.payload.lesson)),
-      catchError(err => {
-        this.messages.error('Could not save lesson.');
-        return _throw(err);
-      })
-    );
-
-  @Effect()
-  loadUserVideoAccessIfNeeded$ = this.actions$
-    .pipe(
-      ofType<WatchLesson>(LessonActionTypes.WatchLesson),
-      withLatestFrom(
-        this.store.pipe(select(isActiveLessonVideoAccessLoaded)),
-        this.store.pipe(select(selectActiveCourse)),
-      ),
-      filter(([action, loaded, course]) => !loaded),
-      concatMap(([action,loaded, course]) => this.videos.loadVideoAccess(course.id, action.payload.lessonId) ),
-      map(videoAccess => new SaveVideoAccess({videoAccess})),
-      catchError(err => {
-        this.messages.error('Could not load user video access.');
-        return _throw(err);
-      })
-    );
-
-
   constructor(private actions$: Actions,
               private coursesDB: CoursesDBService,
               private lessonsDB: LessonsDBService,
@@ -150,8 +121,7 @@ export class CourseEffects {
               private afAuth: AngularFireAuth,
               private usersDB: SchoolUsersDbService,
               private tenant: TenantService,
-              private videos: VideoService,
-              private payments: PaymentsService) {
+              private videos: VideoService) {
 
   }
 

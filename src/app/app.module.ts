@@ -115,6 +115,7 @@ import {SharedModule} from './shared/shared.module';
 import { ContactPageComponent } from './contact-page/contact-page.component';
 import {DragDropModule} from '@angular/cdk/drag-drop';
 import { EditLessonListItemComponent } from './edit-lesson-list-item/edit-lesson-list-item.component';
+import {LessonEffects} from './store/lesson.effects';
 
 
 @NgModule({
@@ -222,6 +223,7 @@ import { EditLessonListItemComponent } from './edit-lesson-list-item/edit-lesson
     !environment.production ? StoreDevtoolsModule.instrument() : [],
     EffectsModule.forRoot([
       CourseEffects,
+      LessonEffects,
       DescriptionEffects,
       UserEffects,
       PlatformEffects,

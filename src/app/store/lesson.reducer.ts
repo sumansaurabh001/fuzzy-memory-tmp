@@ -6,7 +6,8 @@ import {compareLessons, sortLessonsBySectionAndSeqNo} from '../common/sort-model
 
 export interface State extends EntityState<Lesson> {
   loadedCourses: { [key: string]: boolean },
-  activeLessonId: string
+  activeLessonId: string,
+  pendingLessonReordering: Update<Lesson>[]
 }
 
 export const adapter: EntityAdapter<Lesson> = createEntityAdapter<Lesson>({
@@ -15,7 +16,8 @@ export const adapter: EntityAdapter<Lesson> = createEntityAdapter<Lesson>({
 
 export const initialState: State = adapter.getInitialState({
   loadedCourses: {},
-  activeLessonId: undefined
+  activeLessonId: undefined,
+  pendingLessonReordering: []
 });
 
 export function reducer(
@@ -66,7 +68,6 @@ export function reducer(
         courseAllLessons = Object.values(state.entities).filter(lesson => courseSectionIds.includes(lesson.sectionId)),
         courseSortedLessons = sortLessonsBySectionAndSeqNo(courseAllLessons, action.payload.sections),
         movedLesson = {...courseSortedLessons[action.payload.previousIndex]},
-        replacedLesson = courseSortedLessons[action.payload.currentIndex],
         oldIndex = action.payload.previousIndex,
         newIndex = action.payload.currentIndex,
         oldSectionId = movedLesson.sectionId,
@@ -105,7 +106,7 @@ export function reducer(
 
       });
 
-      return adapter.updateMany(reorderChanges, state);
+      return adapter.updateMany(reorderChanges, {...state, pendingLessonReordering: reorderChanges});
 
     }
 
