@@ -30,7 +30,7 @@
               <mat-icon>edit</mat-icon>
             </div>
 
-            <div class="filler draggable"></div>
+            <div class="filler"></div>
 
             <mat-icon class="drag-section draggable">drag_handle</mat-icon>
           </div>
@@ -39,16 +39,32 @@
 
             <div class="lessons-container" *ngIf="findLessonsForSection(section, allLessons) as lessons">
 
-              <edit-lesson-list-item
+              <mat-expansion-panel
                 *ngFor="let lesson of lessons; let index = index"
-                [lesson]="lesson"
-                [course]="course"
-                [index]="index"
+                class="lesson-item"
+                #panel
                 [expanded]="expandedLessons[lesson.id]"
-                (expandChanged)="onExpandLesson(lesson, $event)"
+                [ngClass]="expandedCss(panel.expanded)"
+                (expandedChange)="onExpandLesson(lesson, $event)"
                 cdkDrag>
 
-              </edit-lesson-list-item>
+                <mat-expansion-panel-header class="lesson-header">
+                  <mat-panel-title>
+                    <span class="lecture-number">Lecture {{index + 1}}:</span>
+                    <mat-icon>play_circle_outline</mat-icon>
+                  </mat-panel-title>
+                  <mat-panel-description class="panel-description noselect">
+                    <button class="add-content" mat-raised-button color="primary" *ngIf="!lesson.thumbnail">Add Content</button>
+                    {{lesson.title}}
+                    <div class="filler"></div>
+                    <mat-icon class="draggable drag-lesson" cdkDragHandle>drag_handle</mat-icon>
+                  </mat-panel-description>
+                </mat-expansion-panel-header>
+
+                <edit-lesson [course]="course" [lesson]="lesson"></edit-lesson>
+
+              </mat-expansion-panel>
+
 
               <div class="bottom-toolbar">
 

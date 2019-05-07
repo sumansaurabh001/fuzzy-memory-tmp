@@ -189,5 +189,8 @@ export class EditLessonsListComponent implements OnInit {
 
   }
 
+  expandedCss(expanded: boolean) {
+    return expanded ? 'lesson-expanded' : null;
+  }
 
 }

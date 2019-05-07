@@ -114,7 +114,6 @@ import { FileUploadProgressComponent } from './file-upload-progress/file-upload-
 import {SharedModule} from './shared/shared.module';
 import { ContactPageComponent } from './contact-page/contact-page.component';
 import {DragDropModule} from '@angular/cdk/drag-drop';
-import { EditLessonListItemComponent } from './edit-lesson-list-item/edit-lesson-list-item.component';
 import {LessonEffects} from './store/lesson.effects';
 
 
@@ -176,8 +175,7 @@ import {LessonEffects} from './store/lesson.effects';
     EditHomeDialogComponent,
     EditableContainerComponent,
     FileUploadProgressComponent,
-    ContactPageComponent,
-    EditLessonListItemComponent
+    ContactPageComponent
   ],
   imports: [
     BrowserModule,
