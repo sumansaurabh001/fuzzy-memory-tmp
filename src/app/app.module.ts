@@ -60,7 +60,6 @@ import { AddLessonDialogComponent } from './add-lesson-dialog/add-lesson-dialog.
 import {DangerDialogComponent} from './danger-dialog/danger-dialog.component';
 import { ConfirmationDialogComponent } from './confirmation-dialog/confirmation-dialog.component';
 import {FileUploadComponent} from './file-upload/file-upload.component';
-import { CourseSectionComponent } from './course-section/course-section.component';
 import {CourseContentComponent} from './course-content/course-content.component';
 import { CollapsiblePanelComponent } from './collapsible-panel/collapsible-panel.component';
 import { CollapsibleTriggerComponent } from './collapsible-trigger/collapsible-trigger.component';
@@ -142,7 +141,6 @@ import { EditLessonListItemComponent } from './edit-lesson-list-item/edit-lesson
     EditSectionDialogComponent,
     ConfirmationDialogComponent,
     FileUploadComponent,
-    CourseSectionComponent,
     CourseContentComponent,
     CollapsiblePanelComponent,
     CollapsibleTriggerComponent,

@@ -16,11 +16,61 @@
 
     </edit-lessons-toolbar>
 
-    <ng-container *ngFor="let section of sections">
+    <div cdkDropList (cdkDropListDropped)="dropLesson($event)">
 
-      <course-section [course]="course" [section]="section"></course-section>
+      <ng-container *ngFor="let section of sections">
 
-    </ng-container>
+        <div class="course-section mat-elevation-z7">
+
+          <div class="section-title">
+            <span class="section-number">Section {{section.seqNo}}: </span>
+            <span class="section-title-text" (click)="editSectionTitle(course,section)"> {{section.title}}</span>
+
+            <div class="edit-button-container"(click)="editSectionTitle(course,section)">
+              <mat-icon>edit</mat-icon>
+            </div>
+
+            <div class="filler draggable"></div>
+
+            <mat-icon class="drag-section draggable">drag_handle</mat-icon>
+          </div>
+
+          <ng-container *ngIf="(findLessonsForSection(section) | async) as lessons">
+
+            <edit-lesson-list-item
+              *ngFor="let lesson of lessons; trackBy: trackByLessonId; let index = index"
+              [lesson]="lesson"
+              [course]="course"
+              [index]="index"
+              [expanded]="expandedLessons[lesson.id]"
+              (expandChanged)="onExpandLesson(lesson, $event)"
+              cdkDrag>
+
+            </edit-lesson-list-item>
+
+
+            <div class="bottom-toolbar">
+
+              <action-button
+                color="accent" icon="delete" color="secondary" (click)="deleteSection(course, section)"
+                title="Delete empty section" *ngIf="lessons?.length == 0">
+
+              </action-button>
+
+              <div class="filler"></div>
+
+              <action-button class="add-lesson" text="Add Lesson" color="accent" icon="add"
+                             (click)="addLesson(course, section)"></action-button>
+
+            </div>
+
+          </ng-container>
+
+        </div>
+
+      </ng-container>
+
+    </div>
 
     <div class="add-button-panel add-section-panel" [ngClass]="emptyCourseCss(course, sections)" *ngIf="isCourseLoaded$ | async">
 

@@ -1,6 +1,6 @@
-import { EntityState, EntityAdapter, createEntityAdapter } from '@ngrx/entity';
-import { CourseSection } from '../models/course-section.model';
-import { CourseSectionActions, CourseSectionActionTypes } from './course-section.actions';
+import {createEntityAdapter, EntityAdapter, EntityState} from '@ngrx/entity';
+import {CourseSection} from '../models/course-section.model';
+import {CourseSectionActions, CourseSectionActionTypes} from './course-section.actions';
 
 
 export interface State extends EntityState<CourseSection> {
@@ -41,6 +41,10 @@ export function reducer(
 
     case CourseSectionActionTypes.UpdateCourseSection: {
       return adapter.updateOne(action.payload.courseSection, state);
+    }
+
+    case CourseSectionActionTypes.DeleteCourseSection: {
+      return adapter.removeOne(action.payload.id, state);
     }
 
     default: {
