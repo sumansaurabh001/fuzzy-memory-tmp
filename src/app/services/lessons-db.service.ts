@@ -9,7 +9,7 @@ import {Lesson} from '../models/lesson.model';
 import {Course} from '../models/course.model';
 import {Update} from '@ngrx/entity';
 import {UpdateStr} from '@ngrx/entity/src/models';
-
+import {from} from 'rxjs';
 
 @Injectable()
 export class LessonsDBService {
@@ -130,6 +130,18 @@ export class LessonsDBService {
   }
 
 
+  reorderLessons(courseId:string, changes: Update<Lesson>[]) {
+
+    const batch = this.afs.firestore.batch();
+
+    changes.forEach(change => {
+      const lessonRef = this.afs.doc(`schools/${this.tenant.id}/courses/${courseId}/lessons/${change.id}`).ref;
+      batch.update(lessonRef, change.changes);
+    });
+
+    return from(batch.commit());
+
+  }
 }
 
 

@@ -10,10 +10,10 @@ import {AngularFireAuth} from '@angular/fire/auth';
 import {SchoolUsersDbService} from '../services/school-users-db.service';
 import {TenantService} from '../services/tenant.service';
 import {VideoService} from '../services/video.service';
-import {LessonActionTypes, UpdateLesson, WatchLesson} from './lesson.actions';
+import {LessonActionTypes, UpdateLesson, UpdateLessonOrder, UpdateLessonOrderCompleted, WatchLesson} from './lesson.actions';
 import {catchError, concatMap, filter, map, withLatestFrom} from 'rxjs/operators';
 import {throwError as _throw} from 'rxjs/internal/observable/throwError';
-import {isActiveLessonVideoAccessLoaded, selectActiveCourse} from './selectors';
+import {isActiveLessonVideoAccessLoaded, selectActiveCourse, selectPendingLessonsReorder} from './selectors';
 import {SaveVideoAccess} from './video-access.actions';
 
 
@@ -44,6 +44,20 @@ export class LessonEffects {
       map(videoAccess => new SaveVideoAccess({videoAccess})),
       catchError(err => {
         this.messages.error('Could not load user video access.');
+        return _throw(err);
+      })
+    );
+
+
+  @Effect()
+  saveLessonReordering$ = this.actions$
+    .pipe(
+      ofType<UpdateLessonOrder>(LessonActionTypes.UpdateLessonOrder),
+      withLatestFrom(this.store.pipe(select(selectPendingLessonsReorder))),
+      concatMap(([action, changes]) => this.lessonsDB.reorderLessons(action.payload.courseId, changes)),
+      map(() => new UpdateLessonOrderCompleted()),
+      catchError(err => {
+        this.messages.error('Could not save the new lessons order.');
         return _throw(err);
       })
     );

@@ -236,3 +236,8 @@ export const selectPricingPlans = createSelector(
   pricingPlansState
 );
 
+
+export const selectPendingLessonsReorder = createSelector(
+  selectLessonsState,
+  lessonsState => lessonsState.pendingLessonReordering
+);

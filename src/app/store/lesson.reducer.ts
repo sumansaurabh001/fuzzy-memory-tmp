@@ -110,6 +110,12 @@ export function reducer(
 
     }
 
+    case LessonActionTypes.UpdateLessonOrderCompleted:
+      return {
+        ...state,
+        pendingLessonReordering: []
+      };
+
     default: {
       return state;
     }

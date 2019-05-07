@@ -2,7 +2,6 @@ import { Action } from '@ngrx/store';
 import { Update } from '@ngrx/entity';
 import { Lesson } from '../models/lesson.model';
 import {UpdateStr} from '@ngrx/entity/src/models';
-import {CourseSectionActionTypes} from './course-section.actions';
 import {CourseSection} from '../models/course-section.model';
 
 export enum LessonActionTypes {
@@ -12,7 +11,8 @@ export enum LessonActionTypes {
   UpdateLesson = '[Lesson] Update Lesson',
   DeleteLesson = '[Lesson] Delete Lesson',
   LoadLessonVideo = '[Watch Course Screen] Load Lesson Video',
-  UpdateLessonOrder = '[Edit Lessons Screen] Update Lesson Order'
+  UpdateLessonOrder = '[Edit Lessons Screen] Update Lesson Order',
+  UpdateLessonOrderCompleted = '[Lesson Effects] Update Lesson Order Completed'
 }
 
 export class WatchLesson implements Action {
@@ -61,6 +61,12 @@ export class UpdateLessonOrder implements Action {
 
 }
 
+export class UpdateLessonOrderCompleted implements Action {
+
+  readonly type = LessonActionTypes.UpdateLessonOrderCompleted;
+
+}
+
 export type LessonActions =
   WatchLesson
  | AddLesson
@@ -68,4 +74,5 @@ export type LessonActions =
  | UpdateLesson
  | DeleteLesson
  | LoadLessonVideo
- | UpdateLessonOrder;
+ | UpdateLessonOrder
+ | UpdateLessonOrderCompleted;
