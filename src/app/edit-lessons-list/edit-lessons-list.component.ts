@@ -34,6 +34,8 @@ export class EditLessonsListComponent implements OnInit {
 
   sections$: Observable<CourseSection[]>;
 
+  allLessons$: Observable<Lesson[]>;
+
   isCourseLoaded$: Observable<boolean>;
 
   expandedLessons: { [key: string]: boolean } = {};
@@ -60,7 +62,7 @@ export class EditLessonsListComponent implements OnInit {
 
     this.isCourseLoaded$ = this.store.pipe(select(isActiveCourseLoaded));
 
-
+    this.allLessons$ = this.store.pipe(select(selectActiveCourseAllLessons));
 
   }
 
@@ -121,40 +123,25 @@ export class EditLessonsListComponent implements OnInit {
     const dialogRef = this.dialog.open(EditSectionDialogComponent, dialogConfig);
   }
 
-  dropLesson(evt) {
-
-    console.log(evt);
+  dropLesson(course:Course, sections:CourseSection[], evt) {
 
     const previousIndex = evt.previousIndex,
-      currentIndex = evt.currentIndex,
-      previousContainer: CdkDropList = evt.previousContainer,
-      container: CdkDropList = evt.container;
+      currentIndex = evt.currentIndex;
 
-
-
-    /*
-
-    const action = new UpdateLessonOrder({
-      sourceSectionId: section.id,
-      lessonId:sourceSectionLessons[previousIndex].id,
-      currentIndex,
-      previousIndex
-    });
-
-    console.log(action);
-
-    this.store.dispatch(action);
-
-
-    */
+    if (previousIndex != currentIndex) {
+      const action = new UpdateLessonOrder({
+        courseId: course.id,
+        sections,
+        currentIndex,
+        previousIndex
+      });
+      this.store.dispatch(action);
+    }
 
   }
 
-  findLessonsForSection(section: CourseSection): Observable<Lesson[]> {
-    return this.store.pipe(
-      select(selectActiveCourseAllLessons),
-      map(lessons => lessons.filter(lesson => lesson.sectionId == section.id))
-    );
+  findLessonsForSection(section: CourseSection, allLessons: Lesson[]): Lesson[] {
+    return allLessons.filter(lesson => lesson.sectionId == section.id);
   }
 
   trackByLessonId(index, item: Lesson) {
@@ -202,13 +189,5 @@ export class EditLessonsListComponent implements OnInit {
 
   }
 
-  otherSectionsDropLists(sectionIndex: number) {
 
-    const otherSectionsDropLists = this.allSectionDropLists.toArray();
-
-    otherSectionsDropLists.splice(sectionIndex, 1);
-
-    return otherSectionsDropLists;
-
-  }
 }

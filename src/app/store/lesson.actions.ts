@@ -3,6 +3,7 @@ import { Update } from '@ngrx/entity';
 import { Lesson } from '../models/lesson.model';
 import {UpdateStr} from '@ngrx/entity/src/models';
 import {CourseSectionActionTypes} from './course-section.actions';
+import {CourseSection} from '../models/course-section.model';
 
 export enum LessonActionTypes {
   WatchLesson = '[Lesson] Watch Lesson',
@@ -56,7 +57,7 @@ export class UpdateLessonOrder implements Action {
 
   readonly type = LessonActionTypes.UpdateLessonOrder;
 
-  constructor(public payload:{sourceSectionId:string, lessonId:string, previousIndex:number, currentIndex:number} ) {}
+  constructor(public payload:{courseId:string, previousIndex:number, currentIndex:number, sections:CourseSection[]} ) {}
 
 }
 

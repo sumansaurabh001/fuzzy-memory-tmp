@@ -1,6 +1,7 @@
 import {createEntityAdapter, EntityAdapter, EntityState} from '@ngrx/entity';
 import {CourseSection} from '../models/course-section.model';
 import {CourseSectionActions, CourseSectionActionTypes} from './course-section.actions';
+import {compareSections} from '../common/sort-model';
 
 
 export interface State extends EntityState<CourseSection> {
@@ -8,7 +9,9 @@ export interface State extends EntityState<CourseSection> {
 }
 
 
-export const adapter: EntityAdapter<CourseSection> = createEntityAdapter<CourseSection>();
+export const adapter: EntityAdapter<CourseSection> = createEntityAdapter<CourseSection>({
+  sortComparer: compareSections
+});
 
 
 export const initialState: State = adapter.getInitialState({
@@ -21,6 +24,7 @@ export function reducer(
   action: CourseSectionActions
 ): State {
   switch (action.type) {
+
     case CourseSectionActionTypes.AddCourseSection: {
       return adapter.addOne(action.payload.courseSection, state);
     }

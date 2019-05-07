@@ -16,7 +16,7 @@
 
     </edit-lessons-toolbar>
 
-    <div cdkDropList (cdkDropListDropped)="dropLesson($event)">
+    <div cdkDropList (cdkDropListDropped)="dropLesson(course, sections, $event)">
 
       <ng-container *ngFor="let section of sections">
 
@@ -35,32 +35,35 @@
             <mat-icon class="drag-section draggable">drag_handle</mat-icon>
           </div>
 
-          <ng-container *ngIf="(findLessonsForSection(section) | async) as lessons">
+          <ng-container *ngIf="(allLessons$ | async) as allLessons">
 
-            <edit-lesson-list-item
-              *ngFor="let lesson of lessons; trackBy: trackByLessonId; let index = index"
-              [lesson]="lesson"
-              [course]="course"
-              [index]="index"
-              [expanded]="expandedLessons[lesson.id]"
-              (expandChanged)="onExpandLesson(lesson, $event)"
-              cdkDrag>
+            <div class="lessons-container" *ngIf="findLessonsForSection(section, allLessons) as lessons">
 
-            </edit-lesson-list-item>
+              <edit-lesson-list-item
+                *ngFor="let lesson of lessons; let index = index"
+                [lesson]="lesson"
+                [course]="course"
+                [index]="index"
+                [expanded]="expandedLessons[lesson.id]"
+                (expandChanged)="onExpandLesson(lesson, $event)"
+                cdkDrag>
 
+              </edit-lesson-list-item>
 
-            <div class="bottom-toolbar">
+              <div class="bottom-toolbar">
 
-              <action-button
-                color="accent" icon="delete" color="secondary" (click)="deleteSection(course, section)"
-                title="Delete empty section" *ngIf="lessons?.length == 0">
+                <action-button
+                  color="accent" icon="delete" color="secondary" (click)="deleteSection(course, section)"
+                  title="Delete empty section" *ngIf="lessons?.length == 0">
 
-              </action-button>
+                </action-button>
 
-              <div class="filler"></div>
+                <div class="filler"></div>
 
-              <action-button class="add-lesson" text="Add Lesson" color="accent" icon="add"
-                             (click)="addLesson(course, section)"></action-button>
+                <action-button class="add-lesson" text="Add Lesson" color="accent" icon="add"
+                               (click)="addLesson(course, section)"></action-button>
+
+              </div>
 
             </div>
 

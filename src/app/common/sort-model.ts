@@ -11,6 +11,26 @@ export function compareSections(s1:CourseSection, s2: CourseSection) {
   return s1.seqNo - s2.seqNo;
 }
 
+export function compareLessons(l1:Lesson, l2:Lesson) {
+
+  let compareSections = 0;
+
+  if (l1.sectionId < l2.sectionId) {
+    compareSections = -1;
+  }
+
+  if (l1.sectionId > l2.sectionId) {
+    compareSections = 1;
+  }
+
+  if (compareSections != 0) {
+    return compareSections;
+  }
+
+  return l1.seqNo - l2.seqNo;
+
+}
+
 
 export function sortLessonsBySectionAndSeqNo(lessons: Lesson[], sections: CourseSection[])  {
 
