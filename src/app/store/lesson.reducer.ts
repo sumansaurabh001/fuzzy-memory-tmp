@@ -2,6 +2,7 @@ import {createEntityAdapter, EntityAdapter, EntityState, Update} from '@ngrx/ent
 import {Lesson} from '../models/lesson.model';
 import {LessonActions, LessonActionTypes} from './lesson.actions';
 import {compareLessons, sortLessonsBySectionAndSeqNo} from '../common/sort-model';
+import {moveItemInArray} from '@angular/cdk/drag-drop';
 
 
 export interface State extends EntityState<Lesson> {
@@ -68,19 +69,11 @@ export function reducer(
         courseAllLessons = Object.values(state.entities).filter(lesson => courseSectionIds.includes(lesson.sectionId)),
         courseSortedLessons = sortLessonsBySectionAndSeqNo(courseAllLessons, action.payload.sections),
         movedLesson = {...courseSortedLessons[action.payload.previousIndex]},
-        oldIndex = action.payload.previousIndex,
-        newIndex = action.payload.currentIndex,
         oldSectionId = movedLesson.sectionId,
-        newSectionId = courseSortedLessons[newIndex].sectionId;
+        newSectionId = courseSortedLessons[action.payload.currentIndex].sectionId;
 
-      // move the dropped lesson
-      courseSortedLessons.splice(newIndex, 0, movedLesson);
-      movedLesson.sectionId = newSectionId;
-
-      // remove the old lesson
-      const removeIndex = (courseSortedLessons[oldIndex + 1].id == movedLesson.id) ? (oldIndex + 1) : (oldIndex - 1);
-
-      courseSortedLessons.splice(removeIndex, 1);
+      // move the drag-and-dropped lesson
+      moveItemInArray(courseSortedLessons, action.payload.previousIndex, action.payload.currentIndex);
 
       let lessonSeqNoCounter = 1;
 
