@@ -11,16 +11,16 @@
       {{course?.shortDescription}}
     </p>
   </mat-card-content>
+
+  <div class="move-up-down" *allowRole="'ADMIN'">
+
+    <i class="fas fa-chevron-circle-up" *ngIf="!first" matTooltip="Move course up the list" (click)="onMoveUp()"></i>
+
+    <i class="fas fa-chevron-circle-down" *ngIf="!last" matTooltip="Move course down the list" (click)="onMoveDown()"></i>
+
+  </div>
+
   <mat-card-actions class="course-actions">
-
-    <div class="move-up-down" *allowRole="'ADMIN'">
-
-      <i class="fas fa-chevron-circle-up" *ngIf="!first" matTooltip="Move item up" (click)="onMoveUp()"></i>
-
-      <i class="fas fa-chevron-circle-down" *ngIf="!last" matTooltip="Move item down" (click)="onMoveDown()"></i>
-
-    </div>
-
     <button mat-raised-button color="primary" [routerLink]="['/courses',course.url]">VIEW COURSE</button>
     <button mat-raised-button color="accent" [routerLink]="['/courses',course.url, 'edit']" *allowRole="'ADMIN'">EDIT</button>
   </mat-card-actions>
