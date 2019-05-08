@@ -38,6 +38,7 @@ import {ActivatedRoute} from '@angular/router';
 import {LoadingDialogComponent} from '../loading-dialog/loading-dialog.component';
 import {PurchasesService} from '../services/purchases.service';
 import {PurchaseSession} from '../models/purchase-session.model';
+import {FAQ} from '../models/content/faq.model';
 
 
 declare const Stripe;
@@ -330,6 +331,7 @@ export class SubscriptionComponent implements OnInit {
       .subscribe();
 
   }
+
 
 }
 

@@ -4,7 +4,7 @@
 
   <mat-divider *allowRole="'ADMIN'"></mat-divider>
 
-  <div class="drag-drop-container" cdkDropList>
+  <div class="drag-drop-container" cdkDropList (cdkDropListDropped)="dropFaq($event)">
 
     <div class="faq" *ngFor="let faq of editedContent?.faqs; let index = index" cdkDrag>
 

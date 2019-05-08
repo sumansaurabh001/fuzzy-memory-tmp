@@ -5,6 +5,7 @@ import {EditTitleDescriptionDialogComponent} from '../edit-title-description-dia
 import {ConfirmationDialogComponent} from '../confirmation-dialog/confirmation-dialog.component';
 import {concatMap, filter, tap} from 'rxjs/operators';
 import {HasFaqs} from '../models/content/has-faqs.model';
+import {CdkDragDrop, CdkDragSortEvent, moveItemInArray} from '@angular/cdk/drag-drop';
 
 @Component({
   selector: 'faqs',
@@ -24,6 +25,9 @@ export class FaqsComponent implements OnInit {
 
   @Output()
   faqAdded = new EventEmitter<any>();
+
+  @Output()
+  faqOrderChanged = new EventEmitter<any>();
 
   constructor(
     private dialog: MatDialog) {
@@ -142,6 +146,21 @@ export class FaqsComponent implements OnInit {
     return dialogConfig;
   }
 
+
+  dropFaq(ddEvent: CdkDragSortEvent) {
+
+    const newFaqs = [...this.editedContent.faqs];
+
+    moveItemInArray(newFaqs, ddEvent.previousIndex, ddEvent.currentIndex);
+
+    const newContent = {
+      ...this.editedContent,
+      faqs: newFaqs
+    };
+
+    this.faqOrderChanged.emit(newContent);
+
+  }
 
 
 }
