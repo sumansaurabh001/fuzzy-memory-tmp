@@ -4,21 +4,28 @@
 
   <mat-divider *allowRole="'ADMIN'"></mat-divider>
 
-  <div class="faq" *ngFor="let faq of editedContent?.faqs; let index = index">
+  <div class="drag-drop-container" cdkDropList>
 
-    <div class="faq-question" [innerHtml]="faq.question">
-    </div>
+    <div class="faq" *ngFor="let faq of editedContent?.faqs; let index = index" cdkDrag>
 
-    <div class="faq-answer" [innerHtml]="faq.answer">
-    </div>
+      <div class="faq-question" [innerHtml]="faq.question">
+      </div>
 
-    <div class="faq-tools">
+      <div class="faq-answer" [innerHtml]="faq.answer">
+      </div>
 
-      <mini-action-button icon="mode_edit" *allowRole="'ADMIN'" (click)="onEditFaq(index)"
-                          matTooltip="Edit this question"></mini-action-button>
+      <div class="faq-tools">
 
-      <mini-action-button icon="delete" *allowRole="'ADMIN'" color="basic" (click)="onDeleteFaq(index)"
-                          matTooltip="Delete this question"></mini-action-button>
+        <mini-action-button icon="mode_edit" *allowRole="'ADMIN'" (click)="onEditFaq(index)"
+                            matTooltip="Edit this question"></mini-action-button>
+
+        <mini-action-button icon="delete" *allowRole="'ADMIN'" color="basic" (click)="onDeleteFaq(index)"
+                            matTooltip="Delete this question"></mini-action-button>
+
+        <mini-action-button icon="drag_handle" *allowRole="'ADMIN'" color="basic" class="draggable"
+                            matTooltip="Hold and drag to move this question up or down the list" cdkDragHandle></mini-action-button>
+
+      </div>
 
     </div>
 
