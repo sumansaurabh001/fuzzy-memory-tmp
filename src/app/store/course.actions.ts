@@ -16,7 +16,8 @@ export enum CourseActionTypes {
   DeleteCourses = '[Course] Delete Courses',
   ClearCourses = '[Course] Clear Courses',
   CoursePurchased = '[Course Page] Course Purchased',
-  UserCoursesLoaded = '[App Startup] User Courses Loaded'
+  UserCoursesLoaded = '[App Startup] User Courses Loaded',
+  CourseSortOrderUpdated = '[Courses Screen] Course Sort Order Updated'
 }
 
 
@@ -119,6 +120,13 @@ export class UserCoursesLoaded implements Action {
   constructor(public payload: {purchasedCourses:string[]}) {}
 }
 
+export class CourseSortOrderUpdated implements Action {
+  readonly type = CourseActionTypes.CourseSortOrderUpdated;
+
+  constructor(public payload: {newSortOrder:Course[]}) {}
+}
+
+
 
 export type CourseActions =
    LoadCourseDetail
@@ -133,4 +141,5 @@ export type CourseActions =
   | DeleteCourses
   | ClearCourses
   | CoursePurchased
-  | UserCoursesLoaded;
+  | UserCoursesLoaded
+  | CourseSortOrderUpdated;

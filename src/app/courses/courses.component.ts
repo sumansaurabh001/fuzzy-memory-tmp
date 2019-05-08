@@ -6,6 +6,8 @@ import {Course} from '../models/course.model';
 import {select, Store} from '@ngrx/store';
 import {AppState} from '../store';
 import {selectAllCourses} from '../store/selectors';
+import {moveItemInArray} from '@angular/cdk/drag-drop';
+import {CourseSortOrderUpdated} from '../store/course.actions';
 
 @Component({
   selector: 'courses',
@@ -37,6 +39,30 @@ export class CoursesComponent implements OnInit {
     dialogConfig.minWidth = '500px';
 
     this.dialog.open(AddCourseDialogComponent, dialogConfig);
+  }
+
+  onCourseMovedDown(courses: Course[], movedCourse: Course) {
+
+    const newSortOrder = [...courses];
+
+    const courseIndex = newSortOrder.findIndex(course => course.id == movedCourse.id);
+
+    moveItemInArray(newSortOrder, courseIndex, courseIndex + 1);
+
+    this.store.dispatch(new CourseSortOrderUpdated({newSortOrder}));
+
+  }
+
+  onCourseMovedUp(courses: Course[], movedCourse: Course) {
+
+    const newSortOrder = [...courses];
+
+    const courseIndex = newSortOrder.findIndex(course => course.id == movedCourse.id);
+
+    moveItemInArray(newSortOrder, courseIndex, courseIndex - 1);
+
+    this.store.dispatch(new CourseSortOrderUpdated({newSortOrder}));
+
   }
 
 }

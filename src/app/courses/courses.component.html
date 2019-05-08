@@ -27,7 +27,9 @@
           <course-card
             [course]="course"
             [first]="first"
-            [last]="last">
+            [last]="last"
+            (moveDown)="onCourseMovedDown(courses, course)"
+            (moveUp)="onCourseMovedUp(courses, course)">
 
           </course-card>
         </mat-grid-tile>
