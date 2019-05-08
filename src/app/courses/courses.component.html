@@ -23,8 +23,13 @@
       <h1 class="page-title"> All Courses</h1>
 
       <mat-grid-list cols="2">
-        <mat-grid-tile *ngFor="let course of courses;">
-          <course-card [course]="course"></course-card>
+        <mat-grid-tile *ngFor="let course of courses;let first= first; let last = last">
+          <course-card
+            [course]="course"
+            [first]="first"
+            [last]="last">
+
+          </course-card>
         </mat-grid-tile>
       </mat-grid-list>
 

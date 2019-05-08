@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, Input, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {Course} from '../models/course.model';
 import {EMPTY_IMG} from '../common/ui-constants';
 import {UrlBuilderService} from '../services/url-builder.service';
@@ -12,7 +12,15 @@ export class CourseCardComponent implements OnInit {
 
   @Input() course: Course;
 
-  constructor(private ub: UrlBuilderService) { }
+  @Input() first: boolean;
+
+  @Input() last: boolean;
+
+  @Output() moveUp = new EventEmitter();
+
+  @Output() moveDown = new EventEmitter();
+
+  constructor(private ub: UrlBuilderService) {}
 
   ngOnInit() {
   }
@@ -27,4 +35,11 @@ export class CourseCardComponent implements OnInit {
 
   }
 
+  onMoveUp() {
+    this.moveUp.emit();
+  }
+
+  onMoveDown() {
+    this.moveDown.emit();
+  }
 }

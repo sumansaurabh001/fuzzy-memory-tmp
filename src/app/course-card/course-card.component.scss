@@ -1,5 +1,5 @@
 
-
+@import "../mixins";
 
 .course-card {
   width: 350px;
@@ -8,9 +8,16 @@
 .course-actions {
   display:flex;
   justify-content: center;
+  align-items: center;
 
   button {
     margin-right: 5px;
+  }
+
+  .fas {
+    margin-right: 5px;
+    cursor:pointer;
+    justify-self: flex-start;
   }
 }
 
@@ -20,4 +27,19 @@
 
 :host ::ng-deep .mat-card-content {
   height: 40px;
+}
+
+.move-up-down {
+  display: block;
+  @include mat-icon-size(20px);
+  mat-icon {
+    cursor: pointer;
+  }
+}
+
+:host:hover {
+  .move-up-down {
+    display: block;
+  }
+
 }
