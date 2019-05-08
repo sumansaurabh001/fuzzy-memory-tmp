@@ -232,10 +232,6 @@ export const arePricingPlansReady = createSelector(
   state => !!state.monthlyPlan
 );
 
-export const selectPricingPlans = createSelector(
-  pricingPlansState
-);
-
 
 export const selectPendingLessonsReorder = createSelector(
   selectLessonsState,

@@ -6,8 +6,7 @@ import {select, Store} from '@ngrx/store';
 import {
   arePricingPlansReady,
   isConnectedToStripe,
-  platformState,
-  selectPricingPlans,
+  platformState, pricingPlansState,
   selectUser,
   selectUserPermissions
 } from '../store/selectors';
@@ -106,7 +105,7 @@ export class SubscriptionComponent implements OnInit {
         })
       );
 
-    this.plans$ = this.store.pipe(select(selectPricingPlans));
+    this.plans$ = this.store.pipe(select(pricingPlansState));
 
     this.arePricingPlansReady$ = this.store.pipe(select(arePricingPlansReady));
 
