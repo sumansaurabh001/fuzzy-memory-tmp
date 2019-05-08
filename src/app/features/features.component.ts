@@ -1,4 +1,6 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {CdkDragSortEvent, moveItemInArray} from '@angular/cdk/drag-drop';
+
 const arrayMove = require('array-move');
 
 @Component({
@@ -18,12 +20,7 @@ export class FeaturesComponent implements OnInit {
   featureDeleted = new EventEmitter<number>();
 
   @Output()
-  featureUp = new EventEmitter<number>();
-
-  @Output()
-  featureDown = new EventEmitter<number>();
-
-  displayedColumns = ['move', 'description', 'delete'];
+  featuresOrderChanged = new EventEmitter<string[]>();
 
   constructor() {
 
@@ -38,16 +35,18 @@ export class FeaturesComponent implements OnInit {
     input.value = '';
   }
 
+  dropFeature(ddEvent: CdkDragSortEvent) {
+
+    const newFeatures = [...this.features];
+
+    moveItemInArray(newFeatures, ddEvent.previousIndex, ddEvent.currentIndex);
+
+    this.featuresOrderChanged.emit(newFeatures);
+
+  }
+
   onDelete(index: number) {
     this.featureDeleted.emit(index);
-  }
-
-  onMoveUp(index: number) {
-    this.featureUp.emit(index);
-  }
-
-  onMoveDown(index: number) {
-    this.featureDown.emit(index);
   }
 
 }

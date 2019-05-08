@@ -2,7 +2,7 @@ import {createEntityAdapter, EntityAdapter, EntityState, Update} from '@ngrx/ent
 import {Lesson} from '../models/lesson.model';
 import {LessonActions, LessonActionTypes} from './lesson.actions';
 import {compareLessons, sortLessonsBySectionAndSeqNo} from '../common/sort-model';
-import {moveItemInArray} from '@angular/cdk/drag-drop';
+import {moveItemInArray, CdkDragSortEvent} from '@angular/cdk/drag-drop';
 
 
 export interface State extends EntityState<Lesson> {

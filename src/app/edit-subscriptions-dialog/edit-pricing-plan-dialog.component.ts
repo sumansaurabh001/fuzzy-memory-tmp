@@ -140,14 +140,8 @@ export class EditPricingPlanDialogComponent implements OnInit {
     this.pricingPlan.features = newFeatures;
   }
 
-  onFeatureUp(index:number) {
-    const newFeatures = arrayMove(this.pricingPlan.features, index, index - 1);
-    this.pricingPlan.features = newFeatures;
-  }
-
-  onFeatureDown(index:number) {
-    const newFeatures = arrayMove(this.pricingPlan.features, index, index + 1);
-    this.pricingPlan.features = newFeatures;
+  onFeaturesOrderChanged(features:string[]) {
+    this.pricingPlan.features = features;
   }
 
   close() {

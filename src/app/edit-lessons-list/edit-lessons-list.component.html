@@ -41,7 +41,7 @@
 
               <mat-expansion-panel
                 *ngFor="let lesson of lessons; let index = index"
-                class="lesson-item"
+                class="lesson-item drag-drop-item"
                 #panel
                 [expanded]="expandedLessons[lesson.id]"
                 [ngClass]="expandedCss(panel.expanded)"

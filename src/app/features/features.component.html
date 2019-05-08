@@ -10,42 +10,28 @@
 </div>
 
 
-<mat-table [dataSource]="features">
+<div class="features-container drag-drop-container" cdkDropList (cdkDropListDropped)="dropFeature($event)">
 
-  <ng-container matColumnDef="move">
+  <div class="feature-row drag-drop-item" *ngFor="let feature of features; let i = index" cdkDrag>
 
-    <mat-header-cell *matHeaderCellDef >Move Up/Down</mat-header-cell>
+    <div class="icon-cell move-cell">
+      <mat-icon class="draggable" cdkDragHandle matTooltip="Move this item up or down">drag_handle</mat-icon>
+    </div>
 
-    <mat-cell *matCellDef="let feature; let i = index; let first = first; let last = last;" class="icon-cell move-cell">
-      <mat-icon *ngIf="!first" matTooltip="Move item up" (click)="onMoveUp(i)">arrow_upward</mat-icon>
-      <mat-icon *ngIf="!last" matTooltip="Move item down" (click)="onMoveDown(i)">arrow_downward</mat-icon>
-    </mat-cell>
+    <div class="icon-cell">
+      <mat-icon (click)="onDelete(i)" matTooltip="Delete this item" >delete</mat-icon>
+    </div>
 
-  </ng-container>
 
-  <ng-container matColumnDef="description">
+    <div>
+       {{feature}}
+    </div>
 
-    <mat-header-cell *matHeaderCellDef>Description</mat-header-cell>
 
-    <mat-cell *matCellDef="let feature">{{feature}}</mat-cell>
 
-  </ng-container>
+  </div>
 
-  <ng-container matColumnDef="delete">
-
-    <mat-header-cell *matHeaderCellDef></mat-header-cell>
-
-    <mat-cell *matCellDef="let feature; let i = index" class="icon-cell delete-cell">
-      <mat-icon (click)="onDelete(i)" matTooltip="Delete this item">delete</mat-icon>
-    </mat-cell>
-
-  </ng-container>
-
-  <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-
-  <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
-
-</mat-table>
+</div>
 
 
 
