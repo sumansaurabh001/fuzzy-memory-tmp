@@ -115,7 +115,6 @@ export class SubscriptionComponent implements OnInit {
 
     this.subscriptionContent$ = this.store.pipe(select(selectContent('subscription')));
 
-
     this.route.queryParamMap.subscribe(params => {
 
       const purchaseResult = params.get('purchaseResult'),
