@@ -83,7 +83,7 @@ export function coursesReducer(
     }
 
 
-    case CourseActionTypes.CourseSortOrderUpdated: {
+    case CourseActionTypes.UpdateCourseSortOrder: {
 
       const newSortedCourses = action.payload.newSortOrder;
 
@@ -109,6 +109,12 @@ export function coursesReducer(
       return adapter.updateMany(reorderCourses, {...state, pendingCoursesReordering: reorderCourses});
 
     }
+
+    case CourseActionTypes.UpdateCourseSortOrderCompleted:
+      return {
+        ...state,
+        pendingCoursesReordering: []
+      };
 
     default: {
       return state;

@@ -9,7 +9,7 @@ import {AddSectionDialogComponent} from '../add-section-dialog/add-section-dialo
 import {selectActiveCourse, isActiveCourseLoaded, selectActiveCourseSections, selectActiveCourseAllLessons} from '../store/selectors';
 import {select, Store} from '@ngrx/store';
 import {AppState} from '../store';
-import {CourseSortOrderUpdated, DeleteCourse} from '../store/course.actions';
+import {UpdateCourseSortOrder, DeleteCourse} from '../store/course.actions';
 import {LessonsDBService} from '../services/lessons-db.service';
 import {LoadingService} from '../services/loading.service';
 import {ConfirmationDialogComponent} from '../confirmation-dialog/confirmation-dialog.component';
@@ -18,7 +18,7 @@ import {Lesson} from '../models/lesson.model';
 import {CdkDropList, moveItemInArray} from '@angular/cdk/drag-drop';
 import {UpdateLessonOrder} from '../store/lesson.actions';
 import {concatMap, filter, map, tap} from 'rxjs/operators';
-import {DeleteCourseSection, SectionOrderUpdated} from '../store/course-section.actions';
+import {DeleteCourseSection, UpdateSectionOrder} from '../store/course-section.actions';
 import {AddLessonDialogComponent} from '../add-lesson-dialog/add-lesson-dialog.component';
 import {fadeIn} from '../common/fade-in-out';
 
@@ -193,7 +193,7 @@ export class EditLessonsListComponent implements OnInit {
     return expanded ? 'lesson-expanded' : null;
   }
 
-  onSectionUp(sections: CourseSection[], movedSection: CourseSection) {
+  onSectionUp(course: Course, sections: CourseSection[], movedSection: CourseSection) {
 
     const newSortOrder = [...sections];
 
@@ -201,13 +201,13 @@ export class EditLessonsListComponent implements OnInit {
 
     moveItemInArray(newSortOrder, sectionIndex, sectionIndex - 1);
 
-    this.store.dispatch(new SectionOrderUpdated({newSortOrder}));
+    this.store.dispatch(new UpdateSectionOrder({courseId:course.id, newSortOrder}));
 
     this.messages.info('Course section moved up.');
 
   }
 
-  onSectionDown(sections: CourseSection[], movedSection: CourseSection) {
+  onSectionDown(course: Course, sections: CourseSection[], movedSection: CourseSection) {
 
     const newSortOrder = [...sections];
 
@@ -215,7 +215,7 @@ export class EditLessonsListComponent implements OnInit {
 
     moveItemInArray(newSortOrder, sectionIndex, sectionIndex + 1);
 
-    this.store.dispatch(new SectionOrderUpdated({newSortOrder}));
+    this.store.dispatch(new UpdateSectionOrder({courseId:course.id, newSortOrder}));
 
     this.messages.info('Course section moved down.');
 

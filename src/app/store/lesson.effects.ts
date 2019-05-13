@@ -54,7 +54,7 @@ export class LessonEffects {
     .pipe(
       ofType<UpdateLessonOrder>(LessonActionTypes.UpdateLessonOrder),
       withLatestFrom(this.store.pipe(select(selectPendingLessonsReorder))),
-      concatMap(([action, changes]) => this.lessonsDB.reorderLessons(action.payload.courseId, changes)),
+      concatMap(([action, changes]) => this.lessonsDB.updateLessons(action.payload.courseId, changes)),
       map(() => new UpdateLessonOrderCompleted()),
       catchError(err => {
         this.messages.error('Could not save the new lessons order.');

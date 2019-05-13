@@ -1,6 +1,12 @@
 import {Injectable} from '@angular/core';
 import {Actions, Effect, ofType} from '@ngrx/effects';
-import {CourseActionTypes, CoursePurchased, DeleteCourse, UserCoursesLoaded} from '../store/course.actions';
+import {
+  CourseActionTypes,
+  CoursePurchased,
+  UpdateCourseSortOrder,
+  DeleteCourse,
+  UserCoursesLoaded, UpdateCourseSortOrderCompleted
+} from '../store/course.actions';
 import {concatMap, catchError, withLatestFrom, filter, map, tap} from 'rxjs/operators';
 import {CoursesDBService} from '../services/courses-db.service';
 import {LoadingService} from '../services/loading.service';
@@ -12,12 +18,19 @@ import {select, Store} from '@ngrx/store';
 import {DescriptionsDbService} from '../services/descriptions-db.service';
 import {AddDescription, LoadDescription} from './description.actions';
 import {
-  isActiveCourseDescriptionLoaded, isActiveCourseSectionsLoaded, selectActiveCourse, selectActiveCourseDescription,
-  selectActiveCourseSections, isActiveCourseLessonsLoaded, selectDescriptionsState, isActiveLessonVideoAccessLoaded
+  isActiveCourseDescriptionLoaded,
+  isActiveCourseSectionsLoaded,
+  selectActiveCourse,
+  selectActiveCourseDescription,
+  selectActiveCourseSections,
+  isActiveCourseLessonsLoaded,
+  selectDescriptionsState,
+  isActiveLessonVideoAccessLoaded,
+  selectPendingLessonsReorder, selectPendingCoursesReorder, selectPendingSectionsReorder
 } from './selectors';
 import {LessonsDBService} from '../services/lessons-db.service';
-import {AddCourseSections} from './course-section.actions';
-import {AddLessons, LessonActionTypes, UpdateLesson, WatchLesson} from './lesson.actions';
+import {AddCourseSections, CourseSectionActionTypes, UpdateSectionOrder, UpdateSectionOrderCompleted} from './course-section.actions';
+import {AddLessons, LessonActionTypes, UpdateLesson, UpdateLessonOrder, UpdateLessonOrderCompleted, WatchLesson} from './lesson.actions';
 import {AngularFireAuth} from '@angular/fire/auth';
 import {SchoolUsersDbService} from '../services/school-users-db.service';
 import {TenantService} from '../services/tenant.service';
@@ -43,7 +56,6 @@ export class CourseEffects {
         return _throw(err);
       })
     );
-
 
   @Effect()
   loadCourseDescriptionIfNeeded$ = this.actions$
@@ -88,7 +100,6 @@ export class CourseEffects {
       })
     );
 
-
   @Effect({dispatch: false})
   deleteCourse$ = this.actions$
     .pipe(
@@ -100,7 +111,6 @@ export class CourseEffects {
       })
     );
 
-
   @Effect({dispatch: false})
   saveCourse$ = this.actions$
     .pipe(
@@ -108,6 +118,32 @@ export class CourseEffects {
       concatMap(action => this.loading.showLoader(this.coursesDB.saveCourse(action.payload.course.id, action.payload.course.changes))),
       catchError(err => {
         this.messages.error('Could not save course.');
+        return _throw(err);
+      })
+    );
+
+  @Effect()
+  saveCoursesReordering$ = this.actions$
+    .pipe(
+      ofType<UpdateCourseSortOrder>(CourseActionTypes.UpdateCourseSortOrder),
+      withLatestFrom(this.store.pipe(select(selectPendingCoursesReorder))),
+      concatMap(([action, changes]) => this.coursesDB.updateCourses(changes)),
+      map(() => new UpdateCourseSortOrderCompleted()),
+      catchError(err => {
+        this.messages.error('Could not save the new course order.');
+        return _throw(err);
+      })
+    );
+
+  @Effect()
+  saveCourseSectionReordering$ = this.actions$
+    .pipe(
+      ofType<UpdateSectionOrder>(CourseSectionActionTypes.UpdatedSectionOrder),
+      withLatestFrom(this.store.pipe(select(selectPendingSectionsReorder))),
+      concatMap(([action, changes]) => this.coursesDB.updateCourseSections(action.payload.courseId, changes)),
+      map(() => new UpdateSectionOrderCompleted()),
+      catchError(err => {
+        this.messages.error('Could not save the new section order.');
         return _throw(err);
       })
     );

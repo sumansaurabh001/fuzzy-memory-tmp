@@ -130,7 +130,7 @@ export class LessonsDBService {
   }
 
 
-  reorderLessons(courseId:string, changes: Update<Lesson>[]) {
+  updateLessons(courseId:string, changes: Update<Lesson>[]) {
 
     const batch = this.afs.firestore.batch();
 

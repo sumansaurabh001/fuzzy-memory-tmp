@@ -237,3 +237,18 @@ export const selectPendingLessonsReorder = createSelector(
   selectLessonsState,
   lessonsState => lessonsState.pendingLessonReordering
 );
+
+export const selectPendingCoursesReorder = createSelector(
+  selectCoursesState,
+  coursesState => coursesState.pendingCoursesReordering
+);
+
+export const selectPendingSectionsReorder = createSelector(
+  selectSectionsState,
+  sectionsState => sectionsState.pendingSectionsReordering
+);
+
+
+
+
+

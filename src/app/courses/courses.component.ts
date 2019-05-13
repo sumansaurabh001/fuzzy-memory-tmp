@@ -7,7 +7,7 @@ import {select, Store} from '@ngrx/store';
 import {AppState} from '../store';
 import {selectAllCourses} from '../store/selectors';
 import {moveItemInArray} from '@angular/cdk/drag-drop';
-import {CourseSortOrderUpdated} from '../store/course.actions';
+import {UpdateCourseSortOrder} from '../store/course.actions';
 
 @Component({
   selector: 'courses',
@@ -49,7 +49,7 @@ export class CoursesComponent implements OnInit {
 
     moveItemInArray(newSortOrder, courseIndex, courseIndex + 1);
 
-    this.store.dispatch(new CourseSortOrderUpdated({newSortOrder}));
+    this.store.dispatch(new UpdateCourseSortOrder({newSortOrder}));
 
   }
 
@@ -61,7 +61,7 @@ export class CoursesComponent implements OnInit {
 
     moveItemInArray(newSortOrder, courseIndex, courseIndex - 1);
 
-    this.store.dispatch(new CourseSortOrderUpdated({newSortOrder}));
+    this.store.dispatch(new UpdateCourseSortOrder({newSortOrder}));
 
   }
 

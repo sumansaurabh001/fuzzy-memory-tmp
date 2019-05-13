@@ -54,7 +54,7 @@ export function reducer(
       return adapter.removeOne(action.payload.id, state);
     }
 
-    case CourseSectionActionTypes.SectionOrderUpdated:
+    case CourseSectionActionTypes.UpdatedSectionOrder:
 
       const newSortedSections = action.payload.newSortOrder;
 
@@ -79,8 +79,12 @@ export function reducer(
 
       return adapter.updateMany(reorderSections, {...state, pendingSectionsReordering: reorderSections});
 
+    case CourseSectionActionTypes.UpdatedSectionOrderCompleted:
 
-
+      return {
+        ...state,
+        pendingSectionsReordering: []
+      };
 
     default: {
       return state;

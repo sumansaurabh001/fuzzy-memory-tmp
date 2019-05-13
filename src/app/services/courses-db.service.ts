@@ -8,6 +8,10 @@ import {
 import {TenantService} from './tenant.service';
 import {filter, first, map, switchMap, tap} from 'rxjs/operators';
 import {Course} from '../models/course.model';
+import {Update} from '@ngrx/entity';
+import {Lesson} from '../models/lesson.model';
+import {from} from 'rxjs/internal/observable/from';
+import {CourseSection} from '../models/course-section.model';
 
 
 @Injectable()
@@ -74,6 +78,32 @@ export class CoursesDBService {
 
   private get coursesPath() {
     return this.tenant.path('courses');
+  }
+
+  updateCourses(changes: Update<Course>[]) {
+
+      const batch = this.afs.firestore.batch();
+
+      changes.forEach(change => {
+        const courseRef = this.afs.doc(`schools/${this.tenant.id}/courses/${change.id}`).ref;
+        batch.update(courseRef, change.changes);
+      });
+
+      return from(batch.commit());
+
+  }
+
+  updateCourseSections(courseId:string, changes: Update<CourseSection>[]) {
+
+    const batch = this.afs.firestore.batch();
+
+    changes.forEach(change => {
+      const courseRef = this.afs.doc(`schools/${this.tenant.id}/courses/${courseId}/sections/${change.id}`).ref;
+      batch.update(courseRef, change.changes);
+    });
+
+    return from(batch.commit());
+
   }
 
 }

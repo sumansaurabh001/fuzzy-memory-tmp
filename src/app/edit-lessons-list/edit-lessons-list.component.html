@@ -35,10 +35,10 @@
             <div class="move-section">
 
               <i class="fas fa-chevron-circle-up"  *ngIf="!first && sections?.length > 0"
-                 matTooltip="Move this section up the list" (click)="onSectionUp(sections, section)"></i>
+                 matTooltip="Move this section up the list" (click)="onSectionUp(course, sections, section)"></i>
 
               <i class="fas fa-chevron-circle-down"  *ngIf="!last && sections?.length > 0"
-                 matTooltip="Move this section down the list" (click)="onSectionDown(sections, section)"></i>
+                 matTooltip="Move this section down the list" (click)="onSectionDown(course, sections, section)"></i>
 
             </div>
 
