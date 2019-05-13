@@ -1,13 +1,14 @@
 import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
 import {MatDialog, MatDialogConfig} from '@angular/material';
 import {AddCourseDialogComponent} from '../add-course-dialog/add-course-dialog.component';
-import {Observable} from 'rxjs';
+import {Observable, combineLatest} from 'rxjs';
 import {Course} from '../models/course.model';
 import {select, Store} from '@ngrx/store';
 import {AppState} from '../store';
-import {selectAllCourses} from '../store/selectors';
+import {isAdmin, isLoggedOut, selectAllCourses, selectUserCourses} from '../store/selectors';
 import {moveItemInArray} from '@angular/cdk/drag-drop';
 import {UpdateCourseSortOrder} from '../store/course.actions';
+import { map} from 'rxjs/operators';
 
 @Component({
   selector: 'courses',
@@ -16,7 +17,7 @@ import {UpdateCourseSortOrder} from '../store/course.actions';
 })
 export class CoursesComponent implements OnInit {
 
-  courses$: Observable<Course[]>;
+  userInfo$: Observable<{isLoggedOut:boolean, isAdmin:boolean, allCourses: Course[], userCourses: Course[]}>;
 
   constructor(
     private dialog: MatDialog,
@@ -26,7 +27,18 @@ export class CoursesComponent implements OnInit {
 
   ngOnInit() {
 
-    this.courses$ = this.store.pipe(select(selectAllCourses));
+    const courses$ = this.store.pipe(select(selectAllCourses));
+
+    const isLoggedOut$ = this.store.pipe(select(isLoggedOut));
+
+    const isAdmin$ = this.store.pipe(select(isAdmin));
+
+    const userCourses$ = this.store.pipe(select(selectUserCourses));
+
+    this.userInfo$ = combineLatest([isLoggedOut$, isAdmin$, courses$, userCourses$])
+      .pipe(
+        map(([isLoggedOut, isAdmin, allCourses, userCourses]) => {return {isLoggedOut, isAdmin, allCourses, userCourses}})
+      );
 
   }
 

@@ -6,7 +6,7 @@ import {Observable, BehaviorSubject} from 'rxjs';
 import {
   isAdmin,
   selectActiveCourse, selectActiveCourseAllLessons, selectActiveCourseDescription,
-  selectActiveCourseSections, selectUser, selectUserCourses
+  selectActiveCourseSections, selectUser, selectUserCoursesIds
 } from '../store/selectors';
 import {UrlBuilderService} from '../services/url-builder.service';
 import {Lesson} from '../models/lesson.model';

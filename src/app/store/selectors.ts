@@ -203,9 +203,15 @@ export const selectUser = createSelector(
   authState => authState.user
 );
 
-export const selectUserCourses = createSelector(
+export const selectUserCoursesIds = createSelector(
   selectCoursesState,
   coursesState => coursesState.coursesPurchased
+);
+
+
+export const selectUserCourses = createSelector(
+  selectCoursesState,
+  coursesState => coursesState.coursesPurchased.map(courseId => coursesState.entities[courseId])
 );
 
 

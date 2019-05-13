@@ -9,7 +9,7 @@ import {select, Store} from '@ngrx/store';
 import {CoursePurchased} from '../store/course.actions';
 import {Router} from '@angular/router';
 import {Observable} from 'rxjs/Observable';
-import {isAdmin, selectUser, selectUserCourses} from '../store/selectors';
+import {isAdmin, selectUser, selectUserCoursesIds} from '../store/selectors';
 import {User} from '../models/user.model';
 
 
@@ -51,7 +51,7 @@ export class CourseActionButtonsComponent implements OnInit, OnChanges {
         this.updatePurchaseButtonsVisibility();
       });
 
-    this.store.pipe(select(selectUserCourses))
+    this.store.pipe(select(selectUserCoursesIds))
       .subscribe(userCourses => {
         this.userCourses = userCourses;
         this.updatePurchaseButtonsVisibility();
