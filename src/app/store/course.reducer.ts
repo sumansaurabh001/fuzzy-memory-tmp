@@ -1,20 +1,25 @@
-import {createEntityAdapter, EntityAdapter, EntityState} from '@ngrx/entity';
+import {createEntityAdapter, EntityAdapter, EntityState, Update} from '@ngrx/entity';
 import {Course} from '../models/course.model';
 import {CourseActions, CourseActionTypes} from './course.actions';
+import {compareCourses} from '../common/sort-model';
 
 
 export interface State extends EntityState<Course> {
   initialCoursesLoaded:boolean;
   activeCourseId: string;
   coursesPurchased: string[];
+  pendingCoursesReordering: Update<Course>[];
 }
 
-export const adapter: EntityAdapter<Course> = createEntityAdapter<Course>();
+export const adapter: EntityAdapter<Course> = createEntityAdapter<Course>({
+  sortComparer: compareCourses
+});
 
 export const initialState: State = adapter.getInitialState({
   initialCoursesLoaded:false,
   activeCourseId: undefined,
-  coursesPurchased: []
+  coursesPurchased: [],
+  pendingCoursesReordering: []
 });
 
 export function coursesReducer(
@@ -75,6 +80,35 @@ export function coursesReducer(
           ...action.payload.purchasedCourses
         ]
       };
+    }
+
+
+    case CourseActionTypes.CourseSortOrderUpdated: {
+
+      const newSortedCourses = action.payload.newSortOrder,
+            currentSortedCourses = Object.values(state.entities).sort(compareCourses);
+
+      const reorderCourses: Update<Course>[] = [];
+
+      let seqNoCounter = 1;
+
+      newSortedCourses.forEach(course => {
+
+        if (course.seqNo != seqNoCounter) {
+
+          const changes: Partial<Course> = {
+            seqNo: seqNoCounter
+          };
+
+          reorderCourses.push({id:course.id, changes});
+        }
+
+        seqNoCounter+=1;
+
+      });
+
+      return adapter.updateMany(reorderCourses, {...state, pendingCoursesReordering: reorderCourses});
+
     }
 
     default: {

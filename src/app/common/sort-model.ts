@@ -1,10 +1,17 @@
 import {CourseSection} from '../models/course-section.model';
 import {Lesson} from '../models/lesson.model';
+import {Course} from '../models/course.model';
+
+
 
 
 
 export function sortSectionsBySeqNo(sections: CourseSection[]) {
   return sections.sort(compareSections);
+}
+
+export function compareCourses(c1:Course, c2: Course) {
+  return c1.seqNo - c2.seqNo;
 }
 
 export function compareSections(s1:CourseSection, s2: CourseSection) {
