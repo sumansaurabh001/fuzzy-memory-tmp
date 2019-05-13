@@ -7,7 +7,8 @@ export enum CourseSectionActionTypes {
   AddCourseSection = '[CourseSection] Add Course Section',
   AddCourseSections = '[CourseSection] Add Course Sections',
   UpdateCourseSection = '[CourseSection] Update Course Section',
-  DeleteCourseSection = '[CourseSection] Delete Course Section'
+  DeleteCourseSection = '[CourseSection] Delete Course Section',
+  SectionOrderUpdated = '[Edit Lessons Screen] Section Order Updated'
 }
 
 export class LoadCourseSections implements Action {
@@ -41,9 +42,19 @@ export class DeleteCourseSection implements Action {
   constructor(public payload: { id: string }) {}
 }
 
+export class SectionOrderUpdated implements Action {
+
+  readonly type = CourseSectionActionTypes.SectionOrderUpdated;
+
+  constructor(public payload: {newSortOrder: CourseSection[]}) {}
+
+
+}
+
 export type CourseSectionActions =
  LoadCourseSections
  | AddCourseSection
  | AddCourseSections
  | UpdateCourseSection
- | DeleteCourseSection;
+ | DeleteCourseSection
+ | SectionOrderUpdated;

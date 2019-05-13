@@ -56,6 +56,7 @@
   margin-bottom: 20px;
   display: flex;
   min-height: 24px;
+
 }
 
 .drag-section {
@@ -69,15 +70,17 @@
   margin-left: 5px;
   @include mat-icon-size(20px);
   cursor: pointer;
-  display: none;
 }
 
-.section-title:hover {
 
-  .edit-button-container, .drag-section {
-    display: block;
+
+.move-section {
+  margin-right: 20px;
+  i {
+    margin-left: 5px;
+    color:$light-grey;
+    cursor: pointer;
   }
-
 }
 
 .lesson-header {
@@ -121,7 +124,9 @@
   padding-bottom: 100px;
 }
 
-
+.move-section i {
+  cursor: pointer;
+}
 
 
 .lesson-item {

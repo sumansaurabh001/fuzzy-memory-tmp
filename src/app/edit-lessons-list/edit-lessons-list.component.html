@@ -18,7 +18,7 @@
 
     <div class="drag-drop-container" cdkDropList (cdkDropListDropped)="dropLesson(course, sections, $event)">
 
-      <ng-container *ngFor="let section of sections">
+      <ng-container *ngFor="let section of sections; let first = first, let last = last">
 
         <div class="course-section mat-elevation-z7">
 
@@ -32,7 +32,16 @@
 
             <div class="filler"></div>
 
-            <mat-icon class="drag-section draggable">drag_handle</mat-icon>
+            <div class="move-section">
+
+              <i class="fas fa-chevron-circle-up"  *ngIf="!first && sections?.length > 0"
+                 matTooltip="Move this section up the list" (click)="onSectionUp(sections, section)"></i>
+
+              <i class="fas fa-chevron-circle-down"  *ngIf="!last && sections?.length > 0"
+                 matTooltip="Move this section down the list" (click)="onSectionDown(sections, section)"></i>
+
+            </div>
+
           </div>
 
           <ng-container *ngIf="(allLessons$ | async) as allLessons">

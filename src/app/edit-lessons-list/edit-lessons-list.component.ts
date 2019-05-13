@@ -9,16 +9,16 @@ import {AddSectionDialogComponent} from '../add-section-dialog/add-section-dialo
 import {selectActiveCourse, isActiveCourseLoaded, selectActiveCourseSections, selectActiveCourseAllLessons} from '../store/selectors';
 import {select, Store} from '@ngrx/store';
 import {AppState} from '../store';
-import {DeleteCourse} from '../store/course.actions';
+import {CourseSortOrderUpdated, DeleteCourse} from '../store/course.actions';
 import {LessonsDBService} from '../services/lessons-db.service';
 import {LoadingService} from '../services/loading.service';
 import {ConfirmationDialogComponent} from '../confirmation-dialog/confirmation-dialog.component';
 import {EditSectionDialogComponent} from '../edit-section-dialog/edit-section-dialog.component';
 import {Lesson} from '../models/lesson.model';
-import {CdkDropList} from '@angular/cdk/drag-drop';
+import {CdkDropList, moveItemInArray} from '@angular/cdk/drag-drop';
 import {UpdateLessonOrder} from '../store/lesson.actions';
 import {concatMap, filter, map, tap} from 'rxjs/operators';
-import {DeleteCourseSection} from '../store/course-section.actions';
+import {DeleteCourseSection, SectionOrderUpdated} from '../store/course-section.actions';
 import {AddLessonDialogComponent} from '../add-lesson-dialog/add-lesson-dialog.component';
 import {fadeIn} from '../common/fade-in-out';
 
@@ -191,6 +191,34 @@ export class EditLessonsListComponent implements OnInit {
 
   expandedCss(expanded: boolean) {
     return expanded ? 'lesson-expanded' : null;
+  }
+
+  onSectionUp(sections: CourseSection[], movedSection: CourseSection) {
+
+    const newSortOrder = [...sections];
+
+    const sectionIndex = newSortOrder.findIndex(section => section.id == movedSection.id);
+
+    moveItemInArray(newSortOrder, sectionIndex, sectionIndex - 1);
+
+    this.store.dispatch(new SectionOrderUpdated({newSortOrder}));
+
+    this.messages.info('Course section moved up.');
+
+  }
+
+  onSectionDown(sections: CourseSection[], movedSection: CourseSection) {
+
+    const newSortOrder = [...sections];
+
+    const sectionIndex = newSortOrder.findIndex(section => section.id == movedSection.id);
+
+    moveItemInArray(newSortOrder, sectionIndex, sectionIndex + 1);
+
+    this.store.dispatch(new SectionOrderUpdated({newSortOrder}));
+
+    this.messages.info('Course section moved down.');
+
   }
 
 }

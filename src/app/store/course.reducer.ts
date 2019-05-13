@@ -85,8 +85,7 @@ export function coursesReducer(
 
     case CourseActionTypes.CourseSortOrderUpdated: {
 
-      const newSortedCourses = action.payload.newSortOrder,
-            currentSortedCourses = Object.values(state.entities).sort(compareCourses);
+      const newSortedCourses = action.payload.newSortOrder;
 
       const reorderCourses: Update<Course>[] = [];
 
