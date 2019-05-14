@@ -42,7 +42,7 @@
 
                   <button mat-raised-button color="primary"
                           [disabled]="!isMonthlyButtonActive(user)"
-                          (click)="activateSubscription(plans.monthlyPlan, userPermissions)">
+                          (click)="activateSubscription(plans.monthlyPlan, userPermissions, user)">
                     {{monthlyPlanButtonText( user)}}
                   </button>
 
@@ -82,7 +82,7 @@
 
                   <button mat-raised-button color="accent"
                           [disabled]="!isYearlyButtonActive(user)"
-                          (click)="activateSubscription(plans.yearlyPlan, userPermissions)">
+                          (click)="activateSubscription(plans.yearlyPlan, userPermissions, user)">
                     {{yearlyPlanButtonText( user)}}
                   </button>
 
@@ -119,7 +119,7 @@
 
                   <button mat-raised-button color="primary"
                           [disabled]="!isLifetimeButtonActive(user)"
-                          (click)="activateSubscription(plans.lifetimePlan, userPermissions)">
+                          (click)="activateSubscription(plans.lifetimePlan, userPermissions, user)">
                     {{lifetimePlanButtonText( user)}}
                   </button>
 

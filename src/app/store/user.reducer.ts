@@ -1,5 +1,5 @@
 import {UserActions, UserActionTypes} from './user.actions';
-import {User} from '../models/user.model';
+import {ANONYMOUS_USER, User} from '../models/user.model';
 import {UserPermissions} from '../models/user-permissions.model';
 
 
@@ -15,7 +15,7 @@ const DEFAULT_PERMISSIONS: UserPermissions = {
 
 export const initialUserState: UserState = {
   isLoggedIn: false,
-  user:undefined,
+  user:ANONYMOUS_USER,
   permissions: DEFAULT_PERMISSIONS
 };
 
@@ -37,7 +37,7 @@ export function userReducer(state = initialUserState, action: UserActions): User
     case UserActionTypes.LogoutAction:
       return {
         isLoggedIn: false,
-        user: undefined,
+        user: ANONYMOUS_USER,
         permissions:DEFAULT_PERMISSIONS
       };
 

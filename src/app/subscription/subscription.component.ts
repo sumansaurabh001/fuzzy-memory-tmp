@@ -28,7 +28,7 @@ import {planNames} from '../common/text';
 
 import * as firebase from 'firebase/app';
 import {UserPermissions} from '../models/user-permissions.model';
-import {isUserPlanCanceled, isUserPlanStillValid, User} from '../models/user.model';
+import {isAnonymousUser, isUserPlanCanceled, isUserPlanStillValid, User} from '../models/user.model';
 import {GetSubscriptionContent, SubscriptionContentUpdated} from '../store/content.actions';
 import {SubscriptionContent} from '../models/content/subscription-content.model';
 import {selectContent} from '../store/content.selectors';
@@ -181,7 +181,12 @@ export class SubscriptionComponent implements OnInit {
       );
   }
 
-  activateSubscription(plan: PricingPlan, userPermissions: UserPermissions) {
+  activateSubscription(plan: PricingPlan, userPermissions: UserPermissions, user:User) {
+
+    if (isAnonymousUser(user)) {
+      this.messages.info("Please login first. You can use social login (Gmail, Twitter, etc.) or email and password if you prefer.");
+      return;
+    }
 
     if (userPermissions.isAdmin) {
       this.messages.info('Students will be able to subscribe using this button.');
