@@ -220,6 +220,11 @@ export const isAdmin = createSelector(
   authState => authState.permissions ? authState.permissions.isAdmin : false
 );
 
+export const isUserSubscribed = createSelector(
+  selectUser,
+  user => user && !!user.pricingPlan
+);
+
 export const selectActiveLessonVideoAccess = createSelector(
   selectActiveLesson,
   videoAccessState,

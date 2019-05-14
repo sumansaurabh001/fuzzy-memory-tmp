@@ -18,7 +18,7 @@
 
     </ng-container>
 
-    <ng-container *ngIf="userInfo.isLoggedOut || userInfo.isAdmin">
+    <ng-container *ngIf="showAllCourses(userInfo)">
 
       <div *ngIf="userInfo.allCourses?.length > 0; else noCourses">
 
@@ -51,17 +51,21 @@
 
     </ng-container>
 
-    <ng-container *ngIf="!userInfo.isLoggedOut && !userInfo.isAdmin">
+    <ng-container *ngIf="showMyCourses(userInfo)">
 
-      <h1 class="page-title"> My Courses</h1>
+      <ng-container *ngIf="userInfo.userCourses?.length > 0">
 
-      <mat-grid-list cols="2">
-        <mat-grid-tile *ngFor="let course of userInfo.userCourses">
-          <course-card [course]="course"></course-card>
-        </mat-grid-tile>
-      </mat-grid-list>
+        <h1 class="page-title"> My Courses</h1>
 
-      <mat-divider></mat-divider>
+        <mat-grid-list cols="2">
+          <mat-grid-tile *ngFor="let course of userInfo.userCourses">
+            <course-card [course]="course"></course-card>
+          </mat-grid-tile>
+        </mat-grid-list>
+
+        <mat-divider></mat-divider>
+
+      </ng-container>
 
       <h1 class="page-title"> Get These Courses - Lifetime Access</h1>
 

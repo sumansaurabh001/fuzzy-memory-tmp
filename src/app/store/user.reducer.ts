@@ -12,7 +12,9 @@ export interface UserState {
 export const initialUserState: UserState = {
   isLoggedIn: false,
   user:undefined,
-  permissions: undefined
+  permissions: {
+    isAdmin: false
+  }
 };
 
 export function userReducer(state = initialUserState, action: UserActions): UserState {

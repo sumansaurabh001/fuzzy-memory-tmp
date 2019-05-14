@@ -1,28 +1,42 @@
-import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, Component, OnDestroy, OnInit} from '@angular/core';
 import {MatDialog, MatDialogConfig} from '@angular/material';
 import {AddCourseDialogComponent} from '../add-course-dialog/add-course-dialog.component';
 import {Observable, combineLatest} from 'rxjs';
 import {Course} from '../models/course.model';
 import {select, Store} from '@ngrx/store';
 import {AppState} from '../store';
-import {isAdmin, isLoggedOut, selectAllCourses, selectUserCourses} from '../store/selectors';
+import {isAdmin, isLoggedOut, isUserSubscribed, selectAllCourses, selectUserCourses} from '../store/selectors';
 import {moveItemInArray} from '@angular/cdk/drag-drop';
 import {UpdateCourseSortOrder} from '../store/course.actions';
-import { map} from 'rxjs/operators';
+import {map, tap} from 'rxjs/operators';
 import {arrayDiffById} from '../common/collection-utils';
+import {MessagesService} from '../services/messages.service';
+
+
+
+interface UserInfo {
+  isLoggedOut:boolean,
+  isAdmin:boolean,
+  allCourses: Course[],
+  userCourses: Course[],
+  isUserSubscribed: boolean
+}
 
 @Component({
   selector: 'courses',
   templateUrl: './courses.component.html',
   styleUrls: ['./courses.component.scss']
 })
-export class CoursesComponent implements OnInit {
+export class CoursesComponent implements OnInit, OnDestroy {
 
-  userInfo$: Observable<{isLoggedOut:boolean, isAdmin:boolean, allCourses: Course[], userCourses: Course[]}>;
+  userInfo$: Observable<UserInfo>;
+
+  infoMessageShown = false;
 
   constructor(
     private dialog: MatDialog,
-    private store: Store<AppState>) {
+    private store: Store<AppState>,
+    private messages:MessagesService) {
 
   }
 
@@ -32,15 +46,31 @@ export class CoursesComponent implements OnInit {
 
     const isLoggedOut$ = this.store.pipe(select(isLoggedOut));
 
+    const isUserSubscribed$ = this.store.pipe(select(isUserSubscribed));
+
     const isAdmin$ = this.store.pipe(select(isAdmin));
 
     const userCourses$ = this.store.pipe(select(selectUserCourses));
 
-    this.userInfo$ = combineLatest([isLoggedOut$, isAdmin$, courses$, userCourses$])
+    this.userInfo$ = combineLatest([isLoggedOut$, isAdmin$, courses$, userCourses$, isUserSubscribed$])
       .pipe(
-        map(([isLoggedOut, isAdmin, allCourses, userCourses]) => {return {isLoggedOut, isAdmin, allCourses, userCourses}})
+        map(([isLoggedOut, isAdmin, allCourses, userCourses, isUserSubscribed]) => {
+          return {isLoggedOut, isAdmin, allCourses, userCourses, isUserSubscribed}}),
+        tap(userInfo => {
+          if (!this.infoMessageShown) {
+            if (userInfo.isUserSubscribed) {
+             this.messages.info("As a subscriber, you have access to all the courses!");
+            }
+            this.infoMessageShown = true;
+          }
+
+        })
       );
 
+  }
+
+  ngOnDestroy() {
+    this.messages.clear();
   }
 
   addNewCourse() {
@@ -83,4 +113,11 @@ export class CoursesComponent implements OnInit {
   }
 
 
+  showAllCourses(userInfo: UserInfo) {
+    return userInfo.isLoggedOut || userInfo.isAdmin || userInfo.isUserSubscribed;
+  }
+
+  showMyCourses(userInfo: UserInfo) {
+    return !userInfo.isLoggedOut && (!userInfo.isAdmin && !userInfo.isUserSubscribed);
+  }
 }

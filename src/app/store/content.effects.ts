@@ -14,6 +14,7 @@ import {isContentLoaded} from './content.selectors';
 import {ContentDbService} from '../services/content-db.service';
 import {throwError} from 'rxjs';
 import {MessagesService} from '../services/messages.service';
+import {LoadingService} from '../services/loading.service';
 
 
 @Injectable({
@@ -40,7 +41,8 @@ export class ContentEffects {
     private actions$: Actions,
     private store: Store<AppState>,
     private content: ContentDbService,
-    private messages: MessagesService) {
+    private messages: MessagesService,
+    private loading: LoadingService) {
 
   }
 
@@ -49,7 +51,7 @@ export class ContentEffects {
     return this.actions$
       .pipe(
         ofType(getContentActionType),
-        concatMap(() => this.content.loadPageContent(contentPath)),
+        concatMap(() => this.loading.showLoaderUntilCompleted(this.content.loadPageContent(contentPath))),
         map((content) => new ContentLoadedAction({content})),
         catchError(err => {
           this.messages.error('Could not load content in path:' + contentPath);
