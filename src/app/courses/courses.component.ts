@@ -9,6 +9,7 @@ import {isAdmin, isLoggedOut, selectAllCourses, selectUserCourses} from '../stor
 import {moveItemInArray} from '@angular/cdk/drag-drop';
 import {UpdateCourseSortOrder} from '../store/course.actions';
 import { map} from 'rxjs/operators';
+import {arrayDiffById} from '../common/collection-utils';
 
 @Component({
   selector: 'courses',
@@ -76,5 +77,10 @@ export class CoursesComponent implements OnInit {
     this.store.dispatch(new UpdateCourseSortOrder({newSortOrder}));
 
   }
+
+  availableCourses(allCourses: Course[], userCourses: Course[]) {
+    return arrayDiffById(allCourses, userCourses);
+  }
+
 
 }
