@@ -52,7 +52,6 @@ export class SubscriptionComponent implements OnInit {
 
   form: FormGroup;
 
-
   isConnectedToStripe$: Observable<boolean>;
   arePricingPlansReady$: Observable<boolean>;
   plans$: Observable<PricingPlansState>;

@@ -9,12 +9,14 @@ export interface UserState {
   permissions?: UserPermissions;
 }
 
+const DEFAULT_PERMISSIONS: UserPermissions = {
+  isAdmin: false
+};
+
 export const initialUserState: UserState = {
   isLoggedIn: false,
   user:undefined,
-  permissions: {
-    isAdmin: false
-  }
+  permissions: DEFAULT_PERMISSIONS
 };
 
 export function userReducer(state = initialUserState, action: UserActions): UserState {
@@ -36,7 +38,7 @@ export function userReducer(state = initialUserState, action: UserActions): User
       return {
         isLoggedIn: false,
         user: undefined,
-        permissions: undefined
+        permissions:DEFAULT_PERMISSIONS
       };
 
     case UserActionTypes.UserLoaded:
