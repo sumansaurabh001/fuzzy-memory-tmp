@@ -32,7 +32,7 @@ export function getPlatformSubdomain() {
   const hostName = document.location.hostname;
 
   // checking if this a tenant subdomain
-  const subDomainRegex = /^online-school-(.*).onlinecoursehost/;
+  const subDomainRegex = /^(.*).onlinecoursehost/;
 
   const matches = hostName.match(subDomainRegex);
 

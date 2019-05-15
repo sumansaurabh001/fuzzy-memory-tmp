@@ -115,6 +115,7 @@ import {SharedModule} from './shared/shared.module';
 import { ContactPageComponent } from './contact-page/contact-page.component';
 import {DragDropModule} from '@angular/cdk/drag-drop';
 import {LessonEffects} from './store/lesson.effects';
+import { AskSchoolDetailsDialogComponent } from './ask-school-details-dialog/ask-school-details-dialog.component';
 
 
 @NgModule({
@@ -175,7 +176,8 @@ import {LessonEffects} from './store/lesson.effects';
     EditHomeDialogComponent,
     EditableContainerComponent,
     FileUploadProgressComponent,
-    ContactPageComponent
+    ContactPageComponent,
+    AskSchoolDetailsDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -271,7 +273,8 @@ import {LessonEffects} from './store/lesson.effects';
     CancelSubscriptionDialogComponent,
     EditHtmlDialogComponent,
     EditTitleDescriptionDialogComponent,
-    EditHomeDialogComponent
+    EditHomeDialogComponent,
+    AskSchoolDetailsDialogComponent
   ],
   bootstrap: [AppComponent]
 })

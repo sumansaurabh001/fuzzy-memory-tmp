@@ -18,12 +18,12 @@ import {PricingPlansLoaded} from '../store/pricing-plans.actions';
 /*
 *
 *
-*  This guard has a couple of very important functions, without which the website can't function:
+*  This guard has a couple of very important functions, without which the website cannot function:
 *
 *   - it determines the tenant at application startup time, which will determine which courses
 *     and lessons will be shown to the user (as this is a multi-tenant app)
 *
-*   - it loads the tenant branding styles, without which we cant even display correctly the site to the user
+*   - it loads the tenant branding styles, without which we cannot even display the website correctly to the user
 *
 *
 * */

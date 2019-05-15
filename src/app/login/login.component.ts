@@ -12,8 +12,11 @@ import {checkIfPlatformSite, DEFAULT_THEME} from '../common/platform-utils';
 import {ONLINECOURSEHOST_ACCENT_COLOR, ONLINECOURSEHOST_PRIMARY_COLOR} from '../common/ui-constants';
 import {ThemeChanged} from '../store/platform.actions';
 import {CustomJwtAuthService} from '../services/custom-jwt-auth.service';
-import {concatMap, filter, map, tap, withLatestFrom} from 'rxjs/operators';
+import {concatMap, filter, first, map, tap, withLatestFrom} from 'rxjs/operators';
 import {SchoolUsersDbService} from '../services/school-users-db.service';
+import {Tenant} from '../models/tenant.model';
+import {MatDialog, MatDialogConfig} from '@angular/material';
+import {AskSchoolDetailsDialogComponent} from '../ask-school-details-dialog/ask-school-details-dialog.component';
 
 
 @Component({
@@ -39,7 +42,8 @@ export class LoginComponent implements OnInit, OnDestroy {
     private router: Router,
     private route: ActivatedRoute,
     private jwtService: CustomJwtAuthService,
-    private usersDB: SchoolUsersDbService) {
+    private usersDB: SchoolUsersDbService,
+    private dialog: MatDialog) {
 
     this.isPlatformSite = checkIfPlatformSite();
 
@@ -89,6 +93,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   onLoginSuccessful(result) {
+
     const email = result.user.email,
       displayName = result.user.displayName;
 
@@ -133,7 +138,8 @@ export class LoginComponent implements OnInit, OnDestroy {
             concatMap(([tenant, authJwtToken]) =>
               this.jwtService.createCustomJwt(tenant.id, tenant.id, authJwtToken)
                 .pipe(
-                  tap(jwt => this.redirectTenantToSubdomain(jwt, tenant.seqNo))
+                  first(),
+                  tap(jwt => this.redirectTenantToSubdomain(jwt, tenant))
                 )
 
 
@@ -178,18 +184,46 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   }
 
-  redirectTenantToSubdomain(jwt:string, seqNo:number) {
+  redirectTenantToSubdomain(jwt:string, tenant: Tenant) {
 
     console.log("custom jwt:", jwt);
 
+
+    // if it's the first time the tenant is logging in, then setup the tenant subdomain first
+    if (!tenant.subDomain) {
+
+      const dialogConfig = new MatDialogConfig();
+
+      dialogConfig.autoFocus = true;
+      dialogConfig.disableClose = true;
+      dialogConfig.minWidth = '800px';
+
+      const dialogRef = this.dialog.open(AskSchoolDetailsDialogComponent, dialogConfig);
+
+      dialogRef.afterClosed()
+        .pipe(
+          concatMap(({subDomain, schoolName}) => this.loading.showLoader(this.tenantsDB.updateTenant(tenant.id, {subDomain, schoolName}))
+                                                                .pipe(map(() => subDomain))),
+          tap(subDomain => this.signInToTenantSubdomain(subDomain, jwt))
+        )
+        .subscribe();
+    }
+    else {
+      this.signInToTenantSubdomain(tenant.subDomain, jwt)
+    }
+
+  }
+
+  signInToTenantSubdomain(subDomain:string, jwt:string) {
+
     const urlSubdomains = window.location.hostname.split('.'),
-          topLevelSubdomain = urlSubdomains[urlSubdomains.length - 1],
-          port = window.location.port,
-          protocol = window.location.protocol;
+      topLevelSubdomain = urlSubdomains[urlSubdomains.length - 1],
+      port = window.location.port,
+      protocol = window.location.protocol;
 
-    // building a url that looks like http://online-school-4201.onlinecoursehost.test:4201/courses?authJwtToken=...
+    // building a url that looks like http://angular-university.onlinecoursehost.test:4201/courses?authJwtToken=...
 
-    let redirectUrlWithAuthToken = `${protocol}//online-school-${seqNo}.onlinecoursehost.${topLevelSubdomain}`;
+    let redirectUrlWithAuthToken = `${protocol}//${subDomain}.onlinecoursehost.${topLevelSubdomain}`;
 
     if (port) {
       redirectUrlWithAuthToken += `:${port}`;

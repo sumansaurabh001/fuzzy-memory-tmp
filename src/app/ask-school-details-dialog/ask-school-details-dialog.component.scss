@@ -1,0 +1,21 @@
+
+@import "../mixins";
+@import "../vars";
+
+@include single-col-dialog();
+
+.domain-example {
+  font-size: 17px;
+  font-family: $fonts;
+  display: flex;
+  align-items: center;
+}
+
+.school-title {
+  margin-top: 30px;
+}
+
+
+.extra-info {
+  margin-left: 10px;
+}

@@ -26,8 +26,8 @@ export class TenantsDBService {
   createTenantIfNeeded(email: string, pictureUrl:string): Observable<Tenant> {
     return this.findTenantByCurrentUid()
       .pipe(
-        withLatestFrom(this.afAuth.authState, this.findLastTenantSeqNo()),
-        concatMap(([tenant, authState, seqNo]) => {
+        withLatestFrom(this.afAuth.authState),
+        concatMap(([tenant, authState]) => {
 
           if (!authState) {
             return of(undefined);
@@ -40,7 +40,6 @@ export class TenantsDBService {
 
             const newTenant = {
               id: authState.uid,
-              seqNo,
               email,
               status: 'new',
               brandTheme: {
@@ -125,30 +124,12 @@ export class TenantsDBService {
       );
   }
 
-  findLastTenantSeqNo() : Observable<number> {
-    return findLastBySeqNo<Tenant>(this.afs, "tenants")
-      .pipe(
-        map(last => {
-          return last ? last.seqNo + 1 : 4200;
-        })
-      );
-  }
 
   findTenantBySubdomain(subDomain: string): Observable<Tenant> {
 
-    const seqNo = parseInt(subDomain);
+    let query$ = this.afs
+      .collection<Tenant>('tenants', ref => ref.where('subDomain', '==', subDomain).limit(1));
 
-    let query$: AngularFirestoreCollection<Tenant>;
-
-    if (!isNaN(seqNo)) {
-      query$ = this.afs
-        .collection<Tenant>('tenants', ref => ref.where('seqNo', '==', seqNo).limit(1));
-    }
-    else {
-      query$ = this.afs
-        .collection<Tenant>('tenants', ref => ref.where('subDomain', '==', subDomain).limit(1));
-
-    }
     return findUniqueMatchWithId(query$).pipe(first());
   }
 
@@ -159,6 +140,17 @@ export class TenantsDBService {
 
   }
 
+  findCustomSubDomain(subDomain: string) {
+    return this.afs.collection<Tenant>(`tenants`, ref => ref.where("subDomain", '==', subDomain)).valueChanges()
+      .pipe(
+        map(results => results.length == 1 ? results[0]: null),
+        first()
+      );
+  }
+
+  updateTenant(tenantId:string, changes: Partial<Tenant>): Observable<void> {
+    return from(this.afs.doc(`tenants/${tenantId}`).update(changes));
+  }
 }
 
 
