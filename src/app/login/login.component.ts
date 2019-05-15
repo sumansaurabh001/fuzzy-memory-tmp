@@ -33,6 +33,8 @@ export class LoginComponent implements OnInit, OnDestroy {
   redirectUrl: string;
   tenantId: string;
 
+  initializeTenantOngoing = false;
+
 
   constructor(
     public afAuth: AngularFireAuth,
@@ -131,10 +133,14 @@ export class LoginComponent implements OnInit, OnDestroy {
   * */
 
   handlePlatformWebsiteLogin(email: string, pictureUrl:string) {
+
+    console.log("calling handlePlatformWebsiteLogin()");
+
     this.loading.showLoader(
       this.tenantsDB.createTenantIfNeeded(email, pictureUrl)
         .pipe(
             withLatestFrom(this.afAuth.idToken),
+            tap(console.log),
             concatMap(([tenant, authJwtToken]) =>
               this.jwtService.createCustomJwt(tenant.id, tenant.id, authJwtToken)
                 .pipe(
@@ -189,7 +195,9 @@ export class LoginComponent implements OnInit, OnDestroy {
 
 
     // if it's the first time the tenant is logging in, then setup the tenant subdomain first
-    if (!tenant.subDomain) {
+    if (!tenant.subDomain && !this.initializeTenantOngoing) {
+
+      this.initializeTenantOngoing = true;
 
       const dialogConfig = new MatDialogConfig();
 
@@ -207,7 +215,7 @@ export class LoginComponent implements OnInit, OnDestroy {
         )
         .subscribe();
     }
-    else {
+    else if (tenant.subDomain) {
       this.signInToTenantSubdomain(tenant.subDomain, jwt)
     }
 
