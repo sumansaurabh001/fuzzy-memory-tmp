@@ -138,7 +138,6 @@ export class LoginComponent implements OnInit, OnDestroy {
             concatMap(([tenant, authJwtToken]) =>
               this.jwtService.createCustomJwt(tenant.id, tenant.id, authJwtToken)
                 .pipe(
-                  first(),
                   tap(jwt => this.redirectTenantToSubdomain(jwt, tenant))
                 )
 
