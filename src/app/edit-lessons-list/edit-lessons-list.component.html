@@ -53,7 +53,6 @@
                 class="lesson-item drag-drop-item"
                 #panel
                 [expanded]="expandedLessons[lesson.id]"
-                [ngClass]="expandedCss(panel.expanded)"
                 (expandedChange)="onExpandLesson(lesson, $event)"
                 cdkDrag>
 
