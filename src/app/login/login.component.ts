@@ -1,4 +1,4 @@
-import {Component, Inject, OnDestroy, OnInit} from '@angular/core';
+import {Component, HostListener, Inject, OnDestroy, OnInit} from '@angular/core';
 import {AngularFireAuth} from '@angular/fire/auth';
 import * as firebase from 'firebase/app';
 import * as firebaseui from 'firebaseui';
@@ -207,7 +207,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 
       dialogConfig.autoFocus = true;
       dialogConfig.disableClose = true;
-      dialogConfig.minWidth = '800px';
+      dialogConfig.minWidth = '750px';
 
       const dialogRef = this.dialog.open(AskSchoolDetailsDialogComponent, dialogConfig);
 
@@ -244,9 +244,6 @@ export class LoginComponent implements OnInit, OnDestroy {
 
     console.log("Redirecting to ", redirectUrlWithAuthToken);
 
-    // logout from app.onlinecoursehost.com, we won't be needing this JWT anymore
-    this.afAuth.auth.signOut();
-
     window.location.href = redirectUrlWithAuthToken;
 
   }
@@ -270,6 +267,18 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.ui.delete();
+  }
+
+  @HostListener('window:unload', [ '$event' ])
+  unloadHandler(event) {
+
+    debugger;
+
+    if (this.isPlatformSite) {
+      // always logout from the domain app.onlinecoursehost.com on page exit (back button, browser close, etc.), as we won't be needing this JWT anymore
+      this.afAuth.auth.signOut();
+    }
+
   }
 
 

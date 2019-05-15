@@ -119,9 +119,10 @@ export class PlatformGuard implements CanActivate {
       this.store.dispatch(new PricingPlansLoaded({pricingPlans: tenant.pricingPlans}))
     }
 
-    // apply branding
     if (checkIfPlatformSite()) {
       this.setPlatformBrandColors();
+      // on the platform site, the only visible page should be the login page, used to identify the tenant. Then after login, the user gets redirected to the tenant website, where it will perform all the admin operations
+      this.router.navigate(['/login']);
     }
     else if (tenant) {
       this.store.dispatch(new ThemeChanged(tenant.brandTheme));
