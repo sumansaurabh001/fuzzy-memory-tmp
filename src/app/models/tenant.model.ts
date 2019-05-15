@@ -7,6 +7,7 @@ export interface Tenant extends User {
   seqNo: number;
   subDomain:string;
   schoolName: string;
+  supportEmail:string;
   brandTheme: {
     primaryColor: string;
     accentColor: string;

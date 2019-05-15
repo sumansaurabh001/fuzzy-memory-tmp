@@ -42,6 +42,7 @@ export class TenantsDBService {
               id: authState.uid,
               email,
               status: 'new',
+              supportEmail: tenant.email,
               brandTheme: {
                 //default brand colors
                 primaryColor: DEFAULT_SCHOOL_PRIMARY_COLOR,
