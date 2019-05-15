@@ -5,6 +5,10 @@ import {MessagesService} from '../services/messages.service';
 import {EmailService} from '../services/email.service';
 import {LoadingService} from '../services/loading.service';
 import {Email} from '../models/email.model';
+import {setSchoolNameAsPageTitle} from '../common/seo-utils';
+import {AppState} from '../store';
+import {Store} from '@ngrx/store';
+import {Title} from '@angular/platform-browser';
 
 @Component({
   selector: 'contact-page',
@@ -21,7 +25,9 @@ export class ContactPageComponent implements OnInit {
     private fb: FormBuilder,
     private messages: MessagesService,
     private email: EmailService,
-    private loading: LoadingService) {
+    private loading: LoadingService,
+    private store: Store<AppState>,
+    private title: Title) {
 
     this.form = fb.group({
       from: ['', Validators.required],
@@ -33,6 +39,7 @@ export class ContactPageComponent implements OnInit {
 
   ngOnInit() {
 
+    setSchoolNameAsPageTitle(this.store, this.title);
   }
 
   sendEmail() {

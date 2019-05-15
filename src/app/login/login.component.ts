@@ -17,6 +17,7 @@ import {SchoolUsersDbService} from '../services/school-users-db.service';
 import {Tenant} from '../models/tenant.model';
 import {MatDialog, MatDialogConfig} from '@angular/material';
 import {AskSchoolDetailsDialogComponent} from '../ask-school-details-dialog/ask-school-details-dialog.component';
+import {Title} from '@angular/platform-browser';
 
 
 @Component({
@@ -45,7 +46,8 @@ export class LoginComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private jwtService: CustomJwtAuthService,
     private usersDB: SchoolUsersDbService,
-    private dialog: MatDialog) {
+    private dialog: MatDialog,
+    private title:Title) {
 
     this.isPlatformSite = checkIfPlatformSite();
 
@@ -56,6 +58,8 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+
+    this.title.setTitle("Login");
 
     this.loading.loadingOn();
 

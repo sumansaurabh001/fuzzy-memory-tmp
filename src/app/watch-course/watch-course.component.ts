@@ -16,6 +16,7 @@ import {sortLessonsBySectionAndSeqNo, sortSectionsBySeqNo} from '../common/sort-
 import {WatchLesson} from '../store/lesson.actions';
 import {VideoPlayerComponent} from '../video-player/video-player.component';
 import {VideoAccess} from '../models/video-access.model';
+import {Title} from '@angular/platform-browser';
 
 
 @Component({
@@ -50,7 +51,8 @@ export class WatchCourseComponent implements OnInit {
 
   constructor(private store: Store<AppState>,
               public ub: UrlBuilderService,
-              private router: Router) {
+              private router: Router,
+              private title: Title) {
 
   }
 
@@ -63,7 +65,11 @@ export class WatchCourseComponent implements OnInit {
       this.autoPlay = JSON.parse(storedAutoplay);
     }
 
-    this.course$ = this.store.pipe(select(selectActiveCourse));
+    this.course$ = this.store
+      .pipe(
+        select(selectActiveCourse),
+        tap(course => this.title.setTitle(course.title))
+      );
 
     this.sections$ = this.store.pipe(select(selectActiveCourseSections));
 

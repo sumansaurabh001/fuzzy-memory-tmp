@@ -22,6 +22,7 @@ import {PaymentsService} from '../services/payments.service';
 import {PlanActivated} from '../store/user.actions';
 import * as firebase from '../subscription/subscription.component';
 import {PurchasesService} from '../services/purchases.service';
+import {Title} from '@angular/platform-browser';
 
 const DESCRIPTION_MAX_LENGTH = 1500;
 
@@ -49,13 +50,18 @@ export class CoursePageComponent implements OnInit {
     private ub: UrlBuilderService,
     private route:ActivatedRoute,
     private messages:MessagesService,
-    private purchases: PurchasesService) {
+    private purchases: PurchasesService,
+    private title: Title) {
 
   }
 
   ngOnInit() {
 
-    this.course$ = this.store.pipe(select(selectActiveCourse));
+    this.course$ = this.store
+      .pipe(
+        select(selectActiveCourse),
+        tap(course => this.title.setTitle(course.title))
+    );
 
     this.sections$ = this.store
       .pipe(

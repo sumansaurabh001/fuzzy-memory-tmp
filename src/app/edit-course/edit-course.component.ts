@@ -8,6 +8,8 @@ import {select, Store} from '@ngrx/store';
 import {AppState} from '../store';
 import {LoadCoupons} from '../store/coupons.actions';
 import {EMPTY_IMG} from '../common/ui-constants';
+import {Title} from '@angular/platform-browser';
+import {setSchoolNameAsPageTitle} from '../common/seo-utils';
 
 
 
@@ -27,7 +29,8 @@ export class EditCourseComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private store: Store<AppState>,
-    private ub: UrlBuilderService) {
+    private ub: UrlBuilderService,
+    private title: Title) {
 
 
 
@@ -36,6 +39,8 @@ export class EditCourseComponent implements OnInit {
   ngOnInit() {
 
     this.course$ = this.store.pipe(select(selectActiveCourse));
+
+    setSchoolNameAsPageTitle(this.store, this.title);
 
   }
 

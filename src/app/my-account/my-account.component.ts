@@ -10,6 +10,8 @@ import {CancelSubscriptionDialogComponent} from '../cancel-subscription-dialog/c
 
 import * as dayjs from 'dayjs';
 import {MessagesService} from '../services/messages.service';
+import {setSchoolNameAsPageTitle} from '../common/seo-utils';
+import {Title} from '@angular/platform-browser';
 
 
 @Component({
@@ -25,12 +27,15 @@ export class MyAccountComponent implements OnInit {
   constructor(
     private store: Store<AppState>,
     private dialog: MatDialog,
-    private messages: MessagesService) {
+    private messages: MessagesService,
+    private title: Title) {
   }
 
   ngOnInit() {
 
     this.user$ = this.store.pipe(select(selectUser));
+
+    setSchoolNameAsPageTitle(this.store, this.title);
 
   }
 

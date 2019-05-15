@@ -39,6 +39,8 @@ import {LoadingDialogComponent} from '../loading-dialog/loading-dialog.component
 import {PurchasesService} from '../services/purchases.service';
 import {PurchaseSession} from '../models/purchase-session.model';
 import {FAQ} from '../models/content/faq.model';
+import {setSchoolNameAsPageTitle} from '../common/seo-utils';
+import {Title} from '@angular/platform-browser';
 
 
 declare const Stripe;
@@ -78,7 +80,8 @@ export class SubscriptionComponent implements OnInit {
     private payments: PaymentsService,
     private dialog: MatDialog,
     private route: ActivatedRoute,
-    private purchases: PurchasesService) {
+    private purchases: PurchasesService,
+    private title: Title) {
 
     this.form = this.fb.group({
       monthlyPlanDescription: ['', Validators.required],
@@ -129,6 +132,8 @@ export class SubscriptionComponent implements OnInit {
       }
 
     });
+
+    setSchoolNameAsPageTitle(this.store, this.title);
 
   }
 

@@ -1,15 +1,18 @@
 import {PlatformActions, PlatformActionTypes} from './platform.actions';
 import {Theme} from '../models/theme.model';
+import {TenantInfo} from '../models/tenant.model';
 
 
 export interface PlatformState {
   brandTheme: Theme,
-  isConnectedToStripe: boolean | null
+  isConnectedToStripe: boolean | null,
+  tenantInfo: TenantInfo
 }
 
 export const initialState: PlatformState = {
   brandTheme: undefined,
-  isConnectedToStripe: null
+  isConnectedToStripe: null,
+  tenantInfo: null
 };
 
 export function platformReducer(state = initialState, action: PlatformActions): PlatformState {
@@ -25,6 +28,12 @@ export function platformReducer(state = initialState, action: PlatformActions): 
       return {
         ...state,
         isConnectedToStripe: action.payload.isConnectedToStripe
+      };
+
+    case PlatformActionTypes.SetTenantInfo:
+      return {
+        ...state,
+        tenantInfo: action.payload.tenantInfo
       };
 
     default:

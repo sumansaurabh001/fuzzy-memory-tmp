@@ -260,6 +260,9 @@ export const selectPendingSectionsReorder = createSelector(
 );
 
 
-
+export const selectTenantInfo = createSelector(
+  platformState,
+  platformState => platformState.tenantInfo
+);
 
 

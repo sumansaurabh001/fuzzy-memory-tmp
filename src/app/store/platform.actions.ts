@@ -1,12 +1,14 @@
 import { Action } from '@ngrx/store';
 import {Theme} from '../models/theme.model';
+import {TenantInfo} from '../models/tenant.model';
 
 
 export enum PlatformActionTypes {
   ThemeChanged = '[ThemeChanged] Action',
   SaveTheme = '[Branding Screen] Save Theme',
   LoadStripeStatus = '[Edit Course Screen] Load Stripe Status',
-  UpdateStripeStatus = '[Platform API] Update Stripe Status'
+  UpdateStripeStatus = '[Platform API] Update Stripe Status',
+  SetTenantInfo = '[Platform Startup] Set Tenant Info'
 }
 
 
@@ -37,7 +39,7 @@ export class LoadStripeConnectionStatus {
 
 
 
-export class UpdateStripeStatus {
+export class UpdateStripeStatus implements Action {
 
   readonly type = PlatformActionTypes.UpdateStripeStatus;
 
@@ -45,8 +47,16 @@ export class UpdateStripeStatus {
 
 }
 
+export class SetTenantInfo implements Action {
+
+  readonly type = PlatformActionTypes.SetTenantInfo;
+
+  constructor(public payload: {tenantInfo:TenantInfo}) {}
+
+}
 
 
 
-export type PlatformActions = ThemeChanged | SaveTheme | LoadStripeConnectionStatus | UpdateStripeStatus;
+
+export type PlatformActions = ThemeChanged | SaveTheme | LoadStripeConnectionStatus | UpdateStripeStatus | SetTenantInfo;
 

@@ -8,6 +8,8 @@ import {checkIfPlatformSite} from '../../common/platform-utils';
 import {getBrandTheme, platformState} from '../../store/selectors';
 import {filter, tap} from 'rxjs/operators';
 import {SaveTheme, ThemeChanged} from '../../store/platform.actions';
+import {setSchoolNameAsPageTitle} from '../../common/seo-utils';
+import {Title} from '@angular/platform-browser';
 
 
 const isHexColorRegex  = /^#[0-9A-F]{6}$/i;
@@ -34,7 +36,8 @@ export class BrandingComponent implements OnInit {
 
   constructor(
     private messages: MessagesService,
-    private store: Store<AppState>) {
+    private store: Store<AppState>,
+    private title: Title) {
 
   }
 
@@ -51,6 +54,8 @@ export class BrandingComponent implements OnInit {
         })
       )
       .subscribe();
+
+    setSchoolNameAsPageTitle(this.store, this.title);
 
   }
 

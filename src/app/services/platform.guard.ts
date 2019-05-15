@@ -9,8 +9,8 @@ import {concatMap, filter, map, tap, withLatestFrom} from 'rxjs/operators';
 import {TenantsDBService} from './tenants-db.service';
 import {LoadingService} from './loading.service';
 import {checkIfPlatformSite, getPlatformSubdomain, DEFAULT_THEME} from '../common/platform-utils';
-import {ThemeChanged} from '../store/platform.actions';
-import {Tenant} from '../models/tenant.model';
+import {SetTenantInfo, ThemeChanged} from '../store/platform.actions';
+import {Tenant, TenantInfo} from '../models/tenant.model';
 import {CookieService} from 'ngx-cookie-service';
 import {PricingPlansLoaded} from '../store/pricing-plans.actions';
 
@@ -106,6 +106,14 @@ export class PlatformGuard implements CanActivate {
 
 
   saveTenantDetails(tenant: Tenant) {
+
+    const tenantInfo: TenantInfo = {
+      schoolName: tenant.schoolName,
+      subDomain: tenant.subDomain,
+      supportEmail: tenant.supportEmail
+    };
+
+    this.store.dispatch(new SetTenantInfo({tenantInfo}));
 
     if (tenant.pricingPlans) {
       this.store.dispatch(new PricingPlansLoaded({pricingPlans: tenant.pricingPlans}))

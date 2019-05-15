@@ -13,6 +13,8 @@ import {UserPermissions} from '../models/user-permissions.model';
 import {isLoggedIn, isLoggedOut, selectUserPermissions} from '../store/selectors';
 import {minimalEditorConfig} from '../common/html-editor.config';
 import {EMPTY_IMG} from '../common/ui-constants';
+import {setSchoolNameAsPageTitle} from '../common/seo-utils';
+import {Title} from '@angular/platform-browser';
 
 @Component({
   selector: 'home',
@@ -30,11 +32,14 @@ export class HomeComponent implements OnInit {
 
   constructor(
     private store: Store<AppState>,
-    private dialog: MatDialog) {
+    private dialog: MatDialog,
+    private title:Title) {
 
   }
 
   ngOnInit() {
+
+    setSchoolNameAsPageTitle(this.store, this.title);
 
     this.homePageContent$ = this.store.pipe(select(selectContent('homePage')));
 

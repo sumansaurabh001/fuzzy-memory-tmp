@@ -5,12 +5,14 @@ import {Observable, combineLatest} from 'rxjs';
 import {Course} from '../models/course.model';
 import {select, Store} from '@ngrx/store';
 import {AppState} from '../store';
-import {isAdmin, isLoggedOut, isUserSubscribed, selectAllCourses, selectUserCourses} from '../store/selectors';
+import {isAdmin, isLoggedOut, isUserSubscribed, selectAllCourses, selectTenantInfo, selectUserCourses} from '../store/selectors';
 import {moveItemInArray} from '@angular/cdk/drag-drop';
 import {UpdateCourseSortOrder} from '../store/course.actions';
 import {map, tap} from 'rxjs/operators';
 import {arrayDiffById} from '../common/collection-utils';
 import {MessagesService} from '../services/messages.service';
+import {Title} from '@angular/platform-browser';
+import {setSchoolNameAsPageTitle} from '../common/seo-utils';
 
 
 
@@ -36,7 +38,8 @@ export class CoursesComponent implements OnInit, OnDestroy {
   constructor(
     private dialog: MatDialog,
     private store: Store<AppState>,
-    private messages:MessagesService) {
+    private messages:MessagesService,
+    private title: Title) {
 
   }
 
@@ -66,6 +69,8 @@ export class CoursesComponent implements OnInit, OnDestroy {
 
         })
       );
+
+    setSchoolNameAsPageTitle(this.store, this.title);
 
   }
 
