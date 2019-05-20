@@ -4,9 +4,9 @@
 
     <edit-lessons-toolbar *ngIf="isCourseLoaded$ | async">
 
-      <action-button text="Bulk Upload" icon="cloud_upload"></action-button>
+      <!-- action-button text="Bulk Upload" icon="cloud_upload"></action-button-->
 
-      <action-button *ngIf="sections.length > 0" text="Preview Course" icon="remove_red_eye" color="basic"
+      <action-button *ngIf="sections.length > 0" text="Preview Course" icon="video_library" color="primary"
                      [routerLink]="['/courses', course.url]"></action-button>
 
       <action-button *ngIf="course.status == 'draft' && sections?.length == 0"
@@ -16,7 +16,7 @@
 
     </edit-lessons-toolbar>
 
-    <div class="drag-drop-container" cdkDropList (cdkDropListDropped)="dropLesson(course, sections, $event)">
+    <div class="drag-drop-container lessons-list-container" cdkDropList (cdkDropListDropped)="dropLesson(course, sections, $event)">
 
       <ng-container *ngFor="let section of sections; let first = first, let last = last">
 

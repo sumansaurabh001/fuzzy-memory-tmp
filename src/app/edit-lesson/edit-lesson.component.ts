@@ -174,6 +174,7 @@ export class EditLessonComponent implements OnInit, OnChanges {
 
     this.lessonsDB.suscribeToLesson(this.course.id, this.lesson.id)
       .pipe(
+        tap(console.log),
         filter(lesson => lesson.status !== 'processing'),
         first(),
         tap(lesson => this.dispatchLessonChanges(lesson))

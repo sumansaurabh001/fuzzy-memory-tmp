@@ -32,6 +32,8 @@ export class FileUploadService {
 
     const uploadPath = `${this.tenant.id}/${courseId}/videos/${lessonId}/${prefix}-${video.name}`;
 
+    console.log("Upload path: ", uploadPath);
+
     return this.storage.upload(uploadPath, video, {cacheControl:CACHE_CONTROL_SETTINGS});
 
   }

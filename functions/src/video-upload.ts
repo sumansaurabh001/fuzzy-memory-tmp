@@ -13,7 +13,7 @@ const gcs = new Storage();
 
 import * as os from 'os';
 import * as path from 'path';
-import {listDirectory, promisifyCommand} from './utils';
+import {getDocData, listDirectory, promisifyCommand} from './utils';
 import {db} from './init';
 
 /*
@@ -66,10 +66,15 @@ export const videoUpload = functions.storage.object().onFinalize(async (object, 
 
 
     const bucket = gcs.bucket(object.bucket);
+
+    console.log("Downloading video from bucket ", videoBucketFullPath);
+
     const file = bucket.file(videoBucketFullPath);
 
     // Create the temp directory where the video file will be downloaded.
     await mkdirp(localTempDir);
+
+    console.log("Downloading video to ", localVideoFilePath);
 
     // Download file from bucket
     await file.download({destination: localVideoFilePath});
@@ -80,6 +85,8 @@ export const videoUpload = functions.storage.object().onFinalize(async (object, 
 
     const videoDuration = Math.round(await getVideoDuration(localVideoFilePath));
 
+    console.log("Extracted video duration: ", videoDuration);
+
     const localThumbnailFilePath = path.join(localTempDir, thumbnailFileName),
       thumbnailBucketPath = path.join(videoBucketDirectory, thumbnailFileName);
 
@@ -88,30 +95,18 @@ export const videoUpload = functions.storage.object().onFinalize(async (object, 
       cacheControl: 'public,max-age=2592000, s-maxage=2592000'
     };
 
+    console.log("Uploading thumbnail");
+
     // Uploading the Video Thumbnail
     await bucket.upload(localThumbnailFilePath, {destination: thumbnailBucketPath, metadata: metadata});
+
+    console.log("Cleaning up files");
 
     // Once the image has been uploaded delete the local files to free up disk space.
     fs.unlinkSync(localVideoFilePath);
     fs.unlinkSync(localThumbnailFilePath);
 
-    // if there was already a previous video for the lesson, delete it and its lesson thumbnail to save space
-    if (lesson && lesson.originalFileName) {
-
-      const previousVideoFilePath = `${tenantId}/${courseId}/videos/${lessonId}/${lesson.originalFileName}`;
-
-      const previousVideoFile = bucket.file(previousVideoFilePath);
-
-      await previousVideoFile.delete();
-
-      const previousVideoThumbnailPath = `${tenantId}/${courseId}/videos/${lessonId}/${lesson.thumbnail}`;
-
-      const previousVideoThumbnailFile = bucket.file(previousVideoThumbnailPath);
-
-      await previousVideoThumbnailFile.delete();
-
-    }
-
+    // save the original file name
     await db.doc(lessonDbPath).update({
       thumbnail: thumbnailFileName,
       originalFileName: extractOriginalFileName(videoFileName),
@@ -122,10 +117,33 @@ export const videoUpload = functions.storage.object().onFinalize(async (object, 
     // save the actual video file name in another non-public collection, in order to support premium videos.
     const videosDbPath = 'schools/' + tenantId + '/courses/' + courseId + '/videos/' + lessonId;
 
+    const video = await getDocData(videosDbPath);
+
     await db.doc(videosDbPath).set({
       secretVideoFileName: videoFileName
     });
 
+
+    // if there was already a previous video for the lesson, delete it and its lesson thumbnail to save space
+    if (lesson && lesson.originalFileName) {
+
+      const previousVideoFilePath = `${tenantId}/${courseId}/videos/${lessonId}/${video.secretVideoFileName}`;
+
+      const previousVideoFile = bucket.file(previousVideoFilePath);
+
+      console.log("Deleting previous video from bucket ", previousVideoFilePath);
+
+      await previousVideoFile.delete();
+
+      const previousVideoThumbnailPath = `${tenantId}/${courseId}/videos/${lessonId}/${lesson.thumbnail}`;
+
+      console.log("Deleting previous thumbnail ", previousVideoThumbnailPath);
+
+      const previousVideoThumbnailFile = bucket.file(previousVideoThumbnailPath);
+
+      await previousVideoThumbnailFile.delete();
+
+    }
 
   }
   catch (err) {
