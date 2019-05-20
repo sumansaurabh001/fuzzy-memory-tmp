@@ -33,8 +33,17 @@ export class GetLinkDialogComponent implements OnInit, AfterViewInit {
   constructor(@Inject(MAT_DIALOG_DATA) data,
               private dialogRef: MatDialogRef<GetLinkDialogComponent>) {
 
+    const protocol = window.location.protocol,
+          hostName = window.location.hostname,
+          port = window.location.port;
 
-    this.link = `https://onlinecoursehost.com/courses/${data.course.seqNo}?couponCode=${data.coupon.code}`;
+    this.link = `${protocol}//${hostName}`;
+
+    if (port) {
+      this.link += `:${port}`;
+    }
+
+    this.link += `/courses/${data.course.seqNo}?couponCode=${data.coupon.code}`;
 
   }
 
