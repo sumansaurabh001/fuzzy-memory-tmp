@@ -20,6 +20,7 @@ import {SubscriptionContentResolver} from './services/subscription-content.resol
 import {HomeComponent} from './home/home.component';
 import {HomePageContentResolver} from './services/home-page-content.resolver';
 import {ContactPageComponent} from './contact-page/contact-page.component';
+import {UploadOngoingGuard} from './services/upload-ongoing.guard';
 
 const routes: Routes = [
   {
@@ -45,7 +46,8 @@ const routes: Routes = [
     resolve: {
       course: LoadCourseDetailResolver
     },
-    canActivate: [AuthGuard,PlatformGuard]
+    canActivate: [AuthGuard,PlatformGuard],
+    canDeactivate: [UploadOngoingGuard]
   },
   {
     path:'courses',

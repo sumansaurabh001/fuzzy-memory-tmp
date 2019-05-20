@@ -2,13 +2,14 @@ import {createEntityAdapter, EntityAdapter, EntityState, Update} from '@ngrx/ent
 import {Lesson} from '../models/lesson.model';
 import {LessonActions, LessonActionTypes} from './lesson.actions';
 import {compareLessons, sortLessonsBySectionAndSeqNo} from '../common/sort-model';
-import {moveItemInArray, CdkDragSortEvent} from '@angular/cdk/drag-drop';
+import {moveItemInArray} from '@angular/cdk/drag-drop';
 
 
 export interface State extends EntityState<Lesson> {
   loadedCourses: { [key: string]: boolean },
   activeLessonId: string,
-  pendingLessonReordering: Update<Lesson>[]
+  pendingLessonReordering: Update<Lesson>[],
+  uploadsOngoing:string[];
 }
 
 export const adapter: EntityAdapter<Lesson> = createEntityAdapter<Lesson>({
@@ -18,7 +19,8 @@ export const adapter: EntityAdapter<Lesson> = createEntityAdapter<Lesson>({
 export const initialState: State = adapter.getInitialState({
   loadedCourses: {},
   activeLessonId: undefined,
-  pendingLessonReordering: []
+  pendingLessonReordering: [],
+  uploadsOngoing:[]
 });
 
 export function reducer(
@@ -107,6 +109,23 @@ export function reducer(
       return {
         ...state,
         pendingLessonReordering: []
+      };
+
+    case LessonActionTypes.UploadStarted:
+      return {
+        ...state,
+        uploadsOngoing: [...state.uploadsOngoing, action.payload.fileName]
+      };
+
+    case LessonActionTypes.UploadFinished:
+
+      const newUploadsList = [...state.uploadsOngoing];
+
+      newUploadsList.splice(newUploadsList.findIndex(fileName => fileName == action.payload.fileName), 1);
+
+      return {
+        ...state,
+        uploadsOngoing: newUploadsList
       };
 
     default: {

@@ -12,7 +12,9 @@ export enum LessonActionTypes {
   DeleteLesson = '[Lesson] Delete Lesson',
   LoadLessonVideo = '[Watch Course Screen] Load Lesson Video',
   UpdateLessonOrder = '[Edit Lessons Screen] Update Lesson Order',
-  UpdateLessonOrderCompleted = '[Lesson Effects] Update Lesson Order Completed'
+  UpdateLessonOrderCompleted = '[Lesson Effects] Update Lesson Order Completed',
+  UploadStarted = "[Edit Course Screen] Upload Started",
+  UploadFinished = "[Edit Course Screen] Upload Finished"
 }
 
 export class WatchLesson implements Action {
@@ -67,6 +69,20 @@ export class UpdateLessonOrderCompleted implements Action {
 
 }
 
+export class UploadStarted implements Action {
+
+  readonly type = LessonActionTypes.UploadStarted;
+
+  constructor(public payload: {fileName:string}) {}
+}
+
+export class UploadFinished implements Action {
+
+  readonly type = LessonActionTypes.UploadFinished;
+
+  constructor(public payload: {fileName:string}) {}
+}
+
 export type LessonActions =
   WatchLesson
  | AddLesson
@@ -75,4 +91,6 @@ export type LessonActions =
  | DeleteLesson
  | LoadLessonVideo
  | UpdateLessonOrder
- | UpdateLessonOrderCompleted;
+ | UpdateLessonOrderCompleted
+ | UploadStarted
+ | UploadFinished;

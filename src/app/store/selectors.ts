@@ -266,3 +266,8 @@ export const selectTenantInfo = createSelector(
 );
 
 
+
+export const isLessonUploadOngoing = createSelector(
+  selectLessonsState,
+  lessonsState => lessonsState.uploadsOngoing && lessonsState.uploadsOngoing.length > 0
+);
