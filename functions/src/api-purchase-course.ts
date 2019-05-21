@@ -1,6 +1,6 @@
 import * as functions from 'firebase-functions';
 import {authenticationMiddleware} from './api-authentication.middleware';
-import {getDocData} from './utils';
+import {convertSnapsToData, getDocData, isFutureTimestamp} from './utils';
 import {db} from './init';
 import {keepEndpointAliveMiddleware} from './keep-endpoint-alive-middleware';
 
@@ -38,7 +38,8 @@ app.post('/purchase-course', async (req, res) => {
     const courseId = req.body.courseId,
       userId = req.user.uid,
       tenantId = req.body.tenantId,
-      courseUrl = req.body.courseUrl;
+      courseUrl = req.body.courseUrl,
+      couponCode = req.body.couponCode;
 
     // get the course from the database
     const course = await getDocData(`schools/${tenantId}/courses/${courseId}`);
@@ -52,14 +53,35 @@ app.post('/purchase-course', async (req, res) => {
 
     const ongoingPurchaseSessionId = uuidv4();
 
+    const couponPaths = `schools/${tenantId}/courses/${courseId}/coupons`;
+
+    let coupon = null;
+
+    if (couponCode) {
+      const snaps = await db.collection(couponPaths).where('code', '==', couponCode).get();
+      const results = convertSnapsToData(snaps);
+      coupon = results.length == 1 ? results[0] : null;
+    }
+
+    const amount = determineChargePrice(course, coupon);
+
+    let clientReferenceId = ongoingPurchaseSessionId + "|" + tenantId;
+
+    if (isCouponValid(coupon)) {
+
+      const couponPath = coupon ? `${couponPaths}/${coupon.id}` : null;
+
+      clientReferenceId += `|${couponPath}`;
+    }
+
     const sessionConfig = {
       success_url: `${courseUrl}?purchaseResult=success&ongoingPurchaseSessionId=${ongoingPurchaseSessionId}&courseId=${courseId}`,
       cancel_url: `${courseUrl}?purchaseResult=failed`,
       payment_method_types: ['card'],
-      client_reference_id: ongoingPurchaseSessionId + "|" + tenantId,
+      client_reference_id: clientReferenceId,
       line_items: [{
         currency: 'usd',
-        amount: course.price * 100,
+        amount: amount * 100,
         quantity:1,
         name: course.title
       }],
@@ -97,6 +119,30 @@ app.post('/purchase-course', async (req, res) => {
   }
 
 });
+
+
+
+function determineChargePrice(course, coupon) {
+
+  if (!coupon) {
+    return course.price;
+  }
+
+  if (isCouponValid(coupon)) {
+    return coupon.price;
+  }
+  else {
+    return course.price;
+  }
+}
+
+function isCouponValid(coupon) {
+  if (!coupon) {
+    return false;
+  }
+
+  return coupon.remaining > 0 && isFutureTimestamp(coupon.deadline);
+}
 
 
 export const apiPurchaseCourse = functions.https.onRequest(app);

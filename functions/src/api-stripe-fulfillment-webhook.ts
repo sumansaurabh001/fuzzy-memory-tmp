@@ -24,6 +24,7 @@ interface ReqInfo {
   stripeCustomerId:string,
   stripeSubscriptionId?:string;
   userId?:string;
+  couponPath?:string;
 }
 
 /*
@@ -76,7 +77,8 @@ async function handleCheckoutSession(session) {
     stripeCustomerId: session.customer,
     stripeSubscriptionId: session.subscription,
     ongoingPurchaseSessionId: clientReferenceIdParams[0],
-    tenantId: clientReferenceIdParams[1]
+    tenantId: clientReferenceIdParams[1],
+    couponPath: clientReferenceIdParams.length > 2 ? clientReferenceIdParams[2] : null
   };
 
   // get the ongoing purchase session
@@ -132,12 +134,27 @@ async function fulfillCoursePurchase(reqInfo:ReqInfo, courseId:string) {
 
   purchasedCourses.push(courseId);
 
-  await db.doc(usersPrivatePath).set(
-    {
+  const batch = db.batch();
+
+  const userPrivateRef = db.doc(usersPrivatePath);
+
+  batch.set(userPrivateRef, {
       purchasedCourses,
       stripeCustomerId: reqInfo.stripeCustomerId
     },
     {merge: true});
+
+  if (reqInfo.couponPath) {
+
+    const couponRef = db.doc(reqInfo.couponPath).ref;
+
+    console.log("couponPath: ", reqInfo.couponPath);
+
+    // TODO batch.update(couponRef, "remaining", firebase.firestore.FieldValue.decrement(1));
+
+  }
+
+  await batch.commit();
 
 }
 

@@ -10,7 +10,7 @@ import {CoursePurchased} from '../store/course.actions';
 import {Router} from '@angular/router';
 import {Observable} from 'rxjs/Observable';
 import {isAdmin, selectUser, selectUserCoursesIds} from '../store/selectors';
-import {User} from '../models/user.model';
+import {isAnonymousUser, User} from '../models/user.model';
 import {CourseCoupon} from '../models/coupon.model';
 
 
@@ -78,9 +78,17 @@ export class CourseActionButtonsComponent implements OnInit, OnChanges {
 
   buyCourse() {
 
+    if (isAnonymousUser(this.user)) {
+      this.messages.info('Please login first. You can use social login (Gmail, Twitter, etc.) or email and password if you prefer.');
+      return;
+    }
+
     const courseUrl =  `${window.location.protocol}//${window.location.host}/courses/${this.course.url}`;
 
-    const purchaseCourseSession$ = this.payments.createPurchaseCourseSession(this.course.id, courseUrl);
+    const purchaseCourseSession$ = this.payments.createPurchaseCourseSession(
+      this.course.id,
+      courseUrl,
+      this.coupon ? this.coupon.code : null);
 
     this.loading.showLoaderUntilCompleted(purchaseCourseSession$)
       .subscribe(session => {

@@ -12,17 +12,12 @@
 }
 
 
-
-
 .course-titles {
   max-width: 800px;
   color: $dark-text;
   padding-bottom: 50px;
   padding-top: 50px;
 }
-
-
-
 
 .thumbnail-container {
   display: flex;
@@ -87,7 +82,7 @@ text-align: center;
 }
 
 .course-original-price {
-  font-size: 23px;
+  font-size: 27px;
   text-decoration: line-through;
   color: #a1a7b3;
   display: inline-block;
@@ -95,11 +90,16 @@ text-align: center;
 }
 
 .discount {
-  font-size: 23px;
-  color: #a1a7b3;
+  font-size: 27px;
   display: inline-block;
+  color: #a1a7b3;
 }
 
+.valid-until {
+  font-size: 18px;
+  margin-top: 10px;
+
+}
 
 .course-includes {
   margin-top: 30px;

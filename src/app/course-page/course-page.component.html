@@ -33,11 +33,17 @@
       <div class="prices">
 
 
-
         <ng-container *ngIf="(coupon$ | async) as coupon; else undiscountedPrice">
           <span class="course-price">Price: {{coupon.price | currency}}</span>
           <span class="course-original-price">{{course.price | currency}}</span>
-          <span class="discount">({{calculateDiscountPercentage(course, coupon)}}% Off)</span>
+          <span class="discount">({{calculateDiscountPercentage(course, coupon)}} % Off)</span>
+
+          <ng-container *ngIf="coupon.deadline">
+
+            <div class="valid-until">Valid Until {{ coupon.deadline.toDate() | date: 'MMM d'}}</div>
+
+          </ng-container>
+
         </ng-container>
 
         <ng-template #undiscountedPrice>
@@ -50,13 +56,13 @@
 
       <ng-container *ngIf="(coupon$ | async) as coupon; else undiscountedPurchase">
 
-        <course-action-buttons [course]="course" [coupon]="coupon"> </course-action-buttons>
+        <course-action-buttons [course]="course" [coupon]="coupon"></course-action-buttons>
 
       </ng-container>
 
       <ng-template #undiscountedPurchase>
 
-        <course-action-buttons [course]="course"> </course-action-buttons>
+        <course-action-buttons [course]="course"></course-action-buttons>
 
       </ng-template>
 

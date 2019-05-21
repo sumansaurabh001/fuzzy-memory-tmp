@@ -21,13 +21,14 @@ export class PaymentsService {
 
   }
 
-  createPurchaseCourseSession(courseId:string, courseUrl:string): Observable<StripeSession> {
+  createPurchaseCourseSession(courseId:string, courseUrl:string, couponCode:string): Observable<StripeSession> {
     return this.http.post<StripeSession>(
       environment.api.purchaseCourseUrl,
       {
         courseId,
         courseUrl,
-        tenantId: this.tenant.id
+        tenantId: this.tenant.id,
+        couponCode
       });
   }
 
