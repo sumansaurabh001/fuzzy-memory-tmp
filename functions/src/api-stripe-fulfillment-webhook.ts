@@ -1,9 +1,12 @@
 import * as functions from 'firebase-functions';
 import {getDocData} from './utils';
 import {db} from './init';
+const admin = require('firebase-admin');
+const firestore = admin.firestore;
 import {keepEndpointAliveMiddleware} from './keep-endpoint-alive-middleware';
 
 const firebase = require('firebase-admin');
+
 
 const stripeSecretKey = functions.config().stripe.secret_key;
 
@@ -146,11 +149,13 @@ async function fulfillCoursePurchase(reqInfo:ReqInfo, courseId:string) {
 
   if (reqInfo.couponPath) {
 
-    const couponRef = db.doc(reqInfo.couponPath).ref;
+    const couponRef = db.doc(reqInfo.couponPath);
 
     console.log("couponPath: ", reqInfo.couponPath);
 
-    // TODO batch.update(couponRef, "remaining", firebase.firestore.FieldValue.decrement(1));
+    batch.update(couponRef, {
+      "remaining": admin.firestore.FieldValue.increment(-1)
+    });
 
   }
 
