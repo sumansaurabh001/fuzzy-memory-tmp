@@ -5,10 +5,7 @@ import {AppState} from '../store';
 import {Observable} from 'rxjs/Observable';
 import {
   isConnectedToStripe,
-  selectActiveCourse,
-  selectActiveCourseCoupons,
-  selectAllCoupons,
-  selectAllCourseCoupons
+  selectActiveCourse
 } from '../store/selectors';
 import {Course} from '../models/course.model';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
@@ -16,6 +13,7 @@ import {LoadCoupons, UpdateCoupon} from '../store/coupons.actions';
 import {Update} from '@ngrx/entity';
 import {MessagesService} from '../services/messages.service';
 import {UpdateCourse} from '../store/course.actions';
+import {selectActiveCourseCoupons, selectAllCourseCoupons} from '../store/coupon.selectors';
 
 @Component({
   selector: 'price-and-coupons',

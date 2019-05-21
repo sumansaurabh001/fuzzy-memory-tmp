@@ -5,7 +5,8 @@ import {CourseCoupon} from '../models/coupon.model';
 import {UpdateStr} from '../../../node_modules/@ngrx/entity/src/models';
 
 export enum CouponActionTypes {
-  LoadCoupons = '[Coupon]  Load Coupons',
+  LoadCoupons = '[Edit Course Screen]  Load Coupons',
+  LoadCoupon = '[Course Page] Load Coupon',
   AddCoupons = '[Coupon] Add Coupons',
   AddCoupon = '[Coupon] Add Coupon',
   UpdateCoupon = '[Coupon] Update Coupon'
@@ -24,23 +25,31 @@ export class LoadCoupons implements Action {
 export class AddCoupons implements Action {
   readonly type = CouponActionTypes.AddCoupons;
 
-  constructor(public payload: { coupons: CourseCoupon[] }) {
-  }
+  constructor(public payload: { coupons: CourseCoupon[] }) {}
+
 }
 
 export class AddCoupon implements Action {
   readonly type = CouponActionTypes.AddCoupon;
 
-  constructor(public payload: { coupon: CourseCoupon }) {
-  }
+  constructor(public payload: { coupon: CourseCoupon }) {}
+
 }
 
 
 export class UpdateCoupon implements Action {
   readonly type = CouponActionTypes.UpdateCoupon;
 
-  constructor(public payload: { courseId:string, coupon: UpdateStr<CourseCoupon> }) {
-  }
+  constructor(public payload: { courseId:string, coupon: UpdateStr<CourseCoupon> }) {}
+
+}
+
+export class LoadCoupon implements Action {
+
+  readonly type = CouponActionTypes.LoadCoupon;
+
+  constructor(public payload: {courseId:string; couponCode:string}) {}
+
 }
 
 
@@ -48,4 +57,5 @@ export type CouponsActions =
   LoadCoupons
   | AddCoupons
   | AddCoupon
-  | UpdateCoupon;
+  | UpdateCoupon
+  | LoadCoupon;

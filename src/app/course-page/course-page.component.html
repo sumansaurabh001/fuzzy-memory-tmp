@@ -31,13 +31,34 @@
     <div class="course-enroll-card">
 
       <div class="prices">
-        <span class="course-price">Price: {{course.price | currency}}</span>
-        <span class="course-original-price">$199</span>
-        <span class="discount">(94% Off)</span>
+
+
+
+        <ng-container *ngIf="(coupon$ | async) as coupon; else undiscountedPrice">
+          <span class="course-price">Price: {{coupon.price | currency}}</span>
+          <span class="course-original-price">{{course.price | currency}}</span>
+          <span class="discount">({{calculateDiscountPercentage(course, coupon)}}% Off)</span>
+        </ng-container>
+
+        <ng-template #undiscountedPrice>
+
+          <span class="course-price">Price: {{course.price | currency}}</span>
+
+        </ng-template>
+
       </div>
 
-      <course-action-buttons [course]="course">
-      </course-action-buttons>
+      <ng-container *ngIf="(coupon$ | async) as coupon; else undiscountedPurchase">
+
+        <course-action-buttons [course]="course" [coupon]="coupon"> </course-action-buttons>
+
+      </ng-container>
+
+      <ng-template #undiscountedPurchase>
+
+        <course-action-buttons [course]="course"> </course-action-buttons>
+
+      </ng-template>
 
     </div>
 

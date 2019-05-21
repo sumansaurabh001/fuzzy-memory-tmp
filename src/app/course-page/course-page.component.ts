@@ -23,6 +23,9 @@ import {PlanActivated} from '../store/user.actions';
 import * as firebase from '../subscription/subscription.component';
 import {PurchasesService} from '../services/purchases.service';
 import {Title} from '@angular/platform-browser';
+import {LoadCoupon} from '../store/coupons.actions';
+import {CourseCoupon} from '../models/coupon.model';
+import {selectCouponByCode} from '../store/coupon.selectors';
 
 const DESCRIPTION_MAX_LENGTH = 1500;
 
@@ -42,8 +45,11 @@ export class CoursePageComponent implements OnInit {
 
   lessons$: Observable<Lesson[]>;
 
+  coupon$: Observable<CourseCoupon>;
+
   showFullDescription = false;
 
+  couponCode:string;
 
   constructor(
     private store: Store<AppState>,
@@ -57,22 +63,6 @@ export class CoursePageComponent implements OnInit {
 
   ngOnInit() {
 
-    this.course$ = this.store
-      .pipe(
-        select(selectActiveCourse),
-        tap(course => this.title.setTitle(course.title))
-    );
-
-    this.sections$ = this.store
-      .pipe(
-        select(selectActiveCourseSections),
-        map(sortSectionsBySeqNo)
-      );
-
-    this.lessons$ = this.store.pipe(select(selectActiveCourseAllLessons));
-
-    this.courseDescription$ = this.selectDescription();
-
     this.route.queryParamMap.subscribe(params => {
 
       const purchaseResult = params.get("purchaseResult");
@@ -80,7 +70,7 @@ export class CoursePageComponent implements OnInit {
       if (purchaseResult == "success") {
 
         const ongoingPurchaseSessionId = params.get("ongoingPurchaseSessionId"),
-              courseId = params.get("courseId");
+          courseId = params.get("courseId");
 
         window.history.replaceState(null, null, window.location.pathname);
 
@@ -94,7 +84,38 @@ export class CoursePageComponent implements OnInit {
         this.messages.error('Payment failed, please check your card balance.');
       }
 
+      this.couponCode = params.get("couponCode");
+
     });
+
+    this.course$ = this.store
+      .pipe(
+        select(selectActiveCourse),
+        tap(course => {
+
+          this.title.setTitle(course.title);
+
+          if (this.couponCode) {
+            this.store.dispatch(new LoadCoupon({courseId: course.id, couponCode: this.couponCode}));
+          }
+
+        })
+    );
+
+    this.coupon$ = this.store
+      .pipe(
+        select(selectCouponByCode(this.couponCode))
+      );
+
+    this.sections$ = this.store
+      .pipe(
+        select(selectActiveCourseSections),
+        map(sortSectionsBySeqNo)
+      );
+
+    this.lessons$ = this.store.pipe(select(selectActiveCourseAllLessons));
+
+    this.courseDescription$ = this.selectDescription();
 
   }
 
@@ -132,6 +153,10 @@ export class CoursePageComponent implements OnInit {
 
       });
 
+  }
+
+  calculateDiscountPercentage(course:Course, coupon: CourseCoupon) {
+     return Math.round(100 * (course.price - coupon.price) / course.price);
   }
 
 

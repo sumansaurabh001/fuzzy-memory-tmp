@@ -24,7 +24,11 @@ export class CourseCouponsDbService {
 
     const courseQuery$ = this.afs.collection<CourseCoupon>(this.courseCouponsPath(courseId), ref => ref.where('code', '==', code));
 
-    return findUniqueMatchWithId(courseQuery$).pipe(first());
+    return findUniqueMatchWithId(courseQuery$)
+      .pipe(
+        first(),
+        map(coupon => {return {...coupon, courseId}})
+      );
   }
 
   loadCoupons(courseId: string, activeCouponsOnly: boolean) {

@@ -7,10 +7,7 @@ import {
 import * as fromSection from './course-section.reducer';
 import * as fromLesson from './lesson.reducer';
 import {UserState} from './user.reducer';
-import {Tenant} from '../models/tenant.model';
 import {PlatformState} from './platform.reducer';
-import {CouponsState} from './coupons.reducer';
-import * as fromCoupon from './coupons.reducer';
 import {VideoAccessState} from './video-access.reducer';
 import {PricingPlansState} from './pricing-plans.reducer';
 
@@ -26,8 +23,6 @@ export const selectLessonsState = createFeatureSelector<fromLesson.State>('lesso
 export const userState = createFeatureSelector<UserState>('user');
 
 export const platformState = createFeatureSelector<PlatformState>('platform');
-
-export const couponsState = createFeatureSelector<CouponsState>('coupons');
 
 export const videoAccessState = createFeatureSelector<VideoAccessState>('videoAccess');
 
@@ -168,21 +163,6 @@ export const isBrandThemeLoaded = createSelector(
 export const getBrandTheme = createSelector(
   platformState,
   platformState => platformState.brandTheme
-);
-
-
-export const selectAllCoupons = createSelector(couponsState, fromCoupon.selectAll);
-
-export const selectActiveCourseCoupons = createSelector(
-  selectAllCoupons,
-  selectActiveCourse,
-  (coupons, course) => coupons.filter(coupon => coupon.courseId == course.id && coupon.active)
-);
-
-export const selectAllCourseCoupons = createSelector(
-  selectAllCoupons,
-  selectActiveCourse,
-  (coupons, course) => coupons.filter(coupon => coupon.courseId == course.id)
 );
 
 

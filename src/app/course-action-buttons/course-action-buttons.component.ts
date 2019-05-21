@@ -11,6 +11,7 @@ import {Router} from '@angular/router';
 import {Observable} from 'rxjs/Observable';
 import {isAdmin, selectUser, selectUserCoursesIds} from '../store/selectors';
 import {User} from '../models/user.model';
+import {CourseCoupon} from '../models/coupon.model';
 
 
 declare const Stripe;
@@ -24,6 +25,9 @@ export class CourseActionButtonsComponent implements OnInit, OnChanges {
 
   @Input()
   course: Course;
+
+  @Input()
+  coupon: CourseCoupon;
 
   user: User;
 
@@ -41,7 +45,6 @@ export class CourseActionButtonsComponent implements OnInit, OnChanges {
     private router: Router) {
 
   }
-
 
   ngOnInit() {
 
@@ -106,5 +109,5 @@ export class CourseActionButtonsComponent implements OnInit, OnChanges {
 
   }
 
-
 }
+
