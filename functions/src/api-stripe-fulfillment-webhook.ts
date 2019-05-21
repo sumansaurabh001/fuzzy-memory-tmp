@@ -151,8 +151,6 @@ async function fulfillCoursePurchase(reqInfo:ReqInfo, courseId:string) {
 
     const couponRef = db.doc(reqInfo.couponPath);
 
-    console.log("couponPath: ", reqInfo.couponPath);
-
     batch.update(couponRef, {
       "remaining": admin.firestore.FieldValue.increment(-1)
     });
