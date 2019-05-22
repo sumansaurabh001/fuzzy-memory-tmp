@@ -54,7 +54,7 @@ text-align: center;
 }
 
 .course-subtitle {
-  font-size: 21px;
+  font-size: 18px;
   margin: 10px 0;
 }
 
@@ -65,7 +65,8 @@ text-align: center;
   padding-left: 10px;
 
   .duration {
-    margin-left: 10px;
+    margin-left: 15px;
+    margin-right: 3px;
   }
 
   @include mat-icon-size(14px);
