@@ -106,23 +106,31 @@ export const videoUpload = functions.storage.object().onFinalize(async (object, 
     fs.unlinkSync(localVideoFilePath);
     fs.unlinkSync(localThumbnailFilePath);
 
+    // load the previous video details if they exist, before replacing them
+    const videosDbPath = 'schools/' + tenantId + '/courses/' + courseId + '/videos/' + lessonId;
+
+    const video = await getDocData(videosDbPath);
+
+    // save the actual video file name in another non-public collection, in order to support premium videos.
+    const batch = db.batch();
+
+    const lessonRef = db.doc(lessonDbPath);
+
     // save the original file name
-    await db.doc(lessonDbPath).update({
+    batch.update(lessonRef, {
       thumbnail: thumbnailFileName,
       originalFileName: extractOriginalFileName(videoFileName),
       videoDuration,
       status:"ready"
     });
 
-    // save the actual video file name in another non-public collection, in order to support premium videos.
-    const videosDbPath = 'schools/' + tenantId + '/courses/' + courseId + '/videos/' + lessonId;
+    const videoRef = db.doc(videosDbPath);
 
-    const video = await getDocData(videosDbPath);
-
-    await db.doc(videosDbPath).set({
+    batch.set(videoRef, {
       secretVideoFileName: videoFileName
     });
 
+    await batch.commit();
 
     // if there was already a previous video for the lesson, delete it and its lesson thumbnail to save space
     if (lesson && lesson.originalFileName) {

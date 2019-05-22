@@ -12,4 +12,5 @@ export interface Course {
   price:number;
   includedInSubscription:boolean;
   free:boolean;
+  totalDuration:number;
 }
