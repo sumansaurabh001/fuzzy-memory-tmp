@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {AngularFirestore} from '@angular/fire/firestore';
-import {Observable, from as fromPromise} from 'rxjs';
+import {Observable, from} from 'rxjs';
 import {
   findLastBySeqNo, findUniqueMatchWithId, readCollectionWithIds, readDocumentValue,
   readDocumentWithId
@@ -10,7 +10,6 @@ import {filter, first, map, switchMap, tap} from 'rxjs/operators';
 import {Course} from '../models/course.model';
 import {Update} from '@ngrx/entity';
 import {Lesson} from '../models/lesson.model';
-import {from} from 'rxjs/internal/observable/from';
 import {CourseSection} from '../models/course-section.model';
 
 
@@ -47,33 +46,16 @@ export class CoursesDBService {
     return readCollectionWithIds<Course[]>(this.afs.collection(this.coursesPath, ref => ref.orderBy('seqNo'))).pipe(first());
   }
 
-  createNewCourse(course: Course): Observable<Course> {
-
-    const newCourse = {...course};
-
-    return findLastBySeqNo<Course>(this.afs, this.coursesPath)
-      .pipe(
-        switchMap(lastCourse => {
-
-          newCourse.seqNo = lastCourse ? (lastCourse.seqNo + 1) : 1;
-
-          // initially the course url is the seqNo, it will be overwritten at publication time
-          newCourse.url = '' + newCourse.seqNo;
-
-          return fromPromise(this.afs.collection(this.coursesPath).add(newCourse));
-        }),
-        map(ref => {
-          return {...newCourse, id: ref.id};
-        })
-      );
+  createNewCourse(course: Course): Observable<void> {
+    return from(this.afs.doc(`${this.coursesPath}/${course.id}`).set(course));
   }
 
   deleteCourseDraft(courseId: string): Observable<any> {
-    return fromPromise(this.afs.collection(this.coursesPath).doc(courseId).delete());
+    return from(this.afs.collection(this.coursesPath).doc(courseId).delete());
   }
 
   saveCourse(courseId: any, props: Partial<Course>): Observable<any> {
-    return fromPromise(this.afs.collection(this.coursesPath).doc(courseId).update(props));
+    return from(this.afs.collection(this.coursesPath).doc(courseId).update(props));
   }
 
   private get coursesPath() {

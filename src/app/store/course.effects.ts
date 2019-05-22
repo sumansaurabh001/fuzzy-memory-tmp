@@ -12,7 +12,7 @@ import {CoursesDBService} from '../services/courses-db.service';
 import {LoadingService} from '../services/loading.service';
 import {MessagesService} from '../services/messages.service';
 import {throwError as _throw, combineLatest} from 'rxjs';
-import {AddCourse, LoadCourseDetail, UpdateCourse} from './course.actions';
+import {CreateNewCourse, LoadCourseDetail, UpdateCourse} from './course.actions';
 import {AppState} from './index';
 import {select, Store} from '@ngrx/store';
 import {DescriptionsDbService} from '../services/descriptions-db.service';
@@ -41,6 +41,13 @@ import {PaymentsService} from '../services/payments.service';
 
 @Injectable()
 export class CourseEffects {
+
+  @Effect({dispatch: false})
+  createNewCourse$ = this.actions$
+    .pipe(
+      ofType<CreateNewCourse>(CourseActionTypes.CreateNewCourse),
+      concatMap(action => this.coursesDB.createNewCourse(action.payload.course))
+    );
 
   @Effect()
   loadUserCourses$ = combineLatest(

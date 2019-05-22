@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {ActivatedRouteSnapshot, Resolve, Router, RouterStateSnapshot} from '@angular/router';
 import {Course} from '../models/course.model';
 import {Observable} from 'rxjs';
-import {AddCourse, LoadCourseDetail} from '../store/course.actions';
+import {CreateNewCourse, CourseLoaded, LoadCourseDetail} from '../store/course.actions';
 import {filter, first, map, tap} from 'rxjs/operators';
 import {selectAllCourses} from '../store/selectors';
 import {select, Store} from '@ngrx/store';
@@ -44,7 +44,7 @@ export class LoadCourseDetailResolver implements Resolve<Course> {
           else {
             this.loading.showLoader(this.coursesDB.findCourseByUrl(courseUrl))
               .pipe(
-                tap(course => this.store.dispatch(new AddCourse({course})))
+                tap(course => this.store.dispatch(new CourseLoaded({course})))
               )
               .subscribe();
           }

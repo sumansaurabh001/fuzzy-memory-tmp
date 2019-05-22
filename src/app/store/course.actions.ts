@@ -3,10 +3,10 @@ import {Update} from '@ngrx/entity';
 import {Course} from '../models/course.model';
 
 export enum CourseActionTypes {
-  LoadCourse = '[Course]  Load Course',
+  CourseLoaded = '[Course]  Load Course',
   LoadCourseDetail = '[Course] Load Course Detail',
   LoadCourses = '[Course] Load Courses',
-  AddCourse = '[Course] Add Course',
+  CreateNewCourse = '[Add Course Dialog] Create New Course',
   UpsertCourse = '[Course] Upsert Course',
   AddCourses = '[Course] Add Courses',
   UpsertCourses = '[Course] Upsert Courses',
@@ -22,11 +22,11 @@ export enum CourseActionTypes {
 }
 
 
-export class LoadCourse implements Action {
+export class CourseLoaded implements Action {
 
-  readonly type = CourseActionTypes.LoadCourse;
+  readonly type = CourseActionTypes.CourseLoaded;
 
-  constructor(public payload: {courseUrl:string}) {
+  constructor(public payload: { course: Course }) {
 
   }
 }
@@ -49,8 +49,8 @@ export class LoadCourses implements Action {
   }
 }
 
-export class AddCourse implements Action {
-  readonly type = CourseActionTypes.AddCourse;
+export class CreateNewCourse implements Action {
+  readonly type = CourseActionTypes.CreateNewCourse;
 
   constructor(public payload: { course: Course }) {
   }
@@ -138,8 +138,9 @@ export class UpdateCourseSortOrderCompleted implements Action {
 
 export type CourseActions =
    LoadCourseDetail
+  | CourseLoaded
   | LoadCourses
-  | AddCourse
+  | CreateNewCourse
   | UpsertCourse
   | AddCourses
   | UpsertCourses

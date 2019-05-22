@@ -31,7 +31,8 @@ export function coursesReducer(
     case CourseActionTypes.LoadCourseDetail: {
       return {...state, activeCourseId: action.payload.courseId};
     }
-    case CourseActionTypes.AddCourse: {
+    case CourseActionTypes.CourseLoaded:
+    case CourseActionTypes.CreateNewCourse: {
       return adapter.addOne(action.payload.course, state);
     }
 

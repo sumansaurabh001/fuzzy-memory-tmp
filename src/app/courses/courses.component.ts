@@ -78,13 +78,16 @@ export class CoursesComponent implements OnInit, OnDestroy {
     this.messages.clear();
   }
 
-  addNewCourse() {
+  addNewCourse(totalCourses: number) {
 
     const dialogConfig = new MatDialogConfig();
 
     dialogConfig.autoFocus = true;
     dialogConfig.disableClose = true;
     dialogConfig.minWidth = '500px';
+    dialogConfig.data = {
+      newCourseSeqNo: totalCourses + 1
+    }
 
     this.dialog.open(AddCourseDialogComponent, dialogConfig);
   }

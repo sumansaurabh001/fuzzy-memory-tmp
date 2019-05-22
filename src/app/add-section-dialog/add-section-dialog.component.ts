@@ -1,6 +1,6 @@
 import {ChangeDetectionStrategy, Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
-import {AddCourse} from '../store/course.actions';
+import {CreateNewCourse} from '../store/course.actions';
 import {LoadingService} from '../services/loading.service';
 import {LessonsDBService} from '../services/lessons-db.service';
 import {AddCourseSection} from '../store/course-section.actions';

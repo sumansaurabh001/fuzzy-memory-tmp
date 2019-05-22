@@ -1,39 +1,40 @@
-import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, Component, Inject, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {MatDialogRef} from '@angular/material';
+import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
 import {URL_PATH_REGEX} from '../common/regex';
 import {MessagesService} from '../services/messages.service';
 import {Course} from '../models/course.model';
 import {Router} from '@angular/router';
 import {Store} from '@ngrx/store';
 import {AppState} from '../store';
-import {AddCourse} from '../store/course.actions';
+import {CreateNewCourse} from '../store/course.actions';
 import {CoursesDBService} from '../services/courses-db.service';
 import {LoadingService} from '../services/loading.service';
+import {AngularFirestore} from '@angular/fire/firestore';
 
 
 
 @Component({
   selector: 'add-course-dialog',
   templateUrl: './add-course-dialog.component.html',
-  styleUrls: ['./add-course-dialog.component.scss'],
-  providers: [
-    MessagesService
-  ]
+  styleUrls: ['./add-course-dialog.component.scss']
 })
 export class AddCourseDialogComponent implements OnInit {
 
   form: FormGroup;
 
+  newCourseSeqNo:number;
+
   constructor(private fb: FormBuilder,
+              @Inject(MAT_DIALOG_DATA) data,
               private dialogRef: MatDialogRef<AddCourseDialogComponent>,
               private router: Router,
               private store: Store<AppState>,
-              private loading: LoadingService,
               private coursesDB: CoursesDBService,
-              private messages: MessagesService) {
+              private afs: AngularFirestore) {
 
 
+    this.newCourseSeqNo = data.newCourseSeqNo;
   }
 
   ngOnInit() {
@@ -50,21 +51,23 @@ export class AddCourseDialogComponent implements OnInit {
   save() {
 
     const course = this.form.value as Course;
+    course.id = this.afs.createId();
     course.status = 'draft';
     course.downloadAllowed = true;
     course.includedInSubscription = true;
     course.free = false;
+    course.seqNo = this.newCourseSeqNo;
+
+    // initially the course url is the seqNo, it will be overwritten at publication time
+    course.url = '' + this.newCourseSeqNo;
+
     course.totalDuration = 0;
 
-    this.loading.showLoader(this.coursesDB.createNewCourse(course))
-      .subscribe(course => {
+    this.store.dispatch(new CreateNewCourse({course}));
 
-          this.store.dispatch(new AddCourse({course}));
+    this.router.navigate(['courses', course.url, 'edit']);
 
-          this.router.navigate(['courses', course.url, 'edit']);
-          this.dialogRef.close();
-        },
-        err => this.messages.error(err));
+    this.dialogRef.close();
 
   }
 

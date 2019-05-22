@@ -7,7 +7,7 @@ import {Course} from '../models/course.model';
 import {Router} from '@angular/router';
 import {Store} from '@ngrx/store';
 import {AppState} from '../store';
-import {AddCourse} from '../store/course.actions';
+import {CreateNewCourse} from '../store/course.actions';
 import {CoursesDBService} from '../services/courses-db.service';
 import {LoadingService} from '../services/loading.service';
 import {CourseCoupon} from '../models/coupon.model';
