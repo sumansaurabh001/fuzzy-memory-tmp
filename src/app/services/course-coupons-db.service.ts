@@ -27,7 +27,7 @@ export class CourseCouponsDbService {
     return findUniqueMatchWithId(courseQuery$)
       .pipe(
         first(),
-        map(coupon => {return {...coupon, courseId}})
+        map(coupon => {return coupon? {...coupon, courseId} : null})
       );
   }
 
@@ -58,14 +58,12 @@ export class CourseCouponsDbService {
 
   createNewCoupon(courseId: string, coupon: CourseCoupon) {
 
-    const addCouponAsync = this.afs.collection(this.courseCouponsPath(courseId)).add(coupon);
+    const addCouponAsync = this.afs.doc(this.courseCouponsPath(courseId) + `/${coupon.id}`).set(coupon);
 
     return from(addCouponAsync)
       .pipe(
         map(ref => {
             return {
-              id: ref.id,
-              courseId,
               ...coupon
             };
           })

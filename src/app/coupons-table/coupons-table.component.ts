@@ -45,7 +45,12 @@ export class CouponsTableComponent implements OnInit {
     dialogConfig.minWidth = '600px';
     dialogConfig.data = {course: this.course};
 
-    this.dialog.open(AddCouponDialogComponent, dialogConfig);
+    const dialogRef = this.dialog.open(AddCouponDialogComponent, dialogConfig);
+
+    dialogRef.afterClosed()
+      .pipe(
+
+      );
 
   }
 

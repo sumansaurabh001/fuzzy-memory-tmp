@@ -24,7 +24,7 @@ import * as firebase from '../subscription/subscription.component';
 import {PurchasesService} from '../services/purchases.service';
 import {Title} from '@angular/platform-browser';
 import {LoadCoupon} from '../store/coupons.actions';
-import {CourseCoupon} from '../models/coupon.model';
+import {CourseCoupon, isValidCoupon} from '../models/coupon.model';
 import {selectCouponByCode} from '../store/coupon.selectors';
 
 const DESCRIPTION_MAX_LENGTH = 1500;
@@ -104,7 +104,13 @@ export class CoursePageComponent implements OnInit {
 
     this.coupon$ = this.store
       .pipe(
-        select(selectCouponByCode(this.couponCode))
+        select(selectCouponByCode(this.couponCode)),
+        tap(coupon => {
+          if (coupon && !isValidCoupon(coupon)) {
+            this.messages.warn(`The coupon ${coupon.code} is no longer valid, please contact us to get a valid discount.`);
+          }
+        }),
+        filter(isValidCoupon)
       );
 
     this.sections$ = this.store

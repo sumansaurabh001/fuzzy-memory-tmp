@@ -15,6 +15,7 @@ import {CourseCouponsDbService} from '../services/course-coupons-db.service';
 import * as firebase from 'firebase/app';
 import {AddCoupon} from '../store/coupons.actions';
 import {existingCouponCodeValidator} from './coupon-code.validator';
+import {AngularFirestore} from '@angular/fire/firestore';
 
 
 
@@ -41,7 +42,8 @@ export class AddCouponDialogComponent implements OnInit {
               private dialogRef: MatDialogRef<AddCouponDialogComponent>,
               private couponsDb: CourseCouponsDbService,
               private store: Store<AppState>,
-              private messages: MessagesService) {
+              private messages: MessagesService,
+              private afs: AngularFirestore) {
 
     this.course = data.course;
 
@@ -81,20 +83,23 @@ export class AddCouponDialogComponent implements OnInit {
 
   save() {
 
-    const coupon = this.form.value;
+    const coupon = this.form.value as CourseCoupon;
+    coupon.id = this.afs.createId();
     coupon.code = coupon.code.toUpperCase();
     coupon.active = true;
+    coupon.courseId = this.course.id;
     coupon.created = firebase.firestore.Timestamp.fromDate(new Date());
-    coupon.deadline = coupon.deadline ? firebase.firestore.Timestamp.fromDate(coupon.deadline) : null;
+    coupon.deadline = coupon.deadline ? firebase.firestore.Timestamp.fromDate(this.form.value.deadline) : null;
+
+    this.store.dispatch(new AddCoupon({coupon}));
+
+    this.dialogRef.close(coupon);
+
+
 
     this.couponsDb.createNewCoupon(this.course.id, coupon)
       .subscribe(
         coupon => {
-
-         this.store.dispatch(new AddCoupon({coupon}));
-
-          this.dialogRef.close()
-
         },
         err => this.messages.error(err)
     );
@@ -109,6 +114,10 @@ export class AddCouponDialogComponent implements OnInit {
 
   couponCodeExists() {
     return this.form.get('code').errors && this.form.get('code').errors.codeExists;
+  }
+
+  get today() {
+    return new Date();
   }
 
 }

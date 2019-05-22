@@ -28,6 +28,7 @@ export function couponsReducer(state = initialCouponsState, action: CouponsActio
       return adapter.addMany(action.payload.coupons, state);
 
     case CouponActionTypes.AddCoupon:
+    case CouponActionTypes.LoadCouponCompleted:
 
       return adapter.addOne(action.payload.coupon, state);
 

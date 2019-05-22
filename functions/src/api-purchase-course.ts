@@ -141,7 +141,7 @@ function isCouponValid(coupon) {
     return false;
   }
 
-  return coupon.remaining > 0 && isFutureTimestamp(coupon.deadline);
+  return coupon.active && coupon.remaining > 0 && ( !coupon.deadline || isFutureTimestamp(coupon.deadline));
 }
 
 

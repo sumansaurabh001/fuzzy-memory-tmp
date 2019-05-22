@@ -1,12 +1,12 @@
 import {Action} from '@ngrx/store';
 import {Update} from '@ngrx/entity';
-import {Course} from '../models/course.model';
 import {CourseCoupon} from '../models/coupon.model';
 import {UpdateStr} from '../../../node_modules/@ngrx/entity/src/models';
 
 export enum CouponActionTypes {
   LoadCoupons = '[Edit Course Screen]  Load Coupons',
   LoadCoupon = '[Course Page] Load Coupon',
+  LoadCouponCompleted = '[Load Coupon Effect] Load Coupon Completed',
   AddCoupons = '[Coupon] Add Coupons',
   AddCoupon = '[Coupon] Add Coupon',
   UpdateCoupon = '[Coupon] Update Coupon'
@@ -52,10 +52,19 @@ export class LoadCoupon implements Action {
 
 }
 
+export class LoadCouponCompleted implements Action {
+
+  readonly type = CouponActionTypes.LoadCouponCompleted;
+
+  constructor(public payload: { coupon: CourseCoupon }) {}
+
+}
+
 
 export type CouponsActions =
   LoadCoupons
   | AddCoupons
   | AddCoupon
   | UpdateCoupon
-  | LoadCoupon;
+  | LoadCoupon
+  | LoadCouponCompleted;

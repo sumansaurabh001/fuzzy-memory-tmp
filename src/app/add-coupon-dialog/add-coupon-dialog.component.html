@@ -42,7 +42,7 @@
 
   <mat-form-field>
 
-    <input matInput [matDatepicker]="dealinePicker" placeholder="Coupon dealine (optional)"
+    <input matInput [matDatepicker]="dealinePicker" [min]="today" placeholder="Coupon dealine (optional)"
            formControlName="deadline" (click)="dealinePicker.open()">
 
     <mat-datepicker-toggle matSuffix
