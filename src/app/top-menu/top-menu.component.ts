@@ -76,7 +76,9 @@ export class TopMenuComponent implements OnInit {
     // if on a tenant subdomain, or tenant custom website
     else {
 
-      let loginUrl =  `${environment.authenticationUrl}?redirectUrl=${window.location.href}`;
+      const encodedRedirectUrl = encodeURIComponent(window.location.href);
+
+      let loginUrl =  `${environment.authenticationUrl}?redirectUrl=${encodedRedirectUrl}`;
 
       if (this.tenant.id) {
         loginUrl += `&tenantId=${this.tenant.id}`;
