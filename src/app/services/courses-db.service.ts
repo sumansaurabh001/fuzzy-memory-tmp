@@ -30,7 +30,6 @@ export class CoursesDBService {
     return findUniqueMatchWithId(courseQuery$).pipe(first());
   }
 
-
   findCourseBySeqNo(seqNo: number) {
 
     const courseQuery$ = this.afs.collection<Course>(this.coursesPath, ref => ref.where('seqNo', '==', seqNo));
