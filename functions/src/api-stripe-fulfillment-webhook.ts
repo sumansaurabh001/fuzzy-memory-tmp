@@ -27,7 +27,6 @@ interface ReqInfo {
   stripeCustomerId:string,
   stripeSubscriptionId?:string;
   userId?:string;
-  couponPath?:string;
 }
 
 /*
@@ -80,8 +79,7 @@ async function handleCheckoutSession(session) {
     stripeCustomerId: session.customer,
     stripeSubscriptionId: session.subscription,
     ongoingPurchaseSessionId: clientReferenceIdParams[0],
-    tenantId: clientReferenceIdParams[1],
-    couponPath: clientReferenceIdParams.length > 2 ? clientReferenceIdParams[2] : null
+    tenantId: clientReferenceIdParams[1]
   };
 
   // get the ongoing purchase session
@@ -92,7 +90,7 @@ async function handleCheckoutSession(session) {
   reqInfo.userId = purchaseSession.userId;
 
   if (purchaseSession.courseId) {
-    await fulfillCoursePurchase(reqInfo, purchaseSession.courseId);
+    await fulfillCoursePurchase(reqInfo, purchaseSession);
   }
   else if (purchaseSession.plan) {
     await fulfillPlanSubscription(reqInfo, purchaseSession.plan);
@@ -127,7 +125,7 @@ async function fulfillPlanSubscription(reqInfo:ReqInfo, plan:string) {
 
 
 
-async function fulfillCoursePurchase(reqInfo:ReqInfo, courseId:string) {
+async function fulfillCoursePurchase(reqInfo:ReqInfo, purchaseSession:any) {
 
   const usersPrivatePath = `schools/${reqInfo.tenantId}/usersPrivate/${reqInfo.userId}`;
 
@@ -135,7 +133,7 @@ async function fulfillCoursePurchase(reqInfo:ReqInfo, courseId:string) {
 
   let purchasedCourses = userPrivate && userPrivate.purchasedCourses ? userPrivate.purchasedCourses : [];
 
-  purchasedCourses.push(courseId);
+  purchasedCourses.push(purchaseSession.courseId);
 
   const batch = db.batch();
 
@@ -147,9 +145,9 @@ async function fulfillCoursePurchase(reqInfo:ReqInfo, courseId:string) {
     },
     {merge: true});
 
-  if (reqInfo.couponPath) {
+  if (purchaseSession.couponId) {
 
-    const couponRef = db.doc(reqInfo.couponPath);
+    const couponRef = db.doc(`schools/${reqInfo.tenantId}/courses/${purchaseSession.courseId}/coupons/${purchaseSession.couponId}`);
 
     batch.update(couponRef, {
       "remaining": admin.firestore.FieldValue.increment(-1)

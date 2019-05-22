@@ -65,14 +65,7 @@ app.post('/purchase-course', async (req, res) => {
 
     const amount = determineChargePrice(course, coupon);
 
-    let clientReferenceId = ongoingPurchaseSessionId + "|" + tenantId;
-
-    if (isCouponValid(coupon)) {
-
-      const couponPath = coupon ? `${couponPaths}/${coupon.id}` : null;
-
-      clientReferenceId += `|${couponPath}`;
-    }
+    const clientReferenceId = ongoingPurchaseSessionId + "|" + tenantId;
 
     const sessionConfig = {
       success_url: `${courseUrl}?purchaseResult=success&ongoingPurchaseSessionId=${ongoingPurchaseSessionId}&courseId=${courseId}`,
@@ -100,7 +93,8 @@ app.post('/purchase-course', async (req, res) => {
     await db.doc(purchaseSessionsPath).set({
       courseId,
       userId,
-      status: 'ongoing'
+      status: 'ongoing',
+      couponId: isCouponValid(coupon) ? coupon.id : null
     });
 
     const stripeSession = {
