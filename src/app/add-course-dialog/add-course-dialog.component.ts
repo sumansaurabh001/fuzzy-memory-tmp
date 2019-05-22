@@ -54,6 +54,7 @@ export class AddCourseDialogComponent implements OnInit {
     course.downloadAllowed = true;
     course.includedInSubscription = true;
     course.free = false;
+    course.totalDuration = 0;
 
     this.loading.showLoader(this.coursesDB.createNewCourse(course))
       .subscribe(course => {

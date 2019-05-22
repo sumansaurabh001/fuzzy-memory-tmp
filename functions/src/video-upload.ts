@@ -3,6 +3,7 @@ import * as functions from 'firebase-functions';
 const mkdirp = require('mkdirp-promise');
 import * as fs from 'fs';
 import * as shortid from 'shortid';
+const admin = require('firebase-admin');
 
 // use $ and @ instead of - and _
 shortid.characters('0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ$@');
@@ -128,6 +129,13 @@ export const videoUpload = functions.storage.object().onFinalize(async (object, 
 
     batch.set(videoRef, {
       secretVideoFileName: videoFileName
+    });
+
+    const courseRef = db.doc(`schools/${tenantId}/courses/${courseId}`);
+
+    // update course total duration
+    batch.update(courseRef, {
+      totalDuration: admin.firestore.FieldValue.increment(videoDuration - (lesson.videoDuration || 0))
     });
 
     await batch.commit();

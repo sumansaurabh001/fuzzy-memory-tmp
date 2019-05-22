@@ -271,9 +271,6 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   @HostListener('window:unload', [ '$event' ])
   unloadHandler(event) {
-
-    debugger;
-
     if (this.isPlatformSite) {
       // always logout from the domain app.onlinecoursehost.com on page exit (back button, browser close, etc.), as we won't be needing this JWT anymore
       this.afAuth.auth.signOut();

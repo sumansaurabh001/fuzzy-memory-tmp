@@ -125,10 +125,12 @@ export class EditLessonComponent implements OnInit, OnChanges {
 
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, config);
 
+    const deleteLesson$ = this.lessonsDB.deleteLesson(this.course.id, this.lesson.id, this.lesson.videoDuration);
+
     dialogRef.afterClosed()
       .pipe(
         filter(result => result.confirm),
-        concatMap(() => this.loading.showLoader(this.lessonsDB.deleteLesson(this.course.id, this.lesson.id))),
+        concatMap(() => this.loading.showLoader(deleteLesson$)),
         tap(() => this.store.dispatch(new DeleteLesson({id: this.lesson.id})))
       )
       .subscribe();
@@ -181,7 +183,7 @@ export class EditLessonComponent implements OnInit, OnChanges {
     this.lessonsDB.suscribeToLesson(this.course.id, this.lesson.id)
       .pipe(
         tap(console.log),
-        filter(lesson => lesson.status !== 'processing'),
+        filter(lesson => lesson.status == 'ready'),
         first(),
         tap(lesson => this.dispatchLessonChanges(lesson))
       )

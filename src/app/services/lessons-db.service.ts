@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {AngularFirestore} from '@angular/fire/firestore';
-import {Observable, from as fromPromise} from 'rxjs';
+import {Observable,from} from 'rxjs';
 import {TenantService} from './tenant.service';
 import {CourseSection} from '../models/course-section.model';
 import {findLastBySeqNo, findUniqueMatchWithId, readCollectionWithIds, readDocumentWithId} from '../common/firestore-utils';
@@ -9,7 +9,7 @@ import {Lesson} from '../models/lesson.model';
 import {Course} from '../models/course.model';
 import {Update} from '@ngrx/entity';
 import {UpdateStr} from '@ngrx/entity/src/models';
-import {from} from 'rxjs';
+import * as firebase from 'firebase/app';
 
 @Injectable()
 export class LessonsDBService {
@@ -58,13 +58,13 @@ export class LessonsDBService {
               }
             });
 
-          return fromPromise(addSectionAsync);
+          return from(addSectionAsync);
         })
       );
   }
 
   saveSection(courseId: string, sectionId:string, update: UpdateStr<CourseSection>): Observable<any> {
-    return fromPromise(this.afs.collection(this.sectionsPath(courseId)).doc(update.id).update(update.changes));
+    return from(this.afs.collection(this.sectionsPath(courseId)).doc(update.id).update(update.changes));
   }
 
 
@@ -91,21 +91,34 @@ export class LessonsDBService {
               }
             });
 
-          return fromPromise(addLessonAsync);
+          return from(addLessonAsync);
         })
       );
   }
 
   saveLesson(courseId: string, update: UpdateStr<Lesson>): Observable<any> {
-    return fromPromise(this.afs.collection(this.lessonsPath(courseId)).doc(update.id).update(update.changes));
+    return from(this.afs.collection(this.lessonsPath(courseId)).doc(update.id).update(update.changes));
   }
 
   deleteSection(courseId: string, sectionId: string): Observable<any> {
-    return fromPromise(this.afs.collection(this.sectionsPath(courseId)).doc(sectionId).delete());
+    return from(this.afs.collection(this.sectionsPath(courseId)).doc(sectionId).delete());
   }
 
-  deleteLesson(courseId: string, lessonId:string): Observable<any> {
-    return fromPromise(this.afs.collection(this.lessonsPath(courseId)).doc(lessonId).delete());
+  deleteLesson(courseId: string, lessonId:string, videoDuration:number): Observable<any> {
+
+    const batch = this.afs.firestore.batch();
+
+    const lessonRef = this.afs.collection(this.lessonsPath(courseId)).doc(lessonId).ref;
+
+    batch.delete(lessonRef);
+
+    const courseRef = this.afs.doc(`schools/${this.tenant.id}/courses/${courseId}`).ref;
+
+    batch.update(courseRef, {
+      totalDuration: firebase.firestore.FieldValue.increment(-1 * videoDuration)
+    });
+
+    return from(batch.commit());
   }
 
   private findLastLessonInSection(courseId:string, sectionId:string): Observable<Lesson> {
