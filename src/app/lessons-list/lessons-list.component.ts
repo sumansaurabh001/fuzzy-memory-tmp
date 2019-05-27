@@ -3,9 +3,12 @@ import {Lesson} from '../models/lesson.model';
 import {Course} from '../models/course.model';
 import {UserLessonStatus} from '../models/user-lesson-status';
 import {AppState} from '../store';
-import {Store} from '@ngrx/store';
+import {select, Store} from '@ngrx/store';
 import {UpdateLessonWatchStatus} from '../store/user-lesson-status.actions';
 import {MatCheckboxChange} from '@angular/material';
+import {isAnonymousUser, User} from '../models/user.model';
+import {selectUser} from '../store/selectors';
+import {MessagesService} from '../services/messages.service';
 
 @Component({
   selector: 'lessons-list',
@@ -15,10 +18,10 @@ import {MatCheckboxChange} from '@angular/material';
 export class LessonsListComponent implements OnInit {
 
   @Input()
-  course:Course;
+  course: Course;
 
   @Input()
-  sectionSeqNo:number;
+  sectionSeqNo: number;
 
   @Input()
   lessons: Lesson[] = [];
@@ -30,16 +33,30 @@ export class LessonsListComponent implements OnInit {
   highlightedLesson: Lesson;
 
   @Input()
-  playlistMode:boolean;
+  playlistMode: boolean;
 
-  constructor(private store: Store<AppState>) { }
+  user: User;
+
+  constructor(
+    private store: Store<AppState>,
+    private messages: MessagesService) {
+  }
 
   ngOnInit() {
+
+    this.store.pipe(
+      select(selectUser)
+    )
+    .subscribe(user => this.user = user);
 
   }
 
 
-  onLessonViewedClicked(event: MatCheckboxChange, lesson:Lesson) {
+  onLessonViewedClicked(event: MatCheckboxChange, lesson: Lesson) {
+
+    if (isAnonymousUser(this.user)) {
+      this.messages.info("Please login first, in order to mark lessons as viewed.");
+    }
 
     const userLessonStatus: UserLessonStatus = {
       id: lesson.id,
@@ -57,7 +74,7 @@ export class LessonsListComponent implements OnInit {
 
 
   lessonClasses(lesson: Lesson) {
-    return lesson && this.highlightedLesson && (lesson.id == this.highlightedLesson.id) ? 'active-lesson': undefined;
+    return lesson && this.highlightedLesson && (lesson.id == this.highlightedLesson.id) ? 'active-lesson' : undefined;
   }
 
   isLessonWatched(lesson: Lesson) {

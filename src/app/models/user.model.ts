@@ -21,7 +21,7 @@ export const ANONYMOUS_USER: User = {
 };
 
 export function isAnonymousUser(user:User) {
-  return user.id == 'anonymous';
+  return user && user.id == 'anonymous';
 }
 
 export function isUserPlanStillValid(user:User) {
