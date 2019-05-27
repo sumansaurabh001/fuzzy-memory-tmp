@@ -1,6 +1,11 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {Lesson} from '../models/lesson.model';
 import {Course} from '../models/course.model';
+import {UserLessonStatus} from '../models/user-lesson-status';
+import {AppState} from '../store';
+import {Store} from '@ngrx/store';
+import {UpdateLessonWatchStatus} from '../store/user-lesson-status.actions';
+import {MatCheckboxChange} from '@angular/material';
 
 @Component({
   selector: 'lessons-list',
@@ -16,7 +21,10 @@ export class LessonsListComponent implements OnInit {
   sectionSeqNo:number;
 
   @Input()
-  lessons: Lesson[];
+  lessons: Lesson[] = [];
+
+  @Input()
+  lessonsWatched: string[] = [];
 
   @Input()
   highlightedLesson: Lesson;
@@ -24,13 +32,26 @@ export class LessonsListComponent implements OnInit {
   @Input()
   playlistMode:boolean;
 
-  constructor() { }
+  constructor(private store: Store<AppState>) { }
 
   ngOnInit() {
 
   }
 
-  onLessonViewedClicked(event, lesson) {
+
+  onLessonViewedClicked(event: MatCheckboxChange, lesson:Lesson) {
+
+    const userLessonStatus: UserLessonStatus = {
+      id: lesson.id,
+      courseId: this.course.id,
+      watched: event.checked
+    };
+
+    this.store.dispatch(new UpdateLessonWatchStatus({userLessonStatus}));
+
+  }
+
+  onCheckBoxToggled(event) {
     event.stopPropagation();
   }
 
@@ -39,4 +60,7 @@ export class LessonsListComponent implements OnInit {
     return lesson && this.highlightedLesson && (lesson.id == this.highlightedLesson.id) ? 'active-lesson': undefined;
   }
 
+  isLessonWatched(lesson: Lesson) {
+    return this.lessonsWatched.includes(lesson.id);
+  }
 }

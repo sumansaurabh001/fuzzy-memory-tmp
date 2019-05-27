@@ -116,6 +116,7 @@ import { ContactPageComponent } from './contact-page/contact-page.component';
 import {DragDropModule} from '@angular/cdk/drag-drop';
 import {LessonEffects} from './store/lesson.effects';
 import { AskSchoolDetailsDialogComponent } from './ask-school-details-dialog/ask-school-details-dialog.component';
+import {UserLessonStatusEffects} from './store/user-lesson-status.effects';
 
 
 @NgModule({
@@ -228,7 +229,8 @@ import { AskSchoolDetailsDialogComponent } from './ask-school-details-dialog/ask
       UserEffects,
       PlatformEffects,
       CouponEffects,
-      ContentEffects
+      ContentEffects,
+      UserLessonStatusEffects
     ]),
     StoreRouterConnectingModule.forRoot({
       stateKey: 'router'

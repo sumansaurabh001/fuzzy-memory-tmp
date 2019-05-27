@@ -24,8 +24,9 @@
     {{lesson.videoDuration | duration}}
   </div>
 
-  <div class="lesson-viewed">
-    <mat-checkbox color="primary" (click)="onLessonViewedClicked($event, lesson)"></mat-checkbox>
+  <div class="lesson-viewed" (click)="onCheckBoxToggled($event)">
+    <mat-checkbox  [checked]="isLessonWatched(lesson)" color="primary" (change)="onLessonViewedClicked($event, lesson)" #watched></mat-checkbox>
   </div>
 
 </div>
+

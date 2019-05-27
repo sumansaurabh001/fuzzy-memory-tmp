@@ -26,6 +26,7 @@ import {Title} from '@angular/platform-browser';
 import {LoadCoupon} from '../store/coupons.actions';
 import {CourseCoupon, isValidCoupon} from '../models/coupon.model';
 import {selectCouponByCode} from '../store/coupon.selectors';
+import {selectActiveCourseLessonsWatched} from '../store/user-lesson-status.selectors';
 
 const DESCRIPTION_MAX_LENGTH = 1500;
 
@@ -44,6 +45,8 @@ export class CoursePageComponent implements OnInit {
   sections$: Observable<CourseSection[]>;
 
   lessons$: Observable<Lesson[]>;
+
+  lessonsWatched$: Observable<string[]>;
 
   coupon$: Observable<CourseCoupon>;
 
@@ -122,6 +125,8 @@ export class CoursePageComponent implements OnInit {
     this.lessons$ = this.store.pipe(select(selectActiveCourseAllLessons));
 
     this.courseDescription$ = this.selectDescription();
+
+    this.lessonsWatched$ = this.store.pipe(select(selectActiveCourseLessonsWatched));
 
   }
 

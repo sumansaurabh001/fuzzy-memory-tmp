@@ -13,9 +13,7 @@ export const adapter: EntityAdapter<VideoAccess> = createEntityAdapter<VideoAcce
 
 
 
-export const initialVideoAccessState: VideoAccessState = adapter.getInitialState({
-
-});
+export const initialVideoAccessState: VideoAccessState = adapter.getInitialState();
 
 
 

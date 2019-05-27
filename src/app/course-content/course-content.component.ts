@@ -24,6 +24,9 @@ export class CourseContentComponent implements OnInit {
   lessons: Lesson[];
 
   @Input()
+  lessonsWatched:string[] = [];
+
+  @Input()
   activeLesson: Lesson;
 
 

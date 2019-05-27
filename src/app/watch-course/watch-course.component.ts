@@ -17,6 +17,7 @@ import {WatchLesson} from '../store/lesson.actions';
 import {VideoPlayerComponent} from '../video-player/video-player.component';
 import {VideoAccess} from '../models/video-access.model';
 import {Title} from '@angular/platform-browser';
+import {selectActiveCourseLessonsWatched} from '../store/user-lesson-status.selectors';
 
 
 @Component({
@@ -41,6 +42,8 @@ export class WatchCourseComponent implements OnInit {
   activeLesson$: Observable<Lesson>;
 
   activeLessonVideoAccess$: Observable<VideoAccess>;
+
+  lessonsWatched$: Observable<string[]>;
 
   leftMenuOpened = true;
 
@@ -103,6 +106,7 @@ export class WatchCourseComponent implements OnInit {
 
         );
 
+    this.lessonsWatched$ = this.store.pipe(select(selectActiveCourseLessonsWatched));
 
   }
 

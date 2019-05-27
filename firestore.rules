@@ -111,6 +111,14 @@ service cloud.firestore {
         // only admins or the user himself can create or edit the data of a given user
         allow write: if isAdmin(tenantId) || isCurrentUser(uid);
 
+        match /{restOfPath=**} {
+
+          allow read: if isAdmin(uid) || isCurrentUser(uid);
+
+          allow write: if isAdmin(tenantId) || isCurrentUser(uid);
+
+        }
+
     }
 
     match /schools/{tenantId}/usersPrivate/{uid}  {
