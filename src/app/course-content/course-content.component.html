@@ -10,7 +10,7 @@
     </mat-panel-title>
     <mat-panel-description>
       <div class="section-data">
-        <span>Completed: 0/12</span>
+        <span *ngIf="lessons?.length > 0">Completed: {{calculateLessonsCompleted(section)}}/{{calculateSectionLength(section)}}</span>
       </div>
     </mat-panel-description>
   </mat-expansion-panel-header>

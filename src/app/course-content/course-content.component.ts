@@ -29,25 +29,40 @@ export class CourseContentComponent implements OnInit {
   @Input()
   activeLesson: Lesson;
 
-
-  constructor() { }
+  constructor() {}
 
   ngOnInit() {
 
   }
 
-
   sectionLessons(section: CourseSection) {
-    return this.lessons.filter(lesson => lesson.sectionId == section.id);
+    return section? this.lessons.filter(lesson => lesson.sectionId == section.id) : [];
+  }
+
+  calculateSectionLength(section:CourseSection) {
+    return this.sectionLessons(section).length;
   }
 
 
+  calculateLessonsCompleted(section:CourseSection) {
 
+    if (!this.lessons || !this.lessonsWatched) {
+      return 0;
+    }
 
+    const sectionLessonIds = this.sectionLessons(section).map(lesson => lesson.id);
 
+    let counter = 0;
 
+    sectionLessonIds.forEach(lessonId => {
+      if (this.lessonsWatched.includes(lessonId)) {
+        counter += 1;
+      }
+    });
 
+    return counter;
 
+  }
 
 
 }
