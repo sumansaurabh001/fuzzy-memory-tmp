@@ -5,7 +5,7 @@ import { CourseSection } from '../models/course-section.model';
 export enum CourseSectionActionTypes {
   LoadCourseSections = '[CourseSection] Load Course Sections',
   AddCourseSection = '[CourseSection] Add Course Section',
-  AddCourseSections = '[CourseSection] Add Course Sections',
+  CourseSectionsLoaded = '[Course Effects] Course Sections Loaded',
   UpdateCourseSection = '[CourseSection] Update Course Section',
   DeleteCourseSection = '[CourseSection] Delete Course Section',
   UpdatedSectionOrder = '[Edit Lessons Screen] Updated Section Order',
@@ -25,9 +25,8 @@ export class AddCourseSection implements Action {
   constructor(public payload: { courseSection: CourseSection }) {}
 }
 
-
-export class AddCourseSections implements Action {
-  readonly type = CourseSectionActionTypes.AddCourseSections;
+export class CourseSectionsLoaded implements Action {
+  readonly type = CourseSectionActionTypes.CourseSectionsLoaded;
 
   constructor(public payload: { courseSections: CourseSection[], courseId:string }) {}
 }
@@ -63,7 +62,7 @@ export class UpdateSectionOrderCompleted implements Action {
 export type CourseSectionActions =
  LoadCourseSections
  | AddCourseSection
- | AddCourseSections
+ | CourseSectionsLoaded
  | UpdateCourseSection
  | DeleteCourseSection
  | UpdateSectionOrder

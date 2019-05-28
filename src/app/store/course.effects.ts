@@ -26,17 +26,28 @@ import {
   isActiveCourseLessonsLoaded,
   selectDescriptionsState,
   isActiveLessonVideoAccessLoaded,
-  selectPendingLessonsReorder, selectPendingCoursesReorder, selectPendingSectionsReorder
+  selectPendingLessonsReorder, selectPendingCoursesReorder, selectPendingSectionsReorder, selectActiveCourseAllLessons
 } from './selectors';
 import {LessonsDBService} from '../services/lessons-db.service';
-import {AddCourseSections, CourseSectionActionTypes, UpdateSectionOrder, UpdateSectionOrderCompleted} from './course-section.actions';
-import {AddLessons, LessonActionTypes, UpdateLesson, UpdateLessonOrder, UpdateLessonOrderCompleted, WatchLesson} from './lesson.actions';
+import {CourseSectionsLoaded, CourseSectionActionTypes, UpdateSectionOrder, UpdateSectionOrderCompleted} from './course-section.actions';
+import {
+  CourseLessonsLoaded,
+  LessonActionTypes,
+  LessonsSequentiallyNumbered,
+  UpdateLesson,
+  UpdateLessonOrder,
+  UpdateLessonOrderCompleted,
+  WatchLesson
+} from './lesson.actions';
 import {AngularFireAuth} from '@angular/fire/auth';
 import {SchoolUsersDbService} from '../services/school-users-db.service';
 import {TenantService} from '../services/tenant.service';
 import {VideoService} from '../services/video.service';
 import {SaveVideoAccess} from './video-access.actions';
 import {PaymentsService} from '../services/payments.service';
+import {sortLessonsBySectionAndSeqNo} from '../common/sort-model';
+import {CourseSection} from '../models/course-section.model';
+import {Lesson} from '../models/lesson.model';
 
 
 @Injectable()
@@ -83,7 +94,7 @@ export class CourseEffects {
       filter(([action, loaded]) => !loaded),
       concatMap(
         ([action]) => this.loading.showLoader(this.lessonsDB.loadCourseSections(action.payload.courseId)),
-        ([action], courseSections) => new AddCourseSections({courseSections, courseId: action.payload.courseId})
+        ([action], courseSections) => new CourseSectionsLoaded({courseSections, courseId: action.payload.courseId})
       ),
       catchError(err => {
         this.messages.error('Could not load sections.');
@@ -99,12 +110,27 @@ export class CourseEffects {
       filter(([action, loaded]) => !loaded),
       concatMap(
         ([action]) => this.loading.showLoader(this.lessonsDB.loadCourseLessons(action.payload.courseId)),
-        ([action], lessons) => new AddLessons({lessons, courseId: action.payload.courseId})
+        ([action], lessons) => new CourseLessonsLoaded({lessons, courseId: action.payload.courseId})
       ),
       catchError(err => {
         this.messages.error('Could not load lessons.');
         return _throw(err);
       })
+    );
+
+  @Effect()
+  numberLessonsSequentially$ = this.actions$
+    .pipe(
+      ofType(CourseSectionActionTypes.CourseSectionsLoaded, LessonActionTypes.CourseLessonsLoaded),
+      withLatestFrom(
+        this.store.pipe(select(isActiveCourseSectionsLoaded)),
+        this.store.pipe(select(isActiveCourseLessonsLoaded)),
+        this.store.pipe(select(selectActiveCourseAllLessons)),
+        this.store.pipe(select(selectActiveCourseSections))
+      ),
+      filter(([action, sectionsLoaded, lessonsLoaded]) => sectionsLoaded && lessonsLoaded),
+      map( ([action, sectionsLoaded, lessonsLoaded, lessons, sections]) => sortLessonsBySectionAndSeqNo(lessons, sections)),
+      map(sortedLessons => new LessonsSequentiallyNumbered({sortedLessons}))
     );
 
   @Effect({dispatch: false})

@@ -32,7 +32,7 @@ export function reducer(
       return adapter.addOne(action.payload.courseSection, state);
     }
 
-    case CourseSectionActionTypes.AddCourseSections: {
+    case CourseSectionActionTypes.CourseSectionsLoaded: {
 
       const sections = adapter.addMany(action.payload.courseSections, state);
 

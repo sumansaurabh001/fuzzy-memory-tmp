@@ -38,7 +38,7 @@ export function reducer(
       return adapter.addOne(action.payload.lesson, state);
     }
 
-    case LessonActionTypes.AddLessons: {
+    case LessonActionTypes.CourseLessonsLoaded: {
 
       const lessons = adapter.addMany(action.payload.lessons, state);
 
@@ -127,6 +127,27 @@ export function reducer(
         ...state,
         uploadsOngoing: newUploadsList
       };
+
+    case LessonActionTypes.LessonsSequentiallyNumbered:
+
+      const sortedLessons = action.payload.sortedLessons;
+
+      let counter = 1;
+
+      const updates: Update<Lesson>[] = [];
+
+      sortedLessons.forEach(lesson => {
+        updates.push({
+          id: lesson.id,
+          changes: {
+            courseSeqNo:counter
+          }
+        });
+        counter += 1;
+      });
+
+      return adapter.updateMany(updates, state);
+
 
     default: {
       return state;

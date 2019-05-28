@@ -7,14 +7,15 @@ import {CourseSection} from '../models/course-section.model';
 export enum LessonActionTypes {
   WatchLesson = '[Lesson] Watch Lesson',
   AddLesson = '[Lesson] Add Lesson',
-  AddLessons = '[Lesson] Add Lessons',
+  CourseLessonsLoaded = '[Course Effects] Course Lessons Loaded',
   UpdateLesson = '[Lesson] Update Lesson',
   DeleteLesson = '[Lesson] Delete Lesson',
   LoadLessonVideo = '[Watch Course Screen] Load Lesson Video',
   UpdateLessonOrder = '[Edit Lessons Screen] Update Lesson Order',
   UpdateLessonOrderCompleted = '[Lesson Effects] Update Lesson Order Completed',
   UploadStarted = "[Edit Course Screen] Upload Started",
-  UploadFinished = "[Edit Course Screen] Upload Finished"
+  UploadFinished = "[Edit Course Screen] Upload Finished",
+  LessonsSequentiallyNumbered = "[Course Effects] Lessons Sequentially Numbered"
 }
 
 export class WatchLesson implements Action {
@@ -30,8 +31,8 @@ export class AddLesson implements Action {
   constructor(public payload: { lesson: Lesson }) {}
 }
 
-export class AddLessons implements Action {
-  readonly type = LessonActionTypes.AddLessons;
+export class CourseLessonsLoaded implements Action {
+  readonly type = LessonActionTypes.CourseLessonsLoaded;
 
   constructor(public payload: { lessons: Lesson[],  courseId:string  }) {}
 }
@@ -83,14 +84,24 @@ export class UploadFinished implements Action {
   constructor(public payload: {fileName:string}) {}
 }
 
+
+export class LessonsSequentiallyNumbered implements Action {
+
+  readonly type = LessonActionTypes.LessonsSequentiallyNumbered;
+
+  constructor(public payload: {sortedLessons: Lesson[]}) {}
+
+}
+
 export type LessonActions =
   WatchLesson
  | AddLesson
- | AddLessons
+ | CourseLessonsLoaded
  | UpdateLesson
  | DeleteLesson
  | LoadLessonVideo
  | UpdateLessonOrder
  | UpdateLessonOrderCompleted
  | UploadStarted
- | UploadFinished;
+ | UploadFinished
+ | LessonsSequentiallyNumbered;

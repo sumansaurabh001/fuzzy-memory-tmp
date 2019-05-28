@@ -2,7 +2,8 @@ export interface Lesson {
   id:string;
   status:  'draft'  | 'processing' | 'error' | 'ready' |  'published';
   sectionId:string;
-  seqNo:number;
+  seqNo:number; // this is the section sequence number, stored in the database, used for reordering lessons
+  courseSeqNo:number; // this is overall course sequence number, calculated in the frontend at course startup time
   title:string;
   originalFileName:string;
   videoDuration:number;
