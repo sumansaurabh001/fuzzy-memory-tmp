@@ -13,4 +13,5 @@ export interface Course {
   includedInSubscription:boolean;
   free:boolean;
   totalDuration:number;
+  totalLessonsPublished:number;
 }

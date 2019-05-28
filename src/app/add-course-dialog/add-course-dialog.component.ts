@@ -57,6 +57,7 @@ export class AddCourseDialogComponent implements OnInit {
     course.includedInSubscription = true;
     course.free = false;
     course.seqNo = this.newCourseSeqNo;
+    course.totalLessonsPublished = 0;
 
     // initially the course url is the seqNo, it will be overwritten at publication time
     course.url = '' + this.newCourseSeqNo;
