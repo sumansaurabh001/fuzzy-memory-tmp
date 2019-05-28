@@ -40,7 +40,8 @@
                       (close)="toggleLeftMenu()"
                       (open)="toggleLeftMenu()"
                       (exit)="onExit(course)"
-                      (videoEnded)="onVideoEnded(lessons, activeLesson)">
+                      (videoEnded)="onVideoEnded(lessons, activeLesson)"
+                      (videoWatched)="onVideoWatched(course, activeLesson)">
 
         </video-player>
 

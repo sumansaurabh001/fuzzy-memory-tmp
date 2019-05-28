@@ -48,6 +48,9 @@ export class VideoPlayerComponent implements OnInit, AfterViewInit, OnChanges {
   @Output()
   videoEnded = new EventEmitter();
 
+  @Output()
+  videoWatched = new EventEmitter();
+
   buffering = false;
 
   playInterval;
@@ -113,6 +116,9 @@ export class VideoPlayerComponent implements OnInit, AfterViewInit, OnChanges {
 
     this.video.onended = () => {
       this.videoEnded.next();
+
+      this.checkIfVideoWatched();
+
     };
 
   }
@@ -146,6 +152,7 @@ export class VideoPlayerComponent implements OnInit, AfterViewInit, OnChanges {
     this.video.pause();
     clearInterval(this.playInterval);
     this.playInterval = undefined;
+    this.checkIfVideoWatched();
   }
 
   triggerButtonDelay() {
@@ -311,6 +318,34 @@ export class VideoPlayerComponent implements OnInit, AfterViewInit, OnChanges {
     const fractionClicked = clickedAt / progressBarTotalWidth;
 
     this.video.currentTime = fractionClicked * this.video.duration;
+  }
+
+  checkIfVideoWatched() {
+    const played = this.getPlayedTime(this.video);
+
+    if (played.percent > 90) {
+      this.videoWatched.next();
+    }
+  }
+
+  /**
+   *
+   * @param {HTMLVideoElement} video
+   * @returns {{total: number, percent: number}}
+   */
+
+  getPlayedTime(video) {
+    var totalPlayed = 0;
+    var played = video.played;
+
+    for (var i = 0; i < played.length; i++) {
+      totalPlayed += played.end(i) - played.start(i);
+    }
+
+    return {
+      total: totalPlayed,
+      percent: totalPlayed / video.duration * 100
+    };
   }
 
 

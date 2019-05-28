@@ -18,6 +18,8 @@ import {VideoPlayerComponent} from '../video-player/video-player.component';
 import {VideoAccess} from '../models/video-access.model';
 import {Title} from '@angular/platform-browser';
 import {selectActiveCourseLessonsWatched} from '../store/user-lesson-status.selectors';
+import {UserLessonStatus} from '../models/user-lesson-status';
+import {UpdateLessonWatchStatus} from '../store/user-lesson-status.actions';
 
 
 @Component({
@@ -136,6 +138,18 @@ export class WatchCourseComponent implements OnInit {
       }
 
     }
+  }
+
+  onVideoWatched(course:Course, activeLesson: Lesson) {
+
+    const userLessonStatus: UserLessonStatus = {
+      id: activeLesson.id,
+      courseId: course.id,
+      watched:true
+    };
+
+    this.store.dispatch(new UpdateLessonWatchStatus({userLessonStatus}));
+
   }
 
 
