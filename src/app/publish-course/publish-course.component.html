@@ -3,7 +3,7 @@
 </edit-lessons-toolbar>
 
 
-<div class="tab-container mat-elevation-z5 publish-course-panel">
+<div class="tab-container mat-elevation-z5 publish-course-panel" *ngIf="(data$ | async) as data">
 
   <div class="publish-container">
 
