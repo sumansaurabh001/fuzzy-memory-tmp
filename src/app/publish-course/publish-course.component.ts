@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {Observable} from 'rxjs/Observable';
+import {Observable} from 'rxjs';
 import {Course} from '../models/course.model';
 import {createSelector, select, Store} from '@ngrx/store';
 import {isConnectedToStripe, selectActiveCourse, selectActiveCourseAllLessons} from '../store/selectors';

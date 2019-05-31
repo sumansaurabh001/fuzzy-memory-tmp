@@ -1,9 +1,8 @@
 import {ActivatedRoute, ActivatedRouteSnapshot, CanActivate, RouterStateSnapshot} from '@angular/router';
 import {Injectable} from '@angular/core';
-import {Observable} from 'rxjs/Observable';
+import {Observable, of} from 'rxjs';
 import {TenantsDBService} from '../services/tenants-db.service';
 import {checkIfSingleSignOnPage, DEFAULT_THEME} from '../common/platform-utils';
-import {of} from 'rxjs';
 import {ThemeChanged} from '../store/platform.actions';
 import {first, map, tap} from 'rxjs/operators';
 import {AppState} from '../store';

@@ -1,6 +1,6 @@
 import {ActivatedRouteSnapshot, CanActivate, CanDeactivate, RouterStateSnapshot} from '@angular/router';
 import {Injectable} from '@angular/core';
-import {Observable} from 'rxjs/Observable';
+import {Observable} from 'rxjs';
 import {AppState} from '../store';
 import {select, Store} from '@ngrx/store';
 import {EditCourseComponent} from '../edit-course/edit-course.component';

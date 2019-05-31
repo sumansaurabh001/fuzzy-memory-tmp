@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import {PricingPlan} from '../models/pricing-plan.model';
-import {Observable} from 'rxjs/Observable';
+import {Observable, of} from 'rxjs';
 import {HttpClient} from '@angular/common/http';
 import {HttpHeaders} from '@angular/common/http';
 import {AngularFireAuth} from '@angular/fire/auth';
@@ -8,7 +8,6 @@ import {environment} from '../../environments/environment';
 import {AngularFirestore} from '@angular/fire/firestore';
 import {TenantService} from './tenant.service';
 import {PricingPlansState} from '../store/pricing-plans.reducer';
-import {of} from 'rxjs';
 
 @Injectable({
   providedIn: 'root'

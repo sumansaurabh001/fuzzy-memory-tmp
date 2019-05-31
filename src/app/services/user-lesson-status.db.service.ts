@@ -2,8 +2,7 @@ import {Injectable} from '@angular/core';
 import {AngularFirestore} from '@angular/fire/firestore';
 import {UserLessonStatus} from '../models/user-lesson-status';
 import {TenantService} from './tenant.service';
-import {Observable} from 'rxjs/Observable';
-import {from} from 'rxjs';
+import {Observable, from} from 'rxjs';
 import {readCollectionWithIds} from '../common/firestore-utils';
 import {map} from 'rxjs/operators';
 

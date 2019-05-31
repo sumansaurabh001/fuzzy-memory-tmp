@@ -12,7 +12,7 @@ import {TenantService} from '../services/tenant.service';
 import {VideoService} from '../services/video.service';
 import {LessonActionTypes, UpdateLesson, UpdateLessonOrder, UpdateLessonOrderCompleted, WatchLesson} from './lesson.actions';
 import {catchError, concatMap, filter, map, withLatestFrom} from 'rxjs/operators';
-import {throwError as _throw} from 'rxjs/internal/observable/throwError';
+import {throwError} from 'rxjs/internal/observable/throwError';
 import {isActiveLessonVideoAccessLoaded, selectActiveCourse, selectPendingLessonsReorder} from './selectors';
 import {SaveVideoAccess} from './video-access.actions';
 
@@ -27,7 +27,7 @@ export class LessonEffects {
       concatMap(action => this.lessonsDB.saveLesson(action.payload.courseId, action.payload.lesson)),
       catchError(err => {
         this.messages.error('Could not save lesson.');
-        return _throw(err);
+        return throwError(err);
       })
     );
 
@@ -44,7 +44,7 @@ export class LessonEffects {
       map(videoAccess => new SaveVideoAccess({videoAccess})),
       catchError(err => {
         this.messages.error('Could not load user video access.');
-        return _throw(err);
+        return throwError(err);
       })
     );
 
@@ -58,7 +58,7 @@ export class LessonEffects {
       map(() => new UpdateLessonOrderCompleted()),
       catchError(err => {
         this.messages.error('Could not save the new lessons order.');
-        return _throw(err);
+        return throwError(err);
       })
     );
 

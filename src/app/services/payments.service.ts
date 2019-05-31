@@ -4,7 +4,7 @@ import {environment} from '../../environments/environment';
 import {TenantService} from './tenant.service';
 import {AngularFireAuth} from '@angular/fire/auth';
 import {PricingPlan} from '../models/pricing-plan.model';
-import {Observable} from 'rxjs/Observable';
+import {Observable} from 'rxjs';
 import {User} from '../models/user.model';
 import {map} from 'rxjs/operators';
 import {StripeSession} from './stripe-session';

@@ -1,11 +1,10 @@
 import {Injectable} from '@angular/core';
-import {Observable} from 'rxjs/Observable';
+import {Observable, from} from 'rxjs';
 import {SubscriptionContent} from '../models/content/subscription-content.model';
 import {AngularFirestore} from '@angular/fire/firestore';
 import {AngularFireAuth} from '@angular/fire/auth';
 import {TenantService} from './tenant.service';
 import {first} from 'rxjs/operators';
-import {from} from 'rxjs';
 
 
 

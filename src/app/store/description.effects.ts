@@ -10,7 +10,7 @@ import {selectDescriptionsState} from './selectors';
 import {AppState} from './index';
 import {LoadingService} from '../services/loading.service';
 import {MessagesService} from '../services/messages.service';
-import {throwError as _throw} from 'rxjs';
+import {throwError} from 'rxjs';
 
 
 @Injectable()
@@ -28,7 +28,7 @@ export class DescriptionEffects {
       ),
       catchError(err => {
         this.messages.error('Could not load description.');
-        return _throw(err);
+        return throwError(err);
       })
     );
 
@@ -41,7 +41,7 @@ export class DescriptionEffects {
       concatMap(action => this.descriptionsDB.saveDescription(action.payload.id, action.payload.description)),
       catchError(err => {
         this.messages.error('Could not save description.');
-        return _throw(err);
+        return throwError(err);
       })
     );
 

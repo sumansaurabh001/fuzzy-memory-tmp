@@ -1,7 +1,6 @@
 import {Component, OnInit} from '@angular/core';
-import {Observable} from 'rxjs/Observable';
+import {Observable, of} from 'rxjs';
 import {AppState} from '../store';
-import {of} from 'rxjs';
 import {select, Store} from '@ngrx/store';
 import {
   arePricingPlansReady,

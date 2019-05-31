@@ -11,7 +11,7 @@ import {concatMap, catchError, withLatestFrom, filter, map, tap} from 'rxjs/oper
 import {CoursesDBService} from '../services/courses-db.service';
 import {LoadingService} from '../services/loading.service';
 import {MessagesService} from '../services/messages.service';
-import {throwError as _throw, combineLatest} from 'rxjs';
+import {throwError, combineLatest} from 'rxjs';
 import {CreateNewCourse, LoadCourseDetail, UpdateCourse} from './course.actions';
 import {AppState} from './index';
 import {select, Store} from '@ngrx/store';
@@ -71,7 +71,7 @@ export class CourseEffects {
       map(purchasedCourses => new UserCoursesLoaded({purchasedCourses})),
       catchError(err => {
         this.messages.error('Could not load user courses.');
-        return _throw(err);
+        return throwError(err);
       })
     );
 
@@ -82,7 +82,7 @@ export class CourseEffects {
       map(action => new LoadDescription(action.payload.courseId)),
       catchError(err => {
         this.messages.error('Could not load course description.');
-        return _throw(err);
+        return throwError(err);
       })
     );
 
@@ -98,7 +98,7 @@ export class CourseEffects {
       ),
       catchError(err => {
         this.messages.error('Could not load sections.');
-        return _throw(err);
+        return throwError(err);
       })
     );
 
@@ -114,7 +114,7 @@ export class CourseEffects {
       ),
       catchError(err => {
         this.messages.error('Could not load lessons.');
-        return _throw(err);
+        return throwError(err);
       })
     );
 
@@ -140,7 +140,7 @@ export class CourseEffects {
       concatMap(action => this.loading.showLoader(this.coursesDB.deleteCourseDraft(action.payload.id))),
       catchError(err => {
         this.messages.error('Could not delete the course draft.', err);
-        return _throw(err);
+        return throwError(err);
       })
     );
 
@@ -151,7 +151,7 @@ export class CourseEffects {
       concatMap(action => this.loading.showLoader(this.coursesDB.saveCourse(action.payload.course.id, action.payload.course.changes))),
       catchError(err => {
         this.messages.error('Could not save course.');
-        return _throw(err);
+        return throwError(err);
       })
     );
 
@@ -164,7 +164,7 @@ export class CourseEffects {
       map(() => new UpdateCourseSortOrderCompleted()),
       catchError(err => {
         this.messages.error('Could not save the new course order.');
-        return _throw(err);
+        return throwError(err);
       })
     );
 
@@ -177,7 +177,7 @@ export class CourseEffects {
       map(() => new UpdateSectionOrderCompleted()),
       catchError(err => {
         this.messages.error('Could not save the new section order.');
-        return _throw(err);
+        return throwError(err);
       })
     );
 

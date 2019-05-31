@@ -6,11 +6,10 @@ import {CourseCouponsDbService} from '../services/course-coupons-db.service';
 import {select, Store} from '@ngrx/store';
 import {isActiveCourseLessonsLoaded, selectActiveCourse} from './selectors';
 import {AppState} from './index';
-import {_throw} from '../../../node_modules/rxjs-compat/observable/throw';
 import {MessagesService} from '../services/messages.service';
 import {LoadingService} from '../services/loading.service';
 import {CourseCoupon} from '../models/coupon.model';
-
+import {throwError} from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -27,7 +26,7 @@ export class CouponEffects {
       map(coupons => new AddCoupons({coupons})),
       catchError(err => {
         this.messages.error('Could not load course coupons.');
-        return _throw(err);
+        return throwError(err);
       })
     );
 

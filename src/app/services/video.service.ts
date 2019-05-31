@@ -3,7 +3,7 @@ import {Lesson} from '../models/lesson.model';
 import {Update} from '@ngrx/entity';
 import {HttpClient} from '@angular/common/http';
 import {TenantService} from './tenant.service';
-import {Observable} from 'rxjs/Observable';
+import {Observable} from 'rxjs';
 import {HttpHeaders, HttpParams} from '@angular/common/http';
 import {environment} from '../../environments/environment';
 import {AngularFireAuth} from '@angular/fire/auth';

@@ -5,13 +5,12 @@ import {Store} from '@ngrx/store';
 import {AppState} from './index';
 import {LoadingService} from '../services/loading.service';
 import {MessagesService} from '../services/messages.service';
-import {throwError as _throw} from 'rxjs';
 import {PlatformActionTypes, SaveTheme, UpdateStripeStatus} from './platform.actions';
 import {TenantsDBService} from '../services/tenants-db.service';
 import {TenantService} from '../services/tenant.service';
 import {StripeConnectionService} from '../services/stripe-connection.service';
 import {UserActionTypes} from './user.actions';
-
+import {throwError} from "rxjs";
 
 @Injectable()
 export class PlatformEffects {
@@ -23,7 +22,7 @@ export class PlatformEffects {
       concatMap(action => this.tenantsDB.saveTheme(this.tenant.id, action.payload.primaryColor, action.payload.accentColor)),
       catchError(err => {
         this.messages.error('Could not save theme colors.');
-        return _throw(err);
+        return throwError(err);
       })
     );
 

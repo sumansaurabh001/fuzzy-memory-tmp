@@ -4,7 +4,7 @@ import {EditHomeDialogComponent} from '../edit-home-dialog/edit-home-dialog.comp
 import {HomePageContent} from '../models/content/home-page-content.model';
 import {select, Store} from '@ngrx/store';
 import {selectContent} from '../store/content.selectors';
-import {Observable} from 'rxjs/Observable';
+import {Observable} from 'rxjs';
 import {AppState} from '../store';
 import {EditTitleDescriptionDialogComponent} from '../edit-title-description-dialog/edit-title-description-dialog.component';
 import {filter, tap} from 'rxjs/operators';

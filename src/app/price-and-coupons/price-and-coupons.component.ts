@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {CourseCoupon} from '../models/coupon.model';
 import {select, Store} from '@ngrx/store';
 import {AppState} from '../store';
-import {Observable} from 'rxjs/Observable';
+import {Observable} from 'rxjs';
 import {
   isConnectedToStripe,
   selectActiveCourse

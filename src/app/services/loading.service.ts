@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {Observable, BehaviorSubject, of, throwError as _throw} from 'rxjs';
+import {Observable, BehaviorSubject, of, throwError} from 'rxjs';
 import {catchError, delay, filter, finalize, map, switchMap, tap} from 'rxjs/operators';
 import {NavigationEnd, NavigationStart, Router} from '@angular/router';
 
@@ -20,7 +20,7 @@ export class LoadingService {
         tap(() => this.loadingSubject.next(false)),
         catchError(err => {
           this.loadingSubject.next(false);
-          return _throw(err);
+          return throwError(err);
         })
       );
   }
