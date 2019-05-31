@@ -1,9 +1,19 @@
 import { Component, OnInit } from '@angular/core';
 import {Observable} from 'rxjs/Observable';
 import {Course} from '../models/course.model';
-import {select, Store} from '@ngrx/store';
-import {selectActiveCourse} from '../store/selectors';
+import {createSelector, select, Store} from '@ngrx/store';
+import {isConnectedToStripe, selectActiveCourse, selectActiveCourseAllLessons} from '../store/selectors';
 import {AppState} from '../store';
+import {Lesson} from '../models/lesson.model';
+
+
+const selectPublishCourseData = createSelector(
+  selectActiveCourse,
+  selectActiveCourseAllLessons,
+  isConnectedToStripe,
+  (course, lessons, connected) => {return {course, lessons, connected}}
+);
+
 
 @Component({
   selector: 'publish-course',
@@ -12,7 +22,13 @@ import {AppState} from '../store';
 })
 export class PublishCourseComponent implements OnInit {
 
-  course$: Observable<Course>;
+  data$: Observable<{
+    course: Course,
+    lessons: Lesson[],
+    connected
+  }>;
+
+
 
   constructor(
     private store: Store<AppState>) {
@@ -21,7 +37,7 @@ export class PublishCourseComponent implements OnInit {
 
   ngOnInit() {
 
-    this.course$ = this.store.pipe(select(selectActiveCourse));
+    this.data$ = this.store.pipe(select(selectPublishCourseData));
 
   }
 
