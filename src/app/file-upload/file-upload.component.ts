@@ -32,7 +32,7 @@ export class FileUploadComponent implements OnInit {
 
   @Output() fileDeleted = new EventEmitter();
 
-  @ViewChild("fileUpload")
+  @ViewChild("fileUpload", { static: false })
   fileUpload : ElementRef;
 
 

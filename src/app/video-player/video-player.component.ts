@@ -24,10 +24,10 @@ export class VideoPlayerComponent implements OnInit, AfterViewInit, OnChanges {
   @Input()
   fullSize = false;
 
-  @ViewChild('video')
+  @ViewChild('video', { static: true })
   videoElement: ElementRef;
 
-  @ViewChild('progressBar', {read: ElementRef})
+  @ViewChild('progressBar', { read: ElementRef, static: false })
   progressBar: ElementRef;
 
   videoPlaying = false;

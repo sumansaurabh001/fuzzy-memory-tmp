@@ -26,7 +26,7 @@ export class GetLinkDialogComponent implements OnInit, AfterViewInit {
 
   link:string;
 
-  @ViewChild('input')
+  @ViewChild('input', { static: true })
   copyInput: ElementRef;
 
 

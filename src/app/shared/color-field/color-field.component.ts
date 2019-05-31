@@ -14,7 +14,7 @@ export class ColorFieldComponent implements OnInit {
   @Input()
   label = "Choose color";
 
-  @ViewChild('colorPicker', {read: ColorPickerDirective})
+  @ViewChild('colorPicker', { read: ColorPickerDirective, static: true })
   colorPicker: ColorPickerDirective;
 
   @Output()

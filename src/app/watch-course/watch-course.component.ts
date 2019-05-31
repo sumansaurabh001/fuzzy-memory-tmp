@@ -30,7 +30,7 @@ import {UpdateLessonWatchStatus} from '../store/user-lesson-status.actions';
 })
 export class WatchCourseComponent implements OnInit {
 
-  @ViewChild(VideoPlayerComponent)
+  @ViewChild(VideoPlayerComponent, { static: false })
   videoPlayer: VideoPlayerComponent;
 
   course$: Observable<Course>;

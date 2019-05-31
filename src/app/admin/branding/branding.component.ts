@@ -26,10 +26,10 @@ export class BrandingComponent implements OnInit {
 
   accentColor:string;
 
-  @ViewChild('primaryPicker', {read: ColorPickerDirective})
+  @ViewChild('primaryPicker', { read: ColorPickerDirective, static: false })
   primaryPicker: ColorPickerDirective;
 
-  @ViewChild('accentPicker', {read: ColorPickerDirective})
+  @ViewChild('accentPicker', { read: ColorPickerDirective, static: false })
   accentPicker: ColorPickerDirective;
 
 
