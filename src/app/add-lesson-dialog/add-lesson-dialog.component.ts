@@ -4,7 +4,7 @@ import {MessagesService} from '../services/messages.service';
 import {AddSectionDialogComponent} from '../add-section-dialog/add-section-dialog.component';
 import {AppState} from '../store';
 import {LessonsDBService} from '../services/lessons-db.service';
-import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import {Course} from '../models/course.model';
 import {Store} from '@ngrx/store';
 import {CourseSection} from '../models/course-section.model';

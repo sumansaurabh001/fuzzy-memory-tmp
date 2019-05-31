@@ -1,5 +1,5 @@
 import {ChangeDetectionStrategy, Component, OnInit, ViewChild} from '@angular/core';
-import {MatSidenavContent} from '@angular/material';
+import { MatSidenavContent } from '@angular/material/sidenav';
 import {ActivatedRoute, NavigationEnd, Router} from '@angular/router';
 import {filter, tap} from 'rxjs/operators';
 import {DomSanitizer} from '@angular/platform-browser';

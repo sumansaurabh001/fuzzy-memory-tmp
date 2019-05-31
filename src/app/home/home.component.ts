@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {MatDialog, MatDialogConfig} from '@angular/material';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import {EditHomeDialogComponent} from '../edit-home-dialog/edit-home-dialog.component';
 import {HomePageContent} from '../models/content/home-page-content.model';
 import {select, Store} from '@ngrx/store';

@@ -16,7 +16,7 @@ import {PricingPlansLoaded} from '../store/pricing-plans.actions';
 import {MessagesService} from '../services/messages.service';
 import {LoadingService} from '../services/loading.service';
 import {PricingPlansState} from '../store/pricing-plans.reducer';
-import {MatDialog, MatDialogConfig, MatDialogRef} from '@angular/material';
+import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
 import {PricingPlan} from '../models/pricing-plan.model';
 import {EditPricingPlanDialogComponent} from '../edit-subscriptions-dialog/edit-pricing-plan-dialog.component';
 import {concatMap, filter, finalize, map, tap, withLatestFrom} from 'rxjs/operators';

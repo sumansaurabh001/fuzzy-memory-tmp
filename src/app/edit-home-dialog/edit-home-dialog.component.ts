@@ -1,7 +1,7 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {MessagesService} from '../services/messages.service';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import {defaultEditorConfig, minimalEditorConfig} from '../common/html-editor.config';
 import {FileUploadService} from '../services/file-upload.service';
 import {noop, throwError} from 'rxjs';

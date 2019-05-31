@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {MessagesService} from '../services/messages.service';
 import {StripeConnectionService} from '../services/stripe-connection.service';
-import {MatDialog, MatDialogConfig, MatDialogRef} from '@angular/material';
+import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
 import {LoadingDialogComponent} from '../loading-dialog/loading-dialog.component';
 import {UpdateStripeStatus} from '../store/platform.actions';
 import {AppState} from '../store';

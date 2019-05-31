@@ -1,5 +1,5 @@
 import {ChangeDetectionStrategy, Component, OnDestroy, OnInit} from '@angular/core';
-import {MatDialog, MatDialogConfig} from '@angular/material';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import {AddCourseDialogComponent} from '../add-course-dialog/add-course-dialog.component';
 import {Observable, combineLatest} from 'rxjs';
 import {Course} from '../models/course.model';

@@ -5,7 +5,7 @@ import {UserLessonStatus} from '../models/user-lesson-status';
 import {AppState} from '../store';
 import {select, Store} from '@ngrx/store';
 import {UpdateLessonWatchStatus} from '../store/user-lesson-status.actions';
-import {MatCheckboxChange} from '@angular/material';
+import { MatCheckboxChange } from '@angular/material/checkbox';
 import {isAnonymousUser, User} from '../models/user.model';
 import {selectUser} from '../store/selectors';
 import {MessagesService} from '../services/messages.service';

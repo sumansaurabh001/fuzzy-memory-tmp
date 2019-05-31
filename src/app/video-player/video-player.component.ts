@@ -5,7 +5,8 @@ import {
 } from '@angular/core';
 import {fadeIn, fadeInOut, fadeOut} from '../common/fade-in-out';
 import {EventManager} from '@angular/platform-browser';
-import {MatProgressBar, MatSliderChange} from '@angular/material';
+import { MatProgressBar } from '@angular/material/progress-bar';
+import { MatSliderChange } from '@angular/material/slider';
 
 @Component({
   selector: 'video-player',

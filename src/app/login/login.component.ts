@@ -15,7 +15,7 @@ import {CustomJwtAuthService} from '../services/custom-jwt-auth.service';
 import {concatMap, filter, first, map, tap, withLatestFrom} from 'rxjs/operators';
 import {SchoolUsersDbService} from '../services/school-users-db.service';
 import {Tenant} from '../models/tenant.model';
-import {MatDialog, MatDialogConfig} from '@angular/material';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import {AskSchoolDetailsDialogComponent} from '../ask-school-details-dialog/ask-school-details-dialog.component';
 import {Title} from '@angular/platform-browser';
 

@@ -1,6 +1,6 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import {MessagesService} from '../services/messages.service';
 import {PricingPlan} from '../models/pricing-plan.model';
 import {PricingPlansService} from '../services/pricing-plans.service';

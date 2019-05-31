@@ -5,7 +5,7 @@ import {AppState} from '../store';
 import {select, Store} from '@ngrx/store';
 import {selectUser} from '../store/selectors';
 import {planNames} from '../common/text';
-import {MatDialog, MatDialogConfig} from '@angular/material';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import {CancelSubscriptionDialogComponent} from '../cancel-subscription-dialog/cancel-subscription-dialog.component';
 
 import * as dayjs from 'dayjs';

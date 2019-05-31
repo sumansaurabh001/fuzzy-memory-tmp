@@ -1,7 +1,7 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {CourseCoupon} from '../models/coupon.model';
 import {Course} from '../models/course.model';
-import {MatDialog, MatDialogConfig} from '@angular/material';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import {AddCouponDialogComponent} from '../add-coupon-dialog/add-coupon-dialog.component';
 import {GetLinkDialogComponent} from '../get-link-dialog/get-link-dialog.component';
 
