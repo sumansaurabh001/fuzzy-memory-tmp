@@ -60,7 +60,7 @@ import {UrlBuilderService} from './services/url-builder.service';
 import {LessonsDBService} from './services/lessons-db.service';
 import { AddSectionDialogComponent } from './add-section-dialog/add-section-dialog.component';
 import { StoreModule } from '@ngrx/store';
-import { reducers, metaReducers } from './store';
+import { reducers } from './store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { EffectsModule } from '@ngrx/effects';
 import { CourseEffects } from './store/course.effects';
@@ -234,7 +234,12 @@ import { PublishCourseComponent } from './publish-course/publish-course.componen
     QuillModule,
     SharedModule,
 
-    StoreModule.forRoot(reducers, { metaReducers }),
+    StoreModule.forRoot(reducers, {
+      runtimeChecks: {
+        strictStateImmutability: true,
+        strictActionImmutability: true
+      }
+    }),
     !environment.production ? StoreDevtoolsModule.instrument() : [],
     EffectsModule.forRoot([
       CourseEffects,
