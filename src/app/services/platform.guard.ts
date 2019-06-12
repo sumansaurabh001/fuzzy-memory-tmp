@@ -9,10 +9,10 @@ import {concatMap, filter, map, tap, withLatestFrom} from 'rxjs/operators';
 import {TenantsDBService} from './tenants-db.service';
 import {LoadingService} from './loading.service';
 import {checkIfPlatformSite, getPlatformSubdomain, DEFAULT_THEME} from '../common/platform-utils';
-import {SetTenantInfo, ThemeChanged} from '../store/platform.actions';
+import {setTenantInfo, themeChanged} from '../store/platform.actions';
 import {Tenant, TenantInfo} from '../models/tenant.model';
 import {CookieService} from 'ngx-cookie-service';
-import {PricingPlansLoaded} from '../store/pricing-plans.actions';
+import {pricingPlansLoaded} from '../store/pricing-plans.actions';
 
 
 /*
@@ -113,10 +113,10 @@ export class PlatformGuard implements CanActivate {
       supportEmail: tenant.supportEmail
     };
 
-    this.store.dispatch(new SetTenantInfo({tenantInfo}));
+    this.store.dispatch(setTenantInfo({tenantInfo}));
 
     if (tenant.pricingPlans) {
-      this.store.dispatch(new PricingPlansLoaded({pricingPlans: tenant.pricingPlans}))
+      this.store.dispatch(pricingPlansLoaded({pricingPlans: tenant.pricingPlans}))
     }
 
     if (checkIfPlatformSite()) {
@@ -125,13 +125,13 @@ export class PlatformGuard implements CanActivate {
       this.router.navigate(['/login']);
     }
     else if (tenant) {
-      this.store.dispatch(new ThemeChanged(tenant.brandTheme));
+      this.store.dispatch(themeChanged(tenant.brandTheme));
     }
   }
 
 
   setPlatformBrandColors() {
-    this.store.dispatch(new ThemeChanged(DEFAULT_THEME));
+    this.store.dispatch(themeChanged(DEFAULT_THEME));
   }
 
 }

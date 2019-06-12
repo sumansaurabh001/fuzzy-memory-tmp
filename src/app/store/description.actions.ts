@@ -1,47 +1,22 @@
-import { Action } from '@ngrx/store';
-
-export enum DescriptionActionTypes {
-  SaveDescription = '[Description] Save  Description',
-  LoadDescription = '[Description] Load Description',
-  AddDescription = '[Description] Add Course Description'
-}
+import {createAction, props} from '@ngrx/store';
 
 export type Description = {id:string, description:string};
 
 
-export class SaveDescription implements Action {
-
-  readonly type = DescriptionActionTypes.SaveDescription;
-
-  constructor(public payload: Description) {
-
-  }
-}
+export const saveDescription = createAction(
+  '[Description] Save  Description',
+  props<Description>()
+);
 
 
+export const loadDescription = createAction(
+  '[Description] Load Description',
+  props<{descriptionId: string}>()
+);
 
-export class LoadDescription implements Action {
-
-  readonly type = DescriptionActionTypes.LoadDescription;
-
-  constructor(public descriptionId: string) {
-
-  }
-}
-
-
-
-
-export class AddDescription implements Action {
-
-  readonly type = DescriptionActionTypes.AddDescription;
-
-  constructor(public payload: Description) {
-
-  }
-}
-
-
-export type DescriptionActions =   AddDescription | SaveDescription | LoadDescription;
+export const addDescription = createAction(
+  '[Description] Add Course Description',
+  props<Description>()
+);
 
 

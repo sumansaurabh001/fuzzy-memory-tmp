@@ -2,7 +2,6 @@ import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {SubscriptionContent} from '../models/content/subscription-content.model';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import {EditHtmlDialogComponent} from '../edit-html-dialog/edit-html-dialog.component';
-import {SubscriptionContentUpdated} from '../store/content.actions';
 import {filter, tap} from 'rxjs/operators';
 
 @Component({

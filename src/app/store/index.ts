@@ -40,9 +40,9 @@ export interface AppState {
 export const reducers: ActionReducerMap<AppState> = {
   courses: fromCourse.coursesReducer,
   router: routerReducer,
-  descriptions: fromDescriptions.reducer,
-  sections: fromCourseSection.reducer,
-  lessons: fromLesson.reducer,
+  descriptions: fromDescriptions.descriptionsReducer,
+  sections: fromCourseSection.courseSectionsReducer,
+  lessons: fromLesson.lessonReducer,
   user: userReducer,
   platform: platformReducer,
   coupons: couponsReducer,

@@ -1,6 +1,8 @@
-import {ContentActions, ContentActionTypes} from './content.actions';
+
 import {SubscriptionContent} from '../models/content/subscription-content.model';
 import {HomePageContent} from '../models/content/home-page-content.model';
+import {createReducer, on} from '@ngrx/store';
+import {ContentActions} from './action-types';
 
 
 export interface ContentState {
@@ -33,31 +35,37 @@ export const initialContentState:ContentState = {
 };
 
 
-export function contentReducer(state =initialContentState, action: ContentActions) : ContentState {
-  switch (action.type) {
-    case ContentActionTypes.SubscriptionContentLoaded:
-    case ContentActionTypes.SubscriptionContentUpdated:
+export const contentReducer = createReducer(
+  initialContentState,
+
+  on(
+    ContentActions.subscriptionContentLoaded,
+    ContentActions.subscriptionContentUpdated,
+    (state, {content}) => {
       return {
         ...state,
         subscription: {
           loaded:true,
-          content: action.payload.content
+          content
         }
       };
+    }
+  ),
 
-    case ContentActionTypes.HomePageContentLoaded:
-    case ContentActionTypes.HomePageContentUpated:
+  on(
+    ContentActions.homePageContentLoaded,
+    ContentActions.homePageContentUpdated,
+    (state, {content}) => {
       return {
         ...state,
         homePage: {
           loaded:true,
-          content: action.payload.content
+          content
         }
       };
+    }
+  )
+
+);
 
 
-
-    default:
-      return state;
-  }
-}

@@ -6,8 +6,6 @@ import {readDocumentWithId} from '../common/firestore-utils';
 import {TenantService} from './tenant.service';
 import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
 import {LoadingDialogComponent} from '../loading-dialog/loading-dialog.component';
-import {PlanActivated} from '../store/user.actions';
-import * as firebase from '../subscription/subscription.component';
 import {filter, tap} from 'rxjs/operators';
 import {MessagesService} from './messages.service';
 

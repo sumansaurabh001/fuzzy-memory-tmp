@@ -1,69 +1,39 @@
-import { Action } from '@ngrx/store';
+import {Action, createAction, props} from '@ngrx/store';
 import { Update } from '@ngrx/entity';
 import { CourseSection } from '../models/course-section.model';
 
-export enum CourseSectionActionTypes {
-  LoadCourseSections = '[CourseSection] Load Course Sections',
-  AddCourseSection = '[CourseSection] Add Course Section',
-  CourseSectionsLoaded = '[Course Effects] Course Sections Loaded',
-  UpdateCourseSection = '[CourseSection] Update Course Section',
-  DeleteCourseSection = '[CourseSection] Delete Course Section',
-  UpdatedSectionOrder = '[Edit Lessons Screen] Updated Section Order',
-  UpdatedSectionOrderCompleted = '[Edit Lessons Screen] Updated Section Order Completed'
 
-}
 
-export class LoadCourseSections implements Action {
-  readonly type = CourseSectionActionTypes.LoadCourseSections;
 
-  constructor(public payload: { courseSections: CourseSection[] }) {}
-}
+export const addCourseSection = createAction(
+  '[CourseSection] Add Course Section',
+  props<{ courseSection: CourseSection }>()
+);
 
-export class AddCourseSection implements Action {
-  readonly type = CourseSectionActionTypes.AddCourseSection;
+export const courseSectionsLoaded = createAction(
+  '[Course Effects] Course Sections Loaded',
+  props<{ courseSections: CourseSection[], courseId:string }>()
+);
 
-  constructor(public payload: { courseSection: CourseSection }) {}
-}
+export const updateCourseSection = createAction(
+  '[CourseSection] Update Course Section',
+  props<{ courseSection: Update<CourseSection> }>()
+);
 
-export class CourseSectionsLoaded implements Action {
-  readonly type = CourseSectionActionTypes.CourseSectionsLoaded;
+export const deleteCourseSection = createAction(
+  '[CourseSection] Delete Course Section',
+  props<{ id: string }>()
+);
 
-  constructor(public payload: { courseSections: CourseSection[], courseId:string }) {}
-}
+export const updateSectionOrder = createAction(
+  '[Edit Lessons Screen] Updated Section Order',
+  props<{courseId:string, newSortOrder: CourseSection[]}>()
+);
 
-export class UpdateCourseSection implements Action {
-  readonly type = CourseSectionActionTypes.UpdateCourseSection;
 
-  constructor(public payload: { courseSection: Update<CourseSection> }) {}
-}
+export const updateSectionOrderCompleted = createAction(
+  '[Edit Lessons Screen] Updated Section Order Completed'
+);
 
-export class DeleteCourseSection implements Action {
-  readonly type = CourseSectionActionTypes.DeleteCourseSection;
 
-  constructor(public payload: { id: string }) {}
-}
 
-export class UpdateSectionOrder implements Action {
-
-  readonly type = CourseSectionActionTypes.UpdatedSectionOrder;
-
-  constructor(public payload: {courseId:string, newSortOrder: CourseSection[]}) {}
-
-}
-
-export class UpdateSectionOrderCompleted implements Action {
-
-  readonly  type = CourseSectionActionTypes.UpdatedSectionOrderCompleted;
-
-  constructor() {}
-
-}
-
-export type CourseSectionActions =
- LoadCourseSections
- | AddCourseSection
- | CourseSectionsLoaded
- | UpdateCourseSection
- | DeleteCourseSection
- | UpdateSectionOrder
- | UpdateSectionOrderCompleted;

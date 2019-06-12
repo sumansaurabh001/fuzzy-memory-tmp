@@ -9,10 +9,10 @@ import {
 } from '../store/selectors';
 import {Course} from '../models/course.model';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
-import {LoadCoupons, UpdateCoupon} from '../store/coupons.actions';
+import {loadCoupons, updateCoupon} from '../store/coupons.actions';
 import {Update} from '@ngrx/entity';
 import {MessagesService} from '../services/messages.service';
-import {UpdateCourse} from '../store/course.actions';
+import {updateCourse} from '../store/course.actions';
 import {selectActiveCourseCoupons, selectAllCourseCoupons} from '../store/coupon.selectors';
 
 @Component({
@@ -93,11 +93,11 @@ export class PriceAndCouponsComponent implements OnInit {
 
     if (this.activeCouponsOnly) {
       this.coupons$ = this.store.pipe(select(selectActiveCourseCoupons));
-      this.store.dispatch(new LoadCoupons({activeCouponsOnly:true}));
+      this.store.dispatch(loadCoupons({activeCouponsOnly:true}));
     }
     else {
       this.coupons$ = this.store.pipe(select(selectAllCourseCoupons));
-      this.store.dispatch(new LoadCoupons({activeCouponsOnly:false}));
+      this.store.dispatch(loadCoupons({activeCouponsOnly:false}));
     }
 
   }
@@ -111,7 +111,7 @@ export class PriceAndCouponsComponent implements OnInit {
       }
     };
 
-    this.store.dispatch(new UpdateCoupon({courseId: coupon.courseId, coupon: update}));
+    this.store.dispatch(updateCoupon({courseId: coupon.courseId, coupon: update}));
 
   }
 
@@ -132,7 +132,7 @@ export class PriceAndCouponsComponent implements OnInit {
       changes
     };
 
-    this.store.dispatch(new UpdateCourse({course}));
+    this.store.dispatch(updateCourse({course}));
 
   }
 

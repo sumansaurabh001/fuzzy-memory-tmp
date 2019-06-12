@@ -13,13 +13,13 @@ import {UrlBuilderService} from '../services/url-builder.service';
 import {Router} from '@angular/router';
 import {filter, map, tap, withLatestFrom} from 'rxjs/operators';
 import {sortLessonsBySectionAndSeqNo, sortSectionsBySeqNo} from '../common/sort-model';
-import {WatchLesson} from '../store/lesson.actions';
+import {watchLesson} from '../store/lesson.actions';
 import {VideoPlayerComponent} from '../video-player/video-player.component';
 import {VideoAccess} from '../models/video-access.model';
 import {Title} from '@angular/platform-browser';
 import {selectActiveCourseLessonsWatched} from '../store/user-lesson-status.selectors';
 import {UserLessonStatus} from '../models/user-lesson-status';
-import {UpdateLessonWatchStatus} from '../store/user-lesson-status.actions';
+import {updateLessonWatchStatus} from '../store/user-lesson-status.actions';
 
 
 @Component({
@@ -134,7 +134,7 @@ export class WatchCourseComponent implements OnInit {
 
         const nextLesson = sortedLessons[index + 1];
 
-        this.store.dispatch(new WatchLesson({lessonId: nextLesson.id}));
+        this.store.dispatch(watchLesson({lessonId: nextLesson.id}));
       }
 
     }
@@ -148,7 +148,7 @@ export class WatchCourseComponent implements OnInit {
       watched:true
     };
 
-    this.store.dispatch(new UpdateLessonWatchStatus({userLessonStatus}));
+    this.store.dispatch(updateLessonWatchStatus({userLessonStatus}));
 
   }
 

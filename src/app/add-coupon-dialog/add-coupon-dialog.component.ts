@@ -7,13 +7,13 @@ import {Course} from '../models/course.model';
 import {Router} from '@angular/router';
 import {Store} from '@ngrx/store';
 import {AppState} from '../store';
-import {CreateNewCourse} from '../store/course.actions';
+
 import {CoursesDBService} from '../services/courses-db.service';
 import {LoadingService} from '../services/loading.service';
 import {CourseCoupon} from '../models/coupon.model';
 import {CourseCouponsDbService} from '../services/course-coupons-db.service';
 import * as firebase from 'firebase/app';
-import {AddCoupon} from '../store/coupons.actions';
+import {addCoupon} from '../store/coupons.actions';
 import {existingCouponCodeValidator} from './coupon-code.validator';
 import {AngularFirestore} from '@angular/fire/firestore';
 
@@ -91,7 +91,7 @@ export class AddCouponDialogComponent implements OnInit {
     coupon.created = firebase.firestore.Timestamp.fromDate(new Date());
     coupon.deadline = coupon.deadline ? firebase.firestore.Timestamp.fromDate(this.form.value.deadline) : null;
 
-    this.store.dispatch(new AddCoupon({coupon}));
+    this.store.dispatch(addCoupon({coupon}));
 
     this.dialogRef.close(coupon);
 

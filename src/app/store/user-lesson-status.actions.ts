@@ -1,28 +1,17 @@
-import {Action} from '@ngrx/store';
+import {Action, createAction, props} from '@ngrx/store';
 import {UserLessonStatus} from '../models/user-lesson-status';
 
 
-export enum UserLessonStatusActionTypes {
-  UpdateLessonWatchStatus = '[Lessons List] Update Lesson Watch Status',
-  UserLessonsStatusLoaded = '[Course Page] Load User Lessons Watched'
-}
-
-export class UpdateLessonWatchStatus implements Action {
-
-  readonly type = UserLessonStatusActionTypes.UpdateLessonWatchStatus;
-
-  constructor(public payload: {userLessonStatus: UserLessonStatus}) {}
-
-}
 
 
-export class UserLessonsStatusLoaded implements Action {
-
-  readonly type = UserLessonStatusActionTypes.UserLessonsStatusLoaded;
-
-  constructor(public payload: {userLessonsStatusList: UserLessonStatus[]}) {}
-
-}
+export const updateLessonWatchStatus = createAction(
+  '[Lessons List] Update Lesson Watch Status',
+  props<{userLessonStatus: UserLessonStatus}>()
+);
 
 
-export type UserLessonStatusActions = UpdateLessonWatchStatus | UserLessonsStatusLoaded;
+export const userLessonsStatusLoaded = createAction(
+  '[Course Page] Load User Lessons Watched',
+  props<{userLessonsStatusList: UserLessonStatus[]}>()
+);
+

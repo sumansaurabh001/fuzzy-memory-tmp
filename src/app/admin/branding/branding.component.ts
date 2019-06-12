@@ -7,7 +7,7 @@ import {select, Store} from '@ngrx/store';
 import {checkIfPlatformSite} from '../../common/platform-utils';
 import {getBrandTheme, platformState} from '../../store/selectors';
 import {filter, tap} from 'rxjs/operators';
-import {SaveTheme, ThemeChanged} from '../../store/platform.actions';
+import {saveTheme, themeChanged} from '../../store/platform.actions';
 import {setSchoolNameAsPageTitle} from '../../common/seo-utils';
 import {Title} from '@angular/platform-browser';
 
@@ -85,10 +85,10 @@ export class BrandingComponent implements OnInit {
     };
 
     if (!checkIfPlatformSite()) {
-      this.store.dispatch(new ThemeChanged(payload));
+      this.store.dispatch(themeChanged(payload));
     }
 
-    this.store.dispatch(new SaveTheme(payload));
+    this.store.dispatch(saveTheme(payload));
   }
 
 

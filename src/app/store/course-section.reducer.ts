@@ -1,8 +1,9 @@
 import {createEntityAdapter, EntityAdapter, EntityState, Update} from '@ngrx/entity';
 import {CourseSection} from '../models/course-section.model';
-import {CourseSectionActions, CourseSectionActionTypes} from './course-section.actions';
 import {compareCourses, compareSections} from '../common/sort-model';
 import {Course} from '../models/course.model';
+import {createReducer, on} from '@ngrx/store';
+import {CourseSectionActions} from './action-types';
 
 
 export interface State extends EntityState<CourseSection> {
@@ -21,76 +22,65 @@ export const initialState: State = adapter.getInitialState({
   pendingSectionsReordering: []
 });
 
+export const courseSectionsReducer = createReducer(
+  initialState,
 
-export function reducer(
-  state = initialState,
-  action: CourseSectionActions
-): State {
-  switch (action.type) {
+  on(CourseSectionActions.addCourseSection, (state, {courseSection}) => adapter.addOne(courseSection, state)),
 
-    case CourseSectionActionTypes.AddCourseSection: {
-      return adapter.addOne(action.payload.courseSection, state);
-    }
+  on(CourseSectionActions.courseSectionsLoaded, (state, {courseSections, courseId}) => {
+    const sections = adapter.addMany(courseSections, state);
 
-    case CourseSectionActionTypes.CourseSectionsLoaded: {
+    const newState = {
+      ...sections,
+      loadedCourses: {...state.loadedCourses}
+    };
 
-      const sections = adapter.addMany(action.payload.courseSections, state);
+    newState.loadedCourses[courseId] = true;
 
-      const newState = {
-        ...sections,
-        loadedCourses: {...state.loadedCourses}
-      };
+    return newState;
+  }),
 
-      newState.loadedCourses[action.payload.courseId] = true;
+  on(CourseSectionActions.updateCourseSection, (state, {courseSection}) => adapter.updateOne(courseSection, state)),
 
-      return newState;
-    }
+  on(CourseSectionActions.deleteCourseSection, (state, {id}) => adapter.removeOne(id, state)),
 
-    case CourseSectionActionTypes.UpdateCourseSection: {
-      return adapter.updateOne(action.payload.courseSection, state);
-    }
+  on(CourseSectionActions.updateSectionOrder, (state, {newSortOrder}) => {
 
-    case CourseSectionActionTypes.DeleteCourseSection: {
-      return adapter.removeOne(action.payload.id, state);
-    }
+    const newSortedSections = newSortOrder;
 
-    case CourseSectionActionTypes.UpdatedSectionOrder:
+    const reorderSections: Update<CourseSection>[] = [];
 
-      const newSortedSections = action.payload.newSortOrder;
+    let seqNoCounter = 1;
 
-      const reorderSections: Update<CourseSection>[] = [];
+    newSortedSections.forEach(section => {
 
-      let seqNoCounter = 1;
+      if (section.seqNo != seqNoCounter) {
 
-      newSortedSections.forEach(section => {
+        const changes: Partial<CourseSection> = {
+          seqNo: seqNoCounter
+        };
 
-        if (section.seqNo != seqNoCounter) {
+        reorderSections.push({id:section.id, changes});
+      }
 
-          const changes: Partial<CourseSection> = {
-            seqNo: seqNoCounter
-          };
+      seqNoCounter+=1;
 
-          reorderSections.push({id:section.id, changes});
-        }
+    });
 
-        seqNoCounter+=1;
+    return adapter.updateMany(reorderSections, {...state, pendingSectionsReordering: reorderSections});
 
-      });
+  }),
 
-      return adapter.updateMany(reorderSections, {...state, pendingSectionsReordering: reorderSections});
+  on(CourseSectionActions.updateSectionOrderCompleted, state => {
+    return {
+      ...state,
+      pendingSectionsReordering: []
+    };
+  })
 
-    case CourseSectionActionTypes.UpdatedSectionOrderCompleted:
+);
 
-      return {
-        ...state,
-        pendingSectionsReordering: []
-      };
 
-    default: {
-      return state;
-    }
-  }
-}
 
 export const {
   selectIds,

@@ -3,7 +3,7 @@ import {ActivatedRouteSnapshot, CanActivate, Resolve, RouterStateSnapshot} from 
 import {select, Store} from '@ngrx/store';
 import {AppState} from '../store';
 import {Observable} from 'rxjs';
-import {GetSubscriptionContent} from '../store/content.actions';
+import {getSubscriptionContent} from '../store/content.actions';
 import {LoadingService} from './loading.service';
 import {SubscriptionContent} from '../models/content/subscription-content.model';
 import {createContentResolver} from './create-content-resolver';
@@ -23,7 +23,7 @@ export class SubscriptionContentResolver implements Resolve<SubscriptionContent>
 
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<any> {
 
-    const loadContent$ = createContentResolver(this.store, "subscription", GetSubscriptionContent);
+    const loadContent$ = createContentResolver(this.store, "subscription", getSubscriptionContent);
 
     return this.loading.showLoaderUntilCompleted(loadContent$);
   }

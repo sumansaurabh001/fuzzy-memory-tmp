@@ -13,10 +13,10 @@ import {HomePageContent} from '../models/content/home-page-content.model';
 import {ContentDbService} from '../services/content-db.service';
 import {AppState} from '../store';
 import {select, Store} from '@ngrx/store';
-import {HomePageContentUpdated} from '../store/content.actions';
 import {selectContent} from '../store/content.selectors';
 import {deepClone} from '../common/collection-utils';
 import * as firebase from 'firebase/app';
+import {homePageContentUpdated} from '../store/content.actions';
 
 @Component({
   selector: 'edit-home-dialog',
@@ -135,7 +135,7 @@ export class EditHomeDialogComponent implements OnInit {
           newContent[imageId + 'ImageUrl'] = url;
           newContent[imageId + 'FileName'] = fileName;
 
-          this.store.dispatch(new HomePageContentUpdated({content:newContent}));
+          this.store.dispatch(homePageContentUpdated({content:newContent}));
         })
       );
 
@@ -174,7 +174,7 @@ export class EditHomeDialogComponent implements OnInit {
 
           return newContent;
         }),
-        tap(content => this.store.dispatch(new HomePageContentUpdated({content}))),
+        tap(content => this.store.dispatch(homePageContentUpdated({content}))),
         tap(() => this.messages.info("Image deleted."))
       )
       .subscribe();
@@ -189,7 +189,7 @@ export class EditHomeDialogComponent implements OnInit {
     newContent.pageTitle = this.form.value.title;
     newContent.pageTitleColor = this.titleColor;
 
-    this.store.dispatch(new HomePageContentUpdated({content:newContent}));
+    this.store.dispatch(homePageContentUpdated({content:newContent}));
 
     this.close();
 

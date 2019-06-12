@@ -1,5 +1,5 @@
-
-import {DescriptionActions, DescriptionActionTypes} from './description.actions';
+import {createReducer, on} from '@ngrx/store';
+import {DescriptionActions} from './action-types';
 
 
 export interface State {
@@ -10,21 +10,19 @@ export const initialState: State = {
 
 };
 
+export const descriptionsReducer = createReducer(
+  initialState,
 
-export function reducer(state = initialState, action: DescriptionActions): State {
-
-  switch (action.type) {
-
-    case DescriptionActionTypes.SaveDescription:
-    case DescriptionActionTypes.AddDescription:  {
-
+  on(
+    DescriptionActions.saveDescription,
+    DescriptionActions.addDescription,
+    (state, action) => {
       const newState = {};
-      newState[action.payload.id] = action.payload.description;
+      newState[action.id] = action.description;
 
       return {...state, ...newState};
-    }
+    })
+);
 
-    default:
-      return state;
-  }
-}
+
+

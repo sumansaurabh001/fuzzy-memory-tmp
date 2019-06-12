@@ -1,70 +1,48 @@
-import {Action} from '@ngrx/store';
+import {Action, createAction, props} from '@ngrx/store';
 import {Update} from '@ngrx/entity';
 import {CourseCoupon} from '../models/coupon.model';
 import {UpdateStr} from '../../../node_modules/@ngrx/entity/src/models';
 
-export enum CouponActionTypes {
-  LoadCoupons = '[Edit Course Screen]  Load Coupons',
-  LoadCoupon = '[Course Page] Load Coupon',
-  LoadCouponCompleted = '[Load Coupon Effect] Load Coupon Completed',
-  AddCoupons = '[Coupon] Add Coupons',
-  AddCoupon = '[Coupon] Add Coupon',
-  UpdateCoupon = '[Coupon] Update Coupon'
-
-}
 
 
-export class LoadCoupons implements Action {
-  readonly type = CouponActionTypes.LoadCoupons;
+export const loadCoupons = createAction(
+  '[Edit Course Screen]  Load Coupons',
+  props<{activeCouponsOnly:boolean }>()
+);
 
-  constructor(public payload: {activeCouponsOnly:boolean }) {
-  }
-}
-
-
-export class AddCoupons implements Action {
-  readonly type = CouponActionTypes.AddCoupons;
-
-  constructor(public payload: { coupons: CourseCoupon[] }) {}
-
-}
-
-export class AddCoupon implements Action {
-  readonly type = CouponActionTypes.AddCoupon;
-
-  constructor(public payload: { coupon: CourseCoupon }) {}
-
-}
+export const addCoupons = createAction(
+  '[Coupon] Add Coupons',
+  props<{ coupons: CourseCoupon[] }>()
+);
 
 
-export class UpdateCoupon implements Action {
-  readonly type = CouponActionTypes.UpdateCoupon;
-
-  constructor(public payload: { courseId:string, coupon: UpdateStr<CourseCoupon> }) {}
-
-}
-
-export class LoadCoupon implements Action {
-
-  readonly type = CouponActionTypes.LoadCoupon;
-
-  constructor(public payload: {courseId:string; couponCode:string}) {}
-
-}
-
-export class LoadCouponCompleted implements Action {
-
-  readonly type = CouponActionTypes.LoadCouponCompleted;
-
-  constructor(public payload: { coupon: CourseCoupon }) {}
-
-}
 
 
-export type CouponsActions =
-  LoadCoupons
-  | AddCoupons
-  | AddCoupon
-  | UpdateCoupon
-  | LoadCoupon
-  | LoadCouponCompleted;
+export const addCoupon = createAction(
+  '[Coupon] Add Coupon',
+  props<{ coupon: CourseCoupon }>()
+);
+
+
+
+export const updateCoupon = createAction(
+  '[Coupon] Update Coupon',
+  props<{ courseId:string, coupon: UpdateStr<CourseCoupon> }>()
+);
+
+
+
+export const loadCoupon = createAction(
+  '[Course Page] Load Coupon',
+  props<{courseId:string; couponCode:string}>()
+);
+
+
+
+export const loadCouponCompleted = createAction(
+  '[Load Coupon Effect] Load Coupon Completed',
+  props<{ coupon: CourseCoupon }>()
+);
+
+
+

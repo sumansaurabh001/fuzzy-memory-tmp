@@ -1,6 +1,7 @@
 import {createEntityAdapter, EntityAdapter, EntityState} from '@ngrx/entity';
 import {UserLessonStatus} from '../models/user-lesson-status';
-import {UserLessonStatusActions, UserLessonStatusActionTypes} from './user-lesson-status.actions';
+import {createReducer, on} from '@ngrx/store';
+import {UserLessonStatusActions} from './action-types';
 
 
 export interface UserLessonStatusState extends EntityState<UserLessonStatus> {
@@ -13,21 +14,16 @@ export const adapter: EntityAdapter<UserLessonStatus> = createEntityAdapter<User
 export const initialUserLessonStatusState = adapter.getInitialState();
 
 
-export function userLessonStatusReducer(state = initialUserLessonStatusState, action: UserLessonStatusActions) {
-  switch (action.type) {
+export const userLessonStatusReducer = createReducer(
+  initialUserLessonStatusState,
 
-    case UserLessonStatusActionTypes.UpdateLessonWatchStatus:
+  on(UserLessonStatusActions.updateLessonWatchStatus, (state, action) => adapter.upsertOne(action.userLessonStatus, state)),
 
-      return adapter.upsertOne(action.payload.userLessonStatus, state);
+  on(UserLessonStatusActions.userLessonsStatusLoaded, (state, action) => adapter.addMany(action.userLessonsStatusList, state))
 
-    case UserLessonStatusActionTypes.UserLessonsStatusLoaded:
+);
 
-      return adapter.addMany(action.payload.userLessonsStatusList, state);
 
-    default:
-      return state;
-  }
-}
 
 
 

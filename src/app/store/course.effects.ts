@@ -1,22 +1,17 @@
 import {Injectable} from '@angular/core';
-import {Actions, Effect, ofType} from '@ngrx/effects';
+import {Actions, createEffect, Effect, ofType} from '@ngrx/effects';
 import {
-  CourseActionTypes,
-  CoursePurchased,
-  UpdateCourseSortOrder,
-  DeleteCourse,
-  UserCoursesLoaded, UpdateCourseSortOrderCompleted
+ userCoursesLoaded, updateCourseSortOrderCompleted
 } from '../store/course.actions';
 import {concatMap, catchError, withLatestFrom, filter, map, tap} from 'rxjs/operators';
 import {CoursesDBService} from '../services/courses-db.service';
 import {LoadingService} from '../services/loading.service';
 import {MessagesService} from '../services/messages.service';
 import {throwError, combineLatest} from 'rxjs';
-import {CreateNewCourse, LoadCourseDetail, UpdateCourse} from './course.actions';
 import {AppState} from './index';
 import {select, Store} from '@ngrx/store';
 import {DescriptionsDbService} from '../services/descriptions-db.service';
-import {AddDescription, LoadDescription} from './description.actions';
+import {addDescription, loadDescription} from './description.actions';
 import {
   isActiveCourseDescriptionLoaded,
   isActiveCourseSectionsLoaded,
@@ -29,157 +24,141 @@ import {
   selectPendingLessonsReorder, selectPendingCoursesReorder, selectPendingSectionsReorder, selectActiveCourseAllLessons
 } from './selectors';
 import {LessonsDBService} from '../services/lessons-db.service';
-import {CourseSectionsLoaded, CourseSectionActionTypes, UpdateSectionOrder, UpdateSectionOrderCompleted} from './course-section.actions';
 import {
-  CourseLessonsLoaded,
-  LessonActionTypes,
-  LessonsSequentiallyNumbered,
-  UpdateLesson,
-  UpdateLessonOrder,
-  UpdateLessonOrderCompleted,
-  WatchLesson
+  courseLessonsLoaded,
+  updateLesson,
+  updateLessonOrder,
+  updateLessonOrderCompleted,
+  watchLesson
 } from './lesson.actions';
 import {AngularFireAuth} from '@angular/fire/auth';
 import {SchoolUsersDbService} from '../services/school-users-db.service';
 import {TenantService} from '../services/tenant.service';
 import {VideoService} from '../services/video.service';
-import {SaveVideoAccess} from './video-access.actions';
 import {PaymentsService} from '../services/payments.service';
 import {sortLessonsBySectionAndSeqNo} from '../common/sort-model';
 import {CourseSection} from '../models/course-section.model';
 import {Lesson} from '../models/lesson.model';
+import {CourseActions, CourseSectionActions} from './action-types';
+import {courseSectionsLoaded, updateSectionOrderCompleted} from './course-section.actions';
 
 
 @Injectable()
 export class CourseEffects {
 
-  @Effect({dispatch: false})
-  createNewCourse$ = this.actions$
+  createNewCourse$ = createEffect(() => this.actions$
     .pipe(
-      ofType<CreateNewCourse>(CourseActionTypes.CreateNewCourse),
-      concatMap(action => this.coursesDB.createNewCourse(action.payload.course))
-    );
+      ofType(CourseActions.createNewCourse),
+      concatMap(({course}) => this.coursesDB.createNewCourse(course))
+    ),
+    {dispatch:false});
 
-  @Effect()
-  loadUserCourses$ = combineLatest(
+  loadUserCourses$ = createEffect(() => combineLatest(
     this.afAuth.authState,
     this.tenant.tenantId$
   )
     .pipe(
       filter(([user, tenantId]) => !!(user && tenantId)),
       concatMap(([user, tenantId]) => this.usersDB.loadUserCourses(tenantId, user.uid)),
-      map(purchasedCourses => new UserCoursesLoaded({purchasedCourses})),
+      map(purchasedCourses => userCoursesLoaded({purchasedCourses})),
       catchError(err => {
         this.messages.error('Could not load user courses.');
         return throwError(err);
       })
-    );
+    ));
 
-  @Effect()
-  loadCourseDescriptionIfNeeded$ = this.actions$
+  loadCourseDescriptionIfNeeded$ = createEffect(() => this.actions$
     .pipe(
-      ofType<LoadCourseDetail>(CourseActionTypes.LoadCourseDetail),
-      map(action => new LoadDescription(action.payload.courseId)),
+      ofType(CourseActions.loadCourseDetail),
+      map(({courseId}) => loadDescription({descriptionId: courseId})),
       catchError(err => {
         this.messages.error('Could not load course description.');
         return throwError(err);
       })
-    );
+    ));
 
-  @Effect()
-  loadSectionsIfNeeded$ = this.actions$
+
+  loadSectionsIfNeeded$ = createEffect(() => this.actions$
     .pipe(
-      ofType<LoadCourseDetail>(CourseActionTypes.LoadCourseDetail),
+      ofType(CourseActions.loadCourseDetail),
       withLatestFrom(this.store.pipe(select(isActiveCourseSectionsLoaded))),
       filter(([action, loaded]) => !loaded),
       concatMap(
-        ([action]) => this.loading.showLoader(this.lessonsDB.loadCourseSections(action.payload.courseId)),
-        ([action], courseSections) => new CourseSectionsLoaded({courseSections, courseId: action.payload.courseId})
+        ([{courseId}]) => this.loading.showLoader(this.lessonsDB.loadCourseSections(courseId)),
+        ([{courseId}], courseSections) => courseSectionsLoaded({courseSections, courseId})
       ),
       catchError(err => {
         this.messages.error('Could not load sections.');
         return throwError(err);
       })
-    );
+    ));
 
-  @Effect()
-  loadLessonsIfNeeded$ = this.actions$
+
+  loadLessonsIfNeeded$ = createEffect(() => this.actions$
     .pipe(
-      ofType<LoadCourseDetail>(CourseActionTypes.LoadCourseDetail),
+      ofType(CourseActions.loadCourseDetail),
       withLatestFrom(this.store.pipe(select(isActiveCourseLessonsLoaded))),
       filter(([action, loaded]) => !loaded),
       concatMap(
-        ([action]) => this.loading.showLoader(this.lessonsDB.loadCourseLessons(action.payload.courseId)),
-        ([action], lessons) => new CourseLessonsLoaded({lessons, courseId: action.payload.courseId})
+        ([{courseId}]) => this.loading.showLoader(this.lessonsDB.loadCourseLessons(courseId)),
+        ([{courseId}], lessons) => courseLessonsLoaded({lessons, courseId})
       ),
       catchError(err => {
         this.messages.error('Could not load lessons.');
         return throwError(err);
       })
-    );
+    ));
 
-  @Effect()
-  numberLessonsSequentially$ = this.actions$
-    .pipe(
-      ofType(CourseSectionActionTypes.CourseSectionsLoaded, LessonActionTypes.CourseLessonsLoaded),
-      withLatestFrom(
-        this.store.pipe(select(isActiveCourseSectionsLoaded)),
-        this.store.pipe(select(isActiveCourseLessonsLoaded)),
-        this.store.pipe(select(selectActiveCourseAllLessons)),
-        this.store.pipe(select(selectActiveCourseSections))
-      ),
-      filter(([action, sectionsLoaded, lessonsLoaded]) => sectionsLoaded && lessonsLoaded),
-      map( ([action, sectionsLoaded, lessonsLoaded, lessons, sections]) => sortLessonsBySectionAndSeqNo(lessons, sections)),
-      map(sortedLessons => new LessonsSequentiallyNumbered({sortedLessons}))
-    );
 
-  @Effect({dispatch: false})
-  deleteCourse$ = this.actions$
+  deleteCourse$ = createEffect(() => this.actions$
     .pipe(
-      ofType<DeleteCourse>(CourseActionTypes.DeleteCourse),
-      concatMap(action => this.loading.showLoader(this.coursesDB.deleteCourseDraft(action.payload.id))),
+      ofType(CourseActions.deleteCourse),
+      concatMap(({id}) => this.loading.showLoader(this.coursesDB.deleteCourseDraft(id))),
       catchError(err => {
         this.messages.error('Could not delete the course draft.', err);
         return throwError(err);
       })
-    );
+    ),
+    {dispatch: false});
 
-  @Effect({dispatch: false})
-  saveCourse$ = this.actions$
+
+  saveCourse$ = createEffect(() => this.actions$
     .pipe(
-      ofType<UpdateCourse>(CourseActionTypes.UpdateCourse),
-      concatMap(action => this.loading.showLoader(this.coursesDB.saveCourse(action.payload.course.id, action.payload.course.changes))),
+      ofType(CourseActions.updateCourse),
+      concatMap(({course}) => this.loading.showLoader(this.coursesDB.saveCourse(course.id, course.changes))),
       catchError(err => {
         this.messages.error('Could not save course.');
         return throwError(err);
       })
-    );
+    ),
+    {dispatch:false});
 
-  @Effect()
-  saveCoursesReordering$ = this.actions$
+
+  saveCoursesReordering$ = createEffect(() => this.actions$
     .pipe(
-      ofType<UpdateCourseSortOrder>(CourseActionTypes.UpdateCourseSortOrder),
+      ofType(CourseActions.updateCourseSortOrder),
       withLatestFrom(this.store.pipe(select(selectPendingCoursesReorder))),
       concatMap(([action, changes]) => this.coursesDB.updateCourses(changes)),
-      map(() => new UpdateCourseSortOrderCompleted()),
+      map(() => updateCourseSortOrderCompleted()),
       catchError(err => {
         this.messages.error('Could not save the new course order.');
         return throwError(err);
       })
-    );
+    ));
 
-  @Effect()
-  saveCourseSectionReordering$ = this.actions$
+  saveCourseSectionReordering$ = createEffect(() => this.actions$
     .pipe(
-      ofType<UpdateSectionOrder>(CourseSectionActionTypes.UpdatedSectionOrder),
+      ofType(CourseSectionActions.updateSectionOrder),
       withLatestFrom(this.store.pipe(select(selectPendingSectionsReorder))),
-      concatMap(([action, changes]) => this.coursesDB.updateCourseSections(action.payload.courseId, changes)),
-      map(() => new UpdateSectionOrderCompleted()),
+      concatMap(([{courseId}, changes]) => this.coursesDB.updateCourseSections(courseId, changes)),
+      map(() => updateSectionOrderCompleted()),
       catchError(err => {
         this.messages.error('Could not save the new section order.');
         return throwError(err);
       })
-    );
+    ));
+
+
 
   constructor(private actions$: Actions,
               private coursesDB: CoursesDBService,

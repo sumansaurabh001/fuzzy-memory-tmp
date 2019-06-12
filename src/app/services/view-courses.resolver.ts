@@ -5,7 +5,7 @@ import {select, Store} from '@ngrx/store';
 import {AppState} from '../store';
 import {selectAllCourses, selectInitialCoursesLoaded} from '../store/selectors';
 import {filter, first, map, tap, withLatestFrom} from 'rxjs/operators';
-import {LoadCourses} from '../store/course.actions';
+import {loadCourses} from '../store/course.actions';
 import {CoursesDBService} from './courses-db.service';
 import {LoadingService} from './loading.service';
 import {Course} from '../models/course.model';
@@ -29,7 +29,7 @@ export class ViewCoursesResolver implements Resolve<Course[]> {
           if (!initialCoursesLoaded) {
             this.loading.showLoader(this.coursesDB.findAllCourses())
               .pipe(
-                tap(courses => this.store.dispatch(new LoadCourses({courses})))
+                tap(courses => this.store.dispatch(loadCourses({courses})))
               )
               .subscribe();
           }

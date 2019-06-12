@@ -1,42 +1,39 @@
 import {Injectable} from '@angular/core';
-import {Actions, Effect} from '@ngrx/effects';
+import {Actions, createEffect, Effect} from '@ngrx/effects';
 import {Observable, defer, of, zip, combineLatest} from 'rxjs';
 import {Action} from '@ngrx/store';
-import {Login, Logout, SetUserPermissions, UserLoaded} from './user.actions';
 import {AngularFireAuth} from '@angular/fire/auth';
 import {catchError, concatMap, filter, map, tap, withLatestFrom} from 'rxjs/operators';
 import {TenantsDBService} from '../services/tenants-db.service';
 import {checkIfPlatformSite} from '../common/platform-utils';
 import {SchoolUsersDbService} from '../services/school-users-db.service';
 import {TenantService} from '../services/tenant.service';
+import {login, logout, setUserPermissions, userLoaded} from './user.actions';
 
 
 @Injectable()
 export class UserEffects {
 
 
-  @Effect()
-  login$ = this.afAuth.authState
+  login$ = createEffect(() => this.afAuth.authState
     .pipe(
-      map(user => user ? new Login({displayName: user.displayName, email:user.email, pictureUrl: user.photoURL, id:user.uid}) : new Logout()),
-      catchError(() => of(new Logout()))
-    );
+      map(user => user ? login({displayName: user.displayName, email:user.email, pictureUrl: user.photoURL, id:user.uid}) : logout()),
+      catchError(() => of(logout()))
+    ));
 
-  @Effect()
-  loadUser$ = combineLatest(this.afAuth.authState, this.tenant.tenantId$)
+  loadUser$ = createEffect(() => combineLatest(this.afAuth.authState, this.tenant.tenantId$)
     .pipe(
       filter(([user]) => !!user),
       concatMap(([user]) => this.users.findUserByUid(user.uid)),
-      map(user => new UserLoaded({user}))
-    );
+      map(user => userLoaded({user}))
+    ));
 
-  @Effect()
-  userRoles = this.afAuth.idTokenResult
+  userRoles$ = createEffect(() => this.afAuth.idTokenResult
     .pipe(
       filter(result => !!result),
-      map(result => new SetUserPermissions({isAdmin: result.claims.isAdmin})),
-      catchError(() => of(new Logout()))
-    );
+      map(result => setUserPermissions({isAdmin: result.claims.isAdmin})),
+      catchError(() => of(logout()))
+    ));
 
 
   constructor(private actions$: Actions,

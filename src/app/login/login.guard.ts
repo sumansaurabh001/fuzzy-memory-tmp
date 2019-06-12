@@ -3,7 +3,7 @@ import {Injectable} from '@angular/core';
 import {Observable, of} from 'rxjs';
 import {TenantsDBService} from '../services/tenants-db.service';
 import {checkIfSingleSignOnPage, DEFAULT_THEME} from '../common/platform-utils';
-import {ThemeChanged} from '../store/platform.actions';
+import {themeChanged} from '../store/platform.actions';
 import {first, map, tap} from 'rxjs/operators';
 import {AppState} from '../store';
 import {Store} from '@ngrx/store';
@@ -45,10 +45,10 @@ export class LoginGuard implements CanActivate {
           tap(tenant => {
 
             if (tenant) {
-              this.store.dispatch(new ThemeChanged(tenant.brandTheme));
+              this.store.dispatch(themeChanged(tenant.brandTheme));
             }
             else {
-              this.store.dispatch(new ThemeChanged(DEFAULT_THEME));
+              this.store.dispatch(themeChanged(DEFAULT_THEME));
             }
 
           }),

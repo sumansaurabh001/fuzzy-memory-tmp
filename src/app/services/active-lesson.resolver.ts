@@ -4,7 +4,7 @@ import {ActivatedRouteSnapshot, Resolve, RouterStateSnapshot} from '@angular/rou
 import {Observable} from 'rxjs';
 import {select, Store} from '@ngrx/store';
 import {AppState} from '../store';
-import {WatchLesson} from '../store/lesson.actions';
+import {watchLesson} from '../store/lesson.actions';
 import {selectActiveCourseAllLessons, selectActiveCourseSections} from '../store/selectors';
 import {filter, first, map, tap, withLatestFrom} from 'rxjs/operators';
 import {CourseSection} from '../models/course-section.model';
@@ -36,7 +36,7 @@ export class ActiveLessonResolver implements Resolve<Lesson> {
 
         }),
         filter(lesson => !!lesson),
-        tap(lesson => this.store.dispatch(new WatchLesson({lessonId: lesson.id}))),
+        tap(lesson => this.store.dispatch(watchLesson({lessonId: lesson.id}))),
         first()
       );
   }

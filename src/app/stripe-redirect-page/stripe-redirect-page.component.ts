@@ -4,7 +4,7 @@ import {MessagesService} from '../services/messages.service';
 import {StripeConnectionService} from '../services/stripe-connection.service';
 import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
 import {LoadingDialogComponent} from '../loading-dialog/loading-dialog.component';
-import {UpdateStripeStatus} from '../store/platform.actions';
+import {updateStripeStatus} from '../store/platform.actions';
 import {AppState} from '../store';
 import {Store} from '@ngrx/store';
 
@@ -100,7 +100,7 @@ export class StripeRedirectPageComponent implements OnInit {
 
   onStripeConnectionSuccessful() {
 
-    this.store.dispatch(new UpdateStripeStatus({isConnectedToStripe:true}));
+    this.store.dispatch(updateStripeStatus({isConnectedToStripe:true}));
 
     if (this.dialogRef) {
       this.dialogRef.close();

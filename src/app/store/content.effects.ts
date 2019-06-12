@@ -1,20 +1,15 @@
 import {Injectable} from '@angular/core';
-import {Actions, Effect, ofType} from '@ngrx/effects';
-import {
-  ContentActions,
-  ContentActionTypes,
-  GetSubscriptionContent, HomePageContentLoaded,
-  SubscriptionContentLoaded,
-  SubscriptionContentUpdated
-} from './content.actions';
+import {Actions, createEffect, Effect, ofType} from '@ngrx/effects';
+
 import {catchError, concatMap, filter, map, tap, withLatestFrom} from 'rxjs/operators';
-import {select, Store} from '@ngrx/store';
+import {ActionCreator, select, Store} from '@ngrx/store';
 import {AppState} from './index';
 import {isContentLoaded} from './content.selectors';
 import {ContentDbService} from '../services/content-db.service';
 import {throwError} from 'rxjs';
 import {MessagesService} from '../services/messages.service';
 import {LoadingService} from '../services/loading.service';
+import {ContentActions} from './action-types';
 
 
 @Injectable({
@@ -22,20 +17,13 @@ import {LoadingService} from '../services/loading.service';
 })
 export class ContentEffects {
 
-  @Effect()
-  loadSubscriptionContent$ = this.createLoadContentEffect("subscription", ContentActionTypes.GetSubscriptionContent, SubscriptionContentLoaded);
+  loadSubscriptionContent$ =  this.createLoadContentEffect("subscription", ContentActions.getSubscriptionContent,ContentActions.subscriptionContentLoaded);
 
+  saveSubscriptionContent$ = this.createSaveContentEffect("subscription", ContentActions.subscriptionContentUpdated);
 
-  @Effect({dispatch:false})
-  saveSubscriptionContent$ = this.createSaveContentEffect("subscription", ContentActionTypes.SubscriptionContentUpdated);
+  loadHomePageContent$ = this.createLoadContentEffect("home-page", ContentActions.getHomePageContent, ContentActions.homePageContentLoaded);
 
-  @Effect()
-  loadHomePageContent$ = this.createLoadContentEffect("home-page", ContentActionTypes.GetHomePageContent, HomePageContentLoaded);
-
-  @Effect({dispatch:false})
-  saveHomePageContent$ = this.createSaveContentEffect("home-page", ContentActionTypes.HomePageContentUpated);
-
-
+  saveHomePageContent$ = this.createSaveContentEffect("home-page", ContentActions.homePageContentUpdated);
 
   constructor(
     private actions$: Actions,
@@ -47,29 +35,30 @@ export class ContentEffects {
   }
 
 
-  createLoadContentEffect(contentPath:string, getContentActionType: string, ContentLoadedAction:any) {
-    return this.actions$
+  createLoadContentEffect(contentPath:string, getContentAction: any, contentLoadedAction:any) {
+    return  createEffect(() => this.actions$
       .pipe(
-        ofType(getContentActionType),
+        ofType(getContentAction),
         concatMap(() => this.loading.showLoaderUntilCompleted(this.content.loadPageContent(contentPath))),
-        map((content) => new ContentLoadedAction({content})),
+        map((content) => contentLoadedAction({content})),
         catchError(err => {
           this.messages.error('Could not load content in path:' + contentPath);
           return throwError(err);
         })
-      );
+      ));
   }
 
-  createSaveContentEffect(saveContentPath:string, updateContentActionType: string) {
-    return this.actions$
+  createSaveContentEffect(saveContentPath:string, updateContentAction: any) {
+    return createEffect(() => this.actions$
       .pipe(
-        ofType(updateContentActionType),
-        concatMap((action:any) => this.content.savePageContent(saveContentPath, action.payload.content)),
+        ofType(updateContentAction),
+        concatMap((action:any) => this.content.savePageContent(saveContentPath, action.content)),
         catchError(err => {
           this.messages.error('Could not save content in path:' + saveContentPath);
           return throwError(err);
         })
-      );
+      ),
+      {dispatch:false});
   }
 
 

@@ -1,8 +1,7 @@
 import {createEntityAdapter, EntityAdapter, EntityState} from '@ngrx/entity';
 import {VideoAccess} from '../models/video-access.model';
-import {VideoAccessActions, VideoAccessActionTypes} from './video-access.actions';
-import {CourseActions, CourseActionTypes} from './course.actions';
-import {UserActions, UserActionTypes} from './user.actions';
+import {createReducer, on} from '@ngrx/store';
+import {UserActions, VideoAccessActions} from './action-types';
 
 
 export interface VideoAccessState extends EntityState<VideoAccess> {
@@ -16,33 +15,25 @@ export const adapter: EntityAdapter<VideoAccess> = createEntityAdapter<VideoAcce
 export const initialVideoAccessState: VideoAccessState = adapter.getInitialState();
 
 
+export const videoAccessReducer = createReducer(
+  initialVideoAccessState,
 
-export function videoAccessReducer(state = initialVideoAccessState, action: VideoAccessActions | CourseActions | UserActions): VideoAccessState {
+  on(VideoAccessActions.saveVideoAccess, (state, action) => adapter.addOne(action.videoAccess, state)),
 
-  switch (action.type) {
+  on(VideoAccessActions.courseReset, (state, action) =>  {
 
-    case VideoAccessActionTypes.SaveVideoAccess:
+    const allVideos = Object.values(state.entities),
+      courseVideos = allVideos.filter(video => video.courseId == action.courseId),
+      courseVideoKeys = courseVideos.map(video => video.id);
 
-      return adapter.addOne(action.payload.videoAccess, state);
+    return adapter.removeMany(courseVideoKeys, state);
+  }),
 
-    case CourseActionTypes.CoursePurchased:
+  on(UserActions.planActivated, state => adapter.removeAll(state))
 
-      const allVideos = Object.values(state.entities),
-            courseVideos = allVideos.filter(video => video.courseId == action.payload.courseId),
-            courseVideoKeys = courseVideos.map(video => video.id);
-
-      return adapter.removeMany(courseVideoKeys, state);
-
-
-    case UserActionTypes.PlanActivated:
-
-      return adapter.removeAll(state);
+);
 
 
-    default:
-      return state;
-  }
-}
 
 
 

@@ -7,7 +7,7 @@ import {select, Store} from '@ngrx/store';
 import {AppState} from '../store';
 import {isAdmin, isLoggedOut, isUserSubscribed, selectAllCourses, selectTenantInfo, selectUserCourses} from '../store/selectors';
 import {moveItemInArray} from '@angular/cdk/drag-drop';
-import {UpdateCourseSortOrder} from '../store/course.actions';
+import {updateCourseSortOrder} from '../store/course.actions';
 import {map, tap} from 'rxjs/operators';
 import {arrayDiffById} from '../common/collection-utils';
 import {MessagesService} from '../services/messages.service';
@@ -100,7 +100,7 @@ export class CoursesComponent implements OnInit, OnDestroy {
 
     moveItemInArray(newSortOrder, courseIndex, courseIndex + 1);
 
-    this.store.dispatch(new UpdateCourseSortOrder({newSortOrder}));
+    this.store.dispatch(updateCourseSortOrder({newSortOrder}));
 
   }
 
@@ -112,7 +112,7 @@ export class CoursesComponent implements OnInit, OnDestroy {
 
     moveItemInArray(newSortOrder, courseIndex, courseIndex - 1);
 
-    this.store.dispatch(new UpdateCourseSortOrder({newSortOrder}));
+    this.store.dispatch(updateCourseSortOrder({newSortOrder}));
 
   }
 

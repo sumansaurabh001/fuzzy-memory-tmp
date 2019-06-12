@@ -3,7 +3,7 @@ import {ActivatedRouteSnapshot, CanActivate, Resolve, RouterStateSnapshot} from 
 import {select, Store} from '@ngrx/store';
 import {AppState} from '../store';
 import {Observable} from 'rxjs';
-import {GetHomePageContent, GetSubscriptionContent} from '../store/content.actions';
+import {getHomePageContent} from '../store/content.actions';
 import {LoadingService} from './loading.service';
 import {SubscriptionContent} from '../models/content/subscription-content.model';
 import {createContentResolver} from './create-content-resolver';
@@ -24,7 +24,7 @@ export class HomePageContentResolver implements Resolve<HomePageContent> {
 
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<any> {
 
-    const loadContent$ = createContentResolver(this.store, "homePage", GetHomePageContent);
+    const loadContent$ = createContentResolver(this.store, "homePage", getHomePageContent);
 
     return this.loading.showLoaderUntilCompleted(loadContent$);
   }

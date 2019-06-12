@@ -1,62 +1,30 @@
-import { Action } from '@ngrx/store';
+import {createAction, props} from '@ngrx/store';
 import {Theme} from '../models/theme.model';
 import {TenantInfo} from '../models/tenant.model';
 
 
-export enum PlatformActionTypes {
-  ThemeChanged = '[ThemeChanged] Action',
-  SaveTheme = '[Branding Screen] Save Theme',
-  LoadStripeStatus = '[Edit Course Screen] Load Stripe Status',
-  UpdateStripeStatus = '[Platform API] Update Stripe Status',
-  SetTenantInfo = '[Platform Startup] Set Tenant Info'
-}
 
+export const themeChanged = createAction(
+  '[ThemeChanged] Action',
+  props<Theme>()
+);
 
-export class ThemeChanged implements Action {
+export const saveTheme = createAction(
+  '[Branding Screen] Save Theme',
+  props<Theme>()
+);
 
-  readonly type = PlatformActionTypes.ThemeChanged;
+export const loadStripeConnectionStatus = createAction(
+  '[Edit Course Screen] Load Stripe Status'
+);
 
-  constructor(public payload: Theme) {}
+export const updateStripeStatus = createAction(
+  '[Platform API] Update Stripe Status',
+  props<{isConnectedToStripe:boolean}>()
+);
 
-}
-
-export class SaveTheme implements Action {
-
-  readonly type = PlatformActionTypes.SaveTheme;
-
-  constructor(public payload: Theme) {}
-
-}
-
-
-export class LoadStripeConnectionStatus {
-
-  readonly type = PlatformActionTypes.LoadStripeStatus;
-
-  constructor() {}
-
-}
-
-
-
-export class UpdateStripeStatus implements Action {
-
-  readonly type = PlatformActionTypes.UpdateStripeStatus;
-
-  constructor(public payload: {isConnectedToStripe:boolean}) {}
-
-}
-
-export class SetTenantInfo implements Action {
-
-  readonly type = PlatformActionTypes.SetTenantInfo;
-
-  constructor(public payload: {tenantInfo:TenantInfo}) {}
-
-}
-
-
-
-
-export type PlatformActions = ThemeChanged | SaveTheme | LoadStripeConnectionStatus | UpdateStripeStatus | SetTenantInfo;
+export const setTenantInfo = createAction(
+  '[Platform Startup] Set Tenant Info',
+  props<{tenantInfo:TenantInfo}>()
+);
 

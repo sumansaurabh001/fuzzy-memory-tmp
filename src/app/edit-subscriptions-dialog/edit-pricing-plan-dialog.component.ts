@@ -8,7 +8,7 @@ import {noop, Observable} from 'rxjs';
 import {LoadingService} from '../services/loading.service';
 import {AppState} from '../store';
 import {Store} from '@ngrx/store';
-import {UpdatePricingPlan} from '../store/pricing-plans.actions';
+import {updatePricingPlan} from '../store/pricing-plans.actions';
 import {concatMap} from 'rxjs/operators';
 import {PricingPlansState} from '../store/pricing-plans.reducer';
 const arrayMove = require('array-move');
@@ -114,7 +114,7 @@ export class EditPricingPlanDialogComponent implements OnInit {
       .subscribe(
         () => {
 
-          this.store.dispatch(new UpdatePricingPlan({planName: this.planName, changes: this.pricingPlan}));
+          this.store.dispatch(updatePricingPlan({planName: this.planName, changes: this.pricingPlan}));
 
           this.dialogRef.close(this.pricingPlan);
 

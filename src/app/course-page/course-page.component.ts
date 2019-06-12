@@ -17,16 +17,16 @@ import {sortSectionsBySeqNo} from '../common/sort-model';
 import {User} from '../models/user.model';
 import {ActivatedRoute} from '@angular/router';
 import {MessagesService} from '../services/messages.service';
-import {CoursePurchased} from '../store/course.actions';
+import {coursePurchased} from '../store/course.actions';
 import {PaymentsService} from '../services/payments.service';
-import {PlanActivated} from '../store/user.actions';
+import {planActivated} from '../store/user.actions';
 import * as firebase from '../subscription/subscription.component';
 import {PurchasesService} from '../services/purchases.service';
 import {Title} from '@angular/platform-browser';
-import {LoadCoupon} from '../store/coupons.actions';
 import {CourseCoupon, isValidCoupon} from '../models/coupon.model';
 import {selectCouponByCode} from '../store/coupon.selectors';
 import {selectActiveCourseLessonsWatched} from '../store/user-lesson-status.selectors';
+import {loadCoupon} from '../store/coupons.actions';
 
 const DESCRIPTION_MAX_LENGTH = 1500;
 
@@ -99,7 +99,7 @@ export class CoursePageComponent implements OnInit {
           this.title.setTitle(course.title);
 
           if (this.couponCode) {
-            this.store.dispatch(new LoadCoupon({courseId: course.id, couponCode: this.couponCode}));
+            this.store.dispatch(loadCoupon({courseId: course.id, couponCode: this.couponCode}));
           }
 
         })
@@ -160,7 +160,7 @@ export class CoursePageComponent implements OnInit {
       'Payment successful, please enjoy the course!')
       .subscribe(purchaseSession => {
 
-        this.store.dispatch(new CoursePurchased({courseId: purchaseSession.courseId}));
+        this.store.dispatch(coursePurchased({courseId: purchaseSession.courseId}));
 
       });
 

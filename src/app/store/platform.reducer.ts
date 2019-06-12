@@ -1,6 +1,8 @@
-import {PlatformActions, PlatformActionTypes} from './platform.actions';
+
 import {Theme} from '../models/theme.model';
 import {TenantInfo} from '../models/tenant.model';
+import {createReducer, on} from '@ngrx/store';
+import {PlatformActions} from './action-types';
 
 
 export interface PlatformState {
@@ -15,28 +17,31 @@ export const initialState: PlatformState = {
   tenantInfo: null
 };
 
-export function platformReducer(state = initialState, action: PlatformActions): PlatformState {
-  switch (action.type) {
 
-    case PlatformActionTypes.ThemeChanged:
-      return {
-        ...state,
-        brandTheme: action.payload
-      };
+export const platformReducer = createReducer(
 
-    case PlatformActionTypes.UpdateStripeStatus:
-      return {
-        ...state,
-        isConnectedToStripe: action.payload.isConnectedToStripe
-      };
+  initialState,
 
-    case PlatformActionTypes.SetTenantInfo:
-      return {
-        ...state,
-        tenantInfo: action.payload.tenantInfo
-      };
+  on(PlatformActions.themeChanged, (state,theme) => {
+    return {
+      ...state,
+      brandTheme: theme
+    }
+  }),
 
-    default:
-      return state;
-  }
-}
+  on(PlatformActions.updateStripeStatus, (state,action) => {
+    return {
+      ...state,
+      isConnectedToStripe: action.isConnectedToStripe
+    };
+  }),
+
+  on(PlatformActions.setTenantInfo, (state,action) => {
+    return {
+      ...state,
+      tenantInfo: action.tenantInfo
+    };
+  })
+
+);
+

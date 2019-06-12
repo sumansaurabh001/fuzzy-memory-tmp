@@ -1,9 +1,8 @@
 import {ChangeDetectionStrategy, Component, Inject, OnInit} from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import {CreateNewCourse} from '../store/course.actions';
 import {LoadingService} from '../services/loading.service';
 import {LessonsDBService} from '../services/lessons-db.service';
-import {AddCourseSection, UpdateCourseSection} from '../store/course-section.actions';
+import {addCourseSection, updateCourseSection} from '../store/course-section.actions';
 import {AppState} from '../store';
 import {Store} from '@ngrx/store';
 import {MessagesService} from '../services/messages.service';
@@ -58,7 +57,7 @@ export class EditSectionDialogComponent implements OnInit {
     this.loading.showLoader(this.lessonsDB.saveSection(this.course.id, this.section.id, update))
       .subscribe(
         () => {
-          this.store.dispatch(new UpdateCourseSection({courseSection: update}));
+          this.store.dispatch(updateCourseSection({courseSection: update}));
           this.dialogRef.close();
         },
         err => this.messages.error(err)

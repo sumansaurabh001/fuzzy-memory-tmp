@@ -1,7 +1,8 @@
 import {createEntityAdapter, EntityAdapter, EntityState, Update} from '@ngrx/entity';
 import {Course} from '../models/course.model';
-import {CourseActions, CourseActionTypes} from './course.actions';
 import {compareCourses} from '../common/sort-model';
+import {createReducer, on} from '@ngrx/store';
+import {CourseActions} from './action-types';
 
 
 export interface State extends EntityState<Course> {
@@ -22,106 +23,79 @@ export const initialState: State = adapter.getInitialState({
   pendingCoursesReordering: []
 });
 
-export function coursesReducer(
-  state = initialState,
-  action: CourseActions
-): State {
 
-  switch (action.type) {
-    case CourseActionTypes.LoadCourseDetail: {
-      return {...state, activeCourseId: action.payload.courseId};
-    }
-    case CourseActionTypes.CourseLoaded:
-    case CourseActionTypes.CreateNewCourse: {
-      return adapter.addOne(action.payload.course, state);
-    }
+export const coursesReducer = createReducer(
+  initialState,
+  on(CourseActions.loadCourseDetail, (state, { courseId }) => {
+    return {...state, activeCourseId: courseId};
+  }),
+  on(
+    CourseActions.courseLoaded,
+    CourseActions.createNewCourse,
+    (state,{course}) => adapter.addOne(course, state)
+  ),
 
-    case CourseActionTypes.AddCourses: {
-      return adapter.addMany(action.payload.courses, state);
-    }
+  on(CourseActions.updateCourse, (state,{course}) => adapter.updateOne(course, state)),
 
-    case CourseActionTypes.UpdateCourse: {
-      return adapter.updateOne(action.payload.course, state);
-    }
+  on(CourseActions.deleteCourse, (state, {id}) =>  adapter.removeOne(id, state)),
 
-    case CourseActionTypes.UpdateCourses: {
-      return adapter.updateMany(action.payload.courses, state);
-    }
+  on(CourseActions.loadCourses, (state, {courses}) => {
+    const newState = adapter.addAll(courses, state);
+    newState.initialCoursesLoaded = true;
+    return newState;
+  }),
 
-    case CourseActionTypes.DeleteCourse: {
-      return adapter.removeOne(action.payload.id, state);
-    }
+  on(CourseActions.coursePurchased, (state, {courseId}) => {
+    return {
+      ...state,
+      coursesPurchased: state.coursesPurchased.concat(courseId)
+    };
+  }),
 
-    case CourseActionTypes.DeleteCourses: {
-      return adapter.removeMany(action.payload.ids, state);
-    }
+  on(CourseActions.userCoursesLoaded, (state, {purchasedCourses}) => {
+    return {
+      ...state,
+      coursesPurchased: [
+        ...state.coursesPurchased,
+        ...purchasedCourses
+      ]
+    };
+  }),
 
-    case CourseActionTypes.LoadCourses: {
-      const newState = adapter.addAll(action.payload.courses, state);
-      newState.initialCoursesLoaded = true;
-      return newState;
-    }
+  on(CourseActions.updateCourseSortOrder, (state, {newSortOrder}) => {
+    const newSortedCourses = newSortOrder;
 
-    case CourseActionTypes.ClearCourses: {
-      return adapter.removeAll(state);
-    }
+    const reorderCourses: Update<Course>[] = [];
 
-    case CourseActionTypes.CoursePurchased: {
-      return {
-        ...state,
-        coursesPurchased: state.coursesPurchased.concat(action.payload.courseId)
-      };
-    }
+    let seqNoCounter = 1;
 
-    case CourseActionTypes.UserCoursesLoaded: {
-      return {
-        ...state,
-        coursesPurchased: [
-          ...state.coursesPurchased,
-          ...action.payload.purchasedCourses
-        ]
-      };
-    }
+    newSortedCourses.forEach(course => {
 
+      if (course.seqNo != seqNoCounter) {
 
-    case CourseActionTypes.UpdateCourseSortOrder: {
+        const changes: Partial<Course> = {
+          seqNo: seqNoCounter
+        };
 
-      const newSortedCourses = action.payload.newSortOrder;
+        reorderCourses.push({id:course.id, changes});
+      }
 
-      const reorderCourses: Update<Course>[] = [];
+      seqNoCounter+=1;
 
-      let seqNoCounter = 1;
+    });
 
-      newSortedCourses.forEach(course => {
+    return adapter.updateMany(reorderCourses, {...state, pendingCoursesReordering: reorderCourses});
+  }),
 
-        if (course.seqNo != seqNoCounter) {
+  on(CourseActions.updateCourseSortOrderCompleted, state => {
+    return {
+      ...state,
+      pendingCoursesReordering: []
+    };
+  })
 
-          const changes: Partial<Course> = {
-            seqNo: seqNoCounter
-          };
+);
 
-          reorderCourses.push({id:course.id, changes});
-        }
-
-        seqNoCounter+=1;
-
-      });
-
-      return adapter.updateMany(reorderCourses, {...state, pendingCoursesReordering: reorderCourses});
-
-    }
-
-    case CourseActionTypes.UpdateCourseSortOrderCompleted:
-      return {
-        ...state,
-        pendingCoursesReordering: []
-      };
-
-    default: {
-      return state;
-    }
-  }
-}
 
 export const {
   selectIds,

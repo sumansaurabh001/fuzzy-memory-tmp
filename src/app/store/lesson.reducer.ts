@@ -1,8 +1,9 @@
 import {createEntityAdapter, EntityAdapter, EntityState, Update} from '@ngrx/entity';
 import {Lesson} from '../models/lesson.model';
-import {LessonActions, LessonActionTypes} from './lesson.actions';
 import {compareLessons, sortLessonsBySectionAndSeqNo} from '../common/sort-model';
 import {moveItemInArray} from '@angular/cdk/drag-drop';
+import {LessonActions} from './action-types';
+import {createReducer, on} from '@ngrx/store';
 
 
 export interface State extends EntityState<Lesson> {
@@ -23,137 +24,105 @@ export const initialState: State = adapter.getInitialState({
   uploadsOngoing:[]
 });
 
-export function reducer(
-  state = initialState,
-  action: LessonActions
-): State {
-  switch (action.type) {
-    case LessonActionTypes.WatchLesson: {
-      return {
-        ...state,
-        activeLessonId: action.payload.lessonId
-      };
-    }
-    case LessonActionTypes.AddLesson: {
-      return adapter.addOne(action.payload.lesson, state);
-    }
 
-    case LessonActionTypes.CourseLessonsLoaded: {
+export const lessonReducer = createReducer(
 
-      const lessons = adapter.addMany(action.payload.lessons, state);
+  initialState,
 
-      const newState = {
-        ...lessons,
-        loadedCourses: {...state.loadedCourses}
-      };
+  on(LessonActions.watchLesson, (state,action) => {
+    return {
+      ...state,
+      activeLessonId: action.lessonId
+    };
+  }),
 
-      newState.loadedCourses[action.payload.courseId] = true;
+  on(LessonActions.addLesson, (state,action) => adapter.addOne(action.lesson, state)),
 
-      return newState;
-    }
+  on(LessonActions.courseLessonsLoaded, (state,action) => {
+    const lessons = adapter.addMany(action.lessons, state);
 
-    case LessonActionTypes.UpdateLesson: {
-      return adapter.updateOne(action.payload.lesson, state);
-    }
+    const newState = {
+      ...lessons,
+      loadedCourses: {...state.loadedCourses}
+    };
 
-    case LessonActionTypes.DeleteLesson: {
-      return adapter.removeOne(action.payload.id, state);
-    }
+    newState.loadedCourses[action.courseId] = true;
 
-    case LessonActionTypes.LoadLessonVideo: {
-      return adapter.updateOne(action.payload.update, state);
-    }
+    return newState;
+  }),
 
-    case LessonActionTypes.UpdateLessonOrder: {
+  on(LessonActions.updateLesson, (state,action) => adapter.updateOne(action.lesson, state)),
 
-      const
-        courseSectionIds = action.payload.sections.map(section => section.id),
-        courseAllLessons = Object.values(state.entities).filter(lesson => courseSectionIds.includes(lesson.sectionId)),
-        courseSortedLessons = sortLessonsBySectionAndSeqNo(courseAllLessons, action.payload.sections),
-        movedLesson = {...courseSortedLessons[action.payload.previousIndex]},
-        oldSectionId = movedLesson.sectionId,
-        newSectionId = courseSortedLessons[action.payload.currentIndex].sectionId;
+  on(LessonActions.deleteLesson, (state,action) => adapter.removeOne(action.id, state)),
 
-      // move the drag-and-dropped lesson
-      moveItemInArray(courseSortedLessons, action.payload.previousIndex, action.payload.currentIndex);
+  on(LessonActions.loadLessonVideo, (state,action) => adapter.updateOne(action.update, state)),
 
-      let lessonSeqNoCounter = 1;
+  on(LessonActions.updateLessonOrder, (state,action) => {
+    const
+      courseSectionIds = action.sections.map(section => section.id),
+      courseAllLessons = Object.values(state.entities).filter(lesson => courseSectionIds.includes(lesson.sectionId)),
+      courseSortedLessons = sortLessonsBySectionAndSeqNo(courseAllLessons, action.sections),
+      movedLesson = {...courseSortedLessons[action.previousIndex]},
+      oldSectionId = movedLesson.sectionId,
+      newSectionId = courseSortedLessons[action.currentIndex].sectionId;
 
-      const reorderChanges: Update<Lesson>[] = [];
+    // move the drag-and-dropped lesson
+    moveItemInArray(courseSortedLessons, action.previousIndex, action.currentIndex);
 
-      courseSortedLessons.filter(lesson => lesson.sectionId == newSectionId).forEach(lesson => {
+    let lessonSeqNoCounter = 1;
 
-        if (lesson.seqNo != lessonSeqNoCounter) {
+    const reorderChanges: Update<Lesson>[] = [];
 
-          const changes: Partial<Lesson> = {
-            seqNo: lessonSeqNoCounter
-          };
+    courseSortedLessons.filter(lesson => lesson.sectionId == newSectionId).forEach(lesson => {
 
-          if (lesson.id == movedLesson.id && oldSectionId != newSectionId) {
-            changes.sectionId = newSectionId;
-          }
+      if (lesson.seqNo != lessonSeqNoCounter) {
 
-          reorderChanges.push({id: lesson.id, changes})
+        const changes: Partial<Lesson> = {
+          seqNo: lessonSeqNoCounter
+        };
 
+        if (lesson.id == movedLesson.id && oldSectionId != newSectionId) {
+          changes.sectionId = newSectionId;
         }
 
-        lessonSeqNoCounter++;
+        reorderChanges.push({id: lesson.id, changes})
 
-      });
+      }
 
-      return adapter.updateMany(reorderChanges, {...state, pendingLessonReordering: reorderChanges});
+      lessonSeqNoCounter++;
 
-    }
+    });
 
-    case LessonActionTypes.UpdateLessonOrderCompleted:
-      return {
-        ...state,
-        pendingLessonReordering: []
-      };
+    return adapter.updateMany(reorderChanges, {...state, pendingLessonReordering: reorderChanges});
+  }),
 
-    case LessonActionTypes.UploadStarted:
-      return {
-        ...state,
-        uploadsOngoing: [...state.uploadsOngoing, action.payload.fileName]
-      };
+  on(LessonActions.updateLessonOrderCompleted, (state,action) => {
+    return {
+      ...state,
+      pendingLessonReordering: []
+    };
+  }),
 
-    case LessonActionTypes.UploadFinished:
+  on(LessonActions.uploadStarted, (state,action) => {
+    return {
+      ...state,
+      uploadsOngoing: [...state.uploadsOngoing, action.fileName]
+    };
+  }),
 
-      const newUploadsList = [...state.uploadsOngoing];
+  on(LessonActions.uploadFinished, (state,action) => {
+    const newUploadsList = [...state.uploadsOngoing];
 
-      newUploadsList.splice(newUploadsList.findIndex(fileName => fileName == action.payload.fileName), 1);
+    newUploadsList.splice(newUploadsList.findIndex(fileName => fileName == action.fileName), 1);
 
-      return {
-        ...state,
-        uploadsOngoing: newUploadsList
-      };
+    return {
+      ...state,
+      uploadsOngoing: newUploadsList
+    };
+  }),
 
-    case LessonActionTypes.LessonsSequentiallyNumbered:
+);
 
-      const sortedLessons = action.payload.sortedLessons;
-
-      let counter = 1;
-
-      const updates: Update<Lesson>[] = [];
-
-      sortedLessons.forEach(lesson => {
-        updates.push({
-          id: lesson.id,
-          changes: {
-            courseSeqNo:counter
-          }
-        });
-        counter += 1;
-      });
-
-      return adapter.updateMany(updates, state);
-
-
-    default: {
-      return state;
-    }
-  }
-}
 
 export const {
   selectIds,

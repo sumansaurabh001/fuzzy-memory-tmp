@@ -1,5 +1,6 @@
 import {PricingPlan} from '../models/pricing-plan.model';
-import {PricingPlanActionTypes, PricingPlansActions} from './pricing-plans.actions';
+import {createReducer, on} from '@ngrx/store';
+import {PricingPlanActions} from './action-types';
 
 
 export interface PricingPlansState {
@@ -16,32 +17,30 @@ export const initialState: PricingPlansState = {
 };
 
 
-export function pricingPlansReducer(state = initialState, action: PricingPlansActions) {
-  switch (action.type) {
+export const pricingPlansReducer = createReducer(
+  initialState,
 
-    case PricingPlanActionTypes.PricingPlansLoaded:
-      return {
-        ...state,
-        lifetimePlan: action.payload.pricingPlans.lifetimePlan,
-        yearlyPlan: action.payload.pricingPlans.yearlyPlan,
-        monthlyPlan: action.payload.pricingPlans.monthlyPlan
-      };
+  on(PricingPlanActions.pricingPlansLoaded, (state,action) => {
+    return {
+      ...state,
+      lifetimePlan: action.pricingPlans.lifetimePlan,
+      yearlyPlan: action.pricingPlans.yearlyPlan,
+      monthlyPlan: action.pricingPlans.monthlyPlan
+    };
+  }),
 
-    case PricingPlanActionTypes.UpdatePricingPlan:
+  on(PricingPlanActions.updatePricingPlan, (state, action) => {
+    const newState = {...state};
 
-      const newState = {...state};
+    const newPlan = {
+      ...newState[action.planName],
+      ...action.changes
+    };
 
-      const newPlan = {
-        ...newState[action.payload.planName],
-        ...action.payload.changes
-      };
+    newState[action.planName] = newPlan;
 
-      newState[action.payload.planName] = newPlan;
+    return newState;
+  })
 
-      return newState;
+);
 
-    default:
-      return state;
-  }
-
-}

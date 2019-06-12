@@ -5,14 +5,13 @@ import {select, Store} from '@ngrx/store';
 import {LessonsDBService} from '../services/lessons-db.service';
 import {Course} from '../models/course.model';
 import {LoadingService} from '../services/loading.service';
-import {DeleteLesson, UpdateLesson, UploadFinished, UploadStarted} from '../store/lesson.actions';
+import {deleteLesson, updateLesson, uploadFinished, uploadStarted} from '../store/lesson.actions';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import {ConfirmationDialogComponent} from '../confirmation-dialog/confirmation-dialog.component';
 import {concatMap, filter, finalize, first, map, tap} from 'rxjs/operators';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {UpdateCourse} from '../store/course.actions';
 import {defaultEditorConfig} from '../common/html-editor.config';
-import {LoadDescription, SaveDescription} from '../store/description.actions';
+import {loadDescription, saveDescription} from '../store/description.actions';
 import {FileUploadService} from '../services/file-upload.service';
 import {Observable, noop} from 'rxjs';
 import {UrlBuilderService} from '../services/url-builder.service';
@@ -103,11 +102,11 @@ export class EditLessonComponent implements OnInit, OnChanges {
       changes: {...this.form.value}
     };
 
-    this.store.dispatch(new UpdateLesson({lesson, courseId: this.course.id}));
+    this.store.dispatch(updateLesson({lesson, courseId: this.course.id}));
 
     const description = this.lessonDescription || '';
 
-    this.store.dispatch(new SaveDescription({id: this.lesson.id, description}));
+    this.store.dispatch(saveDescription({id: this.lesson.id, description}));
 
     this.loading.showLoading().subscribe();
   }
@@ -131,7 +130,7 @@ export class EditLessonComponent implements OnInit, OnChanges {
       .pipe(
         filter(result => result.confirm),
         concatMap(() => this.loading.showLoader(deleteLesson$)),
-        tap(() => this.store.dispatch(new DeleteLesson({id: this.lesson.id})))
+        tap(() => this.store.dispatch(deleteLesson({id: this.lesson.id})))
       )
       .subscribe();
 
@@ -148,11 +147,11 @@ export class EditLessonComponent implements OnInit, OnChanges {
 
       this.percentageUpload$ = this.uploadTask.percentageChanges();
 
-      this.store.dispatch(new UploadStarted({fileName}));
+      this.store.dispatch(uploadStarted({fileName}));
 
       this.percentageUpload$.
         pipe(
-          finalize(() => this.store.dispatch(new UploadFinished({fileName})))
+          finalize(() => this.store.dispatch(uploadFinished({fileName})))
         )
         .subscribe(
           noop,
@@ -166,7 +165,7 @@ export class EditLessonComponent implements OnInit, OnChanges {
               }
             };
 
-            this.store.dispatch(new UpdateLesson({lesson: update, courseId: this.course.id}));
+            this.store.dispatch(updateLesson({lesson: update, courseId: this.course.id}));
 
             this.onVideoUploadCompleted();
           }
@@ -212,14 +211,14 @@ export class EditLessonComponent implements OnInit, OnChanges {
       changes
     };
 
-    this.store.dispatch(new UpdateLesson({lesson: update, courseId: this.course.id}));
+    this.store.dispatch(updateLesson({lesson: update, courseId: this.course.id}));
 
   }
 
   toggleEditLesson() {
     if (!this.descriptionOpenedOnce) {
       this.descriptionOpenedOnce = true;
-      this.store.dispatch(new LoadDescription(this.lesson.id));
+      this.store.dispatch(loadDescription({descriptionId: this.lesson.id}));
     }
   }
 

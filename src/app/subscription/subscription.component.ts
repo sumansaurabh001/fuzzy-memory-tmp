@@ -11,7 +11,7 @@ import {
 } from '../store/selectors';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {StripeConnectionService} from '../services/stripe-connection.service';
-import {PricingPlansLoaded} from '../store/pricing-plans.actions';
+import {pricingPlansLoaded} from '../store/pricing-plans.actions';
 import {MessagesService} from '../services/messages.service';
 import {LoadingService} from '../services/loading.service';
 import {PricingPlansState} from '../store/pricing-plans.reducer';
@@ -22,13 +22,12 @@ import {concatMap, filter, finalize, map, tap, withLatestFrom} from 'rxjs/operat
 import {promise} from 'selenium-webdriver';
 import {environment} from '../../environments/environment';
 import {PaymentsService} from '../services/payments.service';
-import {PlanActivated} from '../store/user.actions';
+import {planActivated} from '../store/user.actions';
 import {planNames} from '../common/text';
 
 import * as firebase from 'firebase/app';
 import {UserPermissions} from '../models/user-permissions.model';
 import {isAnonymousUser, isUserPlanCanceled, isUserPlanStillValid, User} from '../models/user.model';
-import {GetSubscriptionContent, SubscriptionContentUpdated} from '../store/content.actions';
 import {SubscriptionContent} from '../models/content/subscription-content.model';
 import {selectContent} from '../store/content.selectors';
 import {EditHtmlDialogComponent} from '../edit-html-dialog/edit-html-dialog.component';
@@ -40,6 +39,7 @@ import {PurchaseSession} from '../models/purchase-session.model';
 import {FAQ} from '../models/content/faq.model';
 import {setSchoolNameAsPageTitle} from '../common/seo-utils';
 import {Title} from '@angular/platform-browser';
+import {subscriptionContentUpdated} from '../store/content.actions';
 
 
 declare const Stripe;
@@ -148,7 +148,7 @@ export class SubscriptionComponent implements OnInit {
 
     this.loading.showLoader(setupPlans$)
       .subscribe(
-        pricingPlans => this.store.dispatch(new PricingPlansLoaded({pricingPlans})),
+        pricingPlans => this.store.dispatch(pricingPlansLoaded({pricingPlans})),
         err => {
           console.log('Error setting up plans:', err);
           this.messages.error('Error setting up pricing plans.');
@@ -308,7 +308,7 @@ export class SubscriptionComponent implements OnInit {
 
 
   onContentEdited(content: SubscriptionContent) {
-    this.store.dispatch(new SubscriptionContentUpdated({content}));
+    this.store.dispatch(subscriptionContentUpdated({content}));
   }
 
   processPurchaseCompletion(ongoingPurchaseSessionId: string) {
@@ -326,7 +326,7 @@ export class SubscriptionComponent implements OnInit {
           else return of([purchaseSession, user]);
         }),
         tap(([purchaseSession]: [PurchaseSession]) => {
-          this.store.dispatch(new PlanActivated({
+          this.store.dispatch(planActivated({
               selectedPlan: purchaseSession.plan,
               user: {
                 planActivatedAt: firebase.firestore.Timestamp.fromMillis(new Date().getTime()),

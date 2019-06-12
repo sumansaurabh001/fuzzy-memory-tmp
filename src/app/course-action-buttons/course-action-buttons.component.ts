@@ -6,7 +6,6 @@ import {environment} from '../../environments/environment';
 import {LoadingService} from '../services/loading.service';
 import {AppState} from '../store';
 import {select, Store} from '@ngrx/store';
-import {CoursePurchased} from '../store/course.actions';
 import {Router} from '@angular/router';
 import {Observable} from 'rxjs';
 import {isAdmin, selectUser, selectUserCoursesIds} from '../store/selectors';

@@ -9,16 +9,16 @@ import {AddSectionDialogComponent} from '../add-section-dialog/add-section-dialo
 import {selectActiveCourse, isActiveCourseLoaded, selectActiveCourseSections, selectActiveCourseAllLessons} from '../store/selectors';
 import {select, Store} from '@ngrx/store';
 import {AppState} from '../store';
-import {UpdateCourseSortOrder, DeleteCourse} from '../store/course.actions';
+import {deleteCourse} from '../store/course.actions';
 import {LessonsDBService} from '../services/lessons-db.service';
 import {LoadingService} from '../services/loading.service';
 import {ConfirmationDialogComponent} from '../confirmation-dialog/confirmation-dialog.component';
 import {EditSectionDialogComponent} from '../edit-section-dialog/edit-section-dialog.component';
 import {Lesson} from '../models/lesson.model';
 import {CdkDropList, moveItemInArray} from '@angular/cdk/drag-drop';
-import {UpdateLessonOrder} from '../store/lesson.actions';
+import {updateLessonOrder} from '../store/lesson.actions';
 import {concatMap, filter, map, tap} from 'rxjs/operators';
-import {DeleteCourseSection, UpdateSectionOrder} from '../store/course-section.actions';
+import {deleteCourseSection, updateSectionOrder} from '../store/course-section.actions';
 import {AddLessonDialogComponent} from '../add-lesson-dialog/add-lesson-dialog.component';
 import {fadeIn} from '../common/fade-in-out';
 
@@ -96,7 +96,7 @@ export class EditLessonsListComponent implements OnInit {
     dialogRef.afterClosed()
       .subscribe(result => {
         if (result.confirm) {
-          this.store.dispatch(new DeleteCourse({id: course.id}));
+          this.store.dispatch(deleteCourse({id: course.id}));
           this.router.navigateByUrl('/courses');
         }
       });
@@ -129,7 +129,7 @@ export class EditLessonsListComponent implements OnInit {
       currentIndex = evt.currentIndex;
 
     if (previousIndex != currentIndex) {
-      const action = new UpdateLessonOrder({
+      const action = updateLessonOrder({
         courseId: course.id,
         sections,
         currentIndex,
@@ -169,7 +169,7 @@ export class EditLessonsListComponent implements OnInit {
       .pipe(
         filter(result => result.confirm),
         concatMap(() => this.loading.showLoader(this.lessonsDB.deleteSection(course.id, section.id))),
-        tap(() => this.store.dispatch(new DeleteCourseSection({id: section.id})))
+        tap(() => this.store.dispatch(deleteCourseSection({id: section.id})))
       )
       .subscribe();
   }
@@ -197,7 +197,7 @@ export class EditLessonsListComponent implements OnInit {
 
     moveItemInArray(newSortOrder, sectionIndex, sectionIndex - 1);
 
-    this.store.dispatch(new UpdateSectionOrder({courseId:course.id, newSortOrder}));
+    this.store.dispatch(updateSectionOrder({courseId:course.id, newSortOrder}));
 
     this.messages.info('Course section moved up.');
 
@@ -211,7 +211,7 @@ export class EditLessonsListComponent implements OnInit {
 
     moveItemInArray(newSortOrder, sectionIndex, sectionIndex + 1);
 
-    this.store.dispatch(new UpdateSectionOrder({courseId:course.id, newSortOrder}));
+    this.store.dispatch(updateSectionOrder({courseId:course.id, newSortOrder}));
 
     this.messages.info('Course section moved down.');
 

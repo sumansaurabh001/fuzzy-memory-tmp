@@ -7,7 +7,7 @@ import {PaymentsService} from '../services/payments.service';
 import {User} from '../models/user.model';
 import {Store} from '@ngrx/store';
 import {AppState} from '../store';
-import {PlanCancelled} from '../store/user.actions';
+import {planCancelled} from '../store/user.actions';
 import * as firebase from 'firebase/app';
 
 
@@ -54,7 +54,7 @@ export class CancelSubscriptionDialogComponent implements OnInit {
     this.loading.showLoader(cancelPlan$)
       .subscribe(
         response => {
-          this.store.dispatch(new PlanCancelled({planEndsAt: firebase.firestore.Timestamp.fromMillis(response.planEndsAt)}));
+          this.store.dispatch(planCancelled({planEndsAt: firebase.firestore.Timestamp.fromMillis(response.planEndsAt)}));
           this.dialogRef.close(response);
         },
         response => {

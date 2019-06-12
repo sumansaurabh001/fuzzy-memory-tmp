@@ -8,13 +8,13 @@ import {Observable} from 'rxjs';
 import {AppState} from '../store';
 import {EditTitleDescriptionDialogComponent} from '../edit-title-description-dialog/edit-title-description-dialog.component';
 import {filter, tap} from 'rxjs/operators';
-import {HomePageContentUpdated} from '../store/content.actions';
 import {UserPermissions} from '../models/user-permissions.model';
 import {isLoggedIn, isLoggedOut, selectUserPermissions} from '../store/selectors';
 import {minimalEditorConfig} from '../common/html-editor.config';
 import {EMPTY_IMG} from '../common/ui-constants';
 import {setSchoolNameAsPageTitle} from '../common/seo-utils';
 import {Title} from '@angular/platform-browser';
+import {homePageContentUpdated} from '../store/content.actions';
 
 @Component({
   selector: 'home',
@@ -97,7 +97,7 @@ export class HomeComponent implements OnInit {
             description: val.description
           };
 
-          this.store.dispatch(new HomePageContentUpdated({content: newContent}));
+          this.store.dispatch(homePageContentUpdated({content: newContent}));
 
         })
       )

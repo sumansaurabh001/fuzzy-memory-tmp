@@ -7,7 +7,7 @@ import {Course} from '../models/course.model';
 import {Router} from '@angular/router';
 import {Store} from '@ngrx/store';
 import {AppState} from '../store';
-import {CreateNewCourse} from '../store/course.actions';
+import {createNewCourse} from '../store/course.actions';
 import {CoursesDBService} from '../services/courses-db.service';
 import {LoadingService} from '../services/loading.service';
 import {AngularFirestore} from '@angular/fire/firestore';
@@ -64,7 +64,7 @@ export class AddCourseDialogComponent implements OnInit {
 
     course.totalDuration = 0;
 
-    this.store.dispatch(new CreateNewCourse({course}));
+    this.store.dispatch(createNewCourse({course}));
 
     this.router.navigate(['courses', course.url, 'edit']);
 

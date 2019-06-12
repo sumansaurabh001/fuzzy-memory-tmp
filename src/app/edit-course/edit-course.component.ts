@@ -6,7 +6,7 @@ import {UrlBuilderService} from '../services/url-builder.service';
 import {selectActiveCourse} from '../store/selectors';
 import {select, Store} from '@ngrx/store';
 import {AppState} from '../store';
-import {LoadCoupons} from '../store/coupons.actions';
+import {loadCoupons} from '../store/coupons.actions';
 import {EMPTY_IMG} from '../common/ui-constants';
 import {Title} from '@angular/platform-browser';
 import {setSchoolNameAsPageTitle} from '../common/seo-utils';
@@ -56,7 +56,7 @@ export class EditCourseComponent implements OnInit {
     this.selectedIndex = selectedIndex;
 
     if (this.selectedIndex === 2 && !this.couponsLoaded) {
-      this.store.dispatch(new LoadCoupons({activeCouponsOnly:true}));
+      this.store.dispatch(loadCoupons({activeCouponsOnly:true}));
       this.couponsLoaded = true;
     }
 

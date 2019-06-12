@@ -6,11 +6,10 @@ import {LoadingService} from '../services/loading.service';
 import {TenantsDBService} from '../services/tenants-db.service';
 import {AppState} from '../store';
 import {Store} from '@ngrx/store';
-import {Login} from '../store/user.actions';
 import {ActivatedRoute, Router} from '@angular/router';
 import {checkIfPlatformSite, DEFAULT_THEME} from '../common/platform-utils';
 import {ONLINECOURSEHOST_ACCENT_COLOR, ONLINECOURSEHOST_PRIMARY_COLOR} from '../common/ui-constants';
-import {ThemeChanged} from '../store/platform.actions';
+import {themeChanged} from '../store/platform.actions';
 import {CustomJwtAuthService} from '../services/custom-jwt-auth.service';
 import {concatMap, filter, first, map, tap, withLatestFrom} from 'rxjs/operators';
 import {SchoolUsersDbService} from '../services/school-users-db.service';
@@ -65,7 +64,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 
     // if logging in to the platform website, apply the platform brand
     if (this.isPlatformSite) {
-      this.store.dispatch(new ThemeChanged(DEFAULT_THEME));
+      this.store.dispatch(themeChanged(DEFAULT_THEME));
     }
 
     try {

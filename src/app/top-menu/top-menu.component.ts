@@ -3,7 +3,7 @@ import {Observable, combineLatest} from 'rxjs';
 import {select, Store} from '@ngrx/store';
 import {AppState} from '../store';
 import {arePricingPlansReady, isLoggedIn, isLoggedOut, selectUser, userPictureUrl} from '../store/selectors';
-import {Logout} from '../store/user.actions';
+import {logout} from '../store/user.actions';
 import {AngularFireAuth} from '@angular/fire/auth';
 import {Router} from '@angular/router';
 import {LoadingService} from '../services/loading.service';
@@ -92,7 +92,7 @@ export class TopMenuComponent implements OnInit {
 
   logout() {
     this.afAuth.auth.signOut();
-    this.store.dispatch(new Logout());
+    this.store.dispatch(logout());
     this.loading.loadingOn();
 
     const reloadUrl = `${window.location.protocol}//${window.location.host}/courses`;

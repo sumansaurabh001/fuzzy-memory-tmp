@@ -8,7 +8,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import {Course} from '../models/course.model';
 import {Store} from '@ngrx/store';
 import {CourseSection} from '../models/course-section.model';
-import {AddLesson} from '../store/lesson.actions';
+import {addLesson} from '../store/lesson.actions';
 
 
 @Component({
@@ -47,7 +47,7 @@ export class AddLessonDialogComponent {
     this.loading.showLoader(this.lessonsDB.addNewLesson(this.course.id, this.section.id, title))
       .subscribe(
         lesson => {
-          this.store.dispatch(new AddLesson({lesson}));
+          this.store.dispatch(addLesson({lesson}));
           this.dialogRef.close();
         },
         err => this.messages.error(err)

@@ -1,6 +1,7 @@
-import {UserActions, UserActionTypes} from './user.actions';
 import {ANONYMOUS_USER, User} from '../models/user.model';
 import {UserPermissions} from '../models/user-permissions.model';
+import {createReducer, on} from '@ngrx/store';
+import {UserActions} from './action-types';
 
 
 export interface UserState {
@@ -19,57 +20,65 @@ export const initialUserState: UserState = {
   permissions: DEFAULT_PERMISSIONS
 };
 
-export function userReducer(state = initialUserState, action: UserActions): UserState {
-  switch (action.type) {
-    case UserActionTypes.LoginAction:
-      return {
-        ...state,
-        isLoggedIn: true,
-        user: action.user
-      };
 
-    case UserActionTypes.SetUserPermissionsAction:
-      return {
-        ...state,
-        permissions: action.permissions
-      };
+export const userReducer = createReducer(
 
-    case UserActionTypes.LogoutAction:
-      return {
-        isLoggedIn: false,
-        user: ANONYMOUS_USER,
-        permissions:DEFAULT_PERMISSIONS
-      };
+  initialUserState,
 
-    case UserActionTypes.UserLoaded:
-      return {
-        ...state,
-        user: {
-          ...state.user,
-          ...action.payload.user
-        }
-      };
+  on(UserActions.login, (state,user) => {
+    return {
+      ...state,
+      isLoggedIn: true,
+      user
+    };
+  }),
 
-    case UserActionTypes.PlanActivated:
-      return {
-        ...state,
-        user: {
-          ...state.user,
-          ...action.payload.user,
-          pricingPlan: action.payload.selectedPlan
-        }
-      };
+  on(UserActions.setUserPermissions, (state,permissions) => {
+    return {
+      ...state,
+      permissions
+    };
+  }),
 
-    case UserActionTypes.PlanCancelled:
-      return {
-        ...state,
-        user: {
-          ...state.user,
-          planEndsAt: action.payload.planEndsAt
-        }
-      };
+  on(UserActions.logout, (state,action) => {
+    return {
+      isLoggedIn: false,
+      user: ANONYMOUS_USER,
+      permissions:DEFAULT_PERMISSIONS
+    };
+  }),
 
-    default:
-      return state;
-  }
-}
+  on(UserActions.userLoaded, (state,action) => {
+    return {
+      ...state,
+      user: {
+        ...state.user,
+        ...action.user
+      }
+    };
+  }),
+
+  on(UserActions.planActivated, (state,action) => {
+    return {
+      ...state,
+      user: {
+        ...state.user,
+        ...action.user,
+        pricingPlan: action.selectedPlan
+      }
+    };
+  }),
+
+  on(UserActions.planCancelled, (state,action) => {
+    return {
+      ...state,
+      user: {
+        ...state.user,
+        planEndsAt: action.planEndsAt
+      }
+    };
+  }),
+
+);
+
+

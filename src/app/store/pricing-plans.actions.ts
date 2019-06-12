@@ -1,30 +1,19 @@
-import {Action} from '@ngrx/store';
+import {Action, createAction, props} from '@ngrx/store';
 import {PricingPlanDetails} from '../models/pricing-plan-details.model';
 import {PricingPlan} from '../models/pricing-plan.model';
 
 
-export enum PricingPlanActionTypes {
-  PricingPlansLoaded = '[Platform Guard] Pricing Plans Loaded',
-  UpdatePricingPlan = '[Edit Plan Dialog] Update Pricing Plan'
 
-}
-
-export class PricingPlansLoaded implements Action {
-
-  readonly type = PricingPlanActionTypes.PricingPlansLoaded;
-
-  constructor(public payload: {pricingPlans: PricingPlanDetails}) {}
-
-}
+export const pricingPlansLoaded = createAction(
+  '[Platform Guard] Pricing Plans Loaded',
+  props<{pricingPlans: PricingPlanDetails}>()
+);
 
 
-export class UpdatePricingPlan implements Action {
 
-  readonly type = PricingPlanActionTypes.UpdatePricingPlan;
+export const updatePricingPlan = createAction(
+  '[Edit Plan Dialog] Update Pricing Plan',
+  props<{planName:string, changes: Partial<PricingPlan>}>()
+);
 
-  constructor(public payload: {planName:string, changes: Partial<PricingPlan>}) {}
-
-}
-
-export type PricingPlansActions = PricingPlansLoaded | UpdatePricingPlan;
 
