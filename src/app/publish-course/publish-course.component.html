@@ -7,21 +7,41 @@
 
   <div class="publish-container">
 
-    <h4>Complete the following steps</h4>
+    <h2>Complete the following steps</h2>
+
+    <div class="field-hint">Note: hover with the mouse over each checkbox for an explanation on how to complete each publication step.</div>
 
     <div class="checklist">
 
-      <mat-checkbox disabled color="primary" [checked]="isCourseTitleSet(data)">Set course title</mat-checkbox>
+      <mat-checkbox disabled color="primary"
+                    [checked]="isCourseTitleSet(data)" matTooltip="Set this using the Landing Page tab">
+        Set course title
+      </mat-checkbox>
 
-      <mat-checkbox disabled color="primary" [checked]="isCourseSubTitleSet(data)">Set course short description</mat-checkbox>
+      <mat-checkbox disabled color="primary"
+                    [checked]="isCourseSubTitleSet(data)" matTooltip="Set this using the Landing Page tab">
+        Set course short description
+      </mat-checkbox>
 
-      <mat-checkbox disabled color="primary" [checked]="isCourseLongDescriptionSet(data)">Set course long description</mat-checkbox>
+      <mat-checkbox disabled color="primary"
+                    [checked]="isCourseLongDescriptionSet(data)" matTooltip="Set this using the Landing Page tab">
+        Set course long description
+      </mat-checkbox>
 
-      <mat-checkbox disabled color="primary" [checked]="isCoursePriceSet(data)">Set course price</mat-checkbox>
+      <mat-checkbox disabled color="primary"
+                    [checked]="isCoursePriceSet(data)" matTooltip="Set this using the Price & Coupons tab">
+        Set course price
+      </mat-checkbox>
 
-      <mat-checkbox disabled color="primary" [checked]="isStripeConnectionActive(data)">Setup payments with Stripe</mat-checkbox>
+      <mat-checkbox disabled color="primary"
+                    [checked]="isStripeConnectionActive(data)" matTooltip="Set this using the Price & Coupons tab">
+        Setup payments with Stripe
+      </mat-checkbox>
 
-      <mat-checkbox disabled color="primary" [checked]="areCourseVideosUploaded(data)">Upload videos</mat-checkbox>
+      <mat-checkbox disabled color="primary"
+                    [checked]="areCourseVideosUploaded(data)" matTooltip="Upload several video lessons using the Lessons tab">
+        Upload videos
+      </mat-checkbox>
 
     </div>
 

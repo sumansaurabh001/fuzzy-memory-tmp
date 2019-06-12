@@ -129,6 +129,7 @@ import {LessonEffects} from './store/lesson.effects';
 import {AskSchoolDetailsDialogComponent} from './ask-school-details-dialog/ask-school-details-dialog.component';
 import {UserLessonStatusEffects} from './store/user-lesson-status.effects';
 import {PublishCourseComponent} from './publish-course/publish-course.component';
+import { PublishCourseDialogComponent } from './publish-course-dialog/publish-course-dialog.component';
 
 
 @NgModule({
@@ -191,7 +192,8 @@ import {PublishCourseComponent} from './publish-course/publish-course.component'
     FileUploadProgressComponent,
     ContactPageComponent,
     AskSchoolDetailsDialogComponent,
-    PublishCourseComponent
+    PublishCourseComponent,
+    PublishCourseDialogComponent
   ],
   imports: [
     BrowserModule,
