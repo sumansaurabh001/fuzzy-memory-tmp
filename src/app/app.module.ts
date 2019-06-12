@@ -236,7 +236,9 @@ import {PublishCourseComponent} from './publish-course/publish-course.component'
     StoreModule.forRoot(reducers, {
       runtimeChecks: {
         strictStateImmutability: true,
-        strictActionImmutability: true
+        strictActionImmutability: true,
+        strictActionSerializability:true,
+        strictStateSerializability:true
       }
     }),
     !environment.production ? StoreDevtoolsModule.instrument() : [],
