@@ -46,10 +46,10 @@
 
           <ng-container *ngIf="(allLessons$ | async) as allLessons">
 
-            <div class="lessons-container" *ngIf="findLessonsForSection(section, allLessons) as lessons">
+            <div class="lessons-container" *ngIf="findLessonsForSection(section, allLessons) as result">
 
               <mat-expansion-panel
-                *ngFor="let lesson of lessons; let index = index"
+                *ngFor="let lesson of result.sectionLessons; let index = index"
                 class="lesson-item drag-drop-item"
                 #panel
                 [expanded]="expandedLessons[lesson.id]"
@@ -58,7 +58,7 @@
 
                 <mat-expansion-panel-header class="lesson-header">
                   <mat-panel-title>
-                    <span class="lecture-number">Lecture {{lesson.courseSeqNo}}:</span>
+                    <span class="lecture-number">Lecture {{ result.sectionStartIndex + index + 1 }}:</span>
                     <mat-icon>play_circle_outline</mat-icon>
                   </mat-panel-title>
                   <mat-panel-description class="panel-description noselect">
@@ -78,7 +78,7 @@
 
                 <action-button
                   color="accent" icon="delete" color="secondary" (click)="deleteSection(course, section)"
-                  title="Delete empty section" *ngIf="lessons?.length == 0">
+                  title="Delete empty section" *ngIf="result.sectionLessons?.length == 0">
 
                 </action-button>
 

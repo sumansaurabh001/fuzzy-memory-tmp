@@ -17,10 +17,11 @@ import {EditSectionDialogComponent} from '../edit-section-dialog/edit-section-di
 import {Lesson} from '../models/lesson.model';
 import {CdkDropList, moveItemInArray} from '@angular/cdk/drag-drop';
 import {updateLessonOrder} from '../store/lesson.actions';
-import {concatMap, filter, map, tap} from 'rxjs/operators';
+import {concatMap, filter, map, tap, withLatestFrom} from 'rxjs/operators';
 import {deleteCourseSection, updateSectionOrder} from '../store/course-section.actions';
 import {AddLessonDialogComponent} from '../add-lesson-dialog/add-lesson-dialog.component';
 import {fadeIn} from '../common/fade-in-out';
+import {sortLessonsBySectionAndSeqNo, sortSectionsBySeqNo} from '../common/sort-model';
 
 
 @Component({
@@ -62,7 +63,12 @@ export class EditLessonsListComponent implements OnInit {
 
     this.isCourseLoaded$ = this.store.pipe(select(isActiveCourseLoaded));
 
-    this.allLessons$ = this.store.pipe(select(selectActiveCourseAllLessons));
+    this.allLessons$ = this.store
+      .pipe(
+        select(selectActiveCourseAllLessons),
+        withLatestFrom(this.store.pipe(select(selectActiveCourseSections), map(sortSectionsBySeqNo))),
+        map(([lessons, sections]) => sortLessonsBySectionAndSeqNo(lessons, sections))
+      );
 
   }
 
@@ -140,8 +146,18 @@ export class EditLessonsListComponent implements OnInit {
 
   }
 
-  findLessonsForSection(section: CourseSection, allLessons: Lesson[]): Lesson[] {
-    return allLessons.filter(lesson => lesson.sectionId == section.id);
+  findLessonsForSection(section: CourseSection, allLessons: Lesson[]) {
+
+    const findBySectionId = lesson => lesson.sectionId == section.id;
+
+    const sectionLessons = allLessons.filter(findBySectionId);
+
+    const sectionStartIndex = allLessons.findIndex(findBySectionId);
+
+    return {
+      sectionLessons,
+      sectionStartIndex
+    };
   }
 
   trackByLessonId(index, item: Lesson) {

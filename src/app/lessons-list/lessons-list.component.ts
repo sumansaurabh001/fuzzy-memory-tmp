@@ -24,7 +24,7 @@ export class LessonsListComponent implements OnInit {
   sectionSeqNo: number;
 
   @Input()
-  lessons: Lesson[] = [];
+  lessons: {sectionLessons: Lesson[],  sectionStartIndex: number} = {sectionLessons: [], sectionStartIndex: 0};
 
   @Input()
   lessonsWatched: string[] = [];

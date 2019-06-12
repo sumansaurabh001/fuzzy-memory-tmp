@@ -36,11 +36,27 @@ export class CourseContentComponent implements OnInit {
   }
 
   sectionLessons(section: CourseSection) {
-    return section? this.lessons.filter(lesson => lesson.sectionId == section.id) : [];
+
+    if (!section) {
+      return {sectionLessons:[], sectionStartIndex:0};
+    }
+
+    const findBySectionId = lesson => lesson.sectionId == section.id;
+
+    const sectionLessons = this.lessons.filter(findBySectionId);
+
+    const sectionStartIndex = this.lessons.findIndex(findBySectionId);
+
+    return {
+      sectionLessons,
+      sectionStartIndex
+    };
+
+
   }
 
   calculateSectionLength(section:CourseSection) {
-    return this.sectionLessons(section).length;
+    return this.sectionLessons(section).sectionLessons.length;
   }
 
 
@@ -50,7 +66,7 @@ export class CourseContentComponent implements OnInit {
       return 0;
     }
 
-    const sectionLessonIds = this.sectionLessons(section).map(lesson => lesson.id);
+    const sectionLessonIds = this.sectionLessons(section).sectionLessons.map(lesson => lesson.id);
 
     let counter = 0;
 

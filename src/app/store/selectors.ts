@@ -10,6 +10,7 @@ import {UserState} from './user.reducer';
 import {PlatformState} from './platform.reducer';
 import {VideoAccessState} from './video-access.reducer';
 import {PricingPlansState} from './pricing-plans.reducer';
+import {compareLessons, sortLessonsBySectionAndSeqNo} from '../common/sort-model';
 
 
 export const selectCoursesState = createFeatureSelector<fromCourse.State>('courses');
@@ -85,7 +86,7 @@ export const selectActiveCourseSectionIds = createSelector(
 export const selectActiveCourseAllLessons = createSelector(
   selectAllLessons,
   selectActiveCourseSectionIds,
-  (lessons, sectionIds) => lessons.filter(lesson => sectionIds.includes(lesson.sectionId))
+  (lessons, sectionIds) => lessons.filter(lesson => sectionIds.includes(lesson.sectionId)).sort(compareLessons)
 );
 
 

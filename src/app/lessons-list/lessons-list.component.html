@@ -1,4 +1,4 @@
-<div class="lesson-row mat-row" *ngFor="let lesson of lessons"
+<div class="lesson-row mat-row" *ngFor="let lesson of lessons.sectionLessons; let index = index"
      [routerLink]="['/courses', course.url, sectionSeqNo , 'lessons', lesson.seqNo]" [ngClass]="lessonClasses(lesson)">
 
   <div class="lesson-icon">
@@ -6,7 +6,7 @@
   </div>
 
   <div class="lesson-number">
-    {{lesson.courseSeqNo}}.
+    {{lessons.sectionStartIndex + index + 1}}.
   </div>
 
   <div class="lesson-description">
