@@ -95,10 +95,8 @@ export class TopMenuComponent implements OnInit {
     this.store.dispatch(logout());
     this.loading.loadingOn();
 
-    const reloadUrl = `${window.location.protocol}//${window.location.host}/courses`;
 
-    setTimeout(() => window.location.href = reloadUrl, 300)
-
+    this.login();
   }
 
 

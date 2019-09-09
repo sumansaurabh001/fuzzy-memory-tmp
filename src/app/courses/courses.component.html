@@ -41,7 +41,7 @@
 
       <ng-template #noCourses>
 
-        <div class="no-content no-courses mat-elevation-z7">
+        <div class="no-content no-courses mat-elevation-z7" *ngIf="!userInfo.isLoggedOut">
 
           <span>No courses yet, let's create one.</span>
 

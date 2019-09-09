@@ -1,0 +1,8 @@
+
+
+Development environment:
+
+  https://us-central1-onlinecoursehost-local-dev.cloudfunctions.net/apiStripeFulfillmentWebhook/stripe-fulfillment-webhook
+
+  Event types
+  checkout.session.completed

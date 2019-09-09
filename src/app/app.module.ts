@@ -239,8 +239,8 @@ import { PublishCourseDialogComponent } from './publish-course-dialog/publish-co
       runtimeChecks: {
         strictStateImmutability: true,
         strictActionImmutability: true,
-        strictActionSerializability:true,
-        strictStateSerializability:true
+//        strictActionSerializability:true,
+//        strictStateSerializability:true
       }
     }),
     !environment.production ? StoreDevtoolsModule.instrument() : [],

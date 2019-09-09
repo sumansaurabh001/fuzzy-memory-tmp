@@ -100,7 +100,8 @@ app.post('/activate-plan', async (req, res) => {
       sessionConfig = {
         ...sessionConfig,
         subscription_data: {
-          items: [{plan: reqInfo.plan.stripePlanId}]
+          items: [{plan: reqInfo.plan.stripePlanId}],
+          application_fee_percent,
         }
       }
     }

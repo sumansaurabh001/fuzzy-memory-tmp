@@ -1,3 +1,39 @@
-<p>
-  publish-course-dialog works!
-</p>
+<h2 mat-dialog-title>Set Course Url</h2>
+
+<mat-dialog-content>
+
+  <mat-form-field>
+
+    https://chess-academy.onlinecoursehost.com/courses/
+
+    <input matInput
+           placeholder="Set the course url (max 60 chars)"
+           #titleHint
+           maxLength="60"
+           formControlName="title">
+
+    <mat-hint align="end">
+      Note: the course url can only be set once
+    </mat-hint>
+
+  </mat-form-field>
+
+
+</mat-dialog-content>
+
+<mat-dialog-actions class="dialog-actions">
+
+  <button mat-raised-button
+          (click)="cancel()">
+    Cancel
+  </button>
+
+  <button mat-raised-button
+          (click)="publish()">
+    Publish Course Now
+  </button>
+
+
+</mat-dialog-actions>
+
+

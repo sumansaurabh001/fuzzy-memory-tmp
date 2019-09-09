@@ -13,7 +13,7 @@ const stripeSecretKey = functions.config().stripe.secret_key;
 const stripe = require('stripe')(stripeSecretKey);
 
 // Find your endpoint's secret in your Dashboard's webhook settings
-const endpointSecret = functions.config().stripe.webhook_secret;
+const endpointSecret = functions.config().stripe.fulfillment_webhook_secret;
 
 const express = require('express');
 
