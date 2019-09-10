@@ -27,3 +27,10 @@ resources:
   disk_size_gb: 10
 
 # [END gae_flex_quickstart_yaml]
+
+env_variables:
+  STRIPE_LIVE_SECRET_KEY: ""
+  STRIPE_TEST_SECRET_KEY: "sk_test_v08Em0hvszSrnn3s7SouTMAL"
+  STRIPE_FULFILLMENT_ENDPOINT_SECRET: "whsec_B8NsApR4T6UkzvO0TEfAgASmrSSMsxEr"
+
+

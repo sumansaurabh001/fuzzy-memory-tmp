@@ -30,7 +30,6 @@ export const environment = {
     stripeUpdatePricingPLanUrl: 'https://us-central1-onlinecoursehost-local-dev.cloudfunctions.net/apiStripeUpdatePricingPlan/update-pricing-plan',
     stripeActivatePlanUrl: 'https://us-central1-onlinecoursehost-local-dev.cloudfunctions.net/apiStripeActivatePlan/activate-plan',
     stripeCancelPlanUrl: 'https://us-central1-onlinecoursehost-local-dev.cloudfunctions.net/apiStripeCancelPlan/cancel-plan',
-    stripeCreateSessionUrl: 'https://us-central1-onlinecoursehost-local-dev.cloudfunctions.net/apiStripeCreateSession/create-stripe-session',
-    stripeFulfillmentWebhookUrl: 'https://us-central1-onlinecoursehost-local-dev.cloudfunctions.net/apiStripeFulfillmentWebhook/stripe-fulfillment-webhook' // Note: this is here just for documentation purposes, this webhook is not meant to be called by the frontend
+    stripeCreateSessionUrl: 'https://us-central1-onlinecoursehost-local-dev.cloudfunctions.net/apiStripeCreateSession/create-stripe-session'
   }
 };

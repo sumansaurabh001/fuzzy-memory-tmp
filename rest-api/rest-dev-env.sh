@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+
+export STRIPE_FULFILLMENT_ENDPOINT_SECRET=whsec_MefVmpQAopuJNeZ9KYWEfsvddCSI7Ohm
+
+export STRIPE_LIVE_SECRET_KEY=sk_live_PnJExOL5vPd84ufLOVQsgrSn00Ml4Kq8b5
+
+export STRIPE_TEST_SECRET_KEY=sk_test_6Wbq40gtPpXfXNhKvJWrilo900LVb2jbvF
+
+

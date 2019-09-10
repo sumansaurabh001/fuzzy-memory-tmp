@@ -22,6 +22,4 @@ export {apiStripeActivatePlan} from './api-activate-plan';
 
 export {apiStripeCancelPlan} from './api-cancel-plan';
 
-export {apiStripeFulfillmentWebhook} from './api-stripe-fulfillment-webhook';
-
 export {apiSendEmail} from './api-send-email';
