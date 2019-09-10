@@ -51,3 +51,5 @@ functions/lib
 functions/src/service-account-credentials.json
 
 /**/*.mp4
+
+/rest-api/service-accounts/*

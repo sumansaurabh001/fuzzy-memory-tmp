@@ -22,9 +22,9 @@ export const environment = {
   // REST API endpoints
   api: {
     purchaseCourseUrl: 'http://localhost:5000/api/purchase-course',
+    customJwtUrl: 'http://localhost:5000/api/custom-jwt', // creates a custom authentication JWT for a given user. Used in the single-sign on solution for tenant domains
 
     stripeConnectionUrl: 'https://us-central1-onlinecoursehost-local-dev.cloudfunctions.net/apiStripeConnection/stripe-connection', // get the user credentials from Stripe and stores them in the DB
-    customJwtUrl: 'https://us-central1-onlinecoursehost-local-dev.cloudfunctions.net/apiCreateCustomJwt/custom-jwt', // creates a custom authentication JWT for a given user. Used in the single-sign on solution for tenant domains
     videoAccessUrl: 'https://us-central1-onlinecoursehost-local-dev.cloudfunctions.net/apiVideoAccess/video-access', // load the video file names only for which the user has access, which allows the user to play the video
     sendEmailUrl: 'https://us-central1-onlinecoursehost-local-dev.cloudfunctions.net/apiSendEmail/send-email',
     stripeInitPricingPlansUrl: 'https://us-central1-onlinecoursehost-local-dev.cloudfunctions.net/apiStripeInitPricingPlans/init-pricing-plans',

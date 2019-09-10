@@ -53,7 +53,8 @@ export class SchoolUsersDbService {
           if (!snap.exists || !data.purchasedCourses) {
             return [];
           }
-          return data.purchasedCourses;
+          // remove duplicates
+          return <any>[...new Set(data.purchasedCourses)];
         })
       );
   }

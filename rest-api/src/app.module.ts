@@ -6,12 +6,14 @@ import {JsonBodyMiddleware} from './controllers/json-body.middleware';
 import {PurchaseCourseController} from './controllers/purchase-course.controller';
 import {CorsMiddleware} from './controllers/cors.middleware';
 import {AuthenticationMiddleware} from './controllers/authentication.middleware';
+import {CustomJwtController} from './controllers/custom-jwt.controller';
 
 @Module({
   imports: [],
   controllers: [
     StripeFulfillmentwebhookController,
-    PurchaseCourseController
+    PurchaseCourseController,
+    CustomJwtController
   ],
   providers: [FirestoreService],
 })
@@ -21,11 +23,17 @@ export class AppModule implements NestModule {
 
     consumer.apply(CorsMiddleware).forRoutes('*');
 
-    consumer.apply(AuthenticationMiddleware).forRoutes(PurchaseCourseController);
-
     consumer.apply(RawBodyMiddleware).forRoutes(StripeFulfillmentwebhookController);
 
-    consumer.apply(JsonBodyMiddleware).forRoutes(PurchaseCourseController);
+    consumer.apply(AuthenticationMiddleware).forRoutes(
+      PurchaseCourseController,
+      CustomJwtController
+    );
+
+    consumer.apply(JsonBodyMiddleware).forRoutes(
+      PurchaseCourseController,
+      CustomJwtController
+    );
   }
 
 }
