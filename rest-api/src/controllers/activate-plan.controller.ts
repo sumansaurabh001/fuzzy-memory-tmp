@@ -36,7 +36,7 @@ export class ActivatePlanController {
         tenantId: request.body.tenantId,
         oneTimeCharge: request.body.oneTimeCharge,
         subscriptionUrl: request.body.subscriptionUrl,
-        testMode: request.body.testMode || true // // TODO support users in test mode
+        testMode: request.body.testMode || true  // TODO support users in test mode
       };
 
       // get the tenant from the database

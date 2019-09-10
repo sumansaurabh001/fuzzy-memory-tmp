@@ -15,12 +15,15 @@ export STRIPE_TEST_PUBLIC_KEY="pk_test_WSBTkv7IREB6kOesKAnoUq1Q"
 
 export STRIPE_TEST_SECRET_KEY="sk_test_v08Em0hvszSrnn3s7SouTMAL"
 
-
+## Platform settings
 export MULTI_TENANT_MODE="on";
 
 export const APPLICATION_FEE_PERCENT="1"
 
+## Mailgun
 export MAILGUN_API_KEY="key-6972d219a458f74f74fce322f259bea0"
+
+export MAILGUN_API_DOMAIN="mg.onlinecoursehost.com"
 
 
 ## needed for validating JWTs via authentication middleware

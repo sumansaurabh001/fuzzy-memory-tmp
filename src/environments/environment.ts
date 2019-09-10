@@ -16,21 +16,20 @@ export const environment = {
   },
   authenticationUrl: 'http://login.onlinecoursehost.test:4201/login',
   stripe: {
-    stripeHostClientId: 'ca_E8O23Zg2xUn1A216OEkwL0OJrW7K7wqN', // this is the Stripe ID of the platform host account, which is providing the hosting service to other tenant Stripe accounts
-    stripePublicKey: 'pk_test_5NQiVpv8GxwDJxKGilXmBK15' // This is the public key used needed by Checkout.js
+    stripeHostClientId: 'ca_E8O23Zg2xUn1A216OEkwL0OJrW7K7wqN', // this is the Stripe ID of the platform Connect host account, which is providing the hosting service to other tenant Stripe accounts
+    stripePublicKey: 'pk_test_5NQiVpv8GxwDJxKGilXmBK15' // This is the public key needed by Checkout.js
   },
   // REST API endpoints
   api: {
     purchaseCourseUrl: 'http://localhost:5000/api/purchase-course',
     customJwtUrl: 'http://localhost:5000/api/custom-jwt', // creates a custom authentication JWT for a given user. Used in the single-sign on solution for tenant domains
     stripeActivatePlanUrl: 'http://localhost:5000/api/activate-plan',
+    stripeCancelPlanUrl: 'http://localhost:5000/api/cancel-plan',
 
-    stripeConnectionUrl: 'https://us-central1-onlinecoursehost-local-dev.cloudfunctions.net/apiStripeConnection/stripe-connection', // get the user credentials from Stripe and stores them in the DB
     videoAccessUrl: 'https://us-central1-onlinecoursehost-local-dev.cloudfunctions.net/apiVideoAccess/video-access', // load the video file names only for which the user has access, which allows the user to play the video
     sendEmailUrl: 'https://us-central1-onlinecoursehost-local-dev.cloudfunctions.net/apiSendEmail/send-email',
+    stripeConnectionUrl: 'https://us-central1-onlinecoursehost-local-dev.cloudfunctions.net/apiStripeConnection/stripe-connection', // get the user credentials from Stripe and stores them in the DB
     stripeInitPricingPlansUrl: 'https://us-central1-onlinecoursehost-local-dev.cloudfunctions.net/apiStripeInitPricingPlans/init-pricing-plans',
-    stripeUpdatePricingPLanUrl: 'https://us-central1-onlinecoursehost-local-dev.cloudfunctions.net/apiStripeUpdatePricingPlan/update-pricing-plan',
-    stripeCancelPlanUrl: 'https://us-central1-onlinecoursehost-local-dev.cloudfunctions.net/apiStripeCancelPlan/cancel-plan',
-    stripeCreateSessionUrl: 'https://us-central1-onlinecoursehost-local-dev.cloudfunctions.net/apiStripeCreateSession/create-stripe-session'
+    stripeUpdatePricingPLanUrl: 'https://us-central1-onlinecoursehost-local-dev.cloudfunctions.net/apiStripeUpdatePricingPlan/update-pricing-plan'
   }
 };
