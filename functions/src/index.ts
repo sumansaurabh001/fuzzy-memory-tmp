@@ -11,8 +11,6 @@ export {onDeleteLesson} from './delete-lesson';
 
 export {apiStripeConnection} from './api-stripe-connection';
 
-export {apiVideoAccess} from './api-video-acess';
-
 export {apiStripeInitPricingPlans} from './api-init-pricing-plans';
 
 export {apiStripeUpdatePricingPlan} from './api-update-pricing-plan';

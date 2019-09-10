@@ -9,6 +9,8 @@ import {AuthenticationMiddleware} from './controllers/authentication.middleware'
 import {CustomJwtController} from './controllers/custom-jwt.controller';
 import {ActivatePlanController} from './controllers/activate-plan.controller';
 import {CancelPlanController} from './controllers/cancel-plan.controller';
+import {VideoAccessController} from './controllers/video-access.controller';
+import {GetUserMiddleware} from './controllers/get-user.middleware';
 
 @Module({
   imports: [],
@@ -17,7 +19,8 @@ import {CancelPlanController} from './controllers/cancel-plan.controller';
     PurchaseCourseController,
     CustomJwtController,
     ActivatePlanController,
-    CancelPlanController
+    CancelPlanController,
+    VideoAccessController
   ],
   providers: [FirestoreService],
 })
@@ -28,6 +31,8 @@ export class AppModule implements NestModule {
     consumer.apply(CorsMiddleware).forRoutes('*');
 
     consumer.apply(RawBodyMiddleware).forRoutes(StripeFulfillmentwebhookController);
+
+    consumer.apply(GetUserMiddleware).forRoutes(VideoAccessController);
 
     consumer.apply(AuthenticationMiddleware).forRoutes(
       PurchaseCourseController,
@@ -40,7 +45,8 @@ export class AppModule implements NestModule {
       PurchaseCourseController,
       CustomJwtController,
       ActivatePlanController,
-      CancelPlanController
+      CancelPlanController,
+      VideoAccessController
     );
   }
 

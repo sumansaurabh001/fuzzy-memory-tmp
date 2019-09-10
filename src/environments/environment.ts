@@ -25,8 +25,9 @@ export const environment = {
     customJwtUrl: 'http://localhost:5000/api/custom-jwt', // creates a custom authentication JWT for a given user. Used in the single-sign on solution for tenant domains
     stripeActivatePlanUrl: 'http://localhost:5000/api/activate-plan',
     stripeCancelPlanUrl: 'http://localhost:5000/api/cancel-plan',
+    videoAccessUrl: 'http://localhost:5000/api/video-access', // load the video file names only for which the user has access, which allows the user to play the video
 
-    videoAccessUrl: 'https://us-central1-onlinecoursehost-local-dev.cloudfunctions.net/apiVideoAccess/video-access', // load the video file names only for which the user has access, which allows the user to play the video
+
     sendEmailUrl: 'https://us-central1-onlinecoursehost-local-dev.cloudfunctions.net/apiSendEmail/send-email',
     stripeConnectionUrl: 'https://us-central1-onlinecoursehost-local-dev.cloudfunctions.net/apiStripeConnection/stripe-connection', // get the user credentials from Stripe and stores them in the DB
     stripeInitPricingPlansUrl: 'https://us-central1-onlinecoursehost-local-dev.cloudfunctions.net/apiStripeInitPricingPlans/init-pricing-plans',
