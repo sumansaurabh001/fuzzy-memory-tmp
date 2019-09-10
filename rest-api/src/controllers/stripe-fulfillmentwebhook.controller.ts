@@ -1,6 +1,6 @@
 import { Controller, Get, Post, Req, Res } from '@nestjs/common';
 import { FirestoreService } from '../services/firestore.service';
-import {getStripeKey, readMandatoryEnvVar} from '../utils/utils';
+import {getStripeSecretKey, readMandatoryEnvVar} from '../utils/utils';
 import {FieldValue, Timestamp} from '@google-cloud/firestore';
 
 
@@ -30,7 +30,7 @@ export class StripeFulfillmentwebhookController {
       const rawBody = request.body,
             body = JSON.parse(rawBody);
 
-      const stripe = require('stripe')(getStripeKey(body.livemode));
+      const stripe = require('stripe')(getStripeSecretKey(!body.livemode));
 
       const event = stripe.webhooks.constructEvent(rawBody, sig, readMandatoryEnvVar("STRIPE_FULFILLMENT_ENDPOINT_SECRET"));
 

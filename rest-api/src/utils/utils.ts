@@ -1,19 +1,8 @@
+import * as dayjs from 'dayjs';
+import {Timestamp} from '@google-cloud/firestore';
 
 
-
-export function getStripeKey(livemode: boolean) {
-  if (livemode) {
-    return readMandatoryEnvVar("STRIPE_LIVE_SECRET_KEY");
-  }
-  else {
-    return readMandatoryEnvVar("STRIPE_TEST_SECRET_KEY");
-  }
-
-
-}
-
-
-export function readMandatoryEnvVar(envVarName:string) {
+export function readMandatoryEnvVar(envVarName:string):any {
   const envVarValue = process.env[envVarName];
   if (!envVarValue) {
     console.log(`Could not find environment variable ${envVarName}, had non truthy value >>${envVarValue}<< exiting ...`);
@@ -23,3 +12,39 @@ export function readMandatoryEnvVar(envVarName:string) {
 }
 
 
+export function getStripeSecretKey(testMode: boolean) {
+  if (!testMode) {
+    return readMandatoryEnvVar("STRIPE_LIVE_SECRET_KEY");
+  }
+  else {
+    return readMandatoryEnvVar("STRIPE_TEST_SECRET_KEY");
+  }
+
+}
+
+
+export function getStripePublicKey(testMode:boolean) {
+  if (testMode) {
+    return readMandatoryEnvVar("STRIPE_TEST_PUBLIC_KEY");
+  }
+  else {
+    return readMandatoryEnvVar("STRIPE_LIVE_PUBLIC_KEY");
+  }
+}
+
+
+export function convertSnapsToData(snaps) {
+
+  const data = [];
+
+  snaps.forEach(snap => {
+    data.push({...snap.data(), id: snap.id})
+  });
+
+  return data;
+
+}
+
+export function isFutureTimestamp(timestamp: Timestamp) {
+  return dayjs(timestamp.toMillis()).isAfter(dayjs());
+}

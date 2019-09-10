@@ -10,8 +10,6 @@ export {apiStripeConnection} from './api-stripe-connection';
 
 export {apiCreateCustomJwt} from './api-custom-jwt';
 
-export {apiPurchaseCourse} from './api-purchase-course';
-
 export {apiVideoAccess} from './api-video-acess';
 
 export {apiStripeInitPricingPlans} from './api-init-pricing-plans';

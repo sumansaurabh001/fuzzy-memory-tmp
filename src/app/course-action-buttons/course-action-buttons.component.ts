@@ -82,6 +82,8 @@ export class CourseActionButtonsComponent implements OnInit, OnChanges {
       return;
     }
 
+    this.messages.info("Preparing checkout, please wait ...");
+
     const courseUrl =  `${window.location.protocol}//${window.location.host}/courses/${this.course.url}`;
 
     const purchaseCourseSession$ = this.payments.createPurchaseCourseSession(

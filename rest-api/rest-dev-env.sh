@@ -1,10 +1,24 @@
 #!/usr/bin/env bash
 
+## needed for validating JWTs via authentication middleware
+export GOOGLE_CLOUD_PROJECT=onlinecoursehost-local-dev
 
-export STRIPE_FULFILLMENT_ENDPOINT_SECRET=whsec_MefVmpQAopuJNeZ9KYWEfsvddCSI7Ohm
+## webhooks
+export STRIPE_FULFILLMENT_ENDPOINT_SECRET="whsec_MefVmpQAopuJNeZ9KYWEfsvddCSI7Ohm"
 
-export STRIPE_LIVE_SECRET_KEY=sk_live_PnJExOL5vPd84ufLOVQsgrSn00Ml4Kq8b5
+## platform live keys
+export STRIPE_LIVE_PUBLIC_KEY="pk_live_K6snbZIP2gEL5tDYStuqzEqR"
 
-export STRIPE_TEST_SECRET_KEY=sk_test_6Wbq40gtPpXfXNhKvJWrilo900LVb2jbvF
+export STRIPE_LIVE_SECRET_KEY="sk_live_GDFsdcuts733nt4pp84S73VX"
+
+## platform test keys
+export STRIPE_TEST_PUBLIC_KEY="pk_test_WSBTkv7IREB6kOesKAnoUq1Q"
+
+export STRIPE_TEST_SECRET_KEY="sk_test_v08Em0hvszSrnn3s7SouTMAL"
 
 
+export MULTI_TENANT_MODE="on";
+
+export const APPLICATION_FEE_PERCENT="1"
+
+export MAILGUN_API_KEY="key-6972d219a458f74f74fce322f259bea0"

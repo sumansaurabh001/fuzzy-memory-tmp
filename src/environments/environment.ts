@@ -19,11 +19,12 @@ export const environment = {
     stripeHostClientId: 'ca_E8O23Zg2xUn1A216OEkwL0OJrW7K7wqN', // this is the Stripe ID of the platform host account, which is providing the hosting service to other tenant Stripe accounts
     stripePublicKey: 'pk_test_5NQiVpv8GxwDJxKGilXmBK15' // This is the public key used needed by Checkout.js
   },
-  // Cloud Function API endpoints
+  // REST API endpoints
   api: {
+    purchaseCourseUrl: 'http://localhost:5000/api/purchase-course',
+
     stripeConnectionUrl: 'https://us-central1-onlinecoursehost-local-dev.cloudfunctions.net/apiStripeConnection/stripe-connection', // get the user credentials from Stripe and stores them in the DB
     customJwtUrl: 'https://us-central1-onlinecoursehost-local-dev.cloudfunctions.net/apiCreateCustomJwt/custom-jwt', // creates a custom authentication JWT for a given user. Used in the single-sign on solution for tenant domains
-    purchaseCourseUrl: 'https://us-central1-onlinecoursehost-local-dev.cloudfunctions.net/apiPurchaseCourse/purchase-course',
     videoAccessUrl: 'https://us-central1-onlinecoursehost-local-dev.cloudfunctions.net/apiVideoAccess/video-access', // load the video file names only for which the user has access, which allows the user to play the video
     sendEmailUrl: 'https://us-central1-onlinecoursehost-local-dev.cloudfunctions.net/apiSendEmail/send-email',
     stripeInitPricingPlansUrl: 'https://us-central1-onlinecoursehost-local-dev.cloudfunctions.net/apiStripeInitPricingPlans/init-pricing-plans',
