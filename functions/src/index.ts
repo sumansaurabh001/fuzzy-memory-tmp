@@ -15,5 +15,4 @@ export {apiStripeInitPricingPlans} from './api-init-pricing-plans';
 
 export {apiStripeUpdatePricingPlan} from './api-update-pricing-plan';
 
-export {apiSendEmail} from './api-send-email';
 

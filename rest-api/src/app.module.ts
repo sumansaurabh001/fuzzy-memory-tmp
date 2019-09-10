@@ -11,6 +11,7 @@ import {ActivatePlanController} from './controllers/activate-plan.controller';
 import {CancelPlanController} from './controllers/cancel-plan.controller';
 import {VideoAccessController} from './controllers/video-access.controller';
 import {GetUserMiddleware} from './controllers/get-user.middleware';
+import {SendEmailController} from './controllers/send-email.controller';
 
 @Module({
   imports: [],
@@ -20,7 +21,8 @@ import {GetUserMiddleware} from './controllers/get-user.middleware';
     CustomJwtController,
     ActivatePlanController,
     CancelPlanController,
-    VideoAccessController
+    VideoAccessController,
+    SendEmailController
   ],
   providers: [FirestoreService],
 })
@@ -38,7 +40,8 @@ export class AppModule implements NestModule {
       PurchaseCourseController,
       CustomJwtController,
       ActivatePlanController,
-      CancelPlanController
+      CancelPlanController,
+      SendEmailController
     );
 
     consumer.apply(JsonBodyMiddleware).forRoutes(
@@ -46,7 +49,8 @@ export class AppModule implements NestModule {
       CustomJwtController,
       ActivatePlanController,
       CancelPlanController,
-      VideoAccessController
+      VideoAccessController,
+      SendEmailController
     );
   }
 
