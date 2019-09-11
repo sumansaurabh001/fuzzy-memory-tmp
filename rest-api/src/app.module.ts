@@ -14,6 +14,7 @@ import {GetUserMiddleware} from './controllers/get-user.middleware';
 import {SendEmailController} from './controllers/send-email.controller';
 import {StripeConnectionController} from './controllers/stripe-connection.controller';
 import {InitPricingPlansController} from './controllers/init-pricing-plans.controller';
+import {UpdatePricingPlanController} from './controllers/update-pricing-plan.controller';
 
 @Module({
   imports: [],
@@ -26,7 +27,8 @@ import {InitPricingPlansController} from './controllers/init-pricing-plans.contr
     VideoAccessController,
     SendEmailController,
     StripeConnectionController,
-    InitPricingPlansController
+    InitPricingPlansController,
+    UpdatePricingPlanController
   ],
   providers: [FirestoreService],
 })
@@ -46,7 +48,8 @@ export class AppModule implements NestModule {
       ActivatePlanController,
       CancelPlanController,
       SendEmailController,
-      InitPricingPlansController
+      InitPricingPlansController,
+      UpdatePricingPlanController
     );
 
     consumer.apply(JsonBodyMiddleware).forRoutes(
@@ -57,7 +60,8 @@ export class AppModule implements NestModule {
       VideoAccessController,
       SendEmailController,
       StripeConnectionController,
-      InitPricingPlansController
+      InitPricingPlansController,
+      UpdatePricingPlanController
     );
   }
 

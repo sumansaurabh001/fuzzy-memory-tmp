@@ -28,10 +28,7 @@ export const environment = {
     videoAccessUrl: 'http://localhost:5000/api/video-access', // load the video file names only for which the user has access, which allows the user to play the video
     sendEmailUrl: 'http://localhost:5000/api/send-email',
     stripeConnectionUrl: 'http://localhost:5000/api/stripe-connection', // get the user credentials from Stripe and stores them in the DB
-
     stripeInitPricingPlansUrl: 'http://localhost:5000/api/init-pricing-plans',
-
-
-    stripeUpdatePricingPLanUrl: 'https://us-central1-onlinecoursehost-local-dev.cloudfunctions.net/apiStripeUpdatePricingPlan/update-pricing-plan'
+    stripeUpdatePricingPLanUrl: 'http://localhost:5000/api/update-pricing-plan'
   }
 };

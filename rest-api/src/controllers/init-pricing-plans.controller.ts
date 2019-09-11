@@ -14,7 +14,7 @@ export class InitPricingPlansController {
   }
 
 
-  @Post("/api/stripe-connection")
+  @Post("/api/init-pricing-plans")
   async apiStripeInitPricingPlans(@Req() req, @Res() res): Promise<any> {
 
     try {
