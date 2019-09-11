@@ -33,6 +33,7 @@
     "firebase-admin": "^8.5.0",
     "node-uuid": "^1.4.8",
     "reflect-metadata": "0.1.13",
+    "request-promise": "^4.2.4",
     "rimraf": "3.0.0",
     "rxjs": "6.5.2",
     "stripe": "^7.9.0"

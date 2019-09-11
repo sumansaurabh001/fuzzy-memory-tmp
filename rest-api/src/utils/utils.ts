@@ -48,3 +48,9 @@ export function convertSnapsToData(snaps) {
 export function isFutureTimestamp(timestamp: Timestamp) {
   return dayjs(timestamp.toMillis()).isAfter(dayjs());
 }
+
+
+export function apiError(res, errorDescription) {
+  console.log(errorDescription);
+  res.status(500).json({errorDescription});
+}

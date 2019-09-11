@@ -12,6 +12,7 @@ import {CancelPlanController} from './controllers/cancel-plan.controller';
 import {VideoAccessController} from './controllers/video-access.controller';
 import {GetUserMiddleware} from './controllers/get-user.middleware';
 import {SendEmailController} from './controllers/send-email.controller';
+import {StripeConnectionController} from './controllers/stripe-connection.controller';
 
 @Module({
   imports: [],
@@ -22,7 +23,8 @@ import {SendEmailController} from './controllers/send-email.controller';
     ActivatePlanController,
     CancelPlanController,
     VideoAccessController,
-    SendEmailController
+    SendEmailController,
+    StripeConnectionController
   ],
   providers: [FirestoreService],
 })
@@ -50,7 +52,8 @@ export class AppModule implements NestModule {
       ActivatePlanController,
       CancelPlanController,
       VideoAccessController,
-      SendEmailController
+      SendEmailController,
+      StripeConnectionController
     );
   }
 
