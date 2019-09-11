@@ -29,7 +29,9 @@ export const environment = {
     sendEmailUrl: 'http://localhost:5000/api/send-email',
     stripeConnectionUrl: 'http://localhost:5000/api/stripe-connection', // get the user credentials from Stripe and stores them in the DB
 
-    stripeInitPricingPlansUrl: 'https://us-central1-onlinecoursehost-local-dev.cloudfunctions.net/apiStripeInitPricingPlans/init-pricing-plans',
+    stripeInitPricingPlansUrl: 'http://localhost:5000/api/init-pricing-plans',
+
+
     stripeUpdatePricingPLanUrl: 'https://us-central1-onlinecoursehost-local-dev.cloudfunctions.net/apiStripeUpdatePricingPlan/update-pricing-plan'
   }
 };
