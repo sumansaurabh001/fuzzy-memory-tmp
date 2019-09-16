@@ -3,7 +3,9 @@
 
 
 ## Stripe webhooks
-export STRIPE_FULFILLMENT_ENDPOINT_SECRET="whsec_MefVmpQAopuJNeZ9KYWEfsvddCSI7Ohm"
+export STRIPE_FULFILLMENT_ENDPOINT_SECRET="whsec_As3dvh0E2TjpLfZJII5PjwPcbljrZeW5"
+
+export STRIPE_CANCEL_SUBSCRIPTION_ENDPOINT_SECRET="whsec_5xIRAgKXV40wPzNx4vfJu2nA21NYZBUV"
 
 ## platform live keys
 export STRIPE_LIVE_PUBLIC_KEY="pk_live_K6snbZIP2gEL5tDYStuqzEqR"

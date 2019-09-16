@@ -15,6 +15,7 @@ import {SendEmailController} from './controllers/send-email.controller';
 import {StripeConnectionController} from './controllers/stripe-connection.controller';
 import {InitPricingPlansController} from './controllers/init-pricing-plans.controller';
 import {UpdatePricingPlanController} from './controllers/update-pricing-plan.controller';
+import {StripeCancelSubscriptionWebhookController} from './controllers/stripe-cancel-subscription-webhook.controller';
 
 @Module({
   imports: [],
@@ -28,7 +29,8 @@ import {UpdatePricingPlanController} from './controllers/update-pricing-plan.con
     SendEmailController,
     StripeConnectionController,
     InitPricingPlansController,
-    UpdatePricingPlanController
+    UpdatePricingPlanController,
+    StripeCancelSubscriptionWebhookController
   ],
   providers: [FirestoreService],
 })
@@ -38,7 +40,10 @@ export class AppModule implements NestModule {
 
     consumer.apply(CorsMiddleware).forRoutes('*');
 
-    consumer.apply(RawBodyMiddleware).forRoutes(StripeFulfillmentwebhookController);
+    consumer.apply(RawBodyMiddleware).forRoutes(
+      StripeFulfillmentwebhookController,
+      StripeCancelSubscriptionWebhookController
+    );
 
     consumer.apply(GetUserMiddleware).forRoutes(VideoAccessController);
 

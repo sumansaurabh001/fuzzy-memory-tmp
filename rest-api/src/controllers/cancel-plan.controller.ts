@@ -50,16 +50,9 @@ export class CancelPlanController {
         },
         tenantConfig);
 
-      console.log("Cancelled Stripe subscription: " + result.id);
+      console.log("Requested cancellation of Stripe subscription: " + result.id);
 
       const planEndsAt = result.current_period_end * 1000;
-
-      // save cancellation date in database
-      const changes = {
-        planEndsAt: Timestamp.fromMillis(planEndsAt)
-      };
-
-      await this.firestore.db.doc(userPrivatePath).update(changes);
 
       console.log("Sending cancelation reason email to tenant mailbox: " + tenant.email);
 
