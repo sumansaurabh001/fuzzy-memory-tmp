@@ -130,6 +130,7 @@ import {AskSchoolDetailsDialogComponent} from './ask-school-details-dialog/ask-s
 import {UserLessonStatusEffects} from './store/user-lesson-status.effects';
 import {PublishCourseComponent} from './publish-course/publish-course.component';
 import { PublishCourseDialogComponent } from './publish-course-dialog/publish-course-dialog.component';
+import {TestUserInterceptor} from './services/test-user.interceptor';
 
 
 @NgModule({
@@ -280,7 +281,12 @@ import { PublishCourseDialogComponent } from './publish-course-dialog/publish-co
     {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,
-      multi:true
+      multi:true,
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: TestUserInterceptor,
+      multi:true,
     }
   ],
   entryComponents: [

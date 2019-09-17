@@ -64,9 +64,9 @@ export class StripeConnectionController {
 
       const authorizationCode = req.body.authorizationCode,
         tenantId = req.body.tenantId,
-        testMode = req.body.testMode || true; // TODO support test customers
+        testUser = req.body.testUser;
 
-      const clientSecret = getStripeSecretKey(testMode);
+      const clientSecret = getStripeSecretKey(testUser);
 
       console.log('Fetching user credentials from Stripe.');
       console.log(`authorizationCode=${authorizationCode}, clientSecret=${clientSecret}`);

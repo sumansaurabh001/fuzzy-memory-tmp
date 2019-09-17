@@ -17,10 +17,12 @@ export interface User {
   cardLast4Digits?:string;
   cardExpirationMonth?:string;
   cardExpirationYear?:string;
+  testUser?:boolean;
 }
 
 export const ANONYMOUS_USER: User = {
-  id: 'anonymous'
+  id: 'anonymous',
+  testUser: false
 };
 
 export function isAnonymousUser(user:User) {

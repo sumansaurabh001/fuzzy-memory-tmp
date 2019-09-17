@@ -21,7 +21,7 @@ export class UpdateCardController {
       tenantId = request.body.tenantId,
       userId = request.user.uid,
       stripeCustomerId = request.body.stripeCustomerId,
-      testMode = request.body.testMode || true; // TODO support users in test mode
+      testUser = request.body.testUser;
 
     const ongoingPurchaseSessionId = uuidv4();
 
@@ -35,7 +35,7 @@ export class UpdateCardController {
       client_reference_id: clientReferenceId
     };
 
-    const stripe = require('stripe')(getStripeSecretKey(testMode));
+    const stripe = require('stripe')(getStripeSecretKey(testUser));
 
     const tenant = await this.firestore.getDocData(`tenantSettings/${tenantId}`);
 
@@ -56,7 +56,7 @@ export class UpdateCardController {
 
     const stripeSession = {
       sessionId:session.id,
-      stripePublicKey: getStripePublicKey(testMode),
+      stripePublicKey: getStripePublicKey(testUser),
       stripeTenantUserId:tenant.stripeTenantUserId,
       ongoingPurchaseSessionId
     };

@@ -184,6 +184,11 @@ export const selectUser = createSelector(
   authState => authState.user
 );
 
+export const isUserProfileLoaded = createSelector(
+  userState,
+  authState => authState.userProfileLoaded
+);
+
 export const selectUserCoursesIds = createSelector(
   selectCoursesState,
   coursesState => coursesState.coursesPurchased

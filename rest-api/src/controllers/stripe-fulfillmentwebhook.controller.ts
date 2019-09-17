@@ -88,7 +88,7 @@ export class StripeFulfillmentwebhookController {
     }
 
     // save the card details later, not to block the purchase experience
-    if (purchaseSession.courseId || purchaseSession.plan) {
+    if (purchaseSession.plan) {
       setTimeout(async() => {
         await this.storeSubscriptionCardDetails(stripe, reqInfo, connectAccountId);
       }, 10000);

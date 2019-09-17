@@ -7,6 +7,7 @@ import {UserActions} from './action-types';
 export interface UserState {
   isLoggedIn:boolean;
   user: User;
+  userProfileLoaded:boolean;
   permissions?: UserPermissions;
 }
 
@@ -17,6 +18,7 @@ const DEFAULT_PERMISSIONS: UserPermissions = {
 export const initialUserState: UserState = {
   isLoggedIn: false,
   user:ANONYMOUS_USER,
+  userProfileLoaded: false,
   permissions: DEFAULT_PERMISSIONS
 };
 
@@ -44,7 +46,8 @@ export const userReducer = createReducer(
     return {
       isLoggedIn: false,
       user: ANONYMOUS_USER,
-      permissions:DEFAULT_PERMISSIONS
+      permissions:DEFAULT_PERMISSIONS,
+      userProfileLoaded:true
     };
   }),
 
@@ -53,8 +56,9 @@ export const userReducer = createReducer(
       ...state,
       user: {
         ...state.user,
-        ...action.user
-      }
+        ...action.user,
+      },
+      userProfileLoaded: true
     };
   }),
 

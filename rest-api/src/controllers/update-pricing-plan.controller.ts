@@ -23,7 +23,7 @@ export class UpdatePricingPlanController {
         newPlanDescription = req.body.changes.description,
         newPlanPrice = Math.round(req.body.changes.price),
         newPlanFrequency = req.body.changes.frequency,
-        testMode = req.body.testMode || true; // support test users
+        testUser = req.body.testUser;
 
       console.log("Updating pricing plan:", JSON.stringify(req.body));
 
@@ -34,7 +34,7 @@ export class UpdatePricingPlanController {
 
       const tenantConfig = MULTI_TENANT_MODE ? {stripe_account: tenantSettings.stripeTenantUserId} : {};
 
-      const stripe = require('stripe')(getStripeSecretKey(testMode));
+      const stripe = require('stripe')(getStripeSecretKey(testUser));
 
       const newPlanResponse = await stripe.plans.create({
           amount: newPlanPrice,

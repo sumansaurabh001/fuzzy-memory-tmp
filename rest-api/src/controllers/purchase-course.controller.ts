@@ -25,7 +25,7 @@ export class PurchaseCourseController {
         tenantId = request.body.tenantId,
         courseUrl = request.body.courseUrl,
         couponCode = request.body.couponCode,
-        testMode = request.body.testMode || true; // TODO support users in test mode
+        testUser = request.body.testUser;
 
       // get the course from the database
       const course = await this.firestore.getDocData(`schools/${tenantId}/courses/${courseId}`);
@@ -70,7 +70,7 @@ export class PurchaseCourseController {
         }
       };
 
-      const stripe = require('stripe')(getStripeSecretKey(testMode));
+      const stripe = require('stripe')(getStripeSecretKey(testUser));
 
       // create a checkout session to purchase the course
       const session = await stripe.checkout.sessions.create(sessionConfig, tenantConfig);
@@ -87,7 +87,7 @@ export class PurchaseCourseController {
 
       const stripeSession = {
         sessionId:session.id,
-        stripePublicKey: getStripePublicKey(testMode),
+        stripePublicKey: getStripePublicKey(testUser),
         stripeTenantUserId:tenant.stripeTenantUserId,
         ongoingPurchaseSessionId
       };

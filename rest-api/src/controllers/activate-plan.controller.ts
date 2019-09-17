@@ -14,7 +14,7 @@ interface ReqInfo {
   subscriptionUrl: string;
   tenant?: any;
   user?: any;
-  testMode?:boolean;
+  testUser?:boolean;
 }
 
 
@@ -36,7 +36,7 @@ export class ActivatePlanController {
         tenantId: request.body.tenantId,
         oneTimeCharge: request.body.oneTimeCharge,
         subscriptionUrl: request.body.subscriptionUrl,
-        testMode: request.body.testMode || true  // TODO support users in test mode
+        testUser: request.body.testUser
       };
 
       // get the tenant from the database
@@ -92,7 +92,7 @@ export class ActivatePlanController {
         }
       }
 
-      const stripe = require('stripe')(getStripeSecretKey(reqInfo.testMode));
+      const stripe = require('stripe')(getStripeSecretKey(reqInfo.testUser));
 
       // create a checkout session
       const session = await stripe.checkout.sessions.create(sessionConfig, tenantConfig);
@@ -110,7 +110,7 @@ export class ActivatePlanController {
 
       const stripeSession = {
         sessionId:session.id,
-        stripePublicKey: getStripePublicKey(reqInfo.testMode),
+        stripePublicKey: getStripePublicKey(reqInfo.testUser),
         stripeTenantUserId:reqInfo.tenant.stripeTenantUserId,
         ongoingPurchaseSessionId
       };

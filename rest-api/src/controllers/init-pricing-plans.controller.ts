@@ -25,14 +25,14 @@ export class InitPricingPlansController {
         monthlyPlanPrice = req.body.monthlyPlanPrice,
         yearlyPlanPrice = req.body.yearlyPlanPrice,
         lifetimeAccessPrice = req.body.lifetimeAccessPrice,
-        testMode = req.body.testMode || true; // TODO support test users
+        testUser = req.body.testUser;
 
       // get the tenant from the database
       const tenant = await this.firestore.getDocData(`tenantSettings/${tenantId}`);
 
       const tenantConfig = MULTI_TENANT_MODE ? {stripe_account: tenant.stripeTenantUserId} : {};
 
-      const stripe = require('stripe')(getStripeSecretKey(testMode));
+      const stripe = require('stripe')(getStripeSecretKey(testUser));
 
       const monthlyResponse = await stripe.plans.create({
           amount: monthlyPlanPrice,

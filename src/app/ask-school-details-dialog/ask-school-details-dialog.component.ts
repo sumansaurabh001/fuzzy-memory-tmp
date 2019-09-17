@@ -19,7 +19,7 @@ export class AskSchoolDetailsDialogComponent implements OnInit {
     private tenantDB: TenantsDBService) {
 
     this.form = fb.group({
-      subDomain: ['', [Validators.required, Validators.minLength(10)], [existingCustomDomainValidator(this.tenantDB)]],
+      subDomain: ['', [Validators.required, Validators.minLength(3)], [existingCustomDomainValidator(this.tenantDB)]],
       schoolName: ['', [Validators.required, Validators.minLength(10)]]
     });
 

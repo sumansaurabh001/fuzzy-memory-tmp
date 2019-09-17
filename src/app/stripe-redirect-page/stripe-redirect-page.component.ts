@@ -6,7 +6,10 @@ import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dial
 import {LoadingDialogComponent} from '../loading-dialog/loading-dialog.component';
 import {updateStripeStatus} from '../store/platform.actions';
 import {AppState} from '../store';
-import {Store} from '@ngrx/store';
+import {select, Store} from '@ngrx/store';
+import {isUserProfileLoaded, selectUser} from '../store/selectors';
+import {isAnonymousUser} from '../models/user.model';
+import {concatMap, filter, find, first, tap} from 'rxjs/operators';
 
 @Component({
   selector: 'stripe-redirect-page',
@@ -71,7 +74,12 @@ export class StripeRedirectPageComponent implements OnInit {
 
     const authorizationCode = this.route.snapshot.queryParamMap.get('code');
 
-    this.stripeConnectionService.initStripeConnection(authorizationCode)
+    this.store
+      .pipe(
+        select(isUserProfileLoaded),
+        first(isUserProfileLoaded => isUserProfileLoaded),
+        concatMap(() => this.stripeConnectionService.initStripeConnection(authorizationCode))
+      )
       .subscribe(
         () => {
           this.messages.info('Stripe connection successful, you are ready to start taking payments.');

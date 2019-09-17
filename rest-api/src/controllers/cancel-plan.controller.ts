@@ -23,7 +23,7 @@ export class CancelPlanController {
         customerEmail = req.body.user.email,
         customerName = req.body.user.displayName,
         reason = req.body.reason,
-        testMode = req.body.testMode || true; // TODO support users in test mode
+        testUser = req.body.testUser;
 
       const tenantSettingsPath = `tenantSettings/${tenantId}`,
         tenantSettings = await this.firestore.getDocData(tenantSettingsPath),
@@ -40,7 +40,7 @@ export class CancelPlanController {
 
       console.log("cancelling plan of user:", JSON.stringify(userPrivate));
 
-      const stripe = require('stripe')(getStripeSecretKey(testMode));
+      const stripe = require('stripe')(getStripeSecretKey(testUser));
 
       // cancel the Stripe pricing plan
       const result = await stripe.subscriptions.update(
