@@ -1,60 +1,102 @@
 <div class="desktop-container">
 
-  <mat-card class="card-section">
+  <ng-container *ngIf="(user$ | async) as user">
 
-    <mat-toolbar color="primary">My Subscription</mat-toolbar>
+    <mat-card class="card-section" *ngIf="user?.cardLast4Digits">
 
-    <mat-card-content>
+      <mat-toolbar color="primary">My Payment Method</mat-toolbar>
 
-      <div class="subscription-fields" *ngIf="(user$ | async) as user">
+      <mat-card-content>
 
-        <div>
-          <mat-form-field appearance="outline">
-            <mat-label>Your subscription</mat-label>
-            <input matInput [value]="subscriptionDescr(user)" disabled>
-            <mat-icon matSuffix>{{isSubscriptionActive(user)? 'check_circle_outline' : 'close'}}</mat-icon>
-          </mat-form-field>
+        <div class="card-fields">
+
+          <div>
+            <mat-form-field appearance="outline">
+              <mat-label> Card last 4 digits</mat-label>
+              <input matInput [value]="user.cardLast4Digits" disabled>
+              <mat-icon matSuffix>credit_card</mat-icon>
+            </mat-form-field>
+          </div>
+
+          <div>
+            <mat-form-field appearance="outline">
+              <mat-label> Card expiration date</mat-label>
+              <input matInput [value]="cardExpiration(user)" disabled>
+              <mat-icon matSuffix>date_range</mat-icon>
+            </mat-form-field>
+          </div>
+
         </div>
 
-        <div *ngIf="isSubscriptionActive(user) && !isSubscriptionCancelled(user)">
-          <mat-form-field appearance="outline">
-            <mat-label>{{ isLifetimeSubscriber(user) ? 'End Date' : 'Activation Date' }}</mat-label>
-            <ng-container *ngIf="!isLifetimeSubscriber(user); else neverExpires">
-              <input matInput [value]="activationDate(user) | date:'longDate'" disabled>
-            </ng-container>
-            <ng-template #neverExpires>
-              <input matInput value="Never expires" disabled>
-            </ng-template>
-            <mat-icon matSuffix>date_range</mat-icon>
-          </mat-form-field>
-        </div>
+      </mat-card-content>
 
-        <div *ngIf="user.planEndsAt">
-          <mat-form-field appearance="outline">
-            <mat-label> Plan cancelled, valid until:</mat-label>
-            <input matInput [value]="validUntil(user) | date:'longDate'" disabled>
-            <mat-icon matSuffix>date_range</mat-icon>
-          </mat-form-field>
-        </div>
+      <div class="card-actions">
+
+        <button mat-raised-button color="primary">
+          Update Card Details
+        </button>
 
       </div>
 
-    </mat-card-content>
+    </mat-card>
 
-    <div class="card-actions" *ngIf="(user$ | async) as user">
+    <mat-card class="card-section">
 
-      <button mat-raised-button color="accent" routerLink="/subscription" [disabled]="isLifetimeSubscriber(user)  || (isSubscriptionActive(user) && !isSubscriptionCancelled(user))">
-        New Subscription
-      </button>
+      <mat-toolbar color="primary">My Subscription</mat-toolbar>
 
-      <button mat-stroked-button color="warn" (click)="cancelPlan(user)" [disabled]="isLifetimeSubscriber(user)  || (!isSubscriptionActive(user) || isSubscriptionCancelled(user))">
-        Cancel Subscription
-      </button>
+      <mat-card-content>
 
-    </div>
+        <div class="card-fields">
+
+          <div>
+            <mat-form-field appearance="outline">
+              <mat-label>Your subscription</mat-label>
+              <input matInput [value]="subscriptionDescr(user)" disabled>
+              <mat-icon matSuffix>{{isSubscriptionActive(user)? 'check_circle_outline' : 'close'}}</mat-icon>
+            </mat-form-field>
+          </div>
+
+          <div *ngIf="isSubscriptionActive(user) && !isSubscriptionCancelled(user)">
+            <mat-form-field appearance="outline">
+              <mat-label>{{ isLifetimeSubscriber(user) ? 'End Date' : 'Activation Date' }}</mat-label>
+              <ng-container *ngIf="!isLifetimeSubscriber(user); else neverExpires">
+                <input matInput [value]="activationDate(user) | date:'longDate'" disabled>
+              </ng-container>
+              <ng-template #neverExpires>
+                <input matInput value="Never expires" disabled>
+              </ng-template>
+              <mat-icon matSuffix>date_range</mat-icon>
+            </mat-form-field>
+          </div>
+
+          <div *ngIf="user.planEndsAt">
+            <mat-form-field appearance="outline">
+              <mat-label> Plan cancelled, valid until:</mat-label>
+              <input matInput [value]="validUntil(user) | date:'longDate'" disabled>
+              <mat-icon matSuffix>date_range</mat-icon>
+            </mat-form-field>
+          </div>
+
+        </div>
+
+      </mat-card-content>
+
+      <div class="card-actions">
+
+        <button mat-raised-button color="accent" routerLink="/subscription" [disabled]="isLifetimeSubscriber(user)  || (isSubscriptionActive(user) && !isSubscriptionCancelled(user))">
+          New Subscription
+        </button>
+
+        <button mat-stroked-button color="warn" (click)="cancelPlan(user)" [disabled]="isLifetimeSubscriber(user)  || (!isSubscriptionActive(user) || isSubscriptionCancelled(user))">
+          Cancel Subscription
+        </button>
+
+      </div>
 
 
-  </mat-card>
+    </mat-card>
+
+  </ng-container>
 
 </div>
 

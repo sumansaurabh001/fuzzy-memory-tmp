@@ -14,6 +14,9 @@ export interface User {
   planEndsAt?:firebase.firestore.Timestamp;
   stripeCustomerId?:string;
   stripeSubscriptionId?:string;
+  cardLast4Digits?:string;
+  cardExpirationMonth?:string;
+  cardExpirationYear?:string;
 }
 
 export const ANONYMOUS_USER: User = {

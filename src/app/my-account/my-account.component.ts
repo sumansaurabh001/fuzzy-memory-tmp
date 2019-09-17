@@ -85,4 +85,8 @@ export class MyAccountComponent implements OnInit {
 
   }
 
+  cardExpiration(user: User) {
+    return user && user.cardLast4Digits ? user.cardExpirationMonth + '/' + user.cardExpirationYear : "";
+  }
+
 }

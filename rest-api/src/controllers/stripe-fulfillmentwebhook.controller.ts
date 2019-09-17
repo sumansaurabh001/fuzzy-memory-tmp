@@ -3,6 +3,7 @@ import { FirestoreService } from '../services/firestore.service';
 import {getStripeSecretKey, readMandatoryEnvVar} from '../utils/utils';
 import {FieldValue, Timestamp} from '@google-cloud/firestore';
 
+const MULTI_TENANT_MODE = readMandatoryEnvVar("MULTI_TENANT_MODE");
 
 interface ReqInfo {
   ongoingPurchaseSessionId:string;
@@ -40,7 +41,7 @@ export class StripeFulfillmentwebhookController {
         const session = event.data.object;
 
         // Fulfill the purchase...
-        await this.handleCheckoutSession(session);
+        await this.handleCheckoutSession(stripe, session, body.account);
 
       }
     }
@@ -54,7 +55,7 @@ export class StripeFulfillmentwebhookController {
 
   }
 
-  async  handleCheckoutSession(session) {
+  async  handleCheckoutSession(stripe, session, connectAccountId:string) {
 
     // simulate webhook delayed call
     // await new Promise(resolve => setTimeout(() => resolve(), 10000));
@@ -86,7 +87,39 @@ export class StripeFulfillmentwebhookController {
       await this.fulfillPlanSubscription(reqInfo, purchaseSession.plan);
     }
 
+    // save the card details later, not to block the purchase experience
+    setTimeout(async() => {
+
+      await this.storeCardDetails(stripe, reqInfo, connectAccountId);
+
+    }, 10000);
+
+
     await this.firestore.db.doc(purchaseSessionPath).update({status: "completed"});
+
+  }
+
+  async storeCardDetails(stripe, reqInfo:ReqInfo, connectAccountId:string) {
+
+    console.log("Storing card details ...");
+
+    const tenantConfig = MULTI_TENANT_MODE ? {stripe_account: connectAccountId} : {};
+
+    const subscription = await stripe.subscriptions.retrieve(reqInfo.stripeSubscriptionId, tenantConfig);
+
+    console.log("Retrieved subscription ", JSON.stringify(subscription));
+
+    const method = await stripe.paymentMethods.retrieve(subscription.default_payment_method, tenantConfig);
+
+    console.log("Retrieved card ", JSON.stringify(method));
+
+    const usersPath = `schools/${reqInfo.tenantId}/users/${reqInfo.userId}`;
+
+    await this.firestore.db.doc(usersPath).update({
+      cardExpirationMonth: method.card.exp_month,
+      cardExpirationYear: method.card.exp_year,
+      cardLast4Digits: method.card.last4
+    });
 
   }
 

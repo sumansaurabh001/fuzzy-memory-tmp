@@ -3,13 +3,18 @@
 @import "../vars";
 @import "../mixins";
 
-.subscription-fields {
+.card-fields {
   font-size: 16px;
 
   input:disabled, mat-label {
     color: $dark-text;
   }
 
+}
+
+mat-toolbar {
+  border-top-right-radius: 4px;
+  border-top-left-radius: 4px;
 }
 
 
