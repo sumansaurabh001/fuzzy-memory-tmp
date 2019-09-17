@@ -10,8 +10,9 @@ const APPLICATION_FEE_PERCENT = readMandatoryEnvVar("APPLICATION_FEE_PERCENT");
 @Controller()
 export class PurchaseCourseController {
 
+  constructor(private readonly firestore: FirestoreService) {
 
-  constructor(private readonly firestore: FirestoreService) {}
+  }
 
 
   @Post('/api/purchase-course')

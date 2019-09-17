@@ -27,8 +27,13 @@ export class PurchasesService {
   }
 
   listenForPurchaseUpdates(ongoingPurchaseSessionId: string): Observable<PurchaseSession> {
+
+    const purchaseSessionUrl = `schools/${this.tenant.id}/purchaseSessions/${ongoingPurchaseSessionId}`;
+
+    console.log("Listening for changes on session ", purchaseSessionUrl);
+
     return readDocumentWithId<PurchaseSession>(
-      this.afs.doc(`schools/${this.tenant.id}/purchaseSessions/${ongoingPurchaseSessionId}`)
+      this.afs.doc(purchaseSessionUrl)
     );
   }
 

@@ -88,41 +88,19 @@ export class StripeFulfillmentwebhookController {
     }
 
     // save the card details later, not to block the purchase experience
-    setTimeout(async() => {
-
-      await this.storeCardDetails(stripe, reqInfo, connectAccountId);
-
-    }, 10000);
+    if (purchaseSession.courseId || purchaseSession.plan) {
+      setTimeout(async() => {
+        await this.storeSubscriptionCardDetails(stripe, reqInfo, connectAccountId);
+      }, 10000);
+    }
+    else if (purchaseSession.type == 'cardUpdate') {
+      await this.handleCardUpdate(stripe, reqInfo, session, purchaseSession, connectAccountId);
+    }
 
 
     await this.firestore.db.doc(purchaseSessionPath).update({status: "completed"});
 
   }
-
-  async storeCardDetails(stripe, reqInfo:ReqInfo, connectAccountId:string) {
-
-    console.log("Storing card details ...");
-
-    const tenantConfig = MULTI_TENANT_MODE ? {stripe_account: connectAccountId} : {};
-
-    const subscription = await stripe.subscriptions.retrieve(reqInfo.stripeSubscriptionId, tenantConfig);
-
-    console.log("Retrieved subscription ", JSON.stringify(subscription));
-
-    const method = await stripe.paymentMethods.retrieve(subscription.default_payment_method, tenantConfig);
-
-    console.log("Retrieved card ", JSON.stringify(method));
-
-    const usersPath = `schools/${reqInfo.tenantId}/users/${reqInfo.userId}`;
-
-    await this.firestore.db.doc(usersPath).update({
-      cardExpirationMonth: method.card.exp_month,
-      cardExpirationYear: method.card.exp_year,
-      cardLast4Digits: method.card.last4
-    });
-
-  }
-
 
   async  fulfillPlanSubscription(reqInfo:ReqInfo, plan:string) {
 
@@ -182,5 +160,74 @@ export class StripeFulfillmentwebhookController {
 
   }
 
+  async handleCardUpdate(stripeApi, reqInfo: ReqInfo, session, purchaseSession, connectAccountId) {
+
+    const setupIntentId = session.setup_intent;
+
+    console.log(`Updating card with setup intent id ${setupIntentId}, customer ${purchaseSession.stripeCustomerId}`);
+
+    const tenantConfig = this.createStripeTenantConfig(connectAccountId);
+
+    const setupIntent = await stripeApi.setupIntents.retrieve(setupIntentId, tenantConfig);
+
+    console.log("Retrieved setup intent payment method ", setupIntent.payment_method);
+
+    const cardDetails = await stripeApi.paymentMethods.attach(
+      setupIntent.payment_method,
+      {
+        customer: purchaseSession.stripeCustomerId
+      },
+      tenantConfig);
+
+    console.log("Attached payment to customer successfully.");
+
+    await stripeApi.customers.update(purchaseSession.stripeCustomerId, {
+      invoice_settings: {
+        default_payment_method: setupIntent.payment_method
+      }
+    },
+      tenantConfig);
+
+    console.log("Successfully set new card as default payment source.");
+
+    await this.saveCardDetails(reqInfo, cardDetails);
+
+    console.log("Saved new card details in database");
+
+  }
+
+  async storeSubscriptionCardDetails(stripe, reqInfo:ReqInfo, connectAccountId:string) {
+
+    console.log("Storing card details ...");
+
+    const tenantConfig = this.createStripeTenantConfig(connectAccountId);
+
+    const subscription = await stripe.subscriptions.retrieve(reqInfo.stripeSubscriptionId, tenantConfig);
+
+    console.log("Retrieved subscription ", JSON.stringify(subscription));
+
+    const method = await stripe.paymentMethods.retrieve(subscription.default_payment_method, tenantConfig);
+
+    console.log("Retrieved card ", JSON.stringify(method));
+
+    await this.saveCardDetails(reqInfo, method);
+
+  }
+
+  async saveCardDetails(reqInfo: ReqInfo, method:any) {
+
+    const usersPath = `schools/${reqInfo.tenantId}/users/${reqInfo.userId}`;
+
+    await this.firestore.db.doc(usersPath).update({
+      cardExpirationMonth: method.card.exp_month,
+      cardExpirationYear: method.card.exp_year,
+      cardLast4Digits: method.card.last4
+    });
+
+  }
+
+  createStripeTenantConfig(connectAccountId:string) {
+    return  MULTI_TENANT_MODE ? {stripe_account: connectAccountId} : {};
+  }
 
 }

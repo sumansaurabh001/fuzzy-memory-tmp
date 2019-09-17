@@ -43,6 +43,16 @@ export class PaymentsService {
       });
   }
 
+  createUpdateCardSession(userSettingsUrl:string, stripeCustomerId): Observable<StripeSession> {
+    return this.http.post<StripeSession>(
+      environment.api.stripeUpdateCardUrl,
+      {
+        userSettingsUrl,
+        stripeCustomerId,
+        tenantId: this.tenant.id
+      });
+  }
+
   cancelPlan(user: User, reason: string): Observable<any> {
     return this.http.post(
       environment.api.stripeCancelPlanUrl,

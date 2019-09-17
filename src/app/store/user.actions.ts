@@ -35,3 +35,9 @@ export const planCancelled = createAction(
   '[My Account Screen] Plan Cancelled',
   props<{planEndsAt:firebase.firestore.Timestamp}>()
 );
+
+
+export const cardUpdated = createAction(
+  "[My Account Screen] Credit Card Updated",
+  props<{user:Partial<User>}>()
+);

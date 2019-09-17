@@ -5,13 +5,21 @@ import {AppState} from '../store';
 import {select, Store} from '@ngrx/store';
 import {selectUser} from '../store/selectors';
 import {planNames} from '../common/text';
-import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import {MatDialog, MatDialogConfig} from '@angular/material/dialog';
 import {CancelSubscriptionDialogComponent} from '../cancel-subscription-dialog/cancel-subscription-dialog.component';
 
 import * as dayjs from 'dayjs';
 import {MessagesService} from '../services/messages.service';
 import {setSchoolNameAsPageTitle} from '../common/seo-utils';
 import {Title} from '@angular/platform-browser';
+import {PaymentsService} from '../services/payments.service';
+import {LoadingService} from '../services/loading.service';
+import {ActivatedRoute} from '@angular/router';
+import {coursePurchased} from '../store/course.actions';
+import {PurchasesService} from '../services/purchases.service';
+import {cardUpdated} from '../store/user.actions';
+
+declare const Stripe;
 
 
 @Component({
@@ -21,14 +29,18 @@ import {Title} from '@angular/platform-browser';
 })
 export class MyAccountComponent implements OnInit {
 
-
   user$: Observable<User>;
 
   constructor(
     private store: Store<AppState>,
     private dialog: MatDialog,
     private messages: MessagesService,
-    private title: Title) {
+    private title: Title,
+    private payments: PaymentsService,
+    private loading: LoadingService,
+    private route: ActivatedRoute,
+    private purchases: PurchasesService) {
+
   }
 
   ngOnInit() {
@@ -36,6 +48,24 @@ export class MyAccountComponent implements OnInit {
     this.user$ = this.store.pipe(select(selectUser));
 
     setSchoolNameAsPageTitle(this.store, this.title);
+
+    this.route.queryParamMap.subscribe(params => {
+
+      const purchaseResult = params.get('cardUpdateResult');
+
+      if (purchaseResult == 'success') {
+
+        const ongoingPurchaseSessionId = params.get('ongoingPurchaseSessionId');
+
+        window.history.replaceState(null, null, window.location.pathname);
+
+        this.processCardUpdateCompletion(ongoingPurchaseSessionId);
+
+      } else if (purchaseResult == 'failed') {
+        this.messages.error('Credit card update failed, please try again.');
+      }
+
+    });
 
   }
 
@@ -46,7 +76,6 @@ export class MyAccountComponent implements OnInit {
   isSubscriptionCancelled(user: User) {
     return user && user.planEndsAt;
   }
-
 
 
   subscriptionDescr(user: User) {
@@ -86,7 +115,43 @@ export class MyAccountComponent implements OnInit {
   }
 
   cardExpiration(user: User) {
-    return user && user.cardLast4Digits ? user.cardExpirationMonth + '/' + user.cardExpirationYear : "";
+    return user && user.cardLast4Digits ? user.cardExpirationMonth + '/' + user.cardExpirationYear : '';
+  }
+
+  updateCard(user:User) {
+
+    this.messages.info('Preparing to update card ...');
+
+    const userSettingsUrl = `${window.location.protocol}//${window.location.host}/user-settings/my-account`;
+
+    const updateCardSession$ = this.payments.createUpdateCardSession(userSettingsUrl, user.stripeCustomerId);
+
+    this.loading.showLoaderUntilCompleted(updateCardSession$)
+      .subscribe(session => {
+
+        const stripe = Stripe(session.stripePublicKey, {stripeAccount: session.stripeTenantUserId});
+
+        stripe.redirectToCheckout({
+          sessionId: session.sessionId,
+        });
+
+      });
+
+  }
+
+  processCardUpdateCompletion(ongoingPurchaseSessionId:string) {
+
+    console.log("Waiting for card update to complete ongoingPurchaseSessionId = ", ongoingPurchaseSessionId);
+
+    this.purchases.waitForPurchaseCompletion(
+      ongoingPurchaseSessionId,
+      'Card successfully updated, please enjoy the courses!')
+      .subscribe(purchaseSession => {
+
+        this.store.dispatch(cardUpdated({user: {}}));
+
+      });
+
   }
 
 }
