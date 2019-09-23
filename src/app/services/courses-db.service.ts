@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {AngularFirestore} from '@angular/fire/firestore';
+import {AngularFirestore, QueryFn} from '@angular/fire/firestore';
 import {Observable, from} from 'rxjs';
 import {
   findLastBySeqNo, findUniqueMatchWithId, readCollectionWithIds, readDocumentValue,
@@ -18,7 +18,6 @@ export class CoursesDBService {
 
   constructor(private afs: AngularFirestore,
               private tenant: TenantService) {
-
 
 
   }
@@ -41,8 +40,15 @@ export class CoursesDBService {
     return readDocumentWithId(this.afs.doc(this.coursesPath + '/' + courseId));
   }
 
-  findAllCourses(): Observable<Course[]> {
-    return readCollectionWithIds<Course[]>(this.afs.collection(this.coursesPath, ref => ref.orderBy('seqNo'))).pipe(first());
+  findAllCourses(includeDraftCourses: boolean): Observable<Course[]> {
+    const queryFn: QueryFn = ref => {
+      let query = ref.orderBy('seqNo');
+      if (!includeDraftCourses) {
+        query = query.where('status', '==','published')
+      }
+      return query;
+    };
+    return readCollectionWithIds<Course[]>(this.afs.collection(this.coursesPath, queryFn)).pipe(first());
   }
 
   createNewCourse(course: Course): Observable<void> {
@@ -63,18 +69,18 @@ export class CoursesDBService {
 
   updateCourses(changes: Update<Course>[]) {
 
-      const batch = this.afs.firestore.batch();
+    const batch = this.afs.firestore.batch();
 
-      changes.forEach(change => {
-        const courseRef = this.afs.doc(`schools/${this.tenant.id}/courses/${change.id}`).ref;
-        batch.update(courseRef, change.changes);
-      });
+    changes.forEach(change => {
+      const courseRef = this.afs.doc(`schools/${this.tenant.id}/courses/${change.id}`).ref;
+      batch.update(courseRef, change.changes);
+    });
 
-      return from(batch.commit());
+    return from(batch.commit());
 
   }
 
-  updateCourseSections(courseId:string, changes: Update<CourseSection>[]) {
+  updateCourseSections(courseId: string, changes: Update<CourseSection>[]) {
 
     const batch = this.afs.firestore.batch();
 
