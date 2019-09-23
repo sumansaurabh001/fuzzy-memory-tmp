@@ -131,6 +131,8 @@ import {UserLessonStatusEffects} from './store/user-lesson-status.effects';
 import {PublishCourseComponent} from './publish-course/publish-course.component';
 import { PublishCourseDialogComponent } from './publish-course-dialog/publish-course-dialog.component';
 import {TestUserInterceptor} from './services/test-user.interceptor';
+import {MatBadgeModule} from '@angular/material';
+import { CourseStatusComponent } from './course-status/course-status.component';
 
 
 @NgModule({
@@ -194,7 +196,8 @@ import {TestUserInterceptor} from './services/test-user.interceptor';
     ContactPageComponent,
     AskSchoolDetailsDialogComponent,
     PublishCourseComponent,
-    PublishCourseDialogComponent
+    PublishCourseDialogComponent,
+    CourseStatusComponent
   ],
   imports: [
     BrowserModule,
@@ -228,6 +231,7 @@ import {TestUserInterceptor} from './services/test-user.interceptor';
     FormsModule,
     ReactiveFormsModule,
     MatDialogModule,
+    MatBadgeModule,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFirestoreModule,
     AngularFireAuthModule,

@@ -17,6 +17,7 @@
 
   .course-title {
     display: flex;
+    flex-direction: column;
     margin-left: 30px;
     margin-top: 10px;
     font-size: 24px;
@@ -35,4 +36,8 @@
 
 .course-image {
   cursor:pointer;
+}
+
+.course-status {
+  margin-top: 5px;
 }

@@ -7,7 +7,8 @@
          [src]="imgSrc(course)">
 
     <div class="course-title" (click)="editCourse()">
-      <span class="edit-title">{{course.title}}</span>
+      <div class="edit-title">{{course.title}}</div>
+      <course-status class="course-status" [course]="course"></course-status>
     </div>
 
   </div>

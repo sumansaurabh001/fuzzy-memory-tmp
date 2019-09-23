@@ -1,0 +1,16 @@
+.course-status {
+  font-size: 12px;
+  padding: 3px 6px;
+  border-radius: 8px;
+
+  &.draft {
+    background-color: rgba(0, 0, 0, 0.12);
+    color: rgba(0, 0, 0, 0.26);
+  }
+
+  &.live {
+    background-color: #521a3e;
+    color: white;
+  }
+
+}
