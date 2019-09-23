@@ -158,13 +158,23 @@ export class CourseEffects {
       })
     ));
 
-
   publishCourse$ = createEffect(() => this.actions$
     .pipe(
       ofType(CourseActions.coursePublished),
       concatMap(action => this.coursesDB.saveCourse(action.courseId, {status: 'published', url: action.url})),
       catchError(err => {
         this.messages.error('Error publishing course.');
+        return throwError(err);
+      })
+    )
+  );
+
+  unpublishCourse$ = createEffect(() => this.actions$
+    .pipe(
+      ofType(CourseActions.courseUnpublished),
+      concatMap(action => this.coursesDB.saveCourse(action.courseId, {status: 'draft'})),
+      catchError(err => {
+        this.messages.error('Error unpublishing course.');
         return throwError(err);
       })
     )

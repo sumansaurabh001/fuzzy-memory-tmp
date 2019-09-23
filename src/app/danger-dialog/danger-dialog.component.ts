@@ -13,15 +13,19 @@ import {MessagesService} from '../services/messages.service';
 export class DangerDialogComponent  {
 
   title = '';
+  warningMessage:string;
   confirmationCode = 'DELETE';
+  buttonText:string;
 
   constructor(
     private dialogRef: MatDialogRef<DangerDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) {title, confirmationCode},
+    @Inject(MAT_DIALOG_DATA) {title, confirmationCode, warningMessage, buttonText},
     private messages: MessagesService) {
 
     this.title = title;
+    this.warningMessage = warningMessage ? warningMessage : "This operation cannot be reversed.";
     this.confirmationCode = confirmationCode;
+    this.buttonText = buttonText ? buttonText : "CONFIRM"
 
   }
 
@@ -32,7 +36,7 @@ export class DangerDialogComponent  {
 
   confirm(userCode) {
     if (userCode == this.confirmationCode) {
-      this.dialogRef.close(true);
+      this.dialogRef.close({confirm:true});
     }
     else {
       this.messages.error("Invalid confirmation code.");

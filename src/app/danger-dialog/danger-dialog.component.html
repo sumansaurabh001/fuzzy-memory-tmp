@@ -5,10 +5,12 @@
   <messages style="dialog"></messages>
 
   <div class="warning">
-    <mat-icon color="warn">warning</mat-icon><span>This operation cannot be reversed. Type <b>{{confirmationCode}}</b> in the box below to confirm:</span>
+    <mat-icon color="warn">warning</mat-icon><span>{{warningMessage}}</span>
   </div>
 
-  <mat-form-field color="warn">
+  <div class="type-code">Type <b>{{confirmationCode}}</b> in the box below to confirm:</div>
+
+  <mat-form-field color="warn" appearance="outline" class="confirmation-code">
     <input matInput
            placeholder="Type confirmation code"
            #input>
@@ -23,9 +25,8 @@
     Cancel
   </button>
 
-  <button class="mat-raised-button mat-warn"
-          (click)="confirm(input.value)">
-    CONFIRM
+  <button class="mat-raised-button mat-warn" (click)="confirm(input.value)" [disabled]="input.value != confirmationCode">
+    {{buttonText}}
   </button>
 
 </mat-dialog-actions>

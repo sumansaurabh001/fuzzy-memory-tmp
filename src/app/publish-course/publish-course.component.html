@@ -51,7 +51,9 @@
       Publish Course Now
     </button>
 
-    <button color="warn" class="unpublish" mat-raised-button [disabled]="isCourseDraft(data)">
+    <button color="warn" class="unpublish" mat-raised-button
+            [disabled]="isCourseDraft(data)"
+            (click)="unpublishCourse(data.course)">
       Unpublish Course
     </button>
 

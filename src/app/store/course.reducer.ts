@@ -101,7 +101,16 @@ export const coursesReducer = createReducer(
        status: 'published',
        url: action.url
       }
-    }, state))
+    }, state)),
+
+  on(CourseActions.courseUnpublished, (state, action) =>
+    adapter.updateOne({
+      id: action.courseId,
+      changes: {
+        status: "draft"
+      }
+    }, state)
+  )
 
 
 );

@@ -14,9 +14,13 @@ import {Lesson} from '../models/lesson.model';
 import {MatDialog, MatDialogConfig} from '@angular/material';
 import {PublishCourseDialogComponent} from '../publish-course-dialog/publish-course-dialog.component';
 import {TenantInfo} from '../models/tenant.model';
-import {filter, tap} from 'rxjs/operators';
+import {concatMap, filter, tap} from 'rxjs/operators';
 import {MessagesService} from '../services/messages.service';
 import {Router} from '@angular/router';
+import {ConfirmationDialogComponent} from '../confirmation-dialog/confirmation-dialog.component';
+import {deleteLesson} from '../store/lesson.actions';
+import {DangerDialogComponent} from '../danger-dialog/danger-dialog.component';
+import {courseUnpublished} from '../store/course.actions';
 
 
 const selectPublishCourseData = createSelector(
@@ -116,15 +120,42 @@ export class PublishCourseComponent implements OnInit {
         tap(() => this.messages.info("Congratulations, your course is now published.") )
       )
       .subscribe(newUrl => {
-
         this.router.navigateByUrl(`/courses/${newUrl}/edit`);
-
       });
-
 
   }
 
   isCourseDraft(data: PublishCoursePageData) {
     return data.course && data.course.status == 'draft';
   }
+
+  unpublishCourse(course: Course) {
+
+    const config = new MatDialogConfig();
+
+    config.autoFocus = true;
+
+    config.data = {
+      title: "Unpublish Course",
+      warningMessage: "All links to the course will be broken (including coupons).",
+      confirmationCode: course.url,
+      buttonText: "UNPUBLISH"
+    };
+
+    const dialogRef = this.dialog.open(DangerDialogComponent, config);
+
+    dialogRef.afterClosed()
+      .pipe(
+        filter(result => result.confirm),
+        tap(() => {
+
+          this.store.dispatch(courseUnpublished({courseId: course.id}));
+
+          this.messages.info("The course is now unpublished.");
+
+        })
+      )
+      .subscribe();
+  }
+
 }

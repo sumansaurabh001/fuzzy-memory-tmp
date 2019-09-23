@@ -61,5 +61,9 @@ export const coursePublished = createAction(
   props<{courseId:string, url:string}>()
 );
 
+export const courseUnpublished = createAction(
+  "[Unpublish Course Dialog] Unpublish Course",
+  props<{courseId:string}>()
+);
 
 
