@@ -45,7 +45,15 @@
 
     </div>
 
-    <button color="accent" mat-raised-button class="publish" [disabled]="!isCoursePublishable(data)">Publish Course Now</button>
+    <button color="accent" mat-raised-button class="publish"
+            [disabled]="!isCoursePublishable(data)"
+            (click)="publishCourse(data.course, data.tenantInfo)" >
+      Publish Course Now
+    </button>
+
+    <button color="warn" class="unpublish" mat-raised-button [disabled]="isCourseDraft(data)">
+      Unpublish Course
+    </button>
 
   </div>
 

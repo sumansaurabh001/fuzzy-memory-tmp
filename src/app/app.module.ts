@@ -304,7 +304,8 @@ import {TestUserInterceptor} from './services/test-user.interceptor';
     EditHtmlDialogComponent,
     EditTitleDescriptionDialogComponent,
     EditHomeDialogComponent,
-    AskSchoolDetailsDialogComponent
+    AskSchoolDetailsDialogComponent,
+    PublishCourseDialogComponent
   ],
   bootstrap: [AppComponent]
 })

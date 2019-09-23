@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Actions, createEffect, Effect, ofType} from '@ngrx/effects';
 import {
- userCoursesLoaded, updateCourseSortOrderCompleted
+  userCoursesLoaded, updateCourseSortOrderCompleted, updateCourse
 } from '../store/course.actions';
 import {concatMap, catchError, withLatestFrom, filter, map, tap} from 'rxjs/operators';
 import {CoursesDBService} from '../services/courses-db.service';
@@ -159,6 +159,16 @@ export class CourseEffects {
     ));
 
 
+  publishCourse$ = createEffect(() => this.actions$
+    .pipe(
+      ofType(CourseActions.coursePublished),
+      concatMap(action => this.coursesDB.saveCourse(action.courseId, {status: 'published', url: action.url})),
+      catchError(err => {
+        this.messages.error('Error publishing course.');
+        return throwError(err);
+      })
+    )
+  );
 
   constructor(private actions$: Actions,
               private coursesDB: CoursesDBService,

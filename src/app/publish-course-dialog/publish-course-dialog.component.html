@@ -1,22 +1,36 @@
-<h2 mat-dialog-title>Set Course Url</h2>
+<h2 mat-dialog-title>Set Course Path</h2>
 
-<mat-dialog-content>
+<mat-dialog-content [formGroup]="form">
 
   <mat-form-field>
 
-    https://chess-academy.onlinecoursehost.com/courses/
-
-    <input matInput
-           placeholder="Set the course url (max 60 chars)"
-           #titleHint
-           maxLength="60"
-           formControlName="title">
+      <input matInput
+             placeholder="Set the course path, example excel-for-beginners-course"
+             #titleHint
+             minLength="5"
+             maxLength="50"
+             formControlName="url">
 
     <mat-hint align="end">
-      Note: the course url can only be set once
+      Note: the course path can only be set once
     </mat-hint>
 
   </mat-form-field>
+
+  <div class="form-field-error" *ngIf="urlCharsOnly()">Only lowercase letters, numbers and hyphens (-) are allowed, no spaces</div>
+
+  <div class="course-path-example">
+
+    <div class="example-label">
+      <mat-icon color="warn">warning</mat-icon> Your course will be available at:
+    </div>
+
+
+    <div class="example-url">
+      https://{{subDomain}}.onlinecoursehost.com/courses/<b>{{form.value.url}}</b>
+    </div>
+
+  </div>
 
 
 </mat-dialog-content>
@@ -28,11 +42,10 @@
     Cancel
   </button>
 
-  <button mat-raised-button
-          (click)="publish()">
+  <button mat-raised-button color="accent"
+          (click)="publish()" [disabled]="!form.valid">
     Publish Course Now
   </button>
-
 
 </mat-dialog-actions>
 

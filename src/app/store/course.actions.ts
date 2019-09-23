@@ -56,5 +56,10 @@ export const updateCourseSortOrderCompleted = createAction(
   '[Courses Screen] Update Course Sort Order Completed'
 );
 
+export const coursePublished = createAction(
+  '[Publish Course Dialog] Course Published',
+  props<{courseId:string, url:string}>()
+);
+
 
 

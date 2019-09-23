@@ -92,7 +92,17 @@ export const coursesReducer = createReducer(
       ...state,
       pendingCoursesReordering: []
     };
-  })
+  }),
+
+  on(CourseActions.coursePublished, (state, action) =>
+    adapter.updateOne({
+      id: action.courseId,
+      changes: {
+       status: 'published',
+       url: action.url
+      }
+    }, state))
+
 
 );
 
