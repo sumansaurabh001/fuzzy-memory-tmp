@@ -1,30 +1,47 @@
 {
   "indexes": [
     {
-      "collectionId": "lessons",
+      "collectionGroup": "coupons",
+      "queryScope": "COLLECTION",
       "fields": [
         {
-          "fieldPath": "sectionId",
-          "mode": "ASCENDING"
+          "fieldPath": "active",
+          "order": "ASCENDING"
         },
         {
-          "fieldPath": "seqNo",
-          "mode": "DESCENDING"
+          "fieldPath": "created",
+          "order": "DESCENDING"
         }
       ]
     },
     {
-      "collectionId": "coupons",
+      "collectionGroup": "courses",
+      "queryScope": "COLLECTION",
       "fields": [
         {
-          "fieldPath": "active",
-          "mode": "ASCENDING"
+          "fieldPath": "status",
+          "order": "ASCENDING"
         },
         {
-          "fieldPath": "created",
-          "mode": "DESCENDING"
+          "fieldPath": "seqNo",
+          "order": "ASCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "lessons",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "sectionId",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "seqNo",
+          "order": "DESCENDING"
         }
       ]
     }
-  ]
+  ],
+  "fieldOverrides": []
 }

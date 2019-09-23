@@ -61,6 +61,8 @@ export class AppComponent implements OnInit {
 
               this.afAuth.auth.updateCurrentUser(result.user);
 
+              window.history.replaceState(null, null, window.location.pathname);
+
             });
         }
 

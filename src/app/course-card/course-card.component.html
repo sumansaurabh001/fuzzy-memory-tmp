@@ -1,6 +1,7 @@
 <mat-card class="mat-elevation-z10 course-card">
   <mat-card-header>
     <mat-card-title>{{course?.title}}</mat-card-title>
+    <course-status class="course-status" [course]="course" *allowRole="'ADMIN'"></course-status>
   </mat-card-header>
 
   <img mat-card-image [src]="imgSrc()">
