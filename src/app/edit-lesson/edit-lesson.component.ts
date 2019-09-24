@@ -224,11 +224,11 @@ export class EditLessonComponent implements OnInit, OnChanges {
 
 
   publish() {
-    this.store.dispatch(publishLesson({lessonId: this.lesson.id}));
+    this.store.dispatch(publishLesson({courseId: this.course.id, lessonId: this.lesson.id}));
   }
 
   unpublish() {
-    this.store.dispatch(unpublishLesson({lessonId: this.lesson.id}));
+    this.store.dispatch(unpublishLesson({courseId: this.course.id, lessonId: this.lesson.id}));
   }
 
 

@@ -57,12 +57,12 @@ export const uploadFinished = createAction(
 
 export const publishLesson = createAction(
   "[Edit Lesson Panel] Publish Lesson",
-  props<{lessonId:string}>()
+  props<{courseId:string,lessonId:string}>()
 );
 
 export const unpublishLesson = createAction(
   "[Edit Lesson Panel] Unpublish Lesson",
-  props<{lessonId:string}>()
+  props<{courseId:string,lessonId:string}>()
 );
 
 

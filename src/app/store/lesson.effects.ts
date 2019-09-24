@@ -62,6 +62,12 @@ export class LessonEffects {
     ));
 
 
+  publishLesson$ = this.createLessonStatusEffect(LessonActions.publishLesson, 'published');
+
+  unpublishLesson$ = this.createLessonStatusEffect(LessonActions.unpublishLesson, 'ready');
+
+
+
   constructor(private actions$: Actions,
               private coursesDB: CoursesDBService,
               private lessonsDB: LessonsDBService,
@@ -75,5 +81,26 @@ export class LessonEffects {
 
   }
 
+  createLessonStatusEffect(actionType, newStatus:string) {
+    return createEffect(() => this.actions$
+        .pipe(
+          ofType(actionType),
+          concatMap((action:any) => this.lessonsDB.saveLesson(action.courseId, <any>{
+            id: action.lessonId,
+            changes: {
+              status: newStatus
+            }
+          })),
+          catchError(err => {
+            this.messages.error('Could not update lesson status.');
+            return throwError(err);
+          })
+        ),
+      {dispatch: false});
+
+  }
+
 
 }
+
+
