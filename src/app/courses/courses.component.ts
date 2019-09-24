@@ -8,7 +8,7 @@ import {AppState} from '../store';
 import {isAdmin, isLoggedOut, isUserSubscribed, selectAllCourses, selectTenantInfo, selectUserCourses} from '../store/selectors';
 import {moveItemInArray} from '@angular/cdk/drag-drop';
 import {updateCourseSortOrder} from '../store/course.actions';
-import {map, tap} from 'rxjs/operators';
+import {debounceTime, filter, map, tap} from 'rxjs/operators';
 import {arrayDiffById} from '../common/collection-utils';
 import {MessagesService} from '../services/messages.service';
 import {Title} from '@angular/platform-browser';
@@ -16,7 +16,7 @@ import {setSchoolNameAsPageTitle} from '../common/seo-utils';
 
 
 
-interface UserInfo {
+interface CoursesData {
   isLoggedOut:boolean,
   isAdmin:boolean,
   allCourses: Course[],
@@ -31,7 +31,7 @@ interface UserInfo {
 })
 export class CoursesComponent implements OnInit, OnDestroy {
 
-  userInfo$: Observable<UserInfo>;
+  data$: Observable<CoursesData>;
 
   infoMessageShown = false;
 
@@ -47,7 +47,10 @@ export class CoursesComponent implements OnInit, OnDestroy {
 
     const courses$ = this.store.pipe(select(selectAllCourses));
 
-    const isLoggedOut$ = this.store.pipe(select(isLoggedOut));
+    const isLoggedOut$ = this.store.pipe(
+      select(isLoggedOut),
+      filter(isLoggedOut => isLoggedOut != undefined)
+    );
 
     const isUserSubscribed$ = this.store.pipe(select(isUserSubscribed));
 
@@ -55,7 +58,7 @@ export class CoursesComponent implements OnInit, OnDestroy {
 
     const userCourses$ = this.store.pipe(select(selectUserCourses));
 
-    this.userInfo$ = combineLatest([isLoggedOut$, isAdmin$, courses$, userCourses$, isUserSubscribed$])
+    this.data$ = combineLatest([isLoggedOut$, isAdmin$, courses$, userCourses$, isUserSubscribed$])
       .pipe(
         map(([isLoggedOut, isAdmin, allCourses, userCourses, isUserSubscribed]) => {
           return {isLoggedOut, isAdmin, allCourses, userCourses, isUserSubscribed}}),
@@ -67,7 +70,8 @@ export class CoursesComponent implements OnInit, OnDestroy {
             this.infoMessageShown = true;
           }
 
-        })
+        }),
+        debounceTime(10)
       );
 
     setSchoolNameAsPageTitle(this.store, this.title);
@@ -121,11 +125,21 @@ export class CoursesComponent implements OnInit, OnDestroy {
   }
 
 
-  showAllCourses(userInfo: UserInfo) {
+  showAllCourses(userInfo: CoursesData) {
     return userInfo.isLoggedOut || userInfo.isAdmin || userInfo.isUserSubscribed;
   }
 
-  showMyCourses(userInfo: UserInfo) {
+  showMyCourses(userInfo: CoursesData) {
     return !userInfo.isLoggedOut && (!userInfo.isAdmin && !userInfo.isUserSubscribed);
   }
+
+  displayedCourses(data: CoursesData): Course[] {
+    if (!data.isAdmin) {
+      return data.allCourses.filter(course => course.status == 'published');
+    }
+    else {
+      return data.allCourses;
+    }
+  }
+
 }

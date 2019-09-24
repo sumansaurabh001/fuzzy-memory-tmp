@@ -44,6 +44,18 @@ export class PlatformGuard implements CanActivate {
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
 
+      // login the user using a url JWT parameter, if it arrived via a redirect from the single sign-on login page
+      const authJwtToken = route.queryParamMap.get('authJwtToken');
+
+      if (authJwtToken) {
+
+        this.afAuth.auth.signInWithCustomToken(authJwtToken)
+          .then(() => {
+            // clear the JWT from the url, to make sure the sign in is only done once
+            window.history.replaceState(null, null, window.location.pathname);
+          });
+      }
+
      // the tenant is only going to be determined once, at application startup time
      if (this.tenant.id) {
        return of(true);

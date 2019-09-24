@@ -40,7 +40,7 @@ export class CoursesDBService {
     return readDocumentWithId(this.afs.doc(this.coursesPath + '/' + courseId));
   }
 
-  findAllCourses(includeDraftCourses: boolean): Observable<Course[]> {
+  findAllCourses(includeDraftCourses: boolean = true): Observable<Course[]> {
     const queryFn: QueryFn = ref => {
       let query = ref.orderBy('seqNo');
       if (!includeDraftCourses) {

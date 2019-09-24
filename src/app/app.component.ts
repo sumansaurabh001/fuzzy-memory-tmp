@@ -48,26 +48,6 @@ export class AppComponent implements OnInit {
         filter(platformSettings => platformSettings.brandTheme && !!platformSettings.brandTheme.primaryColor)
       );
 
-    this.route.queryParamMap
-      .subscribe(params => {
-
-        // login the user using a url JWT parameter, if it arrived via a redirect from the single sign-on login page
-        const authJwtToken = params.get('authJwtToken');
-
-        if (authJwtToken) {
-
-          this.afAuth.auth.signInWithCustomToken(authJwtToken)
-            .then(result => {
-
-              this.afAuth.auth.updateCurrentUser(result.user);
-
-              window.history.replaceState(null, null, window.location.pathname);
-
-            });
-        }
-
-      });
-
   }
 
 

@@ -28,7 +28,7 @@ export class ViewCoursesResolver implements Resolve<Course[]> {
         tap(([initialCoursesLoaded, permissions]) => {
 
           if (!initialCoursesLoaded) {
-            this.loading.showLoader(this.coursesDB.findAllCourses(permissions.isAdmin))
+            this.loading.showLoader(this.coursesDB.findAllCourses())
               .pipe(
                 tap(courses => this.store.dispatch(loadCourses({courses})))
               )

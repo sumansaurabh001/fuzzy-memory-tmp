@@ -1,6 +1,6 @@
 <div class="desktop-container">
 
-  <ng-container *ngIf="userInfo$ | async as userInfo">
+  <ng-container *ngIf="data$ | async as data">
 
     <ng-container *allowRole="'ADMIN'">
 
@@ -8,7 +8,7 @@
 
         <div class="new-course-button">
           <span class="button-text">Create New Course:</span>
-          <button mat-fab color="accent" (click)="addNewCourse(userInfo.allCourses.length)">
+          <button mat-fab color="accent" (click)="addNewCourse(data.allCourses.length)">
             <mat-icon>add</mat-icon>
           </button>
         </div>
@@ -18,20 +18,20 @@
 
     </ng-container>
 
-    <ng-container *ngIf="showAllCourses(userInfo)">
+    <ng-container *ngIf="showAllCourses(data)">
 
-      <div *ngIf="userInfo.allCourses?.length > 0; else noCourses">
+      <div *ngIf="displayedCourses(data)?.length > 0; else noCourses">
 
         <h1 class="page-title"> All Courses</h1>
 
         <mat-grid-list cols="2">
-          <mat-grid-tile *ngFor="let course of userInfo.allCourses;let first= first; let last = last">
+          <mat-grid-tile *ngFor="let course of displayedCourses(data);let first= first; let last = last">
             <course-card
               [course]="course"
               [first]="first"
               [last]="last"
-              (moveDown)="onCourseMovedDown(userInfo.allCourses, course)"
-              (moveUp)="onCourseMovedUp(userInfo.allCourses, course)">
+              (moveDown)="onCourseMovedDown(data.allCourses, course)"
+              (moveUp)="onCourseMovedUp(data.allCourses, course)">
 
             </course-card>
           </mat-grid-tile>
@@ -41,7 +41,14 @@
 
       <ng-template #noCourses>
 
-        <div class="no-content no-courses mat-elevation-z7" *ngIf="!userInfo.isLoggedOut">
+        <div class="no-content no-courses mat-elevation-z7" *denyRole="'ADMIN'">
+
+          <span>No courses available yet.</span>
+
+        </div>
+
+
+        <div class="no-content no-courses mat-elevation-z7" *allowRole="'ADMIN'">
 
           <span>No courses yet, let's create one.</span>
 
@@ -51,14 +58,14 @@
 
     </ng-container>
 
-    <ng-container *ngIf="showMyCourses(userInfo)">
+    <ng-container *ngIf="showMyCourses(data)">
 
-      <ng-container *ngIf="userInfo.userCourses?.length > 0">
+      <ng-container *ngIf="data.userCourses?.length > 0">
 
         <h1 class="page-title"> My Courses</h1>
 
         <mat-grid-list cols="2">
-          <mat-grid-tile *ngFor="let course of userInfo.userCourses">
+          <mat-grid-tile *ngFor="let course of data.userCourses">
             <course-card [course]="course"></course-card>
           </mat-grid-tile>
         </mat-grid-list>
@@ -70,7 +77,7 @@
       <h1 class="page-title"> Get These Courses - Lifetime Access</h1>
 
       <mat-grid-list cols="2">
-        <mat-grid-tile *ngFor="let course of availableCourses(userInfo.allCourses, userInfo.userCourses)">
+        <mat-grid-tile *ngFor="let course of availableCourses(data.allCourses, data.userCourses)">
           <course-card [course]="course"></course-card>
         </mat-grid-tile>
       </mat-grid-list>
