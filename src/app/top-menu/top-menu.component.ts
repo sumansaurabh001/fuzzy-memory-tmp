@@ -90,15 +90,17 @@ export class TopMenuComponent implements OnInit {
 
   }
 
-  async logout() {
+  logout() {
 
-    await this.afAuth.auth.signOut();
+    this.afAuth.auth.signOut()
+      .then(() => {
 
-    this.store.dispatch(logout());
+        this.loading.loadingOn();
 
-    this.loading.loadingOn();
+        this.login();
 
-    this.login();
+      });
+
   }
 
 

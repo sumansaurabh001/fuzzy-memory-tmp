@@ -49,11 +49,10 @@ export class PlatformGuard implements CanActivate {
 
       if (authJwtToken) {
 
+        console.log("Signing-in with custom JWT ", authJwtToken);
+
         this.afAuth.auth.signInWithCustomToken(authJwtToken)
-          .then(() => {
-            // clear the JWT from the url, to make sure the sign in is only done once
-            window.history.replaceState(null, null, window.location.pathname);
-          });
+          .then(result => this.afAuth.auth.updateCurrentUser(result.user));
       }
 
      // the tenant is only going to be determined once, at application startup time

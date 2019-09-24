@@ -48,6 +48,18 @@ export class AppComponent implements OnInit {
         filter(platformSettings => platformSettings.brandTheme && !!platformSettings.brandTheme.primaryColor)
       );
 
+    this.route.queryParamMap
+      .subscribe(params => {
+
+        const authJwtToken = params.get('authJwtToken');
+
+        // clear the JWT from the url, to make sure the token is never accidentally reused
+        if (authJwtToken) {
+          window.history.replaceState(null, null, window.location.pathname);
+        }
+
+      });
+
   }
 
 
