@@ -5,7 +5,7 @@ import {select, Store} from '@ngrx/store';
 import {LessonsDBService} from '../services/lessons-db.service';
 import {Course} from '../models/course.model';
 import {LoadingService} from '../services/loading.service';
-import {deleteLesson, updateLesson, uploadFinished, uploadStarted} from '../store/lesson.actions';
+import {deleteLesson, publishLesson, unpublishLesson, updateLesson, uploadFinished, uploadStarted} from '../store/lesson.actions';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import {ConfirmationDialogComponent} from '../confirmation-dialog/confirmation-dialog.component';
 import {concatMap, filter, finalize, first, map, tap} from 'rxjs/operators';
@@ -81,7 +81,7 @@ export class EditLessonComponent implements OnInit, OnChanges {
   }
 
   isReady() {
-    return this.lesson && this.lesson.originalFileName;
+    return this.lesson && this.lesson.status === 'ready';
   }
 
   isPublished() {
@@ -220,6 +220,15 @@ export class EditLessonComponent implements OnInit, OnChanges {
       this.descriptionOpenedOnce = true;
       this.store.dispatch(loadDescription({descriptionId: this.lesson.id}));
     }
+  }
+
+
+  publish() {
+    this.store.dispatch(publishLesson({lessonId: this.lesson.id}));
+  }
+
+  unpublish() {
+    this.store.dispatch(unpublishLesson({lessonId: this.lesson.id}));
   }
 
 

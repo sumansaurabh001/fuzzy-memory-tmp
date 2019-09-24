@@ -121,6 +121,22 @@ export const lessonReducer = createReducer(
     };
   }),
 
+
+  on(LessonActions.publishLesson, (state, action) => adapter.updateOne({
+    id: action.lessonId,
+    changes: {
+      status: "published"
+    }
+  },state )),
+
+  on(LessonActions.unpublishLesson, (state, action) => adapter.updateOne({
+    id: action.lessonId,
+    changes: {
+      status: "ready"
+    }
+  },state ))
+
+
 );
 
 

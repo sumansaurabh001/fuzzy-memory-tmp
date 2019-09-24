@@ -62,7 +62,8 @@
                     <mat-icon>play_circle_outline</mat-icon>
                   </mat-panel-title>
                   <mat-panel-description class="panel-description noselect">
-                    <button class="add-content" mat-raised-button color="primary" *ngIf="!lesson.thumbnail">Add Content</button>
+                    <button class="content-status" mat-raised-button color="primary" *ngIf="!lesson.thumbnail">Add Content</button>
+                    <button class="content-status" mat-raised-button color="primary" *ngIf="lesson.status == 'ready'">Publish</button>
                     {{lesson.title}}
                     <div class="filler"></div>
                     <mat-icon class="draggable drag-lesson" cdkDragHandle>drag_handle</mat-icon>

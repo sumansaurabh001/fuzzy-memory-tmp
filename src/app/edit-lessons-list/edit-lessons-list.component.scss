@@ -145,14 +145,14 @@
   display: flex;
 }
 
-.add-content {
+.content-status {
   height: 22px;
   font-size: 12px;
   line-height: 12px;
   margin-right: 5px;
 }
 
-::ng-deep .add-content.mat-raised-button {
+::ng-deep .content-status.mat-raised-button {
   padding: 0 8px;
 }
 
