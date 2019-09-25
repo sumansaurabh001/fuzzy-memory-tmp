@@ -43,9 +43,11 @@ export class CourseContentComponent implements OnInit {
 
     const findBySectionId = lesson => lesson.sectionId == section.id;
 
-    const sectionLessons = this.lessons.filter(findBySectionId);
+    const publishedLessons = this.lessons.filter(lesson => lesson.status == 'published');
 
-    const sectionStartIndex = this.lessons.findIndex(findBySectionId);
+    const sectionLessons = publishedLessons.filter(findBySectionId);
+
+    const sectionStartIndex = publishedLessons.findIndex(findBySectionId);
 
     return {
       sectionLessons,
