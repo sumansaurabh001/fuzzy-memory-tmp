@@ -32,11 +32,8 @@ export class PriceAndCouponsComponent implements OnInit {
 
   priceControl = new FormControl('', Validators.required);
 
-  includedControl = new FormControl(true, Validators.required);
-
   priceGroup = new FormGroup({
-    price: this.priceControl,
-    includedInSubscription: this.includedControl
+    price: this.priceControl
   });
 
   activeCouponsOnly = true;
@@ -66,8 +63,7 @@ export class PriceAndCouponsComponent implements OnInit {
       if (course) {
         this.form.patchValue({
           priceGroup: {
-            price: course.price,
-            includedInSubscription: course.includedInSubscription
+            price: course.price
           },
           free: course.free
         })
@@ -122,10 +118,11 @@ export class PriceAndCouponsComponent implements OnInit {
 
     const changes: Partial<Course> = {
       free: val.free,
-      price: val.priceGroup.price,
-      includedInSubscription: val.priceGroup.includedInSubscription
-
     };
+
+    if (val.priceGroup) {
+      changes.price = val.priceGroup.price;
+    }
 
     const course = {
       id: courseId,
