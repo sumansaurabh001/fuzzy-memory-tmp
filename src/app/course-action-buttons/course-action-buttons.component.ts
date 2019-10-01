@@ -11,6 +11,7 @@ import {Observable} from 'rxjs';
 import {isAdmin, selectUser, selectUserCoursesIds} from '../store/selectors';
 import {isAnonymousUser, User} from '../models/user.model';
 import {CourseCoupon} from '../models/coupon.model';
+import {debounceTime} from 'rxjs/operators';
 
 
 declare const Stripe;
@@ -33,6 +34,8 @@ export class CourseActionButtonsComponent implements OnInit, OnChanges {
   userCourses: string[] = [];
 
   showPurchaseButtons: boolean;
+
+  userOwnsCourse: boolean;
 
   isAdmin: boolean;
 
@@ -82,9 +85,9 @@ export class CourseActionButtonsComponent implements OnInit, OnChanges {
       return;
     }
 
-    this.messages.info("Preparing checkout, please wait ...");
+    this.messages.info('Preparing checkout, please wait ...');
 
-    const courseUrl =  `${window.location.protocol}//${window.location.host}/courses/${this.course.url}`;
+    const courseUrl = `${window.location.protocol}//${window.location.host}/courses/${this.course.url}`;
 
     const purchaseCourseSession$ = this.payments.createPurchaseCourseSession(
       this.course.id,
@@ -106,9 +109,17 @@ export class CourseActionButtonsComponent implements OnInit, OnChanges {
 
   updatePurchaseButtonsVisibility() {
 
-    const userOwnsCourse = this.course && (this.userCourses.includes(this.course.id) || this.user && this.user.pricingPlan);
+    this.userOwnsCourse = this.course && (this.userCourses.includes(this.course.id) || !!(this.user && this.user.pricingPlan));
 
-    this.showPurchaseButtons = !this.course.free && ( !this.user || (!this.isAdmin && !userOwnsCourse) );
+    const isLoggedOut = !this.user;
+
+    const isStudent = !this.isAdmin;
+
+    const isPremiumCourse = !this.course.free;
+
+    const isFreeCoupon = this.coupon && this.coupon.free;
+
+    this.showPurchaseButtons = isPremiumCourse && !isFreeCoupon && (isLoggedOut || (isStudent && !this.userOwnsCourse));
 
   }
 
@@ -123,5 +134,14 @@ export class CourseActionButtonsComponent implements OnInit, OnChanges {
 
   }
 
+  getFreeCourse() {
+
+    if (isAnonymousUser(this.user)) {
+      this.messages.info('Please login first. You can use social login (Gmail, Twitter, etc.) or email and password if you prefer.');
+      return;
+    }
+
+
+  }
 }
 

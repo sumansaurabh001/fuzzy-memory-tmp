@@ -1,6 +1,7 @@
 <div class="action-buttons">
 
-  <ng-container *ngIf="showPurchaseButtons; else startCourse">
+  <!-- If the user does not own the course, show the purchase buttons -->
+  <ng-container *ngIf="showPurchaseButtons">
 
     <button mat-raised-button color="accent" (click)="buyCourse()">
       <div class="first-line">
@@ -20,19 +21,29 @@
 
   </ng-container>
 
-  <ng-template #startCourse>
+  <!-- If the user owns the course, show the start course button -->
+  <ng-container *ngIf="userOwnsCourse">
 
-    <button mat-raised-button [color]="course.free ? 'accent': 'primary'" (click)="start()">
+    <button mat-raised-button [color]="course?.free ? 'accent': 'primary'" (click)="start()">
       <div class="first-line">
         <mat-icon class="play-icon">play_circle_filled</mat-icon>
-        <div>{{ course.free ? 'Start FREE Course': 'Start Course' }}</div>
+        <div>{{ course?.free ? 'Start FREE Course': 'Start Course' }}</div>
       </div>
     </button>
 
+  </ng-container>
 
+  <!-- If the user   -->
+  <ng-container *ngIf="coupon?.free && !userOwnsCourse">
 
+    <button mat-raised-button color="accent" (click)="getFreeCourse()">
+      <div class="first-line">
+        <mat-icon class="play-icon">play_circle_filled</mat-icon>
+        <div>Get your FREE Course</div>
+      </div>
+    </button>
+  </ng-container>
 
-  </ng-template>
 
 
 </div>

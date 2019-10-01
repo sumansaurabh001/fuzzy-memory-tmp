@@ -41,7 +41,9 @@ export class GetLinkDialogComponent implements OnInit, AfterViewInit {
       this.link += `:${port}`;
     }
 
-    this.link += `/courses/${data.course.seqNo}?couponCode=${data.coupon.code}`;
+    const urlSegment = data.course.url ? data.course.url : data.course.seqNo;
+
+    this.link += `/courses/${urlSegment}?couponCode=${data.coupon.code}`;
 
   }
 

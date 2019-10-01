@@ -11,7 +11,7 @@ import {
 import {UrlBuilderService} from '../services/url-builder.service';
 import {Lesson} from '../models/lesson.model';
 import {CourseSection} from '../models/course-section.model';
-import {filter, map, startWith, tap, withLatestFrom} from 'rxjs/operators';
+import {filter, first, map, startWith, take, tap, withLatestFrom} from 'rxjs/operators';
 import {CollapsibleTriggerComponent} from '../collapsible-trigger/collapsible-trigger.component';
 import {sortSectionsBySeqNo} from '../common/sort-model';
 import {User} from '../models/user.model';
@@ -93,7 +93,12 @@ export class CoursePageComponent implements OnInit {
 
     this.course$ = this.store
       .pipe(
-        select(selectActiveCourse),
+        select(selectActiveCourse)
+    );
+
+    // do the side effects separately, to ensure they are not triggered multiple times dues to multiple view subscriptions
+    this.course$
+      .pipe(
         tap(course => {
 
           this.title.setTitle(course.title);
@@ -103,7 +108,8 @@ export class CoursePageComponent implements OnInit {
           }
 
         })
-    );
+      )
+      .subscribe();
 
     this.coupon$ = this.store
       .pipe(

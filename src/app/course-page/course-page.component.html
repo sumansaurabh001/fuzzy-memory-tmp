@@ -40,7 +40,9 @@
 
             <span class="course-original-price">{{course.price | currency}}</span>
 
-            <span class="discount">({{calculateDiscountPercentage(course, coupon)}} % Off)</span>
+            <span class="discount" *ngIf="!coupon.free">({{calculateDiscountPercentage(course, coupon)}} % Off)</span>
+
+            <span class="discount" *ngIf="coupon.free">(Temporarily FREE)</span>
 
             <ng-container *ngIf="coupon.deadline">
 
