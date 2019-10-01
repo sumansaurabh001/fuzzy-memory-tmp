@@ -17,9 +17,11 @@ interface RequestInfo {
  *
  * The goal here is to ensure that only users that bought the course, subscribers or ADMIN users will be able to watch premium videos.
  *
- * On the other hand, free videos should be watchable by anyone, including free users and unauthenticated users.
+ * On the other hand, free videos should be watchable by none premium users.
  *
- * Note that the video file name cannot be read directly by the frontend, and so we need this cloud function.
+ * Note that the video file name cannot be read directly by the frontend by design.
+ *
+ * This is so that we can control access to the video using this cloud function.
  *
  */
 
@@ -84,6 +86,14 @@ export class VideoAccessController {
       return;
     }
 
+    const course = await this.firestore.getDocData(`schools/${reqInfo.tenantId}/courses/${reqInfo.courseId}`);
+
+    if (course.free) {
+      console.log('Granting video access to a video which is part of a free course.');
+      allowVideoAccess(res, reqInfo, video);
+      return;
+    }
+
     const userPrivate = await this.firestore.getDocData(`schools/${reqInfo.tenantId}/usersPrivate/${reqInfo.userId}`);
 
     if (isSubscriptionActive(userPrivate)) {
@@ -106,26 +116,30 @@ export class VideoAccessController {
 
 
 
-function isSubscriptionActive(user) {
+function isSubscriptionActive(userPrivate) {
 
-  if (!user.pricingPlan) {
+  if (!userPrivate) {
+    return false;
+  }
+
+  if (!userPrivate.pricingPlan) {
     return false;
   }
 
   // Lifetime plan
-  if (user.pricingPlan == 'forever') {
+  if (userPrivate.pricingPlan == 'forever') {
     return true;
   }
 
   // ongoing subscription
-  if (!user.planEndsAt) {
+  if (!userPrivate.planEndsAt) {
     return true;
   }
 
   // cancelled subscription, before end period
-  if (user.planEndsAt) {
+  if (userPrivate.planEndsAt) {
 
-    const subscriptionEnd = dayjs(user.planEndsAt);
+    const subscriptionEnd = dayjs(userPrivate.planEndsAt);
 
     const now = dayjs();
 

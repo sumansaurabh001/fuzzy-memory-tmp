@@ -197,7 +197,14 @@ export const selectUserCoursesIds = createSelector(
 
 export const selectUserCourses = createSelector(
   selectCoursesState,
-  coursesState => coursesState.coursesPurchased.map(courseId => coursesState.entities[courseId])
+  coursesState => {
+
+    const purchasedCourses = coursesState.coursesPurchased.map(courseId => coursesState.entities[courseId]);
+
+    const freeCourses = Object.values(coursesState.entities).filter(course => course.free);
+
+    return purchasedCourses.concat(freeCourses);
+  }
 );
 
 

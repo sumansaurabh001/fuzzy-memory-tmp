@@ -136,3 +136,15 @@ text-align: center;
 .hide-show-more {
   display: none;
 }
+
+.free-course-btn {
+  .first-line {
+    padding: 0 4px;
+    font-size: 23px;
+    display: flex;
+    align-items: center;
+    .play-icon {
+      margin-right: 3px;
+    }
+  }
+}

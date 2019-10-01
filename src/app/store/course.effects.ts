@@ -166,8 +166,7 @@ export class CourseEffects {
         this.messages.error('Error publishing course.');
         return throwError(err);
       })
-    )
-  );
+    ), {dispatch:false});
 
   unpublishCourse$ = createEffect(() => this.actions$
     .pipe(
@@ -177,8 +176,8 @@ export class CourseEffects {
         this.messages.error('Error unpublishing course.');
         return throwError(err);
       })
-    )
-  );
+    ),
+    {dispatch:false});
 
   constructor(private actions$: Actions,
               private coursesDB: CoursesDBService,

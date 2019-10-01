@@ -5,7 +5,7 @@ import {Course} from '../models/course.model';
 
 
 export const courseLoaded = createAction(
-  '[Course]  Load Course',
+  '[Course] Course Loaded',
   props<{ course: Course }>()
 );
 

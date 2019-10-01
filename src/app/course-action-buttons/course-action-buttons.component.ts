@@ -108,11 +108,16 @@ export class CourseActionButtonsComponent implements OnInit, OnChanges {
 
     const userOwnsCourse = this.course && (this.userCourses.includes(this.course.id) || this.user && this.user.pricingPlan);
 
-    this.showPurchaseButtons = !this.user || (!this.isAdmin && !userOwnsCourse);
+    this.showPurchaseButtons = !this.course.free && ( !this.user || (!this.isAdmin && !userOwnsCourse) );
+
   }
 
-
   start() {
+
+    if (isAnonymousUser(this.user)) {
+      this.messages.info('Please login first. You can use social login (Gmail, Twitter, etc.) or email and password if you prefer.');
+      return;
+    }
 
     this.router.navigateByUrl(`courses/${this.course.url}/1/lessons/1`);
 

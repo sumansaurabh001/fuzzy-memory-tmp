@@ -22,12 +22,15 @@
 
   <ng-template #startCourse>
 
-    <button mat-raised-button color="primary" (click)="start()">
+    <button mat-raised-button [color]="course.free ? 'accent': 'primary'" (click)="start()">
       <div class="first-line">
         <mat-icon class="play-icon">play_circle_filled</mat-icon>
-        <div>Start Course</div>
+        <div>{{ course.free ? 'Start FREE Course': 'Start Course' }}</div>
       </div>
     </button>
+
+
+
 
   </ng-template>
 

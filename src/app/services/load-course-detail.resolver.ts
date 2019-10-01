@@ -35,14 +35,21 @@ export class LoadCourseDetailResolver implements Resolve<Course> {
         select(selectAllCourses),
         tap(courses => {
 
-          const course = this.findCourseByUrl(courses, courseUrl);
+          let course = this.findCourse(courses, courseUrl);
 
-          // if course is not loaded, load it before continuing
+          // load the course details (sections, lessons, descriptions, etc.)
           if (course) {
             this.store.dispatch(loadCourseDetail({courseId: course.id}));
           }
+          // if the course is not loaded then load it here
           else {
-            this.loading.showLoader(this.coursesDB.findCourseByUrl(courseUrl))
+
+            const seqNo = parseInt(courseUrl);
+
+            // we can find the course either by sequence number or by custom url
+            const course$ = isNaN(seqNo) ? this.coursesDB.findCourseByUrl(courseUrl) : this.coursesDB.findCourseBySeqNo(seqNo);
+
+            this.loading.showLoader(course$)
               .pipe(
                 tap(course => this.store.dispatch(courseLoaded({course})))
               )
@@ -50,19 +57,35 @@ export class LoadCourseDetailResolver implements Resolve<Course> {
           }
 
         }),
-        map(courses => this.findCourseByUrl(courses, courseUrl)),
+        map(courses => this.findCourse(courses, courseUrl)),
         filter(course => !!course),
         first()
       );
+  }
+
+  findCourse(courses: Course[], urlSegment:string) {
+
+    const seqNo = parseInt(urlSegment);
+
+    let course: Course;
+
+    if (isNaN(seqNo)) {
+      course = this.findCourseByUrl(courses, urlSegment);
+    }
+    else {
+      course = this.findCourseBySeqNo(courses, seqNo);
+    }
+
+    return course;
 
   }
 
-  private findCourseByUrl(courses:Course[], url:string) {
+  findCourseByUrl(courses:Course[], url:string) {
     return courses.find(course => course.url == url);
-
   }
 
-
-
+  findCourseBySeqNo(courses:Course[], seqNo:number) {
+    return courses.find(course => course.seqNo == seqNo);
+  }
 
 }
