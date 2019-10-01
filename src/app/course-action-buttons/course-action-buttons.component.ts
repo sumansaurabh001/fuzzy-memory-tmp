@@ -12,6 +12,8 @@ import {isAdmin, selectUser, selectUserCoursesIds} from '../store/selectors';
 import {isAnonymousUser, User} from '../models/user.model';
 import {CourseCoupon} from '../models/coupon.model';
 import {debounceTime} from 'rxjs/operators';
+import {CouponsService} from '../services/coupons.service';
+import {coursePurchased} from '../store/course.actions';
 
 
 declare const Stripe;
@@ -44,7 +46,8 @@ export class CourseActionButtonsComponent implements OnInit, OnChanges {
     private messages: MessagesService,
     private loading: LoadingService,
     private store: Store<AppState>,
-    private router: Router) {
+    private router: Router,
+    private coupons: CouponsService) {
 
   }
 
@@ -134,13 +137,29 @@ export class CourseActionButtonsComponent implements OnInit, OnChanges {
 
   }
 
-  getFreeCourse() {
+  fulfillFreeCourse() {
 
     if (isAnonymousUser(this.user)) {
       this.messages.info('Please login first. You can use social login (Gmail, Twitter, etc.) or email and password if you prefer.');
       return;
     }
 
+    this.messages.info("Activating free course, this should only take a moment.");
+
+    this.coupons.fulfillFreeCourseCoupon(this.course.id, this.coupon.code)
+      .subscribe(
+        () => {
+          this.store.dispatch(coursePurchased({courseId: this.course.id}));
+
+          this.messages.clear();
+          this.messages.success("Your free course is activated, please enjoy!");
+        },
+        err => {
+
+          this.messages.clear();
+          this.messages.error('The free course could not be activated, reason: ' + err.message);
+
+        });
 
   }
 }

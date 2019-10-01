@@ -133,6 +133,7 @@ import { PublishCourseDialogComponent } from './publish-course-dialog/publish-co
 import {TestUserInterceptor} from './services/test-user.interceptor';
 import {MatBadgeModule} from '@angular/material';
 import { CourseStatusComponent } from './course-status/course-status.component';
+import {CouponsService} from './services/coupons.service';
 
 
 @NgModule({
@@ -282,6 +283,7 @@ import { CourseStatusComponent } from './course-status/course-status.component';
     LoginGuard,
     CookieService,
     PaymentsService,
+    CouponsService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,

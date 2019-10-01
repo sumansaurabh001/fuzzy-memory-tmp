@@ -30,6 +30,7 @@ export const environment = {
     stripeConnectionUrl: 'http://localhost:5000/api/stripe-connection', // get the user credentials from Stripe and stores them in the DB
     stripeInitPricingPlansUrl: 'http://localhost:5000/api/init-pricing-plans',
     stripeUpdatePricingPLanUrl: 'http://localhost:5000/api/update-pricing-plan',
-    stripeUpdateCardUrl: 'http://localhost:5000/api/update-card'
+    stripeUpdateCardUrl: 'http://localhost:5000/api/update-card',
+    fulfillFreeCouponUrl: 'http://localhost:5000/api/fulfill-free-coupon'
   }
 };

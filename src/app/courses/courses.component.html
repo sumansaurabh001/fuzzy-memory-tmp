@@ -70,18 +70,25 @@
           </mat-grid-tile>
         </mat-grid-list>
 
-        <mat-divider></mat-divider>
-
       </ng-container>
 
-      <h1 class="page-title"> Get These Courses - Lifetime Access</h1>
+      <ng-container *ngIf="availableCourses(data.allCourses, data.userCourses) as unpurchasedCourses">
 
-      <mat-grid-list cols="2">
-        <mat-grid-tile *ngFor="let course of availableCourses(data.allCourses, data.userCourses)">
-          <course-card [course]="course"></course-card>
-        </mat-grid-tile>
-      </mat-grid-list>
+        <ng-container  *ngIf="unpurchasedCourses.length > 0">
 
+          <mat-divider></mat-divider>
+
+          <h1 class="page-title"> Get These Courses - Lifetime Access</h1>
+
+          <mat-grid-list cols="2">
+            <mat-grid-tile *ngFor="let course of unpurchasedCourses">
+              <course-card [course]="course"></course-card>
+            </mat-grid-tile>
+          </mat-grid-list>
+
+        </ng-container>
+
+      </ng-container>
 
     </ng-container>
 
