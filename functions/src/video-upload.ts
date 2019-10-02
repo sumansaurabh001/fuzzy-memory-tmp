@@ -122,7 +122,7 @@ export const videoUpload = functions.storage.object().onFinalize(async (object, 
       thumbnail: thumbnailFileName,
       originalFileName: extractOriginalFileName(videoFileName),
       videoDuration,
-      status:"ready"
+      uploadStatus:"done"
     });
 
     const videoRef = db.doc(videosDbPath);
@@ -168,7 +168,7 @@ export const videoUpload = functions.storage.object().onFinalize(async (object, 
 
     console.error("Video processing failed:", err);
     await db.doc(lessonDbPath).update({
-      status:"failed"
+      uploadStatus:"error"
     });
 
   }

@@ -89,11 +89,11 @@ export class EditLessonComponent implements OnInit, OnChanges {
   }
 
   isProcessing() {
-    return this.lesson && this.lesson.status === 'processing';
+    return this.lesson && this.lesson.uploadStatus === 'processing';
   }
 
   isError() {
-    return this.lesson && this.lesson.status === 'error';
+    return this.lesson && this.lesson.uploadStatus === 'error';
   }
 
   saveLesson() {
@@ -161,7 +161,7 @@ export class EditLessonComponent implements OnInit, OnChanges {
             const update: UpdateStr<Lesson> = {
               id: this.lesson.id,
               changes: {
-                status: 'processing'
+                uploadStatus: 'processing'
               }
             };
 
@@ -181,7 +181,7 @@ export class EditLessonComponent implements OnInit, OnChanges {
 
     this.lessonsDB.suscribeToLesson(this.course.id, this.lesson.id)
       .pipe(
-        filter(lesson => lesson.status == 'ready'),
+        filter(lesson => lesson.uploadStatus == 'done'),
         first(),
         tap(lesson => this.dispatchLessonChanges(lesson))
       )
