@@ -127,8 +127,10 @@ export const videoUpload = functions.storage.object().onFinalize(async (object, 
 
     const videoRef = db.doc(videosDbPath);
 
+    const videoSecretUrl = await file.getSignedUrl({action:'read',expires: new Date(3000,0,1)});
+
     batch.set(videoRef, {
-      secretVideoFileName: videoFileName
+      videoSecretUrl
     });
 
     const courseRef = db.doc(`schools/${tenantId}/courses/${courseId}`);

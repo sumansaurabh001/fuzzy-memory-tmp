@@ -8,6 +8,6 @@ export interface VideoAccess {
 
   status: 'allowed' | 'denied';
 
-  videoSecretFileName:string;
+  videoSecretUrl:string;
 
 }

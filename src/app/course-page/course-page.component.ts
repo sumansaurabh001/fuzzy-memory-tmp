@@ -128,7 +128,7 @@ export class CoursePageComponent implements OnInit {
         map(sortSectionsBySeqNo)
       );
 
-    this.lessons$ = this.store.pipe(select(selectActiveCourseAllLessons));
+    this.lessons$ = this.store.pipe(select(selectActiveCourseAllLessons), tap(console.log));
 
     this.courseDescription$ = this.selectDescription();
 
