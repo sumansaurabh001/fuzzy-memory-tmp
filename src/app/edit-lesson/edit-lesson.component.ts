@@ -80,8 +80,8 @@ export class EditLessonComponent implements OnInit, OnChanges {
 
   }
 
-  isReady() {
-    return this.lesson && this.lesson.status === 'ready';
+  isReadyToPublish() {
+    return this.lesson && this.lesson.status == 'draft' && this.lesson.uploadStatus === 'done';
   }
 
   isPublished() {
@@ -94,6 +94,11 @@ export class EditLessonComponent implements OnInit, OnChanges {
 
   isError() {
     return this.lesson && this.lesson.uploadStatus === 'error';
+  }
+
+  isUploadNeeded(lesson: Lesson) {
+    return lesson.status == 'draft' && lesson.uploadStatus != "done";
+
   }
 
   saveLesson() {
@@ -226,6 +231,5 @@ export class EditLessonComponent implements OnInit, OnChanges {
   unpublish() {
     this.store.dispatch(unpublishLesson({courseId: this.course.id, lessonId: this.lesson.id}));
   }
-
 
 }

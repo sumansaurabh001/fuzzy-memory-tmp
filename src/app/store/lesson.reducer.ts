@@ -132,7 +132,7 @@ export const lessonReducer = createReducer(
   on(LessonActions.unpublishLesson, (state, action) => adapter.updateOne({
     id: action.lessonId,
     changes: {
-      status: "ready"
+      status: "draft"
     }
   },state ))
 

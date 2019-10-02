@@ -87,9 +87,9 @@
 
   <button mat-raised-button color="basic" (click)="saveLesson()">Save</button>
 
-  <button mat-raised-button color="accent" *ngIf="isDraft()" (click)="fileUpload.open()">Upload MP4 Video</button>
+  <button mat-raised-button color="accent" *ngIf="isUploadNeeded(lesson)" (click)="fileUpload.open()">Upload MP4 Video</button>
 
-  <button mat-raised-button color="accent" *ngIf="isReady()" (click)="publish()">Publish</button>
+  <button mat-raised-button color="accent" *ngIf="isReadyToPublish()" (click)="publish()">Publish</button>
 
   <button mat-stroked-button color="warn" *ngIf="isPublished()" (click)="unpublish()">Unpublish</button>
 

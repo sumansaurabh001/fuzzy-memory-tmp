@@ -1,6 +1,6 @@
 export interface Lesson {
   id:string;
-  status:  'draft' | 'ready' |  'published'; // publication status
+  status:  'draft' |  'published'; // publication status
   uploadStatus:  'processing' | 'error' | 'done';
   sectionId:string;
   seqNo:number; // this is the section sequence number, stored in the database, used for reordering lessons

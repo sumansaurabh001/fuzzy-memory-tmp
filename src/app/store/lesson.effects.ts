@@ -64,7 +64,7 @@ export class LessonEffects {
 
   publishLesson$ = this.createLessonStatusEffect(LessonActions.publishLesson, 'published');
 
-  unpublishLesson$ = this.createLessonStatusEffect(LessonActions.unpublishLesson, 'ready');
+  unpublishLesson$ = this.createLessonStatusEffect(LessonActions.unpublishLesson, 'draft');
 
 
 
