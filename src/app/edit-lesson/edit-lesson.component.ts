@@ -200,10 +200,6 @@ export class EditLessonComponent implements OnInit, OnChanges {
 
   }
 
-  videoThumbnailPath() {
-    return this.ub.buildLessonThumbailUrl(this.course, this.lesson);
-  }
-
   private dispatchLessonChanges(changes: Partial<Lesson>) {
 
     const update: UpdateStr<Lesson> = {

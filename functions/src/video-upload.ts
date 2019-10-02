@@ -99,7 +99,13 @@ export const videoUpload = functions.storage.object().onFinalize(async (object, 
     console.log("Uploading thumbnail");
 
     // Uploading the Video Thumbnail
-    await bucket.upload(localThumbnailFilePath, {destination: thumbnailBucketPath, metadata: metadata});
+    const uploadedFiles =  await bucket.upload(localThumbnailFilePath, {destination: thumbnailBucketPath, metadata: metadata});
+
+    // create link to uploaded file
+    const thumbnail = uploadedFiles[0];
+
+    const thumbnailUrl = await thumbnail.getSignedUrl({action:'read',expires: new Date(3000,0,1)});
+
 
     console.log("Cleaning up files");
 
@@ -119,7 +125,7 @@ export const videoUpload = functions.storage.object().onFinalize(async (object, 
 
     // save the original file name
     batch.update(lessonRef, {
-      thumbnail: thumbnailFileName,
+      thumbnail: thumbnailUrl,
       originalFileName: extractOriginalFileName(videoFileName),
       videoDuration,
       uploadStatus:"done"
