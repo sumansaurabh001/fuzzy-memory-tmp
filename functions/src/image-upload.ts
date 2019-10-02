@@ -81,7 +81,7 @@ export const imageUpload = functions.storage.object().onFinalize(async (object, 
   await spawn('convert', [tempLocalFile, '-thumbnail', `${THUMB_MAX_WIDTH}x${THUMB_MAX_HEIGHT}>`, tempLocalThumbFile], {capture: ['stdout', 'stderr']});
 
   // Uploading the Thumbnail.
-  await bucket.upload(tempLocalThumbFile, {destination: thumbFilePath, metadata: metadata});
+  const uploadedFiles = await bucket.upload(tempLocalThumbFile, {destination: thumbFilePath, metadata: metadata});
 
   // delete the original image to save space
   await file.delete();
@@ -113,7 +113,11 @@ export const imageUpload = functions.storage.object().onFinalize(async (object, 
 
   }
 
-  await db.doc(coursesDbPath + '/' + courseId).update({thumbnail: newFileName});
+  const thumbnailFile = uploadedFiles[0];
+
+  const thumbnailUrl = await thumbnailFile.getSignedUrl({action:'read',expires: new Date(3000,0,1)});
+
+  await db.doc(coursesDbPath + '/' + courseId).update({thumbnail: thumbnailUrl});
 
 
 });

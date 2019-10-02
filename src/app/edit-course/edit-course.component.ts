@@ -2,7 +2,6 @@ import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {Course} from '../models/course.model';
 import {Observable} from 'rxjs';
-import {UrlBuilderService} from '../services/url-builder.service';
 import {selectActiveCourse} from '../store/selectors';
 import {select, Store} from '@ngrx/store';
 import {AppState} from '../store';
@@ -29,7 +28,6 @@ export class EditCourseComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private store: Store<AppState>,
-    private ub: UrlBuilderService,
     private title: Title) {
 
 
@@ -46,7 +44,7 @@ export class EditCourseComponent implements OnInit {
 
   imgSrc(course:Course) {
     if (course && course.thumbnail) {
-      return this.ub.buildCourseThumbailUrl(course);
+      return course.thumbnail;
     }
     else return EMPTY_IMG;
 

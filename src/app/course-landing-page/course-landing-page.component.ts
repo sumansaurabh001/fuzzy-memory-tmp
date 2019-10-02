@@ -5,7 +5,6 @@ import {ActivatedRoute} from '@angular/router';
 import {TenantService} from '../services/tenant.service';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {MessagesService} from '../services/messages.service';
-import {UrlBuilderService} from '../services/url-builder.service';
 import {filter, first, tap} from 'rxjs/operators';
 import {select, Store} from '@ngrx/store';
 import {AppState} from '../store';
@@ -39,7 +38,6 @@ export class CourseLandingPageComponent implements OnInit {
               private store: Store<AppState>,
               private fb: FormBuilder,
               private messages: MessagesService,
-              private ub: UrlBuilderService,
               private coursesDB: CoursesDBService,
               private upload: FileUploadService,
               private loading: LoadingService) {
@@ -75,10 +73,6 @@ export class CourseLandingPageComponent implements OnInit {
 
   imagesPath(course: Course) {
     return this.tenant.id + '/' + course.id + '/thumbnail';
-  }
-
-  thumbnailUrl(course: Course) {
-    return this.ub.buildCourseThumbailUrl(course);
   }
 
   save(courseId:string) {

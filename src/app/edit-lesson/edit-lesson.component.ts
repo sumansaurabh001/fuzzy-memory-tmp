@@ -14,7 +14,6 @@ import {defaultEditorConfig} from '../common/html-editor.config';
 import {loadDescription, saveDescription} from '../store/description.actions';
 import {FileUploadService} from '../services/file-upload.service';
 import {Observable, noop} from 'rxjs';
-import {UrlBuilderService} from '../services/url-builder.service';
 import {UpdateStr} from '@ngrx/entity/src/models';
 import {AngularFireUploadTask} from '@angular/fire/storage/task';
 import {selectDescriptionsState} from '../store/selectors';
@@ -46,8 +45,7 @@ export class EditLessonComponent implements OnInit, OnChanges {
               private loading: LoadingService,
               private lessonsDB: LessonsDBService,
               private fb: FormBuilder,
-              private upload: FileUploadService,
-              private ub: UrlBuilderService) {
+              private upload: FileUploadService) {
 
 
     this.form = this.fb.group({

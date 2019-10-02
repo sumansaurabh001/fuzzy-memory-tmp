@@ -56,7 +56,6 @@ import {CoursesDBService} from './services/courses-db.service';
 import {CourseCardComponent} from './course-card/course-card.component';
 import {FileUploadService} from './services/file-upload.service';
 import {AngularFireStorageModule} from '@angular/fire/storage';
-import {UrlBuilderService} from './services/url-builder.service';
 import {LessonsDBService} from './services/lessons-db.service';
 import {AddSectionDialogComponent} from './add-section-dialog/add-section-dialog.component';
 import {StoreModule} from '@ngrx/store';
@@ -279,7 +278,6 @@ import {CouponsService} from './services/coupons.service';
     ViewCoursesResolver,
     LoadCourseDetailResolver,
     ActiveLessonResolver,
-    UrlBuilderService,
     LoginGuard,
     CookieService,
     PaymentsService,

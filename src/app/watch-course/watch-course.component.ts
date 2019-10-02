@@ -9,7 +9,6 @@ import {select, Store} from '@ngrx/store';
 import {CourseSection} from '../models/course-section.model';
 import {Lesson} from '../models/lesson.model';
 import {AppState} from '../store';
-import {UrlBuilderService} from '../services/url-builder.service';
 import {Router} from '@angular/router';
 import {filter, map, tap, withLatestFrom} from 'rxjs/operators';
 import {sortLessonsBySectionAndSeqNo, sortSectionsBySeqNo} from '../common/sort-model';
@@ -55,7 +54,6 @@ export class WatchCourseComponent implements OnInit {
 
 
   constructor(private store: Store<AppState>,
-              public ub: UrlBuilderService,
               private router: Router,
               private title: Title) {
 

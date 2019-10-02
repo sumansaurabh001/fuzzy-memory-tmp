@@ -8,7 +8,6 @@ import {
   selectActiveCourse, selectActiveCourseAllLessons, selectActiveCourseDescription,
   selectActiveCourseSections, selectUser, selectUserCoursesIds
 } from '../store/selectors';
-import {UrlBuilderService} from '../services/url-builder.service';
 import {Lesson} from '../models/lesson.model';
 import {CourseSection} from '../models/course-section.model';
 import {filter, first, map, startWith, take, tap, withLatestFrom} from 'rxjs/operators';
@@ -56,7 +55,6 @@ export class CoursePageComponent implements OnInit {
 
   constructor(
     private store: Store<AppState>,
-    private ub: UrlBuilderService,
     private route:ActivatedRoute,
     private messages:MessagesService,
     private purchases: PurchasesService,
@@ -147,10 +145,6 @@ export class CoursePageComponent implements OnInit {
 
         })
       );
-  }
-
-  thumbnailUrl(course: Course) {
-    return this.ub.buildCourseThumbailUrl(course);
   }
 
   toggleShowMore() {

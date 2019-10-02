@@ -24,7 +24,7 @@
     </div>
 
     <div class="thumbnail-container">
-      <img class="course-thumbnail mat-elevation-z7" [src]="thumbnailUrl(course)">
+      <img class="course-thumbnail mat-elevation-z7" *ngIf="course.thumbnail" [src]="course.thumbnail">
     </div>
 
 
