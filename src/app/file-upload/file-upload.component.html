@@ -10,7 +10,7 @@
            (mouseenter)="onMouseEnter()" (mouseleave)="onMouseLeave()">
 
 
-        <img class="empty-image noselect" [src]="EMPTY_IMG" *ngIf="!this.src">
+        <img class="empty-image noselect" [src]="EMPTY_IMG" *ngIf="!src && emptyImage">
 
         <input class="file-upload noselect" type="file"
                (change)="onFileSelected($event)" [accept]="accept" #fileUpload>

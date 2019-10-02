@@ -8,6 +8,7 @@ export interface Course {
   subTitle:string;
   shortDescription: string;
   thumbnail: string;
+  lessonIconUrl:string;
   downloadAllowed: boolean;
   price:number;
   includedInSubscription:boolean;

@@ -18,9 +18,24 @@ export class FileUploadService {
 
   }
 
-  uploadFile(file:File, filePath:string): AngularFireUploadTask {
+  uploadFile(file:File, filePath:string, randomFileName = false, addThumbPrefix = false): AngularFireUploadTask {
 
-    const uploadPath = filePath + '/' + file.name;
+    let uploadPath;
+
+    if (addThumbPrefix) {
+      uploadPath = filePath + '/thumb_' + file.name;
+    }
+    else {
+      uploadPath = filePath + '/' + file.name;
+    }
+
+    if (randomFileName) {
+
+      const extension = file.name.split('.').pop();
+
+      uploadPath = uploadPath.replace(extension, generateId() + "." + extension);
+
+    }
 
     return this.storage.upload(uploadPath, file, {cacheControl: CACHE_CONTROL_SETTINGS});
   }

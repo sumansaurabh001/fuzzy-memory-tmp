@@ -35,6 +35,9 @@ export class FileUploadComponent implements OnInit {
   @ViewChild("fileUpload", { static: false })
   fileUpload : ElementRef;
 
+  @Input()
+  emptyImage = true;
+
 
   EMPTY_IMG = EMPTY_IMG;
 

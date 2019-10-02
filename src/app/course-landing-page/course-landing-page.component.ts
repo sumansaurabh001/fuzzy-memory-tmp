@@ -5,7 +5,7 @@ import {ActivatedRoute} from '@angular/router';
 import {TenantService} from '../services/tenant.service';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {MessagesService} from '../services/messages.service';
-import {filter, first, tap} from 'rxjs/operators';
+import {concatMap, filter, first, last, tap} from 'rxjs/operators';
 import {select, Store} from '@ngrx/store';
 import {AppState} from '../store';
 import {selectActiveCourse, selectActiveCourseDescription} from '../store/selectors';
@@ -15,6 +15,7 @@ import {addDescription, saveDescription} from '../store/description.actions';
 import {defaultEditorConfig} from '../common/html-editor.config';
 import {FileUploadService} from '../services/file-upload.service';
 import {LoadingService} from '../services/loading.service';
+import {generateId} from '../common/unique-id-generator';
 
 @Component({
   selector: 'course-landing-page',
@@ -71,7 +72,7 @@ export class CourseLandingPageComponent implements OnInit {
       .subscribe(description => this.courseDescription = description);
   }
 
-  imagesPath(course: Course) {
+  courseThumbnailPath(course: Course) {
     return this.tenant.id + '/' + course.id + '/thumbnail';
   }
 
@@ -90,12 +91,12 @@ export class CourseLandingPageComponent implements OnInit {
 
   }
 
-  onFileSelected(course: Course, event) {
+  onCourseThumbnailSelected(course: Course, event) {
 
     const image = event.target.files[0];
 
     if (image) {
-      this.loading.showLoaderUntilCompleted(this.upload.uploadFile(image, this.imagesPath(course)).percentageChanges())
+      this.loading.showLoaderUntilCompleted(this.upload.uploadFile(image, this.courseThumbnailPath(course)).percentageChanges())
         .pipe(
           tap(percent => {
             if (percent == 100) {
@@ -136,6 +137,43 @@ export class CourseLandingPageComponent implements OnInit {
       )
       .subscribe();
   }
+
+  onLessonIconSelected(course: Course, event) {
+
+    const icon = event.target.files[0];
+
+    if (icon) {
+
+      const uploadTask = this.upload.uploadFile(icon, this.courseThumbnailPath(course), true, true);
+
+      const fullPath = uploadTask.task.snapshot.ref.fullPath;
+
+      const uploadPercentage$ = uploadTask.percentageChanges();
+
+      this.loading.showLoaderUntilCompleted(uploadPercentage$)
+        .pipe(
+          last(),
+          concatMap(() => this.upload.getDownloadUrl(fullPath)),
+          tap(lessonIconUrl => {
+
+            const update = {
+              id: course.id,
+              changes: {
+                lessonIconUrl
+              }
+            };
+
+            this.store.dispatch(updateCourse({course: update}));
+
+          })
+        )
+        .subscribe();
+    }
+
+
+
+  }
+
 
 }
 

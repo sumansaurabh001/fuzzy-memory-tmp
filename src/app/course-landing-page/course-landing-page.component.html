@@ -9,12 +9,21 @@
 
   <messages></messages>
 
-  <div class="section-label">Choose Image</div>
+  <div class="section-label">Choose Course Image</div>
 
   <div class="image-processing" *ngIf="imageProcessingOngoing">(processing, 1 minute left ...)</div>
 
   <file-upload class="course-image mat-elevation-z4" [src]="course.thumbnail" [processing]="imageProcessingOngoing"
-      height="150px" width="267px" accept="image/*" (fileSelected)="onFileSelected(course, $event)" >
+      height="150px" width="267px" accept="image/*" (fileSelected)="onCourseThumbnailSelected(course, $event)" >
+
+  </file-upload>
+
+  <div class="section-label">Choose Lesson Icon</div>
+
+  <div class="field-hint">A small image icon (30x30 px or an svg) shown next to each lesson in a lesson list. It helps associate a lesson to a course.</div>
+
+  <file-upload class="lesson-icon mat-elevation-z4" [src]="course.lessonIconUrl"
+               height="50px" width="50px" accept="image/*" (fileSelected)="onLessonIconSelected(course, $event)" [emptyImage]="false">
 
   </file-upload>
 
