@@ -146,6 +146,15 @@ export const videoUpload = functions.storage.object().onFinalize(async (object, 
       totalDuration: admin.firestore.FieldValue.increment(videoDuration - (lesson.videoDuration || 0))
     });
 
+    const latestLessonRef = db.doc(`schools/${tenantId}/latestLessons/${lessonId}`);
+
+    // update latest lessons view
+    batch.update(latestLessonRef, {
+        thumbnail: thumbnailUrl,
+        videoDuration
+    },
+    {merge:true});
+
     await batch.commit();
 
     // if there was already a previous video for the lesson, delete it and its lesson thumbnail to save space

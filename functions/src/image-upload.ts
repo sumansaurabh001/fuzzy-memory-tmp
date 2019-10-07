@@ -117,7 +117,7 @@ export const imageUpload = functions.storage.object().onFinalize(async (object, 
 
   const thumbnailUrl = await thumbnailFile.getSignedUrl({action:'read',expires: new Date(3000,0,1)});
 
-  await db.doc(coursesDbPath + '/' + courseId).update({thumbnail: thumbnailUrl});
+  await db.doc(coursesDbPath + '/' + courseId).update({thumbnail: thumbnailUrl[0]});
 
 
 });

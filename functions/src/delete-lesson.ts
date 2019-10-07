@@ -1,5 +1,6 @@
 import * as functions from 'firebase-functions';
 import {getDocData} from './utils';
+import {db} from './init';
 
 const {Storage} = require('@google-cloud/storage');
 
@@ -23,6 +24,11 @@ export const onDeleteLesson = functions.firestore
       lessonId = context.params.lessonId;
 
     const lesson = snap.data();
+
+    // delete latest lessons view entry
+    const latestLessonPath = `schools/${tenantId}/latestLessons/${lessonId}`;
+
+    await db.doc(latestLessonPath).delete();
 
     const lessonDirectoryPath = `${tenantId}/${courseId}/videos/${lessonId}`;
 

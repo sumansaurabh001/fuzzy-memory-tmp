@@ -65,7 +65,7 @@ export class PublishCourseComponent implements OnInit {
   }
 
   isCourseTitleSet(data: PublishCoursePageData) {
-    return !!data.course.title;
+    return data.course && !!data.course.title;
   }
 
 

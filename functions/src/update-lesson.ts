@@ -1,0 +1,50 @@
+import * as functions from 'firebase-functions';
+import {getDocData} from './utils';
+import {db} from './init';
+
+
+/**
+ *
+ * Trigger to keep the latest lessons view in sync with the lessons data.
+ *
+ **/
+
+export const onUpdateLesson = functions.firestore
+  .document('schools/{tenantId}/courses/{courseId}/lessons/{lessonId}')
+  .onUpdate(async (snap, context) => {
+
+    const tenantId = context.params.tenantId,
+      courseId = context.params.courseId,
+      lessonId = context.params.lessonId;
+
+    const lessonAfter = snap.after.data(),
+      lessonBefore = snap.before.data();
+
+    const latestLessonPath = `schools/${tenantId}/latestLessons/${lessonId}`;
+
+    const isUnpublished = lessonBefore.status == "published" && lessonBefore.status == "draft";
+
+    // delete unpublished lessons from the latest lessons view
+    if (isUnpublished) {
+      console.log("Deleting lessons from latest lessons view");
+      await db.doc(latestLessonPath).delete();
+    }
+    // only update the latest lessons view if the lesson is already published
+    else if (lessonAfter.status == "published") {
+      console.log("Updating lesson in latest lessons view");
+      await db.doc(latestLessonPath).update({
+          courseId,
+          sectionId: lessonAfter.sectionId,
+          seqNo: lessonAfter.seqNo,
+          courseSeqNo: lessonAfter.courseSeqNo,
+          title: lessonAfter.title,
+          videoDuration: lessonAfter.videoDuration,
+          thumbnail: lessonAfter.thumbnail,
+          duration: lessonAfter.duration,
+          free: lessonAfter.free
+        },
+        {merge:true});
+    }
+
+  });
+
