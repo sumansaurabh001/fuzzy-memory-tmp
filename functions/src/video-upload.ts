@@ -136,7 +136,9 @@ export const videoUpload = functions.storage.object().onFinalize(async (object, 
     const videoSecretUrl = await file.getSignedUrl({action:'read',expires: new Date(3000,0,1)});
 
     batch.set(videoRef, {
-      videoSecretUrl
+      videoSecretUrl,
+      secretVideoName: videoFileName,
+      thumbnailFileName
     });
 
     const courseRef = db.doc(`schools/${tenantId}/courses/${courseId}`);
@@ -148,12 +150,13 @@ export const videoUpload = functions.storage.object().onFinalize(async (object, 
 
     const latestLessonRef = db.doc(`schools/${tenantId}/latestLessons/${lessonId}`);
 
-    // update latest lessons view
-    batch.update(latestLessonRef, {
-        thumbnail: thumbnailUrl,
-        videoDuration
-    },
-    {merge:true});
+    // update latest lessons view, but only if the video is already published
+    if (lesson.status == "published") {
+      batch.set(latestLessonRef, {
+          videoDuration
+        },
+        {merge:true});
+    }
 
     await batch.commit();
 

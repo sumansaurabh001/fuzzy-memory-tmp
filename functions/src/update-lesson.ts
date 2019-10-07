@@ -22,7 +22,7 @@ export const onUpdateLesson = functions.firestore
 
     const latestLessonPath = `schools/${tenantId}/latestLessons/${lessonId}`;
 
-    const isUnpublished = lessonBefore.status == "published" && lessonBefore.status == "draft";
+    const isUnpublished = lessonBefore.status == "published" && lessonAfter.status == "draft";
 
     // delete unpublished lessons from the latest lessons view
     if (isUnpublished) {
@@ -32,15 +32,12 @@ export const onUpdateLesson = functions.firestore
     // only update the latest lessons view if the lesson is already published
     else if (lessonAfter.status == "published") {
       console.log("Updating lesson in latest lessons view");
-      await db.doc(latestLessonPath).update({
+      await db.doc(latestLessonPath).set({
           courseId,
           sectionId: lessonAfter.sectionId,
           seqNo: lessonAfter.seqNo,
-          courseSeqNo: lessonAfter.courseSeqNo,
           title: lessonAfter.title,
           videoDuration: lessonAfter.videoDuration,
-          thumbnail: lessonAfter.thumbnail,
-          duration: lessonAfter.duration,
           free: lessonAfter.free
         },
         {merge:true});

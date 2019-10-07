@@ -35,14 +35,25 @@ export const onDeleteLesson = functions.firestore
     const bucket = gcs.bucket(adminConfig.storageBucket);
 
     // get the video file name from the DB
-    const video = await getDocData(`schools/${tenantId}/courses/${courseId}/videos/${lessonId}`);
+    const videoPath = `schools/${tenantId}/courses/${courseId}/videos/${lessonId}`;
+
+    const video = await getDocData(videoPath);
 
     const videoFilePath = `${lessonDirectoryPath}/${video.secretVideoName}`;
 
-    await bucket.file(videoFilePath).delete();
+    if (video.secretVideoName) {
+      console.log("deleting video file from storage path: " + videoFilePath);
+      await bucket.file(videoFilePath).delete();
+    }
 
-    const thumbnailFilePath = `${lessonDirectoryPath}/${lesson.thumbnail}`;
+    if (video.thumbnailFileName) {
+      console.log("deleting video thumbnail from storage path: " + videoFilePath);
+      const thumbnailFilePath = `${lessonDirectoryPath}/${video.thumbnailFileName}`;
+      await bucket.file(thumbnailFilePath).delete();
+    }
 
-    await bucket.file(thumbnailFilePath).delete();
+    console.log("deleting video details from DB");
+
+    await db.doc(videoPath).delete();
 
   });

@@ -127,12 +127,10 @@ export class EditLessonComponent implements OnInit, OnChanges {
 
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, config);
 
-    const deleteLesson$ = this.lessonsDB.deleteLesson(this.course.id, this.lesson.id, this.lesson.videoDuration);
-
     dialogRef.afterClosed()
       .pipe(
-        filter(result => result.confirm),
-        concatMap(() => this.loading.showLoader(deleteLesson$)),
+        filter(result => result && result.confirm),
+        concatMap(() => this.loading.showLoader(this.lessonsDB.deleteLesson(this.course.id, this.lesson.id, this.lesson.videoDuration))),
         tap(() => this.store.dispatch(deleteLesson({id: this.lesson.id})))
       )
       .subscribe();
