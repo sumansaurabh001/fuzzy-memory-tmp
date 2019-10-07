@@ -133,6 +133,7 @@ import {TestUserInterceptor} from './services/test-user.interceptor';
 import {MatBadgeModule} from '@angular/material';
 import { CourseStatusComponent } from './course-status/course-status.component';
 import {CouponsService} from './services/coupons.service';
+import { LatestLessonsListComponent } from './latest-lessons-list/latest-lessons-list.component';
 
 
 @NgModule({
@@ -197,7 +198,8 @@ import {CouponsService} from './services/coupons.service';
     AskSchoolDetailsDialogComponent,
     PublishCourseComponent,
     PublishCourseDialogComponent,
-    CourseStatusComponent
+    CourseStatusComponent,
+    LatestLessonsListComponent
   ],
   imports: [
     BrowserModule,

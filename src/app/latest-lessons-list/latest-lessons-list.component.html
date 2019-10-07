@@ -1,0 +1,34 @@
+
+<ng-container *ngIf="(data$ | async) as data">
+
+  <div class="lesson-row mat-row" *ngFor="let lesson of data.latestLessons"
+       (click)="navigateToLesson(data.course.url, lesson.seqNo)">
+
+    <div class="lesson-icon">
+      <mat-icon>play_circle_outline</mat-icon>
+    </div>
+
+    <div class="lesson-description">
+      {{lesson.title}}
+    </div>
+
+    <div class="filler"></div>
+
+    <div class="lesson-pro">
+      <mat-icon class="pro-icon" *ngIf="!lesson.free && !data.course.free" title="This is a Premium lesson">local_parking</mat-icon>
+    </div>
+
+    <div class="lesson-duration">
+
+      {{lesson.videoDuration | duration}}
+    </div>
+
+    <div class="lesson-update-date">
+        TODO
+    </div>
+
+  </div>
+
+</ng-container>
+
+

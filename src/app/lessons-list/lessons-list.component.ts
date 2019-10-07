@@ -72,12 +72,13 @@ export class LessonsListComponent implements OnInit {
     event.stopPropagation();
   }
 
+  isLessonWatched(lesson: Lesson) {
+    return this.lessonsWatched.includes(lesson.id);
+  }
+
 
   lessonClasses(lesson: Lesson) {
     return lesson && this.highlightedLesson && (lesson.id == this.highlightedLesson.id) ? 'active-lesson' : undefined;
   }
 
-  isLessonWatched(lesson: Lesson) {
-    return this.lessonsWatched.includes(lesson.id);
-  }
 }

@@ -22,7 +22,7 @@
 
       <div *ngIf="displayedCourses(data)?.length > 0; else noCourses">
 
-        <h1 class="page-title"> All Courses</h1>
+        <h1 class="page-title">All Courses</h1>
 
         <mat-grid-list cols="2">
           <mat-grid-tile *ngFor="let course of displayedCourses(data);let first= first; let last = last">

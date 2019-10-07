@@ -1,7 +1,6 @@
 import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
 import {Lesson} from '../models/lesson.model';
 import {CourseSection} from '../models/course-section.model';
-import { MatTableDataSource } from '@angular/material/table';
 import {Course} from '../models/course.model';
 
 @Component({
