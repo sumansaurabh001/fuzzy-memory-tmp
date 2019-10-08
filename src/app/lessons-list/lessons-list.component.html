@@ -9,6 +9,10 @@
     {{lessons.sectionStartIndex + index + 1}}.
   </div>
 
+  <div class="course-icon" *ngIf="course.lessonIconUrl">
+    <img class="lesson-list-icon" [src]="course.lessonIconUrl">
+  </div>
+
   <div class="lesson-description">
     {{lesson.title}}
   </div>
