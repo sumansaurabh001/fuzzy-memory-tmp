@@ -1,15 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import {AppState} from '../store';
-import {Store} from '@ngrx/store';
+import {select, Store} from '@ngrx/store';
 import {Lesson} from '../models/lesson.model';
 import {User} from '../models/user.model';
 import {Course} from '../models/course.model';
 import {Observable} from 'rxjs/internal/Observable';
-
-interface LatestLesssonsData {
-  user:User;
-  latestLessons: Lesson[];
-};
+import {selectAllLatestLessons} from '../store/latest-lessons.selectors';
+import {LatestLesson} from '../models/latest-lesson.model';
 
 
 @Component({
@@ -19,13 +16,16 @@ interface LatestLesssonsData {
 })
 export class LatestLessonsListComponent implements OnInit {
 
-  data$ : Observable<LatestLesssonsData>;
+  latestLessons$: Observable<LatestLesson[]>;
 
   constructor(private store:Store<AppState>) {
 
   }
 
   ngOnInit() {
+
+    this.latestLessons$ = this.store.pipe(select(selectAllLatestLessons));
+
 
 
   }

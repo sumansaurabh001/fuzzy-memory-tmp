@@ -1,32 +1,36 @@
 
-<ng-container *ngIf="(data$ | async) as data">
+<ng-container *ngIf="(latestLessons$ | async) as latestLessons">
 
-  <h1 class="page-title" *ngIf="data.latestLessons.length > 0">Latest Lessons</h1>
+  <h1 class="page-title" *ngIf="latestLessons.length > 0">Latest Lessons</h1>
 
-  <div class="lesson-row mat-row" *ngFor="let lesson of data.latestLessons"
-       (click)="navigateToLesson(data.course.url, lesson.seqNo)">
+  <div class="mat-elevation-z5 latest-lessons">
 
-    <div class="lesson-icon">
-      <mat-icon>play_circle_outline</mat-icon>
-    </div>
+    <div class="lesson-row mat-row" *ngFor="let lesson of latestLessons"
+         (click)="navigateToLesson('TODO', lesson.seqNo)">
 
-    <div class="lesson-description">
-      {{lesson.title}}
-    </div>
+      <div class="lesson-icon">
+        <mat-icon>play_circle_outline</mat-icon>
+      </div>
 
-    <div class="filler"></div>
+      <div class="lesson-description">
+        {{lesson.title}}
+      </div>
 
-    <div class="lesson-pro">
-      <mat-icon class="pro-icon" *ngIf="!lesson.free && !data.course.free" title="This is a Premium lesson">local_parking</mat-icon>
-    </div>
+      <div class="filler"></div>
 
-    <div class="lesson-duration">
+      <div class="lesson-pro">
+        <mat-icon class="pro-icon" *ngIf="!lesson.free" title="This is a Premium lesson">local_parking</mat-icon>
+      </div>
 
-      {{lesson.videoDuration | duration}}
-    </div>
+      <div class="lesson-duration">
 
-    <div class="lesson-update-date">
+        {{lesson.videoDuration | duration}}
+      </div>
+
+      <div class="lesson-update-date">
         TODO
+      </div>
+
     </div>
 
   </div>
