@@ -1,6 +1,7 @@
 import * as functions from 'firebase-functions';
 import {getDocData} from './utils';
 import {db} from './init';
+import * as admin from "firebase-admin";
 
 
 /**
@@ -38,7 +39,8 @@ export const onUpdateLesson = functions.firestore
           seqNo: lessonAfter.seqNo,
           title: lessonAfter.title,
           videoDuration: lessonAfter.videoDuration,
-          free: lessonAfter.free
+          free: lessonAfter.free,
+          lastUpdated:  admin.firestore.Timestamp.fromDate(new Date())
         },
         {merge:true});
     }

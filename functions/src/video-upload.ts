@@ -3,7 +3,7 @@ import * as functions from 'firebase-functions';
 const mkdirp = require('mkdirp-promise');
 import * as fs from 'fs';
 import * as shortid from 'shortid';
-const admin = require('firebase-admin');
+
 
 // use $ and @ instead of - and _
 shortid.characters('0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ$@');
@@ -16,6 +16,7 @@ import * as os from 'os';
 import * as path from 'path';
 import {getDocData, listDirectory, promisifyCommand} from './utils';
 import {db} from './init';
+import * as admin from "firebase-admin";
 
 /*
 *
@@ -153,7 +154,8 @@ export const videoUpload = functions.storage.object().onFinalize(async (object, 
     // update latest lessons view, but only if the video is already published
     if (lesson.status == "published") {
       batch.set(latestLessonRef, {
-          videoDuration
+          videoDuration,
+          lastUpdated:  admin.firestore.Timestamp.fromDate(new Date())
         },
         {merge:true});
     }
