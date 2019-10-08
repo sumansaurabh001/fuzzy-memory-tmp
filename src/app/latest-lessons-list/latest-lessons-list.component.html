@@ -1,15 +1,19 @@
 
-<ng-container *ngIf="(latestLessons$ | async) as latestLessons">
+<ng-container *ngIf="(data$ | async) as data">
 
-  <h1 class="page-title" *ngIf="latestLessons.length > 0">Latest Lessons</h1>
+  <h1 class="page-title" *ngIf="data.latestLessons.length > 0">Latest Lessons</h1>
 
   <div class="mat-elevation-z5 latest-lessons">
 
-    <div class="lesson-row mat-row" *ngFor="let lesson of latestLessons"
+    <div class="lesson-row mat-row" *ngFor="let lesson of data.latestLessons"
          (click)="navigateToLesson('TODO', lesson.seqNo)">
 
       <div class="lesson-icon">
         <mat-icon>play_circle_outline</mat-icon>
+      </div>
+
+      <div class="lesson-list-icon" *ngIf="findCourseListIcon(lesson.courseId, data.courses) as courseListIcon">
+        <img class="lesson-list-icon" [src]="courseListIcon" >
       </div>
 
       <div class="lesson-description">

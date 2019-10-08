@@ -7,6 +7,14 @@ import {Course} from '../models/course.model';
 import {Observable} from 'rxjs/internal/Observable';
 import {selectAllLatestLessons} from '../store/latest-lessons.selectors';
 import {LatestLesson} from '../models/latest-lesson.model';
+import {selectAllCourses} from '../store/selectors';
+import {combineLatest} from 'rxjs';
+import {map} from 'rxjs/operators';
+
+interface LatestLessonsListData {
+  latestLessons: LatestLesson[];
+  courses: Course[];
+}
 
 
 @Component({
@@ -16,7 +24,7 @@ import {LatestLesson} from '../models/latest-lesson.model';
 })
 export class LatestLessonsListComponent implements OnInit {
 
-  latestLessons$: Observable<LatestLesson[]>;
+  data$: Observable<LatestLessonsListData>;
 
   constructor(private store:Store<AppState>) {
 
@@ -24,9 +32,22 @@ export class LatestLessonsListComponent implements OnInit {
 
   ngOnInit() {
 
-    this.latestLessons$ = this.store.pipe(select(selectAllLatestLessons));
+    const latestLessons$ = this.store.pipe(select(selectAllLatestLessons));
 
+    const courses$ = this.store.pipe(select(selectAllCourses));
 
+    this.data$ = combineLatest([latestLessons$, courses$])
+      .pipe(
+        map(([latestLessons, courses]) => {return {latestLessons, courses}})
+      );
+
+  }
+
+  findCourseListIcon(courseId:string, courses: Course[]) {
+
+    const course = courses.find(course => course.id == courseId);
+
+    return course.lessonIconUrl;
 
   }
 
@@ -34,4 +55,5 @@ export class LatestLessonsListComponent implements OnInit {
   navigateToLesson(courseUrlSegment: string, lessonSeqNo: number) {
 
   }
+
 }

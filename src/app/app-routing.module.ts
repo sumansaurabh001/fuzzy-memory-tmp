@@ -106,7 +106,8 @@ const routes: Routes = [
     canActivate: [PlatformGuard],
     resolve: {
       content: HomePageContentResolver,
-      latestLessons: LatestLessonsResolver
+      latestLessons: LatestLessonsResolver,
+      courses: ViewCoursesResolver
     }
   },
   {
