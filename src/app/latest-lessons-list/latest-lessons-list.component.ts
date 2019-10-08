@@ -7,7 +7,6 @@ import {Course} from '../models/course.model';
 import {Observable} from 'rxjs/internal/Observable';
 
 interface LatestLesssonsData {
-  course:Course;
   user:User;
   latestLessons: Lesson[];
 };
