@@ -134,6 +134,7 @@ import {MatBadgeModule} from '@angular/material';
 import { CourseStatusComponent } from './course-status/course-status.component';
 import {CouponsService} from './services/coupons.service';
 import { LatestLessonsListComponent } from './latest-lessons-list/latest-lessons-list.component';
+import {LatestLessonEffects} from './store/latest-lesson.effects';
 
 
 @NgModule({
@@ -259,7 +260,8 @@ import { LatestLessonsListComponent } from './latest-lessons-list/latest-lessons
       PlatformEffects,
       CouponEffects,
       ContentEffects,
-      UserLessonStatusEffects
+      UserLessonStatusEffects,
+      LatestLessonEffects
     ]),
     StoreRouterConnectingModule.forRoot({
       routerState: RouterState.Minimal,

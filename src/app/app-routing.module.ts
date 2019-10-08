@@ -21,6 +21,7 @@ import {HomeComponent} from './home/home.component';
 import {HomePageContentResolver} from './services/home-page-content.resolver';
 import {ContactPageComponent} from './contact-page/contact-page.component';
 import {UploadOngoingGuard} from './services/upload-ongoing.guard';
+import {LatestLessonsResolver} from './services/latest-lessons.resolver';
 
 const routes: Routes = [
   {
@@ -104,7 +105,8 @@ const routes: Routes = [
     component: HomeComponent,
     canActivate: [PlatformGuard],
     resolve: {
-      content: HomePageContentResolver
+      content: HomePageContentResolver,
+      latestLessons: LatestLessonsResolver
     }
   },
   {

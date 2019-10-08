@@ -149,7 +149,7 @@ export const videoUpload = functions.storage.object().onFinalize(async (object, 
       totalDuration: admin.firestore.FieldValue.increment(videoDuration - (lesson.videoDuration || 0))
     });
 
-    const latestLessonRef = db.doc(`schools/${tenantId}/latestLessons/${lessonId}`);
+    const latestLessonRef = db.doc(`schools/${tenantId}/latestLessonsView/${lessonId}`);
 
     // update latest lessons view, but only if the video is already published
     if (lesson.status == "published") {

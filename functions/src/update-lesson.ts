@@ -21,7 +21,7 @@ export const onUpdateLesson = functions.firestore
     const lessonAfter = snap.after.data(),
       lessonBefore = snap.before.data();
 
-    const latestLessonPath = `schools/${tenantId}/latestLessons/${lessonId}`;
+    const latestLessonPath = `schools/${tenantId}/latestLessonsView/${lessonId}`;
 
     const isUnpublished = lessonBefore.status == "published" && lessonAfter.status == "draft";
 

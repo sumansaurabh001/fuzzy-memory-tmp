@@ -17,6 +17,7 @@ import {videoAccessReducer, VideoAccessState} from './video-access.reducer';
 import {pricingPlansReducer, PricingPlansState} from './pricing-plans.reducer';
 import {contentReducer, ContentState} from './content.reducer';
 import {userLessonStatusReducer, UserLessonStatusState} from './user-lesson-status.reducer';
+import {latestLessonsReducer, LatestLessonsState} from './latest-lessons.reducer';
 
 
 
@@ -33,6 +34,7 @@ export interface AppState {
   pricingPlans: PricingPlansState;
   content: ContentState;
   userLessonStatus: UserLessonStatusState;
+  latestLessonsView: LatestLessonsState;
 }
 
 
@@ -49,7 +51,8 @@ export const reducers: ActionReducerMap<AppState> = {
   videoAccess: videoAccessReducer,
   pricingPlans: pricingPlansReducer,
   content: contentReducer,
-  userLessonStatus: userLessonStatusReducer
+  userLessonStatus: userLessonStatusReducer,
+  latestLessonsView: latestLessonsReducer
 };
 
 

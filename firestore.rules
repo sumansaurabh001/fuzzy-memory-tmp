@@ -151,6 +151,17 @@ service cloud.firestore {
 
     }
 
+    match /schools/{tenantId}/latestLessonsView/{lessonId}  {
+
+        // this view is public info
+        allow read: if true;
+
+        // only an admin can edit this
+        allow write: if isAdmin(tenantId);
+
+    }
+
+
   }
 
 }

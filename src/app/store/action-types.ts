@@ -10,8 +10,9 @@ import * as VideoAccessActions from "./video-access.actions";
 import * as UserActions from "./user.actions";
 import * as PlatformActions from "./platform.actions";
 import * as LessonActions from './lesson.actions';
+import * as LatestLessonActions from './latest-lesson.actions';
 
 export {CourseActions, ContentActions, CouponActions, CourseSectionActions,
   DescriptionActions, PricingPlanActions, UserLessonStatusActions,
-  VideoAccessActions, UserActions, PlatformActions, LessonActions};
+  VideoAccessActions, UserActions, PlatformActions, LessonActions, LatestLessonActions};
 

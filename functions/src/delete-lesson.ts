@@ -26,7 +26,7 @@ export const onDeleteLesson = functions.firestore
     const lesson = snap.data();
 
     // delete latest lessons view entry
-    const latestLessonPath = `schools/${tenantId}/latestLessons/${lessonId}`;
+    const latestLessonPath = `schools/${tenantId}/latestLessonsView/${lessonId}`;
 
     await db.doc(latestLessonPath).delete();
 
