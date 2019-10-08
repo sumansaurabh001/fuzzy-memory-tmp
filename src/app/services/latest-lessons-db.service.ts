@@ -30,6 +30,9 @@ export class LatestLessonsDbService {
 
     const queryFn: QueryFn = ref => {
       let query = ref.orderBy('lastUpdated').limit(PAGE_SIZE);
+
+      //TODO add call to startAfter for pagination
+
       return query;
     };
 
