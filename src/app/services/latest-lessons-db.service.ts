@@ -9,8 +9,8 @@ import {first, map} from 'rxjs/operators';
 import * as firebase from "firebase/app";
 
 
-const PAGE_SIZE = 10;
-
+const PAGE_SIZE = 3;
+ 
 
 @Injectable({
   providedIn: 'root'
@@ -22,17 +22,15 @@ export class LatestLessonsDbService {
 
   }
 
-  loadLatestLessonsPage(pageNumber: number): Observable<LatestLesson[]> {
+  loadLatestLessonsPage(startAfter: firebase.firestore.Timestamp): Observable<LatestLesson[]> {
 
     const latestLessonsPath = `schools/${this.tenant.id}/latestLessonsView`;
 
-    console.log("Loading page number ", pageNumber);
-
     const queryFn: QueryFn = ref => {
       let query = ref.orderBy('lastUpdated', "desc").limit(PAGE_SIZE);
-
-      //TODO add call to startAfter for pagination
-
+      if (startAfter) {
+        query = query.startAfter(startAfter);
+      }
       return query;
     };
 

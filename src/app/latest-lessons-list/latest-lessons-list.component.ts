@@ -10,6 +10,7 @@ import {LatestLesson} from '../models/latest-lesson.model';
 import {selectAllCourses} from '../store/selectors';
 import {combineLatest} from 'rxjs';
 import {map} from 'rxjs/operators';
+import {loadNextLatestLessonsPage} from '../store/latest-lesson.actions';
 
 interface LatestLessonsListData {
   latestLessons: LatestLesson[];
@@ -60,7 +61,7 @@ export class LatestLessonsListComponent implements OnInit {
   }
 
   loadMore() {
-
+    this.store.dispatch(loadNextLatestLessonsPage());
   }
 
 }

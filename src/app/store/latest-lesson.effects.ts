@@ -7,6 +7,7 @@ import {latestLessonsPageLoaded} from './latest-lesson.actions';
 import {AppState} from './index';
 import {select, Store} from '@ngrx/store';
 import {selectLatestLessonsState} from './latest-lessons.selectors';
+import {LoadingService} from '../services/loading.service';
 
 
 @Injectable()
@@ -18,7 +19,10 @@ export class LatestLessonEffects {
         ofType(LatestLessonActions.loadNextLatestLessonsPage),
         withLatestFrom(this.store.pipe(select(selectLatestLessonsState))),
         concatMap(([action, state]) =>
-          this.latestLessonsDB.loadLatestLessonsPage(state.lastPageLoaded != null ? state.lastPageLoaded + 1 : 0)),
+            this.loading.showLoaderUntilCompleted(
+              this.latestLessonsDB.loadLatestLessonsPage(state.latestLessons.length ? state.latestLessons[state.latestLessons.length -1].lastUpdated : null)
+            )
+        ),
         map(latestLessons => latestLessonsPageLoaded({latestLessons})))
 
   );
@@ -26,7 +30,8 @@ export class LatestLessonEffects {
   constructor(
     private actions$ : Actions,
     private latestLessonsDB: LatestLessonsDbService,
-    private store: Store<AppState>) {
+    private store: Store<AppState>,
+    private loading: LoadingService) {
 
   }
 
