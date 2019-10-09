@@ -5,7 +5,7 @@ import {Lesson} from '../models/lesson.model';
 import {User} from '../models/user.model';
 import {Course} from '../models/course.model';
 import {Observable} from 'rxjs/internal/Observable';
-import {selectAllLatestLessons} from '../store/latest-lessons.selectors';
+import {isAllLatestLessonsLoaded, selectAllLatestLessons} from '../store/latest-lessons.selectors';
 import {LatestLesson} from '../models/latest-lesson.model';
 import {selectAllCourses} from '../store/selectors';
 import {combineLatest} from 'rxjs';
@@ -14,6 +14,7 @@ import {map} from 'rxjs/operators';
 interface LatestLessonsListData {
   latestLessons: LatestLesson[];
   courses: Course[];
+  isAllLatestLessonsLoaded:boolean;
 }
 
 
@@ -36,9 +37,11 @@ export class LatestLessonsListComponent implements OnInit {
 
     const courses$ = this.store.pipe(select(selectAllCourses));
 
-    this.data$ = combineLatest([latestLessons$, courses$])
+    const isAllLatestLessonsLoaded$ = this.store.pipe(select(isAllLatestLessonsLoaded));
+
+    this.data$ = combineLatest([latestLessons$, courses$, isAllLatestLessonsLoaded$])
       .pipe(
-        map(([latestLessons, courses]) => {return {latestLessons, courses}})
+        map(([latestLessons, courses, isAllLatestLessonsLoaded]) => {return {latestLessons, courses, isAllLatestLessonsLoaded}})
       );
 
   }
@@ -53,6 +56,10 @@ export class LatestLessonsListComponent implements OnInit {
 
 
   navigateToLesson(courseUrlSegment: string, lessonSeqNo: number) {
+
+  }
+
+  loadMore() {
 
   }
 

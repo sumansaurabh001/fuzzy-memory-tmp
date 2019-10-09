@@ -10,3 +10,8 @@ export const selectAllLatestLessons = createSelector(
   state => state.latestLessons
 );
 
+
+export const isAllLatestLessonsLoaded = createSelector(
+  selectLatestLessonsState,
+  state => state.allPagesLoaded
+);

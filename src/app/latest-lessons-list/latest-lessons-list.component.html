@@ -35,6 +35,10 @@
 
   </div>
 
+  <div class="bottom-toolbar">
+    <button mat-raised-button color="accent" *ngIf="!data.isAllLatestLessonsLoaded" (click)="loadMore()">Load More</button>
+  </div>
+
 </ng-container>
 
 
