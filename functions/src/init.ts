@@ -15,3 +15,4 @@ db.settings({timestampsInSnapshots: true});
 export const storage = admin.storage();
 
 export const auth = admin.auth();
+

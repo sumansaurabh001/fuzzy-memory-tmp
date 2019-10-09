@@ -17,6 +17,7 @@ import {Observable, noop} from 'rxjs';
 import {UpdateStr} from '@ngrx/entity/src/models';
 import {AngularFireUploadTask} from '@angular/fire/storage/task';
 import {selectDescriptionsState} from '../store/selectors';
+import {UrlBuilderService} from '../services/url-builder.service';
 
 
 @Component({
@@ -45,7 +46,8 @@ export class EditLessonComponent implements OnInit, OnChanges {
               private loading: LoadingService,
               private lessonsDB: LessonsDBService,
               private fb: FormBuilder,
-              private upload: FileUploadService) {
+              private upload: FileUploadService,
+              private ub: UrlBuilderService) {
 
 
     this.form = this.fb.group({
@@ -226,6 +228,10 @@ export class EditLessonComponent implements OnInit, OnChanges {
 
   unpublish() {
     this.store.dispatch(unpublishLesson({courseId: this.course.id, lessonId: this.lesson.id}));
+  }
+
+  videoThumbnailPath() {
+    return this.ub.buildLessonThumbailUrl(this.course, this.lesson);
   }
 
 }

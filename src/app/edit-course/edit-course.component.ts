@@ -9,6 +9,7 @@ import {loadCoupons} from '../store/coupons.actions';
 import {EMPTY_IMG} from '../common/ui-constants';
 import {Title} from '@angular/platform-browser';
 import {setSchoolNameAsPageTitle} from '../common/seo-utils';
+import {UrlBuilderService} from '../services/url-builder.service';
 
 
 
@@ -28,7 +29,8 @@ export class EditCourseComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private store: Store<AppState>,
-    private title: Title) {
+    private title: Title,
+    private ub:UrlBuilderService) {
 
 
 
@@ -44,7 +46,7 @@ export class EditCourseComponent implements OnInit {
 
   imgSrc(course:Course) {
     if (course && course.thumbnail) {
-      return course.thumbnail;
+      return this.ub.buildCourseThumbnailUrl(course);
     }
     else return EMPTY_IMG;
 

@@ -31,7 +31,7 @@ export MAILGUN_API_DOMAIN="mg.onlinecoursehost.com"
 ## needed for validating JWTs via authentication middleware
 export GOOGLE_CLOUD_PROJECT=onlinecoursehost-local-dev
 
-# needed to create custom JWTs
+# needed for creating custom JWTs
 export GOOGLE_APPLICATION_CREDENTIALS=/Users/vasco/vasco/code/fuzzy-memory-tmp/rest-api/service-accounts/onlinecoursehost-local-dev-51579d6b8d0b.json
 
 

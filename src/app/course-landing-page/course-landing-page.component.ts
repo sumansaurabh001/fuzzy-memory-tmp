@@ -16,6 +16,7 @@ import {defaultEditorConfig} from '../common/html-editor.config';
 import {FileUploadService} from '../services/file-upload.service';
 import {LoadingService} from '../services/loading.service';
 import {generateId} from '../common/unique-id-generator';
+import {UrlBuilderService} from '../services/url-builder.service';
 
 @Component({
   selector: 'course-landing-page',
@@ -41,7 +42,8 @@ export class CourseLandingPageComponent implements OnInit {
               private messages: MessagesService,
               private coursesDB: CoursesDBService,
               private upload: FileUploadService,
-              private loading: LoadingService) {
+              private loading: LoadingService,
+              private ub: UrlBuilderService) {
 
 
     this.form = this.fb.group({
@@ -169,9 +171,10 @@ export class CourseLandingPageComponent implements OnInit {
         )
         .subscribe();
     }
+  }
 
-
-
+  thumbnailUrl(course: Course) {
+    return this.ub.buildCourseThumbnailUrl(course);
   }
 
 

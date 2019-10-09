@@ -19,6 +19,7 @@ import {Title} from '@angular/platform-browser';
 import {selectActiveCourseLessonsWatched} from '../store/user-lesson-status.selectors';
 import {UserLessonStatus} from '../models/user-lesson-status';
 import {updateLessonWatchStatus} from '../store/user-lesson-status.actions';
+import {UrlBuilderService} from '../services/url-builder.service';
 
 
 @Component({
@@ -55,7 +56,8 @@ export class WatchCourseComponent implements OnInit {
 
   constructor(private store: Store<AppState>,
               private router: Router,
-              private title: Title) {
+              private title: Title,
+              private ub: UrlBuilderService) {
 
   }
 

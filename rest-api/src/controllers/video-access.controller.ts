@@ -156,7 +156,7 @@ function allowVideoAccess(res, reqInfo: RequestInfo, video) {
     id: reqInfo.lessonId,
     courseId: reqInfo.courseId,
     status:'allowed',
-    videoSecretUrl: video.videoSecretUrl
+    secretVideoName: video.secretVideoName
   });
 }
 

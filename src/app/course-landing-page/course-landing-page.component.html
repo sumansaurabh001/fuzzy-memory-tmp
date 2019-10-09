@@ -13,7 +13,7 @@
 
   <div class="image-processing" *ngIf="imageProcessingOngoing">(processing, 1 minute left ...)</div>
 
-  <file-upload class="course-image mat-elevation-z4" [src]="course.thumbnail" [processing]="imageProcessingOngoing"
+  <file-upload class="course-image mat-elevation-z4" [src]="thumbnailUrl(course)" [processing]="imageProcessingOngoing"
       height="150px" width="267px" accept="image/*" (fileSelected)="onCourseThumbnailSelected(course, $event)" >
 
   </file-upload>

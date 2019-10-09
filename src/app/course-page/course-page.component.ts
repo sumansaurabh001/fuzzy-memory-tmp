@@ -26,6 +26,7 @@ import {CourseCoupon, isValidCoupon} from '../models/coupon.model';
 import {selectCouponByCode} from '../store/coupon.selectors';
 import {selectActiveCourseLessonsWatched} from '../store/user-lesson-status.selectors';
 import {loadCoupon} from '../store/coupons.actions';
+import {UrlBuilderService} from '../services/url-builder.service';
 
 const DESCRIPTION_MAX_LENGTH = 1500;
 
@@ -58,7 +59,8 @@ export class CoursePageComponent implements OnInit {
     private route:ActivatedRoute,
     private messages:MessagesService,
     private purchases: PurchasesService,
-    private title: Title) {
+    private title: Title,
+    private ub: UrlBuilderService) {
 
   }
 
@@ -170,9 +172,8 @@ export class CoursePageComponent implements OnInit {
      return Math.round(100 * (course.price - coupon.price) / course.price);
   }
 
-
-  startFreeCourse() {
-
+  thumbnailUrl(course: Course) {
+    return this.ub.buildCourseThumbnailUrl(course);
   }
 
 }

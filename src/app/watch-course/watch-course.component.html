@@ -35,7 +35,7 @@
         <video-player *ngIf="videoAccess.status == 'allowed'; else videoNotAllowed"
                       #videoPlayer
                       class="lesson-video"
-                      [url]="videoAccess.videoSecretUrl"
+                      [url]="ub.buildLessonVideoUrl(course, activeLesson, videoAccess)"
                       [videoDuration]="activeLesson.videoDuration"
                       (close)="toggleLeftMenu()"
                       (open)="toggleLeftMenu()"
