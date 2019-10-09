@@ -5,13 +5,15 @@ import {UserLessonStatusActions} from './action-types';
 
 
 export interface UserLessonStatusState extends EntityState<UserLessonStatus> {
-
+  coursesLoaded: string[];
 }
 
 export const adapter: EntityAdapter<UserLessonStatus> = createEntityAdapter<UserLessonStatus>();
 
 
-export const initialUserLessonStatusState = adapter.getInitialState();
+export const initialUserLessonStatusState = adapter.getInitialState({
+  coursesLoaded: []
+});
 
 
 export const userLessonStatusReducer = createReducer(
@@ -19,7 +21,12 @@ export const userLessonStatusReducer = createReducer(
 
   on(UserLessonStatusActions.updateLessonWatchStatus, (state, action) => adapter.upsertOne(action.userLessonStatus, state)),
 
-  on(UserLessonStatusActions.userLessonsStatusLoaded, (state, action) => adapter.addMany(action.userLessonsStatusList, state))
+  on(UserLessonStatusActions.userLessonsStatusLoaded, (state, action) => {
+    return adapter.addMany(action.userLessonsStatusList, {
+      ...state,
+      coursesLoaded: state.coursesLoaded.concat(action.courseId)
+    });
+  })
 
 );
 

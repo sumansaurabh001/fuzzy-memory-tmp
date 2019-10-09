@@ -24,8 +24,13 @@ export class UserLessonStatusEffects {
       map(([action, loaded]) => action),
       withLatestFrom(this.store.pipe(select(selectUser))),
       filter(([action, user]) => !isAnonymousUser(user)),
-      concatMap(([{courseId}, user]) => this.userLessonsDb.loadLessonsWatchedByCourse(user.id, courseId)),
-      map(userLessonsStatusList => userLessonsStatusLoaded({userLessonsStatusList}))
+      concatMap(([{courseId}, user]) =>
+        this.userLessonsDb.loadLessonsWatchedByCourse(user.id, courseId)
+          .pipe(
+            map(userLessonsStatusList => [courseId, userLessonsStatusList])
+          )
+      ),
+      map( ([courseId, userLessonsStatusList]:any) => userLessonsStatusLoaded({courseId,userLessonsStatusList}))
     ));
 
   saveLessonStatus = createEffect(() =>this.actions$

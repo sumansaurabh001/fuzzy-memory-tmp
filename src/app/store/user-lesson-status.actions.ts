@@ -12,6 +12,6 @@ export const updateLessonWatchStatus = createAction(
 
 export const userLessonsStatusLoaded = createAction(
   '[Course Page] Load User Lessons Watched',
-  props<{userLessonsStatusList: UserLessonStatus[]}>()
+  props<{courseId:string, userLessonsStatusList: UserLessonStatus[]}>()
 );
 

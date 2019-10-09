@@ -15,3 +15,11 @@ export const selectActiveCourseLessonsWatched = createSelector(
                                     .map(userLessonsStatus => userLessonsStatus.id)
 
 );
+
+
+
+export const selectCoursesWithLessonViewedStatusLoaded = createSelector(
+  selectUserLessonStatusState,
+  state => state.coursesLoaded
+);
+
