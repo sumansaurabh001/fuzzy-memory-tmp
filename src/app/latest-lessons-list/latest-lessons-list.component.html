@@ -20,7 +20,7 @@
         <img class="lesson-list-icon" [src]="courseListIcon" >
       </div>
 
-      <div class="lesson-description">
+      <div class="lesson-description"  [ngClass]="{'lesson-watched': isLessonWatched(data.lessonsWatched, lesson)}">
         {{lesson.title}}
       </div>
 

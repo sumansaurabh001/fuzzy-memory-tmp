@@ -9,7 +9,7 @@ import {first, map} from 'rxjs/operators';
 import * as firebase from "firebase/app";
 
 
-const PAGE_SIZE = 3;
+const PAGE_SIZE = 10;
  
 
 @Injectable({

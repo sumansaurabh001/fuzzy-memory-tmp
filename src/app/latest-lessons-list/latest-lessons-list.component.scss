@@ -5,17 +5,14 @@
   border-radius: 4px;
 }
 
-.lesson-viewed {
-  margin-left: 25px;
-}
-
-.lesson-icon {
-  //margin-right: 20px;
-}
-
 .lesson-duration {
   @include mat-icon-size(16px);
 }
+
+.lesson-watched {
+  opacity: 0.5;
+}
+
 
 .lesson-row:first-child {
   border-top-left-radius: 4px;
