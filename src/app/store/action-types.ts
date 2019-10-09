@@ -12,7 +12,18 @@ import * as PlatformActions from "./platform.actions";
 import * as LessonActions from './lesson.actions';
 import * as LatestLessonActions from './latest-lesson.actions';
 
-export {CourseActions, ContentActions, CouponActions, CourseSectionActions,
-  DescriptionActions, PricingPlanActions, UserLessonStatusActions,
-  VideoAccessActions, UserActions, PlatformActions, LessonActions, LatestLessonActions};
+export {
+  CourseActions,
+  ContentActions,
+  CouponActions,
+  CourseSectionActions,
+  DescriptionActions,
+  PricingPlanActions,
+  UserLessonStatusActions,
+  VideoAccessActions,
+  UserActions,
+  PlatformActions,
+  LessonActions,
+  LatestLessonActions
+};
 

@@ -29,7 +29,7 @@ export class LatestLessonsDbService {
     console.log("Loading page number ", pageNumber);
 
     const queryFn: QueryFn = ref => {
-      let query = ref.orderBy('lastUpdated').limit(PAGE_SIZE);
+      let query = ref.orderBy('lastUpdated', "desc").limit(PAGE_SIZE);
 
       //TODO add call to startAfter for pagination
 
