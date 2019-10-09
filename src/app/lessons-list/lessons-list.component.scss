@@ -1,3 +1,6 @@
-@import "../vars";
+@import "../mixins";
 
 
+.lesson-duration {
+  @include mat-icon-size(16px);
+}

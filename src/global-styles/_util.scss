@@ -209,6 +209,7 @@ mat-card.card-section {
   color: rgba(26,35,38,.8);
   cursor: pointer;
   outline: none;
+  padding-left: 25px;
 }
 
 .lesson-row:hover {
@@ -238,6 +239,7 @@ mat-card.card-section {
   display: flex;
   flex: 0 0 55px;
   margin-left: 10px;
+  margin-right: 10px;
   align-items: center;
 
   .duration-icon {

@@ -9,7 +9,7 @@
     {{lessons.sectionStartIndex + index + 1}}.
   </div>
 
-  <div class="course-icon" *ngIf="course.lessonIconUrl">
+  <div class="course-icon" *ngIf="course.lessonIconUrl && !playlistMode">
     <img class="lesson-list-icon" [src]="course.lessonIconUrl">
   </div>
 
@@ -24,6 +24,7 @@
   </div>
 
   <div class="lesson-duration">
+    <mat-icon class="duration-icon">access_time</mat-icon>
     {{lesson.videoDuration | duration}}
   </div>
 
