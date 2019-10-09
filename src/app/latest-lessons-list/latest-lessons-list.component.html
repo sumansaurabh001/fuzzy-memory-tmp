@@ -8,6 +8,10 @@
     <div class="lesson-row mat-row" *ngFor="let lesson of data.latestLessons"
          (click)="navigateToLesson('TODO', lesson.seqNo)">
 
+      <div class="lesson-viewed" (click)="onCheckBoxToggled($event)">
+        <mat-checkbox  [checked]="isLessonWatched(data.lessonsWatched, lesson)" color="primary" (change)="onLessonViewedClicked($event, lesson, data.isLoggedIn)" #watched></mat-checkbox>
+      </div>
+
       <div class="lesson-icon">
         <mat-icon>play_circle_outline</mat-icon>
       </div>
@@ -27,7 +31,7 @@
       </div>
 
       <div class="lesson-duration">
-
+        <mat-icon class="duration-icon">access_time</mat-icon>
         {{lesson.videoDuration | duration}}
       </div>
 

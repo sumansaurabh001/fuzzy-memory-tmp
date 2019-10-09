@@ -56,6 +56,7 @@ export class LessonsListComponent implements OnInit {
 
     if (isAnonymousUser(this.user)) {
       this.messages.info("Please login first, in order to mark lessons as viewed.");
+      return;
     }
 
     const userLessonStatus: UserLessonStatus = {

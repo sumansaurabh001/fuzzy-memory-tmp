@@ -2,20 +2,27 @@ import { Component, OnInit } from '@angular/core';
 import {AppState} from '../store';
 import {select, Store} from '@ngrx/store';
 import {Lesson} from '../models/lesson.model';
-import {User} from '../models/user.model';
+import {isAnonymousUser, User} from '../models/user.model';
 import {Course} from '../models/course.model';
 import {Observable} from 'rxjs/internal/Observable';
 import {isAllLatestLessonsLoaded, selectAllLatestLessons} from '../store/latest-lessons.selectors';
 import {LatestLesson} from '../models/latest-lesson.model';
-import {selectAllCourses} from '../store/selectors';
+import {isLoggedIn, selectAllCourses} from '../store/selectors';
 import {combineLatest} from 'rxjs';
 import {map} from 'rxjs/operators';
 import {loadNextLatestLessonsPage} from '../store/latest-lesson.actions';
+import {MatCheckboxChange} from '@angular/material';
+import {UserLessonStatus} from '../models/user-lesson-status';
+import {updateLessonWatchStatus} from '../store/user-lesson-status.actions';
+import {MessagesService} from '../services/messages.service';
+import {selectActiveCourseLessonsWatched, selectAllLessonsWatched} from '../store/user-lesson-status.selectors';
 
 interface LatestLessonsListData {
   latestLessons: LatestLesson[];
   courses: Course[];
   isAllLatestLessonsLoaded:boolean;
+  isLoggedIn: boolean;
+  lessonsWatched:string[];
 }
 
 
@@ -28,7 +35,9 @@ export class LatestLessonsListComponent implements OnInit {
 
   data$: Observable<LatestLessonsListData>;
 
-  constructor(private store:Store<AppState>) {
+  constructor(
+    private store:Store<AppState>,
+    private messages: MessagesService) {
 
   }
 
@@ -40,9 +49,15 @@ export class LatestLessonsListComponent implements OnInit {
 
     const isAllLatestLessonsLoaded$ = this.store.pipe(select(isAllLatestLessonsLoaded));
 
-    this.data$ = combineLatest([latestLessons$, courses$, isAllLatestLessonsLoaded$])
+    const isLoggedIn$ = this.store.pipe(select(isLoggedIn));
+
+    const lessonsWatched$ = this.store.pipe(select(selectAllLessonsWatched));
+
+    this.data$ = combineLatest([latestLessons$, courses$, isAllLatestLessonsLoaded$, isLoggedIn$, lessonsWatched$])
       .pipe(
-        map(([latestLessons, courses, isAllLatestLessonsLoaded]) => {return {latestLessons, courses, isAllLatestLessonsLoaded}})
+        map(([latestLessons, courses, isAllLatestLessonsLoaded, isLoggedIn, lessonsWatched]) => {
+          return {latestLessons, courses, isAllLatestLessonsLoaded, isLoggedIn, lessonsWatched}
+        })
       );
 
   }
@@ -55,13 +70,37 @@ export class LatestLessonsListComponent implements OnInit {
 
   }
 
+  loadMore() {
+    this.store.dispatch(loadNextLatestLessonsPage());
+  }
 
-  navigateToLesson(courseUrlSegment: string, lessonSeqNo: number) {
+  onCheckBoxToggled(event: MouseEvent) {
+    event.stopPropagation();
+  }
+
+  onLessonViewedClicked(event: MatCheckboxChange, lesson: LatestLesson, isLoggedIn:boolean) {
+
+    if (!isLoggedIn) {
+      this.messages.info("Please login first, in order to mark lessons as viewed.");
+      return;
+    }
+
+    const userLessonStatus: UserLessonStatus = {
+      id: lesson.id,
+      courseId: lesson.courseId,
+      watched: event.checked
+    };
+
+    this.store.dispatch(updateLessonWatchStatus({userLessonStatus}));
 
   }
 
-  loadMore() {
-    this.store.dispatch(loadNextLatestLessonsPage());
+  isLessonWatched(lessonsWatched: string[], lesson: LatestLesson) {
+    return lessonsWatched.includes(lesson.id);
+  }
+
+  navigateToLesson(courseUrlSegment: string, lessonSeqNo: number) {
+
   }
 
 }

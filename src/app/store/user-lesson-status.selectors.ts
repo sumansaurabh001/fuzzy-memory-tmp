@@ -16,6 +16,12 @@ export const selectActiveCourseLessonsWatched = createSelector(
 
 );
 
+export const selectAllLessonsWatched = createSelector(
+  selectUserLessonStatusState,
+  state => Object.values(state.entities).map(status => status.id)
+
+)
+
 
 
 export const selectCoursesWithLessonViewedStatusLoaded = createSelector(

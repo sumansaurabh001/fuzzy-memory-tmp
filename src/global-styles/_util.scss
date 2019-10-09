@@ -217,7 +217,6 @@ mat-card.card-section {
 }
 
 .lesson-icon {
-  margin-left: 25px;
   flex: 0 0 35px;
   color: rgba(22, 28, 26, 0.87);
   display: flex;
@@ -236,8 +235,14 @@ mat-card.card-section {
 }
 
 .lesson-duration {
+  display: flex;
   flex: 0 0 55px;
   margin-left: 10px;
+  align-items: center;
+
+  .duration-icon {
+    margin-right: 10px;
+  }
 }
 
 .lesson-viewed {
