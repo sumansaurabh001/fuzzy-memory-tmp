@@ -10,9 +10,11 @@ import {selectLatestLessonsState} from './latest-lessons.selectors';
 import {LoadingService} from '../services/loading.service';
 import {UserLessonStatusDbService} from '../services/user-lesson-status.db.service';
 import {from} from "rxjs";
-import {selectUser} from './selectors';
+import {selectAllCourses, selectAllLessons, selectAllSections, selectUser} from './selectors';
 import {userLessonsStatusLoaded} from './user-lesson-status.actions';
 import {selectCoursesWithLessonViewedStatusLoaded} from './user-lesson-status.selectors';
+import {Router} from '@angular/router';
+import {LessonsDBService} from '../services/lessons-db.service';
 
 @Injectable()
 export class LatestLessonEffects {
@@ -56,13 +58,39 @@ export class LatestLessonEffects {
       )
   );
 
+  navigateToLesson$ = createEffect(
+    () => this.actions$
+      .pipe(
+        ofType(LatestLessonActions.navigateToLesson),
+        tap(console.log),
+        withLatestFrom(
+          this.store.pipe(select(selectAllCourses))
+        ),
+        concatMap(([action, courses]) =>
+          this.loading.showLoaderUntilCompleted(this.lessonsDB.loadCourseSection(action.lesson.courseId, action.lesson.sectionId))
+            .pipe(
+              map(section => [action, courses, section])
+            )
+        ),
+        map(([action, courses, section]:any) => {
+
+          const course = courses.find(course => course.id == action.lesson.courseId);
+
+          this.router.navigateByUrl(`/courses/${course.url}/${section.seqNo}/lessons/${action.lesson.seqNo}`);
+
+        })
+      )
+  ,{dispatch:false});
+
 
   constructor(
     private actions$ : Actions,
     private latestLessonsDB: LatestLessonsDbService,
     private store: Store<AppState>,
     private loading: LoadingService,
-    private userLessonsDb: UserLessonStatusDbService) {
+    private userLessonsDb: UserLessonStatusDbService,
+    private router:Router,
+    private lessonsDB: LessonsDBService) {
 
   }
 

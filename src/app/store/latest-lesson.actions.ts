@@ -11,3 +11,8 @@ export const latestLessonsPageLoaded = createAction(
   "[Latest Lessons Effects] Latest Lessons Page Loaded",
   props<{latestLessons: LatestLesson[]}>()
 );
+
+export const navigateToLesson = createAction(
+  "[Latest Lessons List] Navigate to Lesson",
+  props<{lesson:LatestLesson}>()
+)

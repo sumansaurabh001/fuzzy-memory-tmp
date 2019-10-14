@@ -10,7 +10,7 @@ import {LatestLesson} from '../models/latest-lesson.model';
 import {isLoggedIn, selectAllCourses} from '../store/selectors';
 import {combineLatest} from 'rxjs';
 import {map} from 'rxjs/operators';
-import {loadNextLatestLessonsPage} from '../store/latest-lesson.actions';
+import {loadNextLatestLessonsPage, navigateToLesson} from '../store/latest-lesson.actions';
 import {MatCheckboxChange} from '@angular/material';
 import {UserLessonStatus} from '../models/user-lesson-status';
 import {updateLessonWatchStatus} from '../store/user-lesson-status.actions';
@@ -99,8 +99,8 @@ export class LatestLessonsListComponent implements OnInit {
     return lessonsWatched.includes(lesson.id);
   }
 
-  navigateToLesson(courseUrlSegment: string, lessonSeqNo: number) {
-
+  navigateToLesson(lesson: LatestLesson) {
+    this.store.dispatch(navigateToLesson({lesson}));
   }
 
 }

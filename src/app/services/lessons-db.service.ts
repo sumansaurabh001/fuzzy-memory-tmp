@@ -19,6 +19,11 @@ export class LessonsDBService {
 
   }
 
+  loadCourseSection(courseId:string, sectionId:string) {
+    return readDocumentWithId(this.afs.doc(this.sectionsPath(courseId) + '/' + sectionId )).pipe(first());
+
+  }
+
 
   loadCourseSections(courseId: string): Observable<CourseSection[]> {
 

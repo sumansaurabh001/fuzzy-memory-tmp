@@ -33,6 +33,7 @@ export const onUpdateLesson = functions.firestore
     // only update the latest lessons view if the lesson is already published
     else if (lessonAfter.status == "published") {
       console.log("Updating lesson in latest lessons view");
+
       await db.doc(latestLessonPath).set({
           courseId,
           sectionId: lessonAfter.sectionId,
