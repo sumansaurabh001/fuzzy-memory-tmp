@@ -1,6 +1,6 @@
 import {LatestLesson} from '../models/latest-lesson.model';
 import {createReducer, on} from '@ngrx/store';
-import {LatestLessonActions, LessonActions} from './action-types';
+import {CourseSectionActions, LatestLessonActions, LessonActions} from './action-types';
 
 
 export interface LatestLessonsState {
@@ -27,7 +27,12 @@ export const latestLessonsReducer = createReducer(
     }
   }),
 
-  on(LessonActions.updateLesson, (state, action) => {
+  on(
+    LessonActions.updateLesson,
+    CourseSectionActions.updateSectionOrder,
+    CourseSectionActions.updateCourseSection,
+    CourseSectionActions.deleteCourseSection,
+    CourseSectionActions.addCourseSection, (state, action) => {
     return {
      ...initialLatestLessonsState,
     }
