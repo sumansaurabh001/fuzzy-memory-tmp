@@ -1,6 +1,16 @@
 import {
   AfterViewInit,
-  ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  EventEmitter,
+  Input,
+  OnChanges,
+  OnDestroy,
+  OnInit,
+  Output,
+  SimpleChanges,
   ViewChild
 } from '@angular/core';
 import {fadeIn, fadeInOut, fadeOut} from '../common/fade-in-out';
@@ -14,7 +24,7 @@ import { MatSliderChange } from '@angular/material/slider';
   styleUrls: ['./video-player.component.scss'],
   animations: [fadeOut, fadeIn, fadeInOut]
 })
-export class VideoPlayerComponent implements OnInit, AfterViewInit, OnChanges {
+export class VideoPlayerComponent implements OnInit, AfterViewInit, OnChanges, OnDestroy {
 
   @Input()
   url: string;
@@ -347,6 +357,11 @@ export class VideoPlayerComponent implements OnInit, AfterViewInit, OnChanges {
       total: totalPlayed,
       percent: totalPlayed / video.duration * 100
     };
+  }
+
+  ngOnDestroy() {
+    this.video.src = "";
+
   }
 
 
