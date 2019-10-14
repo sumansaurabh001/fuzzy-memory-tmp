@@ -62,7 +62,6 @@ export class LatestLessonEffects {
     () => this.actions$
       .pipe(
         ofType(LatestLessonActions.navigateToLesson),
-        tap(console.log),
         withLatestFrom(
           this.store.pipe(select(selectAllCourses))
         ),
