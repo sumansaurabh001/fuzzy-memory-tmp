@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {AppState} from '../store';
 import {select, Store} from '@ngrx/store';
 import {Lesson} from '../models/lesson.model';
@@ -32,6 +32,8 @@ interface LatestLessonsListData {
   styleUrls: ['./latest-lessons-list.component.scss']
 })
 export class LatestLessonsListComponent implements OnInit {
+
+  @Input() title:string;
 
   data$: Observable<LatestLessonsListData>;
 

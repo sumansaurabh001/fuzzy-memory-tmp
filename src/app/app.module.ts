@@ -135,6 +135,7 @@ import { CourseStatusComponent } from './course-status/course-status.component';
 import {CouponsService} from './services/coupons.service';
 import { LatestLessonsListComponent } from './latest-lessons-list/latest-lessons-list.component';
 import {LatestLessonEffects} from './store/latest-lesson.effects';
+import { AllLessonsComponent } from './all-lessons/all-lessons.component';
 
 
 @NgModule({
@@ -200,7 +201,8 @@ import {LatestLessonEffects} from './store/latest-lesson.effects';
     PublishCourseComponent,
     PublishCourseDialogComponent,
     CourseStatusComponent,
-    LatestLessonsListComponent
+    LatestLessonsListComponent,
+    AllLessonsComponent
   ],
   imports: [
     BrowserModule,
