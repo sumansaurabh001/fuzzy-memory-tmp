@@ -16,7 +16,7 @@
 
     </edit-lessons-toolbar>
 
-    <div class="drag-drop-container lessons-list-container" cdkDropList (cdkDropListDropped)="dropLesson(course, sections, $event)">
+    <div class="drag-drop-container lessons-list-container" cdkDropListGroup>
 
       <ng-container *ngFor="let section of sections; let first = first, let last = last">
 
@@ -26,7 +26,7 @@
             <span class="section-number">Section {{section.seqNo}}: </span>
             <span class="section-title-text" (click)="editSectionTitle(course,section)"> {{section.title}}</span>
 
-            <div class="edit-button-container"(click)="editSectionTitle(course,section)">
+            <div class="edit-button-container" (click)="editSectionTitle(course,section)">
               <mat-icon>edit</mat-icon>
             </div>
 
@@ -34,10 +34,10 @@
 
             <div class="move-section">
 
-              <i class="fas fa-chevron-circle-up"  *ngIf="!first && sections?.length > 0"
+              <i class="fas fa-chevron-circle-up" *ngIf="!first && sections?.length > 0"
                  matTooltip="Move this section up the list" (click)="onSectionUp(course, sections, section)"></i>
 
-              <i class="fas fa-chevron-circle-down"  *ngIf="!last && sections?.length > 0"
+              <i class="fas fa-chevron-circle-down" *ngIf="!last && sections?.length > 0"
                  matTooltip="Move this section down the list" (click)="onSectionDown(course, sections, section)"></i>
 
             </div>
@@ -46,51 +46,64 @@
 
           <ng-container *ngIf="(allLessons$ | async) as allLessons">
 
-            <div class="lessons-container" *ngIf="findLessonsForSection(section, allLessons) as result">
+            <ng-container *ngIf="findLessonsForSection(section, allLessons) as result">
 
-              <mat-expansion-panel
-                *ngFor="let lesson of result.sectionLessons; let index = index"
-                class="lesson-item drag-drop-item"
-                #panel
-                [expanded]="expandedLessons[lesson.id]"
-                (expandedChange)="onExpandLesson(lesson, $event)"
-                cdkDrag>
+              <div class="lessons-container"
+                   cdkDropList
+                   [attr.sectionId]="section.id"
+                   [cdkDropListData]="result.sectionLessons"
+                   (cdkDropListDropped)="dropLesson(course, $event)">
 
-                <mat-expansion-panel-header class="lesson-header">
-                  <mat-panel-title>
-                    <span class="lecture-number">Lecture {{ result.sectionStartIndex + index + 1 }}:</span>
-                    <mat-icon>play_circle_outline</mat-icon>
-                  </mat-panel-title>
-                  <mat-panel-description class="panel-description noselect">
-                    <button class="content-status" mat-raised-button color="primary" *ngIf="!lesson.thumbnail">Add Content</button>
-                    <button class="content-status" mat-raised-button color="primary" *ngIf="lesson.status == 'draft' && lesson.thumbnail">Publish</button>
-                    {{lesson.title}}
-                    <div class="filler"></div>
-                    <mat-icon class="draggable drag-lesson" cdkDragHandle>drag_handle</mat-icon>
-                  </mat-panel-description>
-                </mat-expansion-panel-header>
+                <mat-expansion-panel
+                  *ngFor="let lesson of result.sectionLessons; let index = index"
+                  class="lesson-item drag-drop-item"
+                  #panel
+                  [expanded]="expandedLessons[lesson.id]"
+                  (expandedChange)="onExpandLesson(lesson, $event)"
+                  cdkDrag
+                  [cdkDragData]="lesson">
 
-                <edit-lesson [course]="course" [lesson]="lesson"></edit-lesson>
+                  <mat-expansion-panel-header class="lesson-header">
+                    <mat-panel-title>
+                      <span class="lecture-number">Lecture {{ result.sectionStartIndex + index + 1 }}:</span>
+                      <mat-icon>play_circle_outline</mat-icon>
+                    </mat-panel-title>
+                    <mat-panel-description class="panel-description noselect">
+                      <button class="content-status" mat-raised-button color="primary" *ngIf="!lesson.thumbnail">Add
+                        Content
+                      </button>
+                      <button class="content-status" mat-raised-button color="primary"
+                              *ngIf="lesson.status == 'draft' && lesson.thumbnail">Publish
+                      </button>
+                      {{lesson.title}}
+                      <div class="filler"></div>
+                      <mat-icon class="draggable drag-lesson" cdkDragHandle>drag_handle</mat-icon>
+                    </mat-panel-description>
+                  </mat-expansion-panel-header>
 
-              </mat-expansion-panel>
+                  <edit-lesson [course]="course" [lesson]="lesson"></edit-lesson>
+
+                </mat-expansion-panel>
 
 
-              <div class="bottom-toolbar">
+                <div class="bottom-toolbar">
 
-                <action-button
-                  color="accent" icon="delete" color="secondary" (click)="deleteSection(course, section)"
-                  title="Delete empty section" *ngIf="result.sectionLessons?.length == 0">
+                  <action-button
+                    color="accent" icon="delete" color="secondary" (click)="deleteSection(course, section)"
+                    title="Delete empty section" *ngIf="result.sectionLessons?.length == 0">
 
-                </action-button>
+                  </action-button>
 
-                <div class="filler"></div>
+                  <div class="filler"></div>
 
-                <action-button class="add-lesson" text="Add Lesson" color="accent" icon="add"
-                               (click)="addLesson(course, section)"></action-button>
+                  <action-button class="add-lesson" text="Add Lesson" color="accent" icon="add"
+                                 (click)="addLesson(course, section)"></action-button>
+
+                </div>
 
               </div>
 
-            </div>
+            </ng-container>
 
           </ng-container>
 
@@ -100,7 +113,8 @@
 
     </div>
 
-    <div class="add-button-panel add-section-panel" [ngClass]="emptyCourseCss(course, sections)" *ngIf="isCourseLoaded$ | async">
+    <div class="add-button-panel add-section-panel" [ngClass]="emptyCourseCss(course, sections)"
+         *ngIf="isCourseLoaded$ | async">
 
       <span>Add Course Section</span>
       <button class="add-section" mat-fab color="accent" (click)="addSection(course)">

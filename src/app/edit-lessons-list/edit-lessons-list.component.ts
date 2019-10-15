@@ -1,4 +1,15 @@
-import {ChangeDetectionStrategy, Component, ElementRef, Inject, OnInit, Query, QueryList, ViewChild, ViewChildren} from '@angular/core';
+import {
+  AfterViewInit,
+  ChangeDetectionStrategy,
+  Component,
+  ElementRef,
+  Inject,
+  OnInit,
+  Query,
+  QueryList,
+  ViewChild,
+  ViewChildren
+} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import {MessagesService} from '../services/messages.service';
@@ -15,9 +26,9 @@ import {LoadingService} from '../services/loading.service';
 import {ConfirmationDialogComponent} from '../confirmation-dialog/confirmation-dialog.component';
 import {EditSectionDialogComponent} from '../edit-section-dialog/edit-section-dialog.component';
 import {Lesson} from '../models/lesson.model';
-import {CdkDropList, moveItemInArray} from '@angular/cdk/drag-drop';
+import {CdkDragDrop, CdkDropList, moveItemInArray} from '@angular/cdk/drag-drop';
 import {updateLessonOrder} from '../store/lesson.actions';
-import {concatMap, filter, map, tap, withLatestFrom} from 'rxjs/operators';
+import {concatMap, delay, filter, map, tap, withLatestFrom} from 'rxjs/operators';
 import {deleteCourseSection, updateSectionOrder} from '../store/course-section.actions';
 import {AddLessonDialogComponent} from '../add-lesson-dialog/add-lesson-dialog.component';
 import {fadeIn} from '../common/fade-in-out';
@@ -43,6 +54,8 @@ export class EditLessonsListComponent implements OnInit {
 
   @ViewChildren(CdkDropList, {read: CdkDropList})
   allSectionDropLists: QueryList<CdkDropList>;
+
+  areDropListsReady = false;
 
   constructor(private dialog: MatDialog,
               private route: ActivatedRoute,
@@ -129,17 +142,26 @@ export class EditLessonsListComponent implements OnInit {
     const dialogRef = this.dialog.open(EditSectionDialogComponent, dialogConfig);
   }
 
-  dropLesson(course:Course, sections:CourseSection[], evt) {
+  dropLesson(course:Course,  evt: CdkDragDrop<Lesson[]>) {
 
     const previousIndex = evt.previousIndex,
-      currentIndex = evt.currentIndex;
+      currentIndex = evt.currentIndex,
+      newContainer = evt.container,
+      previousContainer = evt.previousContainer,
+      newSectionLessons = newContainer.data,
+      previousSectionLessons = previousContainer.data,
+      previousSectionId = previousContainer.element.nativeElement.getAttribute("sectionId"),
+      newSectionId = newContainer.element.nativeElement.getAttribute("sectionId");
 
     if (previousIndex != currentIndex) {
       const action = updateLessonOrder({
         courseId: course.id,
-        sections,
         currentIndex,
-        previousIndex
+        previousIndex,
+        newSectionLessons,
+        previousSectionLessons,
+        previousSectionId,
+        newSectionId
       });
       this.store.dispatch(action);
     }
@@ -232,5 +254,19 @@ export class EditLessonsListComponent implements OnInit {
     this.messages.info('Course section moved down.');
 
   }
+
+  calculateConnectedLists(sectionSeqNo: number) {
+
+    const dropLists = [...this.allSectionDropLists.toArray()];
+
+    if (dropLists.length <= 1) {
+      return [];
+    }
+    else {
+      dropLists.splice(sectionSeqNo - 1, 1);
+      return dropLists;
+    }
+  }
+
 
 }

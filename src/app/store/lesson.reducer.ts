@@ -1,7 +1,7 @@
 import {createEntityAdapter, EntityAdapter, EntityState, Update} from '@ngrx/entity';
 import {Lesson} from '../models/lesson.model';
 import {compareLessons, sortLessonsBySectionAndSeqNo} from '../common/sort-model';
-import {moveItemInArray} from '@angular/cdk/drag-drop';
+import {moveItemInArray, transferArrayItem} from '@angular/cdk/drag-drop';
 import {LessonActions} from './action-types';
 import {createReducer, on} from '@ngrx/store';
 
@@ -58,40 +58,22 @@ export const lessonReducer = createReducer(
   on(LessonActions.loadLessonVideo, (state,action) => adapter.updateOne(action.update, state)),
 
   on(LessonActions.updateLessonOrder, (state,action) => {
-    const
-      courseSectionIds = action.sections.map(section => section.id),
-      courseAllLessons = Object.values(state.entities).filter(lesson => courseSectionIds.includes(lesson.sectionId)),
-      courseSortedLessons = sortLessonsBySectionAndSeqNo(courseAllLessons, action.sections),
-      movedLesson = {...courseSortedLessons[action.previousIndex]},
-      oldSectionId = movedLesson.sectionId,
-      newSectionId = courseSortedLessons[action.currentIndex].sectionId;
 
-    // move the drag-and-dropped lesson
-    moveItemInArray(courseSortedLessons, action.previousIndex, action.currentIndex);
+    const newSectionLessons = [...action.newSectionLessons],
+      previousSectionLessons = [...action.previousSectionLessons];
 
-    let lessonSeqNoCounter = 1;
+    const sectionChanged = (action.previousSectionId !== action.newSectionId);
 
-    const reorderChanges: Update<Lesson>[] = [];
+    if (!sectionChanged) {
+      moveItemInArray( newSectionLessons, action.previousIndex, action.currentIndex);
+    } else {
+      transferArrayItem(previousSectionLessons, newSectionLessons, action.previousIndex, action.currentIndex);
+    }
 
-    courseSortedLessons.filter(lesson => lesson.sectionId == newSectionId).forEach(lesson => {
+    const newSectionChanges = calculateSectionChanges(newSectionLessons, action.newSectionId),
+          previousSectionChanges = calculateSectionChanges(previousSectionLessons, action.previousSectionId);
 
-      if (lesson.seqNo != lessonSeqNoCounter) {
-
-        const changes: Partial<Lesson> = {
-          seqNo: lessonSeqNoCounter
-        };
-
-        if (lesson.id == movedLesson.id && oldSectionId != newSectionId) {
-          changes.sectionId = newSectionId;
-        }
-
-        reorderChanges.push({id: lesson.id, changes})
-
-      }
-
-      lessonSeqNoCounter++;
-
-    });
+    const reorderChanges = newSectionChanges.concat(previousSectionChanges);
 
     return adapter.updateMany(reorderChanges, {...state, pendingLessonReordering: reorderChanges});
   }),
@@ -138,6 +120,35 @@ export const lessonReducer = createReducer(
 
 
 );
+
+function calculateSectionChanges(lessons: Lesson[], sectionId:string): Update<Lesson>[] {
+  let lessonSeqNoCounter = 1;
+
+  const reorderChanges: Update<Lesson>[] = [];
+
+  lessons.forEach(lesson => {
+
+    if (lesson.seqNo != lessonSeqNoCounter) {
+
+      const changes: Partial<Lesson> = {
+        seqNo: lessonSeqNoCounter
+      };
+
+      if (lesson.sectionId != sectionId) {
+        changes.sectionId = sectionId;
+      }
+
+      reorderChanges.push({id: lesson.id, changes})
+
+    }
+
+    lessonSeqNoCounter++;
+
+  });
+
+  return reorderChanges
+
+}
 
 
 export const {

@@ -38,7 +38,15 @@ export const loadLessonVideo = createAction(
 
 export const updateLessonOrder = createAction(
   '[Edit Lessons Screen] Update Lesson Order',
-  props<{courseId:string, previousIndex:number, currentIndex:number, sections:CourseSection[]}>()
+  props<{
+    courseId:string,
+    previousIndex:number,
+    currentIndex:number,
+    previousSectionId:string,
+    newSectionId:string,
+    newSectionLessons: Lesson[],
+    previousSectionLessons: Lesson[]
+  }>()
 );
 
 export const updateLessonOrderCompleted = createAction(
