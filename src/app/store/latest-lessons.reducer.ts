@@ -40,6 +40,7 @@ export const latestLessonsReducer = createReducer(
     LessonActions.updateLesson,
     LessonActions.publishLesson,
     LessonActions.unpublishLesson,
+    LessonActions.updateLessonOrder,
     CourseSectionActions.updateSectionOrder,
     CourseSectionActions.updateCourseSection,
     CourseSectionActions.deleteCourseSection,
