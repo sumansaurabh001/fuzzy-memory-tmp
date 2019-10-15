@@ -1,5 +1,6 @@
 import {createAction, props} from '@ngrx/store';
 import {LatestLesson} from '../models/latest-lesson.model';
+import OrderByDirection = firebase.firestore.OrderByDirection;
 
 
 export const loadNextLatestLessonsPage = createAction(
@@ -19,5 +20,5 @@ export const navigateToLesson = createAction(
 
 export const changeLatestLessonsSortOrder = createAction(
   "[Latest Lessons List] Change Latest Lessons Sort Order",
-  props<{sortOrder: string}>()
+  props<{sortOrder: OrderByDirection}>()
 );

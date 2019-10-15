@@ -1,13 +1,14 @@
 import {LatestLesson} from '../models/latest-lesson.model';
 import {createReducer, on} from '@ngrx/store';
 import {CourseSectionActions, LatestLessonActions, LessonActions} from './action-types';
+import OrderByDirection = firebase.firestore.OrderByDirection;
 
 
 export interface LatestLessonsState {
   latestLessons: LatestLesson[];
   lastPageLoaded:number;
   allPagesLoaded: boolean;
-  sortOrder: "desc" | "asc";
+  sortOrder: OrderByDirection;
 }
 
 export const initialLatestLessonsState: LatestLessonsState = {

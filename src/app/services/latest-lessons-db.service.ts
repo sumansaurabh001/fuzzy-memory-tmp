@@ -7,6 +7,7 @@ import {readCollectionWithIds} from '../common/firestore-utils';
 import {Course} from '../models/course.model';
 import {first, map} from 'rxjs/operators';
 import * as firebase from "firebase/app";
+import OrderByDirection = firebase.firestore.OrderByDirection;
 
 
 const PAGE_SIZE = 10;
@@ -22,7 +23,7 @@ export class LatestLessonsDbService {
 
   }
 
-  loadLatestLessonsPage(startAfter: firebase.firestore.Timestamp, sortOrder:"asc" | "desc"): Observable<LatestLesson[]> {
+  loadLatestLessonsPage(startAfter: firebase.firestore.Timestamp, sortOrder:OrderByDirection): Observable<LatestLesson[]> {
 
     const latestLessonsPath = `schools/${this.tenant.id}/latestLessonsView`;
 

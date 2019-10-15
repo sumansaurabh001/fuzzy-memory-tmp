@@ -16,6 +16,7 @@ import {UserLessonStatus} from '../models/user-lesson-status';
 import {updateLessonWatchStatus} from '../store/user-lesson-status.actions';
 import {MessagesService} from '../services/messages.service';
 import {selectActiveCourseLessonsWatched, selectAllLessonsWatched} from '../store/user-lesson-status.selectors';
+import OrderByDirection = firebase.firestore.OrderByDirection;
 
 interface LatestLessonsListData {
   latestLessons: LatestLesson[];
@@ -108,7 +109,7 @@ export class LatestLessonsListComponent implements OnInit {
     this.store.dispatch(navigateToLesson({lesson}));
   }
 
-  selectSortOrder(sortOrder: string) {
+  selectSortOrder(sortOrder: OrderByDirection) {
     this.store.dispatch(changeLatestLessonsSortOrder({sortOrder}));
   }
 
