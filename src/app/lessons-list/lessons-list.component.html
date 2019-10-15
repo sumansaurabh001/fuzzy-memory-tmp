@@ -24,7 +24,7 @@
   </div>
 
   <div class="lesson-duration">
-    <mat-icon class="duration-icon">access_time</mat-icon>
+    <mat-icon class="duration-icon" *ngIf="!playlistMode">access_time</mat-icon>
     {{lesson.videoDuration | duration}}
   </div>
 
