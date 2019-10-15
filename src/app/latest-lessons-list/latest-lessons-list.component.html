@@ -1,9 +1,18 @@
 
 <ng-container *ngIf="(data$ | async) as data">
 
-  <h1 class="page-title" *ngIf="data.latestLessons.length > 0">{{title}}</h1>
+  <h1 class="page-title">{{title}}</h1>
 
   <div class="mat-elevation-z5 latest-lessons">
+
+    <div class="header-toolbar">
+
+      <div class="sort-filters noselect">
+        <div class="sort-option" [ngClass]="isSortOrderActive(data.sortOrder, 'desc')" (click)="selectSortOrder('desc')">Latest First</div>
+        <div class="sort-option" [ngClass]="isSortOrderActive(data.sortOrder, 'asc')" (click)="selectSortOrder('asc')">Oldest First</div>
+      </div>
+
+    </div>
 
     <div class="lesson-row mat-row" *ngFor="let lesson of data.latestLessons"
          (click)="navigateToLesson(lesson)">

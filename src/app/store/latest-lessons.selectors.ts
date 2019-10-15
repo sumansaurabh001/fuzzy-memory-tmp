@@ -15,3 +15,9 @@ export const isAllLatestLessonsLoaded = createSelector(
   selectLatestLessonsState,
   state => state.allPagesLoaded
 );
+
+
+export const selectLatestLessonsSortOrder = createSelector(
+  selectLatestLessonsState,
+  state => state.sortOrder
+);

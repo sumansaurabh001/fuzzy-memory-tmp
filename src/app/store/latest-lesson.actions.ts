@@ -15,4 +15,9 @@ export const latestLessonsPageLoaded = createAction(
 export const navigateToLesson = createAction(
   "[Latest Lessons List] Navigate to Lesson",
   props<{lesson:LatestLesson}>()
-)
+);
+
+export const changeLatestLessonsSortOrder = createAction(
+  "[Latest Lessons List] Change Latest Lessons Sort Order",
+  props<{sortOrder: string}>()
+);

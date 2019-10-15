@@ -7,12 +7,14 @@ export interface LatestLessonsState {
   latestLessons: LatestLesson[];
   lastPageLoaded:number;
   allPagesLoaded: boolean;
+  sortOrder: "desc" | "asc";
 }
 
 export const initialLatestLessonsState: LatestLessonsState = {
   latestLessons: [],
   lastPageLoaded: null,
-  allPagesLoaded: false
+  allPagesLoaded: false,
+  sortOrder: "desc"
 };
 
 export const latestLessonsReducer = createReducer(
@@ -24,6 +26,13 @@ export const latestLessonsReducer = createReducer(
       lastPageLoaded: state.lastPageLoaded + 1,
       latestLessons: state.latestLessons.concat(action.latestLessons),
       allPagesLoaded: action.latestLessons.length == 0
+    }
+  }),
+
+  on(LatestLessonActions.changeLatestLessonsSortOrder, (state, action) => {
+    return {
+      ...initialLatestLessonsState,
+      sortOrder: action.sortOrder
     }
   }),
 

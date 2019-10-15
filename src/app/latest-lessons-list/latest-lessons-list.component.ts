@@ -5,12 +5,12 @@ import {Lesson} from '../models/lesson.model';
 import {isAnonymousUser, User} from '../models/user.model';
 import {Course} from '../models/course.model';
 import {Observable} from 'rxjs/internal/Observable';
-import {isAllLatestLessonsLoaded, selectAllLatestLessons} from '../store/latest-lessons.selectors';
+import {isAllLatestLessonsLoaded, selectAllLatestLessons, selectLatestLessonsSortOrder} from '../store/latest-lessons.selectors';
 import {LatestLesson} from '../models/latest-lesson.model';
 import {isLoggedIn, selectAllCourses} from '../store/selectors';
 import {combineLatest} from 'rxjs';
 import {map} from 'rxjs/operators';
-import {loadNextLatestLessonsPage, navigateToLesson} from '../store/latest-lesson.actions';
+import {changeLatestLessonsSortOrder, loadNextLatestLessonsPage, navigateToLesson} from '../store/latest-lesson.actions';
 import {MatCheckboxChange} from '@angular/material';
 import {UserLessonStatus} from '../models/user-lesson-status';
 import {updateLessonWatchStatus} from '../store/user-lesson-status.actions';
@@ -23,6 +23,7 @@ interface LatestLessonsListData {
   isAllLatestLessonsLoaded:boolean;
   isLoggedIn: boolean;
   lessonsWatched:string[];
+  sortOrder: "desc" | "asc";
 }
 
 
@@ -55,10 +56,12 @@ export class LatestLessonsListComponent implements OnInit {
 
     const lessonsWatched$ = this.store.pipe(select(selectAllLessonsWatched));
 
-    this.data$ = combineLatest([latestLessons$, courses$, isAllLatestLessonsLoaded$, isLoggedIn$, lessonsWatched$])
+    const sortOrder$ = this.store.pipe(select(selectLatestLessonsSortOrder));
+
+    this.data$ = combineLatest([latestLessons$, courses$, isAllLatestLessonsLoaded$, isLoggedIn$, lessonsWatched$, sortOrder$])
       .pipe(
-        map(([latestLessons, courses, isAllLatestLessonsLoaded, isLoggedIn, lessonsWatched]) => {
-          return {latestLessons, courses, isAllLatestLessonsLoaded, isLoggedIn, lessonsWatched}
+        map(([latestLessons, courses, isAllLatestLessonsLoaded, isLoggedIn, lessonsWatched, sortOrder]) => {
+          return {latestLessons, courses, isAllLatestLessonsLoaded, isLoggedIn, lessonsWatched, sortOrder}
         })
       );
 
@@ -105,4 +108,14 @@ export class LatestLessonsListComponent implements OnInit {
     this.store.dispatch(navigateToLesson({lesson}));
   }
 
+  selectSortOrder(sortOrder: string) {
+    this.store.dispatch(changeLatestLessonsSortOrder({sortOrder}));
+  }
+
+  isSortOrderActive(activeSortOrder: string, buttonSortOrder: string) {
+    if (activeSortOrder == buttonSortOrder) {
+      return "is-active";
+    }
+    else return [];
+  }
 }

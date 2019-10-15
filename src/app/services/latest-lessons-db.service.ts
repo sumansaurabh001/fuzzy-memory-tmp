@@ -9,7 +9,7 @@ import {first, map} from 'rxjs/operators';
 import * as firebase from "firebase/app";
 
 
-const PAGE_SIZE = 15;
+const PAGE_SIZE = 10;
  
 
 @Injectable({
@@ -22,12 +22,12 @@ export class LatestLessonsDbService {
 
   }
 
-  loadLatestLessonsPage(startAfter: firebase.firestore.Timestamp): Observable<LatestLesson[]> {
+  loadLatestLessonsPage(startAfter: firebase.firestore.Timestamp, sortOrder:"asc" | "desc"): Observable<LatestLesson[]> {
 
     const latestLessonsPath = `schools/${this.tenant.id}/latestLessonsView`;
 
     const queryFn: QueryFn = ref => {
-      let query = ref.orderBy('lastUpdated', "desc").limit(PAGE_SIZE);
+      let query = ref.orderBy('lastUpdated', sortOrder).limit(PAGE_SIZE);
       if (startAfter) {
         query = query.startAfter(startAfter);
       }
