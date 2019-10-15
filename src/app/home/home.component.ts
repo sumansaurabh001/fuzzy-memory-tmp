@@ -9,12 +9,13 @@ import {AppState} from '../store';
 import {EditTitleDescriptionDialogComponent} from '../edit-title-description-dialog/edit-title-description-dialog.component';
 import {filter, tap} from 'rxjs/operators';
 import {UserPermissions} from '../models/user-permissions.model';
-import {isLoggedIn, isLoggedOut, selectUserPermissions} from '../store/selectors';
+import {isLoggedIn, isLoggedOut, selectPublishedCourses, selectUserPermissions} from '../store/selectors';
 import {minimalEditorConfig} from '../common/html-editor.config';
 import {EMPTY_IMG} from '../common/ui-constants';
 import {setSchoolNameAsPageTitle} from '../common/seo-utils';
 import {Title} from '@angular/platform-browser';
 import {homePageContentUpdated} from '../store/content.actions';
+import {Course} from '../models/course.model';
 
 @Component({
   selector: 'home',
@@ -24,6 +25,8 @@ import {homePageContentUpdated} from '../store/content.actions';
 export class HomeComponent implements OnInit {
 
   homePageContent$: Observable<HomePageContent>;
+
+  publishedCourses$: Observable<Course[]>;
 
   isLoggedIn$: Observable<boolean>;
   isLoggedOut$: Observable<boolean>;
@@ -46,6 +49,8 @@ export class HomeComponent implements OnInit {
     this.isLoggedIn$ = this.store.pipe(select(isLoggedIn));
 
     this.isLoggedOut$ = this.store.pipe(select(isLoggedOut));
+
+    this.publishedCourses$ = this.store.pipe(select(selectPublishedCourses));
 
     this.store.pipe(select(selectUserPermissions))
       .subscribe(permissions => this.editModeEnabled = permissions && permissions.isAdmin);

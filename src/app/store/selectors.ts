@@ -37,6 +37,11 @@ export const selectCourseEntities = createSelector(selectCoursesState, fromCours
 
 export const selectAllCourses = createSelector(selectCoursesState, fromCourse.selectAll);
 
+export const selectPublishedCourses = createSelector(
+  selectAllCourses,
+  courses => courses.filter(course => course.status == 'published')
+);
+
 export const selectTotalCourses = createSelector(selectCoursesState, fromCourse.selectTotal);
 
 

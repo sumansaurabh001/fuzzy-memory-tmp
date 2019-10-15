@@ -12,6 +12,8 @@ export class CourseCardComponent implements OnInit {
 
   @Input() course: Course;
 
+  @Input() allowReorder = true;
+
   @Input() first: boolean;
 
   @Input() last: boolean;
@@ -19,7 +21,6 @@ export class CourseCardComponent implements OnInit {
   @Output() moveUp = new EventEmitter();
 
   @Output() moveDown = new EventEmitter();
-
 
   constructor(private ub: UrlBuilderService) {
 

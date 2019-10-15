@@ -70,6 +70,22 @@
 
     </div>
 
+    <div class="courses-list" *ngIf="(publishedCourses$ | async) as publishedCourses">
+
+      <h1 class="page-title">All Courses</h1>
+
+      <mat-grid-list cols="2">
+        <mat-grid-tile *ngFor="let course of publishedCourses;let first= first; let last = last">
+          <course-card
+            [course]="course" [allowReorder]="false">
+
+          </course-card>
+        </mat-grid-tile>
+      </mat-grid-list>
+
+    </div>
+
+
   </div>
 
 </ng-container>
