@@ -37,6 +37,7 @@
                       class="lesson-video"
                       [url]="ub.buildLessonVideoUrl(course, activeLesson, videoAccess)"
                       [videoDuration]="activeLesson.videoDuration"
+                      [allowDownload]="course.downloadAllowed"
                       (close)="toggleLeftMenu()"
                       (open)="toggleLeftMenu()"
                       (exit)="onExit(course)"

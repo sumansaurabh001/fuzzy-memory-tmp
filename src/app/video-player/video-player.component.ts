@@ -35,6 +35,9 @@ export class VideoPlayerComponent implements OnInit, AfterViewInit, OnChanges, O
   @Input()
   fullSize = false;
 
+  @Input()
+  allowDownload = true;
+
   @ViewChild('video', { static: true })
   videoElement: ElementRef;
 
@@ -362,6 +365,10 @@ export class VideoPlayerComponent implements OnInit, AfterViewInit, OnChanges, O
   ngOnDestroy() {
     this.video.src = "";
 
+  }
+
+  downloadVideo() {
+    window.open(this.url);
   }
 
 

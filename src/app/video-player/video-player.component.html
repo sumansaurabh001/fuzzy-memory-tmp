@@ -60,7 +60,7 @@
 
       <div class="play-controls">
 
-        <mat-icon class="control" (click)="play()" *ngIf="!this.videoPlaying">play_arrow</mat-icon>
+        <mat-icon class="control" (click)="play()"  *ngIf="!this.videoPlaying">play_arrow</mat-icon>
 
         <mat-icon class="control" (click)="pause()" *ngIf="this.videoPlaying">pause</mat-icon>
 
@@ -94,6 +94,8 @@
       <div class="other-controls">
 
         <!-- TODO mat-icon class="control">closed_caption</mat-icon-->
+
+        <mat-icon class="control" matTooltip="Download video" *ngIf="allowDownload" (click)="downloadVideo()">cloud_download</mat-icon>
 
         <mat-icon class="control" *ngIf="!fullScreen" (click)="enterFullScreen()">fullscreen</mat-icon>
 
