@@ -85,21 +85,20 @@
 
                 </mat-expansion-panel>
 
+              </div>
 
-                <div class="bottom-toolbar">
+              <div class="bottom-toolbar">
 
-                  <action-button
-                    color="accent" icon="delete" color="secondary" (click)="deleteSection(course, section)"
-                    title="Delete empty section" *ngIf="result.sectionLessons?.length == 0">
+                <action-button
+                  color="accent" icon="delete" color="secondary" (click)="deleteSection(course, section)"
+                  title="Delete empty section" *ngIf="result.sectionLessons?.length == 0">
 
-                  </action-button>
+                </action-button>
 
-                  <div class="filler"></div>
+                <div class="filler"></div>
 
-                  <action-button class="add-lesson" text="Add Lesson" color="accent" icon="add"
-                                 (click)="addLesson(course, section)"></action-button>
-
-                </div>
+                <action-button class="add-lesson" text="Add Lesson" color="accent" icon="add"
+                               (click)="addLesson(course, section)"></action-button>
 
               </div>
 

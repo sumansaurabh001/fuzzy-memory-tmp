@@ -11,7 +11,7 @@ import {
   ViewChildren
 } from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import { MAT_DIALOG_DATA, MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import {MAT_DIALOG_DATA, MatDialog, MatDialogConfig} from '@angular/material/dialog';
 import {MessagesService} from '../services/messages.service';
 import {Course} from '../models/course.model';
 import {Observable} from 'rxjs';
@@ -125,8 +125,7 @@ export class EditLessonsListComponent implements OnInit {
   emptyCourseCss(course: Course, sections): string[] {
     if (sections.length == 0) {
       return ['mat-elevation-z7', 'empty-course'];
-    }
-    else {
+    } else {
       return [];
     }
   }
@@ -142,7 +141,7 @@ export class EditLessonsListComponent implements OnInit {
     const dialogRef = this.dialog.open(EditSectionDialogComponent, dialogConfig);
   }
 
-  dropLesson(course:Course,  evt: CdkDragDrop<Lesson[]>) {
+  dropLesson(course: Course, evt: CdkDragDrop<Lesson[]>) {
 
     const previousIndex = evt.previousIndex,
       currentIndex = evt.currentIndex,
@@ -150,21 +149,18 @@ export class EditLessonsListComponent implements OnInit {
       previousContainer = evt.previousContainer,
       newSectionLessons = newContainer.data,
       previousSectionLessons = previousContainer.data,
-      previousSectionId = previousContainer.element.nativeElement.getAttribute("sectionId"),
-      newSectionId = newContainer.element.nativeElement.getAttribute("sectionId");
+      previousSectionId = previousContainer.element.nativeElement.getAttribute('sectionId'),
+      newSectionId = newContainer.element.nativeElement.getAttribute('sectionId');
 
-    if (previousIndex != currentIndex) {
-      const action = updateLessonOrder({
-        courseId: course.id,
-        currentIndex,
-        previousIndex,
-        newSectionLessons,
-        previousSectionLessons,
-        previousSectionId,
-        newSectionId
-      });
-      this.store.dispatch(action);
-    }
+    this.store.dispatch(updateLessonOrder({
+      courseId: course.id,
+      currentIndex,
+      previousIndex,
+      newSectionLessons,
+      previousSectionLessons,
+      previousSectionId,
+      newSectionId
+    }));
 
   }
 
@@ -235,7 +231,7 @@ export class EditLessonsListComponent implements OnInit {
 
     moveItemInArray(newSortOrder, sectionIndex, sectionIndex - 1);
 
-    this.store.dispatch(updateSectionOrder({courseId:course.id, newSortOrder}));
+    this.store.dispatch(updateSectionOrder({courseId: course.id, newSortOrder}));
 
     this.messages.info('Course section moved up.');
 
@@ -249,7 +245,7 @@ export class EditLessonsListComponent implements OnInit {
 
     moveItemInArray(newSortOrder, sectionIndex, sectionIndex + 1);
 
-    this.store.dispatch(updateSectionOrder({courseId:course.id, newSortOrder}));
+    this.store.dispatch(updateSectionOrder({courseId: course.id, newSortOrder}));
 
     this.messages.info('Course section moved down.');
 
@@ -261,8 +257,7 @@ export class EditLessonsListComponent implements OnInit {
 
     if (dropLists.length <= 1) {
       return [];
-    }
-    else {
+    } else {
       dropLists.splice(sectionSeqNo - 1, 1);
       return dropLists;
     }

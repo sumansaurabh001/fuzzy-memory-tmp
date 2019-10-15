@@ -128,18 +128,27 @@ function calculateSectionChanges(lessons: Lesson[], sectionId:string): Update<Le
 
   lessons.forEach(lesson => {
 
-    if (lesson.seqNo != lessonSeqNoCounter) {
+    let changes: Partial<Lesson>;
 
-      const changes: Partial<Lesson> = {
+    if (lesson.seqNo != lessonSeqNoCounter) {
+      changes = {
         seqNo: lessonSeqNoCounter
       };
+    }
 
-      if (lesson.sectionId != sectionId) {
+    if (lesson.sectionId != sectionId) {
+      if (changes) {
         changes.sectionId = sectionId;
       }
+      else {
+        changes = {
+          sectionId
+        }
+      }
+    }
 
-      reorderChanges.push({id: lesson.id, changes})
-
+    if (changes) {
+      reorderChanges.push({id: lesson.id, changes});
     }
 
     lessonSeqNoCounter++;
