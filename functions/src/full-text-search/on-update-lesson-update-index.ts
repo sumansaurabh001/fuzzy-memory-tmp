@@ -16,5 +16,11 @@ export const onLessonUpdatedUpdateSearchIndex =
       if (oldData.status == "published" && newData.status == "draft") {
         return index.deleteObject(objectID);
       }
-      else return index.saveObject({ title: newData.title, objectID });
+      else return index.saveObject({
+        title: newData.title,
+        courseId: context.params.courseId,
+        sectionId: newData.sectionId,
+        seqNo: newData.seqNo,
+        objectID
+      });
   });

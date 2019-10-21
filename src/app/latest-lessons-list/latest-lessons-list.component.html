@@ -5,10 +5,21 @@
 
   <div class="search">
 
-      <mat-form-field>
-        <input #search matInput type="search" placeholder="Search all lessons...">
+      <mat-form-field class="search-field">
+        <input #search matInput type="search" placeholder="Search all lessons..." [matAutocomplete]="auto">
         <mat-icon matSuffix>search</mat-icon>
+
       </mat-form-field>
+
+    <mat-autocomplete class="search-results"
+                      #auto="matAutocomplete"
+                      [panelWidth]="700"
+                      (optionSelected)="onSearchOptionSelected($event)">
+      <mat-option *ngFor="let option of searchOptions" [value]="option">
+        {{option.title}}
+      </mat-option>
+    </mat-autocomplete>
+
 
   </div>
 

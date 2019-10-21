@@ -11,7 +11,7 @@ import {isLoggedIn, selectAllCourses} from '../store/selectors';
 import {combineLatest, fromEvent} from 'rxjs';
 import {debounceTime, filter, map, switchMap, tap} from 'rxjs/operators';
 import {changeLatestLessonsSortOrder, loadNextLatestLessonsPage, navigateToLesson} from '../store/latest-lesson.actions';
-import {MatCheckboxChange} from '@angular/material';
+import {MatAutocompleteSelectedEvent, MatCheckboxChange} from '@angular/material';
 import {UserLessonStatus} from '../models/user-lesson-status';
 import {updateLessonWatchStatus} from '../store/user-lesson-status.actions';
 import {MessagesService} from '../services/messages.service';
@@ -50,6 +50,7 @@ export class LatestLessonsListComponent implements OnInit, AfterViewInit {
 
   searchClient: any;
   index:any;
+  searchOptions = [];
 
 
   constructor(
@@ -90,21 +91,16 @@ export class LatestLessonsListComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit() {
-
     fromEvent(this.searchInput.nativeElement, "keyup")
       .pipe(
-        debounceTime(500),
-        filter(() => this.searchInput.nativeElement.value && this.searchInput.nativeElement.value.length > 3),
+        debounceTime(200),
+        filter(() => this.searchInput.nativeElement.value && this.searchInput.nativeElement.value.length >= 3),
         switchMap(() => from(this.index.search({query: this.searchInput.nativeElement.value}))),
         tap((results:any) => {
-
-          console.log('results', results.hits);
-
-
+          this.searchOptions = results.hits;
         })
       )
       .subscribe();
-
   }
 
   findCourseListIcon(courseId:string, courses: Course[]) {
@@ -145,7 +141,11 @@ export class LatestLessonsListComponent implements OnInit, AfterViewInit {
   }
 
   navigateToLesson(lesson: LatestLesson) {
-    this.store.dispatch(navigateToLesson({lesson}));
+    this.store.dispatch(navigateToLesson({
+      courseId: lesson.courseId,
+      sectionId: lesson.sectionId,
+      seqNo: lesson.seqNo
+    }));
   }
 
   selectSortOrder(sortOrder: OrderByDirection) {
@@ -157,5 +157,21 @@ export class LatestLessonsListComponent implements OnInit, AfterViewInit {
       return "is-active";
     }
     else return [];
+  }
+
+  onSearchOptionSelected(event: MatAutocompleteSelectedEvent) {
+
+    this.searchInput.nativeElement.value = '';
+
+    const lesson = event.option.value;
+
+    console.log("option selected", lesson);
+
+    this.store.dispatch(navigateToLesson({
+      courseId: lesson.courseId,
+      sectionId: lesson.sectionId,
+      seqNo: lesson.seqNo
+    }));
+
   }
 }

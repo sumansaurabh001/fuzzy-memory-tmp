@@ -68,16 +68,16 @@ export class LatestLessonEffects {
           this.store.pipe(select(selectAllCourses))
         ),
         concatMap(([action, courses]) =>
-          this.loading.showLoaderUntilCompleted(this.lessonsDB.loadCourseSection(action.lesson.courseId, action.lesson.sectionId))
+          this.loading.showLoaderUntilCompleted(this.lessonsDB.loadCourseSection(action.courseId, action.sectionId))
             .pipe(
               map(section => [action, courses, section])
             )
         ),
         map(([action, courses, section]:any) => {
 
-          const course = courses.find(course => course.id == action.lesson.courseId);
+          const course = courses.find(course => course.id == action.courseId);
 
-          this.router.navigateByUrl(`/courses/${course.url}/${section.seqNo}/lessons/${action.lesson.seqNo}`);
+          this.router.navigateByUrl(`/courses/${course.url}/${section.seqNo}/lessons/${action.seqNo}`);
 
         })
       )
