@@ -10,7 +10,7 @@ import * as admin from "firebase-admin";
  *
  **/
 
-export const onUpdateLesson = functions.firestore
+export const onUpdateLessonUpdateLatestLessonsView = functions.firestore
   .document('schools/{tenantId}/courses/{courseId}/lessons/{lessonId}')
   .onUpdate(async (snap, context) => {
 
