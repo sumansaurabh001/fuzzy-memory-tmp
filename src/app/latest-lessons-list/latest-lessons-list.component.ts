@@ -9,7 +9,7 @@ import {isAllLatestLessonsLoaded, selectAllLatestLessons, selectLatestLessonsSor
 import {LatestLesson} from '../models/latest-lesson.model';
 import {isLoggedIn, selectAllCourses} from '../store/selectors';
 import {combineLatest, fromEvent} from 'rxjs';
-import {debounceTime, map, tap} from 'rxjs/operators';
+import {debounceTime, filter, map, switchMap, tap} from 'rxjs/operators';
 import {changeLatestLessonsSortOrder, loadNextLatestLessonsPage, navigateToLesson} from '../store/latest-lesson.actions';
 import {MatCheckboxChange} from '@angular/material';
 import {UserLessonStatus} from '../models/user-lesson-status';
@@ -17,6 +17,12 @@ import {updateLessonWatchStatus} from '../store/user-lesson-status.actions';
 import {MessagesService} from '../services/messages.service';
 import {selectActiveCourseLessonsWatched, selectAllLessonsWatched} from '../store/user-lesson-status.selectors';
 import OrderByDirection = firebase.firestore.OrderByDirection;
+
+import algoliasearch from 'algoliasearch/lite';
+
+import {environment} from '../../environments/environment';
+import {TenantService} from '../services/tenant.service';
+import {from} from 'rxjs/internal/observable/from';
 
 interface LatestLessonsListData {
   latestLessons: LatestLesson[];
@@ -42,10 +48,14 @@ export class LatestLessonsListComponent implements OnInit, AfterViewInit {
   @ViewChild('search', {static:false})
   searchInput: ElementRef;
 
+  searchClient: any;
+  index:any;
+
 
   constructor(
     private store:Store<AppState>,
-    private messages: MessagesService) {
+    private messages: MessagesService,
+    private tenant: TenantService) {
 
   }
 
@@ -70,6 +80,13 @@ export class LatestLessonsListComponent implements OnInit, AfterViewInit {
         })
       );
 
+    this.searchClient = algoliasearch(
+      environment.algolia.app_id,
+      environment.algolia.search_key
+    );
+
+    this.index = this.searchClient.initIndex(this.tenant.id);
+
   }
 
   ngAfterViewInit() {
@@ -77,9 +94,11 @@ export class LatestLessonsListComponent implements OnInit, AfterViewInit {
     fromEvent(this.searchInput.nativeElement, "keyup")
       .pipe(
         debounceTime(500),
-        tap((search: KeyboardEvent) => {
+        filter(() => this.searchInput.nativeElement.value && this.searchInput.nativeElement.value.length > 3),
+        switchMap(() => from(this.index.search({query: this.searchInput.nativeElement.value}))),
+        tap((results:any) => {
 
-          console.log("stable search: " + this.searchInput.nativeElement.value);
+          console.log('results', results.hits);
 
 
         })
