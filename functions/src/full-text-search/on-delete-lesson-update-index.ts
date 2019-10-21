@@ -7,7 +7,7 @@ export const onLessonDeletedUpdateSearchIndex =
   functions.firestore.document('schools/{tenantId}/courses/{courseId}/lessons/{lessonId}')
   .onDelete(async (snapshot, context) => {
 
-    const index = algoliaClient.initIndex(context.params.tenantId);
+    const index = algoliaClient.initIndex(context.params.tenantId + "_lessons");
 
     return index.deleteObject(context.params.lessonId);
   });

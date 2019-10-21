@@ -11,7 +11,7 @@ export const onLessonUpdatedUpdateSearchIndex =
             oldData = change.before.data(),
            objectID = context.params.lessonId;
 
-      const index = algoliaClient.initIndex(context.params.tenantId);
+      const index = algoliaClient.initIndex(context.params.tenantId + "_lessons");
 
       if (oldData.status == "published" && newData.status == "draft") {
         return index.deleteObject(objectID);
