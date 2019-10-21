@@ -165,8 +165,6 @@ export class LatestLessonsListComponent implements OnInit, AfterViewInit {
 
     const lesson = event.option.value;
 
-    console.log("option selected", lesson);
-
     this.store.dispatch(navigateToLesson({
       courseId: lesson.courseId,
       sectionId: lesson.sectionId,
