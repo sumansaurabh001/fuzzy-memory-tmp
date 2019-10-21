@@ -32,5 +32,9 @@ export const environment = {
     stripeUpdatePricingPLanUrl: 'http://localhost:5000/api/update-pricing-plan',
     stripeUpdateCardUrl: 'http://localhost:5000/api/update-card',
     fulfillFreeCouponUrl: 'http://localhost:5000/api/fulfill-free-coupon'
+  },
+  algolia: {
+    app_id: "G9LL86VMN2",
+    search_key: "1b948d033ffec12ec93254749be888c9"
   }
 };

@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
 import {AppState} from '../store';
 import {select, Store} from '@ngrx/store';
 import {Lesson} from '../models/lesson.model';
@@ -8,8 +8,8 @@ import {Observable} from 'rxjs/internal/Observable';
 import {isAllLatestLessonsLoaded, selectAllLatestLessons, selectLatestLessonsSortOrder} from '../store/latest-lessons.selectors';
 import {LatestLesson} from '../models/latest-lesson.model';
 import {isLoggedIn, selectAllCourses} from '../store/selectors';
-import {combineLatest} from 'rxjs';
-import {map} from 'rxjs/operators';
+import {combineLatest, fromEvent} from 'rxjs';
+import {debounceTime, map, tap} from 'rxjs/operators';
 import {changeLatestLessonsSortOrder, loadNextLatestLessonsPage, navigateToLesson} from '../store/latest-lesson.actions';
 import {MatCheckboxChange} from '@angular/material';
 import {UserLessonStatus} from '../models/user-lesson-status';
@@ -33,11 +33,15 @@ interface LatestLessonsListData {
   templateUrl: './latest-lessons-list.component.html',
   styleUrls: ['./latest-lessons-list.component.scss']
 })
-export class LatestLessonsListComponent implements OnInit {
+export class LatestLessonsListComponent implements OnInit, AfterViewInit {
 
   @Input() title:string;
 
   data$: Observable<LatestLessonsListData>;
+
+  @ViewChild('search', {static:false})
+  searchInput: ElementRef;
+
 
   constructor(
     private store:Store<AppState>,
@@ -65,6 +69,22 @@ export class LatestLessonsListComponent implements OnInit {
           return {latestLessons, courses, isAllLatestLessonsLoaded, isLoggedIn, lessonsWatched, sortOrder}
         })
       );
+
+  }
+
+  ngAfterViewInit() {
+
+    fromEvent(this.searchInput.nativeElement, "keyup")
+      .pipe(
+        debounceTime(500),
+        tap((search: KeyboardEvent) => {
+
+          console.log("stable search: " + this.searchInput.nativeElement.value);
+
+
+        })
+      )
+      .subscribe();
 
   }
 

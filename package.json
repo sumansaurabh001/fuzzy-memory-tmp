@@ -30,6 +30,7 @@
     "@ngrx/router-store": "^8.0.1",
     "@ngrx/store": "^8.0.1",
     "@ngrx/store-devtools": "^8.0.1",
+    "algoliasearch": "^3.35.1",
     "array-move": "^2.1.0",
     "codemirror": "^5.36.0",
     "core-js": "^2.4.1",
