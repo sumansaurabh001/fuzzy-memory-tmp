@@ -28,21 +28,21 @@
 
     </div>
 
-    <div class="video-panel" *ngIf="(activeLesson$ | async) as activeLesson">
+    <div class="video-panel">
 
-      <ng-container *ngIf="(activeLessonVideoAccess$ | async) as videoAccess">
+      <ng-container *ngIf="(lessonData$ | async) as lessonData">
 
-        <video-player *ngIf="videoAccess.status == 'allowed'; else videoNotAllowed"
+        <video-player *ngIf="lessonData[1].status == 'allowed'; else videoNotAllowed"
                       #videoPlayer
                       class="lesson-video mat-elevation-z7"
-                      [url]="ub.buildLessonVideoUrl(course, activeLesson, videoAccess)"
-                      [videoDuration]="activeLesson.videoDuration"
+                      [url]="ub.buildLessonVideoUrl(course, lessonData[0], lessonData[1])"
+                      [videoDuration]="lessonData[0].videoDuration"
                       [allowDownload]="course.downloadAllowed"
                       (close)="toggleLeftMenu()"
                       (open)="toggleLeftMenu()"
                       (exit)="onExit(course)"
-                      (videoEnded)="onVideoEnded(lessons, activeLesson)"
-                      (videoWatched)="onVideoWatched(course, activeLesson)">
+                      (videoEnded)="onVideoEnded(lessons, lessonData[0])"
+                      (videoWatched)="onVideoWatched(course, lessonData[0])">
 
         </video-player>
 

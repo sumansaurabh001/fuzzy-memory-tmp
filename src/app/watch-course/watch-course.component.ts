@@ -1,6 +1,6 @@
 import {Component, HostListener, OnInit, ViewChild} from '@angular/core';
 import {Course} from '../models/course.model';
-import {Observable} from 'rxjs';
+import {Observable, zip} from 'rxjs';
 import {
   selectActiveCourse, selectActiveCourseAllLessons, selectActiveCourseSections, selectActiveLesson, selectActiveLessonVideoAccess,
   selectActiveSection
@@ -47,6 +47,8 @@ export class WatchCourseComponent implements OnInit {
   activeLesson$: Observable<Lesson>;
 
   activeLessonVideoAccess$: Observable<VideoAccess>;
+
+  lessonData$: Observable<[Lesson, VideoAccess]>;
 
   lessonsWatched$: Observable<string[]>;
 
@@ -114,6 +116,8 @@ export class WatchCourseComponent implements OnInit {
 
     this.lessonsWatched$ = this.store.pipe(select(selectActiveCourseLessonsWatched));
 
+    this.lessonData$ = zip(this.activeLesson$, this.activeLessonVideoAccess$);
+
 
     this.questions$ = of([
 
@@ -162,11 +166,8 @@ export class WatchCourseComponent implements OnInit {
 
   @HostListener('window:keydown', ['$event'])
   keyEvent(evt: KeyboardEvent) {
-    console.log(evt);
     if (evt.code === "Space") {
-      console.log("Cancelling scrolling");
       evt.preventDefault();
-      return false;
     }
   }
 
