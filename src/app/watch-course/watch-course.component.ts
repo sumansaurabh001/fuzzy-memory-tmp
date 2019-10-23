@@ -169,4 +169,8 @@ export class WatchCourseComponent implements OnInit {
   }
 
 
+  askNewQuestion() {
+
+  }
+
 }

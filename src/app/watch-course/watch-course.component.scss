@@ -44,3 +44,16 @@
 .search-questions {
   margin-bottom: 40px;
 }
+
+.ask-question-button {
+  font-size: 20px;
+  margin: 75px 0 75px 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  .button-text {
+    margin-right: 5px;
+  }
+
+}
