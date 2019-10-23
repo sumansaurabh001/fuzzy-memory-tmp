@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, HostListener, OnInit, ViewChild} from '@angular/core';
 import {Course} from '../models/course.model';
 import {Observable} from 'rxjs';
 import {
@@ -110,6 +110,22 @@ export class WatchCourseComponent implements OnInit {
 
     this.lessonsWatched$ = this.store.pipe(select(selectActiveCourseLessonsWatched));
 
+  }
+
+  /**
+   *
+   * prevent scrolling to the bottom of the page on space.
+   *
+   */
+
+  @HostListener('window:keydown', ['$event'])
+  keyEvent(evt: KeyboardEvent) {
+    console.log(evt);
+    if (evt.code === "Space") {
+      console.log("Cancelling scrolling");
+      evt.preventDefault();
+      return false;
+    }
   }
 
   toggleLeftMenu() {
