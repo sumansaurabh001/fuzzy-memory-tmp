@@ -2,6 +2,10 @@
 @import "../vars";
 @import "../mixins";
 
+:host {
+  width: 100%;
+}
+
 
 .pricing-screen {
   color: $text;

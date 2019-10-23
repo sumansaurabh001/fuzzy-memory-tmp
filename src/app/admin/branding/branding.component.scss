@@ -1,5 +1,9 @@
 @import "../../mixins";
 
+:host {
+  width: 100%;
+}
+
 .branding {
   margin-top: 150px;
 }

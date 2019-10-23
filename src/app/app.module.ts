@@ -35,7 +35,6 @@ import {AppRoutingModule} from './app-routing.module';
 import {EditCourseComponent} from './edit-course/edit-course.component';
 import {EditLessonsListComponent} from './edit-lessons-list/edit-lessons-list.component';
 import {EditLessonComponent} from './edit-lesson/edit-lesson.component';
-import {FooterComponent} from './footer/footer.component';
 import {CoursesComponent} from './courses/courses.component';
 import {TopMenuComponent} from './top-menu/top-menu.component';
 import {AngularFireModule} from '@angular/fire';
@@ -138,6 +137,7 @@ import {LatestLessonEffects} from './store/latest-lesson.effects';
 import { AllLessonsComponent } from './all-lessons/all-lessons.component';
 import { SearchComponent } from './search/search.component';
 import { QuestionsListComponent } from './questions-list/questions-list.component';
+import { PageFooterComponent } from './page-footer/page-footer.component';
 
 
 @NgModule({
@@ -146,7 +146,6 @@ import { QuestionsListComponent } from './questions-list/questions-list.componen
     EditCourseComponent,
     EditLessonsListComponent,
     EditLessonComponent,
-    FooterComponent,
     CoursesComponent,
     TopMenuComponent,
     CoursePageComponent,
@@ -206,7 +205,8 @@ import { QuestionsListComponent } from './questions-list/questions-list.componen
     LatestLessonsListComponent,
     AllLessonsComponent,
     SearchComponent,
-    QuestionsListComponent
+    QuestionsListComponent,
+    PageFooterComponent
   ],
   imports: [
     BrowserModule,

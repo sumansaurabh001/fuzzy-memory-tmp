@@ -10,8 +10,9 @@
 }
 
 .desktop-container {
-  min-width: 1000px;
+  max-width: 1000px;
   padding-top: 140px;
+  margin: 0 auto;
 }
 
 .slim-page {
@@ -279,3 +280,5 @@ em {
   font-style: italic;
   color: black;
 }
+
+

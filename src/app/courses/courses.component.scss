@@ -3,6 +3,9 @@
 @import "../mixins";
 
 
+:host {
+  width: 100%;
+}
 
 .no-courses {
   background: $secondary-light;

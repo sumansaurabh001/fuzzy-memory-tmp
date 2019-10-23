@@ -1,6 +1,7 @@
-<div class="desktop-container">
+<ng-container *ngIf="data$ | async as data">
 
-  <ng-container *ngIf="data$ | async as data">
+  <div class="desktop-container">
+
 
     <ng-container *allowRole="'ADMIN'">
 
@@ -74,7 +75,7 @@
 
       <ng-container *ngIf="availableCourses(data.allCourses, data.userCourses) as unpurchasedCourses">
 
-        <ng-container  *ngIf="unpurchasedCourses.length > 0">
+        <ng-container *ngIf="unpurchasedCourses.length > 0">
 
           <mat-divider></mat-divider>
 
@@ -92,14 +93,11 @@
 
     </ng-container>
 
-  </ng-container>
+  </div>
 
-</div>
+  <page-footer></page-footer>
 
-
-
-
-
+</ng-container>
 
 
 
