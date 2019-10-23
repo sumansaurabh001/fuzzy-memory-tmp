@@ -1,6 +1,6 @@
-<div class="watch-course" *ngIf="(course$| async) as course">
+<ng-container *ngIf="(course$| async) as course">
 
-  <div class="content-container" *ngIf="(lessons$ | async) as lessons">
+  <ng-container *ngIf="(lessons$ | async) as lessons">
 
     <div class="playlist" *ngIf="leftMenuOpened">
 
@@ -56,6 +56,6 @@
 
     </div>
 
-  </div>
+  </ng-container>
 
-</div>
+</ng-container>

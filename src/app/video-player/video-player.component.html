@@ -1,4 +1,3 @@
-
 <div class="video-container" (mousemove)="onMouseMove()">
 
   <div class="top-buttons" *ngIf="hoveringTimeout" [@fadeIn]>
@@ -8,7 +7,7 @@
     </div>
 
     <div class="top-button-container open" (click)="openMenu()" *ngIf="fullSize">
-      <mat-icon class="control"  title="Open Left Menu" >menu</mat-icon>
+      <mat-icon class="control" title="Open Left Menu">menu</mat-icon>
     </div>
 
 
@@ -38,17 +37,15 @@
     <mat-icon class="noselect">pause_circle_filled</mat-icon>
   </div>
 
-  <div class="filler"></div>
-
   <div class="bottom-buttons" *ngIf="hoveringTimeout" [@fadeIn]>
 
     <div class="progress-bar-container">
 
       <mat-progress-bar #progressBar height="20px"
-        class="video-progress"
-        mode="determinate"
-        (click)="jumpToTimestamp( $event)"
-        [value]="currentPercentage()">
+                        class="video-progress"
+                        mode="determinate"
+                        (click)="jumpToTimestamp( $event)"
+                        [value]="currentPercentage()">
 
       </mat-progress-bar>
 
@@ -60,13 +57,13 @@
 
       <div class="play-controls">
 
-        <mat-icon class="control" (click)="play()"  *ngIf="!this.videoPlaying">play_arrow</mat-icon>
+        <mat-icon class="control" (click)="play()" *ngIf="!this.videoPlaying">play_arrow</mat-icon>
 
         <mat-icon class="control" (click)="pause()" *ngIf="this.videoPlaying">pause</mat-icon>
 
         <mat-icon class="control" (click)="replay10()">replay_10</mat-icon>
 
-        <div class="speed-control" [matMenuTriggerFor]="speedMenu" >
+        <div class="speed-control" [matMenuTriggerFor]="speedMenu">
           {{currentSpeed | number:'1.1-2'}}x
         </div>
 
@@ -83,7 +80,8 @@
 
           <mat-icon class="control volume-icon" *ngIf="!volumeOn" (click)="setVolumeOn()">volume_off</mat-icon>
 
-          <mat-slider color="primary" class="volume-slider" (input)="onVolumeChange($event)" [value]="volumePercentage"></mat-slider>
+          <mat-slider color="primary" class="volume-slider" (input)="onVolumeChange($event)"
+                      [value]="volumePercentage"></mat-slider>
 
         </div>
 
@@ -93,9 +91,9 @@
 
       <div class="other-controls">
 
-        <!-- TODO mat-icon class="control">closed_caption</mat-icon-->
-
-        <mat-icon class="control" matTooltip="Download video" *ngIf="allowDownload" (click)="downloadVideo()">cloud_download</mat-icon>
+        <mat-icon class="control" matTooltip="Download video" *ngIf="allowDownload" (click)="downloadVideo()">
+          cloud_download
+        </mat-icon>
 
         <mat-icon class="control" *ngIf="!fullScreen" (click)="enterFullScreen()">fullscreen</mat-icon>
 
@@ -107,6 +105,7 @@
     </div>
 
   </div>
+
 
 </div>
 

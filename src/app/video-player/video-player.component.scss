@@ -3,16 +3,20 @@
 @import "../vars";
 
 
-.video-container {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
+:host {
   background: black;
+}
+
+
+
+.video-container {
   position: relative;
+  display: flex;
 }
 
 .top-buttons {
+  position: absolute;
+  width: 100%;
   display: flex;
   align-items: center;
   padding-top: 25px;
@@ -64,26 +68,27 @@
 
 
 .video {
-  position: absolute;
   width: 100%;
-  top: 50%;
-  -webkit-transform: translateY(-50%);
-  transform: translateY(-50%);
-
 }
 
 .video-btn-container {
-  position: absolute;
+
+  position:absolute;
+  top: 50%;
   left: 50%;
-  top:50%;
-  -webkit-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%);
+  -webkit-transform: translate(-50%, -50%);
+
   @include mat-icon-size(100px);
+  z-index: 10;
   cursor: pointer;
   color: $text;
 }
 
 .bottom-buttons {
+  position: absolute;
+  width: 100%;
+  bottom: 0;
   background: $text;
   border-radius: 4px;
   display: flex;

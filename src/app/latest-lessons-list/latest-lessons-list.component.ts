@@ -86,7 +86,7 @@ export class LatestLessonsListComponent implements OnInit, AfterViewInit {
       environment.algolia.search_key
     );
 
-    this.index = this.searchClient.initIndex(this.tenant.id);
+    this.index = this.searchClient.initIndex(this.tenant.id + "_lessons");
 
   }
 
