@@ -47,9 +47,7 @@
         </video-player>
 
         <ng-template #videoNotAllowed>
-
           <p>TODO - user cannot watch video.</p>
-
         </ng-template>
 
         <div class="questions">
@@ -72,6 +70,7 @@
           </button>
         </div>
 
+        <questions-list [questions]="questions$ | async"></questions-list>
 
       </ng-container>
 

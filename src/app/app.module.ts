@@ -137,6 +137,7 @@ import { LatestLessonsListComponent } from './latest-lessons-list/latest-lessons
 import {LatestLessonEffects} from './store/latest-lesson.effects';
 import { AllLessonsComponent } from './all-lessons/all-lessons.component';
 import { SearchComponent } from './search/search.component';
+import { QuestionsListComponent } from './questions-list/questions-list.component';
 
 
 @NgModule({
@@ -204,7 +205,8 @@ import { SearchComponent } from './search/search.component';
     CourseStatusComponent,
     LatestLessonsListComponent,
     AllLessonsComponent,
-    SearchComponent
+    SearchComponent,
+    QuestionsListComponent
   ],
   imports: [
     BrowserModule,

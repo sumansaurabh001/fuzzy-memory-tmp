@@ -20,6 +20,9 @@ import {selectActiveCourseLessonsWatched} from '../store/user-lesson-status.sele
 import {UserLessonStatus} from '../models/user-lesson-status';
 import {updateLessonWatchStatus} from '../store/user-lesson-status.actions';
 import {UrlBuilderService} from '../services/url-builder.service';
+import {LessonQuestion} from '../models/lesson-question.model';
+import {of} from 'rxjs/internal/observable/of';
+import {fromArray} from 'rxjs/internal/observable/fromArray';
 
 
 @Component({
@@ -53,6 +56,7 @@ export class WatchCourseComponent implements OnInit {
 
   initialLessonLoaded = false;
 
+  questions$ : Observable<LessonQuestion[]>;
 
   constructor(private store: Store<AppState>,
               private router: Router,
@@ -109,6 +113,44 @@ export class WatchCourseComponent implements OnInit {
         );
 
     this.lessonsWatched$ = this.store.pipe(select(selectActiveCourseLessonsWatched));
+
+
+    this.questions$ = of([
+
+      {
+        id: "1",
+        question: "Sorting tensors with new TensorFlow js Lib",
+        lessonId: "1",
+        courseId: "1"
+      },
+      {
+        id: "1",
+        question: "Broadcasting Operations Video 3:57",
+        lessonId: "1",
+        courseId: "1"
+      },
+      {
+        id: "1",
+        question: "NAN on normalized table",
+        lessonId: "1",
+        courseId: "1"
+      },
+      {
+        id: "1",
+        question: "Also really low accuracy",
+        lessonId: "1",
+        courseId: "1"
+      },
+      {
+        id: "1",
+        question: "Different results every time runAnalysis with same data.",
+        lessonId: "1",
+        courseId: "1"
+      }
+
+
+
+      ]);
 
   }
 
