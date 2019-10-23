@@ -1,0 +1,78 @@
+
+
+@import "../mixins";
+
+.questions-list {
+  padding: 0 20px;
+  margin-bottom: 50px;
+}
+
+.question {
+  padding: 20px;
+  color: rgba(42, 48, 46, 0.87);
+  display: flex;
+  flex-direction: row;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+  &:first-child {
+    border-top: 1px solid rgba(0, 0, 0, 0.12);
+  }
+  &:hover {
+    background: #f2f3f5;
+    border-top-color: #f2f3f5;
+  }
+}
+
+
+.user-picture {
+  border-radius: 50%;
+  height: 50px;
+}
+
+.question-details {
+  margin-left: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.question-data {
+  margin-top: 15px;
+  font-size: 14px;
+  display: flex;
+  flex-direction: row;
+}
+
+
+.question-title {
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.question-summary {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.timestamp {
+  display: inline-block;
+  margin-left: 10px;
+}
+
+.question-stats {
+  @include mat-icon-size(16px);
+  display: flex;
+  flex-direction: row;
+  margin-left: 20px;
+}
+
+.replies-count {
+  margin-right: 5px;
+  font-size: 16px;
+}
+
+
+.bottom-toolbar {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+}

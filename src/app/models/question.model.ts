@@ -7,6 +7,7 @@ export interface Question {
   userDisplayName?:string;
   userPictureUrl?:string;
   createdAt?:firebase.firestore.Timestamp;
+  repliesCount?:number;
 }
 
 

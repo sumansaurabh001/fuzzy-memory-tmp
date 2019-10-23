@@ -17,4 +17,12 @@ export class QuestionsListComponent implements OnInit {
 
   }
 
+  goToLecture() {
+
+  }
+
+  openAnswers(question: Question) {
+
+  }
+
 }

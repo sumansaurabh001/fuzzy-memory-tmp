@@ -124,32 +124,68 @@ export class WatchCourseComponent implements OnInit {
       {
         id: "1",
         title: "Sorting tensors with new TensorFlow js Lib",
+        questionText: "Tensor Flow removed the  .get() from tf.tensor  so for sorting you'll have to do:\n" +
+          "\n" +
+          ".sort((tensorA, tensorB) =>\n" +
+          "        tensorA.arraySync()[0] > tensorB.arraySync()[0] ? 1 : -1\n" +
+          "    );",
         lessonId: "1",
-        courseId: "1"
+        courseId: "1",
+        userPictureUrl: "https://i.udemycdn.com/user/50x50/11316690_eb0d_3.jpg",
+        repliesCount: 0
+
       },
       {
         id: "1",
         title: "Broadcasting Operations Video 3:57",
+        questionText: "Tensor Flow removed the  .get() from tf.tensor  so for sorting you'll have to do:\n" +
+          "\n" +
+          ".sort((tensorA, tensorB) =>\n" +
+          "        tensorA.arraySync()[0] > tensorB.arraySync()[0] ? 1 : -1\n" +
+          "    );",
         lessonId: "1",
-        courseId: "1"
+        courseId: "1",
+        userPictureUrl: "https://i.udemycdn.com/user/50x50/11316690_eb0d_3.jpg",
+        repliesCount: 10
       },
       {
         id: "1",
         title: "NAN on normalized table",
+        questionText: "Tensor Flow removed the  .get() from tf.tensor  so for sorting you'll have to do:\n" +
+          "\n" +
+          ".sort((tensorA, tensorB) =>\n" +
+          "        tensorA.arraySync()[0] > tensorB.arraySync()[0] ? 1 : -1\n" +
+          "    );",
         lessonId: "1",
-        courseId: "1"
+        courseId: "1",
+        userPictureUrl: "https://i.udemycdn.com/user/50x50/11316690_eb0d_3.jpg",
+        repliesCount: 1
       },
       {
         id: "1",
         title: "Also really low accuracy",
+        questionText: "Tensor Flow removed the  .get() from tf.tensor  so for sorting you'll have to do:\n" +
+          "\n" +
+          ".sort((tensorA, tensorB) =>\n" +
+          "        tensorA.arraySync()[0] > tensorB.arraySync()[0] ? 1 : -1\n" +
+          "    );",
         lessonId: "1",
-        courseId: "1"
+        courseId: "1",
+        userPictureUrl: "https://i.udemycdn.com/user/50x50/11316690_eb0d_3.jpg",
+        repliesCount: 5
       },
       {
         id: "1",
         title: "Different results every time runAnalysis with same data.",
+        questionText: "Tensor Flow removed the  .get() from tf.tensor  so for sorting you'll have to do:\n" +
+          "\n" +
+          ".sort((tensorA, tensorB) =>\n" +
+          "        tensorA.arraySync()[0] > tensorB.arraySync()[0] ? 1 : -1\n" +
+          "    );",
         lessonId: "1",
-        courseId: "1"
+        courseId: "1",
+        userPictureUrl: "https://i.udemycdn.com/user/50x50/11316690_eb0d_3.jpg",
+        repliesCount: 6
       }
 
 
