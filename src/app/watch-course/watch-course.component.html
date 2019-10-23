@@ -34,7 +34,7 @@
 
         <video-player *ngIf="videoAccess.status == 'allowed'; else videoNotAllowed"
                       #videoPlayer
-                      class="lesson-video"
+                      class="lesson-video mat-elevation-z7"
                       [url]="ub.buildLessonVideoUrl(course, activeLesson, videoAccess)"
                       [videoDuration]="activeLesson.videoDuration"
                       [allowDownload]="course.downloadAllowed"

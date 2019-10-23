@@ -16,7 +16,7 @@
 
 
 .playlist {
-  padding-top: 15px;
+  padding: 15px 10px;
   min-width: 550px;
   overflow-y: scroll;
 }
@@ -25,4 +25,9 @@
 .video-panel {
   flex-grow: 1;
   max-height: 550px;
+}
+
+
+.lesson-video {
+
 }
