@@ -1,0 +1,19 @@
+<div class="search">
+
+  <mat-form-field class="search-field" [style.width]="width">
+    <input #search matInput type="search" [placeholder]="placeholder" [matAutocomplete]="auto">
+    <mat-icon matSuffix>search</mat-icon>
+
+  </mat-form-field>
+
+  <mat-autocomplete class="search-results"
+                    #auto="matAutocomplete"
+                    [panelWidth]="700"
+                    (optionSelected)="onSearchOptionSelected($event)">
+    <mat-option *ngFor="let option of searchOptions" [value]="option">
+      <div [innerHTML]="option._highlightResult.title.value"></div>
+    </mat-option>
+  </mat-autocomplete>
+
+
+</div>

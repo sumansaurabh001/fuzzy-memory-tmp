@@ -18,11 +18,8 @@ import {MessagesService} from '../services/messages.service';
 import {selectActiveCourseLessonsWatched, selectAllLessonsWatched} from '../store/user-lesson-status.selectors';
 import OrderByDirection = firebase.firestore.OrderByDirection;
 
-import algoliasearch from 'algoliasearch/lite';
-
-import {environment} from '../../environments/environment';
-import {TenantService} from '../services/tenant.service';
 import {from} from 'rxjs/internal/observable/from';
+import {TenantService} from '../services/tenant.service';
 
 interface LatestLessonsListData {
   latestLessons: LatestLesson[];
@@ -39,18 +36,11 @@ interface LatestLessonsListData {
   templateUrl: './latest-lessons-list.component.html',
   styleUrls: ['./latest-lessons-list.component.scss']
 })
-export class LatestLessonsListComponent implements OnInit, AfterViewInit {
+export class LatestLessonsListComponent implements OnInit {
 
   @Input() title:string;
 
   data$: Observable<LatestLessonsListData>;
-
-  @ViewChild('search', {static:false})
-  searchInput: ElementRef;
-
-  searchClient: any;
-  index:any;
-  searchOptions = [];
 
 
   constructor(
@@ -81,26 +71,6 @@ export class LatestLessonsListComponent implements OnInit, AfterViewInit {
         })
       );
 
-    this.searchClient = algoliasearch(
-      environment.algolia.app_id,
-      environment.algolia.search_key
-    );
-
-    this.index = this.searchClient.initIndex(this.tenant.id + "_lessons");
-
-  }
-
-  ngAfterViewInit() {
-    fromEvent(this.searchInput.nativeElement, "keyup")
-      .pipe(
-        debounceTime(200),
-        filter(() => this.searchInput.nativeElement.value && this.searchInput.nativeElement.value.length >= 3),
-        switchMap(() => from(this.index.search({query: this.searchInput.nativeElement.value}))),
-        tap((results:any) => {
-          this.searchOptions = results.hits;
-        })
-      )
-      .subscribe();
   }
 
   findCourseListIcon(courseId:string, courses: Course[]) {
@@ -159,11 +129,7 @@ export class LatestLessonsListComponent implements OnInit, AfterViewInit {
     else return [];
   }
 
-  onSearchOptionSelected(event: MatAutocompleteSelectedEvent) {
-
-    this.searchInput.nativeElement.value = '';
-
-    const lesson = event.option.value;
+  onSearchLessonSelected(lesson: LatestLesson) {
 
     this.store.dispatch(navigateToLesson({
       courseId: lesson.courseId,
@@ -171,5 +137,9 @@ export class LatestLessonsListComponent implements OnInit, AfterViewInit {
       seqNo: lesson.seqNo
     }));
 
+  }
+
+  lessonsIndexName() {
+    return this.tenant.id + "_lessons";
   }
 }

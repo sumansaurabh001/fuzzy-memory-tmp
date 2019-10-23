@@ -130,12 +130,13 @@ import {UserLessonStatusEffects} from './store/user-lesson-status.effects';
 import {PublishCourseComponent} from './publish-course/publish-course.component';
 import { PublishCourseDialogComponent } from './publish-course-dialog/publish-course-dialog.component';
 import {TestUserInterceptor} from './services/test-user.interceptor';
-import {MatAutocompleteModule, MatBadgeModule} from '@angular/material';
+import {MatAutocompleteModule, MatBadgeModule, MatButtonToggleModule} from '@angular/material';
 import { CourseStatusComponent } from './course-status/course-status.component';
 import {CouponsService} from './services/coupons.service';
 import { LatestLessonsListComponent } from './latest-lessons-list/latest-lessons-list.component';
 import {LatestLessonEffects} from './store/latest-lesson.effects';
 import { AllLessonsComponent } from './all-lessons/all-lessons.component';
+import { SearchComponent } from './search/search.component';
 
 
 @NgModule({
@@ -202,7 +203,8 @@ import { AllLessonsComponent } from './all-lessons/all-lessons.component';
     PublishCourseDialogComponent,
     CourseStatusComponent,
     LatestLessonsListComponent,
-    AllLessonsComponent
+    AllLessonsComponent,
+    SearchComponent
   ],
   imports: [
     BrowserModule,
@@ -234,6 +236,7 @@ import { AllLessonsComponent } from './all-lessons/all-lessons.component';
     MatCheckboxModule,
     MatTooltipModule,
     MatAutocompleteModule,
+    MatButtonToggleModule,
     FormsModule,
     ReactiveFormsModule,
     MatDialogModule,

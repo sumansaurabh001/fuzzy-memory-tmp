@@ -3,25 +3,11 @@
 
   <h1 class="page-title">{{title}}</h1>
 
-  <div class="search">
-
-      <mat-form-field class="search-field">
-        <input #search matInput type="search" placeholder="Search all lessons..." [matAutocomplete]="auto">
-        <mat-icon matSuffix>search</mat-icon>
-
-      </mat-form-field>
-
-    <mat-autocomplete class="search-results"
-                      #auto="matAutocomplete"
-                      [panelWidth]="700"
-                      (optionSelected)="onSearchOptionSelected($event)">
-      <mat-option *ngFor="let option of searchOptions" [value]="option">
-        <div [innerHTML]="option._highlightResult.title.value"></div>
-      </mat-option>
-    </mat-autocomplete>
-
-
-  </div>
+  <search
+    [indexName]="lessonsIndexName()"
+    placeholder="Search all lessons..."
+    (optionSelected)="onSearchLessonSelected($event)"
+  ></search>
 
   <div class="mat-elevation-z5 latest-lessons">
 
