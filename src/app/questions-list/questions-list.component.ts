@@ -14,6 +14,7 @@ export class QuestionsListComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
+
   }
 
 }

@@ -20,11 +20,12 @@ export class SchoolUsersDbService {
 
   }
 
-  saveLatestUserProfile(userId: string, tenantId: string, email: string = null, pictureUrl: string = null) {
+  saveLatestUserProfile(userId: string, tenantId: string, email: string = null,
+                        pictureUrl: string = null, displayName:string = null) {
 
     const addUserAsync = this.afs
       .doc(`schools/${tenantId}/users/${userId}`)
-      .set({email, pictureUrl}, {merge: true});
+      .set({email, pictureUrl, displayName}, {merge: true});
 
     return from(addUserAsync);
   }

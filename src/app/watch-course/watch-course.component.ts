@@ -119,31 +119,31 @@ export class WatchCourseComponent implements OnInit {
 
       {
         id: "1",
-        question: "Sorting tensors with new TensorFlow js Lib",
+        title: "Sorting tensors with new TensorFlow js Lib",
         lessonId: "1",
         courseId: "1"
       },
       {
         id: "1",
-        question: "Broadcasting Operations Video 3:57",
+        title: "Broadcasting Operations Video 3:57",
         lessonId: "1",
         courseId: "1"
       },
       {
         id: "1",
-        question: "NAN on normalized table",
+        title: "NAN on normalized table",
         lessonId: "1",
         courseId: "1"
       },
       {
         id: "1",
-        question: "Also really low accuracy",
+        title: "Also really low accuracy",
         lessonId: "1",
         courseId: "1"
       },
       {
         id: "1",
-        question: "Different results every time runAnalysis with same data.",
+        title: "Different results every time runAnalysis with same data.",
         lessonId: "1",
         courseId: "1"
       }
