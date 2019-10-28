@@ -1,46 +1,69 @@
 <div class="questions-list" *ngIf="questions?.length">
 
-  <div class="questions-container mat-elevation-z7">
+  <div *ngIf="!showAnswers">
 
-    <div class="question" *ngFor="let question of questions">
+    <div class="questions-container mat-elevation-z7">
 
-      <img class="user-picture" [src]="question.userPictureUrl">
+      <div class="question" *ngFor="let question of questions">
 
-      <div class="question-details">
+        <img class="user-picture" [src]="question.userPictureUrl">
 
-        <div (click)="openAnswers(question)">
+        <div class="question-details">
 
-          <div class="question-title">{{question.title}}</div>
+          <div (click)="openAnswers(question)">
 
-          <div class="question-summary" [innerHTML]="question.questionText"></div>
+            <div class="question-title">{{question.title}}</div>
+
+            <div class="question-summary" [innerHTML]="question.questionText"></div>
+
+          </div>
+
+          <div class="question-data">
+
+            <span>{{question.userDisplayName}}</span>
+
+            <a href="javascript:void(0)" (click)="goToLecture()">Go to Lecture</a>
+
+            <span class="timestamp">a day ago</span>
+
+          </div>
 
         </div>
 
-        <div class="question-data">
+        <div class="filler"></div>
 
-          <span>{{question.userDisplayName}}</span>
-
-          <a href="javascript:void(0)" (click)="goToLecture()">Go to Lecture</a>
-
-          <span class="timestamp">a day ago</span>
-
+        <div class="question-stats" matTooltip="number of replies">
+          <span class="replies-count">{{question.repliesCount}}</span>
+          <mat-icon>chat_bubble</mat-icon>
         </div>
 
-      </div>
-
-      <div class="filler"></div>
-
-      <div class="question-stats" matTooltip="number of replies">
-        <span class="replies-count">{{question.repliesCount}}</span>
-        <mat-icon>chat_bubble</mat-icon>
       </div>
 
     </div>
 
+    <div class="bottom-toolbar">
+      <button mat-raised-button color="primary">Load More</button>
+    </div>
+
   </div>
 
-  <div class="bottom-toolbar">
-    <button mat-raised-button color="primary">Load More</button>
+  <div *ngIf="showAnswers">
+
+    <button class="back-button" mat-raised-button color="primary" (click)="backToQuestions()">
+      <mat-icon>arrow_back_ios</mat-icon>
+      Back to Questions
+    </button>
+
+    <div class="answers-container mat-elevation-z7" >
+
+      <div class="answer" *ngFor="let answer of (answers$ | async)">
+
+        {{answer.answer}}
+
+      </div>
+
+    </div>
+
   </div>
 
 </div>
