@@ -3,8 +3,12 @@
 @import "../mixins";
 
 .questions-list {
-  padding: 0 20px;
   margin-bottom: 50px;
+  margin-right: 20px;
+}
+
+.questions-container {
+  border-radius: 4px;
 }
 
 .question {
