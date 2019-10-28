@@ -248,7 +248,7 @@ import { PageFooterComponent } from './page-footer/page-footer.component';
     AngularFireAuthModule,
     AngularFireStorageModule,
 
-    QuillModule,
+    QuillModule.forRoot(),
     SharedModule,
 
     StoreModule.forRoot(reducers, {

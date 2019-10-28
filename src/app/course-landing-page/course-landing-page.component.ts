@@ -31,7 +31,7 @@ export class CourseLandingPageComponent implements OnInit {
 
   form: FormGroup;
 
-  editorConfig = defaultEditorConfig;
+  editorConfig = defaultEditorConfig();
 
   imageProcessingOngoing = false;
 

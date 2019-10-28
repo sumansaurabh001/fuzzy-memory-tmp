@@ -19,7 +19,7 @@ export class EditHtmlDialogComponent implements OnInit {
   editedProperty:string;
   html:string;
 
-  editorConfig = defaultEditorConfig;
+  editorConfig = defaultEditorConfig();
 
 
   constructor(

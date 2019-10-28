@@ -90,11 +90,7 @@ export class VideoPlayerComponent implements OnInit, AfterViewInit, OnChanges, O
   ngOnInit() {
 
     this.eventManager.addGlobalEventListener('window', 'keyup', evt => {
-      if (evt.keyCode == 32) {
-        this.toggle();
-        this.cd.markForCheck();
-      }
-      else if (evt.keyCode == 27 && this.fullScreen) {
+      if (evt.keyCode == 27 && this.fullScreen) {
         this.toggleFullScreen();
         this.cd.markForCheck();
       }

@@ -9,6 +9,8 @@ import {AppState} from '../store';
 import {defaultEditorConfig} from '../common/html-editor.config';
 import {QuillConfig, QuillToolbarConfig} from 'ngx-quill';
 
+import 'quill-emoji/dist/quill-emoji.js';
+
 @Component({
   selector: 'edit-title-description-dialog',
   templateUrl: './edit-title-description-dialog.component.html',
@@ -24,6 +26,8 @@ export class EditTitleDescriptionDialogComponent implements OnInit {
 
   editorConfig: any;
 
+
+
   constructor(
     private dialogRef: MatDialogRef<EditTitleDescriptionDialogComponent>,
     @Inject(MAT_DIALOG_DATA) data,
@@ -32,7 +36,9 @@ export class EditTitleDescriptionDialogComponent implements OnInit {
     this.dialogTitle = data.dialogTitle;
     this.title = data.title;
     this.description = data.description;
-    this.editorConfig = data.editorConfig ? data.editorConfig : defaultEditorConfig;
+
+    this.editorConfig = data.editorConfig ? data.editorConfig : defaultEditorConfig();
+
 
     this.form = this.fb.group({
       title: ['', [Validators.required, Validators.required]],
@@ -66,5 +72,6 @@ export class EditTitleDescriptionDialogComponent implements OnInit {
   close() {
     this.dialogRef.close();
   }
+
 
 }

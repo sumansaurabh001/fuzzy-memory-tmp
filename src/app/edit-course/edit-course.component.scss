@@ -1,5 +1,9 @@
 
 
+:host {
+  width: 100%;
+}
+
 :host ::ng-deep .mat-tab-label  {
   text-transform: uppercase;
   font-weight: bold;

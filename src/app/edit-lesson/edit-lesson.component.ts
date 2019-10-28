@@ -33,7 +33,7 @@ export class EditLessonComponent implements OnInit, OnChanges {
   form: FormGroup;
 
   lessonDescription: string;
-  modules = defaultEditorConfig;
+  modules = defaultEditorConfig();
 
   uploadTask: AngularFireUploadTask;
 

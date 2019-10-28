@@ -27,7 +27,8 @@ export const defaultQuillConfig = {
 };
 
 
-export const defaultEditorConfig = {
+export function defaultEditorConfig() {
+  return {
   toolbar: [
     ['bold', 'italic', 'underline', 'strike'], // toggled buttons
     ['blockquote'],
@@ -39,8 +40,10 @@ export const defaultEditorConfig = {
     ], // dropdown with defaults from theme
     [{align: []}],
 
-    ['link']
+    ['link'],
+    ['emoji']
   ]
+}
 };
 
 

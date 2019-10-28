@@ -23,6 +23,9 @@ import {UrlBuilderService} from '../services/url-builder.service';
 import {LessonQuestion} from '../models/lesson-question.model';
 import {of} from 'rxjs/internal/observable/of';
 import {fromArray} from 'rxjs/internal/observable/fromArray';
+import {MatDialog, MatDialogConfig} from '@angular/material';
+import {EditTitleDescriptionDialogComponent} from '../edit-title-description-dialog/edit-title-description-dialog.component';
+import {defaultEditorConfig} from '../common/html-editor.config';
 
 
 @Component({
@@ -33,7 +36,7 @@ import {fromArray} from 'rxjs/internal/observable/fromArray';
 })
 export class WatchCourseComponent implements OnInit {
 
-  @ViewChild(VideoPlayerComponent, { static: false })
+  @ViewChild(VideoPlayerComponent, {static: false})
   videoPlayer: VideoPlayerComponent;
 
   course$: Observable<Course>;
@@ -58,12 +61,13 @@ export class WatchCourseComponent implements OnInit {
 
   initialLessonLoaded = false;
 
-  questions$ : Observable<LessonQuestion[]>;
+  questions$: Observable<LessonQuestion[]>;
 
   constructor(private store: Store<AppState>,
               private router: Router,
               private title: Title,
-              private ub: UrlBuilderService) {
+              private ub: UrlBuilderService,
+              private dialog: MatDialog) {
 
   }
 
@@ -106,13 +110,11 @@ export class WatchCourseComponent implements OnInit {
 
           if (!this.initialLessonLoaded) {
             this.initialLessonLoaded = true;
-          }
-          else if (this.autoPlay && this.videoPlayer && videoAccess.status == 'allowed') {
+          } else if (this.autoPlay && this.videoPlayer && videoAccess.status == 'allowed') {
             setTimeout(() => this.videoPlayer.play());
           }
         })
-
-        );
+      );
 
     this.lessonsWatched$ = this.store.pipe(select(selectActiveCourseLessonsWatched));
 
@@ -122,89 +124,75 @@ export class WatchCourseComponent implements OnInit {
     this.questions$ = of([
 
       {
-        id: "1",
-        title: "Sorting tensors with new TensorFlow js Lib",
-        questionText: "Tensor Flow removed the  .get() from tf.tensor  so for sorting you'll have to do:\n" +
-          "\n" +
-          ".sort((tensorA, tensorB) =>\n" +
-          "        tensorA.arraySync()[0] > tensorB.arraySync()[0] ? 1 : -1\n" +
-          "    );",
-        lessonId: "1",
-        courseId: "1",
-        userPictureUrl: "https://i.udemycdn.com/user/50x50/11316690_eb0d_3.jpg",
+        id: '1',
+        title: 'Sorting tensors with new TensorFlow js Lib',
+        questionText: 'Tensor Flow removed the  .get() from tf.tensor  so for sorting you\'ll have to do:\n' +
+          '\n' +
+          '.sort((tensorA, tensorB) =>\n' +
+          '        tensorA.arraySync()[0] > tensorB.arraySync()[0] ? 1 : -1\n' +
+          '    );',
+        lessonId: '1',
+        courseId: '1',
+        userPictureUrl: 'https://i.udemycdn.com/user/50x50/11316690_eb0d_3.jpg',
         repliesCount: 0
 
       },
       {
-        id: "1",
-        title: "Broadcasting Operations Video 3:57",
-        questionText: "Tensor Flow removed the  .get() from tf.tensor  so for sorting you'll have to do:\n" +
-          "\n" +
-          ".sort((tensorA, tensorB) =>\n" +
-          "        tensorA.arraySync()[0] > tensorB.arraySync()[0] ? 1 : -1\n" +
-          "    );",
-        lessonId: "1",
-        courseId: "1",
-        userPictureUrl: "https://i.udemycdn.com/user/50x50/11316690_eb0d_3.jpg",
+        id: '1',
+        title: 'Broadcasting Operations Video 3:57',
+        questionText: 'Tensor Flow removed the  .get() from tf.tensor  so for sorting you\'ll have to do:\n' +
+          '\n' +
+          '.sort((tensorA, tensorB) =>\n' +
+          '        tensorA.arraySync()[0] > tensorB.arraySync()[0] ? 1 : -1\n' +
+          '    );',
+        lessonId: '1',
+        courseId: '1',
+        userPictureUrl: 'https://i.udemycdn.com/user/50x50/11316690_eb0d_3.jpg',
         repliesCount: 10
       },
       {
-        id: "1",
-        title: "NAN on normalized table",
-        questionText: "Tensor Flow removed the  .get() from tf.tensor  so for sorting you'll have to do:\n" +
-          "\n" +
-          ".sort((tensorA, tensorB) =>\n" +
-          "        tensorA.arraySync()[0] > tensorB.arraySync()[0] ? 1 : -1\n" +
-          "    );",
-        lessonId: "1",
-        courseId: "1",
-        userPictureUrl: "https://i.udemycdn.com/user/50x50/11316690_eb0d_3.jpg",
+        id: '1',
+        title: 'NAN on normalized table',
+        questionText: 'Tensor Flow removed the  .get() from tf.tensor  so for sorting you\'ll have to do:\n' +
+          '\n' +
+          '.sort((tensorA, tensorB) =>\n' +
+          '        tensorA.arraySync()[0] > tensorB.arraySync()[0] ? 1 : -1\n' +
+          '    );',
+        lessonId: '1',
+        courseId: '1',
+        userPictureUrl: 'https://i.udemycdn.com/user/50x50/11316690_eb0d_3.jpg',
         repliesCount: 1
       },
       {
-        id: "1",
-        title: "Also really low accuracy",
-        questionText: "Tensor Flow removed the  .get() from tf.tensor  so for sorting you'll have to do:\n" +
-          "\n" +
-          ".sort((tensorA, tensorB) =>\n" +
-          "        tensorA.arraySync()[0] > tensorB.arraySync()[0] ? 1 : -1\n" +
-          "    );",
-        lessonId: "1",
-        courseId: "1",
-        userPictureUrl: "https://i.udemycdn.com/user/50x50/11316690_eb0d_3.jpg",
+        id: '1',
+        title: 'Also really low accuracy',
+        questionText: 'Tensor Flow removed the  .get() from tf.tensor  so for sorting you\'ll have to do:\n' +
+          '\n' +
+          '.sort((tensorA, tensorB) =>\n' +
+          '        tensorA.arraySync()[0] > tensorB.arraySync()[0] ? 1 : -1\n' +
+          '    );',
+        lessonId: '1',
+        courseId: '1',
+        userPictureUrl: 'https://i.udemycdn.com/user/50x50/11316690_eb0d_3.jpg',
         repliesCount: 5
       },
       {
-        id: "1",
-        title: "Different results every time runAnalysis with same data.",
-        questionText: "Tensor Flow removed the  .get() from tf.tensor  so for sorting you'll have to do:\n" +
-          "\n" +
-          ".sort((tensorA, tensorB) =>\n" +
-          "        tensorA.arraySync()[0] > tensorB.arraySync()[0] ? 1 : -1\n" +
-          "    );",
-        lessonId: "1",
-        courseId: "1",
-        userPictureUrl: "https://i.udemycdn.com/user/50x50/11316690_eb0d_3.jpg",
+        id: '1',
+        title: 'Different results every time runAnalysis with same data.',
+        questionText: 'Tensor Flow removed the  .get() from tf.tensor  so for sorting you\'ll have to do:\n' +
+          '\n' +
+          '.sort((tensorA, tensorB) =>\n' +
+          '        tensorA.arraySync()[0] > tensorB.arraySync()[0] ? 1 : -1\n' +
+          '    );',
+        lessonId: '1',
+        courseId: '1',
+        userPictureUrl: 'https://i.udemycdn.com/user/50x50/11316690_eb0d_3.jpg',
         repliesCount: 6
       }
 
 
+    ]);
 
-      ]);
-
-  }
-
-  /**
-   *
-   * prevent scrolling to the bottom of the page on space.
-   *
-   */
-
-  @HostListener('window:keydown', ['$event'])
-  keyEvent(evt: KeyboardEvent) {
-    if (evt.code === "Space") {
-      evt.preventDefault();
-    }
   }
 
   toggleLeftMenu() {
@@ -235,12 +223,12 @@ export class WatchCourseComponent implements OnInit {
     }
   }
 
-  onVideoWatched(course:Course, activeLesson: Lesson) {
+  onVideoWatched(course: Course, activeLesson: Lesson) {
 
     const userLessonStatus: UserLessonStatus = {
       id: activeLesson.id,
       courseId: course.id,
-      watched:true
+      watched: true
     };
 
     this.store.dispatch(updateLessonWatchStatus({userLessonStatus}));
@@ -250,6 +238,28 @@ export class WatchCourseComponent implements OnInit {
 
   askNewQuestion() {
 
+    const editorConfig = defaultEditorConfig();
+
+    //editorConfig['emoji-shortname'] = true;
+    //editorConfig['emoji-textarea'] = true;
+    editorConfig['emoji-toolbar'] = true;
+
+    const dialogConfig = new MatDialogConfig();
+
+    dialogConfig.autoFocus = true;
+    dialogConfig.disableClose = true;
+    dialogConfig.minWidth = '600px';
+    dialogConfig.data = {
+      dialogTitle: 'Ask a New Question',
+      editorConfig
+    };
+
+    this.dialog.open(EditTitleDescriptionDialogComponent, dialogConfig)
+      .afterClosed()
+      .subscribe();
+
+
   }
+
 
 }
