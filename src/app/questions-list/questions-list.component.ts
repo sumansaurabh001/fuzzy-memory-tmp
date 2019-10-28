@@ -16,6 +16,8 @@ export class QuestionsListComponent implements OnInit {
 
   showAnswers = false;
 
+  selectedQuestion: Question;
+
   answers$: Observable<Answer[]>;
 
 
@@ -68,10 +70,15 @@ export class QuestionsListComponent implements OnInit {
 
     this.showAnswers = true;
 
+    this.selectedQuestion = question;
 
   }
 
   backToQuestions() {
+
     this.showAnswers = false;
+
   }
+
+
 }

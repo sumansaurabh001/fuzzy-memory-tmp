@@ -32,17 +32,17 @@
 
       <ng-container *ngIf="(lessonData$ | async) as lessonData">
 
-        <video-player *ngIf="lessonData[1].status == 'allowed'; else videoNotAllowed"
-                      #videoPlayer
-                      class="lesson-video mat-elevation-z7"
-                      [url]="ub.buildLessonVideoUrl(course, lessonData[0], lessonData[1])"
-                      [videoDuration]="lessonData[0].videoDuration"
-                      [allowDownload]="course.downloadAllowed"
-                      (close)="toggleLeftMenu()"
-                      (open)="toggleLeftMenu()"
-                      (exit)="onExit(course)"
-                      (videoEnded)="onVideoEnded(lessons, lessonData[0])"
-                      (videoWatched)="onVideoWatched(course, lessonData[0])">
+          <video-player *ngIf="lessonData[1].status == 'allowed'; else videoNotAllowed"
+                        #videoPlayer
+                        class="lesson-video mat-elevation-z7"
+                        [url]="ub.buildLessonVideoUrl(course, lessonData[0], lessonData[1])"
+                        [videoDuration]="lessonData[0].videoDuration"
+                        [allowDownload]="course.downloadAllowed"
+                        (close)="toggleLeftMenu()"
+                        (open)="toggleLeftMenu()"
+                        (exit)="onExit(course)"
+                        (videoEnded)="onVideoEnded(lessons, lessonData[0])"
+                        (videoWatched)="onVideoWatched(course, lessonData[0])">
 
         </video-player>
 
