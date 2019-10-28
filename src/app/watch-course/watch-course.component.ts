@@ -240,9 +240,8 @@ export class WatchCourseComponent implements OnInit {
 
     const editorConfig = defaultEditorConfig();
 
-    //editorConfig['emoji-shortname'] = true;
-    //editorConfig['emoji-textarea'] = true;
     editorConfig['emoji-toolbar'] = true;
+    editorConfig["syntax"] = true;
 
     const dialogConfig = new MatDialogConfig();
 

@@ -41,6 +41,7 @@ export function defaultEditorConfig() {
     [{align: []}],
 
     ['link'],
+    ['code-block'],
     ['emoji']
   ]
 }
