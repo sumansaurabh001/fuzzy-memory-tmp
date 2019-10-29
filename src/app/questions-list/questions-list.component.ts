@@ -3,7 +3,7 @@ import {Question} from '../models/question.model';
 import {Observable} from 'rxjs/internal/Observable';
 import {Answer} from '../models/answer.model';
 import {of} from 'rxjs';
-import {defaultEditorConfig} from '../common/html-editor.config';
+import {defaultEditorConfig, fullOptionsEditorConfig} from '../common/html-editor.config';
 import {MatDialog, MatDialogConfig} from '@angular/material';
 import {EditTitleDescriptionDialogComponent} from '../edit-title-description-dialog/edit-title-description-dialog.component';
 
@@ -85,10 +85,7 @@ export class QuestionsListComponent implements OnInit {
 
   askNewQuestion() {
 
-    const editorConfig = defaultEditorConfig();
-
-    editorConfig['emoji-toolbar'] = true;
-    editorConfig["syntax"] = true;
+    const editorConfig = fullOptionsEditorConfig();
 
     const dialogConfig = new MatDialogConfig();
 
@@ -97,6 +94,8 @@ export class QuestionsListComponent implements OnInit {
     dialogConfig.minWidth = '600px';
     dialogConfig.data = {
       dialogTitle: 'Ask a New Question',
+      titlePlaceHolder: "Type here the question title...",
+      descriptionPlaceholder: "Type here your question...",
       editorConfig
     };
 
@@ -104,11 +103,29 @@ export class QuestionsListComponent implements OnInit {
       .afterClosed()
       .subscribe();
 
-
   }
 
 
   addNewAnswer() {
+
+    const editorConfig = fullOptionsEditorConfig();
+
+    const dialogConfig = new MatDialogConfig();
+
+    dialogConfig.autoFocus = true;
+    dialogConfig.disableClose = true;
+    dialogConfig.minWidth = '600px';
+    dialogConfig.data = {
+      dialogTitle: 'Add a New Answer',
+      titlePlaceHolder: "Type here the answer title...",
+      descriptionPlaceholder: "Type here your answer...",
+      editorConfig,
+      showTitle: false
+    };
+
+    this.dialog.open(EditTitleDescriptionDialogComponent, dialogConfig)
+      .afterClosed()
+      .subscribe();
 
   }
 

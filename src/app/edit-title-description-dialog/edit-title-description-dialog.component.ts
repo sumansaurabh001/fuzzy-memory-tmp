@@ -1,5 +1,5 @@
 import {Component, Inject, OnInit} from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import {MessagesService} from '../services/messages.service';
 import {LoadingService} from '../services/loading.service';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
@@ -18,14 +18,16 @@ import 'quill-emoji/dist/quill-emoji.js';
 })
 export class EditTitleDescriptionDialogComponent implements OnInit {
 
-  dialogTitle:string;
-  title:string;
-  description:string;
+  dialogTitle: string;
+  title: string;
+  description: string;
+  showTitle: boolean;
+  titlePlaceholder: string;
+  descriptionPlaceholder: string;
 
-  form:FormGroup;
+  form: FormGroup;
 
   editorConfig: any;
-
 
 
   constructor(
@@ -39,11 +41,21 @@ export class EditTitleDescriptionDialogComponent implements OnInit {
 
     this.editorConfig = data.editorConfig ? data.editorConfig : defaultEditorConfig();
 
+    this.showTitle = data.hasOwnProperty("showTitle") ? !!data.showTitle : true;
 
-    this.form = this.fb.group({
-      title: ['', [Validators.required, Validators.required]],
+    this.titlePlaceholder = data.titlePlaceholder ? data.titlePlaceholder : 'Type here the title...';
+
+    this.descriptionPlaceholder = data.descriptionPlaceholder ? data.descriptionPlaceholder : 'Type here the description...';
+
+    const formConfig = {
       description: ['', [Validators.required, Validators.required]],
-    });
+    };
+
+    if (this.showTitle) {
+      formConfig['title'] = ['', [Validators.required, Validators.required]];
+    }
+
+    this.form = this.fb.group(formConfig);
 
     if (this.title) {
       this.form.patchValue({
@@ -73,5 +85,9 @@ export class EditTitleDescriptionDialogComponent implements OnInit {
     this.dialogRef.close();
   }
 
+
+  setFocus(editor: any) {
+    editor.focus();
+  }
 
 }

@@ -2,10 +2,10 @@
 
 <mat-dialog-content [formGroup]="form">
 
-  <mat-form-field appearance="outline">
+  <mat-form-field appearance="outline" *ngIf="showTitle">
 
     <input matInput
-           placeholder="Type here the title..."
+           [placeholder]="titlePlaceholder"
            maxLength="60"
            formControlName="title">
 
@@ -15,7 +15,8 @@
       [formControl]="form.controls['description']"
       [modules]="editorConfig"
       [styles]="{height: '300px'}"
-      placeholder="Type here the description...">
+      [placeholder]="descriptionPlaceholder"
+      (onEditorCreated)="setFocus($event)">
 
     </quill-editor>
 

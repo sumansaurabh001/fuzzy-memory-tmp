@@ -45,7 +45,17 @@ export function defaultEditorConfig() {
     ['emoji']
   ]
 }
-};
+}
+
+export function fullOptionsEditorConfig() {
+
+  const config = defaultEditorConfig();
+
+  config['emoji-toolbar'] = true;
+  config["syntax"] = true;
+
+  return config;
+}
 
 
 export const minimalEditorConfig = {
@@ -57,4 +67,4 @@ export const minimalEditorConfig = {
     ], // dropdown with defaults from theme
     ['link']
   ]
-};
+}
