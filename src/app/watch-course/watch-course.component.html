@@ -1,80 +1,73 @@
-<ng-container *ngIf="(course$| async) as course">
+<ng-container *ngIf="(data$ | async) as data">
 
-  <ng-container *ngIf="(lessons$ | async) as lessons">
+  <div class="playlist" *ngIf="leftMenuOpened">
 
-    <ng-container *ngIf="(activeLesson$ | async) as activeLesson">
+    <mat-slide-toggle
+      color="primary"
+      class="autoplay"
+      [(ngModel)]="autoPlay"
+      (change)="onAutoPlayChange()">
+      Autoplay
+    </mat-slide-toggle>
 
-      <div class="playlist" *ngIf="leftMenuOpened">
+    <course-content
+      [playlistMode]="true"
+      [course]="data.course"
+      [sections]="data.sections"
+      [lessons]="data.lessons"
+      [lessonsWatched]="data.lessonsWatched"
+      [activeLesson]="data.activeLesson">
 
-        <mat-slide-toggle
-          color="primary"
-          class="autoplay"
-          [(ngModel)]="autoPlay"
-          (change)="onAutoPlayChange()">
-          Autoplay
-        </mat-slide-toggle>
+    </course-content>
 
-        <course-content
-          [playlistMode]="true"
-          [course]="course"
-          [sections]="sections$ | async"
-          [lessons]="lessons"
-          [lessonsWatched]="lessonsWatched$ | async"
-          [activeLesson]="activeLesson">
+  </div>
 
-        </course-content>
+  <div class="video-panel">
 
-      </div>
+    <ng-container *ngIf="(lessonData$ | async) as lessonData">
 
-      <div class="video-panel">
+      <video-player *ngIf="lessonData[1].status == 'allowed'; else videoNotAllowed"
+                    #videoPlayer
+                    class="lesson-video mat-elevation-z7"
+                    [url]="ub.buildLessonVideoUrl(data.course, lessonData[0], lessonData[1])"
+                    [videoDuration]="lessonData[0].videoDuration"
+                    [allowDownload]="data.course.downloadAllowed"
+                    (close)="toggleLeftMenu()"
+                    (open)="toggleLeftMenu()"
+                    (exit)="onExit(data.course)"
+                    (videoEnded)="onVideoEnded(data.lessons, lessonData[0])"
+                    (videoWatched)="onVideoWatched(data.course, lessonData[0])">
 
-        <ng-container *ngIf="(lessonData$ | async) as lessonData">
+      </video-player>
 
-          <video-player *ngIf="lessonData[1].status == 'allowed'; else videoNotAllowed"
-                        #videoPlayer
-                        class="lesson-video mat-elevation-z7"
-                        [url]="ub.buildLessonVideoUrl(course, lessonData[0], lessonData[1])"
-                        [videoDuration]="lessonData[0].videoDuration"
-                        [allowDownload]="course.downloadAllowed"
-                        (close)="toggleLeftMenu()"
-                        (open)="toggleLeftMenu()"
-                        (exit)="onExit(course)"
-                        (videoEnded)="onVideoEnded(lessons, lessonData[0])"
-                        (videoWatched)="onVideoWatched(course, lessonData[0])">
+      <ng-template #videoNotAllowed>
+        <p>TODO - user cannot watch video.</p>
+      </ng-template>
 
-          </video-player>
+      <div class="questions">
 
-          <ng-template #videoNotAllowed>
-            <p>TODO - user cannot watch video.</p>
-          </ng-template>
+        <h1 class="page-title">Questions & Answers</h1>
 
-          <div class="questions">
+        <search class="search-questions" placeholder="Search all course questions" width="300px"></search>
 
-            <h1 class="page-title">Questions & Answers</h1>
-
-            <search class="search-questions" placeholder="Search all course questions" width="300px"></search>
-
-            <mat-button-toggle-group name="questionGroup" aria-label="Question Group">
-              <mat-button-toggle value="currentLesson" [checked]="true">Current Lesson Questions</mat-button-toggle>
-              <mat-button-toggle value="fullCourse">All Course Questions</mat-button-toggle>
-            </mat-button-toggle-group>
-
-          </div>
-
-          <questions-list
-            [questions]="questions$ | async"
-            [courseId]="course.id"
-            [lessonId]="activeLesson.id">
-
-          </questions-list>
-
-        </ng-container>
+        <mat-button-toggle-group name="questionGroup" aria-label="Question Group">
+          <mat-button-toggle value="currentLesson" [checked]="true">Current Lesson Questions</mat-button-toggle>
+          <mat-button-toggle value="fullCourse">All Course Questions</mat-button-toggle>
+        </mat-button-toggle-group>
 
       </div>
 
+      <questions-list
+        [questions]="questions$ | async"
+        [courseId]="data.course.id"
+        [lessonId]="data.activeLesson.id">
+
+      </questions-list>
 
     </ng-container>
 
-  </ng-container>
+  </div>
+
 
 </ng-container>
+

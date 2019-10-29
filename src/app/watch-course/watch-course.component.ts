@@ -1,6 +1,6 @@
 import {Component, HostListener, OnInit, ViewChild} from '@angular/core';
 import {Course} from '../models/course.model';
-import {Observable, zip} from 'rxjs';
+import {Observable, zip, combineLatest} from 'rxjs';
 import {
   selectActiveCourse, selectActiveCourseAllLessons, selectActiveCourseSections, selectActiveLesson, selectActiveLessonVideoAccess,
   selectActiveSection
@@ -28,6 +28,15 @@ import {EditTitleDescriptionDialogComponent} from '../edit-title-description-dia
 import {defaultEditorConfig} from '../common/html-editor.config';
 
 
+interface WatchCourseData {
+  course: Course;
+  sections: CourseSection[];
+  lessons: Lesson[];
+  activeLesson: Lesson;
+  lessonsWatched: string[];
+}
+
+
 @Component({
   selector: 'watch-course',
   templateUrl: './watch-course.component.html',
@@ -39,21 +48,9 @@ export class WatchCourseComponent implements OnInit {
   @ViewChild(VideoPlayerComponent, {static: false})
   videoPlayer: VideoPlayerComponent;
 
-  course$: Observable<Course>;
-
-  sections$: Observable<CourseSection[]>;
-
-  lessons$: Observable<Lesson[]>;
-
-  activeSection$: Observable<CourseSection>;
-
-  activeLesson$: Observable<Lesson>;
-
-  activeLessonVideoAccess$: Observable<VideoAccess>;
+  data$: Observable<WatchCourseData>;
 
   lessonData$: Observable<[Lesson, VideoAccess]>;
-
-  lessonsWatched$: Observable<string[]>;
 
   leftMenuOpened = true;
 
@@ -79,29 +76,27 @@ export class WatchCourseComponent implements OnInit {
       this.autoPlay = JSON.parse(storedAutoplay);
     }
 
-    this.course$ = this.store
+    const course$ = this.store
       .pipe(
         select(selectActiveCourse),
         tap(course => this.title.setTitle(course.title))
       );
 
-    this.sections$ = this.store.pipe(select(selectActiveCourseSections));
+    const sections$ = this.store.pipe(select(selectActiveCourseSections));
 
-    this.lessons$ = this.store
+    const lessons$ = this.store
       .pipe(
         select(selectActiveCourseAllLessons),
         withLatestFrom(this.store.pipe(select(selectActiveCourseSections), map(sortSectionsBySeqNo))),
         map(([lessons, sections]) => sortLessonsBySectionAndSeqNo(lessons, sections))
       );
 
-    this.activeSection$ = this.store.pipe(select(selectActiveSection));
-
-    this.activeLesson$ = this.store
+    const activeLesson$ = this.store
       .pipe(
         select(selectActiveLesson)
       );
 
-    this.activeLessonVideoAccess$ = this.store
+    const activeLessonVideoAccess$ = this.store
       .pipe(
         select(selectActiveLessonVideoAccess),
         filter(videoAccess => !!videoAccess),
@@ -115,9 +110,18 @@ export class WatchCourseComponent implements OnInit {
         })
       );
 
-    this.lessonsWatched$ = this.store.pipe(select(selectActiveCourseLessonsWatched));
+    const lessonsWatched$ = this.store.pipe(select(selectActiveCourseLessonsWatched));
 
-    this.lessonData$ = zip(this.activeLesson$, this.activeLessonVideoAccess$);
+    this.data$ = combineLatest(course$, sections$, lessons$, activeLesson$, lessonsWatched$)
+      .pipe(
+        map(([course, sections, lessons, activeLesson, lessonsWatched]) =>
+        {
+          return {course, sections, lessons, activeLesson, lessonsWatched};
+        })
+      );
+
+
+    this.lessonData$ = zip(activeLesson$, activeLessonVideoAccess$);
 
 
     this.questions$ = of([
