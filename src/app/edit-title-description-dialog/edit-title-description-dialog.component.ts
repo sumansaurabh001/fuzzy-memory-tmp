@@ -22,7 +22,7 @@ export class EditTitleDescriptionDialogComponent implements OnInit {
   title: string;
   description: string;
   showTitle: boolean;
-  titlePlaceholder: string;
+  titlePlaceHolder: string;
   descriptionPlaceholder: string;
 
   form: FormGroup;
@@ -43,7 +43,7 @@ export class EditTitleDescriptionDialogComponent implements OnInit {
 
     this.showTitle = data.hasOwnProperty("showTitle") ? !!data.showTitle : true;
 
-    this.titlePlaceholder = data.titlePlaceholder ? data.titlePlaceholder : 'Type here the title...';
+    this.titlePlaceHolder = data.titlePlaceHolder ? data.titlePlaceHolder : 'Type here the title...';
 
     this.descriptionPlaceholder = data.descriptionPlaceholder ? data.descriptionPlaceholder : 'Type here the description...';
 
