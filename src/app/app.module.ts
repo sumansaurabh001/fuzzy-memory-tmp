@@ -138,6 +138,7 @@ import { AllLessonsComponent } from './all-lessons/all-lessons.component';
 import { SearchComponent } from './search/search.component';
 import { QuestionsListComponent } from './questions-list/questions-list.component';
 import { PageFooterComponent } from './page-footer/page-footer.component';
+import {QuestionEffects} from './store/question.effects';
 
 
 @NgModule({
@@ -269,7 +270,8 @@ import { PageFooterComponent } from './page-footer/page-footer.component';
       CouponEffects,
       ContentEffects,
       UserLessonStatusEffects,
-      LatestLessonEffects
+      LatestLessonEffects,
+      QuestionEffects
     ]),
     StoreRouterConnectingModule.forRoot({
       routerState: RouterState.Minimal,

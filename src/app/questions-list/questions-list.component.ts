@@ -124,9 +124,9 @@ export class QuestionsListComponent implements OnInit {
       .pipe(
         tap((question: any) => {
           this.store.dispatch(addNewQuestion({
-            question: {
+            courseId: this.courseId,
+            props: {
               title: question.title,
-              courseId: this.courseId,
               lessonId: this.lessonId,
               questionText: question.description,
               userDisplayName: this.user.displayName,

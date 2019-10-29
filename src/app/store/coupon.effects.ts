@@ -31,7 +31,7 @@ export class CouponEffects {
     ));
 
 
-  loadCoupon = createEffect(() => this.actions$
+  loadCoupon$ = createEffect(() => this.actions$
     .pipe(
       ofType(CouponActions.loadCoupon),
       concatMap(({courseId, couponCode}) => this.loading.showLoader(this.dbCoupons.findCouponByCode(courseId, couponCode))),

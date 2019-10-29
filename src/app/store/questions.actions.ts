@@ -15,13 +15,14 @@ export const lessonQuestionsLoaded = createAction(
 
 export const addNewQuestion = createAction(
   "[Add Question Dialog] Add New Question",
-  props<{question:Partial<LessonQuestion>}>()
+  props<{courseId:string, props:Partial<LessonQuestion>}>()
 );
 
 
 export const editQuestion = createAction(
-  "[Edit Question] Edit Question Dialog",
+  "[Edit Question Dialog] Edit Question Dialog",
     props<{update: Update<LessonQuestion>}>()
 );
+
 
 
