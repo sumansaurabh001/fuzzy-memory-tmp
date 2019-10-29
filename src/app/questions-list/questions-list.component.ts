@@ -3,6 +3,9 @@ import {Question} from '../models/question.model';
 import {Observable} from 'rxjs/internal/Observable';
 import {Answer} from '../models/answer.model';
 import {of} from 'rxjs';
+import {defaultEditorConfig} from '../common/html-editor.config';
+import {MatDialog, MatDialogConfig} from '@angular/material';
+import {EditTitleDescriptionDialogComponent} from '../edit-title-description-dialog/edit-title-description-dialog.component';
 
 @Component({
   selector: 'questions-list',
@@ -21,14 +24,14 @@ export class QuestionsListComponent implements OnInit {
   answers$: Observable<Answer[]>;
 
 
-  constructor() { }
+  constructor(private dialog: MatDialog) { }
 
   ngOnInit() {
 
     this.answers$ = of([
       {
         id: '1',
-        answer: 'Tensor Flow removed the  .get() from tf.tensor  so for sorting you\'ll have to do:\n' +
+        answerText: 'Tensor Flow removed the  .get() from tf.tensor  so for sorting you\'ll have to do:\n' +
           '\n' +
           '.sort((tensorA, tensorB) =>\n' +
           '        tensorA.arraySync()[0] > tensorB.arraySync()[0] ? 1 : -1\n' +
@@ -38,7 +41,7 @@ export class QuestionsListComponent implements OnInit {
       },
       {
         id: '2',
-        answer: 'Tensor Flow removed the  .get() from tf.tensor  so for sorting you\'ll have to do:\n' +
+        answerText: 'Tensor Flow removed the  .get() from tf.tensor  so for sorting you\'ll have to do:\n' +
           '\n' +
           '.sort((tensorA, tensorB) =>\n' +
           '        tensorA.arraySync()[0] > tensorB.arraySync()[0] ? 1 : -1\n' +
@@ -49,7 +52,7 @@ export class QuestionsListComponent implements OnInit {
 
       {
         id: '3',
-        answer: 'Tensor Flow removed the  .get() from tf.tensor  so for sorting you\'ll have to do:\n' +
+        answerText: 'Tensor Flow removed the  .get() from tf.tensor  so for sorting you\'ll have to do:\n' +
           '\n' +
           '.sort((tensorA, tensorB) =>\n' +
           '        tensorA.arraySync()[0] > tensorB.arraySync()[0] ? 1 : -1\n' +
@@ -80,5 +83,33 @@ export class QuestionsListComponent implements OnInit {
 
   }
 
+  askNewQuestion() {
+
+    const editorConfig = defaultEditorConfig();
+
+    editorConfig['emoji-toolbar'] = true;
+    editorConfig["syntax"] = true;
+
+    const dialogConfig = new MatDialogConfig();
+
+    dialogConfig.autoFocus = true;
+    dialogConfig.disableClose = true;
+    dialogConfig.minWidth = '600px';
+    dialogConfig.data = {
+      dialogTitle: 'Ask a New Question',
+      editorConfig
+    };
+
+    this.dialog.open(EditTitleDescriptionDialogComponent, dialogConfig)
+      .afterClosed()
+      .subscribe();
+
+
+  }
+
+
+  addNewAnswer() {
+
+  }
 
 }

@@ -2,16 +2,32 @@
 
 @import "../mixins";
 
+
+.large-button-container {
+  font-size: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  .button-text {
+    margin-right: 5px;
+  }
+}
+
+.add-question-btn {
+  margin: 75px 0 75px 0;
+}
+
+
 .questions-list {
   margin-bottom: 50px;
   margin-right: 20px;
 }
 
-.questions-container {
+.container {
   border-radius: 4px;
 }
 
-.question {
+.item {
   padding: 20px;
   color: rgba(42, 48, 46, 0.87);
   display: flex;
@@ -32,13 +48,13 @@
   height: 50px;
 }
 
-.question-details {
+.details {
   margin-left: 20px;
   display: flex;
   flex-direction: column;
 }
 
-.question-data {
+.data {
   margin-top: 15px;
   font-size: 14px;
   display: flex;
@@ -46,12 +62,12 @@
 }
 
 
-.question-title {
+.title {
   font-weight: bold;
   cursor: pointer;
 }
 
-.question-summary {
+.summary {
   text-overflow: ellipsis;
   white-space: nowrap;
   cursor: pointer;
@@ -62,7 +78,7 @@
   margin-left: 10px;
 }
 
-.question-stats {
+.stats {
   @include mat-icon-size(16px);
   display: flex;
   flex-direction: row;
@@ -83,4 +99,17 @@
 
 .back-button {
   margin-bottom: 20px;
+  margin-left: 10px;
+}
+
+.add-answer-btn {
+  margin: 35px 0;
+}
+
+.display-name {
+  margin-left: 10px;
+}
+
+.answers {
+  margin-top: 30px;
 }

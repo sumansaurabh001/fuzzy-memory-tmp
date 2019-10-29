@@ -66,8 +66,7 @@ export class WatchCourseComponent implements OnInit {
   constructor(private store: Store<AppState>,
               private router: Router,
               private title: Title,
-              private ub: UrlBuilderService,
-              private dialog: MatDialog) {
+              private ub: UrlBuilderService) {
 
   }
 
@@ -134,6 +133,7 @@ export class WatchCourseComponent implements OnInit {
         lessonId: '1',
         courseId: '1',
         userPictureUrl: 'https://i.udemycdn.com/user/50x50/11316690_eb0d_3.jpg',
+        userDisplayName: "Vasco",
         repliesCount: 0
 
       },
@@ -148,6 +148,7 @@ export class WatchCourseComponent implements OnInit {
         lessonId: '1',
         courseId: '1',
         userPictureUrl: 'https://i.udemycdn.com/user/50x50/11316690_eb0d_3.jpg',
+        userDisplayName: "Vasco",
         repliesCount: 10
       },
       {
@@ -161,6 +162,7 @@ export class WatchCourseComponent implements OnInit {
         lessonId: '1',
         courseId: '1',
         userPictureUrl: 'https://i.udemycdn.com/user/50x50/11316690_eb0d_3.jpg',
+        userDisplayName: "Vasco",
         repliesCount: 1
       },
       {
@@ -174,6 +176,7 @@ export class WatchCourseComponent implements OnInit {
         lessonId: '1',
         courseId: '1',
         userPictureUrl: 'https://i.udemycdn.com/user/50x50/11316690_eb0d_3.jpg',
+        userDisplayName: "Vasco",
         repliesCount: 5
       },
       {
@@ -187,6 +190,7 @@ export class WatchCourseComponent implements OnInit {
         lessonId: '1',
         courseId: '1',
         userPictureUrl: 'https://i.udemycdn.com/user/50x50/11316690_eb0d_3.jpg',
+        userDisplayName: "Vasco",
         repliesCount: 6
       }
 
@@ -234,31 +238,5 @@ export class WatchCourseComponent implements OnInit {
     this.store.dispatch(updateLessonWatchStatus({userLessonStatus}));
 
   }
-
-
-  askNewQuestion() {
-
-    const editorConfig = defaultEditorConfig();
-
-    editorConfig['emoji-toolbar'] = true;
-    editorConfig["syntax"] = true;
-
-    const dialogConfig = new MatDialogConfig();
-
-    dialogConfig.autoFocus = true;
-    dialogConfig.disableClose = true;
-    dialogConfig.minWidth = '600px';
-    dialogConfig.data = {
-      dialogTitle: 'Ask a New Question',
-      editorConfig
-    };
-
-    this.dialog.open(EditTitleDescriptionDialogComponent, dialogConfig)
-      .afterClosed()
-      .subscribe();
-
-
-  }
-
 
 }

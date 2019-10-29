@@ -63,13 +63,6 @@
 
         </div>
 
-        <div class="ask-question-button">
-          <span class="button-text">Ask a New Question:</span>
-          <button mat-fab color="accent" (click)="askNewQuestion()">
-            <mat-icon>add</mat-icon>
-          </button>
-        </div>
-
           <questions-list [questions]="questions$ | async"></questions-list>
 
       </ng-container>
