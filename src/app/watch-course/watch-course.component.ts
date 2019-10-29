@@ -3,7 +3,7 @@ import {Course} from '../models/course.model';
 import {Observable, zip, combineLatest} from 'rxjs';
 import {
   selectActiveCourse, selectActiveCourseAllLessons, selectActiveCourseSections, selectActiveLesson, selectActiveLessonVideoAccess,
-  selectActiveSection
+  selectActiveSection, selectUser
 } from '../store/selectors';
 import {select, Store} from '@ngrx/store';
 import {CourseSection} from '../models/course-section.model';
@@ -26,6 +26,7 @@ import {fromArray} from 'rxjs/internal/observable/fromArray';
 import {MatDialog, MatDialogConfig} from '@angular/material';
 import {EditTitleDescriptionDialogComponent} from '../edit-title-description-dialog/edit-title-description-dialog.component';
 import {defaultEditorConfig} from '../common/html-editor.config';
+import {User} from '../models/user.model';
 
 
 interface WatchCourseData {
@@ -34,6 +35,7 @@ interface WatchCourseData {
   lessons: Lesson[];
   activeLesson: Lesson;
   lessonsWatched: string[];
+  user: User;
 }
 
 
@@ -112,11 +114,13 @@ export class WatchCourseComponent implements OnInit {
 
     const lessonsWatched$ = this.store.pipe(select(selectActiveCourseLessonsWatched));
 
-    this.data$ = combineLatest(course$, sections$, lessons$, activeLesson$, lessonsWatched$)
+    const user$ = this.store.pipe(select(selectUser));
+
+    this.data$ = combineLatest(course$, sections$, lessons$, activeLesson$, lessonsWatched$, user$)
       .pipe(
-        map(([course, sections, lessons, activeLesson, lessonsWatched]) =>
+        map(([course, sections, lessons, activeLesson, lessonsWatched, user]) =>
         {
-          return {course, sections, lessons, activeLesson, lessonsWatched};
+          return {course, sections, lessons, activeLesson, lessonsWatched, user};
         })
       );
 

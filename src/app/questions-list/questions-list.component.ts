@@ -10,6 +10,9 @@ import {tap} from 'rxjs/operators';
 import {AppState} from '../store';
 import {Store} from '@ngrx/store';
 import {addNewQuestion} from '../store/questions.actions';
+import {User} from '../models/user.model';
+import * as firebase from 'firebase/app';
+
 
 @Component({
   selector: 'questions-list',
@@ -19,10 +22,13 @@ import {addNewQuestion} from '../store/questions.actions';
 export class QuestionsListComponent implements OnInit {
 
   @Input()
-  courseId:string;
+  courseId: string;
 
   @Input()
-  lessonId:string;
+  lessonId: string;
+
+  @Input()
+  user: User;
 
   @Input()
   questions: Question[] = [];
@@ -50,7 +56,7 @@ export class QuestionsListComponent implements OnInit {
           '.sort((tensorA, tensorB) =>\n' +
           '        tensorA.arraySync()[0] > tensorB.arraySync()[0] ? 1 : -1\n' +
           '    );',
-        userDisplayName: "Vasco",
+        userDisplayName: 'Vasco',
         userPictureUrl: 'https://i.udemycdn.com/user/50x50/11316690_eb0d_3.jpg'
       },
       {
@@ -60,7 +66,7 @@ export class QuestionsListComponent implements OnInit {
           '.sort((tensorA, tensorB) =>\n' +
           '        tensorA.arraySync()[0] > tensorB.arraySync()[0] ? 1 : -1\n' +
           '    );',
-        userDisplayName: "Vasco",
+        userDisplayName: 'Vasco',
         userPictureUrl: 'https://i.udemycdn.com/user/50x50/11316690_eb0d_3.jpg'
       },
 
@@ -71,7 +77,7 @@ export class QuestionsListComponent implements OnInit {
           '.sort((tensorA, tensorB) =>\n' +
           '        tensorA.arraySync()[0] > tensorB.arraySync()[0] ? 1 : -1\n' +
           '    );',
-        userDisplayName: "Vasco",
+        userDisplayName: 'Vasco',
         userPictureUrl: 'https://i.udemycdn.com/user/50x50/11316690_eb0d_3.jpg'
       }
 
@@ -108,23 +114,27 @@ export class QuestionsListComponent implements OnInit {
     dialogConfig.minWidth = '600px';
     dialogConfig.data = {
       dialogTitle: 'Ask a New Question',
-      titlePlaceHolder: "Type here the question title...",
-      descriptionPlaceholder: "Type here your question...",
+      titlePlaceHolder: 'Type here the question title...',
+      descriptionPlaceholder: 'Type here your question...',
       editorConfig
     };
 
     this.dialog.open(EditTitleDescriptionDialogComponent, dialogConfig)
       .afterClosed()
       .pipe(
-        tap(question => {
-
-          /*
+        tap((question: any) => {
           this.store.dispatch(addNewQuestion({
             question: {
-
+              title: question.title,
+              courseId: this.courseId,
+              lessonId: this.lessonId,
+              questionText: question.description,
+              userDisplayName: this.user.displayName,
+              userPictureUrl: this.user.pictureUrl,
+              createdAt: firebase.firestore.Timestamp.now(),
+              repliesCount: 0
             }
-          }));*/
-
+          }));
         })
       )
       .subscribe();
@@ -143,8 +153,8 @@ export class QuestionsListComponent implements OnInit {
     dialogConfig.minWidth = '600px';
     dialogConfig.data = {
       dialogTitle: 'Add a New Answer',
-      titlePlaceHolder: "Type here the answer title...",
-      descriptionPlaceholder: "Type here your answer...",
+      titlePlaceHolder: 'Type here the answer title...',
+      descriptionPlaceholder: 'Type here your answer...',
       editorConfig,
       showTitle: false
     };
