@@ -2,17 +2,17 @@
 
   <ng-container *ngIf="(lessons$ | async) as lessons">
 
-    <div class="playlist" *ngIf="leftMenuOpened">
+    <ng-container *ngIf="(activeLesson$ | async) as activeLesson">
 
-      <mat-slide-toggle
-        color="primary"
-        class="autoplay"
-        [(ngModel)]="autoPlay"
-        (change)="onAutoPlayChange()">
-        Autoplay
-      </mat-slide-toggle>
+      <div class="playlist" *ngIf="leftMenuOpened">
 
-      <ng-container *ngIf="(activeLesson$ | async) as activeLesson">
+        <mat-slide-toggle
+          color="primary"
+          class="autoplay"
+          [(ngModel)]="autoPlay"
+          (change)="onAutoPlayChange()">
+          Autoplay
+        </mat-slide-toggle>
 
         <course-content
           [playlistMode]="true"
@@ -24,13 +24,11 @@
 
         </course-content>
 
-      </ng-container>
+      </div>
 
-    </div>
+      <div class="video-panel">
 
-    <div class="video-panel">
-
-      <ng-container *ngIf="(lessonData$ | async) as lessonData">
+        <ng-container *ngIf="(lessonData$ | async) as lessonData">
 
           <video-player *ngIf="lessonData[1].status == 'allowed'; else videoNotAllowed"
                         #videoPlayer
@@ -44,30 +42,38 @@
                         (videoEnded)="onVideoEnded(lessons, lessonData[0])"
                         (videoWatched)="onVideoWatched(course, lessonData[0])">
 
-        </video-player>
+          </video-player>
 
-        <ng-template #videoNotAllowed>
-          <p>TODO - user cannot watch video.</p>
-        </ng-template>
+          <ng-template #videoNotAllowed>
+            <p>TODO - user cannot watch video.</p>
+          </ng-template>
 
-        <div class="questions">
+          <div class="questions">
 
-          <h1 class="page-title">Questions & Answers</h1>
+            <h1 class="page-title">Questions & Answers</h1>
 
-          <search class="search-questions" placeholder="Search all course questions" width="300px"></search>
+            <search class="search-questions" placeholder="Search all course questions" width="300px"></search>
 
-          <mat-button-toggle-group name="questionGroup" aria-label="Question Group">
-            <mat-button-toggle value="currentLesson" [checked]="true">Current Lesson Questions</mat-button-toggle>
-            <mat-button-toggle value="fullCourse">All Course Questions</mat-button-toggle>
-          </mat-button-toggle-group>
+            <mat-button-toggle-group name="questionGroup" aria-label="Question Group">
+              <mat-button-toggle value="currentLesson" [checked]="true">Current Lesson Questions</mat-button-toggle>
+              <mat-button-toggle value="fullCourse">All Course Questions</mat-button-toggle>
+            </mat-button-toggle-group>
 
-        </div>
+          </div>
 
-          <questions-list [questions]="questions$ | async"></questions-list>
+          <questions-list
+            [questions]="questions$ | async"
+            [courseId]="course.id"
+            [lessonId]="activeLesson.id">
 
-      </ng-container>
+          </questions-list>
 
-    </div>
+        </ng-container>
+
+      </div>
+
+
+    </ng-container>
 
   </ng-container>
 

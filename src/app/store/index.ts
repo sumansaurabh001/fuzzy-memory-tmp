@@ -18,6 +18,7 @@ import {pricingPlansReducer, PricingPlansState} from './pricing-plans.reducer';
 import {contentReducer, ContentState} from './content.reducer';
 import {userLessonStatusReducer, UserLessonStatusState} from './user-lesson-status.reducer';
 import {latestLessonsReducer, LatestLessonsState} from './latest-lessons.reducer';
+import {questionsReducer, QuestionsState} from './questions.reducer';
 
 
 
@@ -35,6 +36,7 @@ export interface AppState {
   content: ContentState;
   userLessonStatus: UserLessonStatusState;
   latestLessonsView: LatestLessonsState;
+  questions: QuestionsState;
 }
 
 
@@ -52,7 +54,8 @@ export const reducers: ActionReducerMap<AppState> = {
   pricingPlans: pricingPlansReducer,
   content: contentReducer,
   userLessonStatus: userLessonStatusReducer,
-  latestLessonsView: latestLessonsReducer
+  latestLessonsView: latestLessonsReducer,
+  questions: questionsReducer
 };
 
 

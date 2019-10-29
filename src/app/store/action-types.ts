@@ -11,6 +11,8 @@ import * as UserActions from "./user.actions";
 import * as PlatformActions from "./platform.actions";
 import * as LessonActions from './lesson.actions';
 import * as LatestLessonActions from './latest-lesson.actions';
+import * as QuestionsActions from './questions.actions';
+import * as AnswerActions from "./answers.actions";
 
 export {
   CourseActions,
@@ -24,6 +26,8 @@ export {
   UserActions,
   PlatformActions,
   LessonActions,
-  LatestLessonActions
+  LatestLessonActions,
+  QuestionsActions,
+  AnswerActions
 };
 

@@ -6,6 +6,10 @@ import {of} from 'rxjs';
 import {defaultEditorConfig, fullOptionsEditorConfig} from '../common/html-editor.config';
 import {MatDialog, MatDialogConfig} from '@angular/material';
 import {EditTitleDescriptionDialogComponent} from '../edit-title-description-dialog/edit-title-description-dialog.component';
+import {tap} from 'rxjs/operators';
+import {AppState} from '../store';
+import {Store} from '@ngrx/store';
+import {addNewQuestion} from '../store/questions.actions';
 
 @Component({
   selector: 'questions-list',
@@ -13,6 +17,12 @@ import {EditTitleDescriptionDialogComponent} from '../edit-title-description-dia
   styleUrls: ['./questions-list.component.scss']
 })
 export class QuestionsListComponent implements OnInit {
+
+  @Input()
+  courseId:string;
+
+  @Input()
+  lessonId:string;
 
   @Input()
   questions: Question[] = [];
@@ -24,11 +34,15 @@ export class QuestionsListComponent implements OnInit {
   answers$: Observable<Answer[]>;
 
 
-  constructor(private dialog: MatDialog) { }
+  constructor(
+    private dialog: MatDialog,
+    private store: Store<AppState>) {
+
+  }
 
   ngOnInit() {
 
-    this.answers$ = of([
+    this.answers$ = <any>of([
       {
         id: '1',
         answerText: 'Tensor Flow removed the  .get() from tf.tensor  so for sorting you\'ll have to do:\n' +
@@ -101,6 +115,18 @@ export class QuestionsListComponent implements OnInit {
 
     this.dialog.open(EditTitleDescriptionDialogComponent, dialogConfig)
       .afterClosed()
+      .pipe(
+        tap(question => {
+
+          /*
+          this.store.dispatch(addNewQuestion({
+            question: {
+
+            }
+          }));*/
+
+        })
+      )
       .subscribe();
 
   }

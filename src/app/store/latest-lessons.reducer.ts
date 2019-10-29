@@ -19,6 +19,7 @@ export const initialLatestLessonsState: LatestLessonsState = {
 };
 
 export const latestLessonsReducer = createReducer(
+
   initialLatestLessonsState,
 
   on(LatestLessonActions.latestLessonsPageLoaded, (state, action) => {
