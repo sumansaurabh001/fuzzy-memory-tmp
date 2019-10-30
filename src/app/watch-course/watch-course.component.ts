@@ -140,6 +140,7 @@ export class WatchCourseComponent implements OnInit {
           '    );',
         lessonId: '1',
         courseId: '1',
+        userId:"1",
         userPictureUrl: 'https://i.udemycdn.com/user/50x50/11316690_eb0d_3.jpg',
         userDisplayName: "Vasco",
         repliesCount: 0
@@ -148,6 +149,7 @@ export class WatchCourseComponent implements OnInit {
       {
         id: '1',
         title: 'Broadcasting Operations Video 3:57',
+        userId:"1",
         questionText: 'Tensor Flow removed the  .get() from tf.tensor  so for sorting you\'ll have to do:\n' +
           '\n' +
           '.sort((tensorA, tensorB) =>\n' +
@@ -162,6 +164,7 @@ export class WatchCourseComponent implements OnInit {
       {
         id: '1',
         title: 'NAN on normalized table',
+        userId:"1",
         questionText: 'Tensor Flow removed the  .get() from tf.tensor  so for sorting you\'ll have to do:\n' +
           '\n' +
           '.sort((tensorA, tensorB) =>\n' +
@@ -176,6 +179,7 @@ export class WatchCourseComponent implements OnInit {
       {
         id: '1',
         title: 'Also really low accuracy',
+        userId:"1",
         questionText: 'Tensor Flow removed the  .get() from tf.tensor  so for sorting you\'ll have to do:\n' +
           '\n' +
           '.sort((tensorA, tensorB) =>\n' +
@@ -190,6 +194,7 @@ export class WatchCourseComponent implements OnInit {
       {
         id: '1',
         title: 'Different results every time runAnalysis with same data.',
+        userId:"1",
         questionText: 'Tensor Flow removed the  .get() from tf.tensor  so for sorting you\'ll have to do:\n' +
           '\n' +
           '.sort((tensorA, tensorB) =>\n' +

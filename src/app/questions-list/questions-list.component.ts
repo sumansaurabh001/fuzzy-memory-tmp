@@ -126,6 +126,7 @@ export class QuestionsListComponent implements OnInit {
           this.store.dispatch(addNewQuestion({
             courseId: this.courseId,
             props: {
+              userId: this.user.id,
               title: question.title,
               lessonId: this.lessonId,
               questionText: question.description,

@@ -16,6 +16,10 @@ service cloud.firestore {
       return request.auth.uid == uid;
     }
 
+    function isDocumentOwnedByCurrentUser() {
+      return request.resource.data.userId == request.auth.uid;
+    }
+
     match /tenants/{tenantId} {
 
       allow read: if true;
@@ -85,6 +89,16 @@ service cloud.firestore {
 
           // only admins can modify
           allow write, delete: if isAdmin(tenantId);
+
+        }
+
+        match /questions/{questionId} {
+
+          // all questions are public
+          allow read: if true;
+
+          // but only admins or the user that created the question can modify it
+          allow write, delete: if isAdmin(tenantId) || isDocumentOwnedByCurrentUser();
 
         }
 
