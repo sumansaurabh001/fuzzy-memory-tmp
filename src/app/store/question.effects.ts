@@ -17,7 +17,7 @@ export class QuestionEffects {
   saveQuestion$ = createEffect( () =>
     this.actions$.pipe(
       ofType(QuestionsActions.addNewQuestion),
-      concatMap(action => this.questionsDB.createNewQuestion(action.courseId, action.props))
+      concatMap(action => this.questionsDB.createNewQuestion(action.courseId, action.questionId, action.props))
     )
   , {dispatch: false});
 

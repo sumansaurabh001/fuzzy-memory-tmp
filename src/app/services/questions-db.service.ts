@@ -19,16 +19,18 @@ export class QuestionsDbService {
   }
 
 
-  createNewQuestion(courseId:string, props: Partial<LessonQuestion>) {
+  createNewQuestion(courseId:string, questionId:string, props: Partial<LessonQuestion>) {
 
-    console.log("Adding question to path: " + this.questionsPath(courseId));
+    const questionPath = this.questionsPath(courseId) + `/${questionId}`;
 
-    const addQuestionAsync = this.afs.collection(this.questionsPath(courseId)).add(props);
+    const addQuestionAsync = this.afs.doc(questionPath).set(props);
 
     return from(addQuestionAsync)
       .pipe(
         map(() => {
           return {
+            id: questionId,
+            courseId,
             ...props
           };
         })

@@ -15,7 +15,7 @@ export const lessonQuestionsLoaded = createAction(
 
 export const addNewQuestion = createAction(
   "[Add Question Dialog] Add New Question",
-  props<{courseId:string, props:Partial<LessonQuestion>}>()
+  props<{courseId:string, questionId:string, props:Partial<LessonQuestion>}>()
 );
 
 

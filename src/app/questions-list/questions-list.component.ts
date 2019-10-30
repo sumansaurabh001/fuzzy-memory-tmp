@@ -12,6 +12,7 @@ import {Store} from '@ngrx/store';
 import {addNewQuestion} from '../store/questions.actions';
 import {User} from '../models/user.model';
 import * as firebase from 'firebase/app';
+import {AngularFirestore} from '@angular/fire/firestore';
 
 
 @Component({
@@ -42,7 +43,8 @@ export class QuestionsListComponent implements OnInit {
 
   constructor(
     private dialog: MatDialog,
-    private store: Store<AppState>) {
+    private store: Store<AppState>,
+    private afs: AngularFirestore) {
 
   }
 
@@ -125,10 +127,11 @@ export class QuestionsListComponent implements OnInit {
         tap((question: any) => {
           this.store.dispatch(addNewQuestion({
             courseId: this.courseId,
+            questionId: this.afs.createId(),
             props: {
               userId: this.user.id,
-              title: question.title,
               lessonId: this.lessonId,
+              title: question.title,
               questionText: question.description,
               userDisplayName: this.user.displayName,
               userPictureUrl: this.user.pictureUrl,

@@ -1,6 +1,7 @@
 import {createEntityAdapter, EntityAdapter, EntityState} from '@ngrx/entity';
 import {compareQuestions, LessonQuestion} from '../models/lesson-question.model';
-import {createReducer} from '@ngrx/store';
+import {createReducer, on} from '@ngrx/store';
+import {QuestionsActions} from './action-types';
 
 
 export interface QuestionsState extends EntityState<LessonQuestion> {
@@ -20,7 +21,13 @@ export const initialQuestionsState: QuestionsState = adapter.getInitialState({
 
 export const questionsReducer = createReducer(
 
-  initialQuestionsState
+  initialQuestionsState,
+
+  on(QuestionsActions.addNewQuestion, (state, action) => adapter.addOne(<LessonQuestion> {
+      id: action.questionId,
+      courseId: action.courseId,
+    ...action.props
+  }, state))
 
 );
 
