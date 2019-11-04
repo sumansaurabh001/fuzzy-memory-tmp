@@ -27,6 +27,7 @@ import {MatDialog, MatDialogConfig} from '@angular/material';
 import {EditTitleDescriptionDialogComponent} from '../edit-title-description-dialog/edit-title-description-dialog.component';
 import {defaultEditorConfig} from '../common/html-editor.config';
 import {User} from '../models/user.model';
+import {selectActiveLessonQuestions} from '../store/questions.selectors';
 
 
 interface WatchCourseData {
@@ -124,91 +125,9 @@ export class WatchCourseComponent implements OnInit {
         })
       );
 
-
     this.lessonData$ = zip(activeLesson$, activeLessonVideoAccess$);
 
-
-    this.questions$ = of([
-
-      {
-        id: '1',
-        title: 'Sorting tensors with new TensorFlow js Lib',
-        questionText: 'Tensor Flow removed the  .get() from tf.tensor  so for sorting you\'ll have to do:\n' +
-          '\n' +
-          '.sort((tensorA, tensorB) =>\n' +
-          '        tensorA.arraySync()[0] > tensorB.arraySync()[0] ? 1 : -1\n' +
-          '    );',
-        lessonId: '1',
-        courseId: '1',
-        userId:"1",
-        userPictureUrl: 'https://i.udemycdn.com/user/50x50/11316690_eb0d_3.jpg',
-        userDisplayName: "Vasco",
-        repliesCount: 0
-
-      },
-      {
-        id: '1',
-        title: 'Broadcasting Operations Video 3:57',
-        userId:"1",
-        questionText: 'Tensor Flow removed the  .get() from tf.tensor  so for sorting you\'ll have to do:\n' +
-          '\n' +
-          '.sort((tensorA, tensorB) =>\n' +
-          '        tensorA.arraySync()[0] > tensorB.arraySync()[0] ? 1 : -1\n' +
-          '    );',
-        lessonId: '1',
-        courseId: '1',
-        userPictureUrl: 'https://i.udemycdn.com/user/50x50/11316690_eb0d_3.jpg',
-        userDisplayName: "Vasco",
-        repliesCount: 10
-      },
-      {
-        id: '1',
-        title: 'NAN on normalized table',
-        userId:"1",
-        questionText: 'Tensor Flow removed the  .get() from tf.tensor  so for sorting you\'ll have to do:\n' +
-          '\n' +
-          '.sort((tensorA, tensorB) =>\n' +
-          '        tensorA.arraySync()[0] > tensorB.arraySync()[0] ? 1 : -1\n' +
-          '    );',
-        lessonId: '1',
-        courseId: '1',
-        userPictureUrl: 'https://i.udemycdn.com/user/50x50/11316690_eb0d_3.jpg',
-        userDisplayName: "Vasco",
-        repliesCount: 1
-      },
-      {
-        id: '1',
-        title: 'Also really low accuracy',
-        userId:"1",
-        questionText: 'Tensor Flow removed the  .get() from tf.tensor  so for sorting you\'ll have to do:\n' +
-          '\n' +
-          '.sort((tensorA, tensorB) =>\n' +
-          '        tensorA.arraySync()[0] > tensorB.arraySync()[0] ? 1 : -1\n' +
-          '    );',
-        lessonId: '1',
-        courseId: '1',
-        userPictureUrl: 'https://i.udemycdn.com/user/50x50/11316690_eb0d_3.jpg',
-        userDisplayName: "Vasco",
-        repliesCount: 5
-      },
-      {
-        id: '1',
-        title: 'Different results every time runAnalysis with same data.',
-        userId:"1",
-        questionText: 'Tensor Flow removed the  .get() from tf.tensor  so for sorting you\'ll have to do:\n' +
-          '\n' +
-          '.sort((tensorA, tensorB) =>\n' +
-          '        tensorA.arraySync()[0] > tensorB.arraySync()[0] ? 1 : -1\n' +
-          '    );',
-        lessonId: '1',
-        courseId: '1',
-        userPictureUrl: 'https://i.udemycdn.com/user/50x50/11316690_eb0d_3.jpg',
-        userDisplayName: "Vasco",
-        repliesCount: 6
-      }
-
-
-    ]);
+    this.questions$ = this.store.pipe(select(selectActiveLessonQuestions));
 
   }
 
