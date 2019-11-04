@@ -31,6 +31,7 @@
 .item {
   cursor: pointer;
   display: flex;
+  border-radius: 4px;
   flex-direction: column;
   padding: 20px;
   color: rgba(42, 48, 46, 0.87);
@@ -42,6 +43,7 @@
     background: #f2f3f5;
     border-top-color: #f2f3f5;
   }
+  margin-bottom: 40px;
 }
 
 .item-body {
@@ -108,6 +110,12 @@
   margin-top: 20px;
   display: flex;
   justify-content: flex-end;
+}
+
+.load-more {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
 }
 
 .back-button {

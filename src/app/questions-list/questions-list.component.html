@@ -9,11 +9,11 @@
 
 <div class="questions-list" *ngIf="questions?.length > 0; else noQuestions">
 
-  <div *ngIf="!showAnswers">
+  <div>
 
-    <div class="container mat-elevation-z7">
+    <div class="container">
 
-      <div class="item" *ngFor="let question of questions">
+      <div class="item mat-elevation-z7" *ngFor="let question of questions">
 
         <div class="item-body">
 
@@ -21,7 +21,7 @@
 
           <div class="details">
 
-            <div (click)="openAnswers(question)">
+            <div>
 
               <div class="title">{{question.title}}</div>
               <div class="user-details">
@@ -45,57 +45,50 @@
         </div>
 
         <div class="bottom-toolbar">
-          <button mat-raised-button color="primary">
+          <button mat-raised-button color="primary" (click)="openAnswers(question)" *ngIf="!showAnswers">
             <mat-icon>arrow_forward_ios</mat-icon>
             View Answers
+          </button>
+          <button class="back-button" mat-raised-button color="primary" (click)="backToQuestions()" *ngIf="showAnswers">
+            <mat-icon>arrow_back_ios</mat-icon>
+            Hide Answers
           </button>
           <div class="filler"></div>
           <action-button icon="delete" color="basic" matTooltip="Delete question"></action-button>
           <action-button icon="mode_edit" color="basic" matTooltip="Edit question"></action-button>
-          <action-button text="Add answer" icon="add" color="accent"></action-button>
+          <action-button text="Add answer" icon="add" color="accent" (click)="addNewAnswer()"></action-button>
         </div>
 
+        <div class="answers" *ngIf="showAnswers">
+
+          <div class="container mat-elevation-z7">
+
+            <div class="item" *ngFor="let answer of (answers$ | async)">
+
+              <div class="item-body">
 
 
-      </div>
+                <img class="user-picture" [src]="selectedQuestion.userPictureUrl">
 
-    </div>
+                <div class="details">
 
-    <div class="bottom-toolbar">
-      <button mat-raised-button color="primary">Load More</button>
-    </div>
+                  <div class="title">{{selectedQuestion.title}}</div>
 
-  </div>
+                  <div class="data">
 
-  <div class="answers" *ngIf="showAnswers">
+                    <span class="display-name">{{answer.userDisplayName}}</span>
 
-    <button class="back-button" mat-raised-button color="primary" (click)="backToQuestions()">
-      <mat-icon>arrow_back_ios</mat-icon>
-      Back to Questions
-    </button>
+                    <span class="timestamp">a day ago</span>
 
-    <div class="container mat-elevation-z7">
+                  </div>
 
-      <div class="item" *ngFor="let answer of (answers$ | async)">
+                  <div class="text-block" [innerHTML]="answer.answerText"></div>
 
-        <div class="item-body">
+                </div>
 
-
-          <img class="user-picture" [src]="selectedQuestion.userPictureUrl">
-
-          <div class="details">
-
-            <div class="title">{{selectedQuestion.title}}</div>
-
-            <div class="data">
-
-              <span class="display-name">{{answer.userDisplayName}}</span>
-
-              <span class="timestamp">a day ago</span>
+              </div>
 
             </div>
-
-            <div class="text-block" [innerHTML]="answer.answerText"></div>
 
           </div>
 
@@ -105,11 +98,8 @@
 
     </div>
 
-    <div class="large-button-container add-answer-btn">
-      <span class="button-text">Add a new Answer:</span>
-      <button mat-fab color="accent" (click)="addNewAnswer()">
-        <mat-icon>add</mat-icon>
-      </button>
+    <div class="load-more">
+      <button mat-raised-button color="primary">Load More</button>
     </div>
 
   </div>
