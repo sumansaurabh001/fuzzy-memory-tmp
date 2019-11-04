@@ -50,6 +50,7 @@
     "quill-emoji": "^0.1.7",
     "rxjs": "6.5.2",
     "shortid": "^2.2.8",
+    "timeago.js": "^4.0.1",
     "zone.js": "~0.9.1"
   },
   "devDependencies": {

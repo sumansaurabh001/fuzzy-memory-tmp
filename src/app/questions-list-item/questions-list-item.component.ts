@@ -14,6 +14,10 @@ import {AppState} from '../store';
 import {AngularFirestore} from '@angular/fire/firestore';
 import * as firebase from 'firebase/app';
 
+import { format } from 'timeago.js';
+
+
+
 @Component({
   selector: 'questions-list-item',
   templateUrl: './questions-list-item.component.html',
@@ -111,4 +115,7 @@ export class QuestionsListItemComponent implements OnInit {
 
   }
 
+  calculateTimeAgo(createdAt: firebase.firestore.Timestamp) {
+    return format(createdAt.toMillis());
+  }
 }
