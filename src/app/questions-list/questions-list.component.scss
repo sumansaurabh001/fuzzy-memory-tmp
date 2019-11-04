@@ -51,6 +51,7 @@
 }
 
 .details {
+  width: 100%;
   margin-left: 20px;
   display: flex;
   flex-direction: column;
@@ -127,5 +128,10 @@
     margin-bottom: 100px;
     margin-left: 30px;
     margin-right: 30px;
+}
+
+
+:host ::ng-deep pre {
+  border-radius: 4px;
 }
 

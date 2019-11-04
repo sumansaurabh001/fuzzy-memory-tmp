@@ -39,6 +39,7 @@ interface WatchCourseData {
   user: User;
 }
 
+declare const hljs:any;
 
 @Component({
   selector: 'watch-course',
@@ -127,7 +128,22 @@ export class WatchCourseComponent implements OnInit {
 
     this.lessonData$ = zip(activeLesson$, activeLessonVideoAccess$);
 
-    this.questions$ = this.store.pipe(select(selectActiveLessonQuestions));
+    this.questions$ = this.store.pipe(
+      select(selectActiveLessonQuestions),
+      tap(() => {
+        setTimeout(() => {
+
+          console.log("applying syntax highlighting...");
+
+          document.querySelectorAll('pre').forEach((block) => {
+
+            console.log("found matching block");
+
+            hljs.highlightBlock(block);
+          });
+        });
+      })
+    );
 
   }
 
@@ -144,18 +160,12 @@ export class WatchCourseComponent implements OnInit {
   }
 
   onVideoEnded(sortedLessons: Lesson[], activeLesson: Lesson) {
-
     if (this.autoPlay) {
-
       const index = sortedLessons.indexOf(activeLesson);
-
       if (index < sortedLessons.length - 1) {
-
         const nextLesson = sortedLessons[index + 1];
-
         this.store.dispatch(watchLesson({lessonId: nextLesson.id}));
       }
-
     }
   }
 
