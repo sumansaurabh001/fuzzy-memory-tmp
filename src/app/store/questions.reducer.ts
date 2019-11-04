@@ -27,7 +27,9 @@ export const questionsReducer = createReducer(
       id: action.questionId,
       courseId: action.courseId,
     ...action.props
-  }, state))
+  }, state)),
+
+  on(QuestionsActions.lessonQuestionsLoaded, (state, action) => adapter.addMany(action.questions, state))
 
 );
 

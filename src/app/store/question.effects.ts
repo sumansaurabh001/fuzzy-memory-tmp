@@ -16,7 +16,6 @@ import {lessonQuestionsLoaded} from './questions.actions';
 })
 export class QuestionEffects {
 
-
   loadLessonQuestions$ = createEffect(() =>
     this.actions$.pipe(
       ofType(LessonActions.watchLesson),
