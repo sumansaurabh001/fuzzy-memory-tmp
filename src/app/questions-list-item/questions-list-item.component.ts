@@ -122,4 +122,10 @@ export class QuestionsListItemComponent implements OnInit {
   calculateTimeAgo(createdAt: firebase.firestore.Timestamp) {
     return format(createdAt.toMillis());
   }
+
+  isOwner() {
+    return this.user && this.user.id == this.question.userId;
+  }
+
+
 }
