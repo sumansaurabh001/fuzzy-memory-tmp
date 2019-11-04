@@ -25,7 +25,7 @@ export class QuestionEffects {
     )
   );
 
-  saveQuestion$ = createEffect( () =>
+  addNewQuestion$ = createEffect( () =>
     this.actions$.pipe(
       ofType(QuestionsActions.addNewQuestion),
       concatMap(action => this.questionsDB.createNewQuestion(action.courseId, action.questionId, action.props))
@@ -39,6 +39,15 @@ export class QuestionEffects {
         concatMap(action => this.questionsDB.deleteQuestion(action.courseId, action.questionId))
       )
     , {dispatch: false});
+
+
+  editQuestion$ = createEffect( () =>
+      this.actions$.pipe(
+        ofType(QuestionsActions.editQuestion),
+        concatMap(action => this.questionsDB.updateQuestion(action.courseId, action.update))
+      )
+    , {dispatch: false});
+
 
   constructor(
     private actions$: Actions,

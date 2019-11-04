@@ -21,7 +21,7 @@ export const addNewQuestion = createAction(
 
 export const editQuestion = createAction(
   "[Edit Question Dialog] Edit Question Dialog",
-    props<{update: Update<LessonQuestion>}>()
+    props<{courseId:string, update: Update<LessonQuestion>}>()
 );
 
 export const deleteQuestion = createAction(

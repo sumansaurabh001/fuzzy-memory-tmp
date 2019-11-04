@@ -4,7 +4,7 @@ import {Question} from '../models/question.model';
 import {fullOptionsEditorConfig} from '../common/html-editor.config';
 import {MatDialog, MatDialogConfig} from '@angular/material';
 import {EditTitleDescriptionDialogComponent} from '../edit-title-description-dialog/edit-title-description-dialog.component';
-import {tap} from 'rxjs/operators';
+import {filter, tap} from 'rxjs/operators';
 import {addNewQuestion, deleteQuestion, editQuestion} from '../store/questions.actions';
 import {Observable} from 'rxjs/internal/Observable';
 import {Answer} from '../models/answer.model';
@@ -175,8 +175,10 @@ export class QuestionsListItemComponent implements OnInit {
     this.dialog.open(EditTitleDescriptionDialogComponent, dialogConfig)
       .afterClosed()
       .pipe(
+        filter(edited => !!edited),
         tap((edited: any) => {
           this.store.dispatch(editQuestion({
+            courseId: this.question.courseId,
             update: {
               id: this.question.id,
               changes: {

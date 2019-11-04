@@ -5,6 +5,7 @@ import {from} from 'rxjs/internal/observable/from';
 import {first, map} from 'rxjs/operators';
 import {LessonQuestion} from '../models/lesson-question.model';
 import {readCollectionWithIds} from '../common/firestore-utils';
+import {Update} from '@ngrx/entity';
 
 
 
@@ -65,6 +66,11 @@ export class QuestionsDbService {
     const questionPath = this.questionsPath(courseId) + `/${questionId}`;
 
     return from(this.afs.doc(questionPath).delete());
+  }
+
+
+  updateQuestion(courseId:string, update: Update<LessonQuestion>) {
+    return from(this.afs.collection(this.questionsPath(courseId)).doc('' + update.id).update(update.changes));
   }
 
 
