@@ -1,0 +1,99 @@
+
+@import "../mixins";
+@import "../vars";
+
+.item {
+  cursor: pointer;
+  display: flex;
+  border-radius: 4px;
+  flex-direction: column;
+  padding: 20px;
+  color: rgba(42, 48, 46, 0.87);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+  &:first-child {
+    border-top: 1px solid rgba(0, 0, 0, 0.12);
+  }
+  &:hover {
+    background: #f2f3f5;
+    border-top-color: #f2f3f5;
+  }
+  margin-bottom: 40px;
+}
+
+.item-body {
+  display: flex;
+  flex-direction: row;
+}
+
+
+.user-picture {
+  border-radius: 50%;
+  height: 50px;
+}
+
+.details {
+  width: 100%;
+  margin-left: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.data {
+  margin-top: 15px;
+  font-size: 14px;
+  display: flex;
+  flex-direction: row;
+}
+
+
+.title {
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.user-details {
+  font-size: 13px;
+}
+
+.text-block {
+}
+
+.text-block p {
+
+}
+
+.timestamp {
+  display: inline-block;
+  margin-left: 5px;
+}
+
+.stats {
+  @include mat-icon-size(16px);
+  display: flex;
+  flex-direction: row;
+  margin-left: 20px;
+}
+
+.replies-count {
+  margin-right: 5px;
+  font-size: 16px;
+}
+
+
+.bottom-toolbar {
+  margin-top: 20px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+:host ::ng-deep pre {
+  border-radius: 4px;
+}
+
+.add-answer-btn {
+  margin: 35px 0;
+}
+
+.answers {
+  margin-top: 30px;
+}

@@ -34,70 +34,15 @@ export class QuestionsListComponent implements OnInit {
   @Input()
   questions: Question[] = [];
 
-  showAnswers = false;
-
-  selectedQuestion: Question;
-
-  answers$: Observable<Answer[]>;
-
-
   constructor(
     private dialog: MatDialog,
     private store: Store<AppState>,
-    private afs: AngularFirestore) {
+    private afs: AngularFirestore
+  ) {
 
   }
 
   ngOnInit() {
-
-    this.answers$ = <any>of([
-      {
-        id: '1',
-        answerText: 'Tensor Flow removed the  .get() from tf.tensor  so for sorting you\'ll have to do:\n' +
-          '\n' +
-          '.sort((tensorA, tensorB) =>\n' +
-          '        tensorA.arraySync()[0] > tensorB.arraySync()[0] ? 1 : -1\n' +
-          '    );',
-        userDisplayName: 'Vasco',
-        userPictureUrl: 'https://i.udemycdn.com/user/50x50/11316690_eb0d_3.jpg'
-      },
-      {
-        id: '2',
-        answerText: 'Tensor Flow removed the  .get() from tf.tensor  so for sorting you\'ll have to do:\n' +
-          '\n' +
-          '.sort((tensorA, tensorB) =>\n' +
-          '        tensorA.arraySync()[0] > tensorB.arraySync()[0] ? 1 : -1\n' +
-          '    );',
-        userDisplayName: 'Vasco',
-        userPictureUrl: 'https://i.udemycdn.com/user/50x50/11316690_eb0d_3.jpg'
-      },
-
-      {
-        id: '3',
-        answerText: 'Tensor Flow removed the  .get() from tf.tensor  so for sorting you\'ll have to do:\n' +
-          '\n' +
-          '.sort((tensorA, tensorB) =>\n' +
-          '        tensorA.arraySync()[0] > tensorB.arraySync()[0] ? 1 : -1\n' +
-          '    );',
-        userDisplayName: 'Vasco',
-        userPictureUrl: 'https://i.udemycdn.com/user/50x50/11316690_eb0d_3.jpg'
-      }
-
-    ]);
-
-  }
-
-  openAnswers(question: Question) {
-
-    this.showAnswers = true;
-
-    this.selectedQuestion = question;
-
-  }
-
-  backToQuestions() {
-
-    this.showAnswers = false;
 
   }
 
@@ -137,30 +82,6 @@ export class QuestionsListComponent implements OnInit {
           }));
         })
       )
-      .subscribe();
-
-  }
-
-
-  addNewAnswer() {
-
-    const editorConfig = fullOptionsEditorConfig();
-
-    const dialogConfig = new MatDialogConfig();
-
-    dialogConfig.autoFocus = true;
-    dialogConfig.disableClose = true;
-    dialogConfig.width = '710px';
-    dialogConfig.data = {
-      dialogTitle: 'Add a New Answer',
-      titlePlaceHolder: 'Type here the answer title...',
-      descriptionPlaceholder: 'Type here your answer...',
-      editorConfig,
-      showTitle: false
-    };
-
-    this.dialog.open(EditTitleDescriptionDialogComponent, dialogConfig)
-      .afterClosed()
       .subscribe();
 
   }

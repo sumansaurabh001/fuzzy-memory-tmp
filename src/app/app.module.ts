@@ -139,6 +139,7 @@ import { SearchComponent } from './search/search.component';
 import { QuestionsListComponent } from './questions-list/questions-list.component';
 import { PageFooterComponent } from './page-footer/page-footer.component';
 import {QuestionEffects} from './store/question.effects';
+import { QuestionsListItemComponent } from './questions-list-item/questions-list-item.component';
 
 
 @NgModule({
@@ -207,7 +208,8 @@ import {QuestionEffects} from './store/question.effects';
     AllLessonsComponent,
     SearchComponent,
     QuestionsListComponent,
-    PageFooterComponent
+    PageFooterComponent,
+    QuestionsListItemComponent
   ],
   imports: [
     BrowserModule,

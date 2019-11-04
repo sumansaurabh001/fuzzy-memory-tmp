@@ -132,13 +132,7 @@ export class WatchCourseComponent implements OnInit {
       select(selectActiveLessonQuestions),
       tap(() => {
         setTimeout(() => {
-
-          console.log("applying syntax highlighting...");
-
           document.querySelectorAll('pre').forEach((block) => {
-
-            console.log("found matching block");
-
             hljs.highlightBlock(block);
           });
         });

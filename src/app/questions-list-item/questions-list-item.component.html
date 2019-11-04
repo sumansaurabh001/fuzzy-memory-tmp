@@ -1,0 +1,82 @@
+<div class="item mat-elevation-z7">
+
+  <div class="item-body">
+
+    <img class="user-picture" [src]="question.userPictureUrl">
+
+    <div class="details">
+
+      <div>
+
+        <div class="title">{{question.title}}</div>
+        <div class="user-details">
+          <span class="display-name">{{question.userDisplayName}} - </span>
+          <span class="timestamp">a day ago</span>
+        </div>
+
+        <div class="text-block" [innerHTML]="question.questionText"></div>
+
+      </div>
+
+    </div>
+
+    <div class="filler"></div>
+
+    <div class="stats" matTooltip="number of replies">
+      <span class="replies-count">{{question.repliesCount}}</span>
+      <mat-icon>chat_bubble</mat-icon>
+    </div>
+
+  </div>
+
+  <div class="bottom-toolbar">
+    <button mat-raised-button color="primary" (click)="openAnswers(question)" *ngIf="!showAnswers">
+      <mat-icon>arrow_forward_ios</mat-icon>
+      View Answers
+    </button>
+    <button class="back-button" mat-raised-button color="primary" (click)="backToQuestions()" *ngIf="showAnswers">
+      <mat-icon>arrow_back_ios</mat-icon>
+      Hide Answers
+    </button>
+    <div class="filler"></div>
+    <action-button icon="delete" color="basic" matTooltip="Delete question"></action-button>
+    <action-button icon="mode_edit" color="basic" matTooltip="Edit question"></action-button>
+    <action-button text="Add answer" icon="add" color="accent" (click)="addNewAnswer()"></action-button>
+  </div>
+
+  <div class="answers" *ngIf="showAnswers">
+
+    <div class="container">
+
+      <div class="item" *ngFor="let answer of (answers$ | async)">
+
+        <div class="item-body">
+
+
+          <img class="user-picture" [src]="question.userPictureUrl">
+
+          <div class="details">
+
+            <div class="title">{{question.title}}</div>
+
+            <div class="data">
+
+              <span class="display-name">{{answer.userDisplayName}}</span>
+
+              <span class="timestamp">a day ago</span>
+
+            </div>
+
+            <div class="text-block" [innerHTML]="answer.answerText"></div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
