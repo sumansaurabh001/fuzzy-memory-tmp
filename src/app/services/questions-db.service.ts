@@ -27,8 +27,6 @@ export class QuestionsDbService {
 
     const questionsPath = this.questionsPath(courseId);
 
-    console.log("loading questions from path " + questionsPath);
-
     return readCollectionWithIds<LessonQuestion[]>(this.afs.collection(questionsPath,
         ref => ref.where("lessonId", "==", lessonId)
           .limit(QUESTIONS_PAGE_SIZE)))

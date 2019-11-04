@@ -7,7 +7,7 @@
 </div>
 
 
-<div class="questions-list" *ngIf="questions?.length">
+<div class="questions-list" *ngIf="questions?.length > 0; else noQuestions">
 
   <div *ngIf="!showAnswers">
 
@@ -27,7 +27,7 @@
               <span class="timestamp">a day ago</span>
             </div>
 
-            <div class="summary" [innerHTML]="question.questionText"></div>
+            <div class="text-block" [innerHTML]="question.questionText"></div>
 
           </div>
 
@@ -75,7 +75,7 @@
 
           </div>
 
-          <div class="answer-body" [innerHTML]="answer.answerText"></div>
+          <div class="text-block" [innerHTML]="answer.answerText"></div>
 
         </div>
 
@@ -94,5 +94,14 @@
 
 </div>
 
+<ng-template #noQuestions>
+
+  <div class="no-content mat-elevation-z7">
+
+    <span>No questions asked yet about this lesson.</span>
+
+  </div>
+
+</ng-template>
 
 

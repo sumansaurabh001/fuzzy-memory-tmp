@@ -109,7 +109,7 @@ export class QuestionsListComponent implements OnInit {
 
     dialogConfig.autoFocus = true;
     dialogConfig.disableClose = true;
-    dialogConfig.minWidth = '600px';
+    dialogConfig.width = '710px';
     dialogConfig.data = {
       dialogTitle: 'Ask a New Question',
       titlePlaceHolder: 'Type here the question title...',
@@ -150,7 +150,7 @@ export class QuestionsListComponent implements OnInit {
 
     dialogConfig.autoFocus = true;
     dialogConfig.disableClose = true;
-    dialogConfig.minWidth = '600px';
+    dialogConfig.width = '710px';
     dialogConfig.data = {
       dialogTitle: 'Add a New Answer',
       titlePlaceHolder: 'Type here the answer title...',

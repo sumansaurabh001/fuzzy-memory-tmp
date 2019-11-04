@@ -1,6 +1,7 @@
 
 
 @import "../mixins";
+@import "../vars";
 
 
 .large-button-container {
@@ -72,10 +73,11 @@
   font-size: 13px;
 }
 
+.text-block {
+}
 
-.summary p{
-  text-overflow: ellipsis;
-  white-space: nowrap;
+.text-block p {
+
 }
 
 .timestamp {
@@ -118,3 +120,12 @@
 .answers {
   margin-top: 30px;
 }
+
+.no-content {
+    background: $secondary-light;
+    min-height: 350px;
+    margin-bottom: 100px;
+    margin-left: 30px;
+    margin-right: 30px;
+}
+
