@@ -9,10 +9,7 @@
   flex-direction: column;
   padding: 20px;
   color: rgba(42, 48, 46, 0.87);
-  border-bottom: 1px solid rgba(0, 0, 0, 0.12);
-  &:first-child {
-    border-top: 1px solid rgba(0, 0, 0, 0.12);
-  }
+  border-top: 1px solid rgba(0, 0, 0, 0.12);
   &:hover {
     background: #f2f3f5;
     border-top-color: #f2f3f5;

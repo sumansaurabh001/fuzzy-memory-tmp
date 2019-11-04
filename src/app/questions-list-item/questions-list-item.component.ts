@@ -15,6 +15,7 @@ import {AngularFirestore} from '@angular/fire/firestore';
 import * as firebase from 'firebase/app';
 
 import { format } from 'timeago.js';
+import {User} from '../models/user.model';
 
 
 
@@ -27,6 +28,9 @@ export class QuestionsListItemComponent implements OnInit {
 
   @Input()
   question: LessonQuestion;
+
+  @Input()
+  user:User;
 
   showAnswers = false;
 
