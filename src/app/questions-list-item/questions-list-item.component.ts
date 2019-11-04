@@ -5,7 +5,7 @@ import {fullOptionsEditorConfig} from '../common/html-editor.config';
 import {MatDialog, MatDialogConfig} from '@angular/material';
 import {EditTitleDescriptionDialogComponent} from '../edit-title-description-dialog/edit-title-description-dialog.component';
 import {tap} from 'rxjs/operators';
-import {addNewQuestion} from '../store/questions.actions';
+import {addNewQuestion, deleteQuestion} from '../store/questions.actions';
 import {Observable} from 'rxjs/internal/Observable';
 import {Answer} from '../models/answer.model';
 import {of} from 'rxjs/internal/observable/of';
@@ -14,9 +14,10 @@ import {AppState} from '../store';
 import {AngularFirestore} from '@angular/fire/firestore';
 import * as firebase from 'firebase/app';
 
-import { format } from 'timeago.js';
+import {format} from 'timeago.js';
 import {User} from '../models/user.model';
-
+import {ConfirmationDialogComponent} from '../confirmation-dialog/confirmation-dialog.component';
+import {deleteCourse} from '../store/course.actions';
 
 
 @Component({
@@ -30,7 +31,7 @@ export class QuestionsListItemComponent implements OnInit {
   question: LessonQuestion;
 
   @Input()
-  user:User;
+  user: User;
 
   showAnswers = false;
 
@@ -127,5 +128,31 @@ export class QuestionsListItemComponent implements OnInit {
     return this.user && this.user.id == this.question.userId;
   }
 
+
+  onDeleteQuestion() {
+
+    const config = new MatDialogConfig();
+
+    config.autoFocus = true;
+
+    config.data = {
+      title: 'Delete Question',
+      confirmationText: 'Are you sure you want to delete this question?'
+    };
+
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, config);
+
+    dialogRef.afterClosed()
+      .subscribe(result => {
+        if (result.confirm) {
+          this.store.dispatch(deleteQuestion({
+            courseId: this.question.courseId,
+            questionId: this.question.id
+          }));
+        }
+      });
+
+
+  }
 
 }

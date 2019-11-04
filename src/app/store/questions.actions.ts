@@ -24,5 +24,10 @@ export const editQuestion = createAction(
     props<{update: Update<LessonQuestion>}>()
 );
 
+export const deleteQuestion = createAction(
+  "[Question Item] Delete Question",
+  props<{courseId:string, questionId:string}>()
+);
+
 
 

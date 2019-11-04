@@ -32,6 +32,14 @@ export class QuestionEffects {
     )
   , {dispatch: false});
 
+
+  deleteQuestion$ = createEffect( () =>
+      this.actions$.pipe(
+        ofType(QuestionsActions.deleteQuestion),
+        concatMap(action => this.questionsDB.deleteQuestion(action.courseId, action.questionId))
+      )
+    , {dispatch: false});
+
   constructor(
     private actions$: Actions,
     private loading: LoadingService,

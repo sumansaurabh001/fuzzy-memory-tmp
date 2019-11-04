@@ -34,7 +34,6 @@ export class QuestionsDbService {
         first(),
         map(lessons => lessons.map(lesson => {return {...lesson, courseId, lessonId}}))
       );
-
   }
 
 
@@ -54,7 +53,6 @@ export class QuestionsDbService {
           };
         })
       );
-
   }
 
   questionsPath(courseId:string) {
@@ -62,4 +60,13 @@ export class QuestionsDbService {
   }
 
 
+  deleteQuestion(courseId: any, questionId: string) {
+
+    const questionPath = this.questionsPath(courseId) + `/${questionId}`;
+
+    return from(this.afs.doc(questionPath).delete());
+  }
+
+
 }
+
