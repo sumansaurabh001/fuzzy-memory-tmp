@@ -5,7 +5,7 @@ import {fullOptionsEditorConfig} from '../common/html-editor.config';
 import {MatDialog, MatDialogConfig} from '@angular/material';
 import {EditTitleDescriptionDialogComponent} from '../edit-title-description-dialog/edit-title-description-dialog.component';
 import {tap} from 'rxjs/operators';
-import {addNewQuestion, deleteQuestion} from '../store/questions.actions';
+import {addNewQuestion, deleteQuestion, editQuestion} from '../store/questions.actions';
 import {Observable} from 'rxjs/internal/Observable';
 import {Answer} from '../models/answer.model';
 import {of} from 'rxjs/internal/observable/of';
@@ -154,5 +154,42 @@ export class QuestionsListItemComponent implements OnInit {
 
 
   }
+
+  onEditQuestion() {
+    const editorConfig = fullOptionsEditorConfig();
+
+    const dialogConfig = new MatDialogConfig();
+
+    dialogConfig.autoFocus = true;
+    dialogConfig.disableClose = true;
+    dialogConfig.width = '710px';
+    dialogConfig.data = {
+      title: this.question.title,
+      description: this.question.questionText,
+      dialogTitle: 'Edit Question',
+      titlePlaceHolder: 'Type here the question title...',
+      descriptionPlaceholder: 'Type here your question...',
+      editorConfig
+    };
+
+    this.dialog.open(EditTitleDescriptionDialogComponent, dialogConfig)
+      .afterClosed()
+      .pipe(
+        tap((edited: any) => {
+          this.store.dispatch(editQuestion({
+            update: {
+              id: this.question.id,
+              changes: {
+                title: edited.title,
+                questionText: edited.description
+              }
+            }
+          }));
+        })
+      )
+      .subscribe();
+  }
+
+
 
 }

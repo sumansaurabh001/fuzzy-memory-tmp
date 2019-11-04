@@ -40,7 +40,7 @@
     </button>
     <div class="filler"></div>
     <action-button icon="delete" color="basic" matTooltip="Delete question" *ngIf="isOwner() && question.repliesCount <= 0" (click)="onDeleteQuestion()"></action-button>
-    <action-button icon="mode_edit" color="basic" matTooltip="Edit question" *ngIf="isOwner()"></action-button>
+    <action-button icon="mode_edit" color="basic" matTooltip="Edit question" *ngIf="isOwner()" (click)="onEditQuestion()"></action-button>
     <action-button text="Add answer" icon="add" color="accent" (click)="addNewAnswer()"></action-button>
   </div>
 

@@ -31,7 +31,9 @@ export const questionsReducer = createReducer(
 
   on(QuestionsActions.lessonQuestionsLoaded, (state, action) => adapter.addMany(action.questions, state)),
 
-  on(QuestionsActions.deleteQuestion, (state, action) => adapter.removeOne(action.questionId, state))
+  on(QuestionsActions.deleteQuestion, (state, action) => adapter.removeOne(action.questionId, state)),
+
+  on(QuestionsActions.editQuestion, (state, action) => adapter.updateOne(action.update, state))
 
 );
 
