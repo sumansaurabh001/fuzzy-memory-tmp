@@ -15,30 +15,47 @@
 
       <div class="item" *ngFor="let question of questions">
 
-        <img class="user-picture" [src]="question.userPictureUrl">
+        <div class="item-body">
 
-        <div class="details">
+          <img class="user-picture" [src]="question.userPictureUrl">
 
-          <div (click)="openAnswers(question)">
+          <div class="details">
 
-            <div class="title">{{question.title}}</div>
-            <div class="user-details">
-              <span class="display-name">{{question.userDisplayName}} - </span>
-              <span class="timestamp">a day ago</span>
+            <div (click)="openAnswers(question)">
+
+              <div class="title">{{question.title}}</div>
+              <div class="user-details">
+                <span class="display-name">{{question.userDisplayName}} - </span>
+                <span class="timestamp">a day ago</span>
+              </div>
+
+              <div class="text-block" [innerHTML]="question.questionText"></div>
+
             </div>
 
-            <div class="text-block" [innerHTML]="question.questionText"></div>
+          </div>
 
+          <div class="filler"></div>
+
+          <div class="stats" matTooltip="number of replies">
+            <span class="replies-count">{{question.repliesCount}}</span>
+            <mat-icon>chat_bubble</mat-icon>
           </div>
 
         </div>
 
-        <div class="filler"></div>
-
-        <div class="stats" matTooltip="number of replies">
-          <span class="replies-count">{{question.repliesCount}}</span>
-          <mat-icon>chat_bubble</mat-icon>
+        <div class="bottom-toolbar">
+          <button mat-raised-button color="primary">
+            <mat-icon>arrow_forward_ios</mat-icon>
+            View Answers
+          </button>
+          <div class="filler"></div>
+          <action-button icon="delete" color="basic" matTooltip="Delete question"></action-button>
+          <action-button icon="mode_edit" color="basic" matTooltip="Edit question"></action-button>
+          <action-button text="Add answer" icon="add" color="accent"></action-button>
         </div>
+
+
 
       </div>
 
@@ -61,21 +78,26 @@
 
       <div class="item" *ngFor="let answer of (answers$ | async)">
 
-        <img class="user-picture" [src]="selectedQuestion.userPictureUrl">
+        <div class="item-body">
 
-        <div class="details">
 
-          <div class="title">{{selectedQuestion.title}}</div>
+          <img class="user-picture" [src]="selectedQuestion.userPictureUrl">
 
-          <div class="data">
+          <div class="details">
 
-            <span class="display-name">{{answer.userDisplayName}}</span>
+            <div class="title">{{selectedQuestion.title}}</div>
 
-            <span class="timestamp">a day ago</span>
+            <div class="data">
+
+              <span class="display-name">{{answer.userDisplayName}}</span>
+
+              <span class="timestamp">a day ago</span>
+
+            </div>
+
+            <div class="text-block" [innerHTML]="answer.answerText"></div>
 
           </div>
-
-          <div class="text-block" [innerHTML]="answer.answerText"></div>
 
         </div>
 
