@@ -28,6 +28,7 @@
 }
 
 .item {
+  cursor: pointer;
   padding: 20px;
   color: rgba(42, 48, 46, 0.87);
   display: flex;
@@ -67,15 +68,19 @@
   cursor: pointer;
 }
 
-.summary {
+.user-details {
+  font-size: 13px;
+}
+
+
+.summary p{
   text-overflow: ellipsis;
   white-space: nowrap;
-  cursor: pointer;
 }
 
 .timestamp {
   display: inline-block;
-  margin-left: 10px;
+  margin-left: 5px;
 }
 
 .stats {
@@ -107,7 +112,7 @@
 }
 
 .display-name {
-  margin-left: 10px;
+
 }
 
 .answers {

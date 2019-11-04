@@ -22,18 +22,12 @@
           <div (click)="openAnswers(question)">
 
             <div class="title">{{question.title}}</div>
+            <div class="user-details">
+              <span class="display-name">{{question.userDisplayName}} - </span>
+              <span class="timestamp">a day ago</span>
+            </div>
 
             <div class="summary" [innerHTML]="question.questionText"></div>
-
-          </div>
-
-          <div class="data">
-
-            <a href="javascript:void(0)" (click)="goToLecture()">Go to Lecture</a>
-
-            <span class="display-name">{{question.userDisplayName}}</span>
-
-            <span class="timestamp">a day ago</span>
 
           </div>
 
@@ -74,8 +68,6 @@
           <div class="title">{{selectedQuestion.title}}</div>
 
           <div class="data">
-
-            <a href="javascript:void(0)" (click)="goToLecture()">Go to Lecture</a>
 
             <span class="display-name">{{answer.userDisplayName}}</span>
 
