@@ -9,7 +9,7 @@ import {addNewQuestion, deleteQuestion, editQuestion} from '../store/questions.a
 import {Observable} from 'rxjs/internal/Observable';
 import {Answer} from '../models/answer.model';
 import {of} from 'rxjs/internal/observable/of';
-import {Store} from '@ngrx/store';
+import {select, Store} from '@ngrx/store';
 import {AppState} from '../store';
 import {AngularFirestore} from '@angular/fire/firestore';
 import * as firebase from 'firebase/app';
@@ -18,7 +18,10 @@ import {format} from 'timeago.js';
 import {User} from '../models/user.model';
 import {ConfirmationDialogComponent} from '../confirmation-dialog/confirmation-dialog.component';
 import {deleteCourse} from '../store/course.actions';
+import {addNewAnswer, deleteAnswer, editAnswer, loadAnswers} from '../store/answers.actions';
+import {selectQuestionAnswers} from '../store/answers.selectors';
 
+declare const hljs:any;
 
 @Component({
   selector: 'questions-list-item',
@@ -35,7 +38,7 @@ export class QuestionsListItemComponent implements OnInit {
 
   showAnswers = false;
 
-  answers$: Observable<Answer[]>;
+  answers$: Observable<Answer[]> = of([]);
 
   constructor(
     private dialog: MatDialog,
@@ -46,47 +49,31 @@ export class QuestionsListItemComponent implements OnInit {
 
   ngOnInit() {
 
-    this.answers$ = <any>of([
-      {
-        id: '1',
-        answerText: 'Tensor Flow removed the  .get() from tf.tensor  so for sorting you\'ll have to do:\n' +
-          '\n' +
-          '.sort((tensorA, tensorB) =>\n' +
-          '        tensorA.arraySync()[0] > tensorB.arraySync()[0] ? 1 : -1\n' +
-          '    );',
-        userDisplayName: 'Vasco',
-        userPictureUrl: 'https://i.udemycdn.com/user/50x50/11316690_eb0d_3.jpg'
-      },
-      {
-        id: '2',
-        answerText: 'Tensor Flow removed the  .get() from tf.tensor  so for sorting you\'ll have to do:\n' +
-          '\n' +
-          '.sort((tensorA, tensorB) =>\n' +
-          '        tensorA.arraySync()[0] > tensorB.arraySync()[0] ? 1 : -1\n' +
-          '    );',
-        userDisplayName: 'Vasco',
-        userPictureUrl: 'https://i.udemycdn.com/user/50x50/11316690_eb0d_3.jpg'
-      },
-
-      {
-        id: '3',
-        answerText: 'Tensor Flow removed the  .get() from tf.tensor  so for sorting you\'ll have to do:\n' +
-          '\n' +
-          '.sort((tensorA, tensorB) =>\n' +
-          '        tensorA.arraySync()[0] > tensorB.arraySync()[0] ? 1 : -1\n' +
-          '    );',
-        userDisplayName: 'Vasco',
-        userPictureUrl: 'https://i.udemycdn.com/user/50x50/11316690_eb0d_3.jpg'
-      }
-
-    ]);
-
   }
 
 
-  openAnswers(question: Question) {
+  openAnswers() {
 
     this.showAnswers = true;
+
+    this.store.dispatch(loadAnswers({
+      courseId: this.question.courseId,
+      questionId: this.question.id,
+      lessonId: this.question.lessonId
+    }));
+
+    console.log("Looking for questions with id " + this.question.id);
+
+    this.answers$ = this.store.pipe(
+      select(selectQuestionAnswers(this.question.id)),
+      tap(() => {
+        setTimeout(() => {
+          document.querySelectorAll('pre').forEach((block) => {
+            hljs.highlightBlock(block);
+          });
+        });
+      })
+    );
 
   }
 
@@ -132,6 +119,7 @@ export class QuestionsListItemComponent implements OnInit {
   }
 
   onEditQuestion() {
+
     const editorConfig = fullOptionsEditorConfig();
 
     const dialogConfig = new MatDialogConfig();
@@ -189,8 +177,90 @@ export class QuestionsListItemComponent implements OnInit {
     this.dialog.open(EditTitleDescriptionDialogComponent, dialogConfig)
       .afterClosed()
       .pipe(
-        filter(answer => !!answer)
+        filter(answer => !!answer),
+        tap((edited: any) => {
+          this.store.dispatch(addNewAnswer({
+            answer: {
+              id: this.afs.createId(),
+              questionId:this.question.id,
+              courseId: this.question.courseId,
+              lessonId: this.question.lessonId,
+              answerText: edited.description,
+              userDisplayName: this.user.displayName,
+              userPictureUrl: this.user.pictureUrl,
+              createdAt:firebase.firestore.Timestamp.now()
+            }
+          }));
+
+
+          this.openAnswers();
+
+        })
+
       )
       .subscribe();
   }
+
+  onDeleteAnswer(answer: Answer) {
+
+    const config = new MatDialogConfig();
+
+    config.autoFocus = true;
+
+    config.data = {
+      title: 'Delete Answer',
+      confirmationText: 'Are you sure you want to delete this answer?'
+    };
+
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, config);
+
+    dialogRef.afterClosed()
+      .subscribe(result => {
+        if (result.confirm) {
+          this.store.dispatch(deleteAnswer({
+            courseId: this.question.courseId,
+            questionId: this.question.id,
+            answerId: answer.id
+          }));
+        }
+      });
+  }
+
+
+  onEditAnswer(answer: Answer) {
+    const editorConfig = fullOptionsEditorConfig();
+
+    const dialogConfig = new MatDialogConfig();
+
+    dialogConfig.autoFocus = true;
+    dialogConfig.disableClose = true;
+    dialogConfig.width = '710px';
+    dialogConfig.data = {
+      description: answer.answerText,
+      dialogTitle: 'Edit Answer',
+      descriptionPlaceholder: 'Type here your answer...',
+      editorConfig
+    };
+
+    this.dialog.open(EditTitleDescriptionDialogComponent, dialogConfig)
+      .afterClosed()
+      .pipe(
+        filter(edited => !!edited),
+        tap((edited: any) => {
+          this.store.dispatch(editAnswer({
+            courseId: this.question.courseId,
+            lessonId: this.question.lessonId,
+            questionId: this.question.id,
+            update: {
+              id: this.question.id,
+              changes: {
+                answerText: edited.description
+              }
+            }
+          }));
+        })
+      )
+      .subscribe();
+  }
+
 }

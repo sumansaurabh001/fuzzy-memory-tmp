@@ -102,6 +102,16 @@ service cloud.firestore {
 
         }
 
+        match /questions/{questionId}/answers/{answerId} {
+
+          // all answers are public
+          allow read: if true;
+
+          // but only admins or the user that created the answer can modify it
+          allow write, delete: if isAdmin(tenantId) || isDocumentOwnedByCurrentUser();
+
+        }
+
         // even admins can only delete draft courses, to avoid accidentally deleting a whole course
         allow delete: if isAdmin(tenantId) && resource.data.status == 'draft';
 

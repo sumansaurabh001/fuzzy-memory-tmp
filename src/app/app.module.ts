@@ -140,6 +140,7 @@ import { QuestionsListComponent } from './questions-list/questions-list.componen
 import { PageFooterComponent } from './page-footer/page-footer.component';
 import {QuestionEffects} from './store/question.effects';
 import { QuestionsListItemComponent } from './questions-list-item/questions-list-item.component';
+import {AnswersEffects} from './store/answers.effects';
 
 
 @NgModule({
@@ -273,7 +274,8 @@ import { QuestionsListItemComponent } from './questions-list-item/questions-list
       ContentEffects,
       UserLessonStatusEffects,
       LatestLessonEffects,
-      QuestionEffects
+      QuestionEffects,
+      AnswersEffects
     ]),
     StoreRouterConnectingModule.forRoot({
       routerState: RouterState.Minimal,

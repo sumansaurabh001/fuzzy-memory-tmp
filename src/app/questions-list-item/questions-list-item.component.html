@@ -30,10 +30,14 @@
   </div>
 
   <div class="bottom-toolbar">
-    <button class="open-answers-btn" mat-raised-button color="primary" (click)="openAnswers(question)" *ngIf="!showAnswers">
+    <button class="open-answers-btn" mat-raised-button color="primary" (click)="openAnswers()" *ngIf="!showAnswers && question.repliesCount > 0">
       <mat-icon>arrow_forward_ios</mat-icon>
       View Answers
     </button>
+    <button class="open-answers-btn" mat-raised-button color="primary" (click)="openAnswers()" *ngIf="question.repliesCount == 0" disabled>
+      No Answers Yet
+    </button>
+
     <button class="back-button close-answers-btn" mat-raised-button color="primary" (click)="backToQuestions()" *ngIf="showAnswers">
       <mat-icon>arrow_back_ios</mat-icon>
       Hide Answers
@@ -52,18 +56,15 @@
 
         <div class="item-body">
 
-
           <img class="user-picture" [src]="question.userPictureUrl">
 
           <div class="details">
-
-            <div class="title">{{question.title}}</div>
 
             <div class="data">
 
               <span class="display-name">{{answer.userDisplayName}}</span>
 
-              <span class="timestamp">a day ago</span>
+              <span class="timestamp">{{calculateTimeAgo(answer.createdAt)}}</span>
 
             </div>
 
@@ -71,6 +72,12 @@
 
           </div>
 
+        </div>
+
+        <div class="bottom-toolbar">
+          <div class="filler"></div>
+          <action-button icon="delete" color="basic" matTooltip="Delete answer" *ngIf="isOwner()" (click)="onDeleteAnswer(answer)"></action-button>
+          <action-button icon="mode_edit" color="basic" matTooltip="Edit answer" *ngIf="isOwner()" (click)="onEditAnswer(answer)"></action-button>
         </div>
 
       </div>

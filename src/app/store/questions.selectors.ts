@@ -10,11 +10,11 @@ export const selectQuestionsState = createFeatureSelector<QuestionsState>("quest
 export const selectAllQuestions = createSelector(
   selectQuestionsState,
   fromQuestions.selectAll
-)
+);
 
 export const selectActiveLessonQuestions = createSelector(
   selectAllQuestions,
   selectActiveLesson,
   (questions, lesson) => questions.filter(question => question.lessonId == lesson.id)
 
-)
+);

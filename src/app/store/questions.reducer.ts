@@ -1,11 +1,11 @@
 import {createEntityAdapter, EntityAdapter, EntityState} from '@ngrx/entity';
 import {compareQuestions, LessonQuestion} from '../models/lesson-question.model';
 import {createReducer, on} from '@ngrx/store';
-import {QuestionsActions} from './action-types';
+import {AnswerActions, QuestionsActions} from './action-types';
 
 
 export interface QuestionsState extends EntityState<LessonQuestion> {
-  lastPageLoaded:number;
+  lastPageLoaded: number;
   allPagesLoaded: boolean;
 }
 
@@ -20,12 +20,11 @@ export const initialQuestionsState: QuestionsState = adapter.getInitialState({
 
 
 export const questionsReducer = createReducer(
-
   initialQuestionsState,
 
-  on(QuestionsActions.addNewQuestion, (state, action) => adapter.addOne(<LessonQuestion> {
-      id: action.questionId,
-      courseId: action.courseId,
+  on(QuestionsActions.addNewQuestion, (state, action) => adapter.addOne(<LessonQuestion>{
+    id: action.questionId,
+    courseId: action.courseId,
     ...action.props
   }, state)),
 
@@ -33,10 +32,31 @@ export const questionsReducer = createReducer(
 
   on(QuestionsActions.deleteQuestion, (state, action) => adapter.removeOne(action.questionId, state)),
 
-  on(QuestionsActions.editQuestion, (state, action) => adapter.updateOne(action.update, state))
+  on(QuestionsActions.editQuestion, (state, action) => adapter.updateOne(action.update, state)),
 
+  on(AnswerActions.addNewAnswer, (state, action) => {
+      const question = state.entities[action.answer.questionId];
+      return adapter.updateOne(
+        {
+          id: action.answer.questionId,
+          changes: {
+            repliesCount: question.repliesCount + 1
+          }
+        },
+        state);
+    }),
+  on(AnswerActions.deleteAnswer, (state, action) => {
+    const question = state.entities[action.questionId];
+    return adapter.updateOne(
+      {
+        id: action.questionId,
+        changes: {
+          repliesCount: question.repliesCount - 1
+        }
+      },
+      state);
+  })
 );
-
 
 
 export const {
