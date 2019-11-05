@@ -37,7 +37,6 @@ export class QuestionsListItemComponent implements OnInit {
 
   answers$: Observable<Answer[]>;
 
-
   constructor(
     private dialog: MatDialog,
     private store: Store<AppState>,

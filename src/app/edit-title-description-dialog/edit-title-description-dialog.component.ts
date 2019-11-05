@@ -74,9 +74,13 @@ export class EditTitleDescriptionDialogComponent implements OnInit {
 
     const val = this.form.value;
 
+    let descriptionText:string = val.description;
+
+    descriptionText = descriptionText.replace(new RegExp("<p><br></p><pre", 'g'), "<pre");
+
     this.dialogRef.close({
       title: val.title,
-      description: val.description
+      description: descriptionText
     });
 
   }
