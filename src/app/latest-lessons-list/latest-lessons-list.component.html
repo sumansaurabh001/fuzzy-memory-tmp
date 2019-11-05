@@ -55,7 +55,10 @@
   </div>
 
   <div class="bottom-toolbar">
-    <button mat-raised-button color="primary" *ngIf="!data.isAllLatestLessonsLoaded" (click)="loadMore()">Load More</button>
+    <button mat-raised-button color="primary" *ngIf="!data.isAllLatestLessonsLoaded" (click)="loadMore()">
+      <mat-icon>autorenew</mat-icon>
+      Load More
+    </button>
   </div>
 
 </ng-container>

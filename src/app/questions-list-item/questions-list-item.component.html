@@ -22,19 +22,19 @@
 
     <div class="filler"></div>
 
-    <div class="stats" matTooltip="number of replies">
-      <span class="replies-count">{{question.repliesCount}}</span>
-      <mat-icon>chat_bubble</mat-icon>
+    <div class="stats">
+      <span class="replies-count" matTooltip="number of replies">{{question.repliesCount}}</span>
+      <mat-icon matTooltip="number of replies">chat_bubble</mat-icon>
     </div>
 
   </div>
 
   <div class="bottom-toolbar">
-    <button mat-raised-button color="primary" (click)="openAnswers(question)" *ngIf="!showAnswers">
+    <button class="open-answers-btn" mat-raised-button color="primary" (click)="openAnswers(question)" *ngIf="!showAnswers">
       <mat-icon>arrow_forward_ios</mat-icon>
       View Answers
     </button>
-    <button class="back-button" mat-raised-button color="primary" (click)="backToQuestions()" *ngIf="showAnswers">
+    <button class="back-button close-answers-btn" mat-raised-button color="primary" (click)="backToQuestions()" *ngIf="showAnswers">
       <mat-icon>arrow_back_ios</mat-icon>
       Hide Answers
     </button>

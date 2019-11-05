@@ -1,4 +1,3 @@
-
 @import "../mixins";
 
 .latest-lessons {
@@ -26,6 +25,9 @@
   margin-top: 20px;
   display: flex;
   justify-content: center;
+  button {
+    @include mat-icon-size(18px);
+  }
 }
 
 .header-toolbar {
@@ -45,12 +47,12 @@
 .sort-option {
   margin-right: 15px;
   text-decoration: underline;
-  color:rgba(26, 35, 38, 0.8);
+  color: rgba(26, 35, 38, 0.8);
   cursor: pointer;
 
   &.is-active {
     font-weight: 800;
     text-decoration: none;
-    cursor:auto;
+    cursor: auto;
   }
 }

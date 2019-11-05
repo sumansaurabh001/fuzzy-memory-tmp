@@ -29,9 +29,12 @@
 }
 
 .load-more {
-  margin-top: 30px;
+  margin-top: 50px;
   display: flex;
   justify-content: center;
+  button {
+    @include mat-icon-size(18px);
+  }
 }
 
 .back-button {
