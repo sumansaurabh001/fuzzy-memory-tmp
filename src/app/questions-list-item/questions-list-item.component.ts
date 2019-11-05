@@ -96,29 +96,6 @@ export class QuestionsListItemComponent implements OnInit {
 
   }
 
-  addNewAnswer() {
-
-    const editorConfig = fullOptionsEditorConfig();
-
-    const dialogConfig = new MatDialogConfig();
-
-    dialogConfig.autoFocus = true;
-    dialogConfig.disableClose = true;
-    dialogConfig.width = '710px';
-    dialogConfig.data = {
-      dialogTitle: 'Add a New Answer',
-      titlePlaceHolder: 'Type here the answer title...',
-      descriptionPlaceholder: 'Type here your answer...',
-      editorConfig,
-      showTitle: false
-    };
-
-    this.dialog.open(EditTitleDescriptionDialogComponent, dialogConfig)
-      .afterClosed()
-      .subscribe();
-
-  }
-
   calculateTimeAgo(createdAt: firebase.firestore.Timestamp) {
     return format(createdAt.toMillis());
   }
@@ -192,5 +169,28 @@ export class QuestionsListItemComponent implements OnInit {
   }
 
 
+  onAddAnswer() {
 
+    const editorConfig = fullOptionsEditorConfig();
+
+    const dialogConfig = new MatDialogConfig();
+
+    dialogConfig.autoFocus = true;
+    dialogConfig.disableClose = true;
+    dialogConfig.width = '710px';
+    dialogConfig.data = {
+      dialogTitle: 'Add a New Answer',
+      titlePlaceHolder: 'Type here the answer title...',
+      descriptionPlaceholder: 'Type here your answer...',
+      editorConfig,
+      showTitle: false
+    };
+
+    this.dialog.open(EditTitleDescriptionDialogComponent, dialogConfig)
+      .afterClosed()
+      .pipe(
+        filter(answer => !!answer)
+      )
+      .subscribe();
+  }
 }
