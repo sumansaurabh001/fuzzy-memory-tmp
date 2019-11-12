@@ -51,8 +51,18 @@
         <search class="search-questions" placeholder="Search all course questions" width="300px"></search>
 
         <mat-button-toggle-group name="questionGroup" aria-label="Question Group">
-          <mat-button-toggle value="currentLesson" [checked]="true">Current Lesson Questions</mat-button-toggle>
-          <mat-button-toggle value="fullCourse">All Course Questions</mat-button-toggle>
+          <mat-button-toggle
+            value="currentLesson"
+            [checked]="currentLessonQuestionsOnly"
+            (click)="onLessonQuestions()">
+            Current Lesson Questions
+          </mat-button-toggle>
+          <mat-button-toggle
+            value="fullCourse"
+            [checked]="!currentLessonQuestionsOnly"
+            (click)="onFullCourseQuestions()">
+            All Course Questions
+          </mat-button-toggle>
         </mat-button-toggle-group>
 
       </div>
@@ -61,7 +71,9 @@
         [questions]="questions$ | async"
         [courseId]="data.course.id"
         [lessonId]="data.activeLesson.id"
-        [user]="data.user">
+        [user]="data.user"
+        [allPagesLoaded]="currentLessonQuestionsOnly ? data.activeLessonQuestionsPaginationInfo?.allPagesLoaded: true"
+        (loadMore)="onLoadMore(data.course, data.activeLesson, data.activeLessonQuestionsPaginationInfo)">
 
       </questions-list>
 

@@ -3,14 +3,14 @@ import {LessonQuestion} from '../models/lesson-question.model';
 import {Update} from '@ngrx/entity';
 
 
-export const loadLessonQuestions = createAction(
-  "[Lesson Questions List] Load Lesson Questions",
-  props<{courseId:string, lessonId:string, pageNumber:number}>()
+export const loadLessonQuestionsPage = createAction(
+  "[Lesson Questions List] Load Lesson Questions Page",
+  props<{courseId:string, lessonId:string, lastTimestampLoaded:number}>()
 );
 
-export const lessonQuestionsLoaded = createAction(
-  "[Question Effect] Lesson Questions Loaded",
-  props<{lessonId:string, pageNumber:number, questions: LessonQuestion[]}>()
+export const lessonQuestionsPageLoaded = createAction(
+  "[Question Effect] Lesson Questions Page Loaded",
+  props<{lessonId:string, questions: LessonQuestion[]}>()
 );
 
 export const addNewQuestion = createAction(

@@ -1,6 +1,6 @@
 
 
 export interface PaginationInfo {
-  lastPageNumber: number;
+  lastTimestamp: number;
   allPagesLoaded: boolean;
 }

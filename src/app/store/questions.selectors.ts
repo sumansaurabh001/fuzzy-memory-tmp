@@ -20,7 +20,14 @@ export const selectActiveLessonQuestions = createSelector(
 
 );
 
-export const selectQuestionsPaginationInfo = createSelector(
+export const selectAllQuestionsPaginationInfo = createSelector(
   selectQuestionsState,
   (questionsState) => questionsState.lessonQuestionsPagination
+);
+
+
+export const selectActiveLessonQuestionsPaginationInfo = createSelector(
+  selectActiveLesson,
+  selectAllQuestionsPaginationInfo,
+  (lesson, questionsPaginationInfo) => questionsPaginationInfo[lesson.id]
 );

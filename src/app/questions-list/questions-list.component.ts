@@ -1,4 +1,4 @@
-import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
+import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
 import {Question} from '../models/question.model';
 import {Observable} from 'rxjs/internal/Observable';
 import {Answer} from '../models/answer.model';
@@ -6,7 +6,7 @@ import {of} from 'rxjs';
 import {defaultEditorConfig, fullOptionsEditorConfig} from '../common/html-editor.config';
 import {MatDialog, MatDialogConfig} from '@angular/material';
 import {EditTitleDescriptionDialogComponent} from '../edit-title-description-dialog/edit-title-description-dialog.component';
-import {tap} from 'rxjs/operators';
+import {filter, tap} from 'rxjs/operators';
 import {AppState} from '../store';
 import {Store} from '@ngrx/store';
 import {addNewQuestion} from '../store/questions.actions';
@@ -33,6 +33,12 @@ export class QuestionsListComponent implements OnInit, OnChanges {
 
   @Input()
   questions: Question[] = [];
+
+  @Input()
+  allPagesLoaded = true;
+
+  @Output()
+  loadMore = new EventEmitter();
 
   answersOpened: {[key:string]: boolean} = {};
 
@@ -75,6 +81,7 @@ export class QuestionsListComponent implements OnInit, OnChanges {
     this.dialog.open(EditTitleDescriptionDialogComponent, dialogConfig)
       .afterClosed()
       .pipe(
+        filter(question => !!question),
         tap((question: any) => {
           this.store.dispatch(addNewQuestion({
             courseId: this.courseId,
@@ -98,6 +105,10 @@ export class QuestionsListComponent implements OnInit, OnChanges {
 
   onAnswersToggled(questionId: string, answersOpened: boolean) {
     this.answersOpened[questionId] = answersOpened;
+  }
+
+  onLoadMore() {
+    this.loadMore.next();
   }
 
 }

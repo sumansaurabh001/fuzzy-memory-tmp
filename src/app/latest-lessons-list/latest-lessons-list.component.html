@@ -59,6 +59,9 @@
       <mat-icon>autorenew</mat-icon>
       Load More
     </button>
+    <button class="not-allowed" disabled mat-raised-button color="primary" *ngIf="data.isAllLatestLessonsLoaded">
+      All Lessons Loaded
+    </button>
   </div>
 
 </ng-container>

@@ -8,8 +8,8 @@ import {watchLesson} from '../store/lesson.actions';
 import {selectActiveCourse, selectActiveCourseAllLessons, selectActiveCourseSections} from '../store/selectors';
 import {filter, first, map, tap, withLatestFrom} from 'rxjs/operators';
 import {CourseSection} from '../models/course-section.model';
-import {selectQuestionsPaginationInfo} from '../store/questions.selectors';
-import {loadLessonQuestions} from '../store/questions.actions';
+import {selectAllQuestionsPaginationInfo} from '../store/questions.selectors';
+import {loadLessonQuestionsPage} from '../store/questions.actions';
 
 
 @Injectable()
@@ -40,12 +40,12 @@ export class ActiveLessonResolver implements Resolve<any> {
         tap(lesson => this.store.dispatch(watchLesson({lessonId: lesson.id}))),
         withLatestFrom(
           this.store.pipe(select(selectActiveCourse)),
-          this.store.pipe(select(selectQuestionsPaginationInfo))
+          this.store.pipe(select(selectAllQuestionsPaginationInfo))
         ),
         tap(([lesson, course, paginationInfo]) => {
           // load the first page of lesson questions, but only if needed
           if (!paginationInfo[lesson.id]) {
-            this.store.dispatch(loadLessonQuestions({lessonId: lesson.id, courseId: course.id, pageNumber: 0}));
+            this.store.dispatch(loadLessonQuestionsPage({lessonId: lesson.id, courseId: course.id, lastTimestampLoaded: 0}));
           }
         }),
         first()

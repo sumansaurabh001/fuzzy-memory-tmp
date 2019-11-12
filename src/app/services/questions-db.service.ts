@@ -1,15 +1,15 @@
 import {Injectable} from '@angular/core';
-import {AngularFirestore} from '@angular/fire/firestore';
+import {AngularFirestore, QueryFn} from '@angular/fire/firestore';
 import {TenantService} from './tenant.service';
 import {from} from 'rxjs/internal/observable/from';
 import {first, map} from 'rxjs/operators';
 import {LessonQuestion} from '../models/lesson-question.model';
 import {readCollectionWithIds} from '../common/firestore-utils';
 import {Update} from '@ngrx/entity';
+import * as firebase from "firebase/app";
 
 
-
-const QUESTIONS_PAGE_SIZE = 10;
+const QUESTIONS_PAGE_SIZE = 2;
 
 
 
@@ -24,13 +24,22 @@ export class QuestionsDbService {
 
   }
 
-  loadLessonQuestions(courseId:string, lessonId:string, pageNumber = 0) {
+  loadLessonQuestions(courseId:string, lessonId:string, startAfter: number) {
 
     const questionsPath = this.questionsPath(courseId);
 
-    return readCollectionWithIds<LessonQuestion[]>(this.afs.collection(questionsPath,
-        ref => ref.where("lessonId", "==", lessonId)
-          .limit(QUESTIONS_PAGE_SIZE)))
+    const queryFn: QueryFn = ref => {
+      let query = ref.orderBy('createdAt', "desc")
+        .where("lessonId", "==", lessonId)
+        .limit(QUESTIONS_PAGE_SIZE);
+      if (startAfter) {
+        query = query.startAfter(firebase.firestore.Timestamp.fromMillis(startAfter));
+      }
+      return query;
+    };
+
+    return readCollectionWithIds<LessonQuestion[]>(this.afs.collection(questionsPath, queryFn)
+    )
       .pipe(
         first(),
         map(lessons => lessons.map(lesson => {return {...lesson, courseId, lessonId}}))

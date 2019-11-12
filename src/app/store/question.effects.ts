@@ -7,7 +7,7 @@ import {LessonActions, QuestionsActions} from './action-types';
 import {concatMap, map, withLatestFrom} from 'rxjs/operators';
 import {QuestionsDbService} from '../services/questions-db.service';
 import {selectActiveCourse} from './selectors';
-import {lessonQuestionsLoaded} from './questions.actions';
+import {lessonQuestionsPageLoaded} from './questions.actions';
 
 
 
@@ -18,14 +18,15 @@ export class QuestionEffects {
 
   loadLessonQuestions$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(QuestionsActions.loadLessonQuestions),
+      ofType(QuestionsActions.loadLessonQuestionsPage),
       withLatestFrom(this.store.pipe(select(selectActiveCourse))),
-      concatMap(([action, course]) => this.questionsDB.loadLessonQuestions(course.id, action.lessonId)
+      concatMap(([action, course]) =>
+          this.questionsDB.loadLessonQuestions(course.id, action.lessonId, action.lastTimestampLoaded)
         .pipe(
-          map(questions => [action.lessonId, action.pageNumber, questions])
+          map(questions => [action.lessonId,  questions])
         )
       ),
-      map(([lessonId, pageNumber, questions]:any) => lessonQuestionsLoaded({lessonId ,questions, pageNumber}))
+      map(([lessonId, questions]:any) => lessonQuestionsPageLoaded({lessonId ,questions}))
     )
   );
 

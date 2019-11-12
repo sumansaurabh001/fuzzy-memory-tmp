@@ -31,18 +31,21 @@ export const questionsReducer = createReducer(
     ...action.props
   }, state)),
 
-  on(QuestionsActions.lessonQuestionsLoaded, (state, action) => {
+  on(QuestionsActions.lessonQuestionsPageLoaded, (state, action) => {
 
     const lessonQuestionsPagination = {...state.lessonQuestionsPagination};
+    lessonQuestionsPagination[action.lessonId] = {...lessonQuestionsPagination[action.lessonId]};
+
+    const lastTimestamp = action.questions.length > 0 ? action.questions[action.questions.length - 1].createdAt.toMillis() : 0;
 
     if (!lessonQuestionsPagination[action.lessonId]) {
       lessonQuestionsPagination[action.lessonId] = {
         allPagesLoaded: false,
-        lastPageNumber: 0
+        lastTimestamp
       }
     }
     else if(action.questions.length > 0) {
-      lessonQuestionsPagination[action.lessonId].lastPageNumber = action.pageNumber;
+      lessonQuestionsPagination[action.lessonId].lastTimestamp = lastTimestamp;
     }
     else {
       lessonQuestionsPagination[action.lessonId].allPagesLoaded = true;

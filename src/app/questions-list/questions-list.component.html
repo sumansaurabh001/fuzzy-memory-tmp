@@ -25,10 +25,16 @@
 
     </div>
 
-    <div class="load-more">
-      <button mat-raised-button color="primary">
+    <div class="load-more" *ngIf="!allPagesLoaded">
+      <button mat-raised-button color="primary" (click)="onLoadMore()">
         <mat-icon>autorenew</mat-icon>
         Load More
+      </button>
+    </div>
+
+    <div class="load-more" *ngIf="allPagesLoaded">
+      <button class="not-allowed"  disabled mat-raised-button color="primary">
+        All Questions Loaded
       </button>
     </div>
 

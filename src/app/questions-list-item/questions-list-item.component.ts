@@ -84,8 +84,6 @@ export class QuestionsListItemComponent implements OnInit, OnChanges {
       lessonId: this.question.lessonId
     }));
 
-    console.log("Looking for questions with id " + this.question.id);
-
     this.answers$ = this.store.pipe(
       select(selectQuestionAnswers(this.question.id)),
       tap(() => {

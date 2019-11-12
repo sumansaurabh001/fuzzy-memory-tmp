@@ -27,7 +27,9 @@ import {MatDialog, MatDialogConfig} from '@angular/material';
 import {EditTitleDescriptionDialogComponent} from '../edit-title-description-dialog/edit-title-description-dialog.component';
 import {defaultEditorConfig} from '../common/html-editor.config';
 import {User} from '../models/user.model';
-import {selectActiveLessonQuestions} from '../store/questions.selectors';
+import {selectActiveLessonQuestions, selectActiveLessonQuestionsPaginationInfo} from '../store/questions.selectors';
+import {loadLessonQuestionsPage} from '../store/questions.actions';
+import {PaginationInfo} from '../models/pagination-info.model';
 
 
 interface WatchCourseData {
@@ -37,6 +39,7 @@ interface WatchCourseData {
   activeLesson: Lesson;
   lessonsWatched: string[];
   user: User;
+  activeLessonQuestionsPaginationInfo: PaginationInfo;
 }
 
 declare const hljs:any;
@@ -63,6 +66,8 @@ export class WatchCourseComponent implements OnInit {
   initialLessonLoaded = false;
 
   questions$: Observable<LessonQuestion[]>;
+
+  currentLessonQuestionsOnly = true;
 
   constructor(private store: Store<AppState>,
               private router: Router,
@@ -118,11 +123,15 @@ export class WatchCourseComponent implements OnInit {
 
     const user$ = this.store.pipe(select(selectUser));
 
-    this.data$ = combineLatest(course$, sections$, lessons$, activeLesson$, lessonsWatched$, user$)
+    const activeLessonQuestionsPaginationInfo$ = this.store.pipe(select(selectActiveLessonQuestionsPaginationInfo));
+
+    this.data$ = combineLatest(
+      course$, sections$, lessons$, activeLesson$, lessonsWatched$,
+      user$, activeLessonQuestionsPaginationInfo$)
       .pipe(
-        map(([course, sections, lessons, activeLesson, lessonsWatched, user]) =>
+        map(([course, sections, lessons, activeLesson, lessonsWatched, user, activeLessonQuestionsPaginationInfo]) =>
         {
-          return {course, sections, lessons, activeLesson, lessonsWatched, user};
+          return {course, sections, lessons, activeLesson, lessonsWatched, user, activeLessonQuestionsPaginationInfo};
         })
       );
 
@@ -172,6 +181,27 @@ export class WatchCourseComponent implements OnInit {
     };
 
     this.store.dispatch(updateLessonWatchStatus({userLessonStatus}));
+
+  }
+
+  onLoadMore(course:Course, activeLesson: Lesson, activeLessonQuestionsPaginationInfo: PaginationInfo ) {
+    if (this.currentLessonQuestionsOnly) {
+      this.store.dispatch(loadLessonQuestionsPage({
+        courseId: course.id,
+        lessonId: activeLesson.id,
+        lastTimestampLoaded: activeLessonQuestionsPaginationInfo.lastTimestamp
+      }));
+    }
+  }
+
+  onLessonQuestions() {
+
+    this.currentLessonQuestionsOnly = true;
+  }
+
+  onFullCourseQuestions() {
+
+    this.currentLessonQuestionsOnly = false;
 
   }
 
