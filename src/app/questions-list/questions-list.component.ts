@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
 import {Question} from '../models/question.model';
 import {Observable} from 'rxjs/internal/Observable';
 import {Answer} from '../models/answer.model';
@@ -20,7 +20,7 @@ import {AngularFirestore} from '@angular/fire/firestore';
   templateUrl: './questions-list.component.html',
   styleUrls: ['./questions-list.component.scss']
 })
-export class QuestionsListComponent implements OnInit {
+export class QuestionsListComponent implements OnInit, OnChanges {
 
   @Input()
   courseId: string;
@@ -45,6 +45,14 @@ export class QuestionsListComponent implements OnInit {
   }
 
   ngOnInit() {
+
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    const change = changes['questions'];
+    if (change) {
+      this.answersOpened = {};
+    }
 
   }
 
