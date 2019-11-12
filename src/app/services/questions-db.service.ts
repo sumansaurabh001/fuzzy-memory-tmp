@@ -9,7 +9,7 @@ import {Update} from '@ngrx/entity';
 import * as firebase from "firebase/app";
 
 
-const QUESTIONS_PAGE_SIZE = 2;
+const QUESTIONS_PAGE_SIZE = 10;
 
 
 
