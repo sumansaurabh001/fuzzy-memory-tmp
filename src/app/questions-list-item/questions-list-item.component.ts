@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
 import {LessonQuestion} from '../models/lesson-question.model';
 import {Question} from '../models/question.model';
 import {fullOptionsEditorConfig} from '../common/html-editor.config';
@@ -28,7 +28,7 @@ declare const hljs:any;
   templateUrl: './questions-list-item.component.html',
   styleUrls: ['./questions-list-item.component.scss']
 })
-export class QuestionsListItemComponent implements OnInit {
+export class QuestionsListItemComponent implements OnInit, OnChanges {
 
   @Input()
   question: LessonQuestion;
@@ -36,7 +36,14 @@ export class QuestionsListItemComponent implements OnInit {
   @Input()
   user: User;
 
-  showAnswers = false;
+  @Input()
+  showAnswers = undefined;
+
+  @Output()
+  answersOpened = new EventEmitter();
+
+  @Output()
+  answersClosed = new EventEmitter();
 
   answers$: Observable<Answer[]> = of([]);
 
@@ -49,6 +56,15 @@ export class QuestionsListItemComponent implements OnInit {
 
   ngOnInit() {
 
+
+  }
+
+  ngOnChanges(changes: SimpleChanges)  {
+    const change = changes["showAnswers"];
+    if (change.currentValue && change.previousValue == undefined) {
+      this.loadAnswers();
+      this.showAnswers = true;
+    }
   }
 
 
@@ -56,6 +72,12 @@ export class QuestionsListItemComponent implements OnInit {
 
     this.showAnswers = true;
 
+    this.answersOpened.next();
+
+    this.loadAnswers();
+  }
+
+  loadAnswers() {
     this.store.dispatch(loadAnswers({
       courseId: this.question.courseId,
       questionId: this.question.id,
@@ -74,12 +96,13 @@ export class QuestionsListItemComponent implements OnInit {
         });
       })
     );
-
   }
 
   backToQuestions() {
 
     this.showAnswers = false;
+
+    this.answersClosed.next();
 
   }
 

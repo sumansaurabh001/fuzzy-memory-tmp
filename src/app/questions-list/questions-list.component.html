@@ -16,8 +16,10 @@
       <questions-list-item
         *ngFor="let question of questions"
         [question]="question"
-        [user]="user">
-
+        [user]="user"
+        [showAnswers]="answersOpened[question.id]"
+        (answersOpened)="onAnswersToggled(question.id, true)"
+        (answersClosed)="onAnswersToggled(question.id, false)">
 
       </questions-list-item>
 

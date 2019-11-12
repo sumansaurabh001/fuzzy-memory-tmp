@@ -34,6 +34,8 @@ export class QuestionsListComponent implements OnInit {
   @Input()
   questions: Question[] = [];
 
+  answersOpened: {[key:string]: boolean} = {};
+
   constructor(
     private dialog: MatDialog,
     private store: Store<AppState>,
@@ -84,6 +86,10 @@ export class QuestionsListComponent implements OnInit {
       )
       .subscribe();
 
+  }
+
+  onAnswersToggled(questionId: string, answersOpened: boolean) {
+    this.answersOpened[questionId] = answersOpened;
   }
 
 }
