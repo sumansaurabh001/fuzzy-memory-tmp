@@ -1,4 +1,4 @@
-<div class="item mat-elevation-z7">
+<div class="question item mat-elevation-z7">
 
   <div class="item-body">
 
@@ -45,7 +45,7 @@
     <div class="filler"></div>
     <action-button icon="delete" color="basic" matTooltip="Delete question" *ngIf="isOwner() && question.repliesCount <= 0" (click)="onDeleteQuestion()"></action-button>
     <action-button icon="mode_edit" color="basic" matTooltip="Edit question" *ngIf="isOwner()" (click)="onEditQuestion()"></action-button>
-    <action-button text="Add answer" icon="add" color="accent" (click)="onAddAnswer()"></action-button>
+    <action-button text="Add answer" icon="add" color="accent" (click)="onAddAnswer()" *ngIf="!showAnswers"></action-button>
   </div>
 
   <div class="answers" *ngIf="showAnswers">
@@ -80,6 +80,11 @@
           <action-button icon="mode_edit" color="basic" matTooltip="Edit answer" *ngIf="isOwner()" (click)="onEditAnswer(answer)"></action-button>
         </div>
 
+      </div>
+
+      <div class="bottom-toolbar">
+        <div class="filler"></div>
+        <action-button text="Add answer" icon="add" color="accent" (click)="onAddAnswer()"></action-button>
       </div>
 
     </div>

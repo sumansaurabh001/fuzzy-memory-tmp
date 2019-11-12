@@ -10,6 +10,9 @@
   padding: 20px;
   color: rgba(42, 48, 46, 0.87);
   border-top: 1px solid rgba(0, 0, 0, 0.12);
+}
+
+.question {
   margin-bottom: 40px;
 }
 
@@ -96,3 +99,4 @@
 .open-answers-btn, .close-answers-btn {
     @include mat-icon-size(18px);
 }
+
