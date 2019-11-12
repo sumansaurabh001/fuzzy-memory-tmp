@@ -9,7 +9,7 @@ import {Update} from '@ngrx/entity';
 
 
 
-const QUESTIONS_PAGE_SIZE = 20;
+const QUESTIONS_PAGE_SIZE = 10;
 
 
 

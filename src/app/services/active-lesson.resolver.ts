@@ -5,19 +5,21 @@ import {Observable} from 'rxjs';
 import {select, Store} from '@ngrx/store';
 import {AppState} from '../store';
 import {watchLesson} from '../store/lesson.actions';
-import {selectActiveCourseAllLessons, selectActiveCourseSections} from '../store/selectors';
+import {selectActiveCourse, selectActiveCourseAllLessons, selectActiveCourseSections} from '../store/selectors';
 import {filter, first, map, tap, withLatestFrom} from 'rxjs/operators';
 import {CourseSection} from '../models/course-section.model';
+import {selectQuestionsPaginationInfo} from '../store/questions.selectors';
+import {loadLessonQuestions} from '../store/questions.actions';
 
 
 @Injectable()
-export class ActiveLessonResolver implements Resolve<Lesson> {
+export class ActiveLessonResolver implements Resolve<any> {
 
   constructor(private store: Store<AppState>) {
 
   }
 
-  resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<Lesson> {
+  resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<any> {
 
     const sectionSeqNo = parseInt(route.paramMap.get('sectionSeqNo')),
           lessonSeqNo = parseInt(route.paramMap.get('lessonSeqNo'));
@@ -33,10 +35,19 @@ export class ActiveLessonResolver implements Resolve<Lesson> {
           const activeSectionLessons = lessons.filter(lesson => lesson.sectionId == activeSection.id);
 
           return activeSectionLessons.find(lesson => lesson.seqNo == lessonSeqNo);
-
         }),
         filter(lesson => !!lesson),
         tap(lesson => this.store.dispatch(watchLesson({lessonId: lesson.id}))),
+        withLatestFrom(
+          this.store.pipe(select(selectActiveCourse)),
+          this.store.pipe(select(selectQuestionsPaginationInfo))
+        ),
+        tap(([lesson, course, paginationInfo]) => {
+          // load the first page of lesson questions, but only if needed
+          if (!paginationInfo[lesson.id]) {
+            this.store.dispatch(loadLessonQuestions({lessonId: lesson.id, courseId: course.id, pageNumber: 0}));
+          }
+        }),
         first()
       );
   }

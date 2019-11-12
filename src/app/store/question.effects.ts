@@ -18,10 +18,14 @@ export class QuestionEffects {
 
   loadLessonQuestions$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(LessonActions.watchLesson),
+      ofType(QuestionsActions.loadLessonQuestions),
       withLatestFrom(this.store.pipe(select(selectActiveCourse))),
-      concatMap(([action, course]) => this.questionsDB.loadLessonQuestions(course.id, action.lessonId)),
-      map(questions => lessonQuestionsLoaded({questions}))
+      concatMap(([action, course]) => this.questionsDB.loadLessonQuestions(course.id, action.lessonId)
+        .pipe(
+          map(questions => [action.lessonId, action.pageNumber, questions])
+        )
+      ),
+      map(([lessonId, pageNumber, questions]:any) => lessonQuestionsLoaded({lessonId ,questions, pageNumber}))
     )
   );
 

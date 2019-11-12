@@ -5,6 +5,7 @@ import * as fromQuestions from "./questions.reducer";
 import {selectActiveLesson} from './selectors';
 
 
+
 export const selectQuestionsState = createFeatureSelector<QuestionsState>("questions");
 
 export const selectAllQuestions = createSelector(
@@ -17,4 +18,9 @@ export const selectActiveLessonQuestions = createSelector(
   selectActiveLesson,
   (questions, lesson) => questions.filter(question => question.lessonId == lesson.id)
 
+);
+
+export const selectQuestionsPaginationInfo = createSelector(
+  selectQuestionsState,
+  (questionsState) => questionsState.lessonQuestionsPagination
 );
