@@ -30,6 +30,7 @@ import {User} from '../models/user.model';
 import {selectActiveLessonQuestions, selectActiveLessonQuestionsPaginationInfo} from '../store/questions.selectors';
 import {loadLessonQuestionsPage} from '../store/questions.actions';
 import {PaginationInfo} from '../models/pagination-info.model';
+import {highlightCodeBlocks} from '../common/highlightjs-utils';
 
 
 interface WatchCourseData {
@@ -42,7 +43,6 @@ interface WatchCourseData {
   activeLessonQuestionsPaginationInfo: PaginationInfo;
 }
 
-declare const hljs:any;
 
 @Component({
   selector: 'watch-course',
@@ -140,11 +140,7 @@ export class WatchCourseComponent implements OnInit {
     this.questions$ = this.store.pipe(
       select(selectActiveLessonQuestions),
       tap(() => {
-        setTimeout(() => {
-          document.querySelectorAll('pre').forEach((block) => {
-            hljs.highlightBlock(block);
-          });
-        });
+        highlightCodeBlocks();
       })
     );
 

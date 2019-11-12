@@ -20,8 +20,8 @@ import {ConfirmationDialogComponent} from '../confirmation-dialog/confirmation-d
 import {deleteCourse} from '../store/course.actions';
 import {addNewAnswer, deleteAnswer, editAnswer, loadAnswers} from '../store/answers.actions';
 import {selectQuestionAnswers} from '../store/answers.selectors';
+import {highlightCodeBlocks} from '../common/highlightjs-utils';
 
-declare const hljs:any;
 
 @Component({
   selector: 'questions-list-item',
@@ -87,11 +87,7 @@ export class QuestionsListItemComponent implements OnInit, OnChanges {
     this.answers$ = this.store.pipe(
       select(selectQuestionAnswers(this.question.id)),
       tap(() => {
-        setTimeout(() => {
-          document.querySelectorAll('pre').forEach((block) => {
-            hljs.highlightBlock(block);
-          });
-        });
+        highlightCodeBlocks();
       })
     );
   }
