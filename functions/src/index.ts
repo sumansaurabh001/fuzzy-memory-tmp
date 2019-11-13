@@ -14,3 +14,10 @@ export {onLessonDeletedUpdateSearchIndex} from './full-text-search/on-delete-les
 
 export {onAnswerSendEmailNotification} from './new-answer-send-email';
 
+export {
+  onQuestionCreatedUpdateIndex,
+  onQuestionUpdatedUpdateIndex,
+  onQuestionDeletedUpdateIndex
+} from './full-text-search/on-question-modified-update-index';
+
+
