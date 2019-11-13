@@ -265,6 +265,7 @@ export class QuestionsListItemComponent implements OnInit, OnChanges {
     dialogConfig.disableClose = true;
     dialogConfig.width = '710px';
     dialogConfig.data = {
+      showTitle:false,
       description: answer.answerText,
       dialogTitle: 'Edit Answer',
       descriptionPlaceholder: 'Type here your answer...',
@@ -281,7 +282,7 @@ export class QuestionsListItemComponent implements OnInit, OnChanges {
             lessonId: this.question.lessonId,
             questionId: this.question.id,
             update: {
-              id: this.question.id,
+              id: answer.id,
               changes: {
                 answerText: edited.description
               }

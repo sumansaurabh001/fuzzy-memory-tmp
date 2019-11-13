@@ -4,11 +4,11 @@ import {algoliaClient} from './algolia-init';
 import {calculateQuestionsIndexName} from './calculateQuestionsIndexName';
 
 
-export const onQuestionCreatedUpdateIndex =
-  functions.firestore.document('schools/{tenantId}/courses/{courseId}/questions/{questionId}')
+export const onAnswerCreatedUpdateIndex =
+  functions.firestore.document('schools/{tenantId}/courses/{courseId}/questions/{questionId}/answers/{answerId}')
   .onCreate((snapshot,context) => {
 
-    const question = snapshot.data(),
+    const answer = snapshot.data(),
           tenantId = context.params.tenantId,
           courseId = context.params.courseId,
           objectID = snapshot.id;
@@ -18,21 +18,20 @@ export const onQuestionCreatedUpdateIndex =
     const index = algoliaClient.initIndex(indexName);
 
     return index.saveObject({
-      title: question.title,
-      text: question.questionText,
+      text: answer.answerText,
       courseId,
-      lessonId: question.lessonId,
+      lessonId: answer.lessonId,
       objectID
     });
 
   });
 
 
-export const onQuestionUpdatedUpdateIndex =
-  functions.firestore.document('schools/{tenantId}/courses/{courseId}/questions/{questionId}')
+export const onAnswerUpdatedUpdateIndex =
+  functions.firestore.document('schools/{tenantId}/courses/{courseId}/questions/{questionId}/answers/{answerId}')
     .onUpdate((change,context) => {
 
-      const question = change.after.data(),
+      const answer = change.after.data(),
         tenantId = context.params.tenantId,
         courseId = context.params.courseId,
         objectID = change.after.id;
@@ -42,22 +41,20 @@ export const onQuestionUpdatedUpdateIndex =
       const index = algoliaClient.initIndex(indexName);
 
       return index.saveObject({
-        title: question.title,
-        text: question.questionText,
+        text: answer.answerText,
         courseId,
-        lessonId: question.lessonId,
+        lessonId: answer.lessonId,
         objectID
       });
 
     });
 
 
-export const onQuestionDeletedUpdateIndex =
-  functions.firestore.document('schools/{tenantId}/courses/{courseId}/questions/{questionId}')
+export const onAnswerDeletedUpdateIndex =
+  functions.firestore.document('schools/{tenantId}/courses/{courseId}/questions/{questionId}/answers/{answerId}')
     .onDelete((snap,context) => {
 
-      const question = snap.data(),
-        tenantId = context.params.tenantId,
+      const tenantId = context.params.tenantId,
         courseId = context.params.courseId,
         objectID = snap.id;
 

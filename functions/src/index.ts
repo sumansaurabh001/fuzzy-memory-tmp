@@ -20,4 +20,9 @@ export {
   onQuestionDeletedUpdateIndex
 } from './full-text-search/on-question-modified-update-index';
 
+export {
+  onAnswerCreatedUpdateIndex,
+  onAnswerUpdatedUpdateIndex,
+  onAnswerDeletedUpdateIndex
+} from './full-text-search/on-answer-modified-update-index';
 

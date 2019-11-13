@@ -57,7 +57,7 @@ export class EditTitleDescriptionDialogComponent implements OnInit {
 
     this.form = this.fb.group(formConfig);
 
-    if (this.title) {
+    if (this.title || this.description) {
       this.form.patchValue({
         title: this.title,
         description: this.description
