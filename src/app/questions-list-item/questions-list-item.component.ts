@@ -52,6 +52,8 @@ export class QuestionsListItemComponent implements OnInit, OnChanges {
 
   answers$: Observable<Answer[]> = of([]);
 
+  questionTimeAgo = "";
+
   constructor(
     private dialog: MatDialog,
     private store: Store<AppState>,
@@ -70,6 +72,10 @@ export class QuestionsListItemComponent implements OnInit, OnChanges {
     if (change && change.currentValue && change.previousValue == undefined) {
       this.loadAnswers();
       this.showAnswers = true;
+    }
+    if(changes["question"] && changes["question"].currentValue) {
+      const createdAt = changes["question"].currentValue.createdAt;
+      this.questionTimeAgo = format(createdAt.toMillis());
     }
   }
 
@@ -104,10 +110,6 @@ export class QuestionsListItemComponent implements OnInit, OnChanges {
 
     this.answersClosed.next();
 
-  }
-
-  calculateTimeAgo(createdAt: firebase.firestore.Timestamp) {
-    return format(createdAt.toMillis());
   }
 
   isOwner() {
