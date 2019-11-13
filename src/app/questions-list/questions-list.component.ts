@@ -35,6 +35,9 @@ export class QuestionsListComponent implements OnInit, OnChanges {
   questions: Question[] = [];
 
   @Input()
+  showGoToLessonLink = false;
+
+  @Input()
   allPagesLoaded = true;
 
   @Output()

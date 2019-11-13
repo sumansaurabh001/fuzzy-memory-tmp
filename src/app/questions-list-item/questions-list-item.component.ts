@@ -39,6 +39,9 @@ export class QuestionsListItemComponent implements OnInit, OnChanges {
   @Input()
   showAnswers = undefined;
 
+  @Input()
+  showGoToLessonLink = false;
+
   @Output()
   answersOpened = new EventEmitter();
 
@@ -61,7 +64,7 @@ export class QuestionsListItemComponent implements OnInit, OnChanges {
 
   ngOnChanges(changes: SimpleChanges)  {
     const change = changes["showAnswers"];
-    if (change.currentValue && change.previousValue == undefined) {
+    if (change && change.currentValue && change.previousValue == undefined) {
       this.loadAnswers();
       this.showAnswers = true;
     }
@@ -278,6 +281,10 @@ export class QuestionsListItemComponent implements OnInit, OnChanges {
         })
       )
       .subscribe();
+  }
+
+  goToLesson() {
+
   }
 
 }

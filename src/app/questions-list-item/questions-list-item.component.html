@@ -12,6 +12,9 @@
         <div class="user-details">
           <span class="display-name">{{question.userDisplayName}} - </span>
           <span class="timestamp">{{calculateTimeAgo(question.createdAt)}}</span>
+          <span *ngIf="showGoToLessonLink">
+            <a class="go-to-lesson" href="javascript:void(0)" (click)="goToLesson()">Go to lesson</a>
+          </span>
         </div>
 
         <div class="text-block" [innerHTML]="question.questionText"></div>

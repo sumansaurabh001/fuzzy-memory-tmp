@@ -18,6 +18,7 @@
         [question]="question"
         [user]="user"
         [showAnswers]="answersOpened[question.id]"
+        [showGoToLessonLink]="showGoToLessonLink"
         (answersOpened)="onAnswersToggled(question.id, true)"
         (answersClosed)="onAnswersToggled(question.id, false)">
 

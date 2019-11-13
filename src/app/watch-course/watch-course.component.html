@@ -73,6 +73,7 @@
         [lessonId]="data.activeLesson.id"
         [user]="data.user"
         [allPagesLoaded]="currentLessonQuestionsOnly ? data.activeLessonQuestionsPaginationInfo?.allPagesLoaded: data.activeCourseQuestionsPaginationInfo?.allPagesLoaded"
+        [showGoToLessonLink]="!currentLessonQuestionsOnly"
         (loadMore)="onLoadMore(data.course, data.activeLesson, data.activeLessonQuestionsPaginationInfo, data.activeCourseQuestionsPaginationInfo)">
 
       </questions-list>
