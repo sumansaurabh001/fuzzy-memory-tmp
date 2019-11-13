@@ -27,8 +27,12 @@ import {MatDialog, MatDialogConfig} from '@angular/material';
 import {EditTitleDescriptionDialogComponent} from '../edit-title-description-dialog/edit-title-description-dialog.component';
 import {defaultEditorConfig} from '../common/html-editor.config';
 import {User} from '../models/user.model';
-import {selectActiveLessonQuestions, selectActiveLessonQuestionsPaginationInfo} from '../store/questions.selectors';
-import {loadLessonQuestionsPage} from '../store/questions.actions';
+import {
+  selectActiveCourseAllQuestions, selectActiveCourseQuestionsPaginationInfo,
+  selectActiveLessonQuestions,
+  selectActiveLessonQuestionsPaginationInfo
+} from '../store/questions.selectors';
+import {loadCourseQuestionsPage, loadLessonQuestionsPage} from '../store/questions.actions';
 import {PaginationInfo} from '../models/pagination-info.model';
 import {highlightCodeBlocks} from '../common/highlightjs-utils';
 
@@ -41,6 +45,7 @@ interface WatchCourseData {
   lessonsWatched: string[];
   user: User;
   activeLessonQuestionsPaginationInfo: PaginationInfo;
+  activeCourseQuestionsPaginationInfo: PaginationInfo;
 }
 
 
@@ -125,24 +130,23 @@ export class WatchCourseComponent implements OnInit {
 
     const activeLessonQuestionsPaginationInfo$ = this.store.pipe(select(selectActiveLessonQuestionsPaginationInfo));
 
+    const activeCourseQuestionsPaginationInfo$ = this.store.pipe(select(selectActiveCourseQuestionsPaginationInfo));
+
     this.data$ = combineLatest(
       course$, sections$, lessons$, activeLesson$, lessonsWatched$,
       user$, activeLessonQuestionsPaginationInfo$)
       .pipe(
-        map(([course, sections, lessons, activeLesson, lessonsWatched, user, activeLessonQuestionsPaginationInfo]) =>
+        map(([course, sections, lessons, activeLesson, lessonsWatched,
+               user, activeLessonQuestionsPaginationInfo, activeCourseQuestionsPaginationInfo]) =>
         {
-          return {course, sections, lessons, activeLesson, lessonsWatched, user, activeLessonQuestionsPaginationInfo};
+          return {course, sections, lessons, activeLesson, lessonsWatched,
+            user, activeLessonQuestionsPaginationInfo, activeCourseQuestionsPaginationInfo};
         })
       );
 
     this.lessonData$ = zip(activeLesson$, activeLessonVideoAccess$);
 
-    this.questions$ = this.store.pipe(
-      select(selectActiveLessonQuestions),
-      tap(() => {
-        highlightCodeBlocks();
-      })
-    );
+    this.onLessonQuestions();
 
   }
 
@@ -180,7 +184,7 @@ export class WatchCourseComponent implements OnInit {
 
   }
 
-  onLoadMore(course:Course, activeLesson: Lesson, activeLessonQuestionsPaginationInfo: PaginationInfo ) {
+  onLoadMore(course:Course, activeLesson: Lesson, activeLessonQuestionsPaginationInfo: PaginationInfo, courseQuestionsPagination: PaginationInfo ) {
     if (this.currentLessonQuestionsOnly) {
       this.store.dispatch(loadLessonQuestionsPage({
         courseId: course.id,
@@ -188,17 +192,43 @@ export class WatchCourseComponent implements OnInit {
         lastTimestampLoaded: activeLessonQuestionsPaginationInfo.lastTimestamp
       }));
     }
+    else { 
+      this.store.dispatch(loadCourseQuestionsPage({
+        courseId: course.id,
+        lastTimestampLoaded: courseQuestionsPagination.lastTimestamp
+      }));
+    }
   }
 
   onLessonQuestions() {
 
     this.currentLessonQuestionsOnly = true;
+
+    this.questions$ = this.store.pipe(
+      select(selectActiveLessonQuestions),
+      tap(() => {
+        highlightCodeBlocks();
+      })
+    );
   }
 
-  onFullCourseQuestions() {
+  onFullCourseQuestions(course:Course, courseQuestionsPagination: PaginationInfo) {
 
     this.currentLessonQuestionsOnly = false;
 
+    if (!courseQuestionsPagination) {
+      this.store.dispatch(loadCourseQuestionsPage({
+        courseId: course.id,
+        lastTimestampLoaded: courseQuestionsPagination ? courseQuestionsPagination.lastTimestamp : 0
+      }));
+    }
+
+    this.questions$ = this.store.pipe(
+      select(selectActiveCourseAllQuestions),
+      tap(() => {
+        highlightCodeBlocks();
+      })
+    );
   }
 
 }

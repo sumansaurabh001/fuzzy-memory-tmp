@@ -13,6 +13,16 @@ export const lessonQuestionsPageLoaded = createAction(
   props<{lessonId:string, questions: LessonQuestion[]}>()
 );
 
+export const loadCourseQuestionsPage = createAction(
+  "[Lesson Questions List] Load Course Questions Page",
+  props<{courseId:string, lastTimestampLoaded:number}>()
+);
+
+export const courseQuestionsPageLoaded = createAction(
+  "[Lessons Question List] Course Questions Page Loaded",
+  props<{courseId:string, questions: LessonQuestion[]}>()
+);
+
 export const addNewQuestion = createAction(
   "[Add Question Dialog] Add New Question",
   props<{courseId:string, questionId:string, props:Partial<LessonQuestion>}>()

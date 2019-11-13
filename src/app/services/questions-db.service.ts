@@ -24,14 +24,15 @@ export class QuestionsDbService {
 
   }
 
-  loadLessonQuestions(courseId:string, lessonId:string, startAfter: number) {
+  loadQuestions(courseId:string, startAfter: number, filterByLessonId:string = undefined) {
 
     const questionsPath = this.questionsPath(courseId);
 
     const queryFn: QueryFn = ref => {
-      let query = ref.orderBy('createdAt', "desc")
-        .where("lessonId", "==", lessonId)
-        .limit(QUESTIONS_PAGE_SIZE);
+      let query = ref.orderBy('createdAt', "desc").limit(QUESTIONS_PAGE_SIZE);
+      if (filterByLessonId) {
+        query = query.where("lessonId", "==", filterByLessonId)
+      }
       if (startAfter) {
         query = query.startAfter(firebase.firestore.Timestamp.fromMillis(startAfter));
       }
@@ -42,7 +43,7 @@ export class QuestionsDbService {
     )
       .pipe(
         first(),
-        map(lessons => lessons.map(lesson => {return {...lesson, courseId, lessonId}}))
+        map(lessons => lessons.map(lesson => {return {...lesson, courseId}}))
       );
   }
 

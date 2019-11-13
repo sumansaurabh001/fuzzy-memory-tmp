@@ -4,10 +4,10 @@ import {LoadingService} from '../services/loading.service';
 import {select, Store} from '@ngrx/store';
 import {AppState} from './index';
 import {LessonActions, QuestionsActions} from './action-types';
-import {concatMap, map, withLatestFrom} from 'rxjs/operators';
+import {concatMap, map, tap, withLatestFrom} from 'rxjs/operators';
 import {QuestionsDbService} from '../services/questions-db.service';
 import {selectActiveCourse} from './selectors';
-import {lessonQuestionsPageLoaded} from './questions.actions';
+import {courseQuestionsPageLoaded, lessonQuestionsPageLoaded} from './questions.actions';
 
 
 
@@ -21,12 +21,27 @@ export class QuestionEffects {
       ofType(QuestionsActions.loadLessonQuestionsPage),
       withLatestFrom(this.store.pipe(select(selectActiveCourse))),
       concatMap(([action, course]) =>
-          this.questionsDB.loadLessonQuestions(course.id, action.lessonId, action.lastTimestampLoaded)
+          this.questionsDB.loadQuestions(course.id, action.lastTimestampLoaded, action.lessonId)
         .pipe(
           map(questions => [action.lessonId,  questions])
         )
       ),
       map(([lessonId, questions]:any) => lessonQuestionsPageLoaded({lessonId ,questions}))
+    )
+  );
+
+  loadCourseQuestions$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(QuestionsActions.loadCourseQuestionsPage),
+      withLatestFrom(this.store.pipe(select(selectActiveCourse))),
+      concatMap(([action, course]) =>
+        this.loading.showLoaderUntilCompleted(this.questionsDB.loadQuestions(course.id, action.lastTimestampLoaded))
+          .pipe(
+            map(questions => [course.id,  questions])
+          )
+      ),
+      map(([courseId, questions]:any) => courseQuestionsPageLoaded({courseId ,questions})),
+      tap(console.log)
     )
   );
 

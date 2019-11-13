@@ -8,7 +8,7 @@ import {PaginationInfo} from '../models/pagination-info.model';
 
 export interface QuestionsState extends EntityState<LessonQuestion> {
   lessonQuestionsPagination: {[key: string]: PaginationInfo};
-  courseQuestionsPagination: PaginationInfo;
+  courseQuestionsPagination: {[key: string]: PaginationInfo};
 }
 
 const adapter: EntityAdapter<LessonQuestion> = createEntityAdapter<LessonQuestion>({
@@ -17,7 +17,7 @@ const adapter: EntityAdapter<LessonQuestion> = createEntityAdapter<LessonQuestio
 
 export const initialQuestionsState: QuestionsState = adapter.getInitialState({
   lessonQuestionsPagination: {},
-  courseQuestionsPagination: undefined
+  courseQuestionsPagination: {}
 });
 
 
@@ -55,6 +55,33 @@ export const questionsReducer = createReducer(
       ...state,
       lessonQuestionsPagination
     });
+  }),
+
+  on(QuestionsActions.courseQuestionsPageLoaded, (state, action) => {
+
+    const courseQuestionsPagination = {...state.courseQuestionsPagination};
+    courseQuestionsPagination[action.courseId] = {...courseQuestionsPagination[action.courseId]};
+
+    const lastTimestamp = action.questions.length > 0 ? action.questions[action.questions.length - 1].createdAt.toMillis() : 0;
+
+    if (!courseQuestionsPagination[action.courseId]) {
+      courseQuestionsPagination[action.courseId] = {
+        allPagesLoaded: false,
+        lastTimestamp
+      }
+    }
+    else if(action.questions.length > 0) {
+      courseQuestionsPagination[action.courseId].lastTimestamp = lastTimestamp;
+    }
+    else {
+      courseQuestionsPagination[action.courseId].allPagesLoaded = true;
+    }
+
+    return adapter.addMany(action.questions, {
+      ...state,
+       courseQuestionsPagination
+    });
+
   }),
 
   on(QuestionsActions.deleteQuestion, (state, action) => adapter.removeOne(action.questionId, state)),

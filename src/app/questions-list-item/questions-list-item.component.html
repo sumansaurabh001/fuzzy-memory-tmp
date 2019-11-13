@@ -34,9 +34,6 @@
       <mat-icon>arrow_forward_ios</mat-icon>
       View Answers
     </button>
-    <button class="open-answers-btn" mat-raised-button color="primary" (click)="openAnswers()" *ngIf="question.repliesCount == 0" disabled>
-      No Answers Yet
-    </button>
 
     <button class="back-button close-answers-btn" mat-raised-button color="primary" (click)="backToQuestions()" *ngIf="showAnswers">
       <mat-icon>arrow_back_ios</mat-icon>

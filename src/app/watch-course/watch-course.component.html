@@ -60,7 +60,7 @@
           <mat-button-toggle
             value="fullCourse"
             [checked]="!currentLessonQuestionsOnly"
-            (click)="onFullCourseQuestions()">
+            (click)="onFullCourseQuestions(data.course, data.activeCourseQuestionsPaginationInfo)">
             All Course Questions
           </mat-button-toggle>
         </mat-button-toggle-group>
@@ -73,7 +73,7 @@
         [lessonId]="data.activeLesson.id"
         [user]="data.user"
         [allPagesLoaded]="currentLessonQuestionsOnly ? data.activeLessonQuestionsPaginationInfo?.allPagesLoaded: true"
-        (loadMore)="onLoadMore(data.course, data.activeLesson, data.activeLessonQuestionsPaginationInfo)">
+        (loadMore)="onLoadMore(data.course, data.activeLesson, data.activeLessonQuestionsPaginationInfo, data.activeCourseQuestionsPaginationInfo)">
 
       </questions-list>
 
