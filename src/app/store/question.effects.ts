@@ -40,8 +40,7 @@ export class QuestionEffects {
             map(questions => [course.id,  questions])
           )
       ),
-      map(([courseId, questions]:any) => courseQuestionsPageLoaded({courseId ,questions})),
-      tap(console.log)
+      map(([courseId, questions]:any) => courseQuestionsPageLoaded({courseId ,questions}))
     )
   );
 

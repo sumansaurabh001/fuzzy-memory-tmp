@@ -107,7 +107,8 @@ export class WatchCourseComponent implements OnInit {
 
     const activeLesson$ = this.store
       .pipe(
-        select(selectActiveLesson)
+        select(selectActiveLesson),
+        tap(() => this.onLessonQuestions())
       );
 
     const activeLessonVideoAccess$ = this.store
@@ -134,7 +135,7 @@ export class WatchCourseComponent implements OnInit {
 
     this.data$ = combineLatest(
       course$, sections$, lessons$, activeLesson$, lessonsWatched$,
-      user$, activeLessonQuestionsPaginationInfo$)
+      user$, activeLessonQuestionsPaginationInfo$, activeCourseQuestionsPaginationInfo$)
       .pipe(
         map(([course, sections, lessons, activeLesson, lessonsWatched,
                user, activeLessonQuestionsPaginationInfo, activeCourseQuestionsPaginationInfo]) =>
@@ -192,7 +193,7 @@ export class WatchCourseComponent implements OnInit {
         lastTimestampLoaded: activeLessonQuestionsPaginationInfo.lastTimestamp
       }));
     }
-    else { 
+    else {
       this.store.dispatch(loadCourseQuestionsPage({
         courseId: course.id,
         lastTimestampLoaded: courseQuestionsPagination.lastTimestamp

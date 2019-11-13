@@ -72,7 +72,7 @@
         [courseId]="data.course.id"
         [lessonId]="data.activeLesson.id"
         [user]="data.user"
-        [allPagesLoaded]="currentLessonQuestionsOnly ? data.activeLessonQuestionsPaginationInfo?.allPagesLoaded: true"
+        [allPagesLoaded]="currentLessonQuestionsOnly ? data.activeLessonQuestionsPaginationInfo?.allPagesLoaded: data.activeCourseQuestionsPaginationInfo?.allPagesLoaded"
         (loadMore)="onLoadMore(data.course, data.activeLesson, data.activeLessonQuestionsPaginationInfo, data.activeCourseQuestionsPaginationInfo)">
 
       </questions-list>

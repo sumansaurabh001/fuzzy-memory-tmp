@@ -5,10 +5,9 @@ import {AnswerActions, QuestionsActions} from './action-types';
 import {PaginationInfo} from '../models/pagination-info.model';
 
 
-
 export interface QuestionsState extends EntityState<LessonQuestion> {
-  lessonQuestionsPagination: {[key: string]: PaginationInfo};
-  courseQuestionsPagination: {[key: string]: PaginationInfo};
+  lessonQuestionsPagination: { [key: string]: PaginationInfo };
+  courseQuestionsPagination: { [key: string]: PaginationInfo };
 }
 
 const adapter: EntityAdapter<LessonQuestion> = createEntityAdapter<LessonQuestion>({
@@ -22,7 +21,6 @@ export const initialQuestionsState: QuestionsState = adapter.getInitialState({
 
 
 export const questionsReducer = createReducer(
-
   initialQuestionsState,
 
   on(QuestionsActions.addNewQuestion, (state, action) => adapter.addOne(<LessonQuestion>{
@@ -42,12 +40,10 @@ export const questionsReducer = createReducer(
       lessonQuestionsPagination[action.lessonId] = {
         allPagesLoaded: false,
         lastTimestamp
-      }
-    }
-    else if(action.questions.length > 0) {
+      };
+    } else if (action.questions.length > 0) {
       lessonQuestionsPagination[action.lessonId].lastTimestamp = lastTimestamp;
-    }
-    else {
+    } else if (areAllPagesLoaded(state.entities, action.questions)) {
       lessonQuestionsPagination[action.lessonId].allPagesLoaded = true;
     }
 
@@ -68,18 +64,16 @@ export const questionsReducer = createReducer(
       courseQuestionsPagination[action.courseId] = {
         allPagesLoaded: false,
         lastTimestamp
-      }
-    }
-    else if(action.questions.length > 0) {
+      };
+    } else if (action.questions.length > 0) {
       courseQuestionsPagination[action.courseId].lastTimestamp = lastTimestamp;
-    }
-    else {
+    } else if (areAllPagesLoaded(state.entities, action.questions)) {
       courseQuestionsPagination[action.courseId].allPagesLoaded = true;
     }
 
     return adapter.addMany(action.questions, {
       ...state,
-       courseQuestionsPagination
+      courseQuestionsPagination
     });
 
   }),
@@ -89,16 +83,16 @@ export const questionsReducer = createReducer(
   on(QuestionsActions.editQuestion, (state, action) => adapter.updateOne(action.update, state)),
 
   on(AnswerActions.addNewAnswer, (state, action) => {
-      const question = state.entities[action.answer.questionId];
-      return adapter.updateOne(
-        {
-          id: action.answer.questionId,
-          changes: {
-            repliesCount: question.repliesCount + 1
-          }
-        },
-        state);
-    }),
+    const question = state.entities[action.answer.questionId];
+    return adapter.updateOne(
+      {
+        id: action.answer.questionId,
+        changes: {
+          repliesCount: question.repliesCount + 1
+        }
+      },
+      state);
+  }),
   on(AnswerActions.deleteAnswer, (state, action) => {
     const question = state.entities[action.questionId];
     return adapter.updateOne(
@@ -111,6 +105,20 @@ export const questionsReducer = createReducer(
       state);
   })
 );
+
+function areAllPagesLoaded(entities: any, questions: LessonQuestion[]) {
+  if (questions.length == 0) {
+    return true;
+  }
+  let newQuestionFound = false;
+  for (let i = 0; i < questions.length; i++) {
+    if (!entities[questions[i].id]) {
+      newQuestionFound = true;
+      break;
+    }
+  }
+  return !newQuestionFound;
+}
 
 
 export const {
