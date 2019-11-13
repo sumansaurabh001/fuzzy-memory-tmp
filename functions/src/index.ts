@@ -12,3 +12,5 @@ export {onLessonUpdatedUpdateSearchIndex} from './full-text-search/on-update-les
 
 export {onLessonDeletedUpdateSearchIndex} from './full-text-search/on-delete-lesson-update-index';
 
+export {onAnswerSendEmailNotification} from './new-answer-send-email';
+
