@@ -21,6 +21,8 @@ import {deleteCourse} from '../store/course.actions';
 import {addNewAnswer, deleteAnswer, editAnswer, loadAnswers} from '../store/answers.actions';
 import {selectQuestionAnswers} from '../store/answers.selectors';
 import {highlightCodeBlocks} from '../common/highlightjs-utils';
+import {navigateToLesson} from '../store/latest-lesson.actions';
+import {LessonsDBService} from '../services/lessons-db.service';
 
 
 @Component({
@@ -53,7 +55,8 @@ export class QuestionsListItemComponent implements OnInit, OnChanges {
   constructor(
     private dialog: MatDialog,
     private store: Store<AppState>,
-    private afs: AngularFirestore) {
+    private afs: AngularFirestore,
+    private lessonsDB: LessonsDBService) {
 
   }
 
@@ -62,8 +65,8 @@ export class QuestionsListItemComponent implements OnInit, OnChanges {
 
   }
 
-  ngOnChanges(changes: SimpleChanges)  {
-    const change = changes["showAnswers"];
+  ngOnChanges(changes: SimpleChanges) {
+    const change = changes['showAnswers'];
     if (change && change.currentValue && change.previousValue == undefined) {
       this.loadAnswers();
       this.showAnswers = true;
@@ -202,13 +205,13 @@ export class QuestionsListItemComponent implements OnInit, OnChanges {
           this.store.dispatch(addNewAnswer({
             answer: {
               id: this.afs.createId(),
-              questionId:this.question.id,
+              questionId: this.question.id,
               courseId: this.question.courseId,
               lessonId: this.question.lessonId,
               answerText: edited.description,
               userDisplayName: this.user.displayName,
               userPictureUrl: this.user.pictureUrl,
-              createdAt:firebase.firestore.Timestamp.now()
+              createdAt: firebase.firestore.Timestamp.now()
             }
           }));
 
@@ -216,7 +219,6 @@ export class QuestionsListItemComponent implements OnInit, OnChanges {
           this.openAnswers();
 
         })
-
       )
       .subscribe();
   }
@@ -284,6 +286,15 @@ export class QuestionsListItemComponent implements OnInit, OnChanges {
   }
 
   goToLesson() {
+
+    this.lessonsDB.findLessonById(this.question.courseId, this.question.lessonId)
+      .subscribe(lesson => {
+        this.store.dispatch(navigateToLesson({
+          courseId: this.question.courseId,
+          sectionId: lesson.sectionId,
+          seqNo: lesson.seqNo
+        }));
+      });
 
   }
 

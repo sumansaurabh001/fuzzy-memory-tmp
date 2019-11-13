@@ -19,6 +19,14 @@ export class LessonsDBService {
 
   }
 
+  findLessonById(courseId:string, lessonId:string): Observable<Lesson> {
+
+    const lessonPath = this.lessonsPath(courseId) + `/${lessonId}`;
+
+    return readDocumentWithId<Lesson>(this.afs.doc(lessonPath)).pipe(first());
+  }
+
+
   loadCourseSection(courseId:string, sectionId:string) {
     return readDocumentWithId(this.afs.doc(this.sectionsPath(courseId) + '/' + sectionId )).pipe(first());
 
