@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {Actions, createEffect, Effect} from '@ngrx/effects';
+import {Actions, createEffect, Effect, ofType} from '@ngrx/effects';
 import {Observable, defer, of, zip, combineLatest} from 'rxjs';
 import {Action} from '@ngrx/store';
 import {AngularFireAuth} from '@angular/fire/auth';
@@ -10,6 +10,8 @@ import {SchoolUsersDbService} from '../services/school-users-db.service';
 import {TenantService} from '../services/tenant.service';
 import {login, logout, setUserPermissions, userLoaded} from './user.actions';
 import {LoadingService} from '../services/loading.service';
+import {UserActions} from './action-types';
+import {NewsletterService} from '../services/newsletter.service';
 
 
 @Injectable()
@@ -35,12 +37,20 @@ export class UserEffects {
       map(result => setUserPermissions({isAdmin: result.claims.isAdmin}))
     ));
 
+  addToNewsletter$ = createEffect(() => this.actions$.pipe(
+      ofType(UserActions.userLoaded),
+    filter(action => !action.user.addedToNewsletter),
+    concatMap(action => this.newsletter.addToNewsletter(action.user.email))
+  ),
+    {dispatch:false});
+
 
   constructor(private actions$: Actions,
               private afAuth: AngularFireAuth,
               private tenant: TenantService,
               private users: SchoolUsersDbService,
-              private loading:LoadingService) {
+              private loading:LoadingService,
+              private newsletter: NewsletterService) {
 
   }
 

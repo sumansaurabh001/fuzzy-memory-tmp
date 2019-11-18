@@ -18,6 +18,7 @@ import {UpdatePricingPlanController} from './controllers/update-pricing-plan.con
 import {StripeCancelSubscriptionWebhookController} from './controllers/stripe-cancel-subscription-webhook.controller';
 import {UpdateCardController} from './controllers/update-card.controller';
 import {FulfillFreeCouponController} from './controllers/fulfill-free-coupon.controller';
+import {NewsletterController} from './controllers/newsletter.controller';
 
 @Module({
   imports: [],
@@ -34,7 +35,8 @@ import {FulfillFreeCouponController} from './controllers/fulfill-free-coupon.con
     UpdatePricingPlanController,
     StripeCancelSubscriptionWebhookController,
     UpdateCardController,
-    FulfillFreeCouponController
+    FulfillFreeCouponController,
+    NewsletterController
   ],
   providers: [FirestoreService],
 })
@@ -60,7 +62,8 @@ export class AppModule implements NestModule {
       InitPricingPlansController,
       UpdatePricingPlanController,
       UpdateCardController,
-      FulfillFreeCouponController
+      FulfillFreeCouponController,
+      NewsletterController
     );
 
     consumer.apply(JsonBodyMiddleware).forRoutes(
@@ -74,7 +77,8 @@ export class AppModule implements NestModule {
       InitPricingPlansController,
       UpdatePricingPlanController,
       UpdateCardController,
-      FulfillFreeCouponController
+      FulfillFreeCouponController,
+      NewsletterController
     );
   }
 

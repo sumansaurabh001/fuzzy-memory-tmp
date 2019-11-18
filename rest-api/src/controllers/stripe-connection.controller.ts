@@ -28,13 +28,9 @@ export class StripeConnectionController {
 
       const tenantId = req.query.tenantId;
 
-      console.log(`Checking connection status for tenant ${tenantId}`);
-
       const snap = await this.firestore.db.doc(`tenantSettings/${tenantId}`).get();
 
       const stripeSettings = snap.data();
-
-      console.log("Retrieved Stripe settings: " + JSON.stringify(stripeSettings) );
 
       res.status(200).json({isConnectedToStripe:stripeSettings && !!stripeSettings.stripeTenantUserId});
 

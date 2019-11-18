@@ -31,7 +31,8 @@ export const environment = {
     stripeInitPricingPlansUrl: 'http://localhost:5000/api/init-pricing-plans',
     stripeUpdatePricingPLanUrl: 'http://localhost:5000/api/update-pricing-plan',
     stripeUpdateCardUrl: 'http://localhost:5000/api/update-card',
-    fulfillFreeCouponUrl: 'http://localhost:5000/api/fulfill-free-coupon'
+    fulfillFreeCouponUrl: 'http://localhost:5000/api/fulfill-free-coupon',
+    addToNewsletterUrl: 'http://localhost:5000/api/add-to-newsletter',
   },
   algolia: {
     app_id: "G9LL86VMN2",

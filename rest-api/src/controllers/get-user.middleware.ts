@@ -13,17 +13,12 @@ export class GetUserMiddleware implements NestMiddleware {
 
   use(req: Request, res: Response, next: () => any) {
 
-    console.log('Extracting user data from JWT');
-
     if (req.headers.authorization && req.headers.authorization.startsWith('Bearer ')) {
-
-      console.log('Found "Authorization" header');
 
       // Read the ID Token from the Authorization header.
       let idToken = req.headers.authorization.split('Bearer ')[1];
 
       this.firestore.auth.verifyIdToken(idToken).then((decodedIdToken) => {
-        console.log('ID Token correctly decoded', decodedIdToken);
         req["user"] = decodedIdToken;
         return next();
       }).catch((error) => {

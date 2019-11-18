@@ -18,6 +18,7 @@ export interface User {
   cardExpirationMonth?:string;
   cardExpirationYear?:string;
   testUser?:boolean;
+  addedToNewsletter?:boolean;
 }
 
 export const ANONYMOUS_USER: User = {

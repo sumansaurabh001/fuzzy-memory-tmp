@@ -45,8 +45,6 @@ export class VideoAccessController {
 
     try {
 
-      console.log("Checking if user has access to to video, user data:", JSON.stringify(req.user));
-
       const lesson = await this.firestore.getDocData(`schools/${reqInfo.tenantId}/courses/${reqInfo.courseId}/lessons/${reqInfo.lessonId}`);
 
       const video = await this.firestore.getDocData(`schools/${reqInfo.tenantId}/courses/${reqInfo.courseId}/videos/${reqInfo.lessonId}`);
