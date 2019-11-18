@@ -58,9 +58,9 @@ export class QuestionsListComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    const change = changes['questions'];
+    const change = changes['lessonId'];
     if (change) {
-      this.answersOpened = {};
+     this.answersOpened = {};
     }
 
   }
