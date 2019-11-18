@@ -54,6 +54,10 @@
       <span>Contact</span>
     </a>
 
+    <a mat-button class="desktop-menu" (click)="showNewsletterPopup()" *ngIf="isNewsletterActive$ | async">
+      <span>Newsletter</span>
+    </a>
+
     <a mat-button class="desktop-menu" [matMenuTriggerFor]="adminMenu" *allowRole="'ADMIN'">
       <span>Admin</span>
     </a>

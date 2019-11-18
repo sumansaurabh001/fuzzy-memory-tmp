@@ -1,0 +1,19 @@
+@import "../mixins";
+@import "../vars";
+
+@include single-col-dialog();
+
+
+
+.dialog-title {
+  display: flex;
+}
+
+.close-icon {
+  cursor: pointer;
+}
+
+.newsletter-cta {
+  font-family: $fonts;
+  margin-bottom: 40px;
+}

@@ -6,6 +6,7 @@ export interface TenantInfo {
   subDomain:string;
   schoolName: string;
   supportEmail:string;
+  newsletterActive?:boolean;
 }
 
 

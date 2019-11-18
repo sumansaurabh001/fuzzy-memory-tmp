@@ -141,6 +141,8 @@ import { PageFooterComponent } from './page-footer/page-footer.component';
 import {QuestionEffects} from './store/question.effects';
 import { QuestionsListItemComponent } from './questions-list-item/questions-list-item.component';
 import {AnswersEffects} from './store/answers.effects';
+import { NewsletterComponent } from './newsletter/newsletter.component';
+import { NewsletterDialogComponent } from './newsletter-dialog/newsletter-dialog.component';
 
 
 @NgModule({
@@ -210,7 +212,9 @@ import {AnswersEffects} from './store/answers.effects';
     SearchComponent,
     QuestionsListComponent,
     PageFooterComponent,
-    QuestionsListItemComponent
+    QuestionsListItemComponent,
+    NewsletterComponent,
+    NewsletterDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -327,7 +331,8 @@ import {AnswersEffects} from './store/answers.effects';
     EditTitleDescriptionDialogComponent,
     EditHomeDialogComponent,
     AskSchoolDetailsDialogComponent,
-    PublishCourseDialogComponent
+    PublishCourseDialogComponent,
+    NewsletterDialogComponent
   ],
   bootstrap: [AppComponent]
 })

@@ -257,6 +257,7 @@ export class QuestionsListItemComponent implements OnInit, OnChanges {
 
 
   onEditAnswer(answer: Answer) {
+
     const editorConfig = fullOptionsEditorConfig();
 
     const dialogConfig = new MatDialogConfig();

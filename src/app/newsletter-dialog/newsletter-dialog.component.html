@@ -1,0 +1,32 @@
+<div class="dialog-title">
+  <div class="filler"></div>
+  <mat-icon class="close-icon" (click)="close()">close</mat-icon>
+</div>
+
+
+<mat-dialog-content [formGroup]="form">
+
+  <h2 class="newsletter-cta">Subscribe to get a free Video Course, plus timely Angular ecosystem news:</h2>
+
+  <mat-form-field appearance="outline">
+
+    <input matInput
+           placeholder="Enter your email"
+           formControlName="email">
+
+    <mat-hint align="end">Receive weekly informative emails.</mat-hint>
+
+  </mat-form-field>
+
+</mat-dialog-content>
+
+<mat-dialog-actions class="dialog-actions">
+
+  <button class="mat-raised-button mat-primary"
+          (click)="saveEmail()" [disabled]="!form.valid">
+    Subscribe
+  </button>
+
+</mat-dialog-actions>
+
+

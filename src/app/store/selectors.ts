@@ -263,6 +263,10 @@ export const selectTenantInfo = createSelector(
   platformState => platformState.tenantInfo
 );
 
+export const isNewsletterActive = createSelector(
+  platformState,
+  platformState => platformState.tenantInfo.newsletterActive
+);
 
 
 export const isLessonUploadOngoing = createSelector(

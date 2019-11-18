@@ -2,7 +2,7 @@ import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
 import {Observable, combineLatest} from 'rxjs';
 import {select, Store} from '@ngrx/store';
 import {AppState} from '../store';
-import {arePricingPlansReady, isLoggedIn, isLoggedOut, selectUser, userPictureUrl} from '../store/selectors';
+import {arePricingPlansReady, isLoggedIn, isLoggedOut, isNewsletterActive, selectUser, userPictureUrl} from '../store/selectors';
 import {logout} from '../store/user.actions';
 import {AngularFireAuth} from '@angular/fire/auth';
 import {Router} from '@angular/router';
@@ -13,6 +13,8 @@ import {TenantService} from '../services/tenant.service';
 import {checkIfPlatformSite, checkIfSingleSignOnPage} from '../common/platform-utils';
 import {map, tap, withLatestFrom} from 'rxjs/operators';
 import {User} from '../models/user.model';
+import {MatDialog, MatDialogConfig} from '@angular/material';
+import {NewsletterDialogComponent} from '../newsletter-dialog/newsletter-dialog.component';
 
 
 
@@ -29,6 +31,7 @@ export class TopMenuComponent implements OnInit {
   arePricingPlansReady$: Observable<boolean>;
   user$ : Observable<User>;
   showSubscription$ : Observable<boolean>;
+  isNewsletterActive$:Observable<boolean>;
 
   isPlatformSite:boolean;
   isSingleSignOnPage:boolean;
@@ -38,7 +41,8 @@ export class TopMenuComponent implements OnInit {
     private afAuth: AngularFireAuth,
     private router: Router,
     private loading: LoadingService,
-    private tenant: TenantService) {
+    private tenant: TenantService,
+    private dialog: MatDialog) {
 
     this.isPlatformSite = checkIfPlatformSite();
     this.isSingleSignOnPage = checkIfSingleSignOnPage();
@@ -65,6 +69,8 @@ export class TopMenuComponent implements OnInit {
       .pipe(
         map(([tenantId, user, arePricingPlansReady]) => arePricingPlansReady || (user? user.id == tenantId : false) )
       );
+
+    this.isNewsletterActive$ = this.store.pipe(select(isNewsletterActive));
 
   }
 
@@ -100,6 +106,17 @@ export class TopMenuComponent implements OnInit {
         this.login();
 
       });
+
+  }
+
+  showNewsletterPopup() {
+
+    const dialogConfig = new MatDialogConfig();
+
+    dialogConfig.autoFocus = true;
+    dialogConfig.width = '710px';
+
+    this.dialog.open(NewsletterDialogComponent, dialogConfig);
 
   }
 

@@ -121,7 +121,9 @@ export class PlatformGuard implements CanActivate {
     const tenantInfo: TenantInfo = {
       schoolName: tenant.schoolName,
       subDomain: tenant.subDomain,
-      supportEmail: tenant.supportEmail
+      supportEmail: tenant.supportEmail,
+      newsletterActive: tenant.newsletterActive
+
     };
 
     this.store.dispatch(setTenantInfo({tenantInfo}));
