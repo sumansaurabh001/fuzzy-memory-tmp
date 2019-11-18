@@ -36,6 +36,8 @@ import {loadCourseQuestionsPage, loadLessonQuestionsPage} from '../store/questio
 import {PaginationInfo} from '../models/pagination-info.model';
 import {highlightCodeBlocks} from '../common/highlightjs-utils';
 import {TenantService} from '../services/tenant.service';
+import {navigateToLesson} from '../store/latest-lesson.actions';
+import {LessonsDBService} from '../services/lessons-db.service';
 
 
 interface WatchCourseData {
@@ -79,7 +81,8 @@ export class WatchCourseComponent implements OnInit {
               private router: Router,
               private title: Title,
               private ub: UrlBuilderService,
-              private tenant: TenantService) {
+              private tenant: TenantService,
+              private lessonsDB: LessonsDBService) {
 
   }
 
@@ -236,6 +239,18 @@ export class WatchCourseComponent implements OnInit {
 
   courseSearchIndexName(course:Course) {
     return `${this.tenant.id}_${course.id}_questions_and_answers`;
+  }
+
+  onSearchResultSelected(searchResult: any) {
+    this.lessonsDB.findLessonById(searchResult.courseId, searchResult.lessonId)
+      .subscribe(lesson => {
+        this.store.dispatch(navigateToLesson({
+          courseId: searchResult.courseId,
+          sectionId: lesson.sectionId,
+          seqNo: lesson.seqNo
+        }));
+      });
+
   }
 
 }

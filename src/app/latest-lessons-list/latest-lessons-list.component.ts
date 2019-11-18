@@ -129,12 +129,12 @@ export class LatestLessonsListComponent implements OnInit {
     else return [];
   }
 
-  onSearchLessonSelected(lesson: LatestLesson) {
+  onSearchLessonSelected(searchResult: any) {
 
     this.store.dispatch(navigateToLesson({
-      courseId: lesson.courseId,
-      sectionId: lesson.sectionId,
-      seqNo: lesson.seqNo
+      courseId: searchResult.courseId,
+      sectionId: searchResult.sectionId,
+      seqNo: searchResult.seqNo
     }));
 
   }

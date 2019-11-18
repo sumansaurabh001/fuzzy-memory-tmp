@@ -48,8 +48,11 @@
 
         <h1 class="page-title">Questions & Answers</h1>
 
-        <search [indexName]="courseSearchIndexName(data.course)" class="search-questions"
-                placeholder="Search all course questions" width="300px">
+        <search [indexName]="courseSearchIndexName(data.course)"
+                class="search-questions"
+                placeholder="Search all course questions"
+                width="300px"
+                (optionSelected)="onSearchResultSelected($event)">
 
         </search>
 
