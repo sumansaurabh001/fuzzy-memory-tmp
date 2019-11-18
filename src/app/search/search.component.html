@@ -11,7 +11,7 @@
                     [panelWidth]="700"
                     (optionSelected)="onSearchOptionSelected($event)">
     <mat-option *ngFor="let option of searchOptions" [value]="option">
-      <div [innerHTML]="option._highlightResult.title.value"></div>
+      <div [innerHTML]="option._highlightResult.title? option._highlightResult.title.value: option._highlightResult.text.value"></div>
     </mat-option>
   </mat-autocomplete>
 

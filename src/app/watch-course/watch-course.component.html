@@ -48,7 +48,10 @@
 
         <h1 class="page-title">Questions & Answers</h1>
 
-        <search class="search-questions" placeholder="Search all course questions" width="300px"></search>
+        <search [indexName]="courseSearchIndexName(data.course)" class="search-questions"
+                placeholder="Search all course questions" width="300px">
+
+        </search>
 
         <mat-button-toggle-group name="questionGroup" aria-label="Question Group">
           <mat-button-toggle

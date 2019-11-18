@@ -35,6 +35,7 @@ import {
 import {loadCourseQuestionsPage, loadLessonQuestionsPage} from '../store/questions.actions';
 import {PaginationInfo} from '../models/pagination-info.model';
 import {highlightCodeBlocks} from '../common/highlightjs-utils';
+import {TenantService} from '../services/tenant.service';
 
 
 interface WatchCourseData {
@@ -77,7 +78,8 @@ export class WatchCourseComponent implements OnInit {
   constructor(private store: Store<AppState>,
               private router: Router,
               private title: Title,
-              private ub: UrlBuilderService) {
+              private ub: UrlBuilderService,
+              private tenant: TenantService) {
 
   }
 
@@ -230,6 +232,10 @@ export class WatchCourseComponent implements OnInit {
         highlightCodeBlocks();
       })
     );
+  }
+
+  courseSearchIndexName(course:Course) {
+    return `${this.tenant.id}_${course.id}_questions_and_answers`;
   }
 
 }
