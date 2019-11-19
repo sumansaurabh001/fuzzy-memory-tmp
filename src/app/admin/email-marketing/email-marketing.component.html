@@ -1,0 +1,76 @@
+
+<div class="desktop-container">
+
+  <mat-card class="card-section">
+
+    <mat-toolbar color="primary">Newsletter Form Settings</mat-toolbar>
+
+    <mat-card-content>
+
+      <div class="email-marketing-form" [formGroup]="form">
+
+        <p>Configure the content of the newsletter form displayed via the top menu "Newsletter" button, as well as in other parts of this website.</p>
+
+        <mat-form-field>
+
+          <input matInput
+                 placeholder="enter the newsletter form call to action"
+                 formControlName="callToAction">
+
+          <mat-hint align="end">A good call to action mentions the benefits of subscribing to the newsletter.</mat-hint>
+
+        </mat-form-field>
+
+        <mat-form-field>
+
+          <input matInput
+                 placeholder="enter an informative note"
+                 formControlName="infoNote">
+
+          <mat-hint align="end">A small extra note added below the email field.</mat-hint>
+
+        </mat-form-field>
+
+      </div>
+
+
+    </mat-card-content>
+
+    <div class="email-marketing-actions">
+
+      <button mat-raised-button color="primary" (click)="saveNewsletterSettings()">Save</button>
+
+    </div>
+
+  </mat-card>
+
+
+  <mat-card class="card-section">
+
+    <mat-toolbar color="primary">Newsletter Subscribers</mat-toolbar>
+
+    <mat-card-content>
+
+      <div class="email-marketing-form" [formGroup]="form">
+
+        <p>Download all emails collected so far. This file can be easily uploaded to an email marketing provider such as <a href="https://www.mailerlite.com">Mailerlite</a>.</p>
+
+      </div>
+
+
+    </mat-card-content>
+
+    <div class="email-marketing-actions">
+
+      <button mat-raised-button (click)="downloadAllEmails()" color="accent">
+        <mat-icon>cloud_download</mat-icon>
+        Download Emails
+      </button>
+
+    </div>
+
+  </mat-card>
+
+</div>
+
+

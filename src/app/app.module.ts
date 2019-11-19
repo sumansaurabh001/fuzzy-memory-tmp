@@ -144,7 +144,6 @@ import {AnswersEffects} from './store/answers.effects';
 import { NewsletterComponent } from './newsletter/newsletter.component';
 import { NewsletterDialogComponent } from './newsletter-dialog/newsletter-dialog.component';
 
-
 @NgModule({
   declarations: [
     AppComponent,

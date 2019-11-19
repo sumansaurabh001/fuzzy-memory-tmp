@@ -1,0 +1,19 @@
+
+@import "../../mixins";
+
+:host {
+  width: 100%;
+}
+
+
+.email-marketing-form {
+  margin-left: 10px;
+  padding: 16px;
+  @include single-col-form();
+
+}
+
+.email-marketing-actions {
+  @include form-card-actions;
+}
+

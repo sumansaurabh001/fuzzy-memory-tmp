@@ -8,8 +8,9 @@ import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import {FormsModule} from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {SharedModule} from '../shared/shared.module';
+import {EmailMarketingComponent} from './email-marketing/email-marketing.component';
 
 
 
@@ -23,10 +24,12 @@ import {SharedModule} from '../shared/shared.module';
     MatButtonModule,
     MatIconModule,
     FormsModule,
-    SharedModule
+    SharedModule,
+    ReactiveFormsModule
   ],
   declarations: [
-    BrandingComponent
+    BrandingComponent,
+    EmailMarketingComponent
   ]
 })
 export class AdminModule {
