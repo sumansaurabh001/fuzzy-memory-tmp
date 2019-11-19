@@ -257,17 +257,10 @@ export const selectPendingSectionsReorder = createSelector(
   sectionsState => sectionsState.pendingSectionsReordering
 );
 
-
 export const selectTenantInfo = createSelector(
   platformState,
   platformState => platformState.tenantInfo
 );
-
-export const isNewsletterActive = createSelector(
-  platformState,
-  platformState => platformState.tenantInfo.newsletterActive
-);
-
 
 export const isLessonUploadOngoing = createSelector(
   selectLessonsState,

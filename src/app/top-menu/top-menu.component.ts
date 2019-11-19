@@ -2,7 +2,7 @@ import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
 import {Observable, combineLatest} from 'rxjs';
 import {select, Store} from '@ngrx/store';
 import {AppState} from '../store';
-import {arePricingPlansReady, isLoggedIn, isLoggedOut, isNewsletterActive, selectUser, userPictureUrl} from '../store/selectors';
+import {arePricingPlansReady, isLoggedIn, isLoggedOut,  selectUser, userPictureUrl} from '../store/selectors';
 import {logout} from '../store/user.actions';
 import {AngularFireAuth} from '@angular/fire/auth';
 import {Router} from '@angular/router';
@@ -31,7 +31,6 @@ export class TopMenuComponent implements OnInit {
   arePricingPlansReady$: Observable<boolean>;
   user$ : Observable<User>;
   showSubscription$ : Observable<boolean>;
-  isNewsletterActive$:Observable<boolean>;
 
   isPlatformSite:boolean;
   isSingleSignOnPage:boolean;
@@ -69,8 +68,6 @@ export class TopMenuComponent implements OnInit {
       .pipe(
         map(([tenantId, user, arePricingPlansReady]) => arePricingPlansReady || (user? user.id == tenantId : false) )
       );
-
-    this.isNewsletterActive$ = this.store.pipe(select(isNewsletterActive));
 
   }
 
