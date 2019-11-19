@@ -16,18 +16,22 @@ export class NewsletterController {
     try {
 
       const tenantId = request.body.tenantId,
-        email = request.body.email,
         testUser = request.body.testUser,
         userId = request.user.uid;
 
-      const newsletterPath = `schools/${tenantId}/newsletter`;
+      let email = request.body.email;
 
-      const snap = await this.firestore.db.collection(newsletterPath, ref => ref.where('email', '==', email)).get();
-
-      if (!snap.empty) {
-        console.log('Email already added to newsletter, exiting.');
+      if (!email) {
+        console.log('Email not provided, exiting.');
+        response.status(500).json({error: "Email not provided"});
         return;
       }
+
+      email = email.toLowerCase();
+
+      const newsletterPath = `schools/${tenantId}/newsletter`;
+
+      const results = await this.firestore.db.collection(newsletterPath).where('email', '==', email).get();
 
       if (!testUser) {
 
@@ -40,9 +44,13 @@ export class NewsletterController {
         // add user email to newsletter
         const batch = this.firestore.db.batch();
 
-        const newsletterRef = this.firestore.db.collection(newsletterPath).doc();
+        if (results.empty) {
 
-        batch.set(newsletterRef, {email: email});
+          const newsletterRef = this.firestore.db.collection(newsletterPath).doc();
+
+          batch.set(newsletterRef, {email: email});
+
+        }
 
         const userRef = this.firestore.db.doc(`schools/${tenantId}/users/${userId}`);
 
