@@ -1,9 +1,6 @@
-import {Component, Inject, OnInit} from '@angular/core';
-import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {NewsletterService} from '../services/newsletter.service';
+import {Component, OnInit} from '@angular/core';
+import { MatDialogRef} from '@angular/material';
 import {LoadingService} from '../services/loading.service';
-import {MessagesService} from '../services/messages.service';
 
 
 @Component({
@@ -16,25 +13,11 @@ import {MessagesService} from '../services/messages.service';
 })
 export class NewsletterDialogComponent implements OnInit {
 
-  form: FormGroup;
-
-  constructor(
-    private fb: FormBuilder,
-    @Inject(MAT_DIALOG_DATA) data,
-    private dialogRef: MatDialogRef<NewsletterDialogComponent>,
-    private newsletter: NewsletterService,
-    private loading: LoadingService,
-    private messages: MessagesService) {
-
-    this.form = this.fb.group({
-      email: ['', [Validators.required, Validators.email] ],
-    });
+  constructor(private dialogRef: MatDialogRef<NewsletterDialogComponent>) {
 
   }
 
   ngOnInit() {
-
-
 
   }
 
@@ -42,26 +25,5 @@ export class NewsletterDialogComponent implements OnInit {
     this.dialogRef.close();
   }
 
-  saveEmail() {
-
-    const email = this.form.value.email;
-
-    const addToNewsletter$ = this.newsletter.addToNewsletter(email);
-
-    this.loading.showLoaderUntilCompleted(addToNewsletter$)
-      .subscribe(
-        () => {
-          this.messages.info('Thank you for subscribing, please check your inbox now.');
-          this.dialogRef.close();
-        },
-        err => {
-          console.log("Error subscribing to newsletter", err);
-          this.messages.error("Error subscribing to newsletter.");
-        }
-      );
-
-
-  }
-
-
 }
+

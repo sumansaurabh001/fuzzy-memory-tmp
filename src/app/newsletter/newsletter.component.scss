@@ -1,0 +1,20 @@
+
+@import "../vars";
+
+.newsletter-cta {
+  font-family: $fonts;
+  margin-bottom: 40px;
+}
+
+
+.email-field {
+  width: 100%;
+}
+
+
+.bottom-toolbar {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 40px;
+}
+

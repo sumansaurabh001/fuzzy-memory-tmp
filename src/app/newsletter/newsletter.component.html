@@ -1,3 +1,27 @@
-<p>
-  newsletter works!
-</p>
+<div [formGroup]="form" class="newsletter-form">
+
+  <h3 class="newsletter-cta">Subscribe to get a free Video Course, plus timely Angular ecosystem news:</h3>
+
+  <mat-form-field class="email-field" appearance="outline">
+
+    <input matInput
+           placeholder="Enter your email"
+           formControlName="email">
+
+    <mat-hint align="end">Receive weekly informative emails.</mat-hint>
+
+  </mat-form-field>
+
+  <div class="bottom-toolbar">
+
+    <button class="mat-raised-button mat-primary"
+            (click)="saveEmail()" [disabled]="!form.valid">
+      Subscribe
+    </button>
+
+  </div>
+
+
+</div>
+
+
