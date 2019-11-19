@@ -47,6 +47,37 @@
 
   <mat-card class="card-section">
 
+    <mat-toolbar color="primary">Integrations</mat-toolbar>
+
+    <mat-card-content>
+
+      <div class="email-marketing-form" [formGroup]="form">
+
+        <p>Add automatically your user emails to an email marketing list, from which you can email users weekly with new informative or promotional content.</p>
+
+      </div>
+
+    </mat-card-content>
+
+    <div class="email-marketing-actions">
+
+      <button mat-raised-button>
+        Cancel Integration
+      </button>
+
+      <button mat-raised-button color="primary">
+        Activate Integration
+      </button>
+
+    </div>
+
+  </mat-card>
+
+
+
+
+  <mat-card class="card-section">
+
     <mat-toolbar color="primary">Newsletter Subscribers</mat-toolbar>
 
     <mat-card-content>
