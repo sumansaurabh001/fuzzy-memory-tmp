@@ -17,7 +17,7 @@ export class NewsletterController {
 
       const tenantId = request.body.tenantId,
         testUser = request.body.testUser,
-        userId = request.user.uid;
+        userId = request.user ? request.user.uid : undefined;
 
       let email = request.body.email;
 
@@ -52,9 +52,12 @@ export class NewsletterController {
 
         }
 
-        const userRef = this.firestore.db.doc(`schools/${tenantId}/users/${userId}`);
+        if (userId) {
+          const userRef = this.firestore.db.doc(`schools/${tenantId}/users/${userId}`);
 
-        batch.update(userRef, 'addedToNewsletter', true);
+          batch.update(userRef, 'addedToNewsletter', true);
+
+        }
 
         await batch.commit();
 

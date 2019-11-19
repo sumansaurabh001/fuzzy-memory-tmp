@@ -4,7 +4,7 @@ import {AppState} from '../store';
 import {Course} from '../models/course.model';
 import {Observable, BehaviorSubject} from 'rxjs';
 import {
-  isAdmin,
+  isAdmin, isLoggedOut,
   selectActiveCourse, selectActiveCourseAllLessons, selectActiveCourseDescription,
   selectActiveCourseSections, selectUser, selectUserCoursesIds
 } from '../store/selectors';
@@ -49,6 +49,8 @@ export class CoursePageComponent implements OnInit {
   lessonsWatched$: Observable<string[]>;
 
   coupon$: Observable<CourseCoupon>;
+
+  isLoggedOut$: Observable<boolean>;
 
   showFullDescription = false;
 
@@ -133,6 +135,8 @@ export class CoursePageComponent implements OnInit {
     this.courseDescription$ = this.selectDescription();
 
     this.lessonsWatched$ = this.store.pipe(select(selectActiveCourseLessonsWatched));
+
+    this.isLoggedOut$ = this.store.pipe(select(isLoggedOut));
 
   }
 

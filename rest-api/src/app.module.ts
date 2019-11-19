@@ -51,7 +51,10 @@ export class AppModule implements NestModule {
       StripeCancelSubscriptionWebhookController
     );
 
-    consumer.apply(GetUserMiddleware).forRoutes(VideoAccessController);
+    consumer.apply(GetUserMiddleware).forRoutes(
+      VideoAccessController,
+      NewsletterController
+    );
 
     consumer.apply(AuthenticationMiddleware).forRoutes(
       PurchaseCourseController,
@@ -62,8 +65,7 @@ export class AppModule implements NestModule {
       InitPricingPlansController,
       UpdatePricingPlanController,
       UpdateCardController,
-      FulfillFreeCouponController,
-      NewsletterController
+      FulfillFreeCouponController
     );
 
     consumer.apply(JsonBodyMiddleware).forRoutes(

@@ -85,9 +85,8 @@
 
     </div>
 
-    <div class="newsletter-form mat-elevation-z7">
+    <div class="newsletter-form mat-elevation-z7" *ngIf="isLoggedOut$ | async">
       <newsletter></newsletter>
-
     </div>
 
   </div>

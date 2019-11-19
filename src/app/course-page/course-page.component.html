@@ -1,108 +1,121 @@
-<div class="course-container mat-elevation-z10" *ngIf="(course$ | async) as course">
 
-  <div class="course-header">
+<ng-container *ngIf="(course$ | async) as course">
 
-    <div class="course-titles">
+  <div class="blank-space"></div>
 
-      <div class="course-title-container">
-        <mat-icon class="title-icon">video_library</mat-icon>
-        <div class="course-title">{{course.title}}</div>
+  <div class="newsletter-form mat-elevation-z7" *ngIf="isLoggedOut$ | async">
+    <newsletter></newsletter>
+  </div>
+
+  <div class="course-container mat-elevation-z10">
+
+    <div class="course-header">
+
+      <div class="course-titles">
+
+        <div class="course-title-container">
+          <mat-icon class="title-icon">video_library</mat-icon>
+          <div class="course-title">{{course.title}}</div>
+        </div>
+
+        <div class="course-subtitle">{{course.subTitle}}</div>
+
+        <div class="title-extra-info">
+
+          <mat-icon>mode_edit</mat-icon>
+          <span>Angular University</span>
+
+          <mat-icon class="duration">access_time</mat-icon>
+          <span>{{course.totalDuration | duration:'hours'}} hours on-demand video</span>
+
+        </div>
+
       </div>
 
-      <div class="course-subtitle">{{course.subTitle}}</div>
-
-      <div class="title-extra-info">
-
-        <mat-icon>mode_edit</mat-icon>
-        <span>Angular University</span>
-
-        <mat-icon class="duration">access_time</mat-icon>
-        <span>{{course.totalDuration | duration:'hours'}} hours on-demand video</span>
-
+      <div class="thumbnail-container">
+        <img class="course-thumbnail mat-elevation-z7" *ngIf="course.thumbnail" [src]="thumbnailUrl(course)">
       </div>
 
-    </div>
 
-    <div class="thumbnail-container">
-      <img class="course-thumbnail mat-elevation-z7" *ngIf="course.thumbnail" [src]="thumbnailUrl(course)">
-    </div>
+      <div class="course-enroll-card">
 
+        <div class="prices">
 
-    <div class="course-enroll-card">
+          <ng-container *ngIf="!course.free">
 
-      <div class="prices">
+            <ng-container *ngIf="(coupon$ | async) as coupon; else undiscountedPrice">
 
-        <ng-container *ngIf="!course.free">
+              <span class="course-price">Price: {{coupon.price | currency}}</span>
 
-          <ng-container *ngIf="(coupon$ | async) as coupon; else undiscountedPrice">
+              <span class="course-original-price">{{course.price | currency}}</span>
 
-            <span class="course-price">Price: {{coupon.price | currency}}</span>
+              <span class="discount" *ngIf="!coupon.free">({{calculateDiscountPercentage(course, coupon)}} % Off)</span>
 
-            <span class="course-original-price">{{course.price | currency}}</span>
+              <span class="discount" *ngIf="coupon.free">(Temporarily FREE)</span>
 
-            <span class="discount" *ngIf="!coupon.free">({{calculateDiscountPercentage(course, coupon)}} % Off)</span>
+              <ng-container *ngIf="coupon.deadline">
 
-            <span class="discount" *ngIf="coupon.free">(Temporarily FREE)</span>
+                <div class="valid-until">Valid Until {{ coupon.deadline.toDate() | date: 'MMM d'}}</div>
 
-            <ng-container *ngIf="coupon.deadline">
-
-              <div class="valid-until">Valid Until {{ coupon.deadline.toDate() | date: 'MMM d'}}</div>
+              </ng-container>
 
             </ng-container>
 
+            <ng-template #undiscountedPrice>
+
+              <span class="course-price">Price: {{course.price | currency}}</span>
+
+            </ng-template>
+
           </ng-container>
 
-          <ng-template #undiscountedPrice>
+        </div>
 
-            <span class="course-price">Price: {{course.price | currency}}</span>
+        <ng-container *ngIf="(coupon$ | async) as coupon; else undiscountedPurchase">
 
-          </ng-template>
+          <course-action-buttons [course]="course" [coupon]="coupon"></course-action-buttons>
 
         </ng-container>
 
+        <ng-template #undiscountedPurchase>
+
+          <course-action-buttons [course]="course"></course-action-buttons>
+
+        </ng-template>
+
       </div>
-
-      <ng-container *ngIf="(coupon$ | async) as coupon; else undiscountedPurchase">
-
-        <course-action-buttons [course]="course" [coupon]="coupon"></course-action-buttons>
-
-      </ng-container>
-
-      <ng-template #undiscountedPurchase>
-
-        <course-action-buttons [course]="course"></course-action-buttons>
-
-      </ng-template>
 
     </div>
 
+    <div class="course-description description-text" [innerHtml]="courseDescription$ | async"></div>
+
+    <collapsible-trigger class="show-more" label="Show More"
+                         #showMore [ngClass]="{'hide-show-more':showMore?.expanded}" (toggle)="toggleShowMore()">
+
+    </collapsible-trigger>
+
   </div>
 
-  <div class="course-description description-text" [innerHtml]="courseDescription$ | async"></div>
+  <ng-container *ngIf="(sections$ | async) as sections">
 
-  <collapsible-trigger class="show-more" label="Show More"
-                       #showMore [ngClass]="{'hide-show-more':showMore?.expanded}" (toggle)="toggleShowMore()">
+    <ng-container *ngIf="sections.length > 0">
 
-  </collapsible-trigger>
+      <h1 class="page-title lessons-section">Course Content</h1>
 
-</div>
+      <course-content
+        [course]="course$ | async"
+        [sections]="sections"
+        [lessons]="lessons$ | async"
+        [lessonsWatched]="lessonsWatched$ | async" >
 
-<ng-container *ngIf="(sections$ | async) as sections">
+      </course-content>
 
-  <ng-container *ngIf="sections.length > 0">
-
-    <h1 class="page-title lessons-section">Course Content</h1>
-
-    <course-content
-      [course]="course$ | async"
-      [sections]="sections"
-      [lessons]="lessons$ | async"
-      [lessonsWatched]="lessonsWatched$ | async" >
-
-    </course-content>
+    </ng-container>
 
   </ng-container>
 
+
 </ng-container>
+
 
 

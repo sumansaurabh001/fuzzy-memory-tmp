@@ -2,8 +2,17 @@
 @import "../mixins";
 @import "../vars";
 
-.course-container {
+
+.blank-space {
   margin-top: 120px;
+  width: 100%;
+}
+
+.newsletter-form {
+  margin-bottom: 50px;
+}
+
+.course-container {
   width: 1000px;
   padding: 10px 30px 30px 30px;
   display: flex;
