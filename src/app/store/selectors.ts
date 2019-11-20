@@ -262,6 +262,11 @@ export const selectTenantInfo = createSelector(
   platformState => platformState.tenantInfo
 );
 
+export const selectNewsletterContent = createSelector(
+  platformState,
+  platformState => platformState.tenantInfo ? platformState.tenantInfo.newsletter : undefined
+)
+
 export const isLessonUploadOngoing = createSelector(
   selectLessonsState,
   lessonsState => lessonsState.uploadsOngoing && lessonsState.uploadsOngoing.length > 0
