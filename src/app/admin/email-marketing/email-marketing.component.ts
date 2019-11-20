@@ -8,17 +8,25 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 })
 export class EmailMarketingComponent implements OnInit {
 
-  form: FormGroup;
+  newsletterForm: FormGroup;
+
+  integrationForm: FormGroup;
 
   constructor(private fb: FormBuilder) {
 
   }
 
   ngOnInit() {
-    this.form = this.fb.group({
+    this.newsletterForm = this.fb.group({
       callToAction: ['', [Validators.required] ],
       infoNote: ['', [Validators.required] ],
       buttonText: ['', [Validators.required] ]
+    });
+
+    this.integrationForm = this.fb.group({
+      emailProvider: ['', [Validators.required] ],
+      apiKey: [''],
+      groupId: ['']
     });
   }
 
@@ -29,4 +37,9 @@ export class EmailMarketingComponent implements OnInit {
   downloadAllEmails() {
 
   }
+
+  isMailerliteSelected() {
+    return this.integrationForm.value && this.integrationForm.value.emailProvider == 'mailerlite';
+  }
+
 }

@@ -11,6 +11,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {SharedModule} from '../shared/shared.module';
 import {EmailMarketingComponent} from './email-marketing/email-marketing.component';
+import {MatSelectModule} from '@angular/material';
 
 
 
@@ -23,6 +24,7 @@ import {EmailMarketingComponent} from './email-marketing/email-marketing.compone
     MatToolbarModule,
     MatButtonModule,
     MatIconModule,
+    MatSelectModule,
     FormsModule,
     SharedModule,
     ReactiveFormsModule

@@ -7,14 +7,14 @@
 
     <mat-card-content>
 
-      <div class="email-marketing-form" [formGroup]="form">
+      <div class="email-marketing-form" [formGroup]="newsletterForm">
 
         <p>Configure the content of the newsletter form displayed via the top menu "Newsletter" button, as well as in other parts of this website.</p>
 
         <mat-form-field>
 
           <input matInput
-                 placeholder="enter the newsletter form call to action"
+                 placeholder="Enter the newsletter form call to action"
                  formControlName="callToAction">
 
           <mat-hint align="end">A good call to action mentions the benefits of subscribing to the newsletter.</mat-hint>
@@ -24,7 +24,7 @@
         <mat-form-field>
 
           <input matInput
-                 placeholder="enter an informative note"
+                 placeholder="Enter an informative note"
                  formControlName="infoNote">
 
           <mat-hint align="end">A small extra note added below the email field.</mat-hint>
@@ -51,9 +51,45 @@
 
     <mat-card-content>
 
-      <div class="email-marketing-form" [formGroup]="form">
+      <div class="email-marketing-form" [formGroup]="integrationForm">
 
         <p>Add automatically your user emails to an email marketing list, from which you can email users weekly with new informative or promotional content.</p>
+
+        <h4>Choose your favorite Email Marketing provider:</h4>
+
+        <mat-form-field>
+          <mat-label>Select a provider</mat-label>
+          <mat-select formControlName="emailProvider">
+            <mat-option>None</mat-option>
+            <mat-option value="mailerlite">
+              Mailerlite
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <ng-container *ngIf="isMailerliteSelected()">
+
+          <mat-form-field>
+
+            <input matInput
+                   placeholder="enter the Mailerlite API Key"
+                   formControlName="apiKey">
+
+            <mat-hint align="end">Here are the <a href="http://help.mailerlite.com/article/show/35040-where-can-i-find-the-api-key">instructions</a> on how to find your API key</mat-hint>
+
+          </mat-form-field>
+
+          <mat-form-field>
+
+            <mat-select formControlName="groupId">
+              <mat-option>None</mat-option>
+            </mat-select>
+
+            <mat-hint align="end">first create an email group, then select it from this dropdown (you might need to refresh this page after creating the group)</mat-hint>
+
+          </mat-form-field>
+
+        </ng-container>
 
       </div>
 
@@ -82,7 +118,7 @@
 
     <mat-card-content>
 
-      <div class="email-marketing-form" [formGroup]="form">
+      <div class="email-marketing-form">
 
         <p>Download all emails collected so far. This file can be easily uploaded to an email marketing provider such as <a href="https://www.mailerlite.com">Mailerlite</a>.</p>
 
