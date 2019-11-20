@@ -150,6 +150,7 @@ export class TenantsDBService {
   updateTenant(tenantId:string, changes: Partial<Tenant>): Observable<void> {
     return from(this.afs.doc(`tenants/${tenantId}`).update(changes));
   }
+
 }
 
 

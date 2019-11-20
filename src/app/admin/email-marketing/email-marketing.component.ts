@@ -5,6 +5,7 @@ import {select, Store} from '@ngrx/store';
 import {Observable} from 'rxjs';
 import {NewsletterFormContent} from '../../models/tenant.model';
 import {selectNewsletterContent} from '../../store/selectors';
+import {saveNewsletterFormContent} from '../../store/platform.actions';
 
 
 
@@ -54,6 +55,10 @@ export class EmailMarketingComponent implements OnInit {
   }
 
   saveNewsletterSettings() {
+
+    const newsletter = this.newsletterForm.value;
+
+    this.store.dispatch(saveNewsletterFormContent({newsletter}));
 
   }
 

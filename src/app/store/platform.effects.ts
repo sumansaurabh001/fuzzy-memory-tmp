@@ -33,6 +33,15 @@ export class PlatformEffects {
       map(isConnectedToStripe => updateStripeStatus({isConnectedToStripe}))
     ));
 
+  saveNewsletter$ = createEffect(() =>
+    this.actions$
+      .pipe(
+        ofType(PlatformActions.saveNewsletterFormContent),
+        concatMap(action => this.loading.showLoaderUntilCompleted(
+          this.tenantsDB.updateTenant(this.tenant.id, {newsletter: action.newsletter})))
+      ), {dispatch: false}
+  );
+
 
   constructor(private actions$: Actions,
               private tenant: TenantService,

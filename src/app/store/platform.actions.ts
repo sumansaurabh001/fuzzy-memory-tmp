@@ -1,6 +1,6 @@
 import {createAction, props} from '@ngrx/store';
 import {Theme} from '../models/theme.model';
-import {TenantInfo} from '../models/tenant.model';
+import {NewsletterFormContent, TenantInfo} from '../models/tenant.model';
 
 
 
@@ -28,3 +28,7 @@ export const setTenantInfo = createAction(
   props<{tenantInfo:TenantInfo}>()
 );
 
+export const saveNewsletterFormContent = createAction(
+  "[Admin Email Marketing] Save Newsletter Form Content",
+  props<{newsletter: NewsletterFormContent}>()
+);
