@@ -24,7 +24,7 @@ export class EmailMarketingComponent implements OnInit {
     });
 
     this.integrationForm = this.fb.group({
-      emailProvider: ['', [Validators.required] ],
+      emailProvider: [''],
       apiKey: [''],
       groupId: ['']
     });
