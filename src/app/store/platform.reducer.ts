@@ -1,4 +1,3 @@
-
 import {Theme} from '../models/theme.model';
 import {TenantInfo} from '../models/tenant.model';
 import {createReducer, on} from '@ngrx/store';
@@ -19,27 +18,38 @@ export const initialState: PlatformState = {
 
 
 export const platformReducer = createReducer(
-
   initialState,
 
-  on(PlatformActions.themeChanged, (state,theme) => {
+  on(PlatformActions.themeChanged, (state, theme) => {
     return {
       ...state,
       brandTheme: theme
-    }
+    };
   }),
 
-  on(PlatformActions.updateStripeStatus, (state,action) => {
+  on(PlatformActions.updateStripeStatus, (state, action) => {
     return {
       ...state,
       isConnectedToStripe: action.isConnectedToStripe
     };
   }),
 
-  on(PlatformActions.setTenantInfo, (state,action) => {
+  on(PlatformActions.setTenantInfo, (state, action) => {
     return {
       ...state,
       tenantInfo: action.tenantInfo
+    };
+  }),
+
+  on(PlatformActions.saveNewsletterFormContent, (state, action) => {
+
+    const tenantInfo = {...state.tenantInfo};
+
+    tenantInfo.newsletter = action.newsletter;
+
+    return {
+      ...state,
+      tenantInfo
     };
   })
 

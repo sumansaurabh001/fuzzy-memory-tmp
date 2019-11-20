@@ -6,6 +6,7 @@ import {Observable} from 'rxjs';
 import {NewsletterFormContent} from '../../models/tenant.model';
 import {selectNewsletterContent} from '../../store/selectors';
 import {saveNewsletterFormContent} from '../../store/platform.actions';
+import {filter} from 'rxjs/operators';
 
 
 
@@ -33,7 +34,7 @@ export class EmailMarketingComponent implements OnInit {
 
     this.newsletterForm = this.fb.group({
       callToAction: ['', [Validators.required] ],
-      infoNote: ['', [Validators.required] ]
+      infoNote: ['']
     });
 
     this.integrationForm = this.fb.group({
@@ -45,6 +46,9 @@ export class EmailMarketingComponent implements OnInit {
     this.newsletterContent$ = this.store.pipe(select(selectNewsletterContent));
 
     this.newsletterContent$
+      .pipe(
+        filter(newsletter => !!newsletter)
+      )
       .subscribe(
         newsletter => this.newsletterForm.patchValue({
           callToAction: newsletter.callToAction,

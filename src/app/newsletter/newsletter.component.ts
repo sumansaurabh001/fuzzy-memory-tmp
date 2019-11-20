@@ -3,6 +3,11 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {NewsletterService} from '../services/newsletter.service';
 import {LoadingService} from '../services/loading.service';
 import {MessagesService} from '../services/messages.service';
+import {AppState} from '../store';
+import {select, Store} from '@ngrx/store';
+import {Observable} from 'rxjs';
+import {NewsletterFormContent} from '../models/tenant.model';
+import {selectNewsletterContent} from '../store/selectors';
 
 @Component({
   selector: 'newsletter',
@@ -16,11 +21,14 @@ export class NewsletterComponent implements OnInit {
 
   form: FormGroup;
 
+  newsletter$: Observable<NewsletterFormContent>;
+
   constructor(
     private fb: FormBuilder,
     private newsletter: NewsletterService,
     private loading: LoadingService,
-    private messages: MessagesService) {
+    private messages: MessagesService,
+    private store: Store<AppState>) {
 
     this.form = this.fb.group({
       email: ['', [Validators.required, Validators.email] ],
@@ -30,6 +38,7 @@ export class NewsletterComponent implements OnInit {
 
   ngOnInit() {
 
+    this.newsletter$ = this.store.pipe(select(selectNewsletterContent));
 
   }
 

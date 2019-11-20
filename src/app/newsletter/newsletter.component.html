@@ -1,6 +1,6 @@
-<div [formGroup]="form" class="newsletter-form">
+<div [formGroup]="form" class="newsletter-form" *ngIf="(newsletter$ | async) as newsletter">
 
-  <h3 class="newsletter-cta">Subscribe to get a free Video Course, plus timely Angular ecosystem news:</h3>
+  <h3 class="newsletter-cta">{{newsletter.callToAction ? newsletter.callToAction : "Subscriber to our newsletter:"}}</h3>
 
   <mat-form-field class="email-field" appearance="outline">
 
@@ -8,7 +8,7 @@
            placeholder="Enter your email"
            formControlName="email">
 
-    <mat-hint align="end">Receive weekly informative emails.</mat-hint>
+    <mat-hint align="end">{{newsletter.infoNote ? newsletter.infoNote :"" }}</mat-hint>
 
   </mat-form-field>
 
