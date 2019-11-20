@@ -19,8 +19,7 @@ export class EmailMarketingComponent implements OnInit {
   ngOnInit() {
     this.newsletterForm = this.fb.group({
       callToAction: ['', [Validators.required] ],
-      infoNote: ['', [Validators.required] ],
-      buttonText: ['', [Validators.required] ]
+      infoNote: ['', [Validators.required] ]
     });
 
     this.integrationForm = this.fb.group({
