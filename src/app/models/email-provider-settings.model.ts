@@ -5,4 +5,5 @@ export interface EmailProviderSettings {
   integrationActive:boolean;
   apiKey: string;
   groupId: string;
+  groupDescription:string;
 }

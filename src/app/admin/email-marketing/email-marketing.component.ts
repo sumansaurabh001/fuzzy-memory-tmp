@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {AppState} from '../../store';
 import {select, Store} from '@ngrx/store';
@@ -8,7 +8,9 @@ import {selectEmailProviderSettings, selectNewsletterContent} from '../../store/
 import {emailProviderSettingsLoaded, loadEmailProviderSettings, saveNewsletterFormContent} from '../../store/platform.actions';
 import {filter} from 'rxjs/operators';
 import {EmailProviderSettings} from '../../models/email-provider-settings.model';
-
+import {NewsletterService} from '../../services/newsletter.service';
+import {EmailGroup} from '../../models/email-group.model';
+import {LoadingService} from '../../services/loading.service';
 
 
 @Component({
@@ -24,28 +26,33 @@ export class EmailMarketingComponent implements OnInit {
 
   newsletterContent$: Observable<NewsletterFormContent>;
 
-  emaiProviderSettings$ : Observable<EmailProviderSettings>;
+  emaiProviderSettings$: Observable<EmailProviderSettings>;
 
   integrationActive: boolean;
+
+  emailGroupsLoaded = false;
+  emailGroups: EmailGroup[];
 
 
   constructor(
     private fb: FormBuilder,
-    private store:Store<AppState>) {
+    private store: Store<AppState>,
+    private newsletter: NewsletterService,
+    private loading: LoadingService) {
 
   }
 
   ngOnInit() {
 
     this.newsletterForm = this.fb.group({
-      callToAction: ['', [Validators.required] ],
+      callToAction: ['', [Validators.required]],
       infoNote: ['']
     });
 
     this.integrationForm = this.fb.group({
       providerId: ['', Validators.required],
-      apiKey: ['',  Validators.required],
-      groupId: ['',  Validators.required]
+      apiKey: ['', Validators.required],
+      groupId: ['', Validators.required]
     });
 
     this.newsletterContent$ = this.store.pipe(select(selectNewsletterContent));
@@ -66,6 +73,9 @@ export class EmailMarketingComponent implements OnInit {
     this.emaiProviderSettings$ = this.store.pipe(select(selectEmailProviderSettings));
 
     this.emaiProviderSettings$
+      .pipe(
+        filter(settings => !!settings)
+      )
       .subscribe(
         settings => {
           this.integrationForm.patchValue({
@@ -96,14 +106,31 @@ export class EmailMarketingComponent implements OnInit {
   }
 
   isIntegrationActive() {
-    const val =  this.integrationForm.value;
+
+    const val = this.integrationForm.value;
 
     return val.providerId && this.integrationActive;
   }
 
   isReadyToActivate() {
-    const val =  this.integrationForm.value;
+
+    const val = this.integrationForm.value;
 
     return val.providerId && !this.integrationActive;
   }
+
+  loadEmailGroups() {
+
+    const val = this.integrationForm.value;
+
+    const loadEmailGroups$ = this.newsletter.loadEmailGroups(val.providerId, val.apiKey);
+
+    return this.loading.showLoaderUntilCompleted(loadEmailGroups$)
+      .subscribe(
+        emailGroups => {
+          this.emailGroupsLoaded = true;
+          this.emailGroups = emailGroups;
+        });
+  }
+
 }

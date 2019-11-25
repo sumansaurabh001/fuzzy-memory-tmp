@@ -1,4 +1,3 @@
-
 <div class="desktop-container">
 
   <mat-card class="card-section">
@@ -9,7 +8,8 @@
 
       <div class="email-marketing-form" [formGroup]="newsletterForm">
 
-        <p class="explanatory-note">Configure the content of the newsletter form displayed via the top menu "Newsletter" button, as well as in other parts of this website.</p>
+        <p class="explanatory-note">Configure the content of the newsletter form displayed via the top menu "Newsletter"
+          button, as well as in other parts of this website.</p>
 
         <mat-form-field>
 
@@ -53,7 +53,8 @@
 
       <div class="email-marketing-form" [formGroup]="integrationForm">
 
-        <p class="explanatory-note">Add automatically your user emails to an email marketing list, from which you can email users weekly with new informative or promotional content.</p>
+        <p class="explanatory-note">Add automatically your user emails to an email marketing list, from which you can
+          email users weekly with new informative or promotional content.</p>
 
         <h4>Choose your favorite Email Marketing provider:</h4>
 
@@ -75,19 +76,37 @@
                    placeholder="enter the Mailerlite API Key"
                    formControlName="apiKey">
 
-            <mat-hint align="end">Here are the <a href="http://help.mailerlite.com/article/show/35040-where-can-i-find-the-api-key">instructions</a> on how to find your API key</mat-hint>
+            <mat-hint align="end">Here are the <a
+              href="http://help.mailerlite.com/article/show/35040-where-can-i-find-the-api-key">instructions</a> on how
+              to find your API key
+            </mat-hint>
 
           </mat-form-field>
 
-          <mat-form-field>
+          <ng-container *ngIf="integrationForm.value.apiKey">
 
-            <mat-select formControlName="groupId">
-              <mat-option>None</mat-option>
-            </mat-select>
+            <div class="toolbar" *ngIf="!emailGroupsLoaded">
 
-            <mat-hint align="end">first create an email group, then select it from this dropdown (you might need to refresh this page after creating the group)</mat-hint>
+              <button mat-raised-button color="accent" (click)="loadEmailGroups()">Load Email Groups</button>
 
-          </mat-form-field>
+            </div>
+
+            <mat-form-field *ngIf="emailGroupsLoaded">
+
+              <mat-select formControlName="groupId">
+                <mat-option>None</mat-option>
+                <mat-option *ngFor="let group of emailGroups" [value]="group.groupId">
+                  {{group.description}}
+                </mat-option>
+              </mat-select>
+
+              <mat-hint align="end">first create an email group, then select it from this dropdown (you might need to
+                refresh this page after creating the group)
+              </mat-hint>
+
+            </mat-form-field>
+
+          </ng-container>
 
         </ng-container>
 
@@ -97,7 +116,7 @@
 
     <div class="email-marketing-actions">
 
-      <button mat-raised-button [disabled]="!isIntegrationActive()">
+      <button mat-raised-button color="danger" [disabled]="!isIntegrationActive()">
         Cancel Integration
       </button>
 
@@ -110,8 +129,6 @@
   </mat-card>
 
 
-
-
   <mat-card class="card-section">
 
     <mat-toolbar color="primary">Newsletter Subscribers</mat-toolbar>
@@ -120,7 +137,8 @@
 
       <div class="email-marketing-form">
 
-        <p>Download all emails collected so far. This file can be easily uploaded to an email marketing provider such as <a href="https://www.mailerlite.com">Mailerlite</a>.</p>
+        <p>Download all emails collected so far. This file can be easily uploaded to an email marketing provider such as
+          <a href="https://www.mailerlite.com">Mailerlite</a>.</p>
 
       </div>
 

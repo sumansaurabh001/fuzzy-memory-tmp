@@ -1,4 +1,4 @@
-import {Controller, Post, Req, Res} from '@nestjs/common';
+import {Controller, Get, Post, Req, Res} from '@nestjs/common';
 import {FirestoreService} from '../services/firestore.service';
 import * as rp from 'request-promise';
 
@@ -10,7 +10,7 @@ export class NewsletterController {
 
   }
 
-  @Post('/api/add-to-newsletter')
+  @Post('/api/newsletter')
   async addUserToNewsletter(@Req() request, @Res() response): Promise<any> {
 
     try {
@@ -23,7 +23,7 @@ export class NewsletterController {
 
       if (!email) {
         console.log('Email not provided, exiting.');
-        response.status(500).json({error: "Email not provided"});
+        response.status(500).json({error: 'Email not provided'});
         return;
       }
 
@@ -70,6 +70,43 @@ export class NewsletterController {
       response.status(500).json({error});
     }
 
+  }
+
+
+  @Get("/api/newsletter/email-groups")
+  async getEmailGroups(@Req() request, @Res() response) {
+    try {
+
+      const emailProviderId = request.query.emailProviderId,
+        apiKey = request.query.apiKey;
+
+      let emailGroups = [];
+
+      if (emailProviderId == 'mailerlite') {
+
+        const groups = await rp({
+          method: 'GET',
+          headers: {
+            'X-MailerLite-ApiKey': apiKey
+          },
+          uri: 'http://api.mailerlite.com/api/v2/groups',
+          json: true
+        });
+
+        emailGroups = groups.map(group => {
+          return {
+            groupId: group.id,
+            description: group.name
+        }});
+
+      }
+
+      response.status(200).json(emailGroups);
+
+    } catch (error) {
+      console.log('Unexpected error occurred while retrieving email groups: ', error);
+      response.status(500).json({error});
+    }
   }
 
   private addToMailerliteNewsletter(settings: any, email: string) {
