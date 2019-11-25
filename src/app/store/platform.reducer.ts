@@ -2,22 +2,26 @@ import {Theme} from '../models/theme.model';
 import {TenantInfo} from '../models/tenant.model';
 import {createReducer, on} from '@ngrx/store';
 import {PlatformActions} from './action-types';
+import {EmailProviderSettings} from '../models/email-provider-settings.model';
 
 
 export interface PlatformState {
   brandTheme: Theme,
   isConnectedToStripe: boolean | null,
-  tenantInfo: TenantInfo
+  tenantInfo: TenantInfo,
+  emailProvider: EmailProviderSettings
 }
 
 export const initialState: PlatformState = {
   brandTheme: undefined,
-  isConnectedToStripe: null,
-  tenantInfo: null
+  isConnectedToStripe: undefined,
+  tenantInfo: undefined,
+  emailProvider: undefined
 };
 
 
 export const platformReducer = createReducer(
+
   initialState,
 
   on(PlatformActions.themeChanged, (state, theme) => {
@@ -51,6 +55,13 @@ export const platformReducer = createReducer(
       ...state,
       tenantInfo
     };
+  }),
+
+  on(PlatformActions.emailProviderSettingsLoaded, (state, action) => {
+    return {
+      ...state,
+      emailProvider: action.emailProviderSettings
+    }
   })
 
 );

@@ -9,6 +9,7 @@ import {DEFAULT_SCHOOL_ACCENT_COLOR, DEFAULT_SCHOOL_PRIMARY_COLOR} from '../comm
 import {SubscriptionContent} from '../models/content/subscription-content.model';
 import {DEFAULT_FAQS, DEFAULT_SUBSCRIPTION_BENEFITS} from './default.content';
 import {HomePageContent} from '../models/content/home-page-content.model';
+import {TenantSettings} from '../models/tenant-settings.model';
 
 
 @Injectable()
@@ -151,6 +152,9 @@ export class TenantsDBService {
     return from(this.afs.doc(`tenants/${tenantId}`).update(changes));
   }
 
+  loadTenantPrivateSettings(tenantId:string): Observable<TenantSettings> {
+    return readDocumentWithId<TenantSettings>(this.afs.doc(`tenantSettings/${tenantId}`)).pipe(first());
+  }
 }
 
 

@@ -4,9 +4,10 @@ import {AppState} from '../../store';
 import {select, Store} from '@ngrx/store';
 import {Observable} from 'rxjs';
 import {NewsletterFormContent} from '../../models/tenant.model';
-import {selectNewsletterContent} from '../../store/selectors';
-import {saveNewsletterFormContent} from '../../store/platform.actions';
+import {selectEmailProviderSettings, selectNewsletterContent} from '../../store/selectors';
+import {emailProviderSettingsLoaded, loadEmailProviderSettings, saveNewsletterFormContent} from '../../store/platform.actions';
 import {filter} from 'rxjs/operators';
+import {EmailProviderSettings} from '../../models/email-provider-settings.model';
 
 
 
@@ -23,6 +24,10 @@ export class EmailMarketingComponent implements OnInit {
 
   newsletterContent$: Observable<NewsletterFormContent>;
 
+  emaiProviderSettings$ : Observable<EmailProviderSettings>;
+
+  integrationActive: boolean;
+
 
   constructor(
     private fb: FormBuilder,
@@ -38,9 +43,9 @@ export class EmailMarketingComponent implements OnInit {
     });
 
     this.integrationForm = this.fb.group({
-      emailProvider: [''],
-      apiKey: [''],
-      groupId: ['']
+      providerId: ['', Validators.required],
+      apiKey: ['',  Validators.required],
+      groupId: ['',  Validators.required]
     });
 
     this.newsletterContent$ = this.store.pipe(select(selectNewsletterContent));
@@ -54,6 +59,22 @@ export class EmailMarketingComponent implements OnInit {
           callToAction: newsletter.callToAction,
           infoNote: newsletter.infoNote
         })
+      );
+
+    this.store.dispatch(loadEmailProviderSettings());
+
+    this.emaiProviderSettings$ = this.store.pipe(select(selectEmailProviderSettings));
+
+    this.emaiProviderSettings$
+      .subscribe(
+        settings => {
+          this.integrationForm.patchValue({
+            providerId: settings.providerId,
+            apiKey: settings.apiKey,
+            groupId: settings.groupId
+          });
+          this.integrationActive = settings.integrationActive;
+        }
       );
 
   }
@@ -71,7 +92,18 @@ export class EmailMarketingComponent implements OnInit {
   }
 
   isMailerliteSelected() {
-    return this.integrationForm.value && this.integrationForm.value.emailProvider == 'mailerlite';
+    return this.integrationForm.value && this.integrationForm.value.providerId == 'mailerlite';
   }
 
+  isIntegrationActive() {
+    const val =  this.integrationForm.value;
+
+    return val.providerId && this.integrationActive;
+  }
+
+  isReadyToActivate() {
+    const val =  this.integrationForm.value;
+
+    return val.providerId && !this.integrationActive;
+  }
 }

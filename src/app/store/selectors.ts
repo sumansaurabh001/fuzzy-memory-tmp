@@ -265,7 +265,12 @@ export const selectTenantInfo = createSelector(
 export const selectNewsletterContent = createSelector(
   platformState,
   platformState => platformState.tenantInfo ? platformState.tenantInfo.newsletter : undefined
-)
+);
+
+export const selectEmailProviderSettings = createSelector(
+  platformState,
+  platformState => platformState.emailProvider ? platformState.emailProvider : undefined
+);
 
 export const isLessonUploadOngoing = createSelector(
   selectLessonsState,

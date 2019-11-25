@@ -59,7 +59,7 @@
 
         <mat-form-field>
           <mat-label>Select a provider</mat-label>
-          <mat-select formControlName="emailProvider">
+          <mat-select formControlName="providerId">
             <mat-option>None</mat-option>
             <mat-option value="mailerlite">
               Mailerlite
@@ -97,11 +97,11 @@
 
     <div class="email-marketing-actions">
 
-      <button mat-raised-button>
+      <button mat-raised-button [disabled]="!isIntegrationActive()">
         Cancel Integration
       </button>
 
-      <button mat-raised-button color="primary">
+      <button mat-raised-button color="primary" [disabled]="!isReadyToActivate() || !integrationForm.valid">
         Activate Integration
       </button>
 

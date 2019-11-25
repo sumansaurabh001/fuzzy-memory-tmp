@@ -1,6 +1,7 @@
 import {createAction, props} from '@ngrx/store';
 import {Theme} from '../models/theme.model';
 import {NewsletterFormContent, TenantInfo} from '../models/tenant.model';
+import {EmailProviderSettings} from '../models/email-provider-settings.model';
 
 
 
@@ -31,4 +32,14 @@ export const setTenantInfo = createAction(
 export const saveNewsletterFormContent = createAction(
   "[Admin Email Marketing] Save Newsletter Form Content",
   props<{newsletter: NewsletterFormContent}>()
+);
+
+export const loadEmailProviderSettings = createAction(
+  "[Admin Email Marketing] Load Email Provider Settings"
+);
+
+
+export const emailProviderSettingsLoaded = createAction(
+  "[Admin Email Marketing] Email Provider Settings Loaded",
+  props<{emailProviderSettings: EmailProviderSettings}>()
 );
