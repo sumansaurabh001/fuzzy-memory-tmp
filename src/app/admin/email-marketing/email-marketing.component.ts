@@ -31,7 +31,7 @@ export class EmailMarketingComponent implements OnInit {
 
   newsletterContent$: Observable<NewsletterFormContent>;
 
-  emaiProviderSettings$: Observable<EmailProviderSettings>;
+  emailProviderSettings$: Observable<EmailProviderSettings>;
 
   integrationActive: boolean;
 
@@ -75,9 +75,9 @@ export class EmailMarketingComponent implements OnInit {
 
     this.store.dispatch(loadEmailProviderSettings());
 
-    this.emaiProviderSettings$ = this.store.pipe(select(selectEmailProviderSettings));
+    this.emailProviderSettings$ = this.store.pipe(select(selectEmailProviderSettings));
 
-    this.emaiProviderSettings$
+    this.emailProviderSettings$
       .pipe(
         filter(settings => !!settings)
       )

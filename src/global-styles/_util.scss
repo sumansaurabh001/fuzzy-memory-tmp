@@ -301,3 +301,18 @@ em {
 .newsletter-form {
   padding:15px;
 }
+
+.info-note {
+  display: flex;
+  align-items: center;
+  color: #31708f;
+  background-color: #d9edf7;
+  border-color: #bce8f1;
+  border-radius: 4px;
+  padding: 0 10px;
+  mat-icon {
+    margin-right: 5px;
+  }
+}
+
+
