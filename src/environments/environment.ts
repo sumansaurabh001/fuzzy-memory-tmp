@@ -33,6 +33,7 @@ export const environment = {
     stripeUpdateCardUrl: 'http://localhost:5000/api/update-card',
     fulfillFreeCouponUrl: 'http://localhost:5000/api/fulfill-free-coupon',
     newsletterUrl: 'http://localhost:5000/api/newsletter',
+    downloadEmailsUrl: 'http://localhost:5000/api/download-all-emails'
   },
   algolia: {
     app_id: "G9LL86VMN2",

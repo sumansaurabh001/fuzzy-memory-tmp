@@ -5,6 +5,12 @@ import {Injectable, NestMiddleware} from '@nestjs/common';
 import {Request, Response} from 'express';
 import {FirestoreService} from '../services/firestore.service';
 
+/**
+ *
+ * Ensures that the user is authenticated. If so, it retrieves the user profile from the Authentication JWT and stores it in the request,
+ * otherwise throws an error.
+ *
+ */
 
 @Injectable()
 export class AuthenticationMiddleware implements NestMiddleware {

@@ -19,6 +19,7 @@ import {StripeCancelSubscriptionWebhookController} from './controllers/stripe-ca
 import {UpdateCardController} from './controllers/update-card.controller';
 import {FulfillFreeCouponController} from './controllers/fulfill-free-coupon.controller';
 import {NewsletterController} from './controllers/newsletter.controller';
+import {DownloadEmailsController} from './controllers/download-emails.controller';
 
 @Module({
   imports: [],
@@ -36,7 +37,8 @@ import {NewsletterController} from './controllers/newsletter.controller';
     StripeCancelSubscriptionWebhookController,
     UpdateCardController,
     FulfillFreeCouponController,
-    NewsletterController
+    NewsletterController,
+    DownloadEmailsController
   ],
   providers: [FirestoreService],
 })
@@ -53,7 +55,8 @@ export class AppModule implements NestModule {
 
     consumer.apply(GetUserMiddleware).forRoutes(
       VideoAccessController,
-      NewsletterController
+      NewsletterController,
+      DownloadEmailsController
     );
 
     consumer.apply(AuthenticationMiddleware).forRoutes(
