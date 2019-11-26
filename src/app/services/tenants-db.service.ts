@@ -155,6 +155,11 @@ export class TenantsDBService {
   loadTenantPrivateSettings(tenantId:string): Observable<TenantSettings> {
     return readDocumentWithId<TenantSettings>(this.afs.doc(`tenantSettings/${tenantId}`)).pipe(first());
   }
+
+  updateTenantSettings(tenantId:string, changes: Partial<TenantSettings>): Observable<void> {
+    return from(this.afs.doc(`tenantSettings/${tenantId}`).update(changes));
+  }
+
 }
 
 

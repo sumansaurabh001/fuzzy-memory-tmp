@@ -5,7 +5,12 @@ import {select, Store} from '@ngrx/store';
 import {Observable} from 'rxjs';
 import {NewsletterFormContent} from '../../models/tenant.model';
 import {selectEmailProviderSettings, selectNewsletterContent} from '../../store/selectors';
-import {emailProviderSettingsLoaded, loadEmailProviderSettings, saveNewsletterFormContent} from '../../store/platform.actions';
+import {
+  activateEmailMarketingIntegration,
+  emailProviderSettingsLoaded,
+  loadEmailProviderSettings,
+  saveNewsletterFormContent
+} from '../../store/platform.actions';
 import {filter} from 'rxjs/operators';
 import {EmailProviderSettings} from '../../models/email-provider-settings.model';
 import {NewsletterService} from '../../services/newsletter.service';
@@ -131,6 +136,28 @@ export class EmailMarketingComponent implements OnInit {
           this.emailGroupsLoaded = true;
           this.emailGroups = emailGroups;
         });
+  }
+
+  activateIntegration() {
+
+    const val = this.integrationForm.value;
+
+    const emailGroup = this.emailGroups.find(group => group.groupId = val.groupId);
+
+    const emailProviderSettings: EmailProviderSettings = {
+      integrationActive: true,
+      apiKey: val.apiKey,
+      providerId: val.providerId,
+      groupId: val.groupId,
+      groupDescription: emailGroup.description
+    };
+
+    this.store.dispatch(activateEmailMarketingIntegration({emailProviderSettings}));
+
+  }
+
+  cancelIntegration() {
+
   }
 
 }

@@ -57,7 +57,10 @@ export const platformReducer = createReducer(
     };
   }),
 
-  on(PlatformActions.emailProviderSettingsLoaded, (state, action) => {
+  on(
+    PlatformActions.emailProviderSettingsLoaded,
+    PlatformActions.activateEmailMarketingIntegration,
+    (state, action) => {
     return {
       ...state,
       emailProvider: action.emailProviderSettings

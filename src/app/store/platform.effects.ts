@@ -46,9 +46,17 @@ export class PlatformEffects {
     this.actions$
       .pipe(
         ofType(PlatformActions.loadEmailProviderSettings),
-        concatMap(action => this.tenantsDB.loadTenantPrivateSettings(this.tenant.id)),
+        concatMap(() => this.tenantsDB.loadTenantPrivateSettings(this.tenant.id)),
         map(settings => emailProviderSettingsLoaded({emailProviderSettings: settings.emailProvider}))
       ));
+
+  saveEmailProviderSettings$ = createEffect(() =>
+      this.actions$
+        .pipe(
+          ofType(PlatformActions.activateEmailMarketingIntegration),
+          concatMap(action => this.tenantsDB.updateTenantSettings(this.tenant.id, {emailProvider: action.emailProviderSettings}))
+        ),
+    {dispatch: false});
 
 
   constructor(private actions$: Actions,

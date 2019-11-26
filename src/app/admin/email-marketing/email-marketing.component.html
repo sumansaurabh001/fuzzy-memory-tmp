@@ -116,11 +116,11 @@
 
     <div class="email-marketing-actions">
 
-      <button mat-raised-button color="danger" [disabled]="!isIntegrationActive()">
+      <button mat-raised-button color="danger" [disabled]="!isIntegrationActive()" (click)="cancelIntegration()">
         Cancel Integration
       </button>
 
-      <button mat-raised-button color="primary" [disabled]="!isReadyToActivate() || !integrationForm.valid">
+      <button mat-raised-button color="primary" [disabled]="!isReadyToActivate() || !integrationForm.valid" (click)="activateIntegration()">
         Activate Integration
       </button>
 

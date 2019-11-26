@@ -43,3 +43,13 @@ export const emailProviderSettingsLoaded = createAction(
   "[Admin Email Marketing] Email Provider Settings Loaded",
   props<{emailProviderSettings: EmailProviderSettings}>()
 );
+
+
+export const activateEmailMarketingIntegration = createAction(
+  "[Admin Email Marketing] Activate Email Marketing Integration",
+  props<{emailProviderSettings: EmailProviderSettings}>()
+);
+
+export const cancelEmailMarketingIntegration = createAction(
+  "[Admin Email Marketing] Cancel Email Marketing Integration"
+);
