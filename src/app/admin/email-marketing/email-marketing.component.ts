@@ -6,16 +6,20 @@ import {Observable} from 'rxjs';
 import {NewsletterFormContent} from '../../models/tenant.model';
 import {selectEmailProviderSettings, selectNewsletterContent} from '../../store/selectors';
 import {
-  activateEmailMarketingIntegration,
+  activateEmailMarketingIntegration, cancelEmailMarketingIntegration,
   emailProviderSettingsLoaded,
   loadEmailProviderSettings,
   saveNewsletterFormContent
 } from '../../store/platform.actions';
-import {filter} from 'rxjs/operators';
+import {filter, tap} from 'rxjs/operators';
 import {EmailProviderSettings} from '../../models/email-provider-settings.model';
 import {NewsletterService} from '../../services/newsletter.service';
 import {EmailGroup} from '../../models/email-group.model';
 import {LoadingService} from '../../services/loading.service';
+import {MatDialog, MatDialogConfig} from '@angular/material';
+import {DangerDialogComponent} from '../../danger-dialog/danger-dialog.component';
+import {courseUnpublished} from '../../store/course.actions';
+import {MessagesService} from '../../services/messages.service';
 
 
 @Component({
@@ -33,7 +37,7 @@ export class EmailMarketingComponent implements OnInit {
 
   emailProviderSettings$: Observable<EmailProviderSettings>;
 
-  integrationActive: boolean;
+  settings: EmailProviderSettings;
 
   emailGroupsLoaded = false;
   emailGroups: EmailGroup[];
@@ -43,7 +47,9 @@ export class EmailMarketingComponent implements OnInit {
     private fb: FormBuilder,
     private store: Store<AppState>,
     private newsletter: NewsletterService,
-    private loading: LoadingService) {
+    private dialog: MatDialog,
+    private loading: LoadingService,
+    private messages: MessagesService) {
 
   }
 
@@ -88,7 +94,7 @@ export class EmailMarketingComponent implements OnInit {
             apiKey: settings.apiKey,
             groupId: settings.groupId
           });
-          this.integrationActive = settings.integrationActive;
+          this.settings = settings;
         }
       );
 
@@ -102,10 +108,6 @@ export class EmailMarketingComponent implements OnInit {
 
   }
 
-  downloadAllEmails() {
-
-  }
-
   isMailerliteSelected() {
     return this.integrationForm.value && this.integrationForm.value.providerId == 'mailerlite';
   }
@@ -114,14 +116,14 @@ export class EmailMarketingComponent implements OnInit {
 
     const val = this.integrationForm.value;
 
-    return val.providerId && this.integrationActive;
+    return val.providerId && this.settings && this.settings.integrationActive;
   }
 
   isReadyToActivate() {
 
     const val = this.integrationForm.value;
 
-    return val.providerId && !this.integrationActive;
+    return val.providerId && this.settings && !this.settings.integrationActive;
   }
 
   loadEmailGroups() {
@@ -157,6 +159,36 @@ export class EmailMarketingComponent implements OnInit {
   }
 
   cancelIntegration() {
+
+    const config = new MatDialogConfig();
+
+    config.autoFocus = true;
+
+    config.data = {
+      title: "Cancel Email Marketing Integration",
+      warningMessage: "Your email marketing provider won't receive new customer emails anymore.",
+      confirmationCode: this.settings.providerId,
+      buttonText: "CANCEL INTEGRATION"
+    };
+
+    const dialogRef = this.dialog.open(DangerDialogComponent, config);
+
+    dialogRef.afterClosed()
+      .pipe(
+        filter(result => result.confirm),
+        tap(() => {
+
+          this.store.dispatch(cancelEmailMarketingIntegration());
+
+          this.messages.info("The email marketing integration is now canceled.");
+
+        })
+      )
+      .subscribe();
+
+  }
+
+  downloadAllEmails() {
 
   }
 

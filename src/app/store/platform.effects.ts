@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Actions, createEffect, Effect, ofType} from '@ngrx/effects';
 import {catchError, concatMap, filter, map, withLatestFrom} from 'rxjs/operators';
-import {Store} from '@ngrx/store';
+import {select, Store} from '@ngrx/store';
 import {AppState} from './index';
 import {LoadingService} from '../services/loading.service';
 import {MessagesService} from '../services/messages.service';
@@ -11,6 +11,7 @@ import {StripeConnectionService} from '../services/stripe-connection.service';
 import {throwError} from 'rxjs';
 import {PlatformActions} from './action-types';
 import {emailProviderSettingsLoaded, updateStripeStatus} from './platform.actions';
+import {selectEmailProviderSettings} from './selectors';
 
 @Injectable()
 export class PlatformEffects {
@@ -58,6 +59,20 @@ export class PlatformEffects {
         ),
     {dispatch: false});
 
+
+  cancelEmailProviderIntegration$ = createEffect(() =>
+  this.actions$
+    .pipe(
+      ofType(PlatformActions.cancelEmailMarketingIntegration),
+      withLatestFrom(this.store.pipe(select(selectEmailProviderSettings))),
+      concatMap(([action, settings]) => {
+
+        const emailProvider = {...settings};
+        emailProvider.integrationActive = false;
+
+        return this.tenantsDB.updateTenantSettings(this.tenant.id, {emailProvider})
+      })
+    ), {dispatch: false});
 
   constructor(private actions$: Actions,
               private tenant: TenantService,
