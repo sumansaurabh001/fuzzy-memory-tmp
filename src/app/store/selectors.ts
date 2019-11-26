@@ -272,6 +272,11 @@ export const selectEmailProviderSettings = createSelector(
   platformState => platformState.emailProvider ? platformState.emailProvider : undefined
 );
 
+export const selectTotalEmailsCollected = createSelector(
+  platformState,
+  platformState => platformState.tenantInfo ? platformState.tenantInfo.totalEmailsCollected : undefined
+);
+
 export const isLessonUploadOngoing = createSelector(
   selectLessonsState,
   lessonsState => lessonsState.uploadsOngoing && lessonsState.uploadsOngoing.length > 0

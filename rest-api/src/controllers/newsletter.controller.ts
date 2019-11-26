@@ -1,7 +1,7 @@
 import {Controller, Get, Post, Req, Res} from '@nestjs/common';
 import {FirestoreService} from '../services/firestore.service';
 import * as rp from 'request-promise';
-
+import {FieldValue} from '@google-cloud/firestore';
 
 @Controller()
 export class NewsletterController {
@@ -48,11 +48,18 @@ export class NewsletterController {
         // add user email to newsletter
         const batch = this.firestore.db.batch();
 
+        // if the email has not been added yet to the mailing list
         if (results.empty) {
 
           const newsletterRef = this.firestore.db.collection(newsletterPath).doc();
 
           batch.set(newsletterRef, {email: email});
+
+          const tenantRef = this.firestore.db.doc(`tenants/${tenantId}`);
+
+          batch.update(tenantRef, {
+            totalEmailsCollected: FieldValue.increment(1)
+          });
 
         }
 

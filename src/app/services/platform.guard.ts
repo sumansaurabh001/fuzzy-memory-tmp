@@ -122,7 +122,8 @@ export class PlatformGuard implements CanActivate {
       schoolName: tenant.schoolName,
       subDomain: tenant.subDomain,
       supportEmail: tenant.supportEmail,
-      newsletter: tenant.newsletter
+      newsletter: tenant.newsletter,
+      totalEmailsCollected: tenant.totalEmailsCollected
 
     };
 

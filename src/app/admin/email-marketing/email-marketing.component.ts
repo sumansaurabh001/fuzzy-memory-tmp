@@ -4,7 +4,7 @@ import {AppState} from '../../store';
 import {select, Store} from '@ngrx/store';
 import {Observable} from 'rxjs';
 import {NewsletterFormContent} from '../../models/tenant.model';
-import {selectEmailProviderSettings, selectNewsletterContent} from '../../store/selectors';
+import {selectEmailProviderSettings, selectNewsletterContent, selectTotalEmailsCollected} from '../../store/selectors';
 import {
   activateEmailMarketingIntegration, cancelEmailMarketingIntegration,
   emailProviderSettingsLoaded,
@@ -36,6 +36,8 @@ export class EmailMarketingComponent implements OnInit {
   newsletterContent$: Observable<NewsletterFormContent>;
 
   emailProviderSettings$: Observable<EmailProviderSettings>;
+
+  totalEmailsCollected$: Observable<number>;
 
   settings: EmailProviderSettings;
 
@@ -99,6 +101,8 @@ export class EmailMarketingComponent implements OnInit {
           }
         }
       );
+
+    this.totalEmailsCollected$ = this.store.pipe(select(selectTotalEmailsCollected));
 
   }
 

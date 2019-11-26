@@ -141,6 +141,19 @@
 
       <div class="email-marketing-form">
 
+        <ng-container *ngIf="totalEmailsCollected$ | async as totalEmails; else noEmails">
+
+          <p>A total of <b>{{totalEmails}}</b> customer emails have been collected so far.</p>
+
+        </ng-container>
+
+        <ng-template #noEmails>
+
+          <p>No customer emails have been collected yet, check back here later.</p>
+
+        </ng-template>
+
+
         <p>Download all customer emails collected so far. This file can be easily uploaded to an email marketing provider such as
           <a href="https://www.mailerlite.com">Mailerlite</a>.</p>
 

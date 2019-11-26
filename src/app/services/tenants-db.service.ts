@@ -45,7 +45,8 @@ export class TenantsDBService {
                 //default brand colors
                 primaryColor: DEFAULT_SCHOOL_PRIMARY_COLOR,
                 accentColor: DEFAULT_SCHOOL_ACCENT_COLOR
-              }
+              },
+              totalEmailsCollected: 0
             };
 
             const newSchoolUser = {

@@ -13,6 +13,7 @@ export interface TenantInfo {
   schoolName: string;
   supportEmail:string;
   newsletter: NewsletterFormContent;
+  totalEmailsCollected: number;
 }
 
 export interface Tenant extends User, TenantInfo {
