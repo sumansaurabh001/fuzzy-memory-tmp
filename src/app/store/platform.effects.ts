@@ -12,6 +12,8 @@ import {throwError} from 'rxjs';
 import {PlatformActions} from './action-types';
 import {emailProviderSettingsLoaded, updateStripeStatus} from './platform.actions';
 import {selectEmailProviderSettings} from './selectors';
+import * as firebase from 'firebase/app';
+
 
 @Injectable()
 export class PlatformEffects {
@@ -65,13 +67,8 @@ export class PlatformEffects {
     .pipe(
       ofType(PlatformActions.cancelEmailMarketingIntegration),
       withLatestFrom(this.store.pipe(select(selectEmailProviderSettings))),
-      concatMap(([action, settings]) => {
-
-        const emailProvider = {...settings};
-        emailProvider.integrationActive = false;
-
-        return this.tenantsDB.updateTenantSettings(this.tenant.id, {emailProvider})
-      })
+      concatMap(([action, settings]) =>  this.tenantsDB.updateTenantSettings(this.tenant.id, {emailProvider: <any>firebase.firestore.FieldValue.delete()  })
+      )
     ), {dispatch: false});
 
   constructor(private actions$: Actions,

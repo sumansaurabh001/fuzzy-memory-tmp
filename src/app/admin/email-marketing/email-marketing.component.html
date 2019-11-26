@@ -53,7 +53,7 @@
 
       <div class="email-marketing-form" [formGroup]="integrationForm">
 
-        <div class="info-note mat-elevation-z1" *ngIf="settings?.integrationActive">
+        <div class="info-note mat-elevation-z1" *ngIf="settings">
           <mat-icon>info</mat-icon>
           <p>Your email marketing integration is currently active!</p>
         </div>
@@ -90,7 +90,7 @@
 
           <ng-container *ngIf="integrationForm.value.apiKey">
 
-            <div class="toolbar" *ngIf="!emailGroupsLoaded">
+            <div class="toolbar" *ngIf="!emailGroupsLoaded && !settings">
 
               <button mat-raised-button color="accent" (click)="loadEmailGroups()">Load Email Groups</button>
 
@@ -99,7 +99,6 @@
             <mat-form-field *ngIf="emailGroupsLoaded">
 
               <mat-select formControlName="groupId">
-                <mat-option>None</mat-option>
                 <mat-option *ngFor="let group of emailGroups" [value]="group.groupId">
                   {{group.description}}
                 </mat-option>
@@ -121,11 +120,11 @@
 
     <div class="email-marketing-actions">
 
-      <button mat-raised-button color="danger" [disabled]="!isIntegrationActive()" (click)="cancelIntegration()">
+      <button mat-raised-button color="danger" [disabled]="!settings?.providerId" (click)="cancelIntegration()">
         Cancel Integration
       </button>
 
-      <button mat-raised-button color="primary" [disabled]="!isReadyToActivate() || !integrationForm.valid" (click)="activateIntegration()">
+      <button mat-raised-button color="primary" [disabled]="!integrationForm.valid || (settings?.providerId && !emailGroupsLoaded)" (click)="activateIntegration()">
         Activate Integration
       </button>
 

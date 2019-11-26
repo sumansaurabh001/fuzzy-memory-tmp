@@ -84,17 +84,19 @@ export class EmailMarketingComponent implements OnInit {
     this.emailProviderSettings$ = this.store.pipe(select(selectEmailProviderSettings));
 
     this.emailProviderSettings$
-      .pipe(
-        filter(settings => !!settings)
-      )
       .subscribe(
         settings => {
-          this.integrationForm.patchValue({
-            providerId: settings.providerId,
-            apiKey: settings.apiKey,
-            groupId: settings.groupId
-          });
           this.settings = settings;
+          if (settings) {
+            this.integrationForm.patchValue({
+              providerId: settings.providerId,
+              apiKey: settings.apiKey,
+              groupId: settings.groupId
+            });
+          }
+          else {
+            this.integrationForm.reset();
+          }
         }
       );
 
@@ -110,20 +112,6 @@ export class EmailMarketingComponent implements OnInit {
 
   isMailerliteSelected() {
     return this.integrationForm.value && this.integrationForm.value.providerId == 'mailerlite';
-  }
-
-  isIntegrationActive() {
-
-    const val = this.integrationForm.value;
-
-    return val.providerId && this.settings && this.settings.integrationActive;
-  }
-
-  isReadyToActivate() {
-
-    const val = this.integrationForm.value;
-
-    return val.providerId && this.settings && !this.settings.integrationActive;
   }
 
   loadEmailGroups() {
@@ -147,7 +135,6 @@ export class EmailMarketingComponent implements OnInit {
     const emailGroup = this.emailGroups.find(group => group.groupId = val.groupId);
 
     const emailProviderSettings: EmailProviderSettings = {
-      integrationActive: true,
       apiKey: val.apiKey,
       providerId: val.providerId,
       groupId: val.groupId,
@@ -175,7 +162,7 @@ export class EmailMarketingComponent implements OnInit {
 
     dialogRef.afterClosed()
       .pipe(
-        filter(result => result.confirm),
+        filter(result => result && result.confirm),
         tap(() => {
 
           this.store.dispatch(cancelEmailMarketingIntegration());

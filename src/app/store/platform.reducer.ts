@@ -68,14 +68,9 @@ export const platformReducer = createReducer(
   }),
 
   on(PlatformActions.cancelEmailMarketingIntegration, (state, action) => {
-
-    const emailProvider = {...state.emailProvider};
-
-    emailProvider.integrationActive = false;
-
     return {
       ...state,
-      emailProvider
+      emailProvider: undefined
     }
   })
 

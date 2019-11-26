@@ -35,10 +35,14 @@ export class NewsletterController {
 
       if (!testUser) {
 
-        const settings = await this.firestore.getDocData(`tenantSettings/${tenantId}`);
+        const settings = await this.firestore.getDocData(`tenantSettings/${tenantId}`),
+              emailProvider = settings.emailProvider;
 
-        if (settings.mailerlite) {
-          await this.addToMailerliteNewsletter(settings.mailerlite, email);
+        if (emailProvider && emailProvider.groupId) {
+          if (emailProvider.providerId == "mailerlite") {
+            console.log("Adding user to Mailerlite group...");
+            await this.addToMailerliteNewsletter(settings.emailProvider, email);
+          }
         }
 
         // add user email to newsletter
