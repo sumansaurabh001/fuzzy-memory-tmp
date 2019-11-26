@@ -180,7 +180,7 @@ export class EmailMarketingComponent implements OnInit {
   }
 
   downloadAllEmails() {
-    this.newsletter.downloadAllEmails().subscribe();
+    this.newsletter.downloadAllEmails();
   }
 
 }
