@@ -12,7 +12,14 @@
 
             <h1 class="page-title">Subscription Plans - Cancel Anytime</h1>
 
-            <div class="pricing-plans">
+            <div class="team-plans" *ngIf="!showTeamPlans">
+              <mat-icon>people</mat-icon>
+              <a (click)="toggleShowTeamPlans()" href="javascript:void(0)">
+                Looking for a Team Plan?
+              </a>
+            </div>
+
+            <div class="pricing-plans" *ngIf="!showTeamPlans">
 
               <mat-card class="mat-elevation-z10 pricing-plan">
 
@@ -43,7 +50,7 @@
                   <button mat-raised-button color="primary"
                           [disabled]="!isMonthlyButtonActive(user)"
                           (click)="activateSubscription(plans.monthlyPlan, userPermissions, user)">
-                    {{monthlyPlanButtonText( user)}}
+                    {{monthlyPlanButtonText(user)}}
                   </button>
 
                 </div>
@@ -83,7 +90,7 @@
                   <button mat-raised-button color="accent"
                           [disabled]="!isYearlyButtonActive(user)"
                           (click)="activateSubscription(plans.yearlyPlan, userPermissions, user)">
-                    {{yearlyPlanButtonText( user)}}
+                    {{yearlyPlanButtonText(user)}}
                   </button>
 
                 </mat-card-actions>
@@ -120,7 +127,7 @@
                   <button mat-raised-button color="primary"
                           [disabled]="!isLifetimeButtonActive(user)"
                           (click)="activateSubscription(plans.lifetimePlan, userPermissions, user)">
-                    {{lifetimePlanButtonText( user)}}
+                    {{lifetimePlanButtonText(user)}}
                   </button>
 
                 </div>
@@ -128,6 +135,94 @@
               </mat-card>
 
             </div>
+
+            <div class="team-plans" *ngIf="showTeamPlans">
+              <mat-icon>arrow_back</mat-icon>
+              <a (click)="toggleShowTeamPlans()" href="javascript:void(0)">
+                Back to pricing for individuals
+              </a>
+            </div>
+
+            <div class="pricing-plans" *ngIf="showTeamPlans">
+
+              <mat-card class="mat-elevation-z10 pricing-plan">
+
+                <mat-card-header>
+                  <mat-toolbar color="primary">
+                    Monthly
+                    <mini-action-button class="edit-button" icon="mode_edit" *allowRole="'ADMIN'"
+                                        (click)="editPlan(plans, 'monthlyPlan', true, false, true)"></mini-action-button>
+                  </mat-toolbar>
+                </mat-card-header>
+
+                <mat-card-content>
+
+                  <div class="prices">
+                    <div class="price">{{plans.monthlyPlan.price / 100 | currency}} / Month</div>
+                  </div>
+
+                  <ul class="features">
+                    <li *ngFor="let feature of plans.monthlyPlan.features">{{feature}}</li>
+                  </ul>
+
+                </mat-card-content>
+
+                <div class="filler"></div>
+
+                <div class="purchase-button">
+
+                  <button mat-raised-button color="primary"
+                          [disabled]="!isMonthlyButtonActive(user)"
+                          (click)="activateSubscription(plans.monthlyPlan, userPermissions, user)">
+                    {{monthlyPlanButtonText(user)}}
+                  </button>
+
+                </div>
+
+              </mat-card>
+
+
+              <mat-card class="mat-elevation-z10 pricing-plan">
+                <mat-card-header>
+                  <mat-toolbar color="primary">
+                    Yearly
+                    <mini-action-button class="edit-button" icon="mode_edit" *allowRole="'ADMIN'"
+                                        (click)="editPlan(plans, 'yearlyPlan', true, true, true)"></mini-action-button>
+                  </mat-toolbar>
+                </mat-card-header>
+
+                <mat-card-content>
+
+                  <div class="prices">
+                    <div class="price">{{plans.yearlyPlan.price / 100 | currency}} / Year</div>
+                    <div class="undiscounted-price">
+                      <span class="strikethrough-price">{{plans.yearlyPlan.undiscountedPrice / 100 | currency}}</span>
+                      <span class="discount">({{calculateYearlyDiscount(plans) | percent }} Off)</span>
+                    </div>
+                  </div>
+
+                  <ul class="features">
+                    <li *ngFor="let feature of plans.yearlyPlan.features">{{feature}}</li>
+                  </ul>
+
+                </mat-card-content>
+
+                <div class="filler"></div>
+
+                <mat-card-actions class="purchase-button">
+
+                  <button mat-raised-button color="accent"
+                          [disabled]="!isYearlyButtonActive(user)"
+                          (click)="activateSubscription(plans.yearlyPlan, userPermissions, user)">
+                    {{yearlyPlanButtonText(user)}}
+                  </button>
+
+                </mat-card-actions>
+
+              </mat-card>
+
+            </div>
+
 
             <div class="powered-by">
 
@@ -170,7 +265,7 @@
 
       <div class="pricing-plans-message" [formGroup]="form">
 
-        <h1>Activate Subscription Plans</h1>
+        <h1>Activate Individual Subscription Plans</h1>
 
         <!-- p class="note">Note:These descriptions are shown to users on their credit card statements. Please make sure that these
           descriptions correctly identify your website. </p-->
@@ -183,7 +278,7 @@
           <mat-form-field>
 
             <input matInput
-                   placeholder="Monthly Subscription Plan Name (shown to subscribers)"
+                   placeholder="Monthly Subscription Plan Name (shown in receipts)"
                    #titleHint
                    maxLength="60"
                    formControlName="monthlyPlanDescription">
@@ -206,7 +301,7 @@
           <mat-form-field>
 
             <input matInput
-                   placeholder="Yearly Subscription Plan Name (shown to subscribers)"
+                   placeholder="Yearly Subscription Plan Name (shown in receipts)"
                    #titleHint
                    maxLength="60"
                    formControlName="yearlyPlanDescription">
@@ -234,9 +329,45 @@
 
         </fieldset>
 
+        <div>
+
+          <h1>Setup Team Plan</h1>
+
+          <div class="team-plans-note">
+            <p>The Monthly and Yearly Team Plans have the same prices as for individuals, but there is
+              a bulk discount option.
+            </p>
+          </div>
+
+          <fieldset>
+
+            <legend>Team Plan</legend>
+
+            <mat-form-field>
+
+              <input matInput placeholder="Discount threshold"
+                     formControlName="teamPlanThreshold" type="number">
+
+              <mat-hint align="end">e.g. 10 means the discount only get's applied for orders over 10 subscribers</mat-hint>
+
+            </mat-form-field>
+
+            <mat-form-field class="bulk-discount">
+
+              <input matInput placeholder="Bulk discount percentage"
+                     formControlName="teamPlanDiscount" type="number">
+
+              <mat-hint align="end">e.g. for orders over 10 subscribers, get 20% off after the first 10</mat-hint>
+
+            </mat-form-field>
+
+          </fieldset>
+
+        </div>
+
         <button class="activate-button" mat-raised-button color="primary" [disabled]="!form.valid"
                 (click)="setupPricingPlans()">
-          Activate Subscription Plans
+          Activate All Plans
         </button>
 
       </div>

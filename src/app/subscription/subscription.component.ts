@@ -62,6 +62,8 @@ export class SubscriptionComponent implements OnInit {
 
   showConnectToStripe = false;
 
+  showTeamPlans = false;
+
   selectedPlan: PricingPlan = null;
 
   dialogTitles = {
@@ -83,11 +85,14 @@ export class SubscriptionComponent implements OnInit {
     private title: Title) {
 
     this.form = this.fb.group({
-      monthlyPlanDescription: ['', Validators.required],
-      yearlyPlanDescription: ['', Validators.required],
-      monthlyPlanPrice: [9.99, Validators.required],
-      yearlyPlanPrice: [99, Validators.required],
-      lifetimeAccessPrice: [399, Validators.required]
+      monthlyPlanDescription: ['Monthly Plan', Validators.required],
+      yearlyPlanDescription: ['Yearly Plan', Validators.required],
+      monthlyPlanPrice: ["", Validators.required],
+      yearlyPlanPrice: ["", Validators.required],
+      lifetimeAccessPrice: ["", Validators.required],
+      teamPlanThreshold: [10, [Validators.pattern("[0-9]+"), Validators.required] ],
+      teamPlanDiscount: [20, [Validators.pattern("[0-9]+"), Validators.required] ]
+
     });
 
   }
@@ -144,7 +149,9 @@ export class SubscriptionComponent implements OnInit {
       val.monthlyPlanDescription,
       val.yearlyPlanDescription,
       val.monthlyPlanPrice * 100, val.yearlyPlanPrice * 100,
-      val.lifetimeAccessPrice * 100);
+      val.lifetimeAccessPrice * 100,
+      val.teamPlanThreshold,
+      val.teamPlanDiscount);
 
     this.loading.showLoader(setupPlans$)
       .subscribe(
@@ -340,6 +347,10 @@ export class SubscriptionComponent implements OnInit {
 
   }
 
+  toggleShowTeamPlans() {
+    console.log("team plans ...");
+    this.showTeamPlans = !this.showTeamPlans;
+  }
 
 }
 

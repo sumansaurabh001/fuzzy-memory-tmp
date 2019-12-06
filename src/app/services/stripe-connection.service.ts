@@ -39,7 +39,10 @@ export class StripeConnectionService {
 
 
   setupDefaultPricingPlans(monthlyPlanDescription:string, yearlyPlanDescription:string,
-                           monthlyPlanPrice:number, yearlyPlanPrice: number, lifetimeAccessPrice:number): Observable<PricingPlanDetails> {
+                           monthlyPlanPrice:number, yearlyPlanPrice: number,
+                           lifetimeAccessPrice:number,
+                           teamPlanThreshold:number,
+                           teamPlanDiscount:number): Observable<PricingPlanDetails> {
 
 
     return this.http.post<PricingPlanDetails>(environment.api.stripeInitPricingPlansUrl,
@@ -48,7 +51,9 @@ export class StripeConnectionService {
         yearlyPlanDescription,
         monthlyPlanPrice,
         yearlyPlanPrice,
-        lifetimeAccessPrice
+        lifetimeAccessPrice,
+        teamPlanThreshold,
+        teamPlanDiscount
       });
   }
 }
