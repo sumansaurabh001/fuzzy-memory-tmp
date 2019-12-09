@@ -8,6 +8,7 @@ const APPLICATION_FEE_PERCENT = readMandatoryEnvVar("APPLICATION_FEE_PERCENT");
 
 interface ReqInfo {
   plan: any;
+  quantity:number;
   userId: string;
   tenantId: string;
   oneTimeCharge: boolean;
@@ -32,6 +33,7 @@ export class ActivatePlanController {
 
       const reqInfo: ReqInfo = {
         plan: request.body.plan,
+        quantity: request.body.quantity,
         userId: request.user.uid,
         tenantId: request.body.tenantId,
         oneTimeCharge: request.body.oneTimeCharge,
@@ -75,7 +77,6 @@ export class ActivatePlanController {
           line_items: [{
             currency: 'usd',
             amount: reqInfo.plan.price,
-            quantity:1,
             name: reqInfo.plan.description
           }],
           payment_intent_data: {
@@ -86,7 +87,10 @@ export class ActivatePlanController {
         sessionConfig = {
           ...sessionConfig,
           subscription_data: {
-            items: [{plan: reqInfo.plan.stripePlanId}],
+            items: [{
+              plan: reqInfo.plan.stripePlanId,
+              quantity:reqInfo.quantity
+            }],
             application_fee_percent: APPLICATION_FEE_PERCENT,
           }
         }

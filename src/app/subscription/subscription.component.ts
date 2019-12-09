@@ -214,14 +214,15 @@ export class SubscriptionComponent implements OnInit {
     this.selectedPlan = plan;
 
     const oneTimeCharge = this.selectedPlan.frequency == 'lifetime',
-      subscriptionUrl = `${window.location.protocol}//${window.location.host}/subscription`;
+      subscriptionUrl = `${window.location.protocol}//${window.location.host}/subscription`,
+      quantity = this.teamSize || 1;
 
-    let buyPlan$ = this.payments.createActivatePlanSession(this.selectedPlan, oneTimeCharge, subscriptionUrl);
+    let buyPlan$ = this.payments.createActivatePlanSession(this.selectedPlan, quantity, oneTimeCharge, subscriptionUrl);
 
     this.loading.showLoaderUntilCompleted(buyPlan$)
       .subscribe(session => {
 
-          const stripe = Stripe(session.stripePublicKey, {stripeAccount: session.stripeTenantUserId});
+        const stripe = Stripe(session.stripePublicKey, {stripeAccount: session.stripeTenantUserId});
 
           stripe.redirectToCheckout({
             sessionId: session.sessionId
