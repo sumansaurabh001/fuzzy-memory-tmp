@@ -72,7 +72,7 @@ export class SubscriptionComponent implements OnInit {
     lifetimePlan: 'Edit Lifetime Plan'
   };
 
-  teamSize: number;
+  teamSize:number;
 
   constructor(
     private store: Store<AppState>,
@@ -195,6 +195,11 @@ export class SubscriptionComponent implements OnInit {
   }
 
   activateSubscription(plan: PricingPlan, userPermissions: UserPermissions, user:User) {
+
+    if (this.showTeamPlans && !this.teamSize) {
+      this.messages.info('First, choose your team size.');
+      return;
+    }
 
     if (isAnonymousUser(user)) {
       this.messages.info("Please login first. You can use social login (Gmail, Twitter, etc.) or email and password if you prefer.");
