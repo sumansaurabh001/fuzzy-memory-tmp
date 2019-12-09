@@ -72,6 +72,8 @@ export class SubscriptionComponent implements OnInit {
     lifetimePlan: 'Edit Lifetime Plan'
   };
 
+  teamSize: number;
+
   constructor(
     private store: Store<AppState>,
     private fb: FormBuilder,
@@ -348,7 +350,9 @@ export class SubscriptionComponent implements OnInit {
   }
 
   toggleShowTeamPlans() {
-    console.log("team plans ...");
+    if (this.showTeamPlans) {
+      this.teamSize = undefined;
+    }
     this.showTeamPlans = !this.showTeamPlans;
   }
 

@@ -149,7 +149,11 @@
 
                 <legend>Team Size</legend>
 
-                <input matInput placeholder="First, enter you team size" type="number">
+                <mat-form-field>
+
+                  <input matInput placeholder="First, enter you team size" type="number" [(ngModel)]="teamSize">
+
+                </mat-form-field>
 
               </fieldset>
 
