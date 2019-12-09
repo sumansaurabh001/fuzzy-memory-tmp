@@ -90,8 +90,8 @@ export class SubscriptionComponent implements OnInit {
       monthlyPlanPrice: ["", Validators.required],
       yearlyPlanPrice: ["", Validators.required],
       lifetimeAccessPrice: ["", Validators.required],
-      teamPlanThreshold: [10, [Validators.pattern("[0-9]+"), Validators.required] ],
-      teamPlanDiscount: [20, [Validators.pattern("[0-9]+"), Validators.required] ]
+      //teamPlanThreshold: [10, [Validators.pattern("[0-9]+"), Validators.required] ],
+      //teamPlanDiscount: [20, [Validators.pattern("[0-9]+"), Validators.required] ]
 
     });
 

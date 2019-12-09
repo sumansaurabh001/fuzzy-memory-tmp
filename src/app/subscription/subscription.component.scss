@@ -18,7 +18,17 @@
 .pricing-plans {
   display: flex;
   justify-content: space-evenly;
+}
 
+.team-plans {
+  max-width:700px;
+  margin: 0 auto;
+}
+
+.team-size {
+  max-width: 250px;
+  margin: 0 auto;
+  margin-bottom: 40px;
 }
 
 .pricing-plan {
@@ -95,7 +105,7 @@
 }
 
 
-.team-plans {
+.change-plans-link {
   display: flex;
   justify-content: center;
   margin-bottom: 40px;

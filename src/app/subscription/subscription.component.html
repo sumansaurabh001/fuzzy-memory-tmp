@@ -12,7 +12,7 @@
 
             <h1 class="page-title">Subscription Plans - Cancel Anytime</h1>
 
-            <div class="team-plans" *ngIf="!showTeamPlans">
+            <div class="change-plans-link" *ngIf="!showTeamPlans">
               <mat-icon>people</mat-icon>
               <a (click)="toggleShowTeamPlans()" href="javascript:void(0)">
                 Looking for a Team Plan?
@@ -136,14 +136,31 @@
 
             </div>
 
-            <div class="team-plans" *ngIf="showTeamPlans">
+            <div class="change-plans-link" *ngIf="showTeamPlans">
               <mat-icon>arrow_back</mat-icon>
               <a (click)="toggleShowTeamPlans()" href="javascript:void(0)">
                 Back to pricing for individuals
               </a>
             </div>
 
-            <div class="pricing-plans" *ngIf="showTeamPlans">
+            <div class="team-size" *ngIf="showTeamPlans">
+
+              <fieldset>
+
+                <legend>Team Size</legend>
+
+                <mat-form-field>
+
+                  <input matInput placeholder="First, enter you team size" type="number">
+
+                </mat-form-field>
+
+
+              </fieldset>
+
+            </div>
+
+            <div class="pricing-plans team-plans" *ngIf="showTeamPlans">
 
               <mat-card class="mat-elevation-z10 pricing-plan">
 
@@ -329,7 +346,7 @@
 
         </fieldset>
 
-        <div>
+        <!--div>
 
           <h1>Setup Team Plan</h1>
 
@@ -363,7 +380,7 @@
 
           </fieldset>
 
-        </div>
+        </div-->
 
         <button class="activate-button" mat-raised-button color="primary" [disabled]="!form.valid"
                 (click)="setupPricingPlans()">
