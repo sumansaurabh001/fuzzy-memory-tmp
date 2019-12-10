@@ -10,6 +10,7 @@ export interface User {
   displayName?:string;
   pricingPlan?:string;
   isTeamPlan?:boolean;
+  maxTeamSize?:number;
   planActivatedAt?:firebase.firestore.Timestamp;
   planEndsAt?:firebase.firestore.Timestamp;
   stripeCustomerId?:string;

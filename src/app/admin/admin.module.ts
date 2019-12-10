@@ -13,6 +13,8 @@ import {SharedModule} from '../shared/shared.module';
 import {EmailMarketingComponent} from './email-marketing/email-marketing.component';
 import {MatSelectModule} from '@angular/material';
 import { EditTeamComponent } from './edit-team/edit-team.component';
+import {EditTeamResolver} from './edit-team/edit-team.resolver';
+import {EditTeamService} from './edit-team/edit-team.service';
 
 
 
@@ -34,6 +36,10 @@ import { EditTeamComponent } from './edit-team/edit-team.component';
     BrandingComponent,
     EmailMarketingComponent,
     EditTeamComponent
+  ],
+  providers: [
+    EditTeamResolver,
+    EditTeamService
   ]
 })
 export class AdminModule {

@@ -223,6 +223,11 @@ export const isTeamManager = createSelector(
   userState => userState.user ? userState.user.isTeamPlan : false
 );
 
+export const selectMaxTeamSize = createSelector(
+  userState,
+  userState => userState.user ? userState.user.maxTeamSize : undefined
+);
+
 export const isUserSubscribed = createSelector(
   selectUser,
   user => user && !!user.pricingPlan

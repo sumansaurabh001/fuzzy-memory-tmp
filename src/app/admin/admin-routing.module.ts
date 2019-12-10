@@ -3,6 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import {BrandingComponent} from './branding/branding.component';
 import {EmailMarketingComponent} from './email-marketing/email-marketing.component';
 import {EditTeamComponent} from './edit-team/edit-team.component';
+import {EditTeamResolver} from './edit-team/edit-team.resolver';
 
 
 const routes: Routes = [
@@ -16,7 +17,10 @@ const routes: Routes = [
   },
   {
     path: 'edit-team',
-    component: EditTeamComponent
+    component: EditTeamComponent,
+    resolve: {
+      teamMembers: EditTeamResolver
+    }
   }
 ];
 
