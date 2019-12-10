@@ -1,8 +1,14 @@
 <div class="desktop-container">
 
   <div class="license-counter">
-    <mat-icon color="accent">warning</mat-icon>
-    <p>You have <b>12</b> unused licenses.</p>
+    <ng-container *ngIf="true">
+      <mat-icon color="accent">warning</mat-icon>
+      <p>You have <b>12</b> unused licenses.</p>
+    </ng-container>
+    <ng-container *ngIf="false">
+      <mat-icon color="primary">assignment_turned_in</mat-icon>
+      <p>You have used all your licenses.</p>
+    </ng-container>
   </div>
 
   <div class="more-licenses">
@@ -36,6 +42,13 @@
     </div>
 
   </fieldset>
+
+
+  <div class="no-content mat-elevation-z7">
+
+    <span>No team members activated yet.</span>
+
+  </div>
 
 
 </div>

@@ -1,8 +1,14 @@
 
+:host {
+  width: 100%;
+}
+
+
 .add-team-member {
   display: flex;
-  flex-direction:column;
-  min-width: 500px;
+  flex-direction: column;
+  margin: 0 auto 80px auto;
+  max-width: 500px;
   padding: 0 20px 20px 20px;
 }
 
@@ -23,4 +29,11 @@
   justify-content: center;
   align-items: center;
   margin-bottom: 40px;
+}
+
+
+.no-content {
+  background: #f5f5f5;
+  min-height: 250px;
+  width: 100%;
 }
