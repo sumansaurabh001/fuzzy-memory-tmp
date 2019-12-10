@@ -77,7 +77,8 @@
     </ng-container>
 
     <mat-menu class="dropdown-menu" #settingsMenu [overlapTrigger]="false">
-      <button mat-menu-item routerLink="/user-settings/my-account">My Account</button>
+      <button mat-menu-item routerLink="/user-settings/my-account" *denyRole="'ADMIN'">My Account</button>
+      <button mat-menu-item routerLink="/admin/edit-team" *ngIf="isTeamManager$ | async">Team Management</button>
     </mat-menu>
 
 

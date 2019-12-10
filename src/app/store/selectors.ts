@@ -218,6 +218,11 @@ export const isAdmin = createSelector(
   authState => authState.permissions ? authState.permissions.isAdmin : false
 );
 
+export const isTeamManager = createSelector(
+  userState,
+  userState => userState.user ? userState.user.isTeamPlan : false
+);
+
 export const isUserSubscribed = createSelector(
   selectUser,
   user => user && !!user.pricingPlan
