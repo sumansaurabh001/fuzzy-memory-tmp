@@ -1,3 +1,42 @@
-<p>
-  edit-team works!
-</p>
+<div class="desktop-container">
+
+  <div class="license-counter">
+    <mat-icon color="accent">warning</mat-icon>
+    <p>You have <b>12</b> unused licenses.</p>
+  </div>
+
+  <div class="more-licenses">
+    <a href="javascript:void(0)">Get more licenses</a>
+  </div>
+
+  <fieldset [formGroup]="form" class="add-team-member">
+
+    <legend>Activate Team Member</legend>
+
+    <mat-form-field>
+
+      <input matInput
+             placeholder="Enter team member email (mandatory)"
+             formControlName="teamMemberEmail">
+
+    </mat-form-field>
+
+    <mat-form-field>
+
+      <input matInput
+             placeholder="Enter team member name (optional)"
+             formControlName="teamMemberName">
+
+    </mat-form-field>
+
+
+    <div class="toolbar">
+      <div class="filler"></div>
+      <button class="add-member" mat-raised-button color="accent">Send Activation Email</button>
+    </div>
+
+  </fieldset>
+
+
+</div>
+
