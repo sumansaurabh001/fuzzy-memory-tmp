@@ -217,7 +217,7 @@ export class SubscriptionComponent implements OnInit {
       subscriptionUrl = `${window.location.protocol}//${window.location.host}/subscription`,
       quantity = this.teamSize || 1;
 
-    let buyPlan$ = this.payments.createActivatePlanSession(this.selectedPlan, quantity, oneTimeCharge, subscriptionUrl);
+    let buyPlan$ = this.payments.createActivatePlanSession(this.selectedPlan, quantity, oneTimeCharge, subscriptionUrl, this.showTeamPlans);
 
     this.loading.showLoaderUntilCompleted(buyPlan$)
       .subscribe(session => {

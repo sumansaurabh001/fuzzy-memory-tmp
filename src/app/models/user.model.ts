@@ -10,6 +10,7 @@ export interface User {
   pictureUrl?: string;
   displayName?:string;
   pricingPlan?:string;
+  isTeamPlan?:boolean;
   planActivatedAt?:firebase.firestore.Timestamp;
   planEndsAt?:firebase.firestore.Timestamp;
   stripeCustomerId?:string;

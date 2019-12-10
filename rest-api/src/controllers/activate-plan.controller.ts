@@ -9,6 +9,7 @@ const APPLICATION_FEE_PERCENT = readMandatoryEnvVar("APPLICATION_FEE_PERCENT");
 interface ReqInfo {
   plan: any;
   quantity:number;
+  isTeamPlan:boolean;
   userId: string;
   tenantId: string;
   oneTimeCharge: boolean;
@@ -34,6 +35,7 @@ export class ActivatePlanController {
       const reqInfo: ReqInfo = {
         plan: request.body.plan,
         quantity: request.body.quantity,
+        isTeamPlan: request.body.isTeamPlan,
         userId: request.user.uid,
         tenantId: request.body.tenantId,
         oneTimeCharge: request.body.oneTimeCharge,
@@ -109,7 +111,9 @@ export class ActivatePlanController {
       await this.firestore.db.doc(purchaseSessionsPath).set({
         plan: reqInfo.plan.frequency,
         userId: reqInfo.userId,
-        status: 'ongoing'
+        status: 'ongoing',
+        isTeamPlan: reqInfo.isTeamPlan,
+        quantity: reqInfo.quantity
       });
 
       const stripeSession = {

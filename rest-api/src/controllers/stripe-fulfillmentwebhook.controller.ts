@@ -84,7 +84,7 @@ export class StripeFulfillmentwebhookController {
     }
     else if (purchaseSession.plan) {
       console.log('Fulfilling subscription purchase...');
-      await this.fulfillPlanSubscription(reqInfo, purchaseSession.plan);
+      await this.fulfillPlanSubscription(reqInfo, purchaseSession.plan, purchaseSession.isTeamPlan, purchaseSession.quantity);
     }
 
     // save the card details later, not to block the purchase experience
@@ -102,25 +102,30 @@ export class StripeFulfillmentwebhookController {
 
   }
 
-  async  fulfillPlanSubscription(reqInfo:ReqInfo, plan:string) {
+  async  fulfillPlanSubscription(reqInfo:ReqInfo, plan:string, isTeamPlan:boolean, quantity: number) {
 
     const usersPrivatePath = `schools/${reqInfo.tenantId}/usersPrivate/${reqInfo.userId}`;
 
-    const changes:any = {
+    const usersPrivateChanges:any = {
       planEndsAt: null,
       pricingPlan: plan,
       planActivatedAt: Timestamp.fromMillis(new Date().getTime())
     };
 
     if (reqInfo.stripeCustomerId) {
-      changes.stripeCustomerId = reqInfo.stripeCustomerId;
+      usersPrivateChanges.stripeCustomerId = reqInfo.stripeCustomerId;
     }
 
     if (reqInfo.stripeSubscriptionId) {
-      changes.stripeSubscriptionId = reqInfo.stripeSubscriptionId;
+      usersPrivateChanges.stripeSubscriptionId = reqInfo.stripeSubscriptionId;
     }
 
-    await this.firestore.db.doc(usersPrivatePath).set(changes, {merge: true});
+    if (isTeamPlan) {
+      usersPrivateChanges.isTeamPlan = true;
+      usersPrivateChanges.maxTeamSize = quantity;
+    }
+
+    await this.firestore.db.doc(usersPrivatePath).set(usersPrivateChanges, {merge: true});
 
   }
 

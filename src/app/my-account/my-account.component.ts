@@ -4,7 +4,7 @@ import {User} from '../models/user.model';
 import {AppState} from '../store';
 import {select, Store} from '@ngrx/store';
 import {selectUser} from '../store/selectors';
-import {planNames} from '../common/text';
+import {planNames, teamPlanNames} from '../common/text';
 import {MatDialog, MatDialogConfig} from '@angular/material/dialog';
 import {CancelSubscriptionDialogComponent} from '../cancel-subscription-dialog/cancel-subscription-dialog.component';
 
@@ -79,7 +79,15 @@ export class MyAccountComponent implements OnInit {
 
 
   subscriptionDescr(user: User) {
-    return user.pricingPlan ? planNames[user.pricingPlan] : 'None';
+    if (!user.pricingPlan) {
+      return "None";
+    }
+    if (!user.isTeamPlan) {
+      return planNames[user.pricingPlan];
+    }
+    if (user.isTeamPlan) {
+      return teamPlanNames[user.pricingPlan];
+    }
   }
 
   isLifetimeSubscriber(user: User) {

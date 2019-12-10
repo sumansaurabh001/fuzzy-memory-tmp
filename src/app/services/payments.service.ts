@@ -32,7 +32,7 @@ export class PaymentsService {
       });
   }
 
-  createActivatePlanSession(plan: PricingPlan, quantity:number, oneTimeCharge: boolean, subscriptionUrl:string): Observable<StripeSession> {
+  createActivatePlanSession(plan: PricingPlan, quantity:number, oneTimeCharge: boolean, subscriptionUrl:string, isTeamPlan:boolean): Observable<StripeSession> {
     return this.http.post<StripeSession>(
       environment.api.stripeActivatePlanUrl,
       {
@@ -40,7 +40,8 @@ export class PaymentsService {
         quantity,
         subscriptionUrl,
         tenantId: this.tenant.id,
-        oneTimeCharge
+        oneTimeCharge,
+        isTeamPlan
       });
   }
 
