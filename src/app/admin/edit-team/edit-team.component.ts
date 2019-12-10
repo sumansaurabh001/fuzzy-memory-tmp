@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {TeamMember} from '../../models/team-member.model';
 
 @Component({
   selector: 'edit-team',
@@ -10,17 +11,20 @@ export class EditTeamComponent implements OnInit {
 
   form: FormGroup;
 
+  teamMembers: TeamMember[] = [];
+
   constructor(private fb:FormBuilder) {
 
 
     this.form = fb.group({
-      teamMemberEmail: ["", Validators.required],
+      teamMemberEmail: ["", [Validators.required, Validators.email]],
       teamMemberName: [""]
     });
 
   }
 
   ngOnInit() {
+
   }
 
 }

@@ -1,6 +1,5 @@
 
 import * as firebase from 'firebase/app';
-import * as dayjs from 'dayjs';
 import {isFutureTimestamp} from './date-utils';
 
 
