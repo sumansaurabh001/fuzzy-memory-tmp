@@ -12,6 +12,7 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {SharedModule} from '../shared/shared.module';
 import {EmailMarketingComponent} from './email-marketing/email-marketing.component';
 import {MatSelectModule} from '@angular/material';
+import { EditTeamComponent } from './edit-team/edit-team.component';
 
 
 
@@ -31,7 +32,8 @@ import {MatSelectModule} from '@angular/material';
   ],
   declarations: [
     BrandingComponent,
-    EmailMarketingComponent
+    EmailMarketingComponent,
+    EditTeamComponent
   ]
 })
 export class AdminModule {

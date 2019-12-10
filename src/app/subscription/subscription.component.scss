@@ -27,16 +27,15 @@
 
 .team-size {
   display: flex;
-  max-width: 250px;
-  margin: 0 auto;
-  margin-bottom: 40px;
+  justify-content: center;
+  margin: 0 auto 40px auto;
   mat-icon {
     margin-right: 10px;
   }
 }
 
 .team-size-field {
-  min-width: 150px;
+  max-width: 220px;
 }
 
 .pricing-plan {
