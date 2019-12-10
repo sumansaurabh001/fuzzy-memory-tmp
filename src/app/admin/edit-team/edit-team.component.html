@@ -1,55 +1,58 @@
 <div class="desktop-container">
 
-  <div class="license-counter" *ngIf="(maxTeamSize$ | async) as maxTeamSize">
-    <ng-container *ngIf="maxTeamSize">
-      <mat-icon color="accent">warning</mat-icon>
-      <p>You have <b>{{maxTeamSize}}</b> unused licenses.</p>
-    </ng-container>
-    <ng-container *ngIf="!maxTeamSize">
-      <mat-icon color="primary">assignment_turned_in</mat-icon>
-      <p>You have used all your licenses.</p>
-    </ng-container>
-  </div>
+  <ng-container *ngIf="(unusedLicenses$ | async) as unusedLicenses">
 
-  <div class="more-licenses">
-    <a href="javascript:void(0)">Get more licenses</a>
-  </div>
-
-  <fieldset [formGroup]="form" class="add-team-member">
-
-    <legend>Activate Team Member</legend>
-
-    <mat-form-field>
-
-      <input matInput
-             placeholder="Enter team member email (mandatory)"
-             formControlName="teamMemberEmail">
-
-    </mat-form-field>
-
-    <mat-form-field>
-
-      <input matInput
-             placeholder="Enter team member name (optional)"
-             formControlName="teamMemberName">
-
-    </mat-form-field>
-
-
-    <div class="toolbar">
-      <div class="filler"></div>
-      <button class="add-member" mat-raised-button color="accent">Send Activation Email</button>
+    <div class="license-counter">
+      <ng-container *ngIf="unusedLicenses">
+        <mat-icon color="accent">warning</mat-icon>
+        <p>You have <b>{{unusedLicenses}}</b> unused licenses.</p>
+      </ng-container>
+      <ng-container *ngIf="!unusedLicenses">
+        <mat-icon color="primary">assignment_turned_in</mat-icon>
+        <p>You have used all your licenses.</p>
+      </ng-container>
     </div>
 
-  </fieldset>
+    <div class="more-licenses">
+      <a href="javascript:void(0)">Get more licenses</a>
+    </div>
+
+    <fieldset [formGroup]="form" class="add-team-member">
+
+      <legend>Activate Team Member</legend>
+
+      <mat-form-field>
+
+        <input matInput
+               placeholder="Enter team member email (mandatory)"
+               formControlName="teamMemberEmail">
+
+      </mat-form-field>
+
+      <mat-form-field>
+
+        <input matInput
+               placeholder="Enter team member name (optional)"
+               formControlName="teamMemberName">
+
+      </mat-form-field>
 
 
-  <div class="no-content mat-elevation-z7">
+      <div class="toolbar">
+        <div class="filler"></div>
+        <button class="add-member" mat-raised-button color="accent">Send Activation Email</button>
+      </div>
 
-    <span>No team members activated yet.</span>
+    </fieldset>
 
-  </div>
 
+    <div class="no-content mat-elevation-z7">
+
+      <span>No team members activated yet.</span>
+
+    </div>
+
+  </ng-container>
 
 </div>
 

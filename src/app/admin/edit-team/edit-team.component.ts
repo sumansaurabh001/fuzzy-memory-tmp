@@ -5,6 +5,7 @@ import {select, Store} from '@ngrx/store';
 import {AppState} from '../../store';
 import {Observable} from 'rxjs/internal/Observable';
 import {selectMaxTeamSize} from '../../store/selectors';
+import {map} from 'rxjs/operators';
 
 @Component({
   selector: 'edit-team',
@@ -13,7 +14,7 @@ import {selectMaxTeamSize} from '../../store/selectors';
 })
 export class EditTeamComponent implements OnInit {
 
-  maxTeamSize$ : Observable<number>;
+  unusedLicenses$ : Observable<number>;
 
   form: FormGroup;
 
@@ -33,7 +34,10 @@ export class EditTeamComponent implements OnInit {
 
   ngOnInit() {
 
-    this.maxTeamSize$ = this.store.pipe(select(selectMaxTeamSize));
+    this.unusedLicenses$ = this.store.pipe(
+      select(selectMaxTeamSize),
+      map(maxTeamSize => maxTeamSize - this.teamMembers.length)
+    );
 
   }
 

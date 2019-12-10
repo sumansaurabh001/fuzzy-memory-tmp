@@ -7,5 +7,4 @@ export interface TeamMember {
   name:string;
   status: "pending" | "active";
   lastActivationEmailSentAt: firebase.firestore.Timestamp;
-  activatedAt: firebase.firestore.Timestamp;
 }
