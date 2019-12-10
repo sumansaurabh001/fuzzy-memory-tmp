@@ -13,8 +13,9 @@ import {SharedModule} from '../shared/shared.module';
 import {EmailMarketingComponent} from './email-marketing/email-marketing.component';
 import {MatSelectModule} from '@angular/material';
 import { EditTeamComponent } from './edit-team/edit-team.component';
-import {EditTeamResolver} from './edit-team/edit-team.resolver';
 import {EditTeamService} from './edit-team/edit-team.service';
+import {TeamSizeResolver} from './edit-team/team-size.resolver';
+import {TeamMembersResolver} from './edit-team/team-members.resolver';
 
 
 
@@ -38,7 +39,8 @@ import {EditTeamService} from './edit-team/edit-team.service';
     EditTeamComponent
   ],
   providers: [
-    EditTeamResolver,
+    TeamMembersResolver,
+    TeamSizeResolver,
     EditTeamService
   ]
 })

@@ -1,11 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {TeamMember} from '../../models/team-member.model';
-import {select, Store} from '@ngrx/store';
+import {TeamMember} from '../../models/team-member.model';;
 import {AppState} from '../../store';
-import {Observable} from 'rxjs/internal/Observable';
-import {selectMaxTeamSize} from '../../store/selectors';
-import {map} from 'rxjs/operators';
+import {ActivatedRoute} from '@angular/router';
 
 @Component({
   selector: 'edit-team',
@@ -14,7 +11,7 @@ import {map} from 'rxjs/operators';
 })
 export class EditTeamComponent implements OnInit {
 
-  unusedLicenses$ : Observable<number>;
+  unusedLicenses : number;
 
   form: FormGroup;
 
@@ -22,8 +19,11 @@ export class EditTeamComponent implements OnInit {
 
   constructor(
     private fb:FormBuilder,
-    private store: Store<AppState>) {
+    private route: ActivatedRoute) {
 
+    this.teamMembers = route.snapshot.data["teamMembers"];
+
+    this.unusedLicenses = route.snapshot.data["maxTeamSize"] - this.teamMembers.length;
 
     this.form = fb.group({
       teamMemberEmail: ["", [Validators.required, Validators.email]],
@@ -34,10 +34,6 @@ export class EditTeamComponent implements OnInit {
 
   ngOnInit() {
 
-    this.unusedLicenses$ = this.store.pipe(
-      select(selectMaxTeamSize),
-      map(maxTeamSize => maxTeamSize - this.teamMembers.length)
-    );
 
   }
 

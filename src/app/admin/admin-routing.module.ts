@@ -3,7 +3,8 @@ import { Routes, RouterModule } from '@angular/router';
 import {BrandingComponent} from './branding/branding.component';
 import {EmailMarketingComponent} from './email-marketing/email-marketing.component';
 import {EditTeamComponent} from './edit-team/edit-team.component';
-import {EditTeamResolver} from './edit-team/edit-team.resolver';
+import {TeamSizeResolver} from './edit-team/team-size.resolver';
+import {TeamMembersResolver} from './edit-team/team-members.resolver';
 
 
 const routes: Routes = [
@@ -19,7 +20,8 @@ const routes: Routes = [
     path: 'edit-team',
     component: EditTeamComponent,
     resolve: {
-      teamMembers: EditTeamResolver
+      teamMembers: TeamMembersResolver,
+      maxTeamSize: TeamSizeResolver
     }
   }
 ];
