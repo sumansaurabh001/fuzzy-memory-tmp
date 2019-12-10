@@ -145,17 +145,13 @@
 
             <div class="team-size" *ngIf="showTeamPlans">
 
-              <fieldset>
+                <mat-form-field class="team-size-field" appearance="outline">
 
-                <legend>Team Size</legend>
+                  <mat-icon matPrefix>people</mat-icon>
 
-                <mat-form-field>
-
-                  <input matInput placeholder="First, enter you team size" type="number" [(ngModel)]="teamSize">
+                  <input matInput placeholder="Enter you team size" type="number" [(ngModel)]="teamSize">
 
                 </mat-form-field>
-
-              </fieldset>
 
             </div>
 
